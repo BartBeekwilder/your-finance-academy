@@ -315,6 +315,13 @@ export default function Home() {
         <p className="mx-auto mt-3 max-w-md text-sm" style={{ color: "var(--ink-soft)" }}>
           Money, taught plainly. No jargon, no upsells — just the courses you actually need.
         </p>
+        <a
+          href="/privacy"
+          className="eyebrow mt-6 inline-block"
+          style={{ color: "var(--ink-soft)" }}
+        >
+          Privacy Policy
+        </a>
       </footer>
     </>
   );
