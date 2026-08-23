@@ -3,6 +3,33 @@ import Counter from "@/components/Counter";
 import HeroChart from "@/components/HeroChart";
 import GrowthChart from "@/components/GrowthChart";
 
+const appFeatures = [
+  {
+    title: "Every transaction, categorized",
+    body: "Income and expenses land in the right category automatically, across as many accounts as you track.",
+  },
+  {
+    title: "Accounts in one place",
+    body: "Checking, savings, cash — see them separately or together, without switching apps.",
+  },
+  {
+    title: "Budgets that hold",
+    body: "Set a per-category limit once. The app tracks what's left, not just what you spent.",
+  },
+  {
+    title: "Investments, priced live",
+    body: "Stocks, crypto, and metals valued in real time, sitting next to the rest of your money.",
+  },
+  {
+    title: "Income, tracked monthly",
+    body: "Every paycheck logged against the month it landed, so trends are visible, not guessed at.",
+  },
+  {
+    title: "Scan a receipt, done",
+    body: "On-device text and image recognition reads the total and category. Nothing leaves your phone.",
+  },
+];
+
 const courses = [
   {
     num: "01 — Foundations",
@@ -44,6 +71,12 @@ export default function Home() {
         <section className="grid items-center gap-[clamp(2rem,5vw,4rem)] py-[clamp(3rem,9vw,6.5rem)] pb-[clamp(2.5rem,6vw,4rem)] md:grid-cols-[1.1fr_0.9fr]">
           <div>
             <p className="eyebrow">A first look</p>
+            <span
+              className="mt-3 mb-1 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.68rem]"
+              style={{ borderColor: "var(--line)", color: "var(--ink-soft)" }}
+            >
+              Companion app coming to iOS
+            </span>
             <h1
               className="mt-1 text-[clamp(2.6rem,6vw,4.4rem)] leading-[1.02] font-normal tracking-tight"
               style={{ fontWeight: 400 }}
@@ -87,6 +120,41 @@ export default function Home() {
           <Counter target={94} suffix="%" label="Finish their first module" />
           <Counter target={7} suffix=" min" label="Average daily lesson" />
           <Counter target={4.9} decimals={1} suffix="/5" label="Member rating" />
+        </section>
+
+        {/* App features */}
+        <section id="app" className="border-t py-[clamp(3rem,7vw,5rem)]" style={{ borderColor: "var(--line)" }}>
+          <Reveal className="mb-7 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow mb-1">The iOS app</p>
+              <h2 className="text-[clamp(1.5rem,3vw,2rem)] font-normal" style={{ fontWeight: 400 }}>
+                Everything you learn, one app to run it in
+              </h2>
+            </div>
+            <span
+              className="eyebrow rounded-full border px-2.5 py-1.5"
+              style={{ borderColor: "var(--line)" }}
+            >
+              Coming to iOS
+            </span>
+          </Reveal>
+          <div className="grid gap-4 md:grid-cols-3">
+            {appFeatures.map((f) => (
+              <Reveal key={f.title}>
+                <div
+                  className="rounded-2xl border p-6"
+                  style={{ borderColor: "var(--line)", background: "var(--bg-raised)" }}
+                >
+                  <h3 className="mb-2 text-[1.05rem] font-normal" style={{ fontWeight: 400 }}>
+                    {f.title}
+                  </h3>
+                  <p className="text-[0.93rem]" style={{ color: "var(--ink-soft)" }}>
+                    {f.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </section>
 
         {/* Curriculum */}
