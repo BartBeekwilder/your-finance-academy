@@ -1,18 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cssVar, drawLine, fitCanvas, genSeries } from "@/lib/chart";
 
-const CSS_HEIGHT = 280;
+const CSS_HEIGHT = 320;
 
 export default function GrowthChart() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [figure, setFigure] = useState({ pct: 0, value: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const panel = panelRef.current;
-    if (!canvas || !panel) return;
+    const wrapper = wrapperRef.current;
+    if (!canvas || !wrapper) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const data = {
@@ -25,12 +26,11 @@ export default function GrowthChart() {
 
     function progress() {
       if (reduced) return 1;
-      const rect = panel!.getBoundingClientRect();
+      const rect = wrapper!.getBoundingClientRect();
       const vh = window.innerHeight;
-      const startAt = vh * 0.85;
-      const endAt = vh * 0.35;
-      const raw = (startAt - rect.top) / (startAt - endAt);
-      return Math.max(0, Math.min(1, raw));
+      const total = rect.height - vh;
+      if (total <= 0) return 1;
+      return Math.max(0, Math.min(1, -rect.top / total));
     }
 
     function draw() {
@@ -56,7 +56,10 @@ export default function GrowthChart() {
 
       drawLine(dim.ctx, dim.w, dim.h, data.savings, data.max, soft, 2, p);
       drawLine(dim.ctx, dim.w, dim.h, data.balanced, data.max, accent2, 2.5, p);
-      drawLine(dim.ctx, dim.w, dim.h, data.aggressive, data.max, accent, 2.5, p);
+      const count = drawLine(dim.ctx, dim.w, dim.h, data.aggressive, data.max, accent, 3, p);
+
+      const idx = Math.max(0, count - 1);
+      setFigure({ pct: Math.round(p * 100), value: Math.round(data.aggressive[idx]) });
     }
 
     let ticking = false;
@@ -87,23 +90,34 @@ export default function GrowthChart() {
   }, []);
 
   return (
-    <div
-      ref={panelRef}
-      className="reveal rounded-2xl border p-[clamp(1.3rem,3vw,2rem)]"
-      style={{ borderColor: "var(--line)", background: "var(--bg-raised)" }}
-    >
-      <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
-        <p className="max-w-md text-[0.93rem]" style={{ color: "var(--ink-soft)" }}>
-          The same $200 monthly contribution, three ways — this is the chart style used
-          throughout every lesson in the academy.
-        </p>
-        <div className="data flex gap-5 text-[0.78rem]" style={{ color: "var(--ink-soft)" }}>
-          <Legend color="var(--accent)" label="Aggressive" />
-          <Legend color="var(--accent-2)" label="Balanced" />
-          <Legend color="var(--ink-soft)" label="Savings only" />
+    <div ref={wrapperRef} className="relative h-[220vh]">
+      <div className="sticky top-24 reveal in">
+        <div
+          className="rounded-2xl border p-[clamp(1.3rem,3vw,2rem)]"
+          style={{ borderColor: "var(--line)", background: "var(--bg-raised)" }}
+        >
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="max-w-md text-[0.93rem]" style={{ color: "var(--ink-soft)" }}>
+                The same $200 monthly contribution, three ways — this is the chart style used
+                throughout every lesson in the academy.
+              </p>
+              <p className="data mt-2 text-2xl" style={{ color: "var(--accent-strong, var(--accent))" }}>
+                ${figure.value.toLocaleString()}
+                <span className="ml-2 text-sm" style={{ color: "var(--ink-soft)" }}>
+                  {figure.pct}% scrolled
+                </span>
+              </p>
+            </div>
+            <div className="data flex gap-5 text-[0.78rem]" style={{ color: "var(--ink-soft)" }}>
+              <Legend color="var(--accent)" label="Aggressive" />
+              <Legend color="var(--accent-2)" label="Balanced" />
+              <Legend color="var(--ink-soft)" label="Savings only" />
+            </div>
+          </div>
+          <canvas ref={canvasRef} height={CSS_HEIGHT} style={{ height: CSS_HEIGHT }} />
         </div>
       </div>
-      <canvas ref={canvasRef} height={CSS_HEIGHT} style={{ height: CSS_HEIGHT }} />
     </div>
   );
 }
@@ -111,10 +125,7 @@ export default function GrowthChart() {
 function Legend({ color, label }: { color: string; label: string }) {
   return (
     <span className="inline-flex items-center gap-1.5">
-      <span
-        className="inline-block h-2.5 w-2.5 rounded-sm"
-        style={{ background: color }}
-      />
+      <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: color }} />
       {label}
     </span>
   );
