@@ -3,6 +3,7 @@ import Counter from "@/components/Counter";
 import HeroChart from "@/components/HeroChart";
 import GrowthChart from "@/components/GrowthChart";
 import TiltCard from "@/components/TiltCard";
+import LockButton from "@/components/LockButton";
 
 const appFeatures = [
   {
@@ -137,6 +138,7 @@ export default function Home() {
           <a href="#curriculum" className="eyebrow hidden sm:inline" style={{ color: "var(--ink-soft)" }}>
             Courses
           </a>
+          <LockButton />
           <span
             className="eyebrow rounded-full border px-2.5 py-1.5 text-[0.68rem]"
             style={{ borderColor: "var(--line)", color: "var(--ink-soft)" }}

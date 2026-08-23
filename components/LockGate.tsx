@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { cssVar, fitCanvas, genSeries } from "@/lib/chart";
+import { LOCK_STORAGE_KEY } from "@/lib/lock";
 
 const PASSWORD = "nh0583s";
-const STORAGE_KEY = "yfa-unlocked";
 
 type Phase = "locked" | "unlocking" | "unlocked";
 
@@ -31,7 +31,7 @@ export default function LockGate({ children }: { children: ReactNode }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (sessionStorage.getItem(STORAGE_KEY) === "1") {
+    if (sessionStorage.getItem(LOCK_STORAGE_KEY) === "1") {
       setPhase("unlocked");
     } else {
       inputRef.current?.focus();
@@ -184,7 +184,7 @@ export default function LockGate({ children }: { children: ReactNode }) {
   }, [phase]);
 
   function finish() {
-    sessionStorage.setItem(STORAGE_KEY, "1");
+    sessionStorage.setItem(LOCK_STORAGE_KEY, "1");
     setPhase("unlocked");
   }
 
