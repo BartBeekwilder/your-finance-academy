@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Work_Sans, Space_Mono } from "next/font/google";
+import LockGate from "@/components/LockGate";
 import "./globals.css";
 
 const display = Fraunces({
@@ -33,7 +34,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <LockGate>{children}</LockGate>
+      </body>
     </html>
   );
 }
