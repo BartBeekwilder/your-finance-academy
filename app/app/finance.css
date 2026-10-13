@@ -1,0 +1,243 @@
+/* Personal Finance web app — matches the iOS app's dark theme:
+   black ground, faint neon lines, iOS "secondarySystemBackground" cards,
+   SF Pro / SF Rounded type on Apple devices (system fallbacks elsewhere).
+   Scoped under .pf so the academy pages keep their own look. */
+
+.pf {
+  --pf-bg: #000;
+  --pf-card: rgba(28, 28, 30, 0.82);       /* iOS secondarySystemBackground (dark) */
+  --pf-card-2: rgba(44, 44, 46, 0.9);      /* tertiary */
+  --pf-line: rgba(84, 84, 88, 0.45);       /* separator */
+  --pf-ink: #fff;
+  --pf-ink-2: rgba(235, 235, 245, 0.6);    /* secondaryLabel */
+  --pf-ink-3: rgba(235, 235, 245, 0.3);    /* tertiaryLabel */
+  --pf-green: #30d158;
+  --pf-orange: #ff9f0a;
+  --pf-red: #ff453a;
+  --pf-blue: #0a84ff;
+  --pf-brand-a: #6c5ce7;                   /* FinanceAIBrand gradient */
+  --pf-brand-b: #00c2a8;
+
+  position: relative;
+  min-height: 100dvh;
+  background: var(--pf-bg);
+  color: var(--pf-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
+  letter-spacing: -0.01em;
+  color-scheme: dark;
+}
+
+.pf h1, .pf h2, .pf h3 {
+  font-family: inherit;
+  letter-spacing: -0.02em;
+}
+
+.pf-rounded {
+  font-family: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.pf-neon {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  filter: blur(2.4px);
+  z-index: 0;
+}
+
+.pf-loading {
+  min-height: 60dvh;
+}
+
+.pf-badge {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-card {
+  background: var(--pf-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.pf-section-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--pf-ink-2);
+  margin: 0 0 8px 16px;
+}
+
+.pf-bouncy {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pf-bouncy:active {
+  transform: scale(0.96);
+}
+
+/* Navigation — sidebar on wide screens, iOS-style tab bar on phones */
+.pf-shell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: 100dvh;
+}
+
+.pf-nav {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  width: 232px;
+  flex: none;
+  padding: 20px 12px;
+  border-right: 1px solid var(--pf-line);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pf-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 12px 18px;
+}
+.pf-brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b));
+}
+.pf-nav-foot {
+  margin-top: auto;
+  padding: 0 12px;
+  font-size: 0.75rem;
+  color: var(--pf-ink-3);
+}
+
+.pf-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  color: var(--pf-ink-2);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.pf-nav a:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--pf-ink);
+}
+.pf-nav a[aria-current="page"] {
+  background: rgba(10, 132, 255, 0.16);
+  color: var(--pf-blue);
+}
+
+.pf-main {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 32px 64px;
+  max-width: 1240px;
+}
+
+@media (max-width: 760px) {
+  .pf-nav {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    height: auto;
+    width: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    border-right: 0;
+    border-top: 1px solid var(--pf-line);
+  }
+  .pf-nav .pf-brand,
+  .pf-nav .pf-nav-foot {
+    display: none;
+  }
+  .pf-nav a {
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 0;
+    font-size: 0.6rem;
+    background: none !important;
+  }
+  .pf-nav-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pf-main {
+    padding: 20px 16px 96px;
+  }
+}
+
+.pf-grid-auto {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.pf-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+}
+.pf-row + .pf-row {
+  border-top: 1px solid var(--pf-line);
+}
+
+.pf-progress {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(120, 120, 128, 0.32);
+  overflow: hidden;
+}
+.pf-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+@keyframes pf-pulse {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(2.2); opacity: 0; }
+}
+.pf-pulse {
+  position: relative;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pf-green);
+}
+.pf-pulse::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--pf-green);
+  opacity: 0.4;
+  animation: pf-pulse 1.4s ease-out infinite;
+}
