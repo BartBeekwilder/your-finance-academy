@@ -99,3 +99,14 @@ export function investedIn(holdings: Holding[], currency: string) {
   }
   return { total, skipped };
 }
+
+/** The month's net income for the live Income/Balance tiles — iOS
+ *  IncomeManager.projectedAmounts: that month's income record if there is
+ *  one, else the expected net income from settings, else (income never set
+ *  up) whatever income was actually entered. */
+export function projectedNetIncome(data: FinanceData, month: Date) {
+  const record = live(data.incomeRecords).find((r) => r.month.slice(0, 7) === monthKey(month));
+  if (record) return num(record.net_amount);
+  if (data.profile.expected_net_monthly !== null) return num(data.profile.expected_net_monthly);
+  return summarize(data.transactions, month).income;
+}

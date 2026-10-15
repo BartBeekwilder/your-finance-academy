@@ -4,8 +4,9 @@ import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import { CategoryDonut, IncomeExpenseBars, TrendLine } from "@/components/finance/charts";
 import { useFinance } from "@/components/finance/FinanceProvider";
+import LiveTiles from "@/components/finance/LiveTiles";
 import NetWorthCard from "@/components/finance/NetWorthCard";
-import { investedIn, last12Months, live, monthProgress, num, spendByCategory, summarize } from "@/lib/finance/calc";
+import { investedIn, last12Months, live, num, projectedNetIncome, spendByCategory, summarize } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 export default function DashboardPage() {
@@ -16,7 +17,6 @@ export default function DashboardPage() {
   const s = summarize(data.transactions, month);
   const byCategory = spendByCategory(data, month);
   const history = last12Months(data.transactions, now);
-  const progress = monthProgress(now);
 
   // Net worth = accounts + holdings at cost (live prices arrive with sync).
   const accounts = live(data.accounts).reduce((sum, a) => sum + num(a.balance), 0);
@@ -37,17 +37,14 @@ export default function DashboardPage() {
       <NetWorthCard base={accounts + holdings} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} currency={currency} />
 
       <section style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "center" }}>
-        <div className="pf-card" style={{ overflow: "hidden" }}>
-          <Tile title="Income" amount={s.income} color="var(--pf-green)" currency={currency}>
-            <Bar label={`${Math.round(progress * 100)}% of month elapsed`} value={progress} color="var(--pf-green)" />
-          </Tile>
-          <Tile title="Spent" amount={s.spent} color="var(--pf-orange)" currency={currency}
-            sub={`≈ ${money(s.spent / Math.max(1, now.getDate()), currency)} / day`}>
-            <Split fixed={s.fixed} variable={s.variable} />
-          </Tile>
-          <Tile title={`Balance ${monthYear(month).split(" ")[0]}`} amount={s.balance}
-            color={s.balance >= 0 ? "var(--pf-green)" : "var(--pf-red)"} currency={currency} />
-        </div>
+        <LiveTiles
+          monthStart={month}
+          monthlyIncome={projectedNetIncome(data, month)}
+          enteredIncome={s.income}
+          fixed={s.fixed}
+          variable={s.variable}
+          currency={currency}
+        />
         <CategoryDonut entries={byCategory} currency={currency} />
       </section>
 
@@ -116,43 +113,6 @@ export default function DashboardPage() {
           ))}
         </div>
       </section>
-    </div>
-  );
-}
-
-function Tile({ title, amount, color, currency, sub, children }: {
-  title: string; amount: number; color: string; currency: string; sub?: string; children?: React.ReactNode;
-}) {
-  return (
-    <div style={{ padding: "12px 14px", borderBottom: "1px solid var(--pf-line)", display: "grid", gap: 4 }}>
-      <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{title}</div>
-      <div className="pf-rounded" style={{ fontSize: "1.45rem", fontWeight: 700, color }}>{money(amount, currency)}</div>
-      {sub && <div style={{ fontSize: "0.68rem", color: "var(--pf-ink-3)" }}>{sub}</div>}
-      {children}
-    </div>
-  );
-}
-
-function Bar({ label, value, color }: { label: string; value: number; color: string }) {
-  return (
-    <div style={{ display: "grid", gap: 4 }}>
-      <div style={{ fontSize: "0.68rem", color: "var(--pf-ink-3)" }}>{label}</div>
-      <div className="pf-progress" style={{ height: 4 }}><span style={{ width: `${value * 100}%`, background: color }} /></div>
-    </div>
-  );
-}
-
-function Split({ fixed, variable }: { fixed: number; variable: number }) {
-  const total = fixed + variable || 1;
-  return (
-    <div style={{ display: "grid", gap: 4 }}>
-      <div style={{ fontSize: "0.68rem", color: "var(--pf-ink-3)" }}>
-        Fixed {Math.round((fixed / total) * 100)}% · Variable {Math.round((variable / total) * 100)}%
-      </div>
-      <div className="pf-progress" style={{ height: 4, display: "flex" }}>
-        <span style={{ width: `${(fixed / total) * 100}%`, background: "var(--pf-blue)", borderRadius: 0 }} />
-        <span style={{ width: `${(variable / total) * 100}%`, background: "var(--pf-orange)", borderRadius: 0 }} />
-      </div>
     </div>
   );
 }
