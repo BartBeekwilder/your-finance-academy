@@ -11,14 +11,16 @@ import Segmented from "./Segmented";
 //           figures as the dashboard tiles); its segment is dashed.
 //   Month — running totals day by day through this month, ending at "now".
 //
-// Both views live on one time axis, measured in months (Jan = 0). In Year
-// view the current month is the dashed stretch from the previous month's
-// point to this month's point; Month view puts day d of this month at
-// (current − 1) + d / days, i.e. *inside* that stretch. Switching animates
-// a camera: the visible x-range zooms (log-scale, so it feels like a map
-// zoom) between the whole year and that one stretch, the y-scale eases to
-// fit, the monthly lines fade out as the daily ones fade in, and the axis
-// labels ride along. Zooming out is the same motion in reverse.
+// Both views live on one time axis, measured in months (Jan = 0), and they
+// share one point: "now" — the live red and green dots. In Year view that
+// is this month's point (t = current). Month view lays the days out so
+// today lands on that same t (day d sits at current − (today − d) / days),
+// so the daily line ends exactly on the dots. Switching animates a camera
+// centred on the dots: the visible x-range zooms (log-scale, like a map
+// zoom) between the whole year and this month, the y-scale eases to fit,
+// the monthly lines fade out as the daily ones fade in, the axis labels
+// ride along, and the dots stay on screen as the focal point throughout.
+// Zooming out is the same motion in reverse.
 
 const GREEN = "#30d158";
 const RED = "#ff453a";
@@ -63,8 +65,10 @@ export default function YearLines({
       spent: isNow ? s.fixed * fraction + s.variable : s.spent,
     };
   });
+  const today = live.getDate();
+  const dayT = (d: number) => current - (today - d) / days; // today → t = current
   const monthPts: Pt[] = monthToDate(data, live).points.map((p) => ({
-    t: current - 1 + p.day / days,
+    t: dayT(p.day),
     full:
       p.day === live.getDate()
         ? "Today · live"
@@ -76,11 +80,11 @@ export default function YearLines({
   // ---- Camera: 0 = whole year, 1 = this month --------------------------------
   const z = useZoom(mode === "month" ? 1 : 0, 950);
   const yearView = { left: 0, width: 11, max: niceMax(Math.max(1, ...yearPts.flatMap((p) => [p.income, p.spent]))) };
-  const monthView = { left: current - 1 + 1 / days, width: 1 - 1 / days, max: niceMax(Math.max(1, ...monthPts.flatMap((p) => [p.income, p.spent]))) };
-  // Keep the zoom anchored on this month: its centre slides from wherever it
-  // sits in the year to the middle of the chart while the range shrinks.
-  const anchor = current - 0.5 + 0.5 / days;
-  const anchorAt = lerp((anchor - yearView.left) / yearView.width, 0.5, z);
+  const monthView = { left: dayT(1), width: (days - 1) / days, max: niceMax(Math.max(1, ...monthPts.flatMap((p) => [p.income, p.spent]))) };
+  // Zoom around "now" (the dots): the range scales about t = current, and
+  // the dots glide from their place in the year to today's place in the month.
+  const anchor = current;
+  const anchorAt = lerp((anchor - yearView.left) / yearView.width, (anchor - monthView.left) / monthView.width, z);
   const width = yearView.width * Math.pow(monthView.width / yearView.width, z);
   const left = anchor - anchorAt * width;
   const max = Math.exp(lerp(Math.log(yearView.max), Math.log(monthView.max), z));
@@ -113,7 +117,7 @@ export default function YearLines({
   const monthLabels = Array.from({ length: 12 }, (_, m) => ({ t: m, text: shortMonth(new Date(year, m, 1)).slice(0, 1), bold: m === current, dim: m > current }));
   const dayLabels = Array.from({ length: days }, (_, i) => i + 1)
     .filter((d) => d === 1 || d === days || (d % 5 === 0 && d <= days - 3))
-    .map((d) => ({ t: current - 1 + d / days, text: String(d), bold: d === live.getDate(), dim: d > live.getDate() }));
+    .map((d) => ({ t: dayT(d), text: String(d), bold: d === today, dim: d > today }));
 
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 8 }}>
@@ -199,17 +203,21 @@ export default function YearLines({
             {settled && <line x1={x(p.t)} x2={x(p.t)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />}
           </svg>
 
-          {/* Dots in HTML so they stay round despite the stretched SVG. */}
-          {settled && (
+          {/* Dots in HTML so they stay round despite the stretched SVG. While
+              zooming they ride the live point — the centre of the zoom. */}
+          {(() => {
+            const dot = settled ? p : pts[last];
+            const isLive = !settled || shown === last;
+            return (
             <div style={{ position: "relative", height: 0 }}>
               {(["income", "spent"] as const).map((key) => (
                 <span
                   key={key}
-                  className={shown === last ? "pf-live-dot" : undefined}
+                  className={isLive ? "pf-live-dot" : undefined}
                   style={{
                     position: "absolute",
-                    left: `${(x(p.t) / W) * 100}%`,
-                    top: y(p[key]) - H,
+                    left: `${(x(dot.t) / W) * 100}%`,
+                    top: y(dot[key]) - H,
                     width: 8,
                     height: 8,
                     marginLeft: -4,
@@ -223,7 +231,8 @@ export default function YearLines({
                 />
               ))}
             </div>
-          )}
+            );
+          })()}
 
           {/* Clips labels that zoom past the ends, with 12px of slack each side
               so the first and last labels aren't cut in half. */}

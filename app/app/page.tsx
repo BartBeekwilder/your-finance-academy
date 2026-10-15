@@ -112,7 +112,7 @@ export default function DashboardPage() {
   );
 }
 
-/** Live clock: re-renders each second, and the colon blinks in step with
+/** Live date and clock: re-renders each second, and the colon blinks in step with
  *  the real second (its animation is offset by the current millisecond). */
 function Clock() {
   const [now, setNow] = useState(() => new Date());
@@ -130,8 +130,12 @@ function Clock() {
   }, []);
   const hh = String(now.getHours()).padStart(2, "0");
   const mm = String(now.getMinutes()).padStart(2, "0");
+  // Date first, then time — e.g. "Thu 15 Oct 2026 · 20:14".
+  const date = now.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(",", "");
   return (
-    <time className="pf-rounded pf-clock" dateTime={now.toISOString()} aria-label={`${hh}:${mm}`}>
+    <time className="pf-rounded pf-clock" dateTime={now.toISOString()} aria-label={`${date}, ${hh}:${mm}`}>
+      {date}
+      <span style={{ margin: "0 0.45em", opacity: 0.5 }}>·</span>
       {hh}
       <span className="pf-clock-colon" style={{ animationDelay: `-${now.getMilliseconds()}ms` }} aria-hidden>
         :
