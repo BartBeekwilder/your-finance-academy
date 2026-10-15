@@ -42,24 +42,33 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
     const ids = selfAndChildren(category, categories);
     const expenses = live(data.transactions).filter((t) => t.type === "expense" && t.category_id && ids.has(t.category_id));
     const year = now.getFullYear();
+    // A month's budget is its own row if there is one, else the latest
+    // earlier one (budgets carry forward), else the current month's.
+    const budgets = live(data.budgets)
+      .filter((b) => b.category_id === category.id)
+      .map((b) => ({ key: b.month.slice(0, 7), amount: num(b.amount) }))
+      .sort((a, b) => a.key.localeCompare(b.key));
+    const current = budgets.find((b) => b.key === monthKey(now));
+    const budgetFor = (key: string) =>
+      [...budgets].reverse().find((b) => b.key <= key)?.amount ?? current?.amount ?? budgets[0]?.amount ?? null;
     const perMonth = Array.from({ length: 12 }, (_, m) => {
       const key = monthKey(new Date(year, m, 1));
       return {
         month: new Date(year, m, 1),
         total: expenses.filter((t) => monthKey(new Date(t.date)) === key).reduce((s, t) => s + num(t.amount), 0),
+        budget: budgetFor(key),
         future: m > now.getMonth(),
       };
     });
     const thisMonth = expenses
       .filter((t) => monthKey(new Date(t.date)) === monthKey(now))
       .sort((a, b) => b.date.localeCompare(a.date));
-    const budget = live(data.budgets).find((b) => b.category_id === category.id && b.month.slice(0, 7) === monthKey(now));
     return {
       perMonth,
       thisMonth,
       monthTotal: thisMonth.reduce((s, t) => s + num(t.amount), 0),
       ytd: perMonth.reduce((s, p) => s + p.total, 0),
-      budget: budget ? num(budget.amount) : null,
+      budget: perMonth[now.getMonth()].budget,
     };
   }, [category, categories, data.transactions, data.budgets, now]);
 
@@ -97,7 +106,7 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
 
       <section>
         <h3 className="pf-section-title" style={{ marginLeft: 0 }}>Per Month — {now.getFullYear()}</h3>
-        <MonthBars points={view.perMonth} color={color} currency={currency} budget={view.budget} current={now.getMonth()} />
+        <MonthBars points={view.perMonth} color={color} currency={currency} current={now.getMonth()} />
       </section>
 
       <section>
@@ -123,29 +132,63 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
   );
 }
 
-type Point = { month: Date; total: number; future: boolean };
+type Point = { month: Date; total: number; budget: number | null; future: boolean };
 
-/** Running total through the year; hover or drag to read any month. */
+const RED = "#ff453a";
+
+function Legend({ color, hasBudget }: { color: string; hasBudget: boolean }) {
+  if (!hasBudget) return null;
+  return (
+    <div style={{ display: "flex", gap: 14, fontSize: "0.68rem", color: "var(--pf-ink-2)", marginTop: 6 }}>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+        <span style={{ width: 14, height: 2.5, borderRadius: 2, background: color }} /> Spent
+      </span>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+        <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> Budget
+      </span>
+    </div>
+  );
+}
+
+/** Running total through the year against the running budget: spending
+ *  above the dashed line means over budget for the year so far. Hover or
+ *  drag to read any month. */
 function CumulativeChart({ points, color, currency }: { points: Point[]; color: string; currency: string }) {
   const [sel, setSel] = useState<number | null>(null);
   const W = 480, H = 140;
   const past = points.filter((p) => !p.future);
-  const cum = past.map((_, i) => past.slice(0, i + 1).reduce((s, p) => s + p.total, 0));
-  const max = Math.max(1, ...cum);
+  const hasBudget = past.some((p) => p.budget !== null);
+  const sum = (key: "total" | "budget", i: number) => past.slice(0, i + 1).reduce((s, p) => s + (p[key] ?? 0), 0);
+  const spent = past.map((_, i) => sum("total", i));
+  const budget = past.map((_, i) => sum("budget", i));
+  const max = Math.max(1, ...spent, ...(hasBudget ? budget : []));
   const x = (i: number) => (i / 11) * W;
   const y = (v: number) => H - (v / max) * (H - 12) - 4;
-  const line = cum.map((v, i) => `${i ? "L" : "M"}${x(i)},${y(v)}`).join(" ");
-  const shown = sel !== null && sel < cum.length ? sel : cum.length - 1;
+  const path = (vals: number[]) => vals.map((v, i) => `${i ? "L" : "M"}${x(i)},${y(v)}`).join(" ");
+  const shown = sel !== null && sel < spent.length ? sel : spent.length - 1;
+  const diff = spent[shown] - budget[shown];
 
   const pick = (e: React.PointerEvent<SVGSVGElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
-    setSel(Math.max(0, Math.min(cum.length - 1, Math.round(((e.clientX - r.left) / r.width) * 11))));
+    setSel(Math.max(0, Math.min(spent.length - 1, Math.round(((e.clientX - r.left) / r.width) * 11))));
   };
 
   return (
     <div>
-      <div style={{ height: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
-        {cum.length > 0 && `${monthYear(past[shown].month)} · ${money(cum[shown], currency)} so far`}
+      <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
+        {spent.length > 0 && (
+          <>
+            {monthYear(past[shown].month)} · {money(spent[shown], currency)} spent
+            {hasBudget && (
+              <>
+                {" "}of {money(budget[shown], currency)} ·{" "}
+                <strong style={{ color: diff > 0 ? RED : "var(--pf-green)", fontWeight: 600 }}>
+                  {money(Math.abs(diff), currency)} {diff > 0 ? "over" : "under"}
+                </strong>
+              </>
+            )}
+          </>
+        )}
       </div>
       <svg
         viewBox={`0 0 ${W} ${H}`}
@@ -157,62 +200,112 @@ function CumulativeChart({ points, color, currency }: { points: Point[]; color: 
         onPointerDown={pick}
         onPointerLeave={() => setSel(null)}
         role="img"
-        aria-label="Cumulative spending this year"
+        aria-label="Cumulative spending this year against budget"
       >
-        <path d={`${line} L${x(cum.length - 1)},${H} L0,${H} Z`} fill={color} opacity={0.18} />
-        <path d={line} fill="none" stroke={color} strokeWidth={2.5} vectorEffect="non-scaling-stroke" />
-        {cum.length > 0 && (
-          <line x1={x(shown)} x2={x(shown)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />
+        <path d={`${path(spent)} L${x(spent.length - 1)},${H} L0,${H} Z`} fill={color} opacity={0.18} />
+        {hasBudget && (
+          <path d={path(budget)} fill="none" stroke="var(--pf-ink-2)" strokeWidth={2} strokeDasharray="6 5" vectorEffect="non-scaling-stroke" />
+        )}
+        <path d={path(spent)} fill="none" stroke={color} strokeWidth={2.5} vectorEffect="non-scaling-stroke" />
+        {spent.length > 0 && (
+          <>
+            <line x1={x(shown)} x2={x(shown)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />
+            <circle cx={x(shown)} cy={y(spent[shown])} r={3.5} fill={hasBudget && diff > 0 ? RED : color} vectorEffect="non-scaling-stroke" />
+          </>
         )}
       </svg>
+      <Legend color={color} hasBudget={hasBudget} />
     </div>
   );
 }
 
-/** One bar per month of the year, current month highlighted, budget line. */
-function MonthBars({ points, color, currency, budget, current }: {
-  points: Point[]; color: string; currency: string; budget: number | null; current: number;
+/** One bar per month with that month's budget as a marker; bars that went
+ *  over turn red so a bad month stands out at a glance. */
+function MonthBars({ points, color, currency, current }: {
+  points: Point[]; color: string; currency: string; current: number;
 }) {
   const [sel, setSel] = useState<number | null>(null);
-  const max = Math.max(1, budget ?? 0, ...points.map((p) => p.total));
+  const max = Math.max(1, ...points.map((p) => Math.max(p.total, p.budget ?? 0)));
   const H = 130;
   const shown = sel ?? current;
+  const p = points[shown];
+  const hasBudget = points.some((x) => x.budget !== null);
+  const overCount = points.filter((x) => !x.future && x.budget !== null && x.total > x.budget).length;
 
   return (
     <div>
-      <div style={{ height: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
-        {monthYear(points[shown].month)} · {points[shown].future ? "not yet" : money(points[shown].total, currency)}
-      </div>
-      <div style={{ position: "relative", display: "flex", alignItems: "flex-end", gap: 4, height: H + 16 }}>
-        {budget !== null && (
-          <div
-            title={`Budget ${money(budget, currency)}`}
-            style={{ position: "absolute", left: 0, right: 0, bottom: 16 + (budget / max) * H, borderTop: "1px dashed var(--pf-ink-3)", pointerEvents: "none" }}
-          />
+      <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
+        {monthYear(p.month)} ·{" "}
+        {p.future ? (
+          "not yet"
+        ) : (
+          <>
+            {money(p.total, currency)}
+            {p.budget !== null && (
+              <>
+                {" "}of {money(p.budget, currency)} ·{" "}
+                <strong style={{ color: p.total > p.budget ? RED : "var(--pf-green)", fontWeight: 600 }}>
+                  {money(Math.abs(p.total - p.budget), currency)} {p.total > p.budget ? "over" : "under"}
+                </strong>
+              </>
+            )}
+          </>
         )}
-        {points.map((p, i) => (
-          <button
-            key={i}
-            onMouseEnter={() => setSel(i)}
-            onMouseLeave={() => setSel(null)}
-            onClick={() => setSel(sel === i ? null : i)}
-            aria-label={`${monthYear(p.month)}: ${money(p.total, currency)}`}
-            style={{ flex: 1, height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center", gap: 3, padding: 0, border: 0, background: "none", cursor: "pointer" }}
-          >
-            <span
-              style={{
-                width: "70%",
-                maxWidth: 22,
-                height: Math.max(p.total ? 3 : 0, (p.total / max) * H),
-                borderRadius: 3,
-                background: color,
-                opacity: i === shown ? 1 : i === current ? 0.8 : 0.4,
-              }}
-            />
-            <span style={{ fontSize: "0.58rem", color: i === shown ? "var(--pf-ink)" : "var(--pf-ink-3)" }}>{shortMonth(p.month).slice(0, 1)}</span>
-          </button>
-        ))}
       </div>
+      <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: H + 16 }}>
+        {points.map((pt, i) => {
+          const over = !pt.future && pt.budget !== null && pt.total > pt.budget;
+          return (
+            <button
+              key={i}
+              onMouseEnter={() => setSel(i)}
+              onMouseLeave={() => setSel(null)}
+              onClick={() => setSel(sel === i ? null : i)}
+              aria-label={`${monthYear(pt.month)}: ${money(pt.total, currency)}${pt.budget !== null ? ` of ${money(pt.budget, currency)} budget` : ""}`}
+              style={{ flex: 1, height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center", gap: 3, padding: 0, border: 0, background: "none", cursor: "pointer" }}
+            >
+              <span style={{ position: "relative", width: "70%", maxWidth: 22, height: H, display: "flex", alignItems: "flex-end" }}>
+                <span
+                  style={{
+                    width: "100%",
+                    height: Math.max(pt.total ? 3 : 0, (pt.total / max) * H),
+                    borderRadius: 3,
+                    background: over ? RED : color,
+                    opacity: i === shown ? 1 : i === current ? 0.8 : 0.45,
+                  }}
+                />
+                {pt.budget !== null && (
+                  // This month's budget, as a tick across the bar's slot.
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: -3,
+                      right: -3,
+                      bottom: (pt.budget / max) * H,
+                      borderTop: "2px dashed var(--pf-ink-2)",
+                      opacity: pt.future ? 0.35 : 0.9,
+                    }}
+                  />
+                )}
+              </span>
+              <span style={{ fontSize: "0.58rem", color: i === shown ? "var(--pf-ink)" : "var(--pf-ink-3)" }}>{shortMonth(pt.month).slice(0, 1)}</span>
+            </button>
+          );
+        })}
+      </div>
+      {hasBudget && (
+        <div style={{ display: "flex", gap: 14, alignItems: "center", fontSize: "0.68rem", color: "var(--pf-ink-2)", marginTop: 6 }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+            <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> Budget
+          </span>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+            <span style={{ width: 9, height: 9, borderRadius: 2, background: RED }} /> Over budget
+          </span>
+          <span style={{ marginLeft: "auto" }}>
+            {overCount === 0 ? "Within budget every month" : `Over budget in ${overCount} month${overCount > 1 ? "s" : ""}`}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
