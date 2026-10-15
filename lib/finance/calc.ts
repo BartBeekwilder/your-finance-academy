@@ -141,11 +141,12 @@ export function categoryYear(data: FinanceData, category: Category, now: Date) {
   return { months, expenses };
 }
 
-/** Spend per top-level expense category from 1 January of `now`'s year up to
- *  now (subcategories included), biggest first — the "This Year" donut. */
-export function spendByCategoryYear(data: FinanceData, now: Date): { category: Category; spent: number }[] {
+/** Spend per top-level expense category over a whole calendar year
+ *  (subcategories included), biggest first. For the current year that is
+ *  1 January up to now. Accepts a Date (its year) or a year number. */
+export function spendByCategoryYear(data: FinanceData, when: Date | number): { category: Category; spent: number }[] {
   const categories = live(data.categories);
-  const year = now.getFullYear();
+  const year = typeof when === "number" ? when : when.getFullYear();
   const tx = live(data.transactions).filter((t) => t.type === "expense" && new Date(t.date).getFullYear() === year);
   return categories
     .filter((c) => !c.is_income_category && c.parent_id === null)
@@ -155,4 +156,42 @@ export function spendByCategoryYear(data: FinanceData, now: Date): { category: C
     })
     .filter((e) => e.spent > 0)
     .sort((a, b) => b.spent - a.spent);
+}
+
+/** Calendar years that have at least one transaction, oldest first, always
+ *  including `now`'s year. */
+export function yearsWithData(data: FinanceData, now: Date): number[] {
+  const years = new Set(live(data.transactions).map((t) => new Date(t.date).getFullYear()));
+  years.add(now.getFullYear());
+  return [...years].filter((y) => y <= now.getFullYear()).sort((a, b) => a - b);
+}
+
+/** Day-by-day running totals for `now`'s month, using the same live rules
+ *  as the dashboard tiles: income accrues evenly toward the month's
+ *  projected net; fixed costs are spread evenly; variable spending counts
+ *  on the day it happened. Day 1..today; the last point is "now", so it
+ *  matches the tiles exactly. */
+export function monthToDate(data: FinanceData, now: Date) {
+  const year = now.getFullYear(), m = now.getMonth();
+  const start = new Date(year, m, 1).getTime();
+  const days = new Date(year, m + 1, 0).getDate();
+  const monthMs = days * 86_400_000;
+  const income = projectedNetIncome(data, now);
+  const s = summarize(data.transactions, now);
+  const variableByDay = new Array(days + 1).fill(0);
+  for (const t of live(data.transactions)) {
+    const d = new Date(t.date);
+    if (t.type !== "expense" || t.is_fixed_expense || d.getFullYear() !== year || d.getMonth() !== m) continue;
+    variableByDay[d.getDate()] += num(t.amount);
+  }
+  const points: { day: number; income: number; spent: number }[] = [];
+  let variable = 0;
+  for (let day = 1; day <= now.getDate(); day++) {
+    variable += variableByDay[day];
+    // End of each finished day; "now" for today.
+    const at = day === now.getDate() ? now.getTime() : start + day * 86_400_000;
+    const f = Math.min(1, (at - start) / monthMs);
+    points.push({ day, income: income * f, spent: s.fixed * f + variable });
+  }
+  return { points, days };
 }

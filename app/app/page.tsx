@@ -9,7 +9,7 @@ import LiveTiles from "@/components/finance/LiveTiles";
 import NetWorthCard from "@/components/finance/NetWorthCard";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
 import YearLines from "@/components/finance/YearLines";
-import { investedIn, last12Months, live, num, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize } from "@/lib/finance/calc";
+import { investedIn, last12Months, live, num, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 export default function DashboardPage() {
@@ -50,10 +50,10 @@ export default function DashboardPage() {
           currency={currency}
         />
         <div style={{ display: "grid", gap: 12, gridTemplateRows: "auto 1fr" }}>
-          <YearLines transactions={data.transactions} now={now} currency={currency} monthlyIncome={projectedNetIncome(data, month)} />
+          <YearLines data={data} now={now} currency={currency} monthlyIncome={projectedNetIncome(data, month)} />
           <CategoryDonut
             months={Array.from({ length: now.getMonth() + 1 }, (_, m) => spendByCategory(data, new Date(now.getFullYear(), m, 1)))}
-            year={spendByCategoryYear(data, now)}
+            years={yearsWithData(data, now).map((year) => ({ year, slices: spendByCategoryYear(data, year) }))}
             currency={currency}
             now={now}
           />

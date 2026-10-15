@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useCategoryDetail } from "./CategoryDetail";
-import MonthSlider from "./MonthSlider";
+import StepSlider from "./StepSlider";
 import Segmented from "./Segmented";
 import { money, shortMonth } from "@/lib/finance/format";
 import type { CategorySpend, MonthPoint } from "@/lib/finance/calc";
@@ -14,24 +14,33 @@ type Slice = { category: CategorySpend["category"]; spent: number };
  *  year's spend), so switching morphs each slice to its new size instead of
  *  reshuffling; the centre total and percentages count along. Hovering a
  *  slice or legend row pops it outward with a glow; click opens the sheet. */
-export function CategoryDonut({ months, year, currency, now }: {
+export function CategoryDonut({ months, years, currency, now }: {
   /** Spend per category for each month of this year so far (index = month). */
   months: Slice[][];
-  year: Slice[];
+  /** Spend per category for each year that has data, oldest first. */
+  years: { year: number; slices: Slice[] }[];
   currency: string;
   now: Date;
 }) {
   const [mode, setMode] = useState<"month" | "year">("month");
   const [monthIndex, setMonthIndex] = useState(now.getMonth());
+  const [yearIndex, setYearIndex] = useState(years.length - 1);
   const month = months[monthIndex] ?? [];
+  const yearSel = years[yearIndex] ?? years[years.length - 1];
   const [active, setActive] = useState<number | null>(null);
   const openCategory = useCategoryDetail();
 
-  // Fixed slice order: every category spent on this year, biggest first.
-  const order = year.length ? year.map((e) => e.category) : month.map((e) => e.category);
+  // Fixed slice order across every month and year: categories by total
+  // spend over all years, biggest first — so slices morph, never reshuffle.
+  const allTime = new Map<string, { category: Slice["category"]; spent: number }>();
+  for (const y of years) {
+    for (const e of y.slices) allTime.set(e.category.id, { category: e.category, spent: (allTime.get(e.category.id)?.spent ?? 0) + e.spent });
+  }
+  for (const e of month) if (!allTime.has(e.category.id)) allTime.set(e.category.id, { category: e.category, spent: 0 });
+  const order = [...allTime.values()].sort((a, b) => b.spent - a.spent).map((e) => e.category);
   const monthName = new Date(now.getFullYear(), monthIndex, 1).toLocaleDateString("en-GB", { month: "long" });
   const valuesFor = (m: "month" | "year") => {
-    const src = new Map((m === "month" ? month : year).map((e) => [e.category.id, e.spent]));
+    const src = new Map((m === "month" ? month : (yearSel?.slices ?? [])).map((e) => [e.category.id, e.spent]));
     return order.map((c) => src.get(c.id) ?? 0);
   };
   const values = useTween(valuesFor(mode), 700);
@@ -114,26 +123,38 @@ export function CategoryDonut({ months, year, currency, now }: {
 
           <div key={`${mode}-${active ?? -1}`} className="pf-donut-centre" aria-hidden>
             <span style={{ fontSize: "0.68rem", color: shown ? `#${shown.category.color_hex}` : "var(--pf-ink-2)", fontWeight: 600 }}>
-              {shown ? shown.category.name : mode === "year" ? `Spent in ${now.getFullYear()}` : monthIndex === now.getMonth() ? "Spent this month" : `Spent in ${monthName}`}
+              {shown ? shown.category.name : mode === "year" ? `Spent in ${yearSel?.year}` : monthIndex === now.getMonth() ? "Spent this month" : `Spent in ${monthName}`}
             </span>
             <span className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700 }}>
               {money(shown ? shown.spent : total, currency)}
             </span>
             <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>
-              {shown ? `${share(shown.spent)}% of spending` : `${visible.length} categories`}
+              {shown
+                ? `${share(shown.spent)}% of spending`
+                : mode === "year" && yearSel?.year === now.getFullYear()
+                  ? "year to date"
+                  : `${visible.length} categories`}
             </span>
           </div>
         </div>
       </div>
 
-      <MonthSlider
-        value={monthIndex}
-        current={now.getMonth()}
-        year={now.getFullYear()}
-        dimmed={mode === "year"}
+      <StepSlider
+        label={mode === "month" ? "Month" : "Year"}
+        animKey={mode}
+        value={mode === "month" ? monthIndex : yearIndex}
+        steps={
+          mode === "month"
+            ? Array.from({ length: 12 }, (_, i) => {
+                const d = new Date(now.getFullYear(), i, 1);
+                const name = d.toLocaleDateString("en-GB", { month: "long" });
+                return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}`, disabled: i > now.getMonth() };
+              })
+            : years.map((y) => ({ label: String(y.year), full: String(y.year) }))
+        }
         onChange={(i) => {
-          setMonthIndex(i);
-          setMode("month");
+          if (mode === "month") setMonthIndex(i);
+          else setYearIndex(i);
           setActive(null);
         }}
       />
