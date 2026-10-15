@@ -149,7 +149,10 @@
   flex: 1;
   min-width: 0;
   padding: 28px 32px 64px;
-  max-width: 1240px;
+  /* Grow with wide windows, then stay centred instead of leaving an empty
+     strip on the right. */
+  max-width: 1680px;
+  margin-inline: auto;
 }
 
 @media (max-width: 760px) {
@@ -195,7 +198,9 @@
 .pf-grid-auto {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  /* At most 4 per row (cards widen on big screens rather than leaving
+     half-empty rows), fewer when a card would drop below 260px. */
+  grid-template-columns: repeat(auto-fill, minmax(max(260px, calc((100% - 36px) / 4)), 1fr));
 }
 
 .pf-row {
