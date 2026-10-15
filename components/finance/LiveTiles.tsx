@@ -52,6 +52,18 @@ export default function LiveTiles({
 
   return (
     <div className="pf-card" style={{ overflow: "hidden" }}>
+      <Tile title="Income" value={liveIncome} color={GREEN} currency={currency}>
+        <Sub label="Entered so far" value={enteredIncome} color={GREEN} currency={currency} />
+        <Sub label="≈" value={monthlyIncome / days} suffix="/ day net" color={GREEN} currency={currency} />
+        <Bar
+          label={`${Math.round(fraction * 100)}% of month elapsed`}
+          parts={[
+            { share: fraction, color: GREEN },
+            { share: 1 - fraction, color: "rgba(48,209,88,.25)" },
+          ]}
+        />
+      </Tile>
+
       <Tile title="Spent" value={liveSpent} color={RED} currency={currency}>
         <Sub label="Entered so far" value={spentTotal} color={RED} currency={currency} />
         <Sub label="≈" value={spentTotal / dayOfMonth} suffix="/ day" color={RED} currency={currency} />
@@ -64,18 +76,6 @@ export default function LiveTiles({
             ]}
           />
         )}
-      </Tile>
-
-      <Tile title="Income" value={liveIncome} color={GREEN} currency={currency}>
-        <Sub label="Entered so far" value={enteredIncome} color={GREEN} currency={currency} />
-        <Sub label="≈" value={monthlyIncome / days} suffix="/ day net" color={GREEN} currency={currency} />
-        <Bar
-          label={`${Math.round(fraction * 100)}% of month elapsed`}
-          parts={[
-            { share: fraction, color: GREEN },
-            { share: 1 - fraction, color: "rgba(48,209,88,.25)" },
-          ]}
-        />
       </Tile>
 
       <Tile title={`Balance ${month}`} value={liveBalance} color={balanceColor} currency={currency} last>
