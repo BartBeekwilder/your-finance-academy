@@ -5,12 +5,15 @@ import { useCategoryDetail } from "./CategoryDetail";
 import { money, shortMonth } from "@/lib/finance/format";
 import type { CategorySpend, MonthPoint } from "@/lib/finance/calc";
 
-/** Donut of this month's spend per category — the iOS CategoryDonutChart. */
+/** Donut of this month's spend per category — the iOS CategoryDonutChart.
+ *  Slices spring in on load; hovering a slice (or its legend row) pops it
+ *  outward with a glow, dims the rest and swaps the centre to that
+ *  category's amount and share. Click opens the category sheet. */
 export function CategoryDonut({ entries, currency }: { entries: CategorySpend[]; currency: string }) {
   const [active, setActive] = useState<number | null>(null);
   const openCategory = useCategoryDetail();
   const total = entries.reduce((s, e) => s + e.spent, 0);
-  const R = 70, r = 46, C = 90;
+  const R = 84, r = 56, C = 100, POP = 8;
   // Start angle of each slice = sum of the sweeps before it.
   const sweeps = entries.map((e) => (total ? (e.spent / total) * Math.PI * 2 : 0));
   const starts = sweeps.map((_, i) => -Math.PI / 2 + sweeps.slice(0, i).reduce((s, x) => s + x, 0));
@@ -20,51 +23,73 @@ export function CategoryDonut({ entries, currency }: { entries: CategorySpend[];
     const large = a1 - a0 > Math.PI ? 1 : 0;
     const p = (rad: number, a: number) => `${C + Math.cos(a) * rad} ${C + Math.sin(a) * rad}`;
     const d = `M ${p(R, a0)} A ${R} ${R} 0 ${large} 1 ${p(R, a1)} L ${p(r, a1)} A ${r} ${r} 0 ${large} 0 ${p(r, a0)} Z`;
-    return { d, color: `#${e.category.color_hex}`, i };
+    const mid = starts[i] + sweeps[i] / 2;
+    return { d, color: `#${e.category.color_hex}`, i, dx: Math.cos(mid) * POP, dy: Math.sin(mid) * POP };
   });
 
   const shown = active !== null ? entries[active] : null;
+  const share = (v: number) => (total ? Math.round((v / total) * 100) : 0);
 
   return (
-    <div className="pf-card" style={{ padding: 16, display: "flex", gap: 16, alignItems: "center", justifyContent: "space-around" }}>
-      <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 4, fontSize: "0.72rem", flex: "none" }}>
+    <div className="pf-card" style={{ padding: 16, display: "flex", gap: 20, alignItems: "center", justifyContent: "space-around", flexWrap: "wrap" }}>
+      <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 2, fontSize: "0.74rem", flex: "1 1 150px", maxWidth: 240 }}>
         {entries.slice(0, 8).map((e, i) => (
-          <li key={e.category.id} style={{ opacity: active === null || active === i ? 1 : 0.45 }}>
+          <li key={e.category.id}>
             <button
-              className="pf-tap"
+              className="pf-tap pf-legend-row"
+              data-active={active === i}
+              data-dim={active !== null && active !== i}
               onClick={() => openCategory(e.category.id)}
               onMouseEnter={() => setActive(i)}
               onMouseLeave={() => setActive(null)}
-              style={{ display: "flex", alignItems: "center", gap: 6 }}
+              style={{ ["--c" as string]: `#${e.category.color_hex}` }}
             >
-              <span style={{ width: 8, height: 8, borderRadius: 2, background: `#${e.category.color_hex}` }} />
-              <span style={{ color: "var(--pf-ink-2)" }}>{e.category.name}</span>
+              <span className="pf-legend-swatch" />
+              <span style={{ flex: 1 }}>{e.category.name}</span>
+              <span className="pf-rounded" style={{ color: "var(--pf-ink-3)" }}>{share(e.spent)}%</span>
             </button>
           </li>
         ))}
       </ul>
-      <svg viewBox="0 0 180 180" width={180} height={180} role="img" aria-label="Spending by category" style={{ flex: "none", maxWidth: "55%" }}>
-        {arcs.map((a) => (
-          <path
-            role="button"
-            aria-label={`${entries[a.i].category.name}: ${money(entries[a.i].spent, currency)}`}
-            key={a.i}
-            d={a.d}
-            fill={a.color}
-            opacity={active === null || active === a.i ? 1 : 0.35}
-            style={{ cursor: "pointer", transition: "opacity .2s" }}
-            onMouseEnter={() => setActive(a.i)}
-            onMouseLeave={() => setActive(null)}
-            onClick={() => openCategory(entries[a.i].category.id)}
-          />
-        ))}
-        <text x={C} y={C - 4} textAnchor="middle" fill="var(--pf-ink-2)" fontSize="10">
-          {shown ? shown.category.name : "Spent"}
-        </text>
-        <text x={C} y={C + 13} textAnchor="middle" fill="var(--pf-ink)" fontSize="14" fontWeight="700" className="pf-rounded">
-          {money(shown ? shown.spent : total, currency, { compact: true })}
-        </text>
-      </svg>
+
+      <div style={{ position: "relative", width: 200, height: 200, flex: "none" }}>
+        <svg viewBox="0 0 200 200" width={200} height={200} role="img" aria-label="Spending by category" style={{ overflow: "visible" }} onMouseLeave={() => setActive(null)}>
+          {arcs.map((a) => {
+            const isActive = active === a.i;
+            return (
+              <g key={a.i} className="pf-slice-in" style={{ animationDelay: `${a.i * 60}ms` }}>
+                <path
+                  role="button"
+                  aria-label={`${entries[a.i].category.name}: ${money(entries[a.i].spent, currency)}, ${share(entries[a.i].spent)}%`}
+                  d={a.d}
+                  fill={a.color}
+                  className="pf-slice"
+                  style={{
+                    transform: isActive ? `translate(${a.dx}px, ${a.dy}px) scale(1.04)` : active !== null ? "scale(0.98)" : undefined,
+                    opacity: active === null || isActive ? 1 : 0.3,
+                    filter: isActive ? `drop-shadow(0 0 10px ${a.color})` : undefined,
+                  }}
+                  onMouseEnter={() => setActive(a.i)}
+                  onClick={() => openCategory(entries[a.i].category.id)}
+                />
+              </g>
+            );
+          })}
+        </svg>
+
+        {/* Centre label in HTML so it can cross-fade; keyed to replay on change. */}
+        <div key={active ?? -1} className="pf-donut-centre" aria-hidden>
+          <span style={{ fontSize: "0.68rem", color: shown ? `#${shown.category.color_hex}` : "var(--pf-ink-2)", fontWeight: 600 }}>
+            {shown ? shown.category.name : "Spent"}
+          </span>
+          <span className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700 }}>
+            {money(shown ? shown.spent : total, currency)}
+          </span>
+          <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>
+            {shown ? `${share(shown.spent)}% of spending` : `${entries.length} categories`}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

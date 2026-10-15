@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { money } from "@/lib/finance/format";
+import LiveAmount from "./LiveAmount";
 
 // The iOS NetWorthTicker: a live figure that creeps forward at the user's
 // recent monthly pace (income − expenses), plus This Day / Month / Year
-// deltas. The spinning thousandths are purely visual, as on iOS.
+// deltas. The small trailing digits are the real fractions of a cent.
 
 export default function NetWorthCard({
   base,
@@ -34,7 +35,6 @@ export default function NetWorthCard({
   const live = base + (now - startOfMonth) * perMs;
   const dayDelta = (now - startOfDay) * perMs;
   const up = monthlyPace >= 0;
-  const micro = String(Math.floor((now / 7) % 1000)).padStart(3, "0");
 
   return (
     <section
@@ -49,10 +49,7 @@ export default function NetWorthCard({
         <span className="pf-pulse" /> NET WORTH · LIVE
       </div>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 4, flexWrap: "wrap", marginTop: 4 }}>
-        <span className="pf-rounded" style={{ display: "inline-flex", alignItems: "baseline", gap: 1 }}>
-          <span style={{ fontSize: "2.25rem", fontWeight: 700, lineHeight: 1.15 }}>{money(live, currency)}</span>
-          <span style={{ fontSize: "0.9rem", fontWeight: 600, color: "var(--pf-ink-2)" }}>.{micro}</span>
-        </span>
+        <LiveAmount value={live} currency={currency} size="2.25rem" />
         {up ? (
           <ArrowUpRight size={16} strokeWidth={3} color="var(--pf-green)" style={{ marginTop: 8 }} />
         ) : (

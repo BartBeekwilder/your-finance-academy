@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { money } from "@/lib/finance/format";
+import LiveAmount from "./LiveAmount";
 
 // The iOS Dashboard's Spent / Income / Balance group (LiveSpentTile,
 // LiveAccrualTile, LiveBalanceTile). Each figure ticks once a second as the
@@ -33,7 +34,8 @@ export default function LiveTiles({
 }) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
-    const t = setInterval(() => setNow(Date.now()), 1000);
+    // 80 ms, like the net worth ticker, so the sub-cent digits visibly stream.
+    const t = setInterval(() => setNow(Date.now()), 80);
     return () => clearInterval(t);
   }, []);
 
@@ -51,7 +53,7 @@ export default function LiveTiles({
   const month = monthStart.toLocaleDateString("en-GB", { month: "long" });
 
   return (
-    <div className="pf-card" style={{ overflow: "hidden" }}>
+    <div className="pf-card" style={{ overflow: "hidden", display: "grid", gridTemplateRows: "repeat(3, 1fr)" }}>
       <Tile title="Income" value={liveIncome} color={GREEN} currency={currency}>
         <Sub label="Entered so far" value={enteredIncome} color={GREEN} currency={currency} />
         <Sub label="≈" value={monthlyIncome / days} suffix="/ day net" color={GREEN} currency={currency} />
@@ -98,9 +100,14 @@ function Tile({ title, value, color, currency, last, children }: {
   title: string; value: number; color: string; currency: string; last?: boolean; children?: React.ReactNode;
 }) {
   return (
-    <div style={{ padding: "12px 14px", borderBottom: last ? 0 : "1px solid var(--pf-line)", display: "grid", gap: 4 }}>
-      <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{title}</div>
-      <div className="pf-rounded" style={{ fontSize: "1.45rem", fontWeight: 700, color }}>{money(value, currency)}</div>
+    <div style={{ padding: "12px 14px", borderBottom: last ? 0 : "1px solid var(--pf-line)", display: "grid", gap: 4, alignContent: "center" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
+        <span className="pf-pulse" style={{ background: color, ["--pf-pulse-color" as string]: color }} />
+        {title}
+      </div>
+      <div>
+        <LiveAmount value={value} currency={currency} size="1.45rem" color={color} />
+      </div>
       {children}
     </div>
   );

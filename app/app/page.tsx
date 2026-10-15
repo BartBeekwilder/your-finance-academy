@@ -7,6 +7,7 @@ import { CategoryDonut, IncomeExpenseBars, TrendLine } from "@/components/financ
 import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import NetWorthCard from "@/components/finance/NetWorthCard";
+import YearLines from "@/components/finance/YearLines";
 import { investedIn, last12Months, live, num, projectedNetIncome, spendByCategory, summarize } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
@@ -37,7 +38,8 @@ export default function DashboardPage() {
 
       <NetWorthCard base={accounts + holdings} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} currency={currency} />
 
-      <section style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "center" }}>
+      {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}
+      <section style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "stretch" }}>
         <LiveTiles
           monthStart={month}
           monthlyIncome={projectedNetIncome(data, month)}
@@ -46,7 +48,10 @@ export default function DashboardPage() {
           variable={s.variable}
           currency={currency}
         />
-        <CategoryDonut entries={byCategory} currency={currency} />
+        <div style={{ display: "grid", gap: 12, gridTemplateRows: "auto 1fr" }}>
+          <YearLines transactions={data.transactions} now={now} currency={currency} monthlyIncome={projectedNetIncome(data, month)} />
+          <CategoryDonut entries={byCategory} currency={currency} />
+        </div>
       </section>
 
       {byCategory.length > 0 && (
