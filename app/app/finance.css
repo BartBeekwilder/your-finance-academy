@@ -1000,3 +1000,12 @@
     pf-dot-pulse 1.4s ease-out 1.5s infinite;
   transition: left 0.9s linear, top 0.9s linear;
 }
+/* Fixed costs: budget not needed at all this month (paid less than budget). */
+.pf-bbar-under {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(48, 209, 88, 0.18);
+  animation: pf-fade-in 0.4s ease-out 0.7s both;
+}

@@ -15,7 +15,8 @@ import { money } from "@/lib/finance/format";
  *    much has been *used* so far, i.e. what was paid spread evenly over the
  *    month (≈ 50% on the 15th, ticking live, same rule as the Spent tile).
  *    The rest of what's been paid shows as a translucent "paid, not yet
- *    used" segment.
+ *    used" segment, and budget that wasn't paid at all as a faint green
+ *    "under budget" end.
  *  Bars grow in from the left on first paint. Styles: .pf-bbar* in CSS. */
 export default function BudgetBar({
   spent,
@@ -60,6 +61,10 @@ export default function BudgetBar({
       style={{ ["--c" as string]: color }}
     >
       {fixed && paid > fill && <span className="pf-bbar-paid" style={{ width: `${paid * 100}%` }} title={`${money(spent, currency)} paid`} />}
+      {fixed && !over && spent < budget && (
+        // The part of the budget that wasn't needed at all this month.
+        <span className="pf-bbar-under" style={{ left: `${paid * 100}%` }} title={`${money(budget - spent, currency)} under budget`} />
+      )}
       <span className="pf-bbar-fill" style={{ width: `${fill * 100}%` }} />
       {over && <span className="pf-bbar-over" style={{ left: `${limit * 100}%`, width: `${(1 - limit) * 100}%` }} />}
       {over && <span className="pf-bbar-limit" style={{ left: `${limit * 100}%` }} title={`Budget ${money(budget, currency)}`} />}
