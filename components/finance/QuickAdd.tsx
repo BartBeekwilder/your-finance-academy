@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { Plus, X } from "lucide-react";
 import { live } from "@/lib/finance/calc";
 import type { TransactionType } from "@/lib/finance/types";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
+import Sheet from "./Sheet";
 
 // Web counterpart of the iOS QuickAddButton + AddEditTransactionView: the
 // gradient "+" opens a sheet to log an expense or income. Category choice
@@ -19,27 +20,15 @@ function todayLocal() {
 export default function QuickAdd() {
   const { data, addTransaction } = useFinance();
   const [open, setOpen] = useState(false);
-  const dialog = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const d = dialog.current;
-    if (!d) return;
-    if (open && !d.open) {
-      d.showModal();
-      // showModal() focuses the first button (Close); start on the amount instead.
-      d.querySelector<HTMLInputElement>("input[inputmode=decimal]")?.focus();
-    }
-    if (!open && d.open) d.close();
-  }, [open]);
 
   return (
     <>
       <button className="pf-fab pf-bouncy" aria-label="Quick Add" onClick={() => setOpen(true)}>
         <Plus size={22} strokeWidth={3} />
       </button>
-      <dialog ref={dialog} className="pf-sheet" onClose={() => setOpen(false)} onClick={(e) => e.target === e.currentTarget && setOpen(false)}>
-        {open && <Form categories={live(data.categories)} onDone={() => setOpen(false)} add={addTransaction} />}
-      </dialog>
+      <Sheet open={open} onClose={() => setOpen(false)} focus="input[inputmode=decimal]" label="Quick Add">
+        <Form categories={live(data.categories)} onDone={() => setOpen(false)} add={addTransaction} />
+      </Sheet>
     </>
   );
 }

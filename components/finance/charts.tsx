@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useCategoryDetail } from "./CategoryDetail";
 import { money, shortMonth } from "@/lib/finance/format";
 import type { CategorySpend, MonthPoint } from "@/lib/finance/calc";
 
 /** Donut of this month's spend per category — the iOS CategoryDonutChart. */
 export function CategoryDonut({ entries, currency }: { entries: CategorySpend[]; currency: string }) {
   const [active, setActive] = useState<number | null>(null);
+  const openCategory = useCategoryDetail();
   const total = entries.reduce((s, e) => s + e.spent, 0);
   const R = 70, r = 46, C = 90;
   // Start angle of each slice = sum of the sweeps before it.
@@ -27,15 +29,25 @@ export function CategoryDonut({ entries, currency }: { entries: CategorySpend[];
     <div className="pf-card" style={{ padding: 16, display: "flex", gap: 16, alignItems: "center", justifyContent: "space-around" }}>
       <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 4, fontSize: "0.72rem", flex: "none" }}>
         {entries.slice(0, 8).map((e, i) => (
-          <li key={e.category.id} style={{ display: "flex", alignItems: "center", gap: 6, opacity: active === null || active === i ? 1 : 0.45 }}>
-            <span style={{ width: 8, height: 8, borderRadius: 2, background: `#${e.category.color_hex}` }} />
-            <span style={{ color: "var(--pf-ink-2)" }}>{e.category.name}</span>
+          <li key={e.category.id} style={{ opacity: active === null || active === i ? 1 : 0.45 }}>
+            <button
+              className="pf-tap"
+              onClick={() => openCategory(e.category.id)}
+              onMouseEnter={() => setActive(i)}
+              onMouseLeave={() => setActive(null)}
+              style={{ display: "flex", alignItems: "center", gap: 6 }}
+            >
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: `#${e.category.color_hex}` }} />
+              <span style={{ color: "var(--pf-ink-2)" }}>{e.category.name}</span>
+            </button>
           </li>
         ))}
       </ul>
       <svg viewBox="0 0 180 180" width={180} height={180} role="img" aria-label="Spending by category" style={{ flex: "none", maxWidth: "55%" }}>
         {arcs.map((a) => (
           <path
+            role="button"
+            aria-label={`${entries[a.i].category.name}: ${money(entries[a.i].spent, currency)}`}
             key={a.i}
             d={a.d}
             fill={a.color}
@@ -43,7 +55,7 @@ export function CategoryDonut({ entries, currency }: { entries: CategorySpend[];
             style={{ cursor: "pointer", transition: "opacity .2s" }}
             onMouseEnter={() => setActive(a.i)}
             onMouseLeave={() => setActive(null)}
-            onClick={() => setActive(active === a.i ? null : a.i)}
+            onClick={() => openCategory(entries[a.i].category.id)}
           />
         ))}
         <text x={C} y={C - 4} textAnchor="middle" fill="var(--pf-ink-2)" fontSize="10">
@@ -73,7 +85,7 @@ export function IncomeExpenseBars({ points, currency }: { points: MonthPoint[]; 
             <span style={{ color: "var(--pf-orange)" }}>Exp {money(p.expense, currency)}</span>
           </>
         ) : (
-          "Tap a month for details"
+          "Hover or tap a month for details"
         )}
       </div>
       <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: H }}>

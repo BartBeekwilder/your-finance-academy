@@ -1,5 +1,6 @@
 "use client";
 
+import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { inMonth, live, monthKey, num, selfAndChildren } from "@/lib/finance/calc";
@@ -7,6 +8,7 @@ import { money, monthYear } from "@/lib/finance/format";
 
 export default function BudgetsPage() {
   const { data, now } = useFinance();
+  const openCategory = useCategoryDetail();
   const currency = data.profile.currency_code;
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const categories = live(data.categories);
@@ -46,7 +48,7 @@ export default function BudgetsPage() {
           {rows.map(({ c, spent, budget }) => {
             const over = budget !== null && spent > budget;
             return (
-              <div key={c.id} className="pf-row">
+              <button key={c.id} className="pf-row pf-tap" onClick={() => openCategory(c.id)} style={{ width: "100%" }}>
                 <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={32} />
                 <div style={{ flex: 1, display: "grid", gap: 6 }}>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -61,7 +63,7 @@ export default function BudgetsPage() {
                     </div>
                   )}
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>

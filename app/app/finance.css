@@ -346,6 +346,8 @@
 }
 
 .pf-sheet {
+  /* Tailwind's reset zeroes margins, which un-centers <dialog>; restore it. */
+  margin: auto;
   width: min(520px, calc(100vw - 32px));
   max-height: calc(100dvh - 48px);
   overflow: auto;
@@ -387,4 +389,29 @@
     max-width: none;
     border-radius: 18px 18px 0 0;
   }
+}
+
+/* Makes a <button> look like the card/row it wraps — tappable without
+   picking up browser button styling. */
+.pf-tap {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.pf-card.pf-tap {
+  background: var(--pf-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.pf-tap:hover {
+  filter: brightness(1.15);
+}
+.pf-row.pf-tap {
+  padding: 11px 16px;
+}
+.pf-row.pf-tap + .pf-row.pf-tap {
+  border-top: 1px solid var(--pf-line);
 }

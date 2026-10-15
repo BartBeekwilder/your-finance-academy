@@ -1,6 +1,7 @@
 "use client";
 
 import CategoryIcon from "@/components/finance/CategoryIcon";
+import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import { CategoryDonut, IncomeExpenseBars, TrendLine } from "@/components/finance/charts";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import NetWorthCard from "@/components/finance/NetWorthCard";
@@ -9,6 +10,7 @@ import { money, monthYear } from "@/lib/finance/format";
 
 export default function DashboardPage() {
   const { data, now } = useFinance();
+  const openCategory = useCategoryDetail();
   const currency = data.profile.currency_code;
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
@@ -57,7 +59,7 @@ export default function DashboardPage() {
               const pct = e.budget ? Math.min(1, e.spent / e.budget) : 0;
               const color = `#${e.category.color_hex}`;
               return (
-                <article key={e.category.id} className="pf-card pf-bouncy" style={{ padding: 14, display: "grid", gap: 10 }}>
+                <button key={e.category.id} className="pf-card pf-bouncy pf-tap" onClick={() => openCategory(e.category.id)} style={{ padding: 14, display: "grid", gap: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                     <CategoryIcon icon={e.category.icon} colorHex={e.category.color_hex} size={28} />
                     <strong style={{ fontSize: "0.95rem" }}>{e.category.name}</strong>
@@ -69,7 +71,7 @@ export default function DashboardPage() {
                       {Math.round(pct * 100)}% of {money(e.budget, currency)} budget
                     </div>
                   )}
-                </article>
+                </button>
               );
             })}
           </div>
@@ -95,7 +97,7 @@ export default function DashboardPage() {
         <div className="pf-card">
           {byCategory.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>No spending yet this month.</div>}
           {byCategory.map((e) => (
-            <div key={e.category.id} className="pf-row" style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "6px 12px" }}>
+            <button key={e.category.id} className="pf-row pf-tap" onClick={() => openCategory(e.category.id)} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "6px 12px", width: "100%" }}>
               <CategoryIcon icon={e.category.icon} colorHex={e.category.color_hex} size={30} />
               <div style={{ display: "grid", gap: 6 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.92rem" }}>
@@ -110,7 +112,7 @@ export default function DashboardPage() {
                   </div>
                 )}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
