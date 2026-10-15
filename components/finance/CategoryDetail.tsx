@@ -1,8 +1,8 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 import { X } from "lucide-react";
-import { live, monthKey, num, selfAndChildren } from "@/lib/finance/calc";
+import { categoryYear, live, monthKey, num, type CategoryMonth } from "@/lib/finance/calc";
 import { dayLabel, money, monthYear, shortMonth } from "@/lib/finance/format";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
@@ -37,29 +37,10 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
   const categories = live(data.categories);
   const category = categories.find((c) => c.id === categoryId);
 
-  const view = useMemo(() => {
+  // No useMemo: the React Compiler memoizes this, and a manual one trips its checks.
+  const view = (() => {
     if (!category) return null;
-    const ids = selfAndChildren(category, categories);
-    const expenses = live(data.transactions).filter((t) => t.type === "expense" && t.category_id && ids.has(t.category_id));
-    const year = now.getFullYear();
-    // A month's budget is its own row if there is one, else the latest
-    // earlier one (budgets carry forward), else the current month's.
-    const budgets = live(data.budgets)
-      .filter((b) => b.category_id === category.id)
-      .map((b) => ({ key: b.month.slice(0, 7), amount: num(b.amount) }))
-      .sort((a, b) => a.key.localeCompare(b.key));
-    const current = budgets.find((b) => b.key === monthKey(now));
-    const budgetFor = (key: string) =>
-      [...budgets].reverse().find((b) => b.key <= key)?.amount ?? current?.amount ?? budgets[0]?.amount ?? null;
-    const perMonth = Array.from({ length: 12 }, (_, m) => {
-      const key = monthKey(new Date(year, m, 1));
-      return {
-        month: new Date(year, m, 1),
-        total: expenses.filter((t) => monthKey(new Date(t.date)) === key).reduce((s, t) => s + num(t.amount), 0),
-        budget: budgetFor(key),
-        future: m > now.getMonth(),
-      };
-    });
+    const { months: perMonth, expenses } = categoryYear(data, category, now);
     const thisMonth = expenses
       .filter((t) => monthKey(new Date(t.date)) === monthKey(now))
       .sort((a, b) => b.date.localeCompare(a.date));
@@ -70,7 +51,7 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
       ytd: perMonth.reduce((s, p) => s + p.total, 0),
       budget: perMonth[now.getMonth()].budget,
     };
-  }, [category, categories, data.transactions, data.budgets, now]);
+  })();
 
   if (!category || !view) return null;
   const color = `#${category.color_hex}`;
@@ -132,7 +113,7 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
   );
 }
 
-type Point = { month: Date; total: number; budget: number | null; future: boolean };
+type Point = CategoryMonth;
 
 const RED = "#ff453a";
 

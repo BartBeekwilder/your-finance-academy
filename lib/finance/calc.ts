@@ -110,3 +110,33 @@ export function projectedNetIncome(data: FinanceData, month: Date) {
   if (data.profile.expected_net_monthly !== null) return num(data.profile.expected_net_monthly);
   return summarize(data.transactions, month).income;
 }
+
+export type CategoryMonth = { month: Date; total: number; budget: number | null; future: boolean };
+
+/** Jan–Dec of `now`'s year for one category (subcategories included): spend
+ *  per month and that month's budget. A month uses its own budget row, else
+ *  the latest earlier one (budgets carry forward), else the current month's.
+ *  Shared by the dashboard cards and the category sheet so they agree. */
+export function categoryYear(data: FinanceData, category: Category, now: Date) {
+  const ids = selfAndChildren(category, live(data.categories));
+  const expenses = live(data.transactions).filter((t) => t.type === "expense" && t.category_id && ids.has(t.category_id));
+  const budgets = live(data.budgets)
+    .filter((b) => b.category_id === category.id)
+    .map((b) => ({ key: b.month.slice(0, 7), amount: num(b.amount) }))
+    .sort((a, b) => a.key.localeCompare(b.key));
+  const current = budgets.find((b) => b.key === monthKey(now));
+  const budgetFor = (key: string) =>
+    [...budgets].reverse().find((b) => b.key <= key)?.amount ?? current?.amount ?? budgets[0]?.amount ?? null;
+
+  const totals = new Map<string, number>();
+  for (const t of expenses) {
+    const key = monthKey(new Date(t.date));
+    totals.set(key, (totals.get(key) ?? 0) + num(t.amount));
+  }
+  const year = now.getFullYear();
+  const months: CategoryMonth[] = Array.from({ length: 12 }, (_, m) => {
+    const key = monthKey(new Date(year, m, 1));
+    return { month: new Date(year, m, 1), total: totals.get(key) ?? 0, budget: budgetFor(key), future: m > now.getMonth() };
+  });
+  return { months, expenses };
+}

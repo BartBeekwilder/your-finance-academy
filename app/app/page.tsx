@@ -1,6 +1,7 @@
 "use client";
 
 import CategoryIcon from "@/components/finance/CategoryIcon";
+import CategoryCard from "@/components/finance/CategoryCard";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import { CategoryDonut, IncomeExpenseBars, TrendLine } from "@/components/finance/charts";
 import { useFinance } from "@/components/finance/FinanceProvider";
@@ -52,25 +53,9 @@ export default function DashboardPage() {
         <section>
           <h2 className="pf-section-title">Spending by Category</h2>
           <div className="pf-grid-auto">
-            {byCategory.map((e) => {
-              const pct = e.budget ? Math.min(1, e.spent / e.budget) : 0;
-              const color = `#${e.category.color_hex}`;
-              return (
-                <button key={e.category.id} className="pf-card pf-bouncy pf-tap" onClick={() => openCategory(e.category.id)} style={{ padding: 14, display: "grid", gap: 10 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <CategoryIcon icon={e.category.icon} colorHex={e.category.color_hex} size={28} />
-                    <strong style={{ fontSize: "0.95rem" }}>{e.category.name}</strong>
-                    <span className="pf-rounded" style={{ marginLeft: "auto", fontWeight: 700 }}>{money(e.spent, currency)}</span>
-                  </div>
-                  <CategorySparkBars data={data} categoryId={e.category.id} color={color} now={now} />
-                  {e.budget !== null && (
-                    <div style={{ fontSize: "0.7rem", color: e.isOverBudget ? "var(--pf-red)" : "var(--pf-ink-2)" }}>
-                      {Math.round(pct * 100)}% of {money(e.budget, currency)} budget
-                    </div>
-                  )}
-                </button>
-              );
-            })}
+            {byCategory.map((e) => (
+              <CategoryCard key={e.category.id} category={e.category} />
+            ))}
           </div>
         </section>
       )}
@@ -113,26 +98,6 @@ export default function DashboardPage() {
           ))}
         </div>
       </section>
-    </div>
-  );
-}
-
-function CategorySparkBars({ data, categoryId, color, now }: {
-  data: ReturnType<typeof useFinance>["data"]; categoryId: string; color: string; now: Date;
-}) {
-  const months = Array.from({ length: 6 }, (_, i) => new Date(now.getFullYear(), now.getMonth() - (5 - i), 1));
-  const values = months.map((m) =>
-    live(data.transactions)
-      .filter((t) => t.category_id === categoryId && t.type === "expense")
-      .filter((t) => { const d = new Date(t.date); return d.getFullYear() === m.getFullYear() && d.getMonth() === m.getMonth(); })
-      .reduce((s, t) => s + num(t.amount), 0),
-  );
-  const max = Math.max(1, ...values);
-  return (
-    <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 44 }} aria-hidden>
-      {values.map((v, i) => (
-        <span key={i} style={{ flex: 1, height: `${Math.max(4, (v / max) * 100)}%`, background: color, opacity: i === values.length - 1 ? 1 : 0.45, borderRadius: 3 }} />
-      ))}
     </div>
   );
 }
