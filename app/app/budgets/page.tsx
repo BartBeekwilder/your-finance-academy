@@ -58,7 +58,7 @@ export default function BudgetsPage() {
                     </span>
                   </div>
                   {budget !== null ? (
-                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={c.is_fixed_expense ? undefined : monthProgress(now)} />
+                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={c.is_fixed_expense ? month : undefined} />
                   ) : (
                     <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(spent, currency)} spent</span>
                   )}

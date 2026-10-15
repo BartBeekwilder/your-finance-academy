@@ -98,7 +98,7 @@ export default function DashboardPage() {
                   {e.budget !== null && <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{money(e.budget, currency)} budget</span>}
                 </div>
                 {e.budget !== null ? (
-                  <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={e.category.is_fixed_expense ? undefined : monthProgress(now)} />
+                  <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={e.category.is_fixed_expense ? month : undefined} />
                 ) : (
                   <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(e.spent, currency)} spent · no budget</span>
                 )}
