@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { money } from "@/lib/finance/format";
+import type { FinanceData } from "@/lib/finance/types";
 import LiveAmount from "./LiveAmount";
+import TileSparkline from "./TileSparkline";
 
 // The iOS Dashboard's Spent / Income / Balance group (LiveSpentTile,
 // LiveAccrualTile, LiveBalanceTile). Each figure ticks once a second as the
@@ -11,13 +13,16 @@ import LiveAmount from "./LiveAmount";
 //   Income  = month's net income × fraction of month elapsed
 //   Spent   = fixed costs × fraction + variable spending in full
 //   Balance = live income − live spent
-// The real entered totals sit underneath as "Entered so far".
+// The real entered totals sit underneath as "Entered so far". Each tile has
+// a live sparkline of this month day by day (TileSparkline) ending at the
+// tile's number.
 
 const RED = "var(--pf-red)";
 const GREEN = "var(--pf-green)";
 const BLUE = "var(--pf-blue)";
 
 export default function LiveTiles({
+  data,
   monthStart,
   monthlyIncome,
   enteredIncome,
@@ -25,6 +30,7 @@ export default function LiveTiles({
   variable,
   currency,
 }: {
+  data: FinanceData;
   monthStart: Date;
   monthlyIncome: number;
   enteredIncome: number;
@@ -54,7 +60,7 @@ export default function LiveTiles({
 
   return (
     <div className="pf-card" style={{ overflow: "hidden", display: "grid", gridTemplateRows: "repeat(3, 1fr)" }}>
-      <Tile title="Income" value={liveIncome} color={GREEN} currency={currency}>
+      <Tile title="Income" value={liveIncome} color={GREEN} currency={currency} chart={<TileSparkline data={data} series="income" color="#30d158" />}>
         <Sub label="Entered so far" value={enteredIncome} color={GREEN} currency={currency} />
         <Sub label="≈" value={monthlyIncome / days} suffix="/ day net" color={GREEN} currency={currency} />
         <Bar
@@ -66,7 +72,7 @@ export default function LiveTiles({
         />
       </Tile>
 
-      <Tile title="Spent" value={liveSpent} color={RED} currency={currency}>
+      <Tile title="Spent" value={liveSpent} color={RED} currency={currency} chart={<TileSparkline data={data} series="spent" color="#ff453a" />}>
         <Sub label="Entered so far" value={spentTotal} color={RED} currency={currency} />
         <Sub label="≈" value={spentTotal / dayOfMonth} suffix="/ day" color={RED} currency={currency} />
         {spentTotal > 0 && (
@@ -80,7 +86,14 @@ export default function LiveTiles({
         )}
       </Tile>
 
-      <Tile title={`Balance ${month}`} value={liveBalance} color={balanceColor} currency={currency} last>
+      <Tile
+        title={`Balance ${month}`}
+        value={liveBalance}
+        color={balanceColor}
+        currency={currency}
+        last
+        chart={<TileSparkline data={data} series="balance" color={liveBalance >= 0 ? "#0a84ff" : "#ff453a"} />}
+      >
         {retained !== null && (
           <Bar
             label={`${retained}% of income retained`}
@@ -96,19 +109,20 @@ export default function LiveTiles({
   );
 }
 
-function Tile({ title, value, color, currency, last, children }: {
-  title: string; value: number; color: string; currency: string; last?: boolean; children?: React.ReactNode;
+function Tile({ title, value, color, currency, last, chart, children }: {
+  title: string; value: number; color: string; currency: string; last?: boolean; chart: React.ReactNode; children?: React.ReactNode;
 }) {
   return (
-    <div style={{ padding: "12px 14px", borderBottom: last ? 0 : "1px solid var(--pf-line)", display: "grid", gap: 4, alignContent: "center" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
+    <div className="pf-tile" style={{ borderBottom: last ? 0 : "1px solid var(--pf-line)", ["--tile" as string]: color }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: "0.78rem", color: "var(--pf-ink-2)" }}>
         <span className="pf-pulse" style={{ background: color, ["--pf-pulse-color" as string]: color }} />
         {title}
       </div>
       <div>
-        <LiveAmount value={value} currency={currency} size="1.45rem" color={color} />
+        <LiveAmount value={value} currency={currency} size="2rem" color={color} />
       </div>
-      {children}
+      {chart}
+      <div style={{ display: "grid", gap: 4 }}>{children}</div>
     </div>
   );
 }

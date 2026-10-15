@@ -44,6 +44,7 @@ export default function DashboardPage() {
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}
       <section style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "stretch" }}>
         <LiveTiles
+          data={data}
           monthStart={month}
           monthlyIncome={projectedNetIncome(data, month)}
           enteredIncome={s.income}

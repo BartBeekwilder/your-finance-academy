@@ -968,3 +968,35 @@
   /* Opacity only: a transform animation would override the positioning. */
   animation: pf-fade-in 0.4s ease-out 1.4s both;
 }
+
+/* Dashboard tiles with live sparklines (LiveTiles + TileSparkline) */
+.pf-tile {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  align-content: center;
+  padding: 14px 16px;
+  /* A whisper of the tile's colour from the left edge. */
+  background: radial-gradient(120% 90% at 0% 50%, color-mix(in srgb, var(--tile) 9%, transparent), transparent 60%);
+}
+@keyframes pf-tsl-reveal {
+  from { clip-path: inset(-10px 100% -10px 0); }
+  to { clip-path: inset(-10px 0 -10px 0); }
+}
+.pf-tsl-draw {
+  animation: pf-tsl-reveal 1.1s cubic-bezier(0.25, 0.8, 0.25, 1) 0.2s both;
+}
+.pf-tsl-now {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--dot);
+  border: 2px solid #1c1c1e;
+  box-shadow: 0 0 10px var(--dot);
+  animation:
+    pf-fade-in 0.3s ease-out 1.2s both,
+    pf-dot-pulse 1.4s ease-out 1.5s infinite;
+  transition: left 0.9s linear, top 0.9s linear;
+}
