@@ -8,15 +8,22 @@ import Segmented from "./Segmented";
 
 // Income vs Spent as two lines, with a Month / Year toggle:
 //   Year  — one point per month, Jan–Dec. The current month is live (same
-//           figures as the dashboard tiles) and drawn dashed.
-//   Month — running totals day by day through this month, ending at "now",
-//           so the last point equals the tiles exactly.
-// Switching redraws the lines left-to-right and the axis counts to its new
-// scale. Hover (or drag on touch) to read any point.
+//           figures as the dashboard tiles); its segment is dashed.
+//   Month — running totals day by day through this month, ending at "now".
+//
+// Both views live on one time axis, measured in months (Jan = 0). In Year
+// view the current month is the dashed stretch from the previous month's
+// point to this month's point; Month view puts day d of this month at
+// (current − 1) + d / days, i.e. *inside* that stretch. Switching animates
+// a camera: the visible x-range zooms (log-scale, so it feels like a map
+// zoom) between the whole year and that one stretch, the y-scale eases to
+// fit, the monthly lines fade out as the daily ones fade in, and the axis
+// labels ride along. Zooming out is the same motion in reverse.
 
 const GREEN = "#30d158";
 const RED = "#ff453a";
-type Point = { label: string; full: string; income: number; spent: number };
+const W = 480, H = 150, PAD = 6;
+type Pt = { t: number; income: number; spent: number; full: string };
 
 export default function YearLines({
   data,
@@ -41,69 +48,72 @@ export default function YearLines({
   const live = new Date(tick);
   const year = now.getFullYear();
   const current = now.getMonth();
+  const days = new Date(year, current + 1, 0).getDate();
+  const fraction = Math.min(Math.max((tick - new Date(year, current, 1).getTime()) / (days * 86_400_000), 0), 1);
 
-  // Points and how many slots the x-axis has (12 months, or days in month).
-  let points: Point[];
-  let slots: number;
-  if (mode === "year") {
-    const days = new Date(year, current + 1, 0).getDate();
-    const fraction = Math.min(Math.max((tick - new Date(year, current, 1).getTime()) / (days * 86_400_000), 0), 1);
-    points = Array.from({ length: current + 1 }, (_, m) => {
-      const d = new Date(year, m, 1);
-      const s = summarize(data.transactions, d);
-      const isNow = m === current;
-      return {
-        label: shortMonth(d).slice(0, 1),
-        full: `${monthYear(d)}${isNow ? " · live" : ""}`,
-        income: isNow ? monthlyIncome * fraction : s.income,
-        spent: isNow ? s.fixed * fraction + s.variable : s.spent,
-      };
-    });
-    slots = 12;
-  } else {
-    const mtd = monthToDate(data, live);
-    points = mtd.points.map((p) => ({
-      label: String(p.day),
-      full: p.day === live.getDate() ? `Today · live` : new Date(year, current, p.day).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }),
-      income: p.income,
-      spent: p.spent,
-    }));
-    slots = mtd.days;
-  }
+  // ---- Both series, on the shared month axis --------------------------------
+  const yearPts: Pt[] = Array.from({ length: current + 1 }, (_, m) => {
+    const d = new Date(year, m, 1);
+    const s = summarize(data.transactions, d);
+    const isNow = m === current;
+    return {
+      t: m,
+      full: `${monthYear(d)}${isNow ? " · live" : ""}`,
+      income: isNow ? monthlyIncome * fraction : s.income,
+      spent: isNow ? s.fixed * fraction + s.variable : s.spent,
+    };
+  });
+  const monthPts: Pt[] = monthToDate(data, live).points.map((p) => ({
+    t: current - 1 + p.day / days,
+    full:
+      p.day === live.getDate()
+        ? "Today · live"
+        : new Date(year, current, p.day).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }),
+    income: p.income,
+    spent: p.spent,
+  }));
 
-  const W = 480, H = 150, PAD = 6;
-  const max = useTweenNumber(niceMax(Math.max(1, ...points.flatMap((p) => [p.income, p.spent]))), 600);
-  const x = (i: number) => (slots === 1 ? 0 : (i / (slots - 1)) * W);
-  const y = (v: number) => H - PAD - (Math.min(v, max) / max) * (H - PAD * 2);
-  const path = (key: "income" | "spent", from: number, to: number) =>
-    points.slice(from, to + 1).map((p, i) => `${i ? "L" : "M"}${x(from + i)},${y(p[key])}`).join(" ");
-  // Year mode: last month is still running → dashed. Month mode: all solid.
-  const solidTo = mode === "year" ? points.length - 2 : points.length - 1;
+  // ---- Camera: 0 = whole year, 1 = this month --------------------------------
+  const z = useZoom(mode === "month" ? 1 : 0, 950);
+  const yearView = { left: 0, width: 11, max: niceMax(Math.max(1, ...yearPts.flatMap((p) => [p.income, p.spent]))) };
+  const monthView = { left: current - 1 + 1 / days, width: 1 - 1 / days, max: niceMax(Math.max(1, ...monthPts.flatMap((p) => [p.income, p.spent]))) };
+  // Keep the zoom anchored on this month: its centre slides from wherever it
+  // sits in the year to the middle of the chart while the range shrinks.
+  const anchor = current - 0.5 + 0.5 / days;
+  const anchorAt = lerp((anchor - yearView.left) / yearView.width, 0.5, z);
+  const width = yearView.width * Math.pow(monthView.width / yearView.width, z);
+  const left = anchor - anchorAt * width;
+  const max = Math.exp(lerp(Math.log(yearView.max), Math.log(monthView.max), z));
 
-  const last = points.length - 1;
+  const x = (t: number) => ((t - left) / width) * W;
+  const y = (v: number) => H - PAD - (v / max) * (H - PAD * 2);
+  const line = (pts: Pt[], key: "income" | "spent") => pts.map((p, i) => `${i ? "L" : "M"}${x(p.t)},${y(p[key])}`).join(" ");
+
+  const yearOpacity = 1 - smooth(z, 0.35, 0.85);
+  const monthOpacity = smooth(z, 0.15, 0.65);
+  const settled = z === 0 || z === 1;
+
+  // ---- Readout / hover (in whichever view is showing) ------------------------
+  const pts = mode === "year" ? yearPts : monthPts;
+  const last = pts.length - 1;
   const shown = sel !== null && sel <= last ? sel : last;
-  const p = points[shown];
+  const p = pts[shown];
   const pick = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (!settled) return;
     const r = e.currentTarget.getBoundingClientRect();
-    setSel(Math.max(0, Math.min(last, Math.round(((e.clientX - r.left) / r.width) * (slots - 1)))));
+    const t = left + ((e.clientX - r.left) / r.width) * width;
+    let best = 0;
+    pts.forEach((q, i) => {
+      if (Math.abs(q.t - t) < Math.abs(pts[best].t - t)) best = i;
+    });
+    setSel(best);
   };
 
-  // Redraw-from-the-left reveal, replayed whenever the mode changes.
-  const reveal = useRef<SVGAnimateElement>(null);
-  useEffect(() => {
-    reveal.current?.beginElement();
-  }, [mode]);
-
-  // x-axis labels: every month in Year mode; every ~5th day in Month mode.
-  const axis = Array.from({ length: slots }, (_, i) =>
-    mode === "year"
-      ? shortMonth(new Date(year, i, 1)).slice(0, 1)
-      : // Day 1, every 5th day, and the last day — skipping a 5th that would
-        // sit right next to the last one (e.g. 30 beside 31).
-        i === 0 || i === slots - 1 || ((i + 1) % 5 === 0 && i + 1 <= slots - 3)
-        ? String(i + 1)
-        : "",
-  );
+  // Axis labels for both views; each rides the camera and fades with its view.
+  const monthLabels = Array.from({ length: 12 }, (_, m) => ({ t: m, text: shortMonth(new Date(year, m, 1)).slice(0, 1), bold: m === current, dim: m > current }));
+  const dayLabels = Array.from({ length: days }, (_, i) => i + 1)
+    .filter((d) => d === 1 || d === days || (d % 5 === 0 && d <= days - 3))
+    .map((d) => ({ t: current - 1 + d / days, text: String(d), bold: d === live.getDate(), dim: d > live.getDate() }));
 
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 8 }}>
@@ -114,7 +124,10 @@ export default function YearLines({
         <Segmented
           label="Period"
           value={mode}
-          onChange={(m) => { setMode(m); setSel(null); }}
+          onChange={(m) => {
+            setMode(m);
+            setSel(null);
+          }}
           options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
         />
       </div>
@@ -130,36 +143,21 @@ export default function YearLines({
           <span>{money(max / 2, currency, { compact: true })}</span>
           <span>{money(0, currency, { compact: true })}</span>
         </div>
-        <div>
+        <div style={{ minWidth: 0 }}>
           <svg
             viewBox={`0 0 ${W} ${H}`}
             width="100%"
             height={H}
             preserveAspectRatio="none"
-            style={{ display: "block", touchAction: "none", cursor: "crosshair", overflow: "visible" }}
+            // Clip: while zoomed in, the rest of the year runs off the edges.
+            style={{ display: "block", touchAction: "none", cursor: "crosshair", overflow: "hidden" }}
             onPointerMove={pick}
             onPointerDown={pick}
             onPointerLeave={() => setSel(null)}
             role="img"
-            aria-label={mode === "year" ? `Income and spending per month in ${year}` : `Income and spending so far this month, day by day`}
+            aria-label={mode === "year" ? `Income and spending per month in ${year}` : "Income and spending so far this month, day by day"}
           >
             <defs>
-              <clipPath id="pf-yl-reveal">
-                <rect x={-10} y={-10} height={H + 20} width={W + 20}>
-                  <animate
-                    ref={reveal}
-                    attributeName="width"
-                    from="0"
-                    to={W + 20}
-                    dur="0.9s"
-                    begin="indefinite"
-                    fill="freeze"
-                    calcMode="spline"
-                    keyTimes="0;1"
-                    keySplines="0.25 0.8 0.25 1"
-                  />
-                </rect>
-              </clipPath>
               {(["income", "spent"] as const).map((key) => (
                 <linearGradient key={key} id={`pf-yl-${key}`} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0" stopColor={key === "income" ? GREEN : RED} stopOpacity="0.22" />
@@ -170,69 +168,92 @@ export default function YearLines({
             {[0, 0.5, 1].map((f) => (
               <line key={f} x1={0} x2={W} y1={y(max * f)} y2={y(max * f)} stroke="var(--pf-line)" vectorEffect="non-scaling-stroke" />
             ))}
-            <g clipPath="url(#pf-yl-reveal)">
+
+            {/* Daily view (fades in as we zoom in) */}
+            <g opacity={monthOpacity}>
+              {(["income", "spent"] as const).map((key) => (
+                <g key={key}>
+                  <path d={`${line(monthPts, key)} L${x(monthPts[monthPts.length - 1].t)},${H} L${x(monthPts[0].t)},${H} Z`} fill={`url(#pf-yl-${key})`} />
+                  <path d={line(monthPts, key)} fill="none" stroke={key === "income" ? GREEN : RED} strokeWidth={2.5} strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+                </g>
+              ))}
+            </g>
+
+            {/* Monthly view (fades out as we zoom in) */}
+            <g opacity={yearOpacity}>
               {(["income", "spent"] as const).map((key) => {
                 const c = key === "income" ? GREEN : RED;
                 return (
                   <g key={key}>
-                    {mode === "month" && (
-                      <path d={`${path(key, 0, last)} L${x(last)},${H} L0,${H} Z`} fill={`url(#pf-yl-${key})`} />
+                    {yearPts.length > 2 && (
+                      <path d={line(yearPts.slice(0, -1), key)} fill="none" stroke={c} strokeWidth={2.5} strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
                     )}
-                    {solidTo >= 1 && (
-                      <path d={path(key, 0, solidTo)} fill="none" stroke={c} strokeWidth={2.5} strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-                    )}
-                    {mode === "year" && last > 0 && (
-                      <path d={path(key, last - 1, last)} fill="none" stroke={c} strokeWidth={2.5} strokeDasharray="5 5" opacity={0.7} vectorEffect="non-scaling-stroke" />
+                    {yearPts.length > 1 && (
+                      <path d={line(yearPts.slice(-2), key)} fill="none" stroke={c} strokeWidth={2.5} strokeDasharray="5 5" opacity={0.7} vectorEffect="non-scaling-stroke" />
                     )}
                   </g>
                 );
               })}
             </g>
-            <line x1={x(shown)} x2={x(shown)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />
+
+            {settled && <line x1={x(p.t)} x2={x(p.t)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />}
           </svg>
+
           {/* Dots in HTML so they stay round despite the stretched SVG. */}
-          <div style={{ position: "relative", height: 0 }}>
-            {(["income", "spent"] as const).map((key) => (
-              <span
-                key={key}
-                className={shown === last ? "pf-live-dot" : undefined}
-                style={{
-                  position: "absolute",
-                  left: `${(slots === 1 ? 0 : shown / (slots - 1)) * 100}%`,
-                  top: y(p[key]) - H,
-                  width: 8,
-                  height: 8,
-                  marginLeft: -4,
-                  marginTop: -4,
-                  borderRadius: "50%",
-                  background: key === "income" ? GREEN : RED,
-                  border: "2px solid #1c1c1e",
-                  pointerEvents: "none",
-                  ["--dot" as string]: key === "income" ? GREEN : RED,
-                }}
-              />
-            ))}
-          </div>
-          <div key={mode} className="pf-labels-swap" style={{ position: "relative", height: 14, marginTop: 4 }}>
-            {axis.map((t, i) =>
-              t ? (
+          {settled && (
+            <div style={{ position: "relative", height: 0 }}>
+              {(["income", "spent"] as const).map((key) => (
                 <span
-                  key={i}
+                  key={key}
+                  className={shown === last ? "pf-live-dot" : undefined}
                   style={{
                     position: "absolute",
-                    left: `${(slots === 1 ? 0 : i / (slots - 1)) * 100}%`,
+                    left: `${(x(p.t) / W) * 100}%`,
+                    top: y(p[key]) - H,
+                    width: 8,
+                    height: 8,
+                    marginLeft: -4,
+                    marginTop: -4,
+                    borderRadius: "50%",
+                    background: key === "income" ? GREEN : RED,
+                    border: "2px solid #1c1c1e",
+                    pointerEvents: "none",
+                    ["--dot" as string]: key === "income" ? GREEN : RED,
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Clips labels that zoom past the ends, with 12px of slack each side
+              so the first and last labels aren't cut in half. */}
+          <div style={{ overflow: "hidden", margin: "4px -12px 0", padding: "0 12px" }}>
+          <div style={{ position: "relative", height: 14 }}>
+            {[
+              ...monthLabels.map((l) => ({ ...l, key: `m${l.t}`, opacity: yearOpacity })),
+              ...dayLabels.map((l) => ({ ...l, key: `d${l.text}`, opacity: monthOpacity })),
+            ].map((l) => {
+              const at = x(l.t) / W;
+              if (at < -0.05 || at > 1.05 || l.opacity < 0.01) return null;
+              return (
+                <span
+                  key={l.key}
+                  style={{
+                    position: "absolute",
+                    left: `${at * 100}%`,
                     transform: "translateX(-50%)",
                     fontSize: "0.56rem",
-                    color: i === shown ? "var(--pf-ink)" : "var(--pf-ink-3)",
-                    fontWeight: i === last ? 700 : 400,
-                    opacity: i > last ? 0.4 : 1,
-                    animationDelay: `${i * (mode === "year" ? 25 : 10)}ms`,
+                    color: l.bold ? "var(--pf-ink)" : "var(--pf-ink-3)",
+                    fontWeight: l.bold ? 700 : 400,
+                    opacity: l.opacity * (l.dim ? 0.4 : 1),
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  {t}
+                  {l.text}
                 </span>
-              ) : null,
-            )}
+              );
+            })}
+          </div>
           </div>
         </div>
       </div>
@@ -258,30 +279,41 @@ function Key({ color, label }: { color: string; label: string }) {
   );
 }
 
+const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+
+/** 0 below `a`, 1 above `b`, smooth in between. */
+function smooth(v: number, a: number, b: number) {
+  const k = Math.min(1, Math.max(0, (v - a) / (b - a)));
+  return k * k * (3 - 2 * k);
+}
+
 /** Round the axis top up to 1, 2 or 5 × a power of ten, so labels read cleanly. */
 function niceMax(v: number) {
   const p = 10 ** Math.floor(Math.log10(v));
   return ([1, 2, 5, 10].find((m) => m * p >= v) ?? 10) * p;
 }
 
-/** Eases a number toward `target` (used for the y-axis scale on mode switch). */
-function useTweenNumber(target: number, ms: number) {
-  const [value, setValue] = useState(target);
-  const from = useRef(target);
+/** Eases the camera between 0 (year) and 1 (month). Picks up from wherever
+ *  it is, so flipping the toggle mid-zoom reverses smoothly. */
+function useZoom(target: 0 | 1, ms: number) {
+  const [z, setZ] = useState<number>(target);
+  const from = useRef<number>(target);
   useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const start = performance.now();
     const begin = from.current;
+    const span = Math.abs(target - begin);
     let raf = 0;
     const step = (t: number) => {
-      const k = Math.min(1, (t - start) / ms);
-      const e = 1 - Math.pow(1 - k, 3);
-      const v = begin + (target - begin) * e;
+      const k = reduced || span === 0 ? 1 : Math.min(1, (t - start) / (ms * span));
+      const e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      const v = k >= 1 ? target : begin + (target - begin) * e;
       from.current = v;
-      setValue(v);
+      setZ(v);
       if (k < 1) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
   }, [target, ms]);
-  return value;
+  return z;
 }
