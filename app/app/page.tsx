@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import CategoryCard from "@/components/finance/CategoryCard";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
@@ -8,7 +9,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import NetWorthCard from "@/components/finance/NetWorthCard";
 import YearLines from "@/components/finance/YearLines";
-import { investedIn, last12Months, live, num, projectedNetIncome, spendByCategory, summarize } from "@/lib/finance/calc";
+import { investedIn, last12Months, live, num, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 export default function DashboardPage() {
@@ -50,7 +51,7 @@ export default function DashboardPage() {
         />
         <div style={{ display: "grid", gap: 12, gridTemplateRows: "auto 1fr" }}>
           <YearLines transactions={data.transactions} now={now} currency={currency} monthlyIncome={projectedNetIncome(data, month)} />
-          <CategoryDonut entries={byCategory} currency={currency} />
+          <CategoryDonut month={byCategory} year={spendByCategoryYear(data, now)} currency={currency} />
         </div>
       </section>
 
@@ -107,11 +108,31 @@ export default function DashboardPage() {
   );
 }
 
+/** Live clock: re-renders each second, and the colon blinks in step with
+ *  the real second (its animation is offset by the current millisecond). */
 function Clock() {
-  const { now } = useFinance();
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    // Start on the next whole second so the minute flips exactly on time.
+    let interval: ReturnType<typeof setInterval>;
+    const align = setTimeout(() => {
+      setNow(new Date());
+      interval = setInterval(() => setNow(new Date()), 1000);
+    }, 1000 - (Date.now() % 1000));
+    return () => {
+      clearTimeout(align);
+      clearInterval(interval);
+    };
+  }, []);
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
   return (
-    <span className="pf-rounded" style={{ fontSize: "1.1rem", color: "var(--pf-ink-2)" }}>
-      {now.toLocaleTimeString("nl-NL", { hour: "2-digit", minute: "2-digit" })}
-    </span>
+    <time className="pf-rounded pf-clock" dateTime={now.toISOString()} aria-label={`${hh}:${mm}`}>
+      {hh}
+      <span className="pf-clock-colon" style={{ animationDelay: `-${now.getMilliseconds()}ms` }} aria-hidden>
+        :
+      </span>
+      {mm}
+    </time>
   );
 }

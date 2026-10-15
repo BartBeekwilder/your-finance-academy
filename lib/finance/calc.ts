@@ -140,3 +140,19 @@ export function categoryYear(data: FinanceData, category: Category, now: Date) {
   });
   return { months, expenses };
 }
+
+/** Spend per top-level expense category from 1 January of `now`'s year up to
+ *  now (subcategories included), biggest first — the "This Year" donut. */
+export function spendByCategoryYear(data: FinanceData, now: Date): { category: Category; spent: number }[] {
+  const categories = live(data.categories);
+  const year = now.getFullYear();
+  const tx = live(data.transactions).filter((t) => t.type === "expense" && new Date(t.date).getFullYear() === year);
+  return categories
+    .filter((c) => !c.is_income_category && c.parent_id === null)
+    .map((category) => {
+      const ids = selfAndChildren(category, categories);
+      return { category, spent: tx.filter((t) => t.category_id && ids.has(t.category_id)).reduce((s, t) => s + num(t.amount), 0) };
+    })
+    .filter((e) => e.spent > 0)
+    .sort((a, b) => b.spent - a.spent);
+}
