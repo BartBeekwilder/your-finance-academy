@@ -20,6 +20,9 @@
 
   position: relative;
   min-height: 100dvh;
+  /* The site's <body> is a viewport-high flex column; without this the app
+     shrinks to one screen and the academy background shows below it. */
+  flex-shrink: 0;
   background: var(--pf-bg);
   color: var(--pf-ink);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
