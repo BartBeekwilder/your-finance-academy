@@ -35,7 +35,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <LockGate>{children}</LockGate>
+        {/* The vault gate only hides the deployed preview; skip it on `npm run dev`. */}
+        {process.env.NODE_ENV === "development" ? children : <LockGate>{children}</LockGate>}
       </body>
     </html>
   );
