@@ -306,30 +306,6 @@
   cursor: pointer;
 }
 
-.pf-segment {
-  flex: 1;
-  border: 0;
-  border-radius: 7px;
-  padding: 7px 14px;
-  font: inherit;
-  font-size: 0.9rem;
-  color: inherit;
-  background: transparent;
-  cursor: pointer;
-}
-.pf-segment {
-  transition: background 0.2s, color 0.2s;
-}
-.pf-segment[aria-selected="true"] {
-  /* iOS segmented-control thumb: lighter than any card it sits on. */
-  background: rgba(118, 118, 128, 0.42);
-  color: var(--pf-ink);
-  font-weight: 600;
-}
-.pf-segment[aria-selected="false"] {
-  color: var(--pf-ink-2);
-}
-
 .pf-chip {
   display: inline-flex;
   align-items: center;
@@ -819,4 +795,75 @@
 }
 .pf-live-dot {
   animation: pf-dot-pulse 1.4s ease-out infinite;
+}
+
+/* Budget bars with the numbers inside (components/finance/BudgetBar.tsx) */
+@keyframes pf-bbar-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes pf-bbar-stripes {
+  to { background-position: 28px 0; }
+}
+.pf-bbar {
+  position: relative;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(118, 118, 128, 0.2);
+  overflow: hidden;
+}
+.pf-bbar-fill,
+.pf-bbar-over {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform-origin: left;
+  animation: pf-bbar-grow 0.8s cubic-bezier(0.25, 0.9, 0.3, 1) both;
+}
+.pf-bbar-fill {
+  left: 0;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 70%, #000), var(--c));
+}
+.pf-bbar-over {
+  background:
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.16) 0 7px, transparent 7px 14px),
+    linear-gradient(90deg, #ff453a, #ff6b5f);
+  box-shadow: 0 0 14px rgba(255, 69, 58, 0.55);
+  /* Grows after the in-budget part, then the stripes keep marching. */
+  animation:
+    pf-bbar-grow 0.5s cubic-bezier(0.25, 0.9, 0.3, 1) 0.6s both,
+    pf-bbar-stripes 1.2s linear infinite;
+}
+.pf-bbar-limit {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  margin-left: -1px;
+  background: #fff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+.pf-bbar-pace {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  border-left: 1.5px dashed rgba(255, 255, 255, 0.45);
+}
+.pf-bbar-pace[data-ahead="true"] {
+  border-left-color: rgba(255, 159, 10, 0.9);
+}
+.pf-bbar-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  pointer-events: none;
 }

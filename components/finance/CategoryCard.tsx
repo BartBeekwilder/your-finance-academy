@@ -30,7 +30,7 @@ export default function CategoryCard({ category }: { category: Category }) {
   const shownOver = shown.budget !== null && shown.total > shown.budget;
 
   return (
-    <button className="pf-card pf-bouncy pf-tap" onClick={() => openCategory(category.id)} style={{ padding: 14, display: "grid", gap: 10 }}>
+    <button className="pf-card pf-bouncy pf-tap" onClick={(e) => openCategory(category.id, e.currentTarget)} style={{ padding: 14, display: "grid", gap: 10 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <CategoryIcon icon={category.icon} colorHex={category.color_hex} size={28} />
         <strong style={{ fontSize: "0.95rem", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>

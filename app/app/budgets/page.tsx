@@ -1,9 +1,10 @@
 "use client";
 
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
+import BudgetBar from "@/components/finance/BudgetBar";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
-import { inMonth, live, monthKey, num, selfAndChildren } from "@/lib/finance/calc";
+import { inMonth, live, monthKey, monthProgress, num, selfAndChildren } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 export default function BudgetsPage() {
@@ -46,21 +47,20 @@ export default function BudgetsPage() {
         <h2 className="pf-section-title">Monthly limits</h2>
         <div className="pf-card">
           {rows.map(({ c, spent, budget }) => {
-            const over = budget !== null && spent > budget;
             return (
-              <button key={c.id} className="pf-row pf-tap" onClick={() => openCategory(c.id)} style={{ width: "100%" }}>
+              <button key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
                 <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={32} />
                 <div style={{ flex: 1, display: "grid", gap: 6 }}>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span>{c.name}</span>
-                    <span className="pf-rounded" style={{ color: over ? "var(--pf-red)" : "var(--pf-ink-2)" }}>
-                      {budget === null ? "No budget" : `${money(budget - spent, currency)} left`}
+                    <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>
+                      {budget === null ? "No budget" : `${money(budget, currency)} budget`}
                     </span>
                   </div>
-                  {budget !== null && (
-                    <div className="pf-progress">
-                      <span style={{ width: `${Math.min(100, (spent / budget) * 100)}%`, background: over ? "var(--pf-red)" : `#${c.color_hex}` }} />
-                    </div>
+                  {budget !== null ? (
+                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={c.is_fixed_expense ? undefined : monthProgress(now)} />
+                  ) : (
+                    <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(spent, currency)} spent</span>
                   )}
                 </div>
               </button>

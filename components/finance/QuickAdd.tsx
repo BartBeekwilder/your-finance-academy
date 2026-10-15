@@ -6,6 +6,7 @@ import { live } from "@/lib/finance/calc";
 import type { TransactionType } from "@/lib/finance/types";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
+import Segmented from "./Segmented";
 import Sheet from "./Sheet";
 
 // Web counterpart of the iOS QuickAddButton + AddEditTransactionView: the
@@ -20,14 +21,26 @@ function todayLocal() {
 export default function QuickAdd() {
   const { data, addTransaction } = useFinance();
   const [open, setOpen] = useState(false);
+  // New key per opening, so the form starts empty every time (the sheet
+  // keeps its content mounted for the closing animation).
+  const [session, setSession] = useState(0);
+  const [from, setFrom] = useState<Element | null>(null);
 
   return (
     <>
-      <button className="pf-fab pf-bouncy" aria-label="Quick Add" onClick={() => setOpen(true)}>
+      <button
+        className="pf-fab pf-bouncy"
+        aria-label="Quick Add"
+        onClick={(e) => {
+          setFrom(e.currentTarget);
+          setSession((n) => n + 1);
+          setOpen(true);
+        }}
+      >
         <Plus size={22} strokeWidth={3} />
       </button>
-      <Sheet open={open} onClose={() => setOpen(false)} focus="input[inputmode=decimal]" label="Quick Add">
-        <Form categories={live(data.categories)} onDone={() => setOpen(false)} add={addTransaction} />
+      <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label="Quick Add">
+        <Form key={session} categories={live(data.categories)} onDone={() => setOpen(false)} add={addTransaction} />
       </Sheet>
     </>
   );
@@ -93,20 +106,13 @@ function Form({
         <button type="button" className="pf-icon-button" aria-label="Close" onClick={onDone}><X size={18} /></button>
       </div>
 
-      <div className="pf-card" role="tablist" style={{ display: "flex", padding: 2, borderRadius: 9 }}>
-        {(["expense", "income"] as const).map((t) => (
-          <button
-            key={t}
-            type="button"
-            role="tab"
-            aria-selected={type === t}
-            onClick={() => { setType(t); setCategoryId(null); }}
-            className="pf-segment"
-          >
-            {t === "expense" ? "Expense" : "Income"}
-          </button>
-        ))}
-      </div>
+      <Segmented
+        wide
+        label="Type"
+        value={type}
+        onChange={(t) => { setType(t); setCategoryId(null); }}
+        options={[{ value: "expense", label: "Expense" }, { value: "income", label: "Income" }]}
+      />
 
       <input
         className="pf-input pf-rounded"

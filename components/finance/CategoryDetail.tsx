@@ -12,20 +12,25 @@ import Sheet from "./Sheet";
 // slice or budget row to see that category's month total and budget status,
 // year-to-date running total, spend per month, and the month's transactions.
 
-const Ctx = createContext<(categoryId: string) => void>(() => {});
+type Open = (categoryId: string, from?: Element | null) => void;
+const Ctx = createContext<Open>(() => {});
 
-/** Returns a function that opens the detail sheet for a category id. */
+/** Returns a function that opens the detail sheet for a category id. Pass
+ *  the clicked element as `from` and the sheet grows out of it. */
 export const useCategoryDetail = () => useContext(Ctx);
 
 export function CategoryDetailProvider({ children }: { children: ReactNode }) {
-  const [categoryId, setCategoryId] = useState<string | null>(null);
-  const open = useCallback((id: string) => setCategoryId(id), []);
+  // The category stays set after closing so the sheet keeps its content
+  // while it shrinks back into the element it came from.
+  const [state, setState] = useState<{ id: string | null; open: boolean; from: Element | null }>({ id: null, open: false, from: null });
+  const open = useCallback<Open>((id, from = null) => setState({ id, open: true, from }), []);
+  const close = useCallback(() => setState((s) => ({ ...s, open: false })), []);
 
   return (
     <Ctx.Provider value={open}>
       {children}
-      <Sheet open={categoryId !== null} onClose={() => setCategoryId(null)} label="Category details">
-        {categoryId && <Detail categoryId={categoryId} onClose={() => setCategoryId(null)} />}
+      <Sheet open={state.open} onClose={close} origin={state.from} label="Category details">
+        {state.id && <Detail key={state.id} categoryId={state.id} onClose={close} />}
       </Sheet>
     </Ctx.Provider>
   );

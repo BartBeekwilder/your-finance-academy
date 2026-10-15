@@ -12,11 +12,14 @@ export default function Segmented<T extends string>({
   value,
   onChange,
   label,
+  wide,
 }: {
   options: { value: T; label: string }[];
   value: T;
   onChange: (v: T) => void;
   label: string;
+  /** Stretch to the container's width (e.g. inside a sheet). */
+  wide?: boolean;
 }) {
   const index = Math.max(0, options.findIndex((o) => o.value === value));
   // Direction of the last move decides which edge leads.
@@ -32,7 +35,7 @@ export default function Segmented<T extends string>({
   };
 
   return (
-    <div role="tablist" aria-label={label} className="pf-seg" style={{ gridTemplateColumns: `repeat(${n}, 1fr)` }}>
+    <div role="tablist" aria-label={label} className="pf-seg" style={{ gridTemplateColumns: `repeat(${n}, 1fr)`, width: wide ? "100%" : undefined }}>
       <span
         className="pf-seg-thumb"
         data-dir={dir}
@@ -43,7 +46,7 @@ export default function Segmented<T extends string>({
         {moves > 0 && <span key={moves} className="pf-seg-glint" />}
       </span>
       {options.map((o, i) => (
-        <button key={o.value} role="tab" aria-selected={i === index} className="pf-seg-option" onClick={() => pick(i)}>
+        <button key={o.value} type="button" role="tab" aria-selected={i === index} className="pf-seg-option" onClick={() => pick(i)}>
           {o.label}
         </button>
       ))}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import BudgetBar from "@/components/finance/BudgetBar";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import { CategoryDonut, IncomeExpenseBars, TrendLine } from "@/components/finance/charts";
@@ -9,7 +10,7 @@ import LiveTiles from "@/components/finance/LiveTiles";
 import NetWorthCard from "@/components/finance/NetWorthCard";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
 import YearLines from "@/components/finance/YearLines";
-import { investedIn, last12Months, live, num, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
+import { investedIn, last12Months, live, monthProgress, num, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 export default function DashboardPage() {
@@ -89,19 +90,17 @@ export default function DashboardPage() {
         <div className="pf-card">
           {byCategory.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>No spending yet this month.</div>}
           {byCategory.map((e) => (
-            <button key={e.category.id} className="pf-row pf-tap" onClick={() => openCategory(e.category.id)} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "6px 12px", width: "100%" }}>
+            <button key={e.category.id} className="pf-row pf-tap" onClick={(ev) => openCategory(e.category.id, ev.currentTarget)} style={{ display: "grid", gridTemplateColumns: "auto 1fr", alignItems: "center", gap: "6px 12px", width: "100%" }}>
               <CategoryIcon icon={e.category.icon} colorHex={e.category.color_hex} size={30} />
               <div style={{ display: "grid", gap: 6 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.92rem" }}>
                   <span>{e.category.name}</span>
-                  <span className="pf-rounded" style={{ color: e.isOverBudget ? "var(--pf-red)" : "var(--pf-ink-2)" }}>
-                    {money(e.spent, currency)}{e.budget !== null && ` / ${money(e.budget, currency)}`}
-                  </span>
+                  {e.budget !== null && <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{money(e.budget, currency)} budget</span>}
                 </div>
-                {e.budget !== null && (
-                  <div className="pf-progress">
-                    <span style={{ width: `${Math.min(100, (e.spent / e.budget) * 100)}%`, background: e.isOverBudget ? "var(--pf-red)" : `#${e.category.color_hex}` }} />
-                  </div>
+                {e.budget !== null ? (
+                  <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={e.category.is_fixed_expense ? undefined : monthProgress(now)} />
+                ) : (
+                  <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(e.spent, currency)} spent · no budget</span>
                 )}
               </div>
             </button>

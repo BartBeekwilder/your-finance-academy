@@ -84,7 +84,7 @@ export function CategoryDonut({ months, years, currency, now }: {
                 className="pf-tap pf-legend-row"
                 data-active={active === i}
                 data-dim={active !== null && active !== i}
-                onClick={() => openCategory(c.id)}
+                onClick={(e) => openCategory(c.id, e.currentTarget)}
                 onMouseEnter={() => setActive(i)}
                 onMouseLeave={() => setActive(null)}
                 style={{ ["--c" as string]: `#${c.color_hex}` }}
@@ -114,7 +114,7 @@ export function CategoryDonut({ months, years, currency, now }: {
                       filter: active === a.i ? `drop-shadow(0 0 10px ${a.color})` : undefined,
                     }}
                     onMouseEnter={() => setActive(a.i)}
-                    onClick={() => openCategory(order[a.i].id)}
+                    onClick={(e) => openCategory(order[a.i].id, e.currentTarget)}
                   />
                 </g>
               ) : null,

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Trash2 } from "lucide-react";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
+import Segmented from "@/components/finance/Segmented";
 import { live, num } from "@/lib/finance/calc";
 import { dayLabel, money } from "@/lib/finance/format";
 
@@ -45,22 +46,12 @@ export default function TransactionsPage() {
           className="pf-card"
           style={{ flex: "1 1 240px", padding: "9px 14px", color: "inherit", font: "inherit", outline: "none" }}
         />
-        <div className="pf-card" role="tablist" style={{ display: "flex", padding: 2, borderRadius: 9 }}>
-          {(["all", "expense", "income"] as const).map((f) => (
-            <button
-              key={f}
-              role="tab"
-              aria-selected={filter === f}
-              onClick={() => setFilter(f)}
-              style={{
-                border: 0, borderRadius: 7, padding: "6px 14px", font: "inherit", fontSize: "0.85rem", cursor: "pointer",
-                color: "inherit", background: filter === f ? "var(--pf-card-2)" : "transparent",
-              }}
-            >
-              {f === "all" ? "All" : f === "expense" ? "Expenses" : "Income"}
-            </button>
-          ))}
-        </div>
+        <Segmented
+          label="Show"
+          value={filter}
+          onChange={setFilter}
+          options={[{ value: "all", label: "All" }, { value: "expense", label: "Expenses" }, { value: "income", label: "Income" }]}
+        />
       </div>
 
       {groups.map(([day, rows]) => (
