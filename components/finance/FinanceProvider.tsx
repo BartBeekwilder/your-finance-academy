@@ -21,6 +21,7 @@ type FinanceState = {
   email: string | null;
   addTransaction: (t: NewTransaction) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
+  reorderCategories: (orderedIds: string[]) => Promise<void>;
   signOut: () => Promise<void>;
 };
 
@@ -98,8 +99,16 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    // getSession() and the initial SIGNED_IN event both report the same
+    // session on load; remember whose data is loaded so it's fetched once.
+    let loadedFor: string | null = null;
     const apply = (session: Session | null) => {
-      if (!session) return setPhase({ kind: "signed-out" });
+      if (!session) {
+        loadedFor = null;
+        return setPhase({ kind: "signed-out" });
+      }
+      if (loadedFor === session.user.id) return;
+      loadedFor = session.user.id;
       setPhase({ kind: "loading", session });
       loadAll(supabase)
         .then((data) => setPhase({ kind: "ready", data, source: "supabase", email: session.user.email ?? null }))
@@ -145,6 +154,32 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     [source, supabase, update],
   );
 
+  const current = phase.kind === "ready" ? phase.data : null;
+
+  const reorderCategories = useCallback(
+    async (orderedIds: string[]) => {
+      // sort_order is shared with iOS (Category.sortOrder), so a new order
+      // follows the user to every device. Only rows whose position changed
+      // are written; local state updates first so the drop feels instant.
+      if (!current) return;
+      const pos = new Map(orderedIds.map((id, i) => [id, i]));
+      const changed = current.categories
+        .filter((c) => pos.has(c.id) && pos.get(c.id) !== c.sort_order)
+        .map((c) => ({ id: c.id, sort_order: pos.get(c.id)! }));
+      if (changed.length === 0) return;
+      const next = new Map(changed.map((c) => [c.id, c.sort_order]));
+      update((d) => ({ ...d, categories: d.categories.map((c) => (next.has(c.id) ? { ...c, sort_order: next.get(c.id)! } : c)) }));
+      if (source === "supabase" && supabase) {
+        const results = await Promise.all(
+          changed.map((c) => supabase.from("categories").update({ sort_order: c.sort_order }).eq("id", c.id)),
+        );
+        const failed = results.find((r) => r.error);
+        if (failed?.error) throw failed.error;
+      }
+    },
+    [current, source, supabase, update],
+  );
+
   const signOut = useCallback(async () => {
     try {
       sessionStorage.removeItem(DEMO_KEY);
@@ -174,7 +209,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, deleteTransaction, signOut }}
+      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, deleteTransaction, reorderCategories, signOut }}
     >
       {children}
     </FinanceContext.Provider>

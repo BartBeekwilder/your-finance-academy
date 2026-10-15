@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useCategoryDetail } from "./CategoryDetail";
+import MonthSlider from "./MonthSlider";
 import Segmented from "./Segmented";
 import { money, shortMonth } from "@/lib/finance/format";
 import type { CategorySpend, MonthPoint } from "@/lib/finance/calc";
@@ -13,13 +14,22 @@ type Slice = { category: CategorySpend["category"]; spent: number };
  *  year's spend), so switching morphs each slice to its new size instead of
  *  reshuffling; the centre total and percentages count along. Hovering a
  *  slice or legend row pops it outward with a glow; click opens the sheet. */
-export function CategoryDonut({ month, year, currency }: { month: Slice[]; year: Slice[]; currency: string }) {
+export function CategoryDonut({ months, year, currency, now }: {
+  /** Spend per category for each month of this year so far (index = month). */
+  months: Slice[][];
+  year: Slice[];
+  currency: string;
+  now: Date;
+}) {
   const [mode, setMode] = useState<"month" | "year">("month");
+  const [monthIndex, setMonthIndex] = useState(now.getMonth());
+  const month = months[monthIndex] ?? [];
   const [active, setActive] = useState<number | null>(null);
   const openCategory = useCategoryDetail();
 
   // Fixed slice order: every category spent on this year, biggest first.
   const order = year.length ? year.map((e) => e.category) : month.map((e) => e.category);
+  const monthName = new Date(now.getFullYear(), monthIndex, 1).toLocaleDateString("en-GB", { month: "long" });
   const valuesFor = (m: "month" | "year") => {
     const src = new Map((m === "month" ? month : year).map((e) => [e.category.id, e.spent]));
     return order.map((c) => src.get(c.id) ?? 0);
@@ -104,7 +114,7 @@ export function CategoryDonut({ month, year, currency }: { month: Slice[]; year:
 
           <div key={`${mode}-${active ?? -1}`} className="pf-donut-centre" aria-hidden>
             <span style={{ fontSize: "0.68rem", color: shown ? `#${shown.category.color_hex}` : "var(--pf-ink-2)", fontWeight: 600 }}>
-              {shown ? shown.category.name : mode === "month" ? "Spent this month" : "Spent this year"}
+              {shown ? shown.category.name : mode === "year" ? `Spent in ${now.getFullYear()}` : monthIndex === now.getMonth() ? "Spent this month" : `Spent in ${monthName}`}
             </span>
             <span className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700 }}>
               {money(shown ? shown.spent : total, currency)}
@@ -115,6 +125,18 @@ export function CategoryDonut({ month, year, currency }: { month: Slice[]; year:
           </div>
         </div>
       </div>
+
+      <MonthSlider
+        value={monthIndex}
+        current={now.getMonth()}
+        year={now.getFullYear()}
+        dimmed={mode === "year"}
+        onChange={(i) => {
+          setMonthIndex(i);
+          setMode("month");
+          setActive(null);
+        }}
+      />
     </div>
   );
 }

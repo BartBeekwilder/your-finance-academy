@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import CategoryIcon from "@/components/finance/CategoryIcon";
-import CategoryCard from "@/components/finance/CategoryCard";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import { CategoryDonut, IncomeExpenseBars, TrendLine } from "@/components/finance/charts";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import NetWorthCard from "@/components/finance/NetWorthCard";
+import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
 import YearLines from "@/components/finance/YearLines";
 import { investedIn, last12Months, live, num, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
@@ -51,18 +51,22 @@ export default function DashboardPage() {
         />
         <div style={{ display: "grid", gap: 12, gridTemplateRows: "auto 1fr" }}>
           <YearLines transactions={data.transactions} now={now} currency={currency} monthlyIncome={projectedNetIncome(data, month)} />
-          <CategoryDonut month={byCategory} year={spendByCategoryYear(data, now)} currency={currency} />
+          <CategoryDonut
+            months={Array.from({ length: now.getMonth() + 1 }, (_, m) => spendByCategory(data, new Date(now.getFullYear(), m, 1)))}
+            year={spendByCategoryYear(data, now)}
+            currency={currency}
+            now={now}
+          />
         </div>
       </section>
 
       {byCategory.length > 0 && (
         <section>
-          <h2 className="pf-section-title">Spending by Category</h2>
-          <div className="pf-grid-auto">
-            {byCategory.map((e) => (
-              <CategoryCard key={e.category.id} category={e.category} />
-            ))}
-          </div>
+          <h2 className="pf-section-title">
+            Spending by Category <span style={{ textTransform: "none", color: "var(--pf-ink-3)" }}>· drag to rearrange</span>
+          </h2>
+          {/* In the user's own order (sort_order), not by amount, so rearranging sticks. */}
+          <SortableCategoryGrid categories={byCategory.map((e) => e.category).sort((a, b) => a.sort_order - b.sort_order)} />
         </section>
       )}
 
