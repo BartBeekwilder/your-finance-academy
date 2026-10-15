@@ -803,7 +803,8 @@
   to { transform: scaleX(1); }
 }
 @keyframes pf-bbar-stripes {
-  to { background-position: 28px 0; }
+  from { background-position: 0 0; }
+  to { background-position: 16px 0; }
 }
 .pf-bbar {
   position: relative;
@@ -825,14 +826,28 @@
   background: linear-gradient(90deg, color-mix(in srgb, var(--c) 70%, #000), var(--c));
 }
 .pf-bbar-over {
-  background:
-    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.16) 0 7px, transparent 7px 14px),
-    linear-gradient(90deg, #ff453a, #ff6b5f);
+  overflow: hidden;
+  background: linear-gradient(90deg, #ff453a, #ff5a4f);
   box-shadow: 0 0 14px rgba(255, 69, 58, 0.55);
-  /* Grows after the in-budget part, then the stripes keep marching. */
-  animation:
-    pf-bbar-grow 0.5s cubic-bezier(0.25, 0.9, 0.3, 1) 0.6s both,
-    pf-bbar-stripes 1.2s linear infinite;
+  /* Grows out after the in-budget part has filled. */
+  animation: pf-bbar-grow 0.5s cubic-bezier(0.25, 0.9, 0.3, 1) 0.6s both;
+}
+/* Marching stripes on their own layer, so only the stripes move — never
+   the red underneath. One tile is exactly one stripe period, so shifting
+   by one tile width loops without a visible jump. */
+.pf-bbar-over::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.13) 25%,
+    transparent 25% 50%,
+    rgba(255, 255, 255, 0.13) 50% 75%,
+    transparent 75%
+  );
+  background-size: 16px 16px;
+  animation: pf-bbar-stripes 1.6s linear infinite;
 }
 .pf-bbar-limit {
   position: absolute;
@@ -878,4 +893,78 @@
     color-mix(in srgb, var(--c) 28%, transparent);
   transform-origin: left;
   animation: pf-bbar-grow 0.8s cubic-bezier(0.25, 0.9, 0.3, 1) both;
+}
+
+/* Savings chart (components/finance/SavingsChart.tsx) */
+@keyframes pf-sbar-up {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+/* Reveal left-to-right with a clip, so the line stays one solid stroke. */
+@keyframes pf-sline-draw {
+  from { clip-path: inset(-20px 100% -20px 0); }
+  to { clip-path: inset(-20px 0 -20px 0); }
+}
+@keyframes pf-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.pf-sbar-col {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  transition: opacity 0.25s;
+}
+.pf-sbar-col[data-dim="true"] {
+  opacity: 0.35;
+}
+.pf-sbar {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--bar), color-mix(in srgb, var(--bar) 55%, #000));
+  animation: pf-sbar-up 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, filter 0.3s;
+}
+/* Grow out of the zero line: savings grow upward, losses downward. */
+.pf-sbar[data-up="true"] {
+  transform-origin: bottom;
+}
+.pf-sbar[data-up="false"] {
+  transform-origin: top;
+  background: linear-gradient(0deg, var(--bar), color-mix(in srgb, var(--bar) 55%, #000));
+}
+.pf-sbar[data-live="true"] {
+  background: color-mix(in srgb, var(--bar) 22%, transparent);
+  border: 1.5px dashed var(--bar);
+}
+.pf-sbar[data-active="true"] {
+  animation: none;
+  transform: translateY(-4px) scaleX(1.12);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--bar) 70%, transparent);
+  filter: brightness(1.15);
+}
+.pf-sbar[data-active="true"][data-up="false"] {
+  transform: translateY(4px) scaleX(1.12);
+}
+.pf-sline {
+  animation: pf-sline-draw 1.2s cubic-bezier(0.25, 0.8, 0.25, 1) 0.4s both;
+  filter: drop-shadow(0 0 4px rgba(0, 194, 168, 0.6));
+}
+.pf-sline-label {
+  position: absolute;
+  transform: translate(-100%, -150%);
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #04110f;
+  background: #00c2a8;
+  box-shadow: 0 0 12px rgba(0, 194, 168, 0.5);
+  pointer-events: none;
+  /* Opacity only: a transform animation would override the positioning. */
+  animation: pf-fade-in 0.4s ease-out 1.4s both;
 }

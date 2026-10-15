@@ -1,0 +1,195 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { summarize } from "@/lib/finance/calc";
+import { money, monthYear, shortMonth } from "@/lib/finance/format";
+import type { Transaction } from "@/lib/finance/types";
+
+// "Savings": how much you kept each month over the last 12 months.
+//   - One bar per month: income − spent. Green above the zero line when you
+//     saved, red below it when you spent more than came in.
+//   - The current month is live, using the same figures as the Balance tile
+//     (income accruing, fixed costs spread), outlined because it's not over.
+//   - A teal line is the running total saved, on its own scale, labelled at
+//     its end so it's clear what it is.
+// Bars grow out of the zero line on load; hovering lifts a bar, dims the
+// others and shows that month's income, spent and saved.
+
+const GREEN = "#30d158";
+const RED = "#ff453a";
+const TEAL = "#00c2a8";
+const H = 180;
+
+type Month = { month: Date; income: number; spent: number; saved: number; live: boolean };
+
+export default function SavingsChart({
+  transactions,
+  now,
+  monthlyIncome,
+  currency,
+}: {
+  transactions: Transaction[];
+  now: Date;
+  /** This month's projected net income (the live Balance tile accrues it). */
+  monthlyIncome: number;
+  currency: string;
+}) {
+  const [hover, setHover] = useState<number | null>(null);
+  const [tick, setTick] = useState(() => Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setTick(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  const months: Month[] = Array.from({ length: 12 }, (_, i) => {
+    const month = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1);
+    const s = summarize(transactions, month);
+    if (i < 11) return { month, income: s.income, spent: s.spent, saved: s.income - s.spent, live: false };
+    const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
+    const f = Math.min(1, Math.max(0, (tick - month.getTime()) / (days * 86_400_000)));
+    const income = monthlyIncome * f;
+    const spent = s.fixed * f + s.variable;
+    return { month, income, spent, saved: income - spent, live: true };
+  });
+
+  const total = months.reduce((s, m) => s + m.saved, 0);
+  const cum = months.map((_, i) => months.slice(0, i + 1).reduce((s, m) => s + m.saved, 0));
+  const finished = months.filter((m) => !m.live && (m.income || m.spent));
+  const average = finished.length ? finished.reduce((s, m) => s + m.saved, 0) / finished.length : 0;
+
+  // Bar scale: zero line placed so both the best and worst month fit.
+  const top = Math.max(1, ...months.map((m) => m.saved));
+  const bottom = Math.min(0, ...months.map((m) => m.saved));
+  const zero = (top / (top - bottom)) * H; // px from the top
+  const px = (v: number) => (Math.abs(v) / (top - bottom)) * H;
+
+  // Running-total line on its own scale (0 … max of the cumulative sum).
+  const cMax = Math.max(1, ...cum), cMin = Math.min(0, ...cum);
+  // Top 30px kept free so the "Total" label sits inside the chart.
+  const cy = (v: number) => H - ((v - cMin) / (cMax - cMin)) * (H - 38) - 8;
+  const cx = (i: number) => ((i + 0.5) / 12) * 100;
+
+  const shown = hover ?? 11;
+  const m = months[shown];
+
+  return (
+    <div className="pf-card" style={{ padding: 18, display: "grid", gap: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 16, flexWrap: "wrap" }}>
+        <div>
+          <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>Saved in the last 12 months</div>
+          <div className="pf-rounded" style={{ fontSize: "1.9rem", fontWeight: 700, color: total >= 0 ? GREEN : RED, lineHeight: 1.15 }}>
+            {money(total, currency, { signed: true })}
+          </div>
+          <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>
+            Average {money(average, currency, { signed: true })} per month
+          </div>
+        </div>
+        <div key={shown} className="pf-readout" style={{ textAlign: "right", fontSize: "0.75rem", color: "var(--pf-ink-2)", display: "grid", gap: 2 }}>
+          <strong style={{ color: "var(--pf-ink)", fontWeight: 600 }}>
+            {monthYear(m.month)}
+            {m.live ? " · live" : ""}
+          </strong>
+          <span>
+            Income <b className="pf-rounded" style={{ color: GREEN }}>{money(m.income, currency)}</b> − Spent{" "}
+            <b className="pf-rounded" style={{ color: RED }}>{money(m.spent, currency)}</b>
+          </span>
+          <span>
+            {m.saved >= 0 ? "Saved" : "Overspent"}{" "}
+            <b className="pf-rounded" style={{ color: m.saved >= 0 ? GREEN : RED, fontSize: "0.95rem" }}>{money(Math.abs(m.saved), currency)}</b>
+          </span>
+        </div>
+      </div>
+
+      <div style={{ position: "relative", height: H }} onMouseLeave={() => setHover(null)}>
+        {/* Zero line */}
+        <div style={{ position: "absolute", left: 0, right: 0, top: zero, borderTop: "1px solid var(--pf-line)" }} />
+
+        {/* Bars */}
+        <div style={{ position: "absolute", inset: 0, display: "flex", gap: "1.2%" }}>
+          {months.map((mo, i) => {
+            const up = mo.saved >= 0;
+            const h = Math.max(mo.income || mo.spent ? 3 : 0, px(mo.saved));
+            const active = hover === i;
+            return (
+              <div
+                key={i}
+                className="pf-sbar-col"
+                data-dim={hover !== null && !active}
+                onMouseEnter={() => setHover(i)}
+                onClick={() => setHover(hover === i ? null : i)}
+                role="img"
+                aria-label={`${monthYear(mo.month)}: ${up ? "saved" : "overspent"} ${money(Math.abs(mo.saved), currency)}`}
+              >
+                <div
+                  className="pf-sbar"
+                  data-up={up}
+                  data-live={mo.live}
+                  data-active={active}
+                  style={{
+                    top: up ? zero - h : zero,
+                    height: h,
+                    animationDelay: `${i * 45}ms`,
+                    ["--bar" as string]: up ? GREEN : RED,
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Running total */}
+        <svg className="pf-sline" viewBox={`0 0 100 ${H}`} preserveAspectRatio="none" width="100%" height={H} style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "visible" }} aria-hidden>
+          <path
+            d={cum.map((v, i) => `${i ? "L" : "M"}${cx(i)},${cy(v)}`).join(" ")}
+            fill="none"
+            stroke={TEAL}
+            strokeWidth={2}
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+        <div
+          className="pf-sline-label pf-rounded"
+          style={{ left: `${cx(11)}%`, top: cy(cum[11]) }}
+        >
+          Total {money(cum[11], currency)}
+        </div>
+      </div>
+
+      {/* Month labels */}
+      <div style={{ display: "flex", gap: "1.2%", marginTop: -6 }}>
+        {months.map((mo, i) => (
+          <span
+            key={i}
+            style={{
+              flex: 1,
+              textAlign: "center",
+              fontSize: "0.62rem",
+              color: i === shown ? "var(--pf-ink)" : "var(--pf-ink-3)",
+              fontWeight: mo.live ? 700 : 400,
+              transition: "color 0.2s",
+            }}
+          >
+            {shortMonth(mo.month)}
+          </span>
+        ))}
+      </div>
+
+      <div style={{ display: "flex", gap: 16, flexWrap: "wrap", fontSize: "0.68rem", color: "var(--pf-ink-2)" }}>
+        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, background: GREEN }} />} label="Saved that month" />
+        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, background: RED }} />} label="Spent more than earned" />
+        <Legend swatch={<span style={{ width: 14, height: 2.5, borderRadius: 2, background: TEAL }} />} label="Total saved so far" />
+        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, border: `1.5px dashed ${GREEN}` }} />} label="This month, live" />
+      </div>
+    </div>
+  );
+}
+
+function Legend({ swatch, label }: { swatch: React.ReactNode; label: string }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+      {swatch}
+      {label}
+    </span>
+  );
+}

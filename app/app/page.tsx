@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import BudgetBar from "@/components/finance/BudgetBar";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
-import { CategoryDonut, IncomeExpenseBars, TrendLine } from "@/components/finance/charts";
+import { CategoryDonut } from "@/components/finance/charts";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import NetWorthCard from "@/components/finance/NetWorthCard";
+import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
 import YearLines from "@/components/finance/YearLines";
 import { investedIn, last12Months, live, monthProgress, num, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
@@ -72,17 +73,8 @@ export default function DashboardPage() {
       )}
 
       <section>
-        <h2 className="pf-section-title">Income vs Expenses</h2>
-        <div className="pf-card" style={{ padding: 16, display: "grid", gap: 20, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-          <div>
-            <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 4 }}>By Month</div>
-            <IncomeExpenseBars points={history} currency={currency} />
-          </div>
-          <div>
-            <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 24 }}>12-Month Trend</div>
-            <TrendLine points={history} />
-          </div>
-        </div>
+        <h2 className="pf-section-title">Savings</h2>
+        <SavingsChart transactions={data.transactions} now={now} monthlyIncome={projectedNetIncome(data, month)} currency={currency} />
       </section>
 
       <section>

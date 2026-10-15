@@ -74,7 +74,11 @@ export default function BudgetBar({
         <span className="pf-rounded" style={{ opacity: over ? 1 : 0.75 }}>
           {over
             ? `${money(used - budget, currency)} over · ${pct}%`
-            : `${money(budget - used, currency)} ${fixed ? "to go" : "left"} · ${pct}%`}
+            : fixed
+              ? // "To go" = paid but not yet used; an unpaid part of the
+                // budget (the empty end of the bar) is called out as such.
+                `${money(spent - used, currency)} to go · ${spent < budget ? `${money(budget - spent, currency)} under budget` : `${pct}%`}`
+              : `${money(budget - used, currency)} left · ${pct}%`}
         </span>
       </span>
     </div>
