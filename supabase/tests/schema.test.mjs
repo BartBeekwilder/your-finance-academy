@@ -26,12 +26,11 @@ const ok = (c, m) => { console.log((c ? "PASS " : "FAIL ") + m); if (!c) process
 
 ok((await sql(`select count(*)::int n from profiles`)).rows[0].n === 2, "profile auto-created for each new user");
 
-await as(A, () => sql(`insert into categories (name, color_hex) values ('Groceries', '2E8B57')`));
-const catA = (await as(A, () => sql(`select id from categories`))).rows[0].id;
+const catA = (await as(A, () => sql(`insert into categories (name, color_hex) values ('Groceries', '2E8B57') returning id`))).rows[0].id;
 await as(A, () => sql(`insert into transactions (amount, type, category_id) values (12.34, 'expense', $1)`, [catA]));
 ok((await as(A, () => sql(`select user_id from transactions`))).rows[0].user_id === A, "user_id defaults to signed-in user");
 ok((await as(B, () => sql(`select * from transactions`))).rows.length === 0, "user B cannot see user A's transactions");
-ok((await as(B, () => sql(`select * from categories`))).rows.length === 0, "user B cannot see user A's categories");
+ok((await as(B, () => sql(`select * from categories where user_id = $1`, [A]))).rows.length === 0, "user B cannot see user A's categories");
 let err = null; try { await as(B, () => sql(`insert into transactions (user_id, amount) values ($1, 1)`, [A])); } catch (e) { err = e.message; }
 ok(err && /row-level security/.test(err), "user B cannot write rows into user A's account");
 const upd = await as(B, () => sql(`update transactions set amount = 0`));
@@ -62,3 +61,8 @@ await as(B, () => sql(`insert into transactions (amount, category_id) values (2,
 await as(B, () => sql(`delete from categories where id = $1`, [catB]));
 const orphan = (await as(B, () => sql(`select user_id, category_id from transactions`))).rows[0];
 ok(orphan.user_id === B && orphan.category_id === null, "deleting a category clears the link but keeps the transaction's owner");
+
+const seeded = (await as(A, () => sql(`select count(*)::int n, sum(is_fixed_expense::int)::int fixed, sum(is_income_category::int)::int income from categories where is_default`))).rows[0];
+ok(seeded.n === 9 && seeded.fixed === 2 && seeded.income === 1, "new user gets the 9 iOS starter categories (Rent+Utilities fixed, 1 income)");
+ok((await as(A, () => sql(`select count(*)::int n from accounts where is_default`))).rows[0].n === 1, "new user gets one hidden default account");
+ok((await as(B, () => sql(`select count(*)::int n from categories where is_default`))).rows[0].n === 9, "each user gets their own copy");
