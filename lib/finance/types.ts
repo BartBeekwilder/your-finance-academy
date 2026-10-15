@@ -1,8 +1,10 @@
 // Mirrors supabase/migrations/0001_init.sql and the iOS SwiftData models.
-// Money arrives from Postgres `numeric` as a string to avoid float rounding;
-// it's converted with Number() only at the point of display or summing.
+// Money is Postgres `numeric`. Supabase returns it as a JSON number, demo data
+// uses strings; either way it's converted with Number() only at the point of
+// display or summing.
 
 export type UUID = string;
+export type Money = string | number;
 
 export type AccountType = "checking" | "savings" | "credit" | "cash" | "investment";
 export type TransactionType = "expense" | "income";
@@ -18,8 +20,8 @@ type Synced = {
 export type Profile = {
   currency_code: string;
   appearance_mode: AppearanceMode;
-  expected_gross_monthly: string | null;
-  expected_net_monthly: string | null;
+  expected_gross_monthly: Money | null;
+  expected_net_monthly: Money | null;
   payday_day: number | null;
   income_reminders: boolean;
 };
@@ -27,7 +29,7 @@ export type Profile = {
 export type Account = Synced & {
   name: string;
   type: AccountType;
-  balance: string;
+  balance: Money;
   institution: string | null;
   is_default: boolean;
 };
@@ -45,12 +47,12 @@ export type Category = Synced & {
 
 export type Budget = Synced & {
   category_id: UUID | null;
-  amount: string;
+  amount: Money;
   month: string; // YYYY-MM-01
 };
 
 export type Transaction = Synced & {
-  amount: string; // always positive; sign comes from `type`
+  amount: Money; // always positive; sign comes from `type`
   type: TransactionType;
   date: string;
   note: string | null;
@@ -63,8 +65,8 @@ export type Transaction = Synced & {
 
 export type IncomeRecord = Synced & {
   month: string;
-  gross_amount: string;
-  net_amount: string;
+  gross_amount: Money;
+  net_amount: Money;
   is_actual: boolean;
   confirmed_date: string | null;
   transaction_id: UUID | null;
@@ -74,8 +76,8 @@ export type Holding = Synced & {
   symbol: string;
   name: string;
   asset_type: AssetType;
-  quantity: string;
-  cost_basis: string | null;
+  quantity: Money;
+  cost_basis: Money | null;
   cost_basis_currency: string | null;
   date_added: string;
 };

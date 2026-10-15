@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Banknote, ChartLine, ChartPie, CircleDollarSign, LayoutGrid, List } from "lucide-react";
+import { Banknote, ChartLine, ChartPie, CircleDollarSign, LayoutGrid, List, LogOut } from "lucide-react";
+import { useFinance } from "./FinanceProvider";
 
 // Same six tabs, same order, as the iOS TabView (Views/ContentView.swift).
 const TABS = [
@@ -14,8 +15,9 @@ const TABS = [
   { href: "/app/budgets", label: "Budgets", Icon: CircleDollarSign },
 ] as const;
 
-export default function AppNav({ demo }: { demo: boolean }) {
+export default function AppNav() {
   const path = usePathname();
+  const { source, email, signOut } = useFinance();
 
   return (
     <nav className="pf-nav" aria-label="App">
@@ -31,11 +33,14 @@ export default function AppNav({ demo }: { demo: boolean }) {
         </Link>
       ))}
 
-      {demo && (
-        <p className="pf-nav-foot">
-          Demo data — sign-in and sync with the iOS app are coming next.
-        </p>
-      )}
+      <div className="pf-nav-foot">
+        <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+          {source === "demo" ? "Demo data — nothing is saved" : email}
+        </div>
+        <button className="pf-link" onClick={signOut} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: 0, marginTop: 6 }}>
+          <LogOut size={14} /> {source === "demo" ? "Leave demo" : "Sign out"}
+        </button>
+      </div>
     </nav>
   );
 }

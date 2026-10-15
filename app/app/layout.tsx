@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import AppNav from "@/components/finance/AppNav";
 import { FinanceProvider } from "@/components/finance/FinanceProvider";
 import NeonLines from "@/components/finance/NeonLines";
+import QuickAdd from "@/components/finance/QuickAdd";
 import "./finance.css";
 
 export const metadata: Metadata = {
@@ -13,12 +14,13 @@ export default function FinanceAppLayout({ children }: LayoutProps<"/app">) {
   return (
     <div className="pf">
       <NeonLines lineCount={4} opacity={0.1} />
-      <div className="pf-shell">
-        <AppNav demo />
-        <main className="pf-main">
-          <FinanceProvider>{children}</FinanceProvider>
-        </main>
-      </div>
+      <FinanceProvider>
+        <div className="pf-shell">
+          <AppNav />
+          <main className="pf-main">{children}</main>
+          <QuickAdd />
+        </div>
+      </FinanceProvider>
     </div>
   );
 }

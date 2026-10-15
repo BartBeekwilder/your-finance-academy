@@ -1,13 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Trash2 } from "lucide-react";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { live, num } from "@/lib/finance/calc";
 import { dayLabel, money } from "@/lib/finance/format";
 
 export default function TransactionsPage() {
-  const { data } = useFinance();
+  const { data, deleteTransaction } = useFinance();
   const currency = data.profile.currency_code;
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<"all" | "expense" | "income">("all");
@@ -81,6 +82,15 @@ export default function TransactionsPage() {
                   <span className="pf-rounded" style={{ fontWeight: 600, color: t.type === "income" ? "var(--pf-green)" : "var(--pf-ink)" }}>
                     {money(t.type === "income" ? num(t.amount) : -num(t.amount), currency, { signed: t.type === "income" })}
                   </span>
+                  <button
+                    className="pf-icon-button pf-row-delete"
+                    aria-label={`Delete ${t.note || c?.name || "transaction"}`}
+                    onClick={() => {
+                      if (confirm(`Delete ${t.note || c?.name || "this transaction"}?`)) deleteTransaction(t.id).catch((e) => alert(e.message));
+                    }}
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
               );
             })}

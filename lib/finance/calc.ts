@@ -1,9 +1,9 @@
-import type { Budget, Category, FinanceData, Holding, Transaction } from "./types";
+import type { Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
 
 // Same rules as the iOS app's BudgetCalculator / DashboardView, so a given
 // month's totals read identically on both platforms.
 
-export const num = (v: string | null | undefined) => (v ? Number(v) : 0);
+export const num = (v: Money | null | undefined) => (v ? Number(v) : 0);
 
 export const live = <T extends { deleted_at: string | null }>(rows: T[]) =>
   rows.filter((r) => r.deleted_at === null);
