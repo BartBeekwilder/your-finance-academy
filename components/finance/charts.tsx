@@ -4,18 +4,26 @@ import { useEffect, useRef, useState } from "react";
 import { useCategoryDetail } from "./CategoryDetail";
 import StepSlider from "./StepSlider";
 import Segmented from "./Segmented";
+import LiveAmount from "./LiveAmount";
 import { money } from "@/lib/finance/format";
 import type { CategorySpend } from "@/lib/finance/calc";
 
-type Slice = { category: CategorySpend["category"]; spent: number };
+type Slice = { category: CategorySpend["category"]; spent: number; fixed?: number };
 
 /** Donut of spend per category — the iOS CategoryDonutChart — with a
  *  This Month / This Year switch. Slices keep one fixed order (by this
  *  year's spend), so switching morphs each slice to its new size instead of
  *  reshuffling; the centre total and percentages count along. Hovering a
- *  slice or legend row pops it outward with a glow; click opens the sheet. */
+ *  slice or legend row pops it outward with a glow; click opens the sheet.
+ *
+ *  This month (and this year, which contains it) is live, by the same rule
+ *  as the Spent tile: fixed costs count for the part of the month that has
+ *  passed, variable spending in full. So the rent slice grows through the
+ *  month, and the centre total ticks along with — and always matches — the
+ *  Spent tile. */
 export function CategoryDonut({ months, years, currency, now }: {
-  /** Spend per category for each month of this year so far (index = month). */
+  /** Spend per category for each month of this year so far (index = month);
+   *  this month's entries carry `fixed` so they can be shown live. */
   months: Slice[][];
   /** Spend per category for each year that has data, oldest first. */
   years: { year: number; slices: Slice[] }[];
@@ -43,7 +51,17 @@ export function CategoryDonut({ months, years, currency, now }: {
     const src = new Map((m === "month" ? month : (yearSel?.slices ?? [])).map((e) => [e.category.id, e.spent]));
     return order.map((c) => src.get(c.id) ?? 0);
   };
-  const values = useTween(valuesFor(mode), 700);
+  // Live: the selected period contains the current month. Its fixed costs
+  // are counted pro rata (× fraction of the month elapsed).
+  const isLive = mode === "month" ? monthIndex === now.getMonth() : yearSel?.year === now.getFullYear();
+  const thisMonth = new Map((months[now.getMonth()] ?? []).map((e) => [e.category.id, e.fixed ?? 0]));
+  const fixedPart = order.map((c) => (isLive ? (thisMonth.get(c.id) ?? 0) : 0));
+  const target = valuesFor(mode);
+  // Tween the non-fixed and fixed parts separately (they only change when
+  // the period changes); the fraction is applied every tick on top.
+  const tween = useTween([...target.map((v, i) => v - fixedPart[i]), ...fixedPart], 700);
+  const fraction = useMonthFraction(now, isLive && fixedPart.some((f) => f > 0));
+  const values = order.map((_, i) => tween[i] + tween[order.length + i] * fraction);
 
   const total = values.reduce((s, v) => s + v, 0);
   const R = 84, r = 56, C = 100, POP = 8;
@@ -126,7 +144,7 @@ export function CategoryDonut({ months, years, currency, now }: {
               {shown ? shown.category.name : mode === "year" ? `Spent in ${yearSel?.year}` : monthIndex === now.getMonth() ? "Spent this month" : `Spent in ${monthName}`}
             </span>
             <span className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700 }}>
-              {money(shown ? shown.spent : total, currency)}
+              {isLive ? <LiveAmount value={shown ? shown.spent : total} currency={currency} size="1.05rem" /> : money(shown ? shown.spent : total, currency)}
             </span>
             <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>
               {shown
@@ -160,6 +178,21 @@ export function CategoryDonut({ months, years, currency, now }: {
       />
     </div>
   );
+}
+
+/** Fraction of `now`'s month that has passed, re-read every 80 ms while
+ *  `ticking` (same cadence as the live tiles, so the digits stream). */
+function useMonthFraction(now: Date, ticking: boolean) {
+  const [clock, setClock] = useState(() => Date.now());
+  useEffect(() => {
+    if (!ticking) return;
+    const t = setInterval(() => setClock(Date.now()), 80);
+    return () => clearInterval(t);
+  }, [ticking]);
+  // Exactly as LiveTiles (days × 24 h), so the total matches the Spent tile.
+  const start = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  const days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  return Math.min(Math.max((clock - start) / (days * 86_400_000), 0), 1);
 }
 
 /** Animates an array of numbers toward `target` with an ease-in-out curve.

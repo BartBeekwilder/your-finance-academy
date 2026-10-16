@@ -48,6 +48,8 @@ export function summarize(transactions: Transaction[], month: Date): MonthSummar
 export type CategorySpend = {
   category: Category;
   spent: number;
+  /** The part of `spent` that is fixed costs (rent, subscriptions…). */
+  fixed: number;
   budget: number | null;
   isOverBudget: boolean;
 };
@@ -61,10 +63,12 @@ export function spendByCategory(data: FinanceData, month: Date): CategorySpend[]
     .filter((c) => !c.is_income_category && c.parent_id === null)
     .map((category) => {
       const ids = selfAndChildren(category, categories);
-      const spent = tx.filter((t) => t.category_id && ids.has(t.category_id)).reduce((s, t) => s + num(t.amount), 0);
+      const own = tx.filter((t) => t.category_id && ids.has(t.category_id));
+      const spent = own.reduce((s, t) => s + num(t.amount), 0);
+      const fixed = own.filter((t) => t.is_fixed_expense).reduce((s, t) => s + num(t.amount), 0);
       const b: Budget | undefined = budgets.find((x) => x.category_id === category.id);
       const budget = b ? num(b.amount) : null;
-      return { category, spent, budget, isOverBudget: budget !== null && spent > budget };
+      return { category, spent, fixed, budget, isOverBudget: budget !== null && spent > budget };
     })
     .filter((e) => e.spent > 0)
     .sort((a, b) => b.spent - a.spent);
