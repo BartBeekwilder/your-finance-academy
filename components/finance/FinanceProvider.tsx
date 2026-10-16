@@ -5,7 +5,7 @@ import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoData } from "@/lib/finance/demo";
 import type { FinanceData, Profile, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
-import SignIn from "./SignIn";
+import SignIn, { RECOVERY_KEY } from "./SignIn";
 
 // Single source of finance data for every /app screen: the signed-in user's
 // rows from Supabase, or demo data when the visitor chooses it (or the site
@@ -107,6 +107,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         loadedFor = null;
         return setPhase({ kind: "signed-out" });
       }
+      // Mid password-reset: stay on the sign-in screen until a new password
+      // is saved (SignIn clears the flag and refreshes the session).
+      if (sessionStorage.getItem(RECOVERY_KEY) === "1") return setPhase({ kind: "signed-out" });
       if (loadedFor === session.user.id) return;
       loadedFor = session.user.id;
       setPhase({ kind: "loading", session });
@@ -117,8 +120,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
     supabase.auth.getSession().then(({ data }) => apply(data.session));
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
-      // Token refreshes don't change whose data this is — no need to reload.
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT") apply(session);
+      // Token refreshes re-apply too (that's how a finished password reset
+      // gets loaded); apply() skips the reload if this user is already loaded.
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "TOKEN_REFRESHED") apply(session);
     });
     return () => sub.subscription.unsubscribe();
   }, [supabase, startDemo]);
