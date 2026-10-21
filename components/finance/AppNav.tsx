@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { Banknote, ChartLine, ChartPie, CircleDollarSign, LayoutGrid, List, LogOut, Pause, Play } from "lucide-react";
+import { Banknote, ChartLine, ChartPie, CircleDollarSign, LayoutGrid, List, LogOut, Pause, Play, Settings } from "lucide-react";
 import { setMotionPaused, useMotionPaused } from "@/lib/motion";
+import BrandMark from "./BrandMark";
 import { useFinance } from "./FinanceProvider";
 
 // Same six tabs, same order, as the iOS TabView (Views/ContentView.swift).
@@ -19,12 +20,12 @@ const TABS = [
 
 export default function AppNav() {
   const path = usePathname();
-  const { source, email, signOut } = useFinance();
+  const { source, email, signOut, data } = useFinance();
 
   return (
     <nav className="pf-nav" aria-label="App">
       <div className="pf-brand">
-        <span className="pf-brand-mark" />
+        <BrandMark size={30} currency={data.profile.currency_code} />
         <strong style={{ fontSize: "1.02rem" }}>Personal Finance</strong>
       </div>
 
@@ -34,6 +35,12 @@ export default function AppNav() {
           <span className="pf-nav-label">{label}</span>
         </Link>
       ))}
+
+      {/* Settings sits apart from the six iOS tabs, at the foot of the list. */}
+      <Link href="/app/settings" aria-current={path === "/app/settings" ? "page" : undefined} className="pf-nav-settings">
+        <Settings size={20} strokeWidth={2} />
+        <span className="pf-nav-label">Settings</span>
+      </Link>
 
       <div className="pf-nav-foot">
         {process.env.NODE_ENV === "development" && <MotionToggle />}

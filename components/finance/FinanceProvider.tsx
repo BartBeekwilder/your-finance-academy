@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoData } from "@/lib/finance/demo";
-import type { FinanceData, Profile, Transaction } from "@/lib/finance/types";
+import type { Category, FinanceData, Profile, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
 import SignIn, { RECOVERY_KEY } from "./SignIn";
 
@@ -13,6 +13,7 @@ import SignIn, { RECOVERY_KEY } from "./SignIn";
 // they never talk to Supabase directly.
 
 export type NewTransaction = Omit<Transaction, "id" | "updated_at" | "deleted_at">;
+export type NewCategory = Pick<Category, "name" | "icon" | "color_hex" | "is_income_category" | "is_fixed_expense">;
 
 type FinanceState = {
   data: FinanceData;
@@ -20,6 +21,10 @@ type FinanceState = {
   now: Date;
   email: string | null;
   addTransaction: (t: NewTransaction) => Promise<void>;
+  /** Saves settings (e.g. currency_code) to the user's profile. */
+  updateProfile: (patch: Partial<Profile>) => Promise<void>;
+  /** Creates a top-level category at the end of the list; returns it. */
+  addCategory: (c: NewCategory) => Promise<Category>;
   deleteTransaction: (id: string) => Promise<void>;
   reorderCategories: (orderedIds: string[]) => Promise<void>;
   signOut: () => Promise<void>;
@@ -160,6 +165,22 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const current = phase.kind === "ready" ? phase.data : null;
 
+  const addCategory = useCallback(
+    async (c: NewCategory) => {
+      const sort_order = Math.max(-1, ...(current?.categories ?? []).map((x) => x.sort_order)) + 1;
+      const fields = { ...c, is_default: false, sort_order, parent_id: null };
+      const row = { ...fields, id: crypto.randomUUID(), updated_at: new Date().toISOString(), deleted_at: null } as Category;
+      if (source === "supabase" && supabase) {
+        const { data, error } = await supabase.from("categories").insert({ ...fields, id: row.id }).select().single();
+        if (error) throw error;
+        Object.assign(row, data);
+      }
+      update((d) => ({ ...d, categories: [...d.categories, row] }));
+      return row;
+    },
+    [current, source, supabase, update],
+  );
+
   const reorderCategories = useCallback(
     async (orderedIds: string[]) => {
       // sort_order is shared with iOS (Category.sortOrder), so a new order
@@ -182,6 +203,22 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       }
     },
     [current, source, supabase, update],
+  );
+
+  const updateProfile = useCallback(
+    async (patch: Partial<Profile>) => {
+      // The profile row may not exist yet (new account): upsert it. Shared
+      // with iOS, so a new currency follows the user to every device.
+      if (source === "supabase" && supabase) {
+        const { data: auth } = await supabase.auth.getSession();
+        const userId = auth.session?.user.id;
+        if (!userId) throw new Error("You're signed out. Sign in again to save settings.");
+        const { error } = await supabase.from("profiles").upsert({ user_id: userId, ...patch, updated_at: new Date().toISOString() });
+        if (error) throw error;
+      }
+      update((d) => ({ ...d, profile: { ...d.profile, ...patch } }));
+    },
+    [source, supabase, update],
   );
 
   const signOut = useCallback(async () => {
@@ -213,7 +250,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, deleteTransaction, reorderCategories, signOut }}
+      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, addCategory, updateProfile, deleteTransaction, reorderCategories, signOut }}
     >
       {children}
     </FinanceContext.Provider>

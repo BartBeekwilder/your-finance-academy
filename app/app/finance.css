@@ -1084,3 +1084,186 @@ html[data-pf-paused] *::after {
   animation-play-state: paused !important;
   transition: none !important;
 }
+
+/* Quick Add: "New category" chip and its inline editor. */
+.pf-chip-new {
+  border-style: dashed;
+  color: var(--pf-ink-2);
+}
+.pf-chip-new:hover {
+  color: var(--pf-ink);
+  border-color: var(--pf-brand-b);
+}
+.pf-chip-new-icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b));
+}
+.pf-chip[data-fresh] {
+  animation: pf-chip-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes pf-chip-pop {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.pf-newcat {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--c) 45%, var(--pf-line));
+  background: color-mix(in srgb, var(--c) 7%, transparent);
+  transition: border-color 0.3s, background 0.3s;
+  transform-origin: top left;
+  animation: pf-newcat-in 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+@keyframes pf-newcat-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+.pf-newcat-preview {
+  display: grid;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pf-newcat:focus-within .pf-newcat-preview {
+  transform: rotate(-6deg) scale(1.05);
+}
+.pf-newcat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pf-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 0;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
+}
+.pf-swatch:hover {
+  transform: scale(1.12);
+}
+.pf-swatch[aria-checked="true"] {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px #1c1c1e, 0 0 0 4px currentColor;
+  color: #fff;
+}
+.pf-iconpick {
+  display: grid;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 9px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pf-iconpick:hover {
+  transform: translateY(-2px);
+}
+.pf-iconpick[aria-checked="true"] {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 2px var(--c);
+}
+.pf-button-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+}
+
+/* Logo coin: flips over when the currency (its symbol) changes. */
+.pf-coin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pf-coin-flip 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+@keyframes pf-coin-flip {
+  0% { transform: scaleX(1); }
+  45% { transform: scaleX(0.05); }
+  100% { transform: scaleX(1); }
+}
+.pf-sparkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pf-sparkle 3.2s ease-in-out infinite;
+}
+@keyframes pf-sparkle {
+  0%, 70%, 100% { transform: scale(0.6) rotate(0deg); opacity: 0.4; }
+  82% { transform: scale(1.25) rotate(45deg); opacity: 1; }
+}
+
+/* Settings */
+.pf-nav-settings {
+  margin-top: 10px;
+}
+.pf-currency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 8px;
+}
+.pf-currency {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--pf-line);
+  background: rgba(255, 255, 255, 0.02);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s, background 0.25s;
+}
+.pf-currency:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--pf-brand-b) 50%, var(--pf-line));
+}
+.pf-currency:disabled {
+  cursor: default;
+}
+.pf-currency[aria-checked="true"] {
+  border-color: transparent;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--pf-brand-a) 28%, transparent), color-mix(in srgb, var(--pf-brand-b) 22%, transparent));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pf-brand-b) 70%, transparent), 0 0 18px color-mix(in srgb, var(--pf-brand-a) 30%, transparent);
+}
+.pf-currency-symbol {
+  display: grid;
+  place-items: center;
+  flex: none;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 4px;
+  border-radius: 50%;
+  background: #fff;
+  color: #5a55d8;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+.pf-currency[aria-checked="true"] .pf-currency-symbol {
+  animation: pf-coin-flip 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+.pf-currency-check {
+  margin-left: auto;
+  flex: none;
+  color: var(--pf-brand-b);
+  animation: pf-chip-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.pf-currency-saving {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  animation: pf-currency-sweep 0.9s linear infinite;
+}
+@keyframes pf-currency-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { guessCurrency } from "@/lib/finance/currencies";
 import { getSupabase } from "@/lib/supabase";
+import BrandMark from "./BrandMark";
 
 // Sign-in for the web app — same options as iOS:
 //   • Sign in with Apple
@@ -125,7 +127,7 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
   return (
     <div style={{ minHeight: "70dvh", display: "grid", placeItems: "center" }}>
       <div className="pf-card" style={{ width: "100%", maxWidth: 400, padding: 28, display: "grid", gap: 16, borderRadius: 18 }}>
-        <span className="pf-brand-mark" style={{ width: 44, height: 44, borderRadius: 12 }} />
+        <BrandMark size={52} currency={guessCurrency()} />
         <div>
           <h1 style={{ fontSize: "1.6rem", fontWeight: 700 }}>{title}</h1>
           <p style={{ margin: "4px 0 0", color: "var(--pf-ink-2)" }}>{subtitle}</p>
