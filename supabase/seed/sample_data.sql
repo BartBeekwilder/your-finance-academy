@@ -32,9 +32,29 @@ begin
     -- Salary on the 25th, rent on the 1st, utilities on the 3rd.
     if last_day >= 25 then
       insert into public.transactions (id, user_id, amount, type, date, note, is_auto_income, category_id)
-      select overlay(gen_random_uuid()::text placing sample_id from 1 for 8)::uuid, uid, 3850, 'income',
+      select overlay(gen_random_uuid()::text placing sample_id from 1 for 8)::uuid, uid,
+             round((3850 + (random() * 2 - 1) * 260)::numeric, 2), 'income',
              m + interval '24 days 12 hours', 'Salary', true, c.id
         from public.categories c where c.user_id = uid and c.name = 'Income' and c.deleted_at is null limit 1;
+    end if;
+
+    -- Extra income in finished months: holiday allowance (May), year-end
+    -- bonus (December), tax refund (April), freelance in about half the months.
+    if m < date_trunc('month', now())::date then
+      insert into public.transactions (id, user_id, amount, type, date, note, category_id)
+      select overlay(gen_random_uuid()::text placing sample_id from 1 for 8)::uuid, uid, v.amount, 'income',
+             m + (v.day - 1) * interval '1 day' + interval '12 hours', v.note, c.id
+        from (values (5, 2480.00, 20, 'Holiday allowance'), (12, 1900.00, 18, 'Year-end bonus'), (4, 640.00, 9, 'Tax refund'))
+               as v(month, amount, day, note)
+        join public.categories c on c.user_id = uid and c.name = 'Income' and c.deleted_at is null
+       where v.month = extract(month from m);
+      if random() < 0.45 then
+        insert into public.transactions (id, user_id, amount, type, date, note, category_id)
+        select overlay(gen_random_uuid()::text placing sample_id from 1 for 8)::uuid, uid,
+               round((150 + random() * 500)::numeric, 2), 'income',
+               m + floor(random() * 27) * interval '1 day' + interval '12 hours', 'Freelance', c.id
+          from public.categories c where c.user_id = uid and c.name = 'Income' and c.deleted_at is null limit 1;
+      end if;
     end if;
 
     insert into public.transactions (id, user_id, amount, type, date, note, is_fixed_expense, category_id)

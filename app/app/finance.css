@@ -1077,11 +1077,12 @@
   transition: left 0.12s ease-out, top 0.12s ease-out;
 }
 
-/* Development: "Pause animations" (lib/motion.ts) freezes all CSS motion. */
+/* Development: "Pause animations" (lib/motion.ts) switches CSS motion off.
+   Off, not frozen: a frozen fade-in or draw-in would stay invisible. */
 html[data-pf-paused] *,
 html[data-pf-paused] *::before,
 html[data-pf-paused] *::after {
-  animation-play-state: paused !important;
+  animation: none !important;
   transition: none !important;
 }
 

@@ -81,9 +81,22 @@ export function buildDemoData(now = new Date()): FinanceData {
     const lastDay = back === 0 ? now.getDate() : daysInMonth;
     const day = (d: number) => new Date(y, m, Math.min(d, lastDay), 12).toISOString();
 
-    push({ amount: "3850.00", type: "income", date: day(25), note: "Salary", is_auto_income: true,
+    // Income that moves like a real year: salary ± overtime, holiday
+    // allowance in May, a year-end bonus in December, a tax refund in April
+    // and freelance jobs in about half of the months (finished months only).
+    push({ amount: (3850 + (rand() * 2 - 1) * 260).toFixed(2), type: "income", date: day(25), note: "Salary", is_auto_income: true,
       is_fixed_expense: false, recurrence_id: null, category_id: cat("Income"), account_id: null });
     if (back === 0 && now.getDate() < 25) transactions.pop();
+    const calMonth = new Date(y, m, 1).getMonth();
+    const extra = (amount: number, d: number, note: string) =>
+      push({ amount: amount.toFixed(2), type: "income", date: day(d), note, is_auto_income: false,
+        is_fixed_expense: false, recurrence_id: null, category_id: cat("Income"), account_id: null });
+    if (back > 0) {
+      if (calMonth === 4) extra(2480, 20, "Holiday allowance");
+      if (calMonth === 11) extra(1900, 18, "Year-end bonus");
+      if (calMonth === 3) extra(640, 9, "Tax refund");
+      if (rand() < 0.45) extra(150 + rand() * 500, 1 + Math.floor(rand() * 27), "Freelance");
+    }
 
     push({ amount: "1250.00", type: "expense", date: day(1), note: "Rent", is_auto_income: false,
       is_fixed_expense: true, recurrence_id: id("r", 1), category_id: cat("Rent"), account_id: null });
