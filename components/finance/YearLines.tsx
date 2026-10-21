@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { monthToDate, summarize } from "@/lib/finance/calc";
 import { money, monthYear, shortMonth } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import Segmented from "./Segmented";
+import { useZoom } from "./useZoom";
 
 // Income vs Spent as two lines, with a Month / Year toggle:
 //   Year  — one point per month, Jan–Dec. The current month is live (same
@@ -300,29 +301,4 @@ function smooth(v: number, a: number, b: number) {
 function niceMax(v: number) {
   const p = 10 ** Math.floor(Math.log10(v));
   return ([1, 2, 5, 10].find((m) => m * p >= v) ?? 10) * p;
-}
-
-/** Eases the camera between 0 (year) and 1 (month). Picks up from wherever
- *  it is, so flipping the toggle mid-zoom reverses smoothly. */
-function useZoom(target: 0 | 1, ms: number) {
-  const [z, setZ] = useState<number>(target);
-  const from = useRef<number>(target);
-  useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const start = performance.now();
-    const begin = from.current;
-    const span = Math.abs(target - begin);
-    let raf = 0;
-    const step = (t: number) => {
-      const k = reduced || span === 0 ? 1 : Math.min(1, (t - start) / (ms * span));
-      const e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
-      const v = k >= 1 ? target : begin + (target - begin) * e;
-      from.current = v;
-      setZ(v);
-      if (k < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [target, ms]);
-  return z;
 }
