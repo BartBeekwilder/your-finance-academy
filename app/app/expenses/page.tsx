@@ -1,5 +1,6 @@
 "use client";
 
+import CategoryBars from "@/components/finance/CategoryBars";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { useState } from "react";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
@@ -68,6 +69,8 @@ export default function ExpensesPage() {
         )}
         <Stat label={`Average / month${finished.length ? ` (${finished.length} mo)` : ""}`} value={average ? money(average, currency) : "—"} />
       </div>
+
+      <CategoryBars data={data} now={now} currency={currency} />
 
       <section>
         <h2 className="pf-section-title">By month</h2>

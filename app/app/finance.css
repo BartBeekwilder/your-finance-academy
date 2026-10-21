@@ -1278,3 +1278,106 @@ html[data-pf-paused] *::after {
   from { opacity: 0; clip-path: inset(-10px 100% -10px 0); }
   to { opacity: 0.6; clip-path: inset(-10px 0 -10px 0); }
 }
+
+/* Expenses: stacked bars of spending per month by category. */
+.pf-cbar-plot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(4px, 1.2vw, 12px);
+}
+.pf-cbar-grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--pf-line);
+}
+.pf-cbar-slot {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.pf-cbar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse; /* first category at the bottom */
+  border-radius: 6px 6px 2px 2px;
+  overflow: hidden;
+  transform-origin: bottom;
+  animation: pf-cbar-grow 0.75s cubic-bezier(0.34, 1.25, 0.64, 1) both;
+}
+@keyframes pf-cbar-grow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+.pf-cbar-seg {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.35);
+  transition: opacity 0.25s, filter 0.25s;
+}
+.pf-cbar-seg[data-dim="true"] {
+  opacity: 0.22;
+}
+.pf-cbar-seg[data-lit="true"] {
+  filter: brightness(1.25) saturate(1.15);
+}
+.pf-cbar-expected {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1.5px dashed rgba(255, 69, 58, 0.55);
+  border-radius: 6px 6px 2px 2px;
+  animation: pf-fade-up 0.5s ease-out 0.8s both;
+}
+.pf-cbar-labels {
+  display: flex;
+  gap: clamp(4px, 1.2vw, 12px);
+  margin-top: 6px;
+}
+.pf-cbar-labels span {
+  flex: 1;
+  text-align: center;
+  font-size: 0.62rem;
+  color: var(--pf-ink-3);
+  transition: color 0.2s;
+}
+.pf-cbar-labels span[data-now="true"],
+.pf-cbar-labels span[data-lit="true"] {
+  color: var(--pf-ink);
+  font-weight: 600;
+}
+.pf-cbar-swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  margin-right: 6px;
+  vertical-align: 0;
+}
+.pf-cbar-legend {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--pf-ink-2);
+  font: inherit;
+  cursor: pointer;
+  transition: opacity 0.25s, color 0.2s;
+}
+.pf-cbar-legend:hover {
+  color: var(--pf-ink);
+}
+.pf-cbar-legend[data-dim="true"] {
+  opacity: 0.35;
+}
