@@ -1047,3 +1047,32 @@
   font-weight: 700;
   letter-spacing: 0.4em;
 }
+
+/* Tile sparkline scrub: the picked point and its label. */
+.pf-tsl-pick {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--dot), 0 0 10px var(--dot);
+  pointer-events: none;
+  transition: left 0.12s ease-out, top 0.12s ease-out;
+}
+.pf-tsl-tip {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  background: rgba(28, 28, 30, 0.92);
+  border: 1px solid var(--pf-line);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  z-index: 2;
+  animation: pf-fade-up 0.18s ease-out both;
+  transition: left 0.12s ease-out, top 0.12s ease-out;
+}

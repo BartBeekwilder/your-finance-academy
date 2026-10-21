@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { monthToDate, summarize } from "@/lib/finance/calc";
+import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 
 // Small live chart under each dashboard tile. It is one curve — the running
@@ -17,6 +18,10 @@ import type { FinanceData } from "@/lib/finance/types";
 // eases to fit, and the dot stays on screen as the focal point. The rest of
 // the period still to come is a faint dashed track. Draws in from the left
 // on first paint. Balance gets a zero line.
+//
+// Scrub: pointing at (or dragging along) the chart picks the nearest point —
+// a day in Month view, a month's end in Year view — and shows a guide line,
+// a dot and a little label with its date and running total.
 
 const H = 54;
 type Series = "income" | "spent" | "balance";
@@ -26,13 +31,16 @@ export default function TileSparkline({
   series,
   color,
   z,
+  currency,
 }: {
   data: FinanceData;
   series: Series;
   color: string;
   /** Camera: 1 = this month, 0 = the whole year (from useZoom). */
   z: number;
+  currency: string;
 }) {
+  const [sel, setSel] = useState<number | null>(null);
   const [tick, setTick] = useState(() => Date.now());
   useEffect(() => {
     const t = setInterval(() => setTick(Date.now()), 1000);
@@ -48,16 +56,20 @@ export default function TileSparkline({
 
   // Finished months as entered (as in Income vs Spent's Year view), then
   // this month day by day, continuing from where last month ended.
-  const pts: { t: number; v: number }[] = [{ t: 0, v: 0 }];
+  const pts: { t: number; v: number; label: string; day?: boolean }[] = [{ t: 0, v: 0, label: "" }];
   let before = 0;
   for (let m = 0; m < current; m++) {
     const s = summarize(data.transactions, new Date(year, m, 1));
     before += pick(s.income, s.spent);
-    pts.push({ t: m + 1, v: before });
+    pts.push({ t: m + 1, v: before, label: new Date(year, m, 1).toLocaleDateString("en-GB", { month: "long" }) });
   }
   for (const p of monthToDate(data, live).points) {
     const t = p.day === live.getDate() ? current + fraction : current + p.day / days;
-    pts.push({ t, v: before + pick(p.income, p.spent) });
+    const label =
+      p.day === live.getDate()
+        ? "Today · live"
+        : new Date(year, current, p.day).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+    pts.push({ t, v: before + pick(p.income, p.spent), label, day: true });
   }
   const now = pts[pts.length - 1];
 
@@ -80,8 +92,34 @@ export default function TileSparkline({
   const base = series === "balance" ? Math.min(Math.max(y(0), 0), H) : H - 4;
   const id = `pf-tsl-${series}`;
 
+  // ---- Scrub -----------------------------------------------------------------
+  // Month view: every day this month. Year view: each month's end, plus now.
+  const inMonth = z > 0.5;
+  const settled = z === 0 || z === 1;
+  const candidates = pts
+    .map((p, i) => i)
+    .filter((i) => (inMonth ? pts[i].day : i > 0 && (!pts[i].day || i === pts.length - 1)));
+  const scrub = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!settled) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const t = left + ((e.clientX - r.left) / r.width) * width;
+    let best = candidates[candidates.length - 1];
+    for (const i of candidates) if (Math.abs(pts[i].t - t) < Math.abs(pts[best].t - t)) best = i;
+    setSel(best);
+  };
+  const picked = sel !== null && settled && candidates.includes(sel) ? pts[sel] : null;
+  const pickedX = picked ? x(picked.t) : 0;
+  const pickedY = picked ? y(picked.v) : 0;
+
   return (
-    <div className="pf-tsl" style={{ position: "relative", height: H }}>
+    <div
+      className="pf-tsl"
+      style={{ position: "relative", height: H, cursor: "crosshair", touchAction: "pan-y" }}
+      onPointerMove={scrub}
+      onPointerDown={scrub}
+      onPointerLeave={() => setSel(null)}
+      onPointerCancel={() => setSel(null)}
+    >
       {/* Clipped: zoomed in, the earlier months run off the left edge. */}
       <svg viewBox={`0 0 100 ${H}`} preserveAspectRatio="none" width="100%" height={H} style={{ display: "block", overflow: "hidden" }} aria-hidden>
         <defs>
@@ -97,9 +135,26 @@ export default function TileSparkline({
           <path d={`${line} L${lastX},${base} L${x(0)},${base} Z`} fill={`url(#${id})`} />
           <path d={line} fill="none" stroke={color} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
         </g>
+        {picked && <line x1={pickedX} x2={pickedX} y1={0} y2={H} stroke="rgba(255,255,255,0.35)" strokeDasharray="2 3" vectorEffect="non-scaling-stroke" />}
       </svg>
       {/* "Now" — round in HTML (the SVG is stretched). */}
       <span className="pf-tsl-now" style={{ left: `${lastX}%`, top: lastY, ["--dot" as string]: color }} />
+      {picked && (
+        <>
+          <span className="pf-tsl-pick" style={{ left: `${pickedX}%`, top: pickedY, ["--dot" as string]: color }} />
+          {/* Above the point, or below it near the top; kept inside the tile. */}
+          <span
+            className="pf-tsl-tip"
+            style={{
+              left: `clamp(60px, ${pickedX}%, calc(100% - 60px))`,
+              top: pickedY > 26 ? pickedY - 30 : pickedY + 10,
+            }}
+          >
+            <span style={{ color: "var(--pf-ink-2)" }}>{picked.label}</span>{" "}
+            <b style={{ color }}>{money(inMonth ? picked.v - before : picked.v, currency)}</b>
+          </span>
+        </>
+      )}
     </div>
   );
 }

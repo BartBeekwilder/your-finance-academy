@@ -78,7 +78,7 @@ export default function LiveTiles({
         before={before.income}
         color={() => GREEN}
         currency={currency}
-        chart={(z) => <TileSparkline data={data} series="income" color="#30d158" z={z} />}
+        chart={(z) => <TileSparkline data={data} series="income" color="#30d158" z={z} currency={currency} />}
       >
         {(mode) =>
           mode === "month" ? (
@@ -103,7 +103,7 @@ export default function LiveTiles({
         before={before.spent}
         color={() => RED}
         currency={currency}
-        chart={(z) => <TileSparkline data={data} series="spent" color="#ff453a" z={z} />}
+        chart={(z) => <TileSparkline data={data} series="spent" color="#ff453a" z={z} currency={currency} />}
       >
         {(mode) => {
           const total = mode === "month" ? spentTotal : before.spent + spentTotal;
@@ -138,7 +138,7 @@ export default function LiveTiles({
         color={(v) => (v >= 0 ? BLUE : RED)}
         currency={currency}
         last
-        chart={(z, v) => <TileSparkline data={data} series="balance" color={v >= 0 ? "#0a84ff" : "#ff453a"} z={z} />}
+        chart={(z, v) => <TileSparkline data={data} series="balance" color={v >= 0 ? "#0a84ff" : "#ff453a"} z={z} currency={currency} />}
       >
         {(mode) => {
           const inc = mode === "month" ? liveIncome : ytd.income;
