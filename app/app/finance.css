@@ -1443,3 +1443,28 @@ html[data-pf-paused] *::after {
   width: 100%;
   font-size: 0.72rem;
 }
+
+/* Expenses › Month: transactions grouped by day. */
+.pf-day-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--pf-ink-3);
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--pf-line);
+}
+.pf-row-in {
+  animation: pf-fade-up 0.35s ease-out both;
+}
+.pf-fixed-tag {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  color: var(--pf-red);
+  background: rgba(255, 69, 58, 0.14);
+}
