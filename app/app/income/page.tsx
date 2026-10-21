@@ -1,7 +1,8 @@
 "use client";
 
 import { useFinance } from "@/components/finance/FinanceProvider";
-import { last12Months, num } from "@/lib/finance/calc";
+import LiveTiles from "@/components/finance/LiveTiles";
+import { last12Months, num, projectedNetIncome, summarize } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 export default function IncomePage() {
@@ -9,10 +10,24 @@ export default function IncomePage() {
   const currency = data.profile.currency_code;
   const p = data.profile;
   const months = last12Months(data.transactions, now).reverse();
+  const month = new Date(now.getFullYear(), now.getMonth(), 1);
+  const s = summarize(data.transactions, month);
 
   return (
     <div style={{ display: "grid", gap: 24 }}>
       <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Income</h1>
+
+      {/* The dashboard's live Income tile: Month / Year, zoom and scrub. */}
+      <LiveTiles
+        only="income"
+        data={data}
+        monthStart={month}
+        monthlyIncome={projectedNetIncome(data, month)}
+        enteredIncome={s.income}
+        fixed={s.fixed}
+        variable={s.variable}
+        currency={currency}
+      />
 
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
         <Stat label="Expected gross / month" value={money(num(p.expected_gross_monthly), currency)} />

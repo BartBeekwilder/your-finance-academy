@@ -3,15 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { Banknote, ChartLine, ChartPie, CircleDollarSign, LayoutGrid, List, LogOut, Pause, Play, Settings } from "lucide-react";
+import { Banknote, ChartLine, ChartPie, CircleDollarSign, LayoutGrid, List, LogOut, Receipt, Pause, Play, Settings } from "lucide-react";
 import { setMotionPaused, useMotionPaused } from "@/lib/motion";
 import BrandMark from "./BrandMark";
 import { useFinance } from "./FinanceProvider";
 
-// Same six tabs, same order, as the iOS TabView (Views/ContentView.swift).
+// The six iOS tabs (Views/ContentView.swift), same order, plus Expenses.
 const TABS = [
   { href: "/app", label: "Dashboard", Icon: ChartPie },
   { href: "/app/income", label: "Income", Icon: Banknote },
+  { href: "/app/expenses", label: "Expenses", Icon: Receipt },
   { href: "/app/investments", label: "Investments", Icon: ChartLine },
   { href: "/app/transactions", label: "Transactions", Icon: List },
   { href: "/app/categories", label: "Categories", Icon: LayoutGrid },

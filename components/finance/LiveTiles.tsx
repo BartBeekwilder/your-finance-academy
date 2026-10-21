@@ -36,6 +36,7 @@ export default function LiveTiles({
   fixed,
   variable,
   currency,
+  only,
 }: {
   data: FinanceData;
   monthStart: Date;
@@ -44,6 +45,8 @@ export default function LiveTiles({
   fixed: number;
   variable: number;
   currency: string;
+  /** Show just this tile (the Income and Expenses pages). */
+  only?: "income" | "spent" | "balance";
 }) {
   // 80 ms, like the net worth ticker, so the sub-cent digits visibly stream.
   const now = useNow(80);
@@ -68,9 +71,10 @@ export default function LiveTiles({
   const ytd = { income: before.income + liveIncome, spent: before.spent + liveSpent };
 
   return (
-    <div className="pf-card" style={{ overflow: "hidden", display: "grid", gridTemplateRows: "repeat(3, 1fr)" }}>
-      <Tile
+    <div className="pf-card" style={{ overflow: "hidden", display: "grid", gridTemplateRows: only ? undefined : "repeat(3, 1fr)" }}>
+      {(!only || only === "income") && <Tile
         title={() => "Income"}
+        last={only === "income"}
         value={liveIncome}
         before={before.income}
         color={() => GREEN}
@@ -92,10 +96,11 @@ export default function LiveTiles({
             </>
           )
         }
-      </Tile>
+      </Tile>}
 
-      <Tile
+      {(!only || only === "spent") && <Tile
         title={() => "Spent"}
+        last={only === "spent"}
         value={liveSpent}
         before={before.spent}
         color={() => RED}
@@ -126,9 +131,9 @@ export default function LiveTiles({
             </>
           );
         }}
-      </Tile>
+      </Tile>}
 
-      <Tile
+      {(!only || only === "balance") && <Tile
         title={(mode) => `Balance ${mode === "month" ? month : year}`}
         value={liveBalance}
         before={before.income - before.spent}
@@ -155,7 +160,7 @@ export default function LiveTiles({
             />
           );
         }}
-      </Tile>
+      </Tile>}
     </div>
   );
 }
