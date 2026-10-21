@@ -3,7 +3,7 @@
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { useState } from "react";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
-import { projectedNetIncome, summarize } from "@/lib/finance/calc";
+import { projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 // The Income page's counterpart for spending: the dashboard's live Spent
@@ -20,6 +20,10 @@ export default function ExpensesPage() {
   const thisYear = Array.from({ length: now.getMonth() + 1 }, (_, m) => summarize(data.transactions, new Date(now.getFullYear(), m, 1)));
   const yearSpent = thisYear.reduce((t, m) => t + m.spent, 0);
   const yearFixed = thisYear.reduce((t, m) => t + m.fixed, 0);
+  // Finished months as entered, plus the forecast for this month and the rest.
+  const forecast = yearForecast(data, now);
+  const expectedYear = thisYear.slice(0, -1).reduce((t, m) => t + m.spent, 0) + forecast.reduce((t, f) => t + f.spent, 0);
+  const monthName = month.toLocaleDateString("en-GB", { month: "long" });
 
   const months = Array.from({ length: 12 }, (_, i) => {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
@@ -57,6 +61,11 @@ export default function ExpensesPage() {
             <Stat label="Fixed costs this year" value={money(yearFixed, currency)} />
           </>
         )}
+        {mode === "month" ? (
+          <Stat label="Expected this month" value={money(forecast[0].spent, currency)} hint={`Forecast to the end of ${monthName}`} />
+        ) : (
+          <Stat label="Expected this year" value={money(expectedYear, currency)} hint="Forecast to December" />
+        )}
         <Stat label={`Average / month${finished.length ? ` (${finished.length} mo)` : ""}`} value={average ? money(average, currency) : "—"} />
       </div>
 
@@ -85,11 +94,12 @@ export default function ExpensesPage() {
   );
 }
 
-function Stat({ label, value, color }: { label: string; value: string; color?: string }) {
+function Stat({ label, value, color, hint }: { label: string; value: string; color?: string; hint?: string }) {
   return (
     <div className="pf-card" style={{ padding: 16 }}>
       <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{label}</div>
       <div className="pf-rounded" style={{ fontSize: "1.5rem", fontWeight: 700, color }}>{value}</div>
+      {hint && <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{hint}</div>}
     </div>
   );
 }

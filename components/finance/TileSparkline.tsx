@@ -2,7 +2,7 @@
 
 import { useNow } from "@/lib/motion";
 import { useState } from "react";
-import { monthToDate, projectedNetIncome, summarize } from "@/lib/finance/calc";
+import { monthToDate, summarize, yearForecast } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 
@@ -23,6 +23,10 @@ import type { FinanceData } from "@/lib/finance/types";
 // income at the expected net per month (and this month's in full), spending
 // at the average of this year's finished months (never less than what is
 // already entered this month); balance is the difference.
+//
+// Spent splits its area: fixed costs as a solid band along the bottom (pro
+// rata through this month, like the tile), variable spending as the lighter
+// area above — the same two shades as the Fixed · Variable bar below it.
 //
 // Scrub: pointing at (or dragging along) the chart picks the nearest point —
 // a day in Month view, a month's end in Year view (forecast months too) —
@@ -58,41 +62,37 @@ export default function TileSparkline({
 
   // Finished months as entered (as in Income vs Spent's Year view), then
   // this month day by day, continuing from where last month ended.
-  type Pt = { t: number; v: number; label: string; day?: boolean; forecast?: boolean };
+  // fx: the fixed-cost part of v (running total), for Spent's split.
+  type Pt = { t: number; v: number; fx: number; label: string; day?: boolean; forecast?: boolean };
   const monthName = (m: number) => new Date(year, m, 1).toLocaleDateString("en-GB", { month: "long" });
-  const pts: Pt[] = [{ t: 0, v: 0, label: "" }];
-  let before = 0, incBefore = 0, spentBefore = 0;
-  const finishedSpent: number[] = [];
+  const pts: Pt[] = [{ t: 0, v: 0, fx: 0, label: "" }];
+  let before = 0, incBefore = 0, spentBefore = 0, fxBefore = 0;
   for (let m = 0; m < current; m++) {
     const s = summarize(data.transactions, new Date(year, m, 1));
     before += pick(s.income, s.spent);
     incBefore += s.income;
     spentBefore += s.spent;
-    if (s.spent > 0) finishedSpent.push(s.spent);
-    pts.push({ t: m + 1, v: before, label: monthName(m) });
+    fxBefore += s.fixed;
+    pts.push({ t: m + 1, v: before, fx: fxBefore, label: monthName(m) });
   }
+  const thisMonth = summarize(data.transactions, new Date(year, current, 1));
   for (const p of monthToDate(data, live).points) {
     const t = p.day === live.getDate() ? current + fraction : current + p.day / days;
     const label =
       p.day === live.getDate()
         ? "Today · live"
         : new Date(year, current, p.day).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
-    pts.push({ t, v: before + pick(p.income, p.spent), label, day: true });
+    pts.push({ t, v: before + pick(p.income, p.spent), fx: fxBefore + thisMonth.fixed * (t - current), label, day: true });
   }
   const now = pts[pts.length - 1];
 
   // ---- Forecast to the end of the year -----------------------------------------
-  const thisMonth = summarize(data.transactions, new Date(year, current, 1));
-  const avgSpent = finishedSpent.length ? finishedSpent.reduce((a, b) => a + b, 0) / finishedSpent.length : thisMonth.spent;
-  let incCum = incBefore + projectedNetIncome(data, new Date(year, current, 1));
-  let spentCum = spentBefore + Math.max(thisMonth.spent, avgSpent);
   const forecast: Pt[] = [];
-  for (let m = current; m < 12; m++) {
-    if (m > current) {
-      incCum += projectedNetIncome(data, new Date(year, m, 1));
-      spentCum += avgSpent;
-    }
-    forecast.push({ t: m + 1, v: pick(incCum, spentCum), label: `End of ${monthName(m)} · forecast`, forecast: true });
+  let incCum = incBefore, spentCum = spentBefore;
+  for (const f of yearForecast(data, live)) {
+    incCum += f.income;
+    spentCum += f.spent;
+    forecast.push({ t: f.month + 1, v: pick(incCum, spentCum), fx: 0, label: `End of ${monthName(f.month)} · forecast`, forecast: true });
   }
   const all = [...pts, ...forecast];
 
@@ -112,6 +112,7 @@ export default function TileSparkline({
   const y = (v: number) => 4 + (1 - (v - lo) / span) * (H - 8);
 
   const line = pts.map((p, i) => `${i ? "L" : "M"}${x(p.t)},${y(p.v)}`).join(" ");
+  const fixedLine = pts.map((p, i) => `${i ? "L" : "M"}${x(p.t)},${y(p.fx)}`).join(" ");
   const lastX = x(now.t), lastY = y(now.v);
   const forecastLine = `M${lastX},${lastY} ` + forecast.map((p) => `L${x(p.t)},${y(p.v)}`).join(" ");
   const base = series === "balance" ? Math.min(Math.max(y(0), 0), H) : H - 4;
@@ -162,6 +163,7 @@ export default function TileSparkline({
         <path className="pf-tsl-forecast" d={forecastLine} fill="none" stroke={color} strokeWidth={1.75} strokeDasharray="2 5" strokeLinecap="round" opacity={0.6} vectorEffect="non-scaling-stroke" />
         <g className="pf-tsl-draw">
           <path d={`${line} L${lastX},${base} L${x(0)},${base} Z`} fill={`url(#${id})`} />
+          {series === "spent" && <path d={`${fixedLine} L${lastX},${base} L${x(0)},${base} Z`} fill={color} opacity={0.42} />}
           <path d={line} fill="none" stroke={color} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
         </g>
         {picked && <line x1={pickedX} x2={pickedX} y1={0} y2={H} stroke="rgba(255,255,255,0.35)" strokeDasharray="2 3" vectorEffect="non-scaling-stroke" />}
@@ -175,12 +177,22 @@ export default function TileSparkline({
           <span
             className="pf-tsl-tip"
             style={{
-              left: `clamp(60px, ${pickedX}%, calc(100% - 60px))`,
-              top: pickedY > 26 ? pickedY - 30 : pickedY + 10,
+              // Slides from left- to right-aligned across the chart, so it
+              // never runs past either edge. (`translate`, not `transform`:
+              // the fade-in animation owns transform.)
+              left: `${Math.min(Math.max(pickedX, 0), 100)}%`,
+              translate: `-${Math.min(Math.max(pickedX, 0), 100)}% 0`,
+              top: pickedY > 30 ? pickedY - 30 : pickedY + 10,
             }}
           >
             <span style={{ color: "var(--pf-ink-2)" }}>{picked.label}</span>{" "}
             <b style={{ color }}>{money(inMonth ? picked.v - before : picked.v, currency)}</b>
+            {series === "spent" && !picked.forecast && picked.v > 0 && (
+              <span style={{ display: "block", color: "var(--pf-ink-3)" }}>
+                Fixed {money(inMonth ? picked.fx - fxBefore : picked.fx, currency)} · Variable{" "}
+                {money(inMonth ? picked.v - before - (picked.fx - fxBefore) : picked.v - picked.fx, currency)}
+              </span>
+            )}
           </span>
         </>
       )}

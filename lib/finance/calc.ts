@@ -199,3 +199,23 @@ export function monthToDate(data: FinanceData, now: Date) {
   }
   return { points, days };
 }
+
+/** Forecast for this month and the rest of `now`'s year, per month (not
+ *  cumulative): income at the projected net (this month in full), spending at
+ *  the average of the year's finished months — this month never less than
+ *  what is already entered. Used by the tile sparklines' dotted line and the
+ *  Expenses page, so they agree. */
+export function yearForecast(data: FinanceData, now: Date) {
+  const year = now.getFullYear(), current = now.getMonth();
+  const finished = Array.from({ length: current }, (_, m) => summarize(data.transactions, new Date(year, m, 1)).spent).filter((v) => v > 0);
+  const thisMonth = summarize(data.transactions, new Date(year, current, 1));
+  const avgSpent = finished.length ? finished.reduce((a, b) => a + b, 0) / finished.length : thisMonth.spent;
+  return Array.from({ length: 12 - current }, (_, i) => {
+    const m = current + i;
+    return {
+      month: m,
+      income: projectedNetIncome(data, new Date(year, m, 1)),
+      spent: i === 0 ? Math.max(thisMonth.spent, avgSpent) : avgSpent,
+    };
+  });
+}

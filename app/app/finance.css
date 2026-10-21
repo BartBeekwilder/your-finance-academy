@@ -1062,7 +1062,8 @@
 }
 .pf-tsl-tip {
   position: absolute;
-  transform: translateX(-50%);
+  /* Natural width even at the right edge (left: 100% leaves no room). */
+  width: max-content;
   white-space: nowrap;
   padding: 3px 8px;
   border-radius: 999px;
