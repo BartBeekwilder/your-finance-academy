@@ -1268,3 +1268,12 @@ html[data-pf-paused] *::after {
   from { transform: translateX(-100%); }
   to { transform: translateX(100%); }
 }
+
+/* The forecast waits for the line's draw-in (pf-tsl-draw), then unrolls. */
+.pf-tsl-forecast {
+  animation: pf-tsl-forecast-in 0.8s ease-out 1.3s both;
+}
+@keyframes pf-tsl-forecast-in {
+  from { opacity: 0; clip-path: inset(-10px 100% -10px 0); }
+  to { opacity: 0.6; clip-path: inset(-10px 0 -10px 0); }
+}

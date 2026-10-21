@@ -1,7 +1,8 @@
 "use client";
 
 import { useFinance } from "@/components/finance/FinanceProvider";
-import LiveTiles from "@/components/finance/LiveTiles";
+import { useState } from "react";
+import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import { last12Months, num, projectedNetIncome, summarize } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
@@ -12,6 +13,10 @@ export default function IncomePage() {
   const months = last12Months(data.transactions, now).reverse();
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
+  // The stats follow the tile's Month / Year toggle.
+  const [mode, setMode] = useState<Mode>("month");
+  const per = mode === "month" ? "month" : "year";
+  const k = mode === "month" ? 1 : 12;
 
   return (
     <div style={{ display: "grid", gap: 24 }}>
@@ -27,11 +32,12 @@ export default function IncomePage() {
         fixed={s.fixed}
         variable={s.variable}
         currency={currency}
+        onModeChange={setMode}
       />
 
-      <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
-        <Stat label="Expected gross / month" value={money(num(p.expected_gross_monthly), currency)} />
-        <Stat label="Expected net / month" value={money(num(p.expected_net_monthly), currency)} color="var(--pf-green)" />
+      <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+        <Stat label={`Expected gross / ${per}`} value={money(num(p.expected_gross_monthly) * k, currency)} />
+        <Stat label={`Expected net / ${per}`} value={money(num(p.expected_net_monthly) * k, currency)} color="var(--pf-green)" />
         <Stat label="Payday" value={p.payday_day ? `Day ${p.payday_day}` : "—"} />
       </div>
 

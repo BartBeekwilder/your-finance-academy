@@ -2,7 +2,7 @@
 
 import { useNow } from "@/lib/motion";
 import { useState } from "react";
-import { monthToDate, summarize } from "@/lib/finance/calc";
+import { monthToDate, projectedNetIncome, summarize } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 
@@ -16,12 +16,17 @@ import type { FinanceData } from "@/lib/finance/types";
 // Time is measured in months (Jan = 0). Switching zooms the camera about
 // "now" — the glowing dot — like Income vs Spent: the x-range scales
 // (log-scale, like a map zoom) between twelve months and one, the y-range
-// eases to fit, and the dot stays on screen as the focal point. The rest of
-// the period still to come is a faint dashed track. Draws in from the left
-// on first paint. Balance gets a zero line.
+// eases to fit, and the dot stays on screen as the focal point. Draws in
+// from the left on first paint. Balance gets a zero line.
+//
+// Forecast: a dotted line carries on from "now" to the end of the year —
+// income at the expected net per month (and this month's in full), spending
+// at the average of this year's finished months (never less than what is
+// already entered this month); balance is the difference.
 //
 // Scrub: pointing at (or dragging along) the chart picks the nearest point —
-// a day in Month view, a month's end in Year view — and shows a guide line,
+// a day in Month view, a month's end in Year view (forecast months too) —
+// and shows a guide line,
 // a dot and a little label with its date and running total.
 
 const H = 54;
@@ -53,12 +58,18 @@ export default function TileSparkline({
 
   // Finished months as entered (as in Income vs Spent's Year view), then
   // this month day by day, continuing from where last month ended.
-  const pts: { t: number; v: number; label: string; day?: boolean }[] = [{ t: 0, v: 0, label: "" }];
-  let before = 0;
+  type Pt = { t: number; v: number; label: string; day?: boolean; forecast?: boolean };
+  const monthName = (m: number) => new Date(year, m, 1).toLocaleDateString("en-GB", { month: "long" });
+  const pts: Pt[] = [{ t: 0, v: 0, label: "" }];
+  let before = 0, incBefore = 0, spentBefore = 0;
+  const finishedSpent: number[] = [];
   for (let m = 0; m < current; m++) {
     const s = summarize(data.transactions, new Date(year, m, 1));
     before += pick(s.income, s.spent);
-    pts.push({ t: m + 1, v: before, label: new Date(year, m, 1).toLocaleDateString("en-GB", { month: "long" }) });
+    incBefore += s.income;
+    spentBefore += s.spent;
+    if (s.spent > 0) finishedSpent.push(s.spent);
+    pts.push({ t: m + 1, v: before, label: monthName(m) });
   }
   for (const p of monthToDate(data, live).points) {
     const t = p.day === live.getDate() ? current + fraction : current + p.day / days;
@@ -70,9 +81,25 @@ export default function TileSparkline({
   }
   const now = pts[pts.length - 1];
 
+  // ---- Forecast to the end of the year -----------------------------------------
+  const thisMonth = summarize(data.transactions, new Date(year, current, 1));
+  const avgSpent = finishedSpent.length ? finishedSpent.reduce((a, b) => a + b, 0) / finishedSpent.length : thisMonth.spent;
+  let incCum = incBefore + projectedNetIncome(data, new Date(year, current, 1));
+  let spentCum = spentBefore + Math.max(thisMonth.spent, avgSpent);
+  const forecast: Pt[] = [];
+  for (let m = current; m < 12; m++) {
+    if (m > current) {
+      incCum += projectedNetIncome(data, new Date(year, m, 1));
+      spentCum += avgSpent;
+    }
+    forecast.push({ t: m + 1, v: pick(incCum, spentCum), label: `End of ${monthName(m)} · forecast`, forecast: true });
+  }
+  const all = [...pts, ...forecast];
+
   // ---- Camera ----------------------------------------------------------------
   const range = (from: number) => {
-    const vs = pts.filter((p) => p.t >= from).map((p) => p.v);
+    // Month view frames this month (its forecast end included); Year view all.
+    const vs = all.filter((p) => p.t >= from && (from === 0 || p.t <= from + 1)).map((p) => p.v);
     return { lo: Math.min(...vs, from === 0 ? 0 : Infinity), hi: Math.max(...vs) };
   };
   const yearR = range(0), monthR = range(current);
@@ -86,6 +113,7 @@ export default function TileSparkline({
 
   const line = pts.map((p, i) => `${i ? "L" : "M"}${x(p.t)},${y(p.v)}`).join(" ");
   const lastX = x(now.t), lastY = y(now.v);
+  const forecastLine = `M${lastX},${lastY} ` + forecast.map((p) => `L${x(p.t)},${y(p.v)}`).join(" ");
   const base = series === "balance" ? Math.min(Math.max(y(0), 0), H) : H - 4;
   const id = `pf-tsl-${series}`;
 
@@ -93,18 +121,22 @@ export default function TileSparkline({
   // Month view: every day this month. Year view: each month's end, plus now.
   const inMonth = z > 0.5;
   const settled = z === 0 || z === 1;
-  const candidates = pts
+  const candidates = all
     .map((p, i) => i)
-    .filter((i) => (inMonth ? pts[i].day : i > 0 && (!pts[i].day || i === pts.length - 1)));
+    .filter((i) => {
+      const p = all[i];
+      if (p.forecast) return !inMonth || p.t === current + 1;
+      return inMonth ? p.day : i > 0 && (!p.day || i === pts.length - 1);
+    });
   const scrub = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!settled) return;
     const r = e.currentTarget.getBoundingClientRect();
     const t = left + ((e.clientX - r.left) / r.width) * width;
     let best = candidates[candidates.length - 1];
-    for (const i of candidates) if (Math.abs(pts[i].t - t) < Math.abs(pts[best].t - t)) best = i;
+    for (const i of candidates) if (Math.abs(all[i].t - t) < Math.abs(all[best].t - t)) best = i;
     setSel(best);
   };
-  const picked = sel !== null && settled && candidates.includes(sel) ? pts[sel] : null;
+  const picked = sel !== null && settled && candidates.includes(sel) ? all[sel] : null;
   const pickedX = picked ? x(picked.t) : 0;
   const pickedY = picked ? y(picked.v) : 0;
 
@@ -127,7 +159,7 @@ export default function TileSparkline({
         </defs>
         {/* The whole period as a faint track; from now on it is still to come. */}
         <line x1={0} x2={100} y1={base} y2={base} stroke="rgba(255,255,255,0.08)" strokeWidth={1} vectorEffect="non-scaling-stroke" />
-        <line x1={lastX} x2={100} y1={base} y2={base} stroke="rgba(255,255,255,0.18)" strokeDasharray="2 4" vectorEffect="non-scaling-stroke" />
+        <path className="pf-tsl-forecast" d={forecastLine} fill="none" stroke={color} strokeWidth={1.75} strokeDasharray="2 5" strokeLinecap="round" opacity={0.6} vectorEffect="non-scaling-stroke" />
         <g className="pf-tsl-draw">
           <path d={`${line} L${lastX},${base} L${x(0)},${base} Z`} fill={`url(#${id})`} />
           <path d={line} fill="none" stroke={color} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />

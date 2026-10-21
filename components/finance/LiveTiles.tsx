@@ -26,7 +26,7 @@ const RED = "var(--pf-red)";
 const GREEN = "var(--pf-green)";
 const BLUE = "var(--pf-blue)";
 
-type Mode = "month" | "year";
+export type Mode = "month" | "year";
 
 export default function LiveTiles({
   data,
@@ -37,6 +37,7 @@ export default function LiveTiles({
   variable,
   currency,
   only,
+  onModeChange,
 }: {
   data: FinanceData;
   monthStart: Date;
@@ -47,6 +48,8 @@ export default function LiveTiles({
   currency: string;
   /** Show just this tile (the Income and Expenses pages). */
   only?: "income" | "spent" | "balance";
+  /** Told when a tile switches Month / Year (so a page can follow along). */
+  onModeChange?: (mode: Mode) => void;
 }) {
   // 80 ms, like the net worth ticker, so the sub-cent digits visibly stream.
   const now = useNow(80);
@@ -75,6 +78,7 @@ export default function LiveTiles({
       {(!only || only === "income") && <Tile
         title={() => "Income"}
         last={only === "income"}
+        onModeChange={onModeChange}
         value={liveIncome}
         before={before.income}
         color={() => GREEN}
@@ -101,6 +105,7 @@ export default function LiveTiles({
       {(!only || only === "spent") && <Tile
         title={() => "Spent"}
         last={only === "spent"}
+        onModeChange={onModeChange}
         value={liveSpent}
         before={before.spent}
         color={() => RED}
@@ -173,7 +178,7 @@ const elapsed = (f: number, on: string, off: string) => [
 /** One tile. `value` is this month's live figure; `before` is the finished
  *  months of the year, which Year mode adds on — eased with the zoom, so the
  *  number counts along while the sparkline zooms out. */
-function Tile({ title, value, before, color, currency, last, chart, children }: {
+function Tile({ title, value, before, color, currency, last, chart, children, onModeChange }: {
   title: (mode: Mode) => string;
   value: number;
   before: number;
@@ -182,6 +187,7 @@ function Tile({ title, value, before, color, currency, last, chart, children }: 
   last?: boolean;
   chart: (z: number, shown: number) => React.ReactNode;
   children: (mode: Mode) => React.ReactNode;
+  onModeChange?: (mode: Mode) => void;
 }) {
   const [mode, setMode] = useState<Mode>("month");
   const z = useZoom(mode === "month" ? 1 : 0, 950);
@@ -197,7 +203,7 @@ function Tile({ title, value, before, color, currency, last, chart, children }: 
         <Segmented
           label={`${title("month").split(" ")[0]} period`}
           value={mode}
-          onChange={setMode}
+          onChange={(m) => { setMode(m); onModeChange?.(m); }}
           options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
         />
       </div>

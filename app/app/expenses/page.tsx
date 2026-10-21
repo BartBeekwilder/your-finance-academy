@@ -1,7 +1,8 @@
 "use client";
 
 import { useFinance } from "@/components/finance/FinanceProvider";
-import LiveTiles from "@/components/finance/LiveTiles";
+import { useState } from "react";
+import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import { projectedNetIncome, summarize } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
@@ -14,6 +15,11 @@ export default function ExpensesPage() {
   const currency = data.profile.currency_code;
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
+  // The stats follow the tile's Month / Year toggle.
+  const [mode, setMode] = useState<Mode>("month");
+  const thisYear = Array.from({ length: now.getMonth() + 1 }, (_, m) => summarize(data.transactions, new Date(now.getFullYear(), m, 1)));
+  const yearSpent = thisYear.reduce((t, m) => t + m.spent, 0);
+  const yearFixed = thisYear.reduce((t, m) => t + m.fixed, 0);
 
   const months = Array.from({ length: 12 }, (_, i) => {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
@@ -36,11 +42,21 @@ export default function ExpensesPage() {
         fixed={s.fixed}
         variable={s.variable}
         currency={currency}
+        onModeChange={setMode}
       />
 
-      <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
-        <Stat label="Entered this month" value={money(s.spent, currency)} color="var(--pf-red)" />
-        <Stat label="Fixed costs / month" value={money(s.fixed, currency)} />
+      <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+        {mode === "month" ? (
+          <>
+            <Stat label="Entered this month" value={money(s.spent, currency)} color="var(--pf-red)" />
+            <Stat label="Fixed costs / month" value={money(s.fixed, currency)} />
+          </>
+        ) : (
+          <>
+            <Stat label="Entered this year" value={money(yearSpent, currency)} color="var(--pf-red)" />
+            <Stat label="Fixed costs this year" value={money(yearFixed, currency)} />
+          </>
+        )}
         <Stat label={`Average / month${finished.length ? ` (${finished.length} mo)` : ""}`} value={average ? money(average, currency) : "—"} />
       </div>
 
