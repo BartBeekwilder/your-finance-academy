@@ -1336,7 +1336,7 @@ html[data-pf-paused] *::after {
   left: 0;
   right: 0;
   bottom: 0;
-  border: 1.5px dashed rgba(255, 69, 58, 0.55);
+  border: 1.5px dashed rgba(var(--pf-cbar-accent, 255, 69, 58), 0.55);
   border-radius: 6px 6px 2px 2px;
   transition: border-color 0.2s, background 0.2s;
   animation: pf-fade-up 0.5s ease-out 0.8s both;
@@ -1398,8 +1398,8 @@ html[data-pf-paused] *::after {
   border-radius: 3px 3px 1px 1px;
 }
 .pf-cbar-expected[data-lit="true"] {
-  border-color: rgba(255, 69, 58, 0.9);
-  background: rgba(255, 69, 58, 0.08);
+  border-color: rgba(var(--pf-cbar-accent, 255, 69, 58), 0.9);
+  background: rgba(var(--pf-cbar-accent, 255, 69, 58), 0.08);
 }
 
 /* Category bars + the period's summary bar on the right (below when narrow). */
@@ -1460,11 +1460,16 @@ html[data-pf-paused] *::after {
 .pf-row-in {
   animation: pf-fade-up 0.35s ease-out both;
 }
-.pf-fixed-tag {
+.pf-fixed-tag,
+.pf-auto-tag {
   margin-left: 6px;
   padding: 1px 6px;
   border-radius: 999px;
   font-size: 0.65rem;
   color: var(--pf-red);
   background: rgba(255, 69, 58, 0.14);
+}
+.pf-auto-tag {
+  color: var(--pf-green);
+  background: rgba(48, 209, 88, 0.14);
 }
