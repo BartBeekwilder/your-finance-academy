@@ -70,7 +70,7 @@ export default function ExpensesPage() {
         <Stat label={`Average / month${finished.length ? ` (${finished.length} mo)` : ""}`} value={average ? money(average, currency) : "—"} />
       </div>
 
-      <CategoryBars data={data} now={now} currency={currency} />
+      <CategoryBars data={data} now={now} currency={currency} mode={mode} />
 
       <section>
         <h2 className="pf-section-title">By month</h2>

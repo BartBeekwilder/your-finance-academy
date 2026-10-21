@@ -1288,6 +1288,7 @@ html[data-pf-paused] *::after {
 }
 .pf-cbar-grid {
   position: absolute;
+  pointer-events: none;
   left: 0;
   right: 0;
   height: 1px;
@@ -1337,6 +1338,7 @@ html[data-pf-paused] *::after {
   bottom: 0;
   border: 1.5px dashed rgba(255, 69, 58, 0.55);
   border-radius: 6px 6px 2px 2px;
+  transition: border-color 0.2s, background 0.2s;
   animation: pf-fade-up 0.5s ease-out 0.8s both;
 }
 .pf-cbar-labels {
@@ -1380,4 +1382,22 @@ html[data-pf-paused] *::after {
 }
 .pf-cbar-legend[data-dim="true"] {
   opacity: 0.35;
+}
+
+.pf-cbar-plot[data-mode="month"] {
+  gap: clamp(1px, 0.35vw, 4px);
+}
+.pf-cbar-plot[data-mode="month"] .pf-cbar {
+  border-radius: 3px 3px 1px 1px;
+}
+.pf-cbar-plot[data-mode="month"] + .pf-cbar-labels {
+  gap: clamp(1px, 0.35vw, 4px);
+}
+.pf-cbar-slot[data-future="true"] {
+  background: rgba(255, 255, 255, 0.025);
+  border-radius: 3px 3px 1px 1px;
+}
+.pf-cbar-expected[data-lit="true"] {
+  border-color: rgba(255, 69, 58, 0.9);
+  background: rgba(255, 69, 58, 0.08);
 }
