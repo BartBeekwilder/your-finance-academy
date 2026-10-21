@@ -14,11 +14,17 @@ import { useCategoryDetail } from "./CategoryDetail";
 //           days (the Spent tile's rule), variable spending sits on the day
 //           it happened, and the days still to come are empty slots.
 // Each bar is built up from its categories (subcategories rolled into their
-// parent) in the user's own category order and colours; spending without a
+// parent) in the user's own category order and colours — fixed-cost
+// categories first, at the bottom, then the variable ones; spending without a
 // category is a grey block on top. The bars grow up one after another on
 // first paint and whenever the view switches. Pointing at a block — or a legend entry — lights that
 // category up in every month and dims the rest; the readout above says what
-// it is. Clicking a block opens the category sheet. In Year view this
+// it is. Clicking a block opens the category sheet.
+//
+// To the right, one tall bar sums up the whole period — this month so far
+// (Month) or the year so far (Year) — stacked the same way, with the period's
+// forecast as a dashed outline and each category's amount and share beside
+// it; it doubles as the legend and lights up the bars like they do. In Year view this
 // month's bar is "so far", with a dashed outline up to the month's forecast,
 // as are the placeholders for the months to come.
 
@@ -49,7 +55,16 @@ export default function CategoryBars({ data, now, currency, mode }: { data: Fina
   const months = mode === "year" ? yearBuckets(data, now) : dayBuckets(data, now);
   const expected = yearForecast(data, now)[0].spent;
   const max = niceMax(Math.max(1, ...months.map((m) => Math.max(m.total, m.expected ?? 0))));
-  const used = categories.filter((c) => months.some((m) => m.by.has(c.id)));
+  // Categories with fixed costs (e.g. rent) form the base of every stack.
+  const byId = new Map(live(data.categories).map((c) => [c.id, c]));
+  const fixedIds = new Set(
+    live(data.transactions)
+      .filter((t) => t.type === "expense" && t.is_fixed_expense && t.category_id)
+      .map((t) => byId.get(t.category_id!)?.parent_id ?? t.category_id!),
+  );
+  const used = categories
+    .filter((c) => months.some((m) => m.by.has(c.id)))
+    .sort((a, b) => Number(fixedIds.has(b.id)) - Number(fixedIds.has(a.id)));
   const hasOther = months.some((m) => m.by.has(OTHER));
   const stack = [...used.map((c) => ({ id: c.id, name: c.name, color: `#${c.color_hex}` })), ...(hasOther ? [{ id: OTHER, name: "No category", color: "#636366" }] : [])];
 
@@ -58,6 +73,13 @@ export default function CategoryBars({ data, now, currency, mode }: { data: Fina
   const shownCat = hover ? stack.find((s) => s.id === hover.id) : null;
   const shownValue = hover && shown ? (shown.by.get(hover.id) ?? 0) : 0;
   const current = months.find((m) => m.isNow);
+
+  // The period's summary bar.
+  const periodBy = new Map<string, number>();
+  for (const m of months) for (const [id, v] of m.by) periodBy.set(id, (periodBy.get(id) ?? 0) + v);
+  const periodTotal = [...periodBy.values()].reduce((a, b) => a + b, 0);
+  const periodExpected = mode === "year" ? months.reduce((t, m) => t + Math.max(m.total, m.expected ?? 0), 0) : expected;
+  const periodTop = Math.max(periodTotal, periodExpected, 1);
 
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 10 }}>
@@ -87,7 +109,8 @@ export default function CategoryBars({ data, now, currency, mode }: { data: Fina
         </span>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 8 }}>
+      <div className="pf-cbar-layout">
+      <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 8, minWidth: 0 }}>
         {/* Axis labels sit exactly on their grid lines. */}
         <div style={{ position: "relative", height: H, fontSize: "0.6rem", color: "var(--pf-ink-3)", textAlign: "right" }}>
           {[1, 0.5, 0].map((f) => (
@@ -152,21 +175,63 @@ export default function CategoryBars({ data, now, currency, mode }: { data: Fina
         </div>
       </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 12px", fontSize: "0.72rem" }}>
-        {stack.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            className="pf-cbar-legend"
-            data-dim={lit !== null && lit !== s.id}
-            onMouseEnter={() => setFocus(s.id)}
-            onMouseLeave={() => setFocus(null)}
-            onClick={(e) => s.id !== OTHER && openCategory(s.id, e.currentTarget)}
-          >
-            <span className="pf-cbar-swatch" style={{ background: s.color }} />
-            {s.name}
-          </button>
-        ))}
+      {/* The whole period in one bar, with its breakdown beside it. */}
+      <div className="pf-cbar-summary">
+        <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
+          {mode === "month" ? `${now.toLocaleDateString("en-GB", { month: "long" })} so far` : `${now.getFullYear()} so far`}
+          <div className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700, color: "var(--pf-red)" }}>{money(periodTotal, currency)}</div>
+          <div>expected {money(periodExpected, currency)}</div>
+        </div>
+        <div style={{ display: "flex", gap: 12, alignItems: "stretch", minHeight: 0 }}>
+          <div key={`s${mode}`} className="pf-cbar-total" style={{ height: H }}>
+            {periodExpected > periodTotal && <span className="pf-cbar-expected" style={{ height: "100%", animationDelay: "0.9s" }} />}
+            <div className="pf-cbar" style={{ height: `${(periodTotal / periodTop) * 100}%`, animationDelay: "0.25s" }}>
+              {stack.map((s) => {
+                const v = periodBy.get(s.id);
+                if (!v) return null;
+                return (
+                  <button
+                    key={s.id}
+                    type="button"
+                    className="pf-cbar-seg"
+                    aria-label={`${s.name}: ${money(v, currency)}`}
+                    data-dim={lit !== null && lit !== s.id}
+                    data-lit={lit === s.id}
+                    style={{ height: `${(v / periodTotal) * 100}%`, background: s.color }}
+                    onMouseEnter={() => setFocus(s.id)}
+                    onMouseLeave={() => setFocus(null)}
+                    onClick={(e) => s.id !== OTHER && openCategory(s.id, e.currentTarget)}
+                  />
+                );
+              })}
+            </div>
+          </div>
+          {/* Top to bottom, in the bar's order. */}
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: 2, minWidth: 0, flex: 1 }}>
+            {[...stack].reverse().map((s) => {
+              const v = periodBy.get(s.id) ?? 0;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  className="pf-cbar-legend pf-cbar-row"
+                  data-dim={lit !== null && lit !== s.id}
+                  onMouseEnter={() => setFocus(s.id)}
+                  onMouseLeave={() => setFocus(null)}
+                  onClick={(e) => s.id !== OTHER && openCategory(s.id, e.currentTarget)}
+                >
+                  <span className="pf-cbar-swatch" style={{ background: s.color }} />
+                  <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "left" }}>{s.name}</span>
+                  <span className="pf-rounded" style={{ color: "var(--pf-ink)" }}>{money(v, currency)}</span>
+                  <span className="pf-rounded" style={{ width: 30, textAlign: "right", color: "var(--pf-ink-3)" }}>
+                    {periodTotal ? Math.round((v / periodTotal) * 100) : 0}%
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   );

@@ -1401,3 +1401,45 @@ html[data-pf-paused] *::after {
   border-color: rgba(255, 69, 58, 0.9);
   background: rgba(255, 69, 58, 0.08);
 }
+
+/* Category bars + the period's summary bar on the right (below when narrow). */
+.pf-cbar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr);
+  gap: 24px;
+  align-items: end;
+}
+@media (max-width: 860px) {
+  .pf-cbar-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.pf-cbar-summary {
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
+  border-left: 1px solid var(--pf-line);
+}
+@media (max-width: 860px) {
+  .pf-cbar-summary {
+    padding: 16px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--pf-line);
+  }
+}
+.pf-cbar-total {
+  position: relative;
+  flex: none;
+  width: 46px;
+  display: flex;
+  align-items: flex-end;
+}
+.pf-cbar-total .pf-cbar {
+  border-radius: 8px 8px 3px 3px;
+}
+.pf-cbar-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  font-size: 0.72rem;
+}
