@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { Banknote, ChartLine, ChartPie, CircleDollarSign, LayoutGrid, List, LogOut, Pause, Play, Settings } from "lucide-react";
 import { setMotionPaused, useMotionPaused } from "@/lib/motion";
-import BrandMark, { brandMarkSvg } from "./BrandMark";
+import BrandMark from "./BrandMark";
 import { useFinance } from "./FinanceProvider";
 
 // Same six tabs, same order, as the iOS TabView (Views/ContentView.swift).
@@ -21,12 +21,6 @@ const TABS = [
 export default function AppNav() {
   const path = usePathname();
   const { source, email, signOut, data } = useFinance();
-  const currency = data.profile.currency_code;
-  // Browser tab icon: the logo with the user's own currency on the coin.
-  useEffect(() => {
-    const href = `data:image/svg+xml,${encodeURIComponent(brandMarkSvg(currency))}`;
-    document.querySelectorAll<HTMLLinkElement>('link[rel~="icon"]').forEach((l) => (l.href = href));
-  }, [currency]);
 
   return (
     <nav className="pf-nav" aria-label="App">
