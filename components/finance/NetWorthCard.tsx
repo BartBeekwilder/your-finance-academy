@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useNow } from "@/lib/motion";
+
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { money } from "@/lib/finance/format";
 import LiveAmount from "./LiveAmount";
@@ -22,11 +23,7 @@ export default function NetWorthCard({
   yearDelta: number;
   currency: string;
 }) {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const t = setInterval(() => setNow(Date.now()), 80);
-    return () => clearInterval(t);
-  }, []);
+  const now = useNow(80);
 
   const perMs = monthlyPace / (30.44 * 24 * 3600 * 1000);
   const d = new Date(now);

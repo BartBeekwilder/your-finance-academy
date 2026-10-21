@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useNow } from "@/lib/motion";
+import { useState } from "react";
 import { monthToDate, summarize } from "@/lib/finance/calc";
 import { money, monthYear, shortMonth } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
@@ -42,11 +43,7 @@ export default function YearLines({
 }) {
   const [mode, setMode] = useState<"month" | "year">("year");
   const [sel, setSel] = useState<number | null>(null);
-  const [tick, setTick] = useState(() => Date.now());
-  useEffect(() => {
-    const t = setInterval(() => setTick(Date.now()), 1000);
-    return () => clearInterval(t);
-  }, []);
+  const tick = useNow(1000);
 
   const live = new Date(tick);
   const year = now.getFullYear();

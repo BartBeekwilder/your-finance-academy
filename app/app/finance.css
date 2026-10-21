@@ -1076,3 +1076,11 @@
   animation: pf-fade-up 0.18s ease-out both;
   transition: left 0.12s ease-out, top 0.12s ease-out;
 }
+
+/* Development: "Pause animations" (lib/motion.ts) freezes all CSS motion. */
+html[data-pf-paused] *,
+html[data-pf-paused] *::before,
+html[data-pf-paused] *::after {
+  animation-play-state: paused !important;
+  transition: none !important;
+}

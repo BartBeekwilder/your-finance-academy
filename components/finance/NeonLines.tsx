@@ -1,5 +1,6 @@
 "use client";
 
+import { useMotionPaused } from "@/lib/motion";
 import { useEffect, useRef } from "react";
 
 // Port of the iOS NeonLinesBackground: faint curves drifting across a black
@@ -42,6 +43,8 @@ function makeSeeds(count: number): Seed[] {
 
 export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?: number; opacity?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  // Paused: draw one still frame and stop.
+  const paused = useMotionPaused();
 
   useEffect(() => {
     const canvas = ref.current;
@@ -95,7 +98,7 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
           ctx.stroke();
         }
       }
-      if (!reduced) frame = requestAnimationFrame(draw);
+      if (!reduced && !paused) frame = requestAnimationFrame(draw);
     };
 
     resize();
@@ -105,7 +108,7 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
     };
-  }, [lineCount, opacity]);
+  }, [lineCount, opacity, paused]);
 
   return <canvas ref={ref} className="pf-neon" aria-hidden />;
 }

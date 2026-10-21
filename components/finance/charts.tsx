@@ -1,5 +1,6 @@
 "use client";
 
+import { useNow } from "@/lib/motion";
 import { useEffect, useRef, useState } from "react";
 import { useCategoryDetail } from "./CategoryDetail";
 import StepSlider from "./StepSlider";
@@ -183,12 +184,7 @@ export function CategoryDonut({ months, years, currency, now }: {
 /** Fraction of `now`'s month that has passed, re-read every 80 ms while
  *  `ticking` (same cadence as the live tiles, so the digits stream). */
 function useMonthFraction(now: Date, ticking: boolean) {
-  const [clock, setClock] = useState(() => Date.now());
-  useEffect(() => {
-    if (!ticking) return;
-    const t = setInterval(() => setClock(Date.now()), 80);
-    return () => clearInterval(t);
-  }, [ticking]);
+  const clock = useNow(80, ticking);
   // Exactly as LiveTiles (days × 24 h), so the total matches the Spent tile.
   const start = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
   const days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();

@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { summarize } from "@/lib/finance/calc";
+import { useNow } from "@/lib/motion";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import LiveAmount from "./LiveAmount";
@@ -44,12 +45,8 @@ export default function LiveTiles({
   variable: number;
   currency: string;
 }) {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    // 80 ms, like the net worth ticker, so the sub-cent digits visibly stream.
-    const t = setInterval(() => setNow(Date.now()), 80);
-    return () => clearInterval(t);
-  }, []);
+  // 80 ms, like the net worth ticker, so the sub-cent digits visibly stream.
+  const now = useNow(80);
 
   const start = monthStart.getTime();
   const days = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0).getDate();

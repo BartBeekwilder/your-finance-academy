@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useNow } from "@/lib/motion";
+import { useState } from "react";
 import { summarize } from "@/lib/finance/calc";
 import { money, monthYear, shortMonth } from "@/lib/finance/format";
 import type { Transaction } from "@/lib/finance/types";
@@ -35,11 +36,7 @@ export default function SavingsChart({
   currency: string;
 }) {
   const [hover, setHover] = useState<number | null>(null);
-  const [tick, setTick] = useState(() => Date.now());
-  useEffect(() => {
-    const t = setInterval(() => setTick(Date.now()), 1000);
-    return () => clearInterval(t);
-  }, []);
+  const tick = useNow(1000);
 
   const months: Month[] = Array.from({ length: 12 }, (_, i) => {
     const month = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1);

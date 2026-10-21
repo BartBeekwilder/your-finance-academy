@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useNow } from "@/lib/motion";
+
 import { money } from "@/lib/finance/format";
 
 /** A budget bar that carries its own numbers.
@@ -92,13 +93,7 @@ export default function BudgetBar({
 
 /** Fraction of the month elapsed, re-read every second; 1 when not needed. */
 function useMonthFraction(monthStart?: Date) {
-  const [now, setNow] = useState(() => Date.now());
-  const active = monthStart !== undefined;
-  useEffect(() => {
-    if (!active) return;
-    const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
-  }, [active]);
+  const now = useNow(1000, monthStart !== undefined);
   if (!monthStart) return 1;
   const start = new Date(monthStart.getFullYear(), monthStart.getMonth(), 1).getTime();
   const end = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 1).getTime();
