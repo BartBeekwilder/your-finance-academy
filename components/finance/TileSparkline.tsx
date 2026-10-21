@@ -112,7 +112,15 @@ export default function TileSparkline({
   const y = (v: number) => 4 + (1 - (v - lo) / span) * (H - 8);
 
   const line = pts.map((p, i) => `${i ? "L" : "M"}${x(p.t)},${y(p.v)}`).join(" ");
-  const fixedLine = pts.map((p, i) => `${i ? "L" : "M"}${x(p.t)},${y(p.fx)}`).join(" ");
+  // The fixed band is stacked from the bottom of what's in view: the start
+  // of the year in Year view, the start of this month in Month view (else
+  // the earlier months' total would push it off the chart). Earlier points
+  // in Month view only show mid-zoom; they're kept under the curve.
+  const fixedAt = (p: Pt) => {
+    const inMonthView = p.t >= current ? before + (p.fx - fxBefore) : Math.min(p.v, p.fx + (before - fxBefore));
+    return lerp(p.fx, inMonthView, z);
+  };
+  const fixedLine = pts.map((p, i) => `${i ? "L" : "M"}${x(p.t)},${y(fixedAt(p))}`).join(" ");
   const lastX = x(now.t), lastY = y(now.v);
   const forecastLine = `M${lastX},${lastY} ` + forecast.map((p) => `L${x(p.t)},${y(p.v)}`).join(" ");
   const base = series === "balance" ? Math.min(Math.max(y(0), 0), H) : H - 4;
