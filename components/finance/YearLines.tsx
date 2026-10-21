@@ -23,6 +23,12 @@ import { useZoom } from "./useZoom";
 // the monthly lines fade out as the daily ones fade in, the axis labels
 // ride along, and the dots stay on screen as the focal point throughout.
 // Zooming out is the same motion in reverse.
+//
+// Range zoom, like the Stocks app: drag across the chart to select a
+// stretch — a band marks it and the readout gives its totals (Month: what
+// came in and went out between the two days; Year: the months summed) —
+// and on release the camera glides into that range, the y-scale refitting.
+// "Zoom out", a double-click or switching Month / Year glides back.
 
 const GREEN = "#30d158";
 const RED = "#ff453a";
@@ -43,6 +49,10 @@ export default function YearLines({
 }) {
   const [mode, setMode] = useState<"month" | "year">("year");
   const [sel, setSel] = useState<number | null>(null);
+  const [drag, setDrag] = useState<{ a: number; b: number } | null>(null);
+  const [range, setRange] = useState<{ t0: number; t1: number } | null>(null);
+  const [zoomed, setZoomed] = useState(false);
+  const rz = useZoom(zoomed ? 1 : 0, 650);
   const tick = useNow(1000);
 
   const live = new Date(tick);
@@ -83,9 +93,17 @@ export default function YearLines({
   // the dots glide from their place in the year to today's place in the month.
   const anchor = current;
   const anchorAt = lerp((anchor - yearView.left) / yearView.width, (anchor - monthView.left) / monthView.width, z);
-  const width = yearView.width * Math.pow(monthView.width / yearView.width, z);
-  const left = anchor - anchorAt * width;
-  const max = Math.exp(lerp(Math.log(yearView.max), Math.log(monthView.max), z));
+  const baseWidth = yearView.width * Math.pow(monthView.width / yearView.width, z);
+  const baseLeft = anchor - anchorAt * baseWidth;
+  const baseMax = Math.exp(lerp(Math.log(yearView.max), Math.log(monthView.max), z));
+
+  // Range zoom on top of that camera (rz: 0 = off, 1 = framed on the range).
+  const pts = mode === "year" ? yearPts : monthPts;
+  const inRange = range ? pts.filter((q) => q.t >= range.t0 - 0.0001 && q.t <= range.t1 + 0.0001) : [];
+  const rangeMax = niceMax(Math.max(1, ...inRange.flatMap((q) => [q.income, q.spent])));
+  const width = range ? Math.exp(lerp(Math.log(baseWidth), Math.log(range.t1 - range.t0), rz)) : baseWidth;
+  const left = range ? lerp(baseLeft, range.t0, rz) : baseLeft;
+  const max = range ? Math.exp(lerp(Math.log(baseMax), Math.log(rangeMax), rz)) : baseMax;
 
   const x = (t: number) => ((t - left) / width) * W;
   const y = (v: number) => H - PAD - (v / max) * (H - PAD * 2);
@@ -93,28 +111,68 @@ export default function YearLines({
 
   const yearOpacity = 1 - smooth(z, 0.35, 0.85);
   const monthOpacity = smooth(z, 0.15, 0.65);
-  const settled = z === 0 || z === 1;
+  const settled = (z === 0 || z === 1) && (rz === 0 || rz === 1);
 
   // ---- Readout / hover (in whichever view is showing) ------------------------
-  const pts = mode === "year" ? yearPts : monthPts;
   const last = pts.length - 1;
   const shown = sel !== null && sel <= last ? sel : last;
   const p = pts[shown];
-  const pick = (e: React.PointerEvent<SVGSVGElement>) => {
-    if (!settled) return;
+  const tAt = (e: React.PointerEvent<SVGSVGElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
-    const t = left + ((e.clientX - r.left) / r.width) * width;
+    return left + ((e.clientX - r.left) / r.width) * width;
+  };
+  const nearest = (t: number) => {
     let best = 0;
     pts.forEach((q, i) => {
       if (Math.abs(q.t - t) < Math.abs(pts[best].t - t)) best = i;
     });
-    setSel(best);
+    return best;
   };
+  const pick = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (!settled) return;
+    const t = tAt(e);
+    if (drag) setDrag({ ...drag, b: t });
+    setSel(nearest(t));
+  };
+  const startDrag = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (!settled) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const t = tAt(e);
+    setDrag({ a: t, b: t });
+    setSel(nearest(t));
+  };
+  const endDrag = () => {
+    if (!drag) return;
+    const t0 = Math.min(drag.a, drag.b), t1 = Math.max(drag.a, drag.b);
+    setDrag(null);
+    // A real selection (not a tap) with at least two points in it zooms in.
+    const n = pts.filter((q) => q.t >= t0 && q.t <= t1).length;
+    if (t1 - t0 > width * 0.04 && n >= 2) {
+      setRange({ t0, t1 });
+      setZoomed(true);
+      setSel(null);
+    }
+  };
+  const zoomOut = () => {
+    setZoomed(false);
+    setSel(null);
+  };
+
+  // While dragging: the selected stretch and its totals.
+  const span = drag ? { i0: nearest(Math.min(drag.a, drag.b)), i1: nearest(Math.max(drag.a, drag.b)) } : null;
+  const spanTotals = span
+    ? mode === "year"
+      ? pts.slice(span.i0, span.i1 + 1).reduce((t, q) => ({ income: t.income + q.income, spent: t.spent + q.spent }), { income: 0, spent: 0 })
+      : { income: pts[span.i1].income - pts[span.i0].income, spent: pts[span.i1].spent - pts[span.i0].spent }
+    : null;
 
   // Axis labels for both views; each rides the camera and fades with its view.
   const monthLabels = Array.from({ length: 12 }, (_, m) => ({ t: m, text: shortMonth(new Date(year, m, 1)).slice(0, 1), bold: m === current, dim: m > current }));
+  // Denser day labels as the range zoom closes in.
+  const visibleDays = width * days;
+  const step = visibleDays <= 10 ? 1 : visibleDays <= 20 ? 2 : 5;
   const dayLabels = Array.from({ length: days }, (_, i) => i + 1)
-    .filter((d) => d === 1 || d === days || (d % 5 === 0 && d <= days - 3))
+    .filter((d) => (step === 1 ? true : d === 1 || d === days || (d % step === 0 && d <= days - (step === 5 ? 3 : 1))))
     .map((d) => ({ t: dayT(d), text: String(d), bold: d === today, dim: d > today }));
 
   return (
@@ -129,14 +187,33 @@ export default function YearLines({
           onChange={(m) => {
             setMode(m);
             setSel(null);
+            setZoomed(false);
           }}
           options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
         />
       </div>
 
-      <div key={`${mode}-${shown}`} className="pf-readout" style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
-        {p.full} · <span style={{ color: GREEN, fontWeight: 600 }}>{money(p.income, currency)}</span> ·{" "}
-        <span style={{ color: RED, fontWeight: 600 }}>{money(p.spent, currency)}</span>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, minHeight: 22 }}>
+        {span && spanTotals && span.i1 > span.i0 ? (
+          <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
+            {pts[span.i0].full.replace(" · live", "")} → {pts[span.i1].full.replace(" · live", "")} ·{" "}
+            <span style={{ color: GREEN, fontWeight: 600 }}>{money(spanTotals.income, currency, { signed: mode === "month" })}</span> ·{" "}
+            <span style={{ color: RED, fontWeight: 600 }}>{money(spanTotals.spent, currency, { signed: mode === "month" })}</span> ·{" "}
+            <span style={{ fontWeight: 600, color: spanTotals.income - spanTotals.spent >= 0 ? "var(--pf-blue)" : RED }}>
+              {money(spanTotals.income - spanTotals.spent, currency, { signed: true })} net
+            </span>
+          </div>
+        ) : (
+          <div key={`${mode}-${shown}`} className="pf-readout" style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
+            {p.full} · <span style={{ color: GREEN, fontWeight: 600 }}>{money(p.income, currency)}</span> ·{" "}
+            <span style={{ color: RED, fontWeight: 600 }}>{money(p.spent, currency)}</span>
+          </div>
+        )}
+        {zoomed ? (
+          <button type="button" className="pf-zoom-out" onClick={zoomOut}>Zoom out</button>
+        ) : (
+          <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>Drag to zoom</span>
+        )}
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 6 }}>
@@ -154,8 +231,11 @@ export default function YearLines({
             // Clip: while zoomed in, the rest of the year runs off the edges.
             style={{ display: "block", touchAction: "none", cursor: "crosshair", overflow: "hidden" }}
             onPointerMove={pick}
-            onPointerDown={pick}
-            onPointerLeave={() => setSel(null)}
+            onPointerDown={startDrag}
+            onPointerUp={endDrag}
+            onPointerCancel={() => setDrag(null)}
+            onPointerLeave={() => !drag && setSel(null)}
+            onDoubleClick={zoomOut}
             role="img"
             aria-label={mode === "year" ? `Income and spending per month in ${year}` : "Income and spending so far this month, day by day"}
           >
@@ -198,7 +278,15 @@ export default function YearLines({
               })}
             </g>
 
-            {settled && <line x1={x(p.t)} x2={x(p.t)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />}
+            {drag && (
+              <g>
+                <rect x={Math.min(x(drag.a), x(drag.b))} y={0} width={Math.abs(x(drag.b) - x(drag.a))} height={H} fill="rgba(255,255,255,0.07)" />
+                {[drag.a, drag.b].map((t, i) => (
+                  <line key={i} x1={x(t)} x2={x(t)} y1={0} y2={H} stroke="rgba(255,255,255,0.45)" vectorEffect="non-scaling-stroke" />
+                ))}
+              </g>
+            )}
+            {settled && !drag && <line x1={x(p.t)} x2={x(p.t)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />}
           </svg>
 
           {/* Dots in HTML so they stay round despite the stretched SVG. While
@@ -206,6 +294,9 @@ export default function YearLines({
           {(() => {
             const dot = settled ? p : pts[last];
             const isLive = !settled || shown === last;
+            // Zoomed into a range, the dot can be off to the side: hide it.
+            const at = x(dot.t) / W;
+            if (at < -0.01 || at > 1.01) return null;
             return (
             <div style={{ position: "relative", height: 0 }}>
               {(["income", "spent"] as const).map((key) => (

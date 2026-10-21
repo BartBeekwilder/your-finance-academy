@@ -1534,3 +1534,19 @@ html[data-pf-paused] *::after {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
 }
+
+/* Income vs Spent: range zoom. */
+.pf-zoom-out {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--pf-line);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--pf-ink);
+  font: inherit;
+  font-size: 0.68rem;
+  cursor: pointer;
+  animation: pf-chip-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.pf-zoom-out:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
