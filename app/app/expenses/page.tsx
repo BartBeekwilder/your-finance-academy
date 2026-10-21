@@ -56,12 +56,22 @@ export default function ExpensesPage() {
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
         {mode === "month" ? (
           <>
-            <Stat label="Entered this month" value={money(s.spent, currency)} color="var(--pf-red)" />
+            <Stat
+              label="Entered this month"
+              value={money(s.spent, currency)}
+              color="var(--pf-red)"
+              progress={forecast[0].spent ? { share: s.spent / forecast[0].spent, of: `${money(forecast[0].spent, currency)} expected` } : undefined}
+            />
             <Stat label="Fixed costs / month" value={money(s.fixed, currency)} />
           </>
         ) : (
           <>
-            <Stat label="Entered this year" value={money(yearSpent, currency)} color="var(--pf-red)" />
+            <Stat
+              label="Entered this year"
+              value={money(yearSpent, currency)}
+              color="var(--pf-red)"
+              progress={expectedYear ? { share: yearSpent / expectedYear, of: `${money(expectedYear, currency)} expected` } : undefined}
+            />
             <Stat label="Fixed costs this year" value={money(yearFixed, currency)} />
           </>
         )}

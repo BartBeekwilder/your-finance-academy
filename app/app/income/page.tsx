@@ -51,7 +51,12 @@ export default function IncomePage() {
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
         {mode === "month" ? (
           <>
-            <Stat label="Received this month" value={money(s.income, currency)} color="var(--pf-green)" />
+            <Stat
+              label="Received this month"
+              value={money(s.income, currency)}
+              color="var(--pf-green)"
+              progress={forecast[0].income ? { share: s.income / forecast[0].income, of: `${money(forecast[0].income, currency)} expected` } : undefined}
+            />
             <Stat
               label="Expected net this month"
               value={money(forecast[0].income, currency)}
@@ -65,7 +70,12 @@ export default function IncomePage() {
           </>
         ) : (
           <>
-            <Stat label="Received this year" value={money(receivedYear, currency)} color="var(--pf-green)" />
+            <Stat
+              label="Received this year"
+              value={money(receivedYear, currency)}
+              color="var(--pf-green)"
+              progress={expectedYear ? { share: receivedYear / expectedYear, of: `${money(expectedYear, currency)} expected` } : undefined}
+            />
             <Stat label="Expected this year" value={money(expectedYear, currency)} hint="Forecast to December" />
             <Stat label="Expected gross / year" value={money(num(p.expected_gross_monthly) * 12, currency)} />
           </>

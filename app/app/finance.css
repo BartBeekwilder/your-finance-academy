@@ -1514,3 +1514,23 @@ html[data-pf-paused] *::after {
   box-shadow: inset 0 0 0 1px var(--pf-line);
   color: var(--pf-ink-3);
 }
+
+/* Stat: thin share-of-expected line. */
+.pf-stat-track {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(120, 120, 128, 0.25);
+  overflow: hidden;
+}
+.pf-stat-track > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  opacity: 0.85;
+  transform-origin: left;
+  animation: pf-stat-fill 0.9s cubic-bezier(0.25, 0.8, 0.25, 1) 0.2s both;
+}
+@keyframes pf-stat-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
