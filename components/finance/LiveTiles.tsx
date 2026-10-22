@@ -178,7 +178,7 @@ const elapsed = (f: number, on: string, off: string) => [
 /** One tile. `value` is this month's live figure; `before` is the finished
  *  months of the year, which Year mode adds on — eased with the zoom, so the
  *  number counts along while the sparkline zooms out. */
-function Tile({ title, value, before, color, currency, last, chart, children, onModeChange }: {
+export function Tile({ title, value, before, color, currency, last, chart, children, onModeChange }: {
   title: (mode: Mode) => string;
   value: number;
   before: number;
@@ -216,7 +216,7 @@ function Tile({ title, value, before, color, currency, last, chart, children, on
   );
 }
 
-function Sub({ label, value, suffix, color, currency }: { label: string; value: number; suffix?: string; color: string; currency: string }) {
+export function Sub({ label, value, suffix, color, currency }: { label: string; value: number; suffix?: string; color: string; currency: string }) {
   return (
     <div style={{ fontSize: "0.68rem", color: "var(--pf-ink-2)", display: "flex", gap: 4 }}>
       {label}
@@ -226,7 +226,7 @@ function Sub({ label, value, suffix, color, currency }: { label: string; value: 
   );
 }
 
-function Bar({ label, labelColor, parts }: { label: string; labelColor?: string; parts: { share: number; color: string }[] }) {
+export function Bar({ label, labelColor, parts }: { label: string; labelColor?: string; parts: { share: number; color: string }[] }) {
   return (
     <div style={{ display: "grid", gap: 4, marginTop: 2 }}>
       <div style={{ fontSize: "0.68rem", color: labelColor ?? "var(--pf-ink-3)", opacity: labelColor ? 0.8 : 1 }}>{label}</div>

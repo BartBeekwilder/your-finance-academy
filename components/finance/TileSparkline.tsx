@@ -34,7 +34,7 @@ import type { FinanceData } from "@/lib/finance/types";
 // a dot and a little label with its date and running total.
 
 const H = 54;
-type Series = "income" | "spent" | "balance";
+type Series = "income" | "spent" | "balance" | "networth";
 
 // Memoised: the tile around it re-renders every 80 ms for its number; the
 // chart only needs its own 1 s tick (and new props while zooming).
@@ -44,6 +44,7 @@ export default memo(function TileSparkline({
   color,
   z,
   currency,
+  offset = 0,
 }: {
   data: FinanceData;
   series: Series;
@@ -51,6 +52,8 @@ export default memo(function TileSparkline({
   /** Camera: 1 = this month, 0 = the whole year (from useZoom). */
   z: number;
   currency: string;
+  /** Net worth: the start-of-year value the running balance builds on. */
+  offset?: number;
 }) {
   const [sel, setSel] = useState<number | null>(null);
   const tick = useNow(1000);
@@ -61,14 +64,17 @@ export default memo(function TileSparkline({
   const days = new Date(year, current + 1, 0).getDate();
   const fraction = Math.min(Math.max((tick - new Date(year, current, 1).getTime()) / (days * 86_400_000), 0), 1);
   const pick = (income: number, spent: number) => (series === "income" ? income : series === "spent" ? spent : income - spent);
+  // Net worth is a level, not a flow: the balance curve lifted by `offset`,
+  // and no forced zero in the y-range.
+  const stock = series === "networth";
 
   // Finished months as entered (as in Income vs Spent's Year view), then
   // this month day by day, continuing from where last month ended.
   // fx: the fixed-cost part of v (running total), for Spent's split.
   type Pt = { t: number; v: number; fx: number; label: string; day?: boolean; forecast?: boolean };
   const monthName = (m: number) => new Date(year, m, 1).toLocaleDateString("en-GB", { month: "long" });
-  const pts: Pt[] = [{ t: 0, v: 0, fx: 0, label: "" }];
-  let before = 0, incBefore = 0, spentBefore = 0, fxBefore = 0;
+  const pts: Pt[] = [{ t: 0, v: offset, fx: 0, label: "" }];
+  let before = offset, incBefore = 0, spentBefore = 0, fxBefore = 0;
   for (let m = 0; m < current; m++) {
     const s = summarize(data.transactions, new Date(year, m, 1));
     before += pick(s.income, s.spent);
@@ -94,7 +100,7 @@ export default memo(function TileSparkline({
   for (const f of yearForecast(data, live)) {
     incCum += f.income;
     spentCum += f.spent;
-    forecast.push({ t: f.month + 1, v: pick(incCum, spentCum), fx: 0, label: `End of ${monthName(f.month)} · forecast`, forecast: true });
+    forecast.push({ t: f.month + 1, v: offset + pick(incCum, spentCum), fx: 0, label: `End of ${monthName(f.month)} · forecast`, forecast: true });
   }
   const all = [...pts, ...forecast];
 
@@ -102,7 +108,7 @@ export default memo(function TileSparkline({
   const range = (from: number) => {
     // Month view frames this month (its forecast end included); Year view all.
     const vs = all.filter((p) => p.t >= from && (from === 0 || p.t <= from + 1)).map((p) => p.v);
-    return { lo: Math.min(...vs, from === 0 ? 0 : Infinity), hi: Math.max(...vs) };
+    return { lo: Math.min(...vs, from === 0 && !stock ? 0 : Infinity), hi: Math.max(...vs) };
   };
   const yearR = range(0), monthR = range(current);
   const anchorAt = lerp(now.t / 12, fraction, z);
@@ -126,6 +132,7 @@ export default memo(function TileSparkline({
   const lastX = x(now.t), lastY = y(now.v);
   const forecastLine = `M${lastX},${lastY} ` + forecast.map((p) => `L${x(p.t)},${y(p.v)}`).join(" ");
   const base = series === "balance" ? Math.min(Math.max(y(0), 0), H) : H - 4;
+
   const id = `pf-tsl-${series}`;
 
   // ---- Scrub -----------------------------------------------------------------
@@ -196,7 +203,7 @@ export default memo(function TileSparkline({
             }}
           >
             <span style={{ color: "var(--pf-ink-2)" }}>{picked.label}</span>{" "}
-            <b style={{ color }}>{money(inMonth ? picked.v - before : picked.v, currency)}</b>
+            <b style={{ color }}>{money(inMonth && !stock ? picked.v - before : picked.v, currency)}</b>
             {series === "spent" && !picked.forecast && picked.v > 0 && (
               <span style={{ display: "block", color: "var(--pf-ink-3)" }}>
                 Fixed {money(inMonth ? picked.fx - fxBefore : picked.fx, currency)} · Variable{" "}

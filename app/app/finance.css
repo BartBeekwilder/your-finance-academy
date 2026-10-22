@@ -1557,3 +1557,71 @@ html[data-pf-paused] *::after {
 .pf-zoom-out:hover {
   background: rgba(255, 255, 255, 0.12);
 }
+
+/* Net worth: waterfall + where it sits. */
+.pf-wf-plot {
+  position: relative;
+  display: flex;
+  gap: clamp(4px, 1vw, 10px);
+}
+.pf-wf-plot[data-mode="month"] {
+  gap: clamp(1px, 0.35vw, 4px);
+}
+.pf-wf-slot {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.pf-wf-slot[data-lit="true"] {
+  background: rgba(255, 255, 255, 0.04);
+}
+.pf-wf-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-radius: 4px;
+  animation: pf-cbar-grow 0.7s cubic-bezier(0.34, 1.25, 0.64, 1) both;
+}
+.pf-wf-bar[data-kind="change"][data-up="true"] { background: #30d158; }
+.pf-wf-bar[data-kind="change"][data-up="false"] { background: #ff453a; }
+.pf-wf-bar[data-kind="total"],
+.pf-wf-bar[data-kind="end"] {
+  background: linear-gradient(180deg, #40c8e0, rgba(64, 200, 224, 0.35));
+}
+.pf-wf-bar[data-kind="end"] {
+  background: transparent;
+  border: 1.5px dashed rgba(64, 200, 224, 0.8);
+}
+.pf-wf-bar[data-kind="forecast"] {
+  background: transparent;
+  border: 1.5px dashed rgba(48, 209, 88, 0.6);
+}
+.pf-wf-bar[data-kind="forecast"][data-up="false"] {
+  border-color: rgba(255, 69, 58, 0.6);
+}
+.pf-wf-slot[data-lit="true"] .pf-wf-bar {
+  filter: brightness(1.2);
+}
+.pf-wf-link {
+  position: absolute;
+  left: 100%;
+  width: clamp(4px, 1vw, 10px);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+}
+.pf-wf-plot[data-mode="month"] .pf-wf-link {
+  display: none;
+}
+.pf-nw-split {
+  display: flex;
+  gap: 2px;
+  height: 14px;
+  border-radius: 7px;
+  overflow: hidden;
+}
+.pf-nw-split > span {
+  transform-origin: left;
+  animation: pf-stat-fill 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+}

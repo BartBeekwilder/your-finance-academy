@@ -219,3 +219,33 @@ export function yearForecast(data: FinanceData, now: Date) {
     };
   });
 }
+
+/** Net worth over the year, on the live tiles' rules. `base` is today's
+ *  accounts + holdings (at cost) and stands for the net worth at the start
+ *  of this month; finished months move it by what was entered (income −
+ *  spending), this month by the live Balance (projected income × fraction −
+ *  fixed × fraction − variable), the months ahead by the forecast. */
+export function netWorthFigures(data: FinanceData, now: Date) {
+  const currency = data.profile.currency_code;
+  const accounts = live(data.accounts);
+  const accountsTotal = accounts.reduce((t, a) => t + num(a.balance), 0);
+  const holdingsTotal = investedIn(data.holdings, currency).total;
+  const base = accountsTotal + holdingsTotal;
+  const year = now.getFullYear(), current = now.getMonth();
+  const finished = Array.from({ length: current }, (_, m) => {
+    const s = summarize(data.transactions, new Date(year, m, 1));
+    return s.income - s.spent;
+  });
+  const startOfYear = base - finished.reduce((a, b) => a + b, 0);
+  const days = new Date(year, current + 1, 0).getDate();
+  const thisMonth = summarize(data.transactions, new Date(year, current, 1));
+  const projected = projectedNetIncome(data, new Date(year, current, 1));
+  const monthStart = new Date(year, current, 1).getTime();
+  /** This month's live change at time `at` (ms) — the Balance tile. */
+  const liveChange = (at: number) => {
+    const f = Math.min(Math.max((at - monthStart) / (days * 86_400_000), 0), 1);
+    return projected * f - (thisMonth.fixed * f + thisMonth.variable);
+  };
+  const forecast = yearForecast(data, now).map((f) => ({ month: f.month, change: f.income - f.spent }));
+  return { accountsTotal, holdingsTotal, base, startOfYear, finished, liveChange, forecast, thisMonth, projected, days };
+}
