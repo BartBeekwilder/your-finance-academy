@@ -6,7 +6,8 @@
  *  labels swap with a slide-and-fade and the thumb glides to its new spot.
  *  Built on a native range input (drag, touch, click, arrow keys).
  *  Disabled steps (future months) show but can't be chosen. */
-export type Step = { label: string; short?: string; full: string; disabled?: boolean };
+/** `faint`: selectable, but shown faded (e.g. forecast months). */
+export type Step = { label: string; short?: string; full: string; disabled?: boolean; faint?: boolean };
 
 export default function StepSlider({
   steps,
@@ -56,6 +57,7 @@ export default function StepSlider({
             tabIndex={-1}
             disabled={s.disabled}
             data-on={i === value}
+            data-faint={s.faint || undefined}
             onClick={() => onChange(i)}
             style={{ left: `${pct(i)}%`, animationDelay: `${i * 25}ms` }}
             aria-label={s.full}

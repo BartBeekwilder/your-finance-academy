@@ -32,6 +32,9 @@ export default function BudgetsPage() {
   // category sheet.
   const [sel, setSel] = useState(now.getMonth());
   const isCurrent = sel === now.getMonth();
+  // Months still to come show a forecast: each category's average over this
+  // year's finished months (fixed costs land on their usual amount).
+  const isFuture = sel > now.getMonth();
   const month = new Date(now.getFullYear(), sel, 1);
   const categories = live(data.categories);
   const expenses = live(data.transactions).filter((t) => t.type === "expense" && inMonth(t, month));
@@ -42,7 +45,10 @@ export default function BudgetsPage() {
     .map((c) => {
       const ids = selfAndChildren(c, categories);
       const spent = expenses.filter((t) => t.category_id && ids.has(t.category_id)).reduce((s, t) => s + num(t.amount), 0);
-      return { c, spent, budget: categoryYear(data, c, now).months[sel].budget };
+      const cy = categoryYear(data, c, now).months;
+      const done = cy.slice(0, now.getMonth()).map((m) => m.total);
+      const expected = done.length ? done.reduce((a, b) => a + b, 0) / done.length : cy[now.getMonth()].total;
+      return { c, spent: isFuture ? expected : spent, budget: cy[sel].budget };
     });
   const monthPace = isCurrent ? monthProgress(now) : 1;
 
@@ -81,7 +87,7 @@ export default function BudgetsPage() {
           <div key={`${mode}-${sel}`} className="pf-readout" style={{ fontSize: "1.15rem", fontWeight: 650, color: "var(--pf-ink)" }}>
             {mode === "month" ? monthYear(month) : now.getFullYear()}
             <span style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--pf-ink-3)" }}>
-              {mode === "month" ? (isCurrent ? " · so far" : " · finished") : " · so far"}
+              {mode === "month" ? (isFuture ? " · forecast" : isCurrent ? " · so far" : " · finished") : " · so far"}
             </span>
           </div>
           <Segmented label="Period" value={mode} onChange={setMode} options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
@@ -92,7 +98,7 @@ export default function BudgetsPage() {
               {money(totalSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>of {money(totalBudget, currency)}</span>
             </div>
             {/* The total budget, same bar as each category: over it spills out. */}
-            <BudgetBar spent={totalSpent} budget={totalBudget} color="#30d158" heat currency={currency} monthFraction={monthPace} />
+            <BudgetBar spent={totalSpent} budget={totalBudget} color="#30d158" heat forecast={isFuture} currency={currency} monthFraction={isFuture ? undefined : monthPace} />
             <StepSlider
               label="Month"
               animKey="budget-months"
@@ -100,7 +106,7 @@ export default function BudgetsPage() {
               steps={Array.from({ length: 12 }, (_, i) => {
                 const d = new Date(now.getFullYear(), i, 1);
                 const name = d.toLocaleDateString("en-GB", { month: "long" });
-                return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}`, disabled: i > now.getMonth() };
+                return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}${i > now.getMonth() ? " · forecast" : ""}`, faint: i > now.getMonth() };
               })}
               onChange={setSel}
             />
@@ -124,11 +130,15 @@ export default function BudgetsPage() {
         )}
       </div>
       <CategoryDonut
-        months={Array.from({ length: now.getMonth() + 1 }, (_, m) => spendByCategory(data, new Date(now.getFullYear(), m, 1)))}
+        months={[
+          ...Array.from({ length: now.getMonth() + 1 }, (_, m) => spendByCategory(data, new Date(now.getFullYear(), m, 1))),
+          // Months ahead: the same forecast as the list.
+          ...Array.from({ length: 11 - now.getMonth() }, () => (isFuture ? rows : []).filter((r) => r.spent > 0).map((r) => ({ category: r.c, spent: r.spent }))),
+        ]}
         years={yearsWithData(data, now).map((year) => ({ year, slices: spendByCategoryYear(data, year) }))}
         currency={currency}
         now={now}
-        control={{ mode, monthIndex: sel }}
+        control={{ mode, monthIndex: sel, forecast: isFuture }}
       />
       </div>
 
@@ -136,7 +146,7 @@ export default function BudgetsPage() {
         <YearList rows={yearRows} currency={currency} yearFraction={yearFraction} openCategory={openCategory} />
       ) : (
       <section key="month" className="pf-readout">
-        <h2 className="pf-section-title">Monthly limits — {monthYear(month)}</h2>
+        <h2 className="pf-section-title">Monthly limits — {monthYear(month)}{isFuture && " · forecast"}</h2>
         <div className="pf-card">
           <BudgetScaleSwitch />
           {rows.map(({ c, spent, budget }) => {
@@ -151,7 +161,7 @@ export default function BudgetsPage() {
                     </span>
                   </div>
                   {budget !== null ? (
-                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={monthPace} fixedMonthStart={c.is_fixed_expense ? month : undefined} scaleMax={compare ? maxBudget : undefined} />
+                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={isFuture ? undefined : monthPace} fixedMonthStart={c.is_fixed_expense && !isFuture ? month : undefined} forecast={isFuture} scaleMax={compare ? maxBudget : undefined} />
                   ) : (
                     <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(spent, currency)} spent</span>
                   )}

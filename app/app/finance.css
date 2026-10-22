@@ -1809,3 +1809,24 @@ html[data-pf-paused] *::after {
   from { background-position: 150% 0; }
   to { background-position: -100% 0; }
 }
+
+/* Slider steps that are forecasts: selectable, faded. */
+.pf-mslider-labels button[data-faint]:not([data-on="true"]) {
+  opacity: 0.45;
+  font-style: italic;
+}
+/* Forecast bars (BudgetBar forecast): fainter, with a dashed edge. */
+.pf-bbar-row[data-forecast="true"] .pf-bbar {
+  opacity: 0.55;
+  outline: 1.5px dashed color-mix(in srgb, var(--c) 70%, transparent);
+  outline-offset: -1.5px;
+}
+.pf-bbar-row[data-forecast="true"] .pf-bbar-spill,
+.pf-bbar-row[data-forecast="true"] .pf-bbar-outtext {
+  opacity: 0.6;
+}
+/* The pie chart showing a forecast. */
+.pf-donut-forecast svg {
+  opacity: 0.55;
+  transition: opacity 0.4s;
+}

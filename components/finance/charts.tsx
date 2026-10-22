@@ -33,7 +33,7 @@ export function CategoryDonut({ months, years, currency, now, control }: {
   years: { year: number; slices: Slice[] }[];
   currency: string;
   now: Date;
-  control?: { mode: "month" | "year"; monthIndex: number };
+  control?: { mode: "month" | "year"; monthIndex: number; forecast?: boolean };
 }) {
   const [ownMode, setMode] = useState<"month" | "year">("month");
   const [ownMonth, setMonthIndex] = useState(now.getMonth());
@@ -93,9 +93,9 @@ export function CategoryDonut({ months, years, currency, now, control }: {
   const visible = order.map((c, i) => ({ c, i, v: values[i] })).filter((x) => x.v > 0.005 || valuesFor(mode)[x.i] > 0);
 
   return (
-    <div className="pf-card" style={{ padding: 16, display: "grid", gap: 12 }}>
+    <div className={`pf-card${control?.forecast && mode === "month" ? " pf-donut-forecast" : ""}`} style={{ padding: 16, display: "grid", gap: 12 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>Spending by category</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{control?.forecast && mode === "month" ? "Expected spending by category" : "Spending by category"}</span>
         {!control && (
           <Segmented
             label="Period"
@@ -153,7 +153,7 @@ export function CategoryDonut({ months, years, currency, now, control }: {
 
           <div key={`${mode}-${active ?? -1}`} className="pf-donut-centre" aria-hidden>
             <span style={{ fontSize: "0.68rem", color: shown ? `#${shown.category.color_hex}` : "var(--pf-ink-2)", fontWeight: 600 }}>
-              {shown ? shown.category.name : mode === "year" ? `Spent in ${yearSel?.year}` : monthIndex === now.getMonth() ? "Spent this month" : `Spent in ${monthName}`}
+              {shown ? shown.category.name : mode === "year" ? `Spent in ${yearSel?.year}` : control?.forecast ? `Expected in ${monthName}` : monthIndex === now.getMonth() ? "Spent this month" : `Spent in ${monthName}`}
             </span>
             <span className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700 }}>
               {isLive ? (

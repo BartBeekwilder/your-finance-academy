@@ -37,6 +37,7 @@ export default function BudgetBar({
   fixedMonthStart,
   scaleMax,
   heat,
+  forecast,
 }: {
   spent: number;
   budget: number;
@@ -53,6 +54,9 @@ export default function BudgetBar({
   scaleMax?: number;
   /** Colour by how full the budget is (green → red), for totals. */
   heat?: boolean;
+  /** A month still to come: `spent` is what's expected — drawn fainter,
+   *  with a dashed edge, and labelled "expected". */
+  forecast?: boolean;
 }) {
   const fraction = useMonthFraction(fixedMonthStart);
   const fixed = fixedMonthStart !== undefined;
@@ -80,7 +84,7 @@ export default function BudgetBar({
   const outside = barW < 38;
 
   return (
-    <div className="pf-bbar-row" data-outside={outside} style={{ ["--track" as string]: `${barW}%`, ["--c" as string]: color }}>
+    <div className="pf-bbar-row" data-outside={outside} data-forecast={forecast || undefined} style={{ ["--track" as string]: `${barW}%`, ["--c" as string]: color }}>
     <div
       className="pf-bbar"
       role="meter"
@@ -116,7 +120,7 @@ export default function BudgetBar({
 
       <span className="pf-bbar-text">
         <span className="pf-rounded">
-          {money(used, currency)} {fixed ? "used" : "spent"}
+          {money(used, currency)} {forecast ? "expected" : fixed ? "used" : "spent"}
         </span>
         <span className="pf-rounded" style={{ opacity: over ? 1 : 0.75 }}>
           {over
@@ -131,7 +135,7 @@ export default function BudgetBar({
     </div>
     {outside && (
       <span className="pf-bbar-outtext pf-rounded" style={{ left: `calc(${barW + spill}% + 8px)` }}>
-        {money(used, currency)} {fixed ? "used" : "spent"}
+        {money(used, currency)} {forecast ? "expected" : fixed ? "used" : "spent"}
         <span style={{ color: over ? "#ff6a5f" : "var(--pf-ink-3)" }}>
           {" · "}
           {over ? `${money(used - budget, currency)} over · ${pct}%` : `${money(Math.max(budget - used, 0), currency)} ${fixed ? "to go" : "left"} · ${pct}%`}
