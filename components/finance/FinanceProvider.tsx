@@ -21,6 +21,8 @@ type FinanceState = {
   now: Date;
   email: string | null;
   addTransaction: (t: NewTransaction) => Promise<void>;
+  /** Saves changes to an existing transaction. */
+  updateTransaction: (id: string, t: NewTransaction) => Promise<void>;
   /** Saves settings (e.g. currency_code) to the user's profile. */
   updateProfile: (patch: Partial<Profile>) => Promise<void>;
   /** Balance sheet: add a post (its value becomes this month's stand too). */
@@ -158,6 +160,18 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         Object.assign(row, data);
       }
       update((d) => ({ ...d, transactions: [row, ...d.transactions].sort((a, b) => b.date.localeCompare(a.date)) }));
+    },
+    [source, supabase, update],
+  );
+
+  const updateTransaction = useCallback(
+    async (id: string, t: NewTransaction) => {
+      const patch = { ...t, updated_at: new Date().toISOString() };
+      if (source === "supabase" && supabase) {
+        const { error } = await supabase.from("transactions").update(t).eq("id", id);
+        if (error) throw error;
+      }
+      update((d) => ({ ...d, transactions: d.transactions.map((x) => (x.id === id ? { ...x, ...patch } : x)).sort((a, b) => b.date.localeCompare(a.date)) }));
     },
     [source, supabase, update],
   );
@@ -342,7 +356,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, addCategory, updateProfile, addBalanceItem, setBalanceValue, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
+      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateProfile, addBalanceItem, setBalanceValue, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
     >
       {children}
     </FinanceContext.Provider>

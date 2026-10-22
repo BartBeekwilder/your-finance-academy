@@ -1,10 +1,11 @@
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";
-import { Check, Plus, X } from "lucide-react";
+import { Check, Plus, Trash2, X } from "lucide-react";
+import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
-import type { TransactionType } from "@/lib/finance/types";
+import type { Transaction, TransactionType } from "@/lib/finance/types";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
 import Segmented from "./Segmented";
@@ -21,8 +22,15 @@ function todayLocal() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
+function localDate(iso: string) {
+  const d = new Date(iso);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 export default function QuickAdd() {
-  const { data, addTransaction, addCategory } = useFinance();
+  const { data, addTransaction, updateTransaction, deleteTransaction, addCategory } = useFinance();
+  // Any transaction row can ask for the editor; it opens in this same sheet.
+  const editing = useTransactionEditor();
   const [open, setOpen] = useState(false);
   // New key per opening, so the form starts empty every time (the sheet
   // keeps its content mounted for the closing animation).
@@ -45,6 +53,20 @@ export default function QuickAdd() {
       <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label="Quick Add">
         <Form key={session} currency={data.profile.currency_code} categories={live(data.categories)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
       </Sheet>
+      <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label="Edit transaction">
+        {editing && (
+          <Form
+            key={`edit${editing.n}`}
+            initial={editing.transaction}
+            currency={data.profile.currency_code}
+            categories={live(data.categories)}
+            onDone={closeTransactionEditor}
+            add={(t) => updateTransaction(editing.transaction.id, t)}
+            onDelete={() => deleteTransaction(editing.transaction.id)}
+            addCategory={addCategory}
+          />
+        )}
+      </Sheet>
     </>
   );
 }
@@ -55,19 +77,25 @@ function Form({
   add,
   addCategory,
   onDone,
+  initial,
+  onDelete,
 }: {
+  /** Editing an existing transaction: its values fill the form. */
+  initial?: Transaction;
+  onDelete?: () => Promise<void>;
   currency: string;
   categories: ReturnType<typeof useFinance>["data"]["categories"];
   add: ReturnType<typeof useFinance>["addTransaction"];
   addCategory: ReturnType<typeof useFinance>["addCategory"];
   onDone: () => void;
 }) {
-  const [type, setType] = useState<TransactionType>("expense");
-  const [amount, setAmount] = useState("");
-  const [categoryId, setCategoryId] = useState<string | null>(null);
-  const [date, setDate] = useState(todayLocal);
-  const [note, setNote] = useState("");
-  const [fixed, setFixed] = useState(false);
+  const [type, setType] = useState<TransactionType>(initial?.type ?? "expense");
+  const [amount, setAmount] = useState(initial ? Number(initial.amount).toFixed(2).replace(".", ",") : "");
+  const [categoryId, setCategoryId] = useState<string | null>(initial?.category_id ?? null);
+  const [date, setDate] = useState(() => (initial ? localDate(initial.date) : todayLocal()));
+  const [note, setNote] = useState(initial?.note ?? "");
+  const [fixed, setFixed] = useState(initial?.is_fixed_expense ?? false);
+  const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [creating, setCreating] = useState(false);
@@ -95,11 +123,11 @@ function Form({
         type,
         date: new Date(y, m - 1, d, 12).toISOString(),
         note: note.trim() || null,
-        is_auto_income: false,
+        is_auto_income: initial?.is_auto_income ?? false,
         is_fixed_expense: type === "expense" && fixed,
-        recurrence_id: null,
+        recurrence_id: initial?.recurrence_id ?? null,
         category_id: categoryId,
-        account_id: null,
+        account_id: initial?.account_id ?? null,
       });
       onDone();
     } catch (err) {
@@ -111,7 +139,7 @@ function Form({
   return (
     <form onSubmit={submit} style={{ display: "grid", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 600 }}>Quick Add</h2>
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 600 }}>{initial ? `Edit ${type === "expense" ? "expense" : "income"}` : "Quick Add"}</h2>
         <button type="button" className="pf-icon-button" aria-label="Close" onClick={onDone}><X size={18} /></button>
       </div>
 
@@ -188,8 +216,32 @@ function Form({
       {error && <p style={{ margin: 0, color: "var(--pf-red)", fontSize: "0.85rem" }}>{error}</p>}
 
       <button className="pf-button" disabled={!valid || saving}>
-        {saving ? "Saving…" : `Add ${type === "expense" ? "Expense" : "Income"}`}
+        {saving ? "Saving…" : initial ? "Save changes" : `Add ${type === "expense" ? "Expense" : "Income"}`}
       </button>
+
+      {onDelete && (
+        <button
+          type="button"
+          className="pf-delete-button"
+          data-confirm={confirming}
+          disabled={saving}
+          onClick={async () => {
+            // First tap arms it, second tap deletes.
+            if (!confirming) return setConfirming(true);
+            setSaving(true);
+            try {
+              await onDelete();
+              onDone();
+            } catch (err) {
+              setError((err as Error).message);
+              setSaving(false);
+            }
+          }}
+          onBlur={() => setConfirming(false)}
+        >
+          <Trash2 size={15} /> {confirming ? `Tap again to delete this ${type === "expense" ? "expense" : "income"}` : "Delete"}
+        </button>
+      )}
     </form>
   );
 }

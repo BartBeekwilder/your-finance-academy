@@ -6,6 +6,7 @@ import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import Segmented from "@/components/finance/Segmented";
 import { live, num } from "@/lib/finance/calc";
+import { editProps } from "@/lib/finance/editTransaction";
 import { dayLabel, money } from "@/lib/finance/format";
 
 export default function TransactionsPage() {
@@ -61,7 +62,7 @@ export default function TransactionsPage() {
             {rows.map((t) => {
               const c = t.category_id ? categories.get(t.category_id) : undefined;
               return (
-                <div key={t.id} className="pf-row">
+                <div key={t.id} className="pf-row" {...editProps(t)}>
                   <CategoryIcon icon={c?.icon ?? "questionmark.circle.fill"} colorHex={c?.color_hex ?? "808080"} size={32} />
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || "Transaction"}</div>
@@ -76,7 +77,9 @@ export default function TransactionsPage() {
                   <button
                     className="pf-icon-button pf-row-delete"
                     aria-label={`Delete ${t.note || c?.name || "transaction"}`}
-                    onClick={() => {
+                    onKeyDown={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
                       if (confirm(`Delete ${t.note || c?.name || "this transaction"}?`)) deleteTransaction(t.id).catch((e) => alert(e.message));
                     }}
                   >

@@ -1,5 +1,6 @@
 "use client";
 
+import { editProps } from "@/lib/finance/editTransaction";
 import { WithYAxis } from "./YAxis";
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 import { X } from "lucide-react";
@@ -103,7 +104,7 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
           {view.thisMonth.map((t) => {
             const sub = t.category_id && t.category_id !== category.id ? byId.get(t.category_id)?.name : undefined;
             return (
-              <div key={t.id} className="pf-row">
+              <div key={t.id} className="pf-row" {...editProps(t)}>
                 <div style={{ flex: 1 }}>
                   <div>{t.note || sub || category.name}</div>
                   {sub && sub !== t.note && <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-2)" }}>{sub}</div>}

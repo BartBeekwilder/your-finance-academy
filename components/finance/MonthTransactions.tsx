@@ -3,6 +3,7 @@
 import { live, num } from "@/lib/finance/calc";
 import { dayLabel, money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
+import { editProps } from "@/lib/finance/editTransaction";
 import CategoryIcon from "./CategoryIcon";
 
 /** This month's expenses (or income), newest first, grouped by day with a
@@ -40,7 +41,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
             {list.map((t) => {
               const c = t.category_id ? categories.get(t.category_id) : undefined;
               return (
-                <div key={t.id} className="pf-row pf-row-in" style={{ animationDelay: `${Math.min(n++, 20) * 25}ms` }}>
+                <div key={t.id} className="pf-row pf-row-in" {...editProps(t)} style={{ animationDelay: `${Math.min(n++, 20) * 25}ms` }}>
                   <CategoryIcon icon={c?.icon ?? "questionmark.circle.fill"} colorHex={c?.color_hex ?? "808080"} size={32} />
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || (kind === "expense" ? "Expense" : "Income")}</div>
