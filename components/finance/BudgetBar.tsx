@@ -23,6 +23,10 @@ import { money } from "@/lib/finance/format";
  *  - Compare (`scaleMax`): every bar on one scale — the largest budget fills
  *    the track — so the lengths show the budgets against each other. A bar
  *    too short for its numbers shows them just past its end.
+ *  - Heat (`heat`, the total budget): instead of one colour the fill shows a
+ *    green → amber → red gradient anchored to the whole bar, so the colour at
+ *    its tip says how close you are to the limit; the tip glows in that
+ *    colour and a soft sheen travels along it.
  *  Bars grow in from the left on first paint. Styles: .pf-bbar* in CSS. */
 export default function BudgetBar({
   spent,
@@ -32,6 +36,7 @@ export default function BudgetBar({
   monthFraction,
   fixedMonthStart,
   scaleMax,
+  heat,
 }: {
   spent: number;
   budget: number;
@@ -46,6 +51,8 @@ export default function BudgetBar({
   /** Compare mode: the amount that fills the whole track (the largest
    *  budget on the list), so bars are sized against each other. */
   scaleMax?: number;
+  /** Colour by how full the budget is (green → red), for totals. */
+  heat?: boolean;
 }) {
   const fraction = useMonthFraction(fixedMonthStart);
   const fixed = fixedMonthStart !== undefined;
@@ -88,7 +95,20 @@ export default function BudgetBar({
         // The part of the budget that wasn't needed at all this month.
         <span className="pf-bbar-under" style={{ left: `${paid * 100}%` }} title={`${money(budget - spent, currency)} under budget`} />
       )}
-      <span className="pf-bbar-fill" style={{ width: `${fill * 100}%` }} />
+      <span
+        className="pf-bbar-fill"
+        data-heat={heat || undefined}
+        style={
+          heat
+            ? {
+                width: `${fill * 100}%`,
+                // The gradient spans the whole bar, whatever the fill.
+                backgroundSize: `${100 / Math.max(fill, 0.001)}% 100%`,
+                boxShadow: `6px 0 18px -4px ${heatAt(fill)}, 0 0 10px -2px ${heatAt(fill)}`,
+              }
+            : { width: `${fill * 100}%` }
+        }
+      />
       {over && <span className="pf-bbar-limit" style={{ left: `${limit * 100}%` }} title={`Budget ${money(budget, currency)}`} />}
       {pace !== null && pace > 0.02 && pace < 0.98 && (
         <span className="pf-bbar-pace" data-ahead={aheadOfPace} style={{ left: `${pace * 100}%` }} title="Even pace for today" />
@@ -128,6 +148,25 @@ export default function BudgetBar({
     )}
     </div>
   );
+}
+
+/** Heat gradient stops (share of the budget → colour), green to red. */
+const HEAT: [number, [number, number, number]][] = [
+  [0, [48, 209, 88]],
+  [0.5, [140, 214, 62]],
+  [0.72, [255, 204, 0]],
+  [0.88, [255, 149, 0]],
+  [1, [255, 69, 58]],
+];
+
+/** The heat colour at a share of the budget. */
+function heatAt(f: number) {
+  const x = Math.min(Math.max(f, 0), 1);
+  const i = Math.max(1, HEAT.findIndex(([at]) => at >= x));
+  const [a, ca] = HEAT[i - 1], [b, cb] = HEAT[i];
+  const k = b === a ? 0 : (x - a) / (b - a);
+  const c = ca.map((v, j) => Math.round(v + (cb[j] - v) * k));
+  return `rgb(${c.join(",")})`;
 }
 
 /** Width of the bar (= the budget) as a share of the row; the rest is room

@@ -1706,7 +1706,8 @@ html[data-pf-paused] *::after {
   top: 4px;
   bottom: 4px;
   overflow: hidden;
-  border-radius: 0 999px 999px 0;
+  /* Same corner as the bar's end, so the two read as one shape. */
+  border-radius: 0 6px 6px 0;
   background: linear-gradient(90deg, #ff453a, #ff6a5f);
   box-shadow: 0 0 16px rgba(255, 69, 58, 0.6);
   transform-origin: left;
@@ -1785,4 +1786,26 @@ html[data-pf-paused] *::after {
   border-bottom: 1px solid var(--pf-line);
   font-size: 0.72rem;
   color: var(--pf-ink-3);
+}
+
+/* Heat fill (total budget): green → amber → red along the whole bar, a
+   glowing tip and a slow sheen. */
+.pf-bbar-fill[data-heat] {
+  overflow: hidden;
+  border-radius: 8px;
+  background-image: linear-gradient(90deg, #30d158 0%, #8cd63e 50%, #ffcc00 72%, #ff9500 88%, #ff453a 100%);
+  background-repeat: no-repeat;
+  background-position: left;
+}
+.pf-bbar-fill[data-heat]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.28) 45%, transparent 60%);
+  background-size: 250% 100%;
+  animation: pf-heat-sheen 3.2s ease-in-out 1s infinite;
+}
+@keyframes pf-heat-sheen {
+  from { background-position: 150% 0; }
+  to { background-position: -100% 0; }
 }

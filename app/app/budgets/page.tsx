@@ -79,7 +79,7 @@ export default function BudgetsPage() {
               {money(totalSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>of {money(totalBudget, currency)}</span>
             </div>
             {/* The total budget, same bar as each category: over it spills out. */}
-            <BudgetBar spent={totalSpent} budget={totalBudget} color="#0a84ff" currency={currency} monthFraction={monthProgress(now)} />
+            <BudgetBar spent={totalSpent} budget={totalBudget} color="#30d158" heat currency={currency} monthFraction={monthProgress(now)} />
           </div>
         ) : (
           <div key="y" className="pf-readout" style={{ display: "grid", gap: 8 }}>
@@ -87,7 +87,7 @@ export default function BudgetsPage() {
               {money(yearSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>of {money(yearBudget, currency)} this year</span>
             </div>
             {/* The year's budget; the pace tick marks the budget used up to today. */}
-            <BudgetBar spent={yearSpent} budget={yearBudget} color="#0a84ff" currency={currency} monthFraction={yearBudget ? toDate / yearBudget : 0} />
+            <BudgetBar spent={yearSpent} budget={yearBudget} color="#30d158" heat currency={currency} monthFraction={yearBudget ? toDate / yearBudget : 0} />
             <div style={{ fontSize: "0.78rem", color: "var(--pf-ink-2)" }}>
               Budget up to today {money(toDate, currency)} ·{" "}
               <span style={{ color: yearSpent > toDate ? "var(--pf-red)" : "var(--pf-green)", fontWeight: 600 }}>
