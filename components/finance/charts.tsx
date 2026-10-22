@@ -1,7 +1,7 @@
 "use client";
 
 import { useNow } from "@/lib/motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useCategoryDetail } from "./CategoryDetail";
 import StepSlider from "./StepSlider";
 import Segmented from "./Segmented";
@@ -25,7 +25,7 @@ type Slice = { category: CategorySpend["category"]; spent: number; fixed?: numbe
  *
  *  `control` hands Month / Year and the month to the page (Budgets): the
  *  donut then follows it and hides its own toggle and slider. */
-export function CategoryDonut({ months, years, currency, now, control }: {
+export function CategoryDonut({ months, years, currency, now, control, headerRight }: {
   /** Spend per category for each month of this year so far (index = month);
    *  this month's entries carry `fixed` so they can be shown live. */
   months: Slice[][];
@@ -34,6 +34,8 @@ export function CategoryDonut({ months, years, currency, now, control }: {
   currency: string;
   now: Date;
   control?: { mode: "month" | "year"; monthIndex: number; forecast?: boolean };
+  /** Extra control top-right of the card (e.g. Budgets' Budget / Spent). */
+  headerRight?: ReactNode;
 }) {
   const [ownMode, setMode] = useState<"month" | "year">("month");
   const [ownMonth, setMonthIndex] = useState(now.getMonth());
@@ -96,6 +98,7 @@ export function CategoryDonut({ months, years, currency, now, control }: {
     <div className={`pf-card${control?.forecast && mode === "month" ? " pf-donut-forecast" : ""}`} style={{ padding: 16, display: "grid", gap: 12 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
         <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{control?.forecast && mode === "month" ? "Expected spending by category" : "Spending by category"}</span>
+        {headerRight}
         {!control && (
           <Segmented
             label="Period"
@@ -220,7 +223,7 @@ function useMonthFraction(now: Date, ticking: boolean, ms = 80) {
 /** Animates an array of numbers toward `target` with an ease-in-out curve.
  *  Starts from wherever the previous animation got to, so switching back
  *  mid-animation reverses smoothly. */
-function useTween(target: number[], ms: number) {
+export function useTween(target: number[], ms: number) {
   const [shown, setShown] = useState(target);
   const from = useRef(target);
   const key = target.join("|");

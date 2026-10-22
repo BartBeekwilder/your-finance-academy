@@ -10,7 +10,7 @@ import { money } from "@/lib/finance/format";
  *  - The bar is always exactly the budget, on a track that leaves room on
  *    the right. Over budget it fills completely, gets a glowing limit cap,
  *    and the overspend spills OUT of the bar's end — a red striped piece as
- *    long as the overspend (pointed when it's bigger than the room left) —
+ *    long as the overspend (fading out when it's bigger than the room left) —
  *    reading "€Y over · Z%".
  *  - Variable categories: a dashed "today" tick marks where an even spend
  *    of the budget would be at this point in the month.
@@ -84,7 +84,7 @@ export default function BudgetBar({
   const outside = barW < 38;
 
   return (
-    <div className="pf-bbar-row" data-outside={outside} data-forecast={forecast || undefined} style={{ ["--track" as string]: `${barW}%`, ["--c" as string]: color }}>
+    <div className="pf-bbar-row" data-outside={outside} data-forecast={forecast || undefined} data-over={over || undefined} style={{ ["--track" as string]: `${barW}%`, ["--c" as string]: color }}>
     <div
       className="pf-bbar"
       role="meter"

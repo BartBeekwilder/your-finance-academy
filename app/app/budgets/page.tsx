@@ -10,6 +10,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import Segmented from "@/components/finance/Segmented";
 import StepSlider from "@/components/finance/StepSlider";
 import { CategoryDonut } from "@/components/finance/charts";
+import BudgetDonut from "@/components/finance/BudgetDonut";
 import { categoryYear, inMonth, live, monthProgress, num, selfAndChildren, spendByCategory, spendByCategoryYear, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
@@ -48,9 +49,25 @@ export default function BudgetsPage() {
       const cy = categoryYear(data, c, now).months;
       const done = cy.slice(0, now.getMonth()).map((m) => m.total);
       const expected = done.length ? done.reduce((a, b) => a + b, 0) / done.length : cy[now.getMonth()].total;
-      return { c, spent: isFuture ? expected : spent, budget: cy[sel].budget };
+      // What the month is expected to end at: as spent (finished months),
+      // spent or the usual average, whichever is higher (this month), or the
+      // average (months ahead).
+      const monthEnd = isFuture ? expected : isCurrent ? Math.max(spent, expected) : spent;
+      return { c, spent: isFuture ? expected : spent, budget: cy[sel].budget, expected: monthEnd };
     });
   const monthPace = isCurrent ? monthProgress(now) : 1;
+  // The pie chart: the budget filled in to what's expected (default), or what
+  // was really spent.
+  const [pieView, setPieView] = useState<"budget" | "spent">("budget");
+  const pieSwitch = (
+    <Segmented
+      size="sm"
+      label="Pie chart"
+      value={pieView}
+      onChange={setPieView}
+      options={[{ value: "budget", label: "Budget" }, { value: "spent", label: "Real spend" }]}
+    />
+  );
 
   const totalBudget = rows.reduce((s, r) => s + (r.budget ?? 0), 0);
   const totalSpent = rows.reduce((s, r) => s + r.spent, 0);
@@ -129,7 +146,17 @@ export default function BudgetsPage() {
           </div>
         )}
       </div>
+      {pieView === "budget" && mode === "month" ? (
+        <BudgetDonut
+          items={rows.filter((r) => r.budget !== null).map((r) => ({ category: r.c, budget: r.budget ?? 0, expected: r.expected }))}
+          currency={currency}
+          title={`Budget for ${month.toLocaleDateString("en-GB", { month: "long" })}`}
+          caption={isFuture || isCurrent ? "Expected" : "Spent"}
+          headerRight={pieSwitch}
+        />
+      ) : (
       <CategoryDonut
+        headerRight={mode === "month" ? pieSwitch : undefined}
         months={[
           ...Array.from({ length: now.getMonth() + 1 }, (_, m) => spendByCategory(data, new Date(now.getFullYear(), m, 1))),
           // Months ahead: the same forecast as the list.
@@ -140,6 +167,7 @@ export default function BudgetsPage() {
         now={now}
         control={{ mode, monthIndex: sel, forecast: isFuture }}
       />
+      )}
       </div>
 
       {mode === "year" ? (

@@ -1703,20 +1703,26 @@ html[data-pf-paused] *::after {
 .pf-bbar-spill {
   position: absolute;
   left: var(--track);
-  top: 4px;
-  bottom: 4px;
+  top: 0;
+  height: 28px;
   overflow: hidden;
-  /* Same corner as the bar's end, so the two read as one shape. */
-  border-radius: 0 6px 6px 0;
+  /* Same height and corner as the bar: bar + spill read as one shape. */
+  border-radius: 0 8px 8px 0;
   background: linear-gradient(90deg, #ff453a, #ff6a5f);
   box-shadow: 0 0 16px rgba(255, 69, 58, 0.6);
   transform-origin: left;
   /* Squeezes out after the bar has filled, with a little overshoot. */
   animation: pf-bbar-spill 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.65s both;
 }
+/* More overspend than room: the same rounded end, fading out — "and more". */
 .pf-bbar-spill[data-capped="true"] {
-  border-radius: 0;
-  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 70%, transparent);
+  mask-image: linear-gradient(90deg, #000 70%, transparent);
+}
+/* Over budget the bar's own right end is square, so the spill joins it. */
+.pf-bbar-row[data-over="true"] > .pf-bbar {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .pf-bbar-spill::after {
   content: "";
@@ -1829,4 +1835,14 @@ html[data-pf-paused] *::after {
 .pf-donut-forecast svg {
   opacity: 0.55;
   transition: opacity 0.4s;
+}
+
+/* Budget donut: an overspend's red rim, pulsing gently. */
+.pf-donut-spill {
+  filter: drop-shadow(0 0 6px rgba(255, 69, 58, 0.7));
+  animation: pf-spill-pulse 2.4s ease-in-out infinite;
+}
+@keyframes pf-spill-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
 }
