@@ -3,7 +3,7 @@
 import { WithYAxis } from "./YAxis";
 import { useNow } from "@/lib/motion";
 import { memo, useState } from "react";
-import { monthToDate, summarize, yearForecast } from "@/lib/finance/calc";
+import { live as alive, monthToDate, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 
@@ -33,6 +33,10 @@ import type { FinanceData } from "@/lib/finance/types";
 // a day in Month view, a month's end in Year view (forecast months too) —
 // and shows a guide line,
 // a dot and a little label with its date and running total.
+//
+// Absolute: a subtle ∑ / ▮ switch in the corner turns the running total into
+// the amount per period — bars per month (Year) or per day (Month), on the
+// same camera, the periods ahead dashed at their forecast.
 
 const H = 54;
 type Series = "income" | "spent" | "balance" | "networth";
@@ -57,6 +61,7 @@ export default memo(function TileSparkline({
   offset?: number;
 }) {
   const [sel, setSel] = useState<number | null>(null);
+  const [absolute, setAbsolute] = useState(false);
   const tick = useNow(1000);
 
   const live = new Date(tick);
@@ -105,6 +110,41 @@ export default memo(function TileSparkline({
   }
   const all = [...pts, ...forecast];
 
+  // ---- Absolute: the amount per month and per day -------------------------------
+  type BarPt = { t0: number; t1: number; v: number; label: string; forecast?: boolean; day?: boolean };
+  const bars: BarPt[] = [];
+  if (absolute) {
+    let prev = offset;
+    for (let m = 1; m < pts.length && !pts[m].day; m++) {
+      bars.push({ t0: m - 1, t1: m, v: pts[m].v - prev, label: pts[m].label });
+      prev = pts[m].v;
+    }
+    const monthLive = now.v - before;
+    bars.push({ t0: current, t1: current + 1, v: monthLive, label: `${monthName(current)} · so far` });
+    const fc = yearForecast(data, live);
+    for (const f of fc.slice(1)) bars.push({ t0: f.month, t1: f.month + 1, v: pick(f.income, f.spent), label: `${monthName(f.month)} · forecast`, forecast: true });
+    // Days: income accrues evenly, fixed costs spread, variable on its day.
+    const variableByDay = new Array(days + 1).fill(0);
+    const incomeByDay = new Array(days + 1).fill(0);
+    for (const t of alive(data.transactions)) {
+      const d = new Date(t.date);
+      if (d.getFullYear() !== year || d.getMonth() !== current) continue;
+      if (t.type === "expense" && !t.is_fixed_expense) variableByDay[d.getDate()] += num(t.amount);
+      if (t.type === "income") incomeByDay[d.getDate()] += num(t.amount);
+    }
+    const projected = projectedNetIncome(data, new Date(year, current, 1));
+    const today = live.getDate();
+    const dayOf = (d: number, share: number) => pick(projected * share, thisMonth.fixed * share + variableByDay[d]);
+    for (let d = 1; d <= today; d++) {
+      const share = d < today ? 1 / days : fraction - (today - 1) / days;
+      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: dayOf(d, share), label: d === today ? "Today · live" : new Date(year, current, d).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }), day: true });
+    }
+    const rest = (pick(fc[0]?.income ?? 0, fc[0]?.spent ?? 0) - monthLive) / Math.max(days - today, 1);
+    for (let d = today + 1; d <= days; d++) {
+      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: rest, label: `${new Date(year, current, d).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })} · forecast`, forecast: true, day: true });
+    }
+  }
+
   // ---- Camera ----------------------------------------------------------------
   const range = (from: number) => {
     // Month view frames this month (its forecast end included); Year view all.
@@ -115,7 +155,12 @@ export default memo(function TileSparkline({
   const anchorAt = lerp(now.t / 12, fraction, z);
   const width = 12 * Math.pow(1 / 12, z);
   const left = now.t - anchorAt * width;
-  const lo = lerp(yearR.lo, monthR.lo, z), hi = lerp(yearR.hi, monthR.hi, z);
+  const absRange = (day: boolean) => {
+    const vs = bars.filter((b) => !!b.day === day).map((b) => b.v);
+    return { lo: Math.min(0, ...vs), hi: Math.max(0, ...vs, 1) };
+  };
+  const yr = absolute ? absRange(false) : yearR, mr = absolute ? absRange(true) : monthR;
+  const lo = lerp(yr.lo, mr.lo, z), hi = lerp(yr.hi, mr.hi, z);
   const span = hi - lo || 1;
   const x = (t: number) => ((t - left) / width) * 100;
   const y = (v: number) => 4 + (1 - (v - lo) / span) * (H - 8);
@@ -147,10 +192,16 @@ export default memo(function TileSparkline({
       if (p.forecast) return !inMonth || p.t === current + 1;
       return inMonth ? p.day : i > 0 && (!p.day || i === pts.length - 1);
     });
+  const barCandidates = bars.map((b, i) => i).filter((i) => !!bars[i].day === inMonth);
   const scrub = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!settled) return;
     const r = e.currentTarget.getBoundingClientRect();
     const t = left + ((e.clientX - r.left) / r.width) * width;
+    if (absolute) {
+      const hit = barCandidates.find((i) => t >= bars[i].t0 && t < bars[i].t1);
+      setSel(hit ?? null);
+      return;
+    }
     let best = candidates[candidates.length - 1];
     for (const i of candidates) if (Math.abs(all[i].t - t) < Math.abs(all[best].t - t)) best = i;
     setSel(best);
@@ -158,10 +209,13 @@ export default memo(function TileSparkline({
   // Axis labels read like the tile: zoomed into the month they count from the
   // 1st (the earlier months taken off), eased through the zoom; net worth is
   // a level and needs no shift.
-  const axisShift = stock ? 0 : before * z;
-  const picked = sel !== null && settled && candidates.includes(sel) ? all[sel] : null;
-  const pickedX = picked ? x(picked.t) : 0;
-  const pickedY = picked ? y(picked.v) : 0;
+  const axisShift = stock || absolute ? 0 : before * z;
+  const pickedBar = absolute && sel !== null && settled && barCandidates.includes(sel) ? bars[sel] : null;
+  const picked = !absolute && sel !== null && settled && candidates.includes(sel) ? all[sel] : null;
+  const pickedX = picked ? x(picked.t) : pickedBar ? x((pickedBar.t0 + pickedBar.t1) / 2) : 0;
+  const pickedY = picked ? y(picked.v) : pickedBar ? y(pickedBar.v) : 0;
+  const zeroY = y(0);
+  const monthBarOpacity = 1 - smooth(z, 0.35, 0.85), dayBarOpacity = smooth(z, 0.15, 0.65);
 
   return (
     <WithYAxis height={H} currency={currency} ticks={[{ value: lo - axisShift, at: 4 / H }, { value: hi - axisShift, at: (H - 4) / H }]}>
@@ -183,16 +237,65 @@ export default memo(function TileSparkline({
         </defs>
         {/* The whole period as a faint track; from now on it is still to come. */}
         <line x1={0} x2={100} y1={base} y2={base} stroke="rgba(255,255,255,0.08)" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+        {absolute ? (
+          <g key="abs" className="pf-tsl-bars">
+            {bars.map((b, i) => {
+              const x0 = x(b.t0), x1 = x(b.t1), w = x1 - x0;
+              const pad = Math.min(w * 0.18, 1.2);
+              const top = Math.min(y(b.v), zeroY), hgt = Math.max(Math.abs(y(b.v) - zeroY), 0.6);
+              const neg = b.v < 0;
+              return (
+                <rect
+                  key={i}
+                  x={x0 + pad}
+                  y={top}
+                  width={Math.max(w - pad * 2, 0.2)}
+                  height={hgt}
+                  rx={0.6}
+                  fill={b.forecast ? "none" : neg && series !== "spent" ? "#ff453a" : color}
+                  stroke={b.forecast ? color : "none"}
+                  strokeDasharray={b.forecast ? "2 2" : undefined}
+                  vectorEffect="non-scaling-stroke"
+                  opacity={(b.day ? dayBarOpacity : monthBarOpacity) * (sel === i || sel === null ? 1 : 0.55) * (b.forecast ? 0.7 : 1)}
+                />
+              );
+            })}
+          </g>
+        ) : (
+        <>
         <path className="pf-tsl-forecast" d={forecastLine} fill="none" stroke={color} strokeWidth={1.75} strokeDasharray="2 5" strokeLinecap="round" opacity={0.6} vectorEffect="non-scaling-stroke" />
         <g className="pf-tsl-draw">
           <path d={`${line} L${lastX},${base} L${x(0)},${base} Z`} fill={`url(#${id})`} />
           {series === "spent" && <path d={`${fixedLine} L${lastX},${base} L${x(0)},${base} Z`} fill={color} opacity={0.42} />}
           <path d={line} fill="none" stroke={color} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
         </g>
-        {picked && <line x1={pickedX} x2={pickedX} y1={0} y2={H} stroke="rgba(255,255,255,0.35)" strokeDasharray="2 3" vectorEffect="non-scaling-stroke" />}
+        </>
+        )}
+        {(picked || pickedBar) && <line x1={pickedX} x2={pickedX} y1={0} y2={H} stroke="rgba(255,255,255,0.35)" strokeDasharray="2 3" vectorEffect="non-scaling-stroke" />}
       </svg>
       {/* "Now" — round in HTML (the SVG is stretched). */}
-      <span className="pf-tsl-now" style={{ left: `${lastX}%`, top: lastY, ["--dot" as string]: color }} />
+      {!absolute && <span className="pf-tsl-now" style={{ left: `${lastX}%`, top: lastY, ["--dot" as string]: color }} />}
+      {/* Cumulative ⇄ absolute: subtle, top-right of the chart. */}
+      <span className="pf-tsl-mode" role="group" aria-label="Chart values" onPointerDown={(e) => e.stopPropagation()} onPointerMove={(e) => e.stopPropagation()}>
+        <button type="button" aria-pressed={!absolute} title="Running total" onClick={() => { setAbsolute(false); setSel(null); }}>∑</button>
+        <button type="button" aria-pressed={absolute} title={`Per ${z > 0.5 ? "day" : "month"}`} onClick={() => { setAbsolute(true); setSel(null); }}>▮</button>
+      </span>
+      {pickedBar && (
+        <>
+          <span className="pf-tsl-pick" style={{ left: `${pickedX}%`, top: pickedY, ["--dot" as string]: color }} />
+          <span
+            className="pf-tsl-tip"
+            style={{
+              left: `${Math.min(Math.max(pickedX, 0), 100)}%`,
+              translate: `-${Math.min(Math.max(pickedX, 0), 100)}% 0`,
+              top: pickedY > 30 ? pickedY - 30 : pickedY + 10,
+            }}
+          >
+            <span style={{ color: "var(--pf-ink-2)" }}>{pickedBar.label}</span>{" "}
+            <b style={{ color }}>{money(pickedBar.v, currency, { signed: series === "balance" || stock })}</b>
+          </span>
+        </>
+      )}
       {picked && (
         <>
           <span className="pf-tsl-pick" style={{ left: `${pickedX}%`, top: pickedY, ["--dot" as string]: color }} />
@@ -225,3 +328,9 @@ export default memo(function TileSparkline({
 });
 
 const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+
+/** 0 below `a`, 1 above `b`, smooth in between. */
+function smooth(v: number, a: number, b: number) {
+  const k = Math.min(1, Math.max(0, (v - a) / (b - a)));
+  return k * k * (3 - 2 * k);
+}

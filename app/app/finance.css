@@ -1641,3 +1641,51 @@ html[data-pf-paused] *::after {
   font-variant-numeric: tabular-nums;
   animation: pf-fade-up 0.3s ease-out both;
 }
+
+/* Tile sparkline: cumulative ⇄ absolute switch and bars. */
+.pf-tsl-mode {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  z-index: 3;
+  display: inline-flex;
+  gap: 1px;
+  padding: 1px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  opacity: 0.35;
+  transition: opacity 0.2s;
+}
+.pf-tsl:hover .pf-tsl-mode,
+.pf-tsl-mode:focus-within {
+  opacity: 1;
+}
+.pf-tsl-mode button {
+  width: 18px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--pf-ink-2);
+  font-size: 0.6rem;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.pf-tsl-mode button[aria-pressed="true"] {
+  background: linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b));
+  color: #fff;
+}
+.pf-tsl-bars rect {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: pf-cbar-grow 0.5s cubic-bezier(0.34, 1.25, 0.64, 1) both;
+  transition: opacity 0.2s;
+}
+.pf-mode-inline {
+  position: static;
+}
+.pf-card:hover .pf-mode-inline {
+  opacity: 1;
+}

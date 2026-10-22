@@ -54,6 +54,8 @@ export default function YearLines({
   const [drag, setDrag] = useState<{ a: number; b: number } | null>(null);
   const [range, setRange] = useState<{ t0: number; t1: number } | null>(null);
   const [zoomed, setZoomed] = useState(false);
+  // Month view: running totals (∑) or the amount per day (▮).
+  const [absolute, setAbsolute] = useState(false);
   const rz = useZoom(zoomed ? 1 : 0, 650);
   const tick = useNow(1000);
 
@@ -77,14 +79,16 @@ export default function YearLines({
   });
   const today = live.getDate();
   const dayT = (d: number) => current - (today - d) / days; // today → t = current
-  const monthPts: Pt[] = monthToDate(data, live).points.map((p) => ({
+  const running = monthToDate(data, live).points;
+  const monthPts: Pt[] = running.map((p, i) => ({
     t: dayT(p.day),
     full:
       p.day === live.getDate()
         ? "Today · live"
         : new Date(year, current, p.day).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }),
-    income: p.income,
-    spent: p.spent,
+    // Absolute: that day's amount — the step from the day before.
+    income: absolute ? p.income - (i ? running[i - 1].income : 0) : p.income,
+    spent: absolute ? p.spent - (i ? running[i - 1].spent : 0) : p.spent,
   }));
 
   // ---- Camera: 0 = whole year, 1 = this month --------------------------------
@@ -211,11 +215,19 @@ export default function YearLines({
             <span style={{ color: RED, fontWeight: 600 }}>{money(p.spent, currency)}</span>
           </div>
         )}
-        {zoomed ? (
-          <button type="button" className="pf-zoom-out" onClick={zoomOut}>Zoom out</button>
-        ) : (
-          <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>Drag to zoom</span>
-        )}
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+          {mode === "month" && (
+            <span className="pf-tsl-mode pf-mode-inline" role="group" aria-label="Chart values">
+              <button type="button" aria-pressed={!absolute} title="Running total" onClick={() => setAbsolute(false)}>∑</button>
+              <button type="button" aria-pressed={absolute} title="Per day" onClick={() => setAbsolute(true)}>▮</button>
+            </span>
+          )}
+          {zoomed ? (
+            <button type="button" className="pf-zoom-out" onClick={zoomOut}>Zoom out</button>
+          ) : (
+            <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>Drag to zoom</span>
+          )}
+        </span>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: showAxes ? "auto 1fr" : "1fr", gap: 6 }}>
@@ -361,8 +373,8 @@ export default function YearLines({
       </div>
 
       <div style={{ display: "flex", gap: 14, fontSize: "0.68rem", color: "var(--pf-ink-2)", flexWrap: "wrap" }}>
-        <Key color={GREEN} label={mode === "year" ? "Income" : "Income (accruing)"} />
-        <Key color={RED} label={mode === "year" ? "Spent" : "Spent (running total)"} />
+        <Key color={GREEN} label={mode === "year" ? "Income" : absolute ? "Income per day" : "Income (accruing)"} />
+        <Key color={RED} label={mode === "year" ? "Spent" : absolute ? "Spent per day" : "Spent (running total)"} />
         {mode === "year" && (
           <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
             <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> This month, live
