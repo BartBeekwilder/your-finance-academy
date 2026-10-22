@@ -154,7 +154,8 @@ export function buildDemoData(now = new Date()): FinanceData {
   };
 }
 
-/** A home, a mortgage in two parts and a car loan, with a month-end stand
+/** A home, a mortgage in two parts, a car loan, a student loan, a credit
+ *  card and tax to pay, with a month-end stand
  *  for each month so far (the mortgage paid down, the home slowly rising). */
 function demoBalance(now: Date): Pick<FinanceData, "balanceItems" | "balanceValues"> {
   const posts: [string, "asset" | "liability", number, number][] = [
@@ -163,14 +164,25 @@ function demoBalance(now: Date): Pick<FinanceData, "balanceItems" | "balanceValu
     ["Mortgage (annuity)", "liability", 428000, -620],
     ["Mortgage (linear)", "liability", 50500, -210],
     ["Car loan", "liability", 9800, -300],
+    ["Student loan (DUO)", "liability", 21400, -145],
+    ["Credit card", "liability", 0, 0],
+    ["Tax to pay", "liability", 0, 0],
   ];
   const months = now.getMonth() + 1;
   const iso = (m: number) => `${now.getFullYear()}-${String(m + 1).padStart(2, "0")}-01`;
   const balanceItems = posts.map(([name, side, start, step], i) => ({
     ...meta(i, "bi"), name, side, sort_order: i, current_value: (start + step * (months - 1)).toFixed(2),
   }));
-  const balanceValues = posts.flatMap(([, , start, step], i) =>
-    Array.from({ length: months }, (_, m) => ({ ...meta(i * 12 + m, "bv"), item_id: balanceItems[i].id, month: iso(m), value: (start + step * m).toFixed(2) })),
+  // Credit card: what's outstanding at month end; tax: the yearly
+  // assessment building up until it's paid in July.
+  const wobble: Record<string, (m: number) => number> = {
+    "Credit card": (m) => [640, 1180, 420, 890, 1560, 730, 2140, 980, 510, 1320, 870, 1650][m],
+    "Tax to pay": (m) => (m < 6 ? 2400 + m * 180 : 350 + (m - 6) * 160),
+  };
+  const valueAt = (i: number, m: number) => wobble[posts[i][0]]?.(m) ?? posts[i][2] + posts[i][3] * m;
+  for (const [i, item] of balanceItems.entries()) if (wobble[item.name]) item.current_value = valueAt(i, months - 1).toFixed(2);
+  const balanceValues = posts.flatMap((_, i) =>
+    Array.from({ length: months }, (_, m) => ({ ...meta(i * 12 + m, "bv"), item_id: balanceItems[i].id, month: iso(m), value: valueAt(i, m).toFixed(2) })),
   );
   return { balanceItems, balanceValues };
 }
