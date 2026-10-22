@@ -38,6 +38,7 @@ export default function LiveTiles({
   currency,
   only,
   onModeChange,
+  mode,
 }: {
   data: FinanceData;
   monthStart: Date;
@@ -50,6 +51,8 @@ export default function LiveTiles({
   only?: "income" | "spent" | "balance";
   /** Told when a tile switches Month / Year (so a page can follow along). */
   onModeChange?: (mode: Mode) => void;
+  /** A page-level Month / Year switch the tiles follow (theirs hide). */
+  mode?: Mode;
 }) {
   // 80 ms, like the net worth ticker, so the sub-cent digits visibly stream.
   const now = useNow(80);
@@ -79,6 +82,7 @@ export default function LiveTiles({
         title={() => "Income"}
         last={only === "income"}
         onModeChange={onModeChange}
+        mode={mode}
         value={liveIncome}
         before={before.income}
         color={() => GREEN}
@@ -106,6 +110,7 @@ export default function LiveTiles({
         title={() => "Spent"}
         last={only === "spent"}
         onModeChange={onModeChange}
+        mode={mode}
         value={liveSpent}
         before={before.spent}
         color={() => RED}
@@ -178,7 +183,7 @@ const elapsed = (f: number, on: string, off: string) => [
 /** One tile. `value` is this month's live figure; `before` is the finished
  *  months of the year, which Year mode adds on — eased with the zoom, so the
  *  number counts along while the sparkline zooms out. */
-export function Tile({ title, value, before, color, currency, last, chart, children, onModeChange }: {
+export function Tile({ title, value, before, color, currency, last, chart, children, onModeChange, mode: controlled }: {
   title: (mode: Mode) => string;
   value: number;
   before: number;
@@ -188,13 +193,23 @@ export function Tile({ title, value, before, color, currency, last, chart, child
   chart: (z: number, shown: number, absolute: boolean) => React.ReactNode;
   children: (mode: Mode) => React.ReactNode;
   onModeChange?: (mode: Mode) => void;
+  /** Set by a page that has its own Month / Year switch: the tile follows
+   *  it and hides its own. */
+  mode?: Mode;
 }) {
-  const [mode, setMode] = useState<Mode>("month");
+  const [own, setMode] = useState<Mode>("month");
+  const mode = controlled ?? own;
   // The chart: running total (∑) or the amount per day / month (▮).
   const [absolute, setAbsolute] = useState(false);
   const z = useZoom(mode === "month" ? 1 : 0, 950);
   const shown = value + before * (1 - z);
   const c = color(shown);
+  const valuesSwitch = (
+    <span className="pf-tsl-mode" role="group" aria-label="Chart values">
+      <button type="button" aria-pressed={!absolute} title="Running total" onClick={() => setAbsolute(false)}>∑</button>
+      <button type="button" aria-pressed={absolute} title={mode === "month" ? "Per day" : "Per month"} onClick={() => setAbsolute(true)}>▮</button>
+    </span>
+  );
   return (
     <div className="pf-tile" style={{ borderBottom: last ? 0 : "1px solid var(--pf-line)", ["--tile" as string]: c }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
@@ -202,20 +217,19 @@ export function Tile({ title, value, before, color, currency, last, chart, child
           <span className="pf-pulse" style={{ background: c, ["--pf-pulse-color" as string]: c }} />
           {title(mode)}
         </div>
-        <Segmented
+        {/* With the page's own Month / Year switch, ∑ / ▮ takes the top-right spot. */}
+        {controlled && valuesSwitch}
+        {!controlled && <Segmented
           label={`${title("month").split(" ")[0]} period`}
           value={mode}
           onChange={(m) => { setMode(m); onModeChange?.(m); }}
           options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
-        />
+        />}
       </div>
       {/* The number, with the chart's ∑ / ▮ switch on the same row. */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
         <LiveAmount value={shown} currency={currency} size="2rem" color={c} />
-        <span className="pf-tsl-mode" role="group" aria-label="Chart values">
-          <button type="button" aria-pressed={!absolute} title="Running total" onClick={() => setAbsolute(false)}>∑</button>
-          <button type="button" aria-pressed={absolute} title={mode === "month" ? "Per day" : "Per month"} onClick={() => setAbsolute(true)}>▮</button>
-        </span>
+        {!controlled && valuesSwitch}
       </div>
       {chart(z, shown, absolute)}
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 4 }}>{children(mode)}</div>

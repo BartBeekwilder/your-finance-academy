@@ -1,5 +1,6 @@
 "use client";
 
+import Segmented from "@/components/finance/Segmented";
 import { useState } from "react";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import type { Mode } from "@/components/finance/LiveTiles";
@@ -52,9 +53,12 @@ export default function NetWorthPage() {
 
   return (
     <div style={{ display: "grid", gap: 24 }}>
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Net worth</h1>
+      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Net worth</h1>
+        <Segmented label="Period" value={mode} onChange={setMode} options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
+      </header>
 
-      <NetWorthTile data={data} currency={currency} onModeChange={setMode} />
+      <NetWorthTile data={data} currency={currency} mode={mode} />
 
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
         <Stat label="Net worth now" value={money(nowValue, currency)} color="#40c8e0" hint={`Saved this year ${money(nowValue - nw.startOfYear, currency, { signed: true })}`} />

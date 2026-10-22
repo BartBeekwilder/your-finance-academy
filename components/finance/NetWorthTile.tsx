@@ -16,7 +16,7 @@ import TileSparkline from "./TileSparkline";
 
 const TEAL = "#40c8e0";
 
-export default function NetWorthTile({ data, currency, onModeChange }: { data: FinanceData; currency: string; onModeChange?: (m: Mode) => void }) {
+export default function NetWorthTile({ data, currency, onModeChange, mode }: { data: FinanceData; currency: string; onModeChange?: (m: Mode) => void; mode?: Mode }) {
   const nw = useMemo(() => netWorthFigures(data, new Date()), [data]);
   const now = useNow(80);
   const change = nw.liveChange(now);
@@ -36,6 +36,7 @@ export default function NetWorthTile({ data, currency, onModeChange }: { data: F
         currency={currency}
         last
         onModeChange={onModeChange}
+        mode={mode}
         chart={(z, _v, abs) => <TileSparkline data={data} series="networth" color={TEAL} z={z} currency={currency} offset={nw.startOfYear} absolute={abs} />}
       >
         {(mode) =>

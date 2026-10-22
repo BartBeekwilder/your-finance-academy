@@ -1,5 +1,6 @@
 "use client";
 
+import Segmented from "@/components/finance/Segmented";
 import CategoryBars from "@/components/finance/CategoryBars";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { useState } from "react";
@@ -39,7 +40,10 @@ export default function ExpensesPage() {
 
   return (
     <div style={{ display: "grid", gap: 24 }}>
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Expenses</h1>
+      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Expenses</h1>
+        <Segmented label="Period" value={mode} onChange={setMode} options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
+      </header>
 
       <LiveTiles
         only="spent"
@@ -50,7 +54,7 @@ export default function ExpensesPage() {
         fixed={s.fixed}
         variable={s.variable}
         currency={currency}
-        onModeChange={setMode}
+        mode={mode}
       />
 
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>

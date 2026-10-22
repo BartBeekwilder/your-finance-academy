@@ -2248,11 +2248,11 @@ html[data-pf-paused] *::after {
 }
 
 /* Rearrangeable page tiles (SortableTiles) */
-.pf-tile {
+.pf-sorttile {
   position: relative;
   border-radius: 14px;
 }
-.pf-tile-grip {
+.pf-sorttile-grip {
   position: absolute;
   top: 3px;
   left: 50%;
@@ -2272,26 +2272,26 @@ html[data-pf-paused] *::after {
   opacity: 0;
   transition: opacity 0.2s, background 0.2s, color 0.2s;
 }
-.pf-tile:hover > .pf-tile-grip,
-.pf-tile-grip:focus-visible,
-.pf-tile[data-dragging="true"] > .pf-tile-grip {
+.pf-sorttile:hover > .pf-sorttile-grip,
+.pf-sorttile-grip:focus-visible,
+.pf-sorttile[data-dragging="true"] > .pf-sorttile-grip {
   opacity: 1;
 }
-.pf-tile-grip:hover {
+.pf-sorttile-grip:hover {
   background: rgba(255, 255, 255, 0.08);
   color: var(--pf-ink);
 }
-.pf-tile[data-dragging="true"] {
+.pf-sorttile[data-dragging="true"] {
   z-index: 10;
   cursor: grabbing;
 }
-.pf-tile[data-dragging="true"] > :not(.pf-tile-grip) {
+.pf-sorttile[data-dragging="true"] > :not(.pf-sorttile-grip) {
   scale: 1.015;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12), 0 0 30px rgba(108, 92, 231, 0.3);
   transition: scale 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
 }
 @media (hover: none) {
-  .pf-tile-grip { opacity: 0.6; }
+  .pf-sorttile-grip { opacity: 0.6; }
 }
 
 /* Tappable transaction rows (open the editor) */

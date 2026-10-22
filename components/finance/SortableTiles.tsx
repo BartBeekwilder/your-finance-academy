@@ -53,11 +53,11 @@ function Tile({ id, label, children }: { id: string; label: string; children: Re
   return (
     <div
       ref={setNodeRef}
-      className="pf-tile"
+      className="pf-sorttile"
       data-dragging={isDragging}
       style={{ transform: CSS.Translate.toString(transform), transition }}
     >
-      <button ref={setActivatorNodeRef} type="button" className="pf-tile-grip" aria-label={`Move ${label}`} {...attributes} {...listeners}>
+      <button ref={setActivatorNodeRef} type="button" className="pf-sorttile-grip" aria-label={`Move ${label}`} {...attributes} {...listeners}>
         <GripHorizontal size={14} />
       </button>
       {children}
