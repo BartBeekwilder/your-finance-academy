@@ -39,3 +39,9 @@ const AXES = "pf-show-axes";
 /** Value labels along the left of every chart (Settings › Charts). On by default. */
 export const useShowAxes = () => usePref(AXES, true);
 export const setShowAxes = (on: boolean) => write(AXES, on);
+
+const BUDGET_COMPARE = "pf-budget-compare";
+/** Monthly limits sized against each other (true, the default) or each
+ *  against its own budget. */
+export const useBudgetCompare = () => usePref(BUDGET_COMPARE, true);
+export const setBudgetCompare = (on: boolean) => write(BUDGET_COMPARE, on);

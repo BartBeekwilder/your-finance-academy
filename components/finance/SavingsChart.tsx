@@ -89,17 +89,9 @@ export default function SavingsChart({
     <div className="pf-card" style={{ padding: 18, display: "grid", gap: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 16, flexWrap: "wrap" }}>
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <span key={period} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-              {period === "12m" ? "Saved in the last 12 months" : `Saved in ${now.getFullYear()} so far`}
-            </span>
-            <Segmented
-              label="Savings period"
-              value={period}
-              onChange={(p) => { setPeriod(p); setHover(null); }}
-              options={[{ value: "12m", label: "12 months" }, { value: "year", label: "This year" }]}
-            />
-          </div>
+          <span key={period} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
+            {period === "12m" ? "Saved in the last 12 months" : `Saved in ${now.getFullYear()} so far`}
+          </span>
           <div className="pf-rounded" style={{ fontSize: "1.9rem", fontWeight: 700, color: total >= 0 ? GREEN : RED, lineHeight: 1.15 }}>
             {money(total, currency, { signed: true })}
           </div>
@@ -108,6 +100,14 @@ export default function SavingsChart({
             {period === "year" && ` · ${money(cum[11], currency, { signed: true })} expected by December`}
           </div>
         </div>
+        <div style={{ display: "grid", gap: 8, justifyItems: "end" }}>
+        <Segmented
+          size="sm"
+          label="Savings period"
+          value={period}
+          onChange={(p) => { setPeriod(p); setHover(null); }}
+          options={[{ value: "12m", label: "12 months" }, { value: "year", label: "This year" }]}
+        />
         <div key={shown} className="pf-readout" style={{ textAlign: "right", fontSize: "0.75rem", color: "var(--pf-ink-2)", display: "grid", gap: 2 }}>
           <strong style={{ color: "var(--pf-ink)", fontWeight: 600 }}>
             {monthYear(m.month)}
@@ -121,6 +121,7 @@ export default function SavingsChart({
             {m.saved >= 0 ? "Saved" : "Overspent"}{" "}
             <b className="pf-rounded" style={{ color: m.saved >= 0 ? GREEN : RED, fontSize: "0.95rem" }}>{money(Math.abs(m.saved), currency)}</b>
           </span>
+        </div>
         </div>
       </div>
 

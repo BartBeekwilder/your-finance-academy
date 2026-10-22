@@ -13,6 +13,7 @@ export default function Segmented<T extends string>({
   onChange,
   label,
   wide,
+  size,
 }: {
   options: { value: T; label: string }[];
   value: T;
@@ -20,6 +21,8 @@ export default function Segmented<T extends string>({
   label: string;
   /** Stretch to the container's width (e.g. inside a sheet). */
   wide?: boolean;
+  /** "sm": a compact version for secondary switches. */
+  size?: "sm";
 }) {
   const index = Math.max(0, options.findIndex((o) => o.value === value));
   // Direction of the last move decides which edge leads.
@@ -35,7 +38,7 @@ export default function Segmented<T extends string>({
   };
 
   return (
-    <div role="tablist" aria-label={label} className="pf-seg" style={{ gridTemplateColumns: `repeat(${n}, 1fr)`, width: wide ? "100%" : undefined }}>
+    <div role="tablist" aria-label={label} className="pf-seg" data-size={size} style={{ gridTemplateColumns: `repeat(${n}, 1fr)`, width: wide ? "100%" : undefined }}>
       <span className="pf-seg-rim" aria-hidden />
       <span
         className="pf-seg-thumb"

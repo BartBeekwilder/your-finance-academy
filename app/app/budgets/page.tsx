@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import BudgetBar from "@/components/finance/BudgetBar";
+import BudgetScaleSwitch from "@/components/finance/BudgetScaleSwitch";
+import { useBudgetCompare } from "@/lib/prefs";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import Segmented from "@/components/finance/Segmented";
@@ -40,6 +42,8 @@ export default function BudgetsPage() {
   const totalBudget = rows.reduce((s, r) => s + (r.budget ?? 0), 0);
   const totalSpent = rows.reduce((s, r) => s + r.spent, 0);
   const [mode, setMode] = useState<"month" | "year">("month");
+  const compare = useBudgetCompare();
+  const maxBudget = Math.max(1, ...rows.map((r) => r.budget ?? 0));
 
   // Year view: per category, the twelve months with their (carried) budgets.
   const yearRows = rows.map((r) => {
@@ -74,19 +78,16 @@ export default function BudgetsPage() {
             <div className="pf-rounded" style={{ fontSize: "1.6rem", fontWeight: 700 }}>
               {money(totalSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>of {money(totalBudget, currency)}</span>
             </div>
-            <div className="pf-progress">
-              <span style={{ width: `${Math.min(100, (totalSpent / (totalBudget || 1)) * 100)}%`, background: totalSpent > totalBudget ? "var(--pf-red)" : "var(--pf-blue)" }} />
-            </div>
+            {/* The total budget, same bar as each category: over it spills out. */}
+            <BudgetBar spent={totalSpent} budget={totalBudget} color="#0a84ff" currency={currency} monthFraction={monthProgress(now)} />
           </div>
         ) : (
           <div key="y" className="pf-readout" style={{ display: "grid", gap: 8 }}>
             <div className="pf-rounded" style={{ fontSize: "1.6rem", fontWeight: 700 }}>
               {money(yearSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>of {money(yearBudget, currency)} this year</span>
             </div>
-            <div className="pf-progress" style={{ position: "relative", overflow: "visible" }}>
-              <span style={{ width: `${Math.min(100, (yearSpent / (yearBudget || 1)) * 100)}%`, background: yearSpent > toDate ? "var(--pf-red)" : "var(--pf-blue)" }} />
-              <i className="pf-progress-tick" style={{ left: `${Math.min(100, (toDate / (yearBudget || 1)) * 100)}%` }} title="Budget used up to today" />
-            </div>
+            {/* The year's budget; the pace tick marks the budget used up to today. */}
+            <BudgetBar spent={yearSpent} budget={yearBudget} color="#0a84ff" currency={currency} monthFraction={yearBudget ? toDate / yearBudget : 0} />
             <div style={{ fontSize: "0.78rem", color: "var(--pf-ink-2)" }}>
               Budget up to today {money(toDate, currency)} ·{" "}
               <span style={{ color: yearSpent > toDate ? "var(--pf-red)" : "var(--pf-green)", fontWeight: 600 }}>
@@ -103,7 +104,10 @@ export default function BudgetsPage() {
         <YearList rows={yearRows} currency={currency} yearFraction={yearFraction} openCategory={openCategory} />
       ) : (
       <section key="month" className="pf-readout">
-        <h2 className="pf-section-title">Monthly limits</h2>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+          <h2 className="pf-section-title">Monthly limits</h2>
+          <BudgetScaleSwitch />
+        </div>
         <div className="pf-card">
           {rows.map(({ c, spent, budget }) => {
             return (
@@ -117,7 +121,7 @@ export default function BudgetsPage() {
                     </span>
                   </div>
                   {budget !== null ? (
-                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={c.is_fixed_expense ? month : undefined} />
+                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={c.is_fixed_expense ? month : undefined} scaleMax={compare ? maxBudget : undefined} />
                   ) : (
                     <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(spent, currency)} spent</span>
                   )}
@@ -152,9 +156,14 @@ function YearList({
   yearFraction: number;
   openCategory: ReturnType<typeof useCategoryDetail>;
 }) {
+  const compare = useBudgetCompare();
+  const maxBudget = Math.max(1, ...rows.map((r) => r.budget ?? 0));
   return (
     <section key="year" className="pf-readout">
-      <h2 className="pf-section-title">Year budgets</h2>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+        <h2 className="pf-section-title">Year budgets</h2>
+        <BudgetScaleSwitch />
+      </div>
       <div className="pf-card">
         {rows.map(({ c, spent, budget, months }) => (
           <button key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
@@ -167,7 +176,7 @@ function YearList({
                 </span>
               </div>
               {budget !== null ? (
-                <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={yearFraction} />
+                <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={yearFraction} scaleMax={compare ? maxBudget : undefined} />
               ) : (
                 <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(spent, currency)} spent</span>
               )}

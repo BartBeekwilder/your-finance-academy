@@ -1739,3 +1739,38 @@ html[data-pf-paused] *::after {
 .pf-bbar-row .pf-bbar-limit {
   margin-left: -3px;
 }
+
+/* Compact brand toggle (Segmented size="sm"). */
+.pf-seg[data-size="sm"] {
+  padding: 2px;
+}
+.pf-seg[data-size="sm"] .pf-seg-option {
+  min-width: 0;
+  padding: 3px 10px;
+  font-size: 0.66rem;
+}
+.pf-seg[data-size="sm"] .pf-seg-thumb {
+  top: 2px;
+  bottom: 2px;
+}
+
+/* Compare mode: short bars put their numbers just past the end. */
+.pf-bbar-row[data-outside="true"] .pf-bbar-text {
+  display: none;
+}
+.pf-bbar-outtext {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--pf-ink-2);
+  animation: pf-fade-up 0.4s ease-out 0.5s both;
+}
+.pf-bbar-row > .pf-bbar {
+  transition: width 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.pf-bbar-spill {
+  transition: width 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+}

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import BudgetBar from "@/components/finance/BudgetBar";
+import BudgetScaleSwitch from "@/components/finance/BudgetScaleSwitch";
+import { useBudgetCompare } from "@/lib/prefs";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import { CategoryDonut } from "@/components/finance/charts";
@@ -21,6 +23,8 @@ export default function DashboardPage() {
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
   const byCategory = spendByCategory(data, month);
+  const compareBudgets = useBudgetCompare();
+  const maxBudget = Math.max(1, ...byCategory.map((e) => e.budget ?? 0));
   const history = last12Months(data.transactions, now);
 
   // Net worth: accounts + holdings at cost on 1 January plus this year's
@@ -78,7 +82,10 @@ export default function DashboardPage() {
       </section>
 
       <section>
-        <h2 className="pf-section-title">Budgets — {monthYear(month)}</h2>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+          <h2 className="pf-section-title">Budgets — {monthYear(month)}</h2>
+          <BudgetScaleSwitch />
+        </div>
         <div className="pf-card">
           {byCategory.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>No spending yet this month.</div>}
           {byCategory.map((e) => (
@@ -90,7 +97,7 @@ export default function DashboardPage() {
                   {e.budget !== null && <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{money(e.budget, currency)} budget</span>}
                 </div>
                 {e.budget !== null ? (
-                  <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={e.category.is_fixed_expense ? month : undefined} />
+                  <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={e.category.is_fixed_expense ? month : undefined} scaleMax={compareBudgets ? maxBudget : undefined} />
                 ) : (
                   <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(e.spent, currency)} spent · no budget</span>
                 )}

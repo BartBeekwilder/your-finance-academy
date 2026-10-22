@@ -20,6 +20,9 @@ import { money } from "@/lib/finance/format";
  *    The rest of what's been paid shows as a translucent "paid, not yet
  *    used" segment, and budget that wasn't paid at all as a faint green
  *    "under budget" end.
+ *  - Compare (`scaleMax`): every bar on one scale — the largest budget fills
+ *    the track — so the lengths show the budgets against each other. A bar
+ *    too short for its numbers shows them just past its end.
  *  Bars grow in from the left on first paint. Styles: .pf-bbar* in CSS. */
 export default function BudgetBar({
   spent,
@@ -28,6 +31,7 @@ export default function BudgetBar({
   currency,
   monthFraction,
   fixedMonthStart,
+  scaleMax,
 }: {
   spent: number;
   budget: number;
@@ -39,6 +43,9 @@ export default function BudgetBar({
   /** Set for fixed-cost categories: the month's first day. The bar then
    *  shows use-to-date instead of the lump sum paid. */
   fixedMonthStart?: Date;
+  /** Compare mode: the amount that fills the whole track (the largest
+   *  budget on the list), so bars are sized against each other. */
+  scaleMax?: number;
 }) {
   const fraction = useMonthFraction(fixedMonthStart);
   const fixed = fixedMonthStart !== undefined;
@@ -53,13 +60,20 @@ export default function BudgetBar({
   const pace = monthFraction !== undefined && !fixed && !over ? (budget * monthFraction) / scale : null;
   const aheadOfPace = pace !== null && used / scale > pace;
 
-  // The overspend as a share of the row: the bar is TRACK% wide (= budget),
-  // the spill can use what's left.
-  const spill = over ? ((used - budget) / scale) * TRACK : 0;
-  const capped = spill > 100 - TRACK - 1;
+  // The bar's width as a share of the row (= its budget): the full track,
+  // or in compare mode its budget against the largest. The overspend spills
+  // past its end into whatever room is left.
+  const unit = scaleMax && scaleMax > 0 ? scaleMax : scale;
+  const barW = (budget / unit) * TRACK;
+  const room = 100 - barW - 1;
+  const spillRaw = over ? ((used - budget) / unit) * TRACK : 0;
+  const capped = spillRaw > room;
+  const spill = Math.min(spillRaw, room);
+  // Short bars carry their numbers outside, just past the end.
+  const outside = barW < 38;
 
   return (
-    <div className="pf-bbar-row" style={{ ["--track" as string]: `${TRACK}%`, ["--c" as string]: color }}>
+    <div className="pf-bbar-row" data-outside={outside} style={{ ["--track" as string]: `${barW}%`, ["--c" as string]: color }}>
     <div
       className="pf-bbar"
       role="meter"
@@ -95,11 +109,20 @@ export default function BudgetBar({
         </span>
       </span>
     </div>
+    {outside && (
+      <span className="pf-bbar-outtext pf-rounded" style={{ left: `calc(${barW + spill}% + 8px)` }}>
+        {money(used, currency)} {fixed ? "used" : "spent"}
+        <span style={{ color: over ? "#ff6a5f" : "var(--pf-ink-3)" }}>
+          {" · "}
+          {over ? `${money(used - budget, currency)} over · ${pct}%` : `${money(Math.max(budget - used, 0), currency)} ${fixed ? "to go" : "left"} · ${pct}%`}
+        </span>
+      </span>
+    )}
     {over && (
       <span
         className="pf-bbar-spill"
         data-capped={capped}
-        style={{ width: `${Math.min(spill, 100 - TRACK - 1)}%` }}
+        style={{ width: `${spill}%` }}
         title={`${money(used - budget, currency)} over budget`}
       />
     )}
