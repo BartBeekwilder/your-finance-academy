@@ -77,8 +77,12 @@ export default function BudgetsPage() {
       <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", alignItems: "stretch" }}>
 <div className="pf-card" style={{ padding: 16, display: "grid", gap: 8, alignContent: "space-evenly" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-          <div key={mode} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-            {mode === "month" ? `${monthYear(month)}${isCurrent ? "" : " · finished"}` : `${now.getFullYear()} so far`}
+          {/* The period shown, as the card's heading. */}
+          <div key={`${mode}-${sel}`} className="pf-readout" style={{ fontSize: "1.15rem", fontWeight: 650, color: "var(--pf-ink)" }}>
+            {mode === "month" ? monthYear(month) : now.getFullYear()}
+            <span style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--pf-ink-3)" }}>
+              {mode === "month" ? (isCurrent ? " · so far" : " · finished") : " · so far"}
+            </span>
           </div>
           <Segmented label="Period" value={mode} onChange={setMode} options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
         </div>
