@@ -3,13 +3,16 @@
 import { useState } from "react";
 import { BalanceBars, BalanceTable } from "@/components/finance/BalanceSheet";
 import { useFinance } from "@/components/finance/FinanceProvider";
+import EquityHero from "@/components/finance/EquityHero";
+import EquityWaterfall from "@/components/finance/EquityWaterfall";
 import StepSlider from "@/components/finance/StepSlider";
 import { balanceSheet } from "@/lib/finance/calc";
 
 // Balance sheet — the finances as a company's books: what you own (your own
 // posts like a home, plus accounts, investments, prepaid costs and income
 // still to receive, which are calculated) against what you owe (mortgage,
-// loans) and the difference, equity. A slider picks the month: the current
+// loans) and the difference, equity — the headline, with its line over the
+// year; the line's dots, or the slider under the bars, pick the month: the current
 // month shows today's stand, earlier months their month-end stand. Your own
 // posts are edited in place; editing an earlier month changes only that
 // month, editing this month also sets the current value. A month with no
@@ -25,6 +28,12 @@ export default function BalancePage() {
   const name = month.toLocaleDateString("en-GB", { month: "long" });
   const label = sheet.isCurrent ? `today` : `end of ${name}`;
   const [error, setError] = useState<string | null>(null);
+  // Equity at the end of each month so far (today for this month).
+  const points = Array.from({ length: now.getMonth() + 1 }, (_, i) => {
+    const d = new Date(now.getFullYear(), i, 1);
+    const n = d.toLocaleDateString("en-GB", { month: "long" });
+    return { label: n.slice(0, 3), full: i === now.getMonth() ? `Today` : `End of ${n}`, value: balanceSheet(data, now, d).equity };
+  });
   const run = (p: Promise<void>) => p.then(() => setError(null)).catch((e: Error) => setError(e.message));
 
   return (
@@ -36,7 +45,21 @@ export default function BalancePage() {
         </span>
       </header>
 
-      <div className="pf-card" style={{ padding: 16 }}>
+      <EquityHero points={points} sel={sel} onSelect={setSel} totalAssets={sheet.totalAssets} label={label} currency={currency} />
+
+
+      <EquityWaterfall
+        sheet={sheet}
+        prev={prev}
+        months={{ start: balanceSheet(data, now, new Date(now.getFullYear() - 1, 11, 1)).equity, points }}
+        sel={sel}
+        currency={currency}
+      />
+
+      <section className="pf-card" style={{ padding: 18, display: "grid", gap: 16 }}>
+        <div key={`bars${sel}`}>
+          <BalanceBars sheet={sheet} prev={prev} currency={currency} header={false} legend={false} />
+        </div>
         <StepSlider
           label="Month"
           animKey="balance-months"
@@ -48,10 +71,6 @@ export default function BalancePage() {
           })}
           onChange={setSel}
         />
-      </div>
-
-      <section key={`bars${sel}`} className="pf-card" style={{ padding: 18 }}>
-        <BalanceBars sheet={sheet} prev={prev} currency={currency} label={label} />
       </section>
 
       <section className="pf-card" style={{ padding: "18px 34px 18px 18px" }}>

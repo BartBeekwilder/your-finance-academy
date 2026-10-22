@@ -33,7 +33,23 @@ function delta(line: BalanceLine, prev: BalanceLine[] | undefined) {
   return Math.abs(d) < 0.005 ? null : d;
 }
 
-export function BalanceBars({ sheet, prev, currency, label }: { sheet: Sheet; prev?: Sheet; currency: string; label?: string }) {
+export function BalanceBars({
+  sheet,
+  prev,
+  currency,
+  label,
+  header = true,
+  legend: showLegend = true,
+}: {
+  sheet: Sheet;
+  prev?: Sheet;
+  currency: string;
+  label?: string;
+  /** The equity headline (off where the page shows its own). */
+  header?: boolean;
+  /** Names and amounts under the bars (off where the table follows). */
+  legend?: boolean;
+}) {
   const [hover, setHover] = useState<{ name: string; value: number; color: string } | null>(null);
   const total = Math.max(sheet.totalAssets, sheet.totalDebt + Math.max(sheet.equity, 0), 1);
   const assets = sheet.assets.filter((l) => l.value > 0);
@@ -74,6 +90,7 @@ export function BalanceBars({ sheet, prev, currency, label }: { sheet: Sheet; pr
         <span
           key={l.id}
           className="pf-bal-seg"
+          data-equity={l.id === "equity"}
           data-lit={hover?.name === l.name}
           title={`${l.name} ${money(l.value, currency)}`}
           style={{ flexBasis: `${(l.value / total) * 100}%`, background: l.color, animationDelay: `${i * 60}ms` }}
@@ -85,16 +102,18 @@ export function BalanceBars({ sheet, prev, currency, label }: { sheet: Sheet; pr
 
   return (
     <div style={{ display: "grid", gap: 10 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
-        <div>
-          <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>Equity{label ? ` · ${label}` : ""}</div>
-          <div className="pf-rounded" style={{ fontSize: "1.6rem", fontWeight: 700, color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>
-            {money(sheet.equity, currency)}
+      <div style={{ display: "flex", justifyContent: header ? "space-between" : "flex-end", alignItems: "baseline", gap: 12, flexWrap: "wrap", minHeight: 18 }}>
+        {header && (
+          <div>
+            <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>Equity{label ? ` · ${label}` : ""}</div>
+            <div className="pf-rounded" style={{ fontSize: "1.6rem", fontWeight: 700, color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>
+              {money(sheet.equity, currency)}
+            </div>
+            {eqDelta !== null && Math.abs(eqDelta) >= 0.005 && (
+              <div style={{ fontSize: "0.7rem", color: eqDelta >= 0 ? "var(--pf-green)" : "var(--pf-red)" }}>{money(eqDelta, currency, { signed: true })} since last month</div>
+            )}
           </div>
-          {eqDelta !== null && Math.abs(eqDelta) >= 0.005 && (
-            <div style={{ fontSize: "0.7rem", color: eqDelta >= 0 ? "var(--pf-green)" : "var(--pf-red)" }}>{money(eqDelta, currency, { signed: true })} since last month</div>
-          )}
-        </div>
+        )}
         <span key={shown?.name ?? "idle"} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", textAlign: "right" }}>
           {shown ? (
             <>
@@ -114,10 +133,12 @@ export function BalanceBars({ sheet, prev, currency, label }: { sheet: Sheet; pr
         <span className="pf-bal-side">Debt + equity</span>
         {row(right, "Liabilities and equity")}
       </div>
-      <div className="pf-bal-legends">
-        {legend(assetLines, "Assets", sheet.totalAssets)}
-        {legend(debtLines, "Liabilities", sheet.totalDebt)}
-      </div>
+      {showLegend && (
+        <div className="pf-bal-legends">
+          {legend(assetLines, "Assets", sheet.totalAssets)}
+          {legend(debtLines, "Liabilities", sheet.totalDebt)}
+        </div>
+      )}
     </div>
   );
 }
@@ -152,7 +173,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
           <span>Total liabilities</span>
           <span className="pf-rounded">{money(sheet.totalDebt, currency)}</span>
         </div>
-        <div className="pf-bal-equity">
+        <div className="pf-bal-equity" data-neg={sheet.equity < 0}>
           <span>Equity</span>
           <span className="pf-rounded" style={{ color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>
             {money(sheet.equity, currency)}
@@ -197,7 +218,8 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
           {line.kind === "auto" && <em>auto</em>}
         </span>
       )}
-      {d !== null && <small style={{ color: d >= 0 ? "var(--pf-ink-3)" : "var(--pf-ink-3)" }}>{money(d, currency, { signed: true })}</small>}
+      {/* Always present, so the amount columns line up row to row. */}
+      <small className="pf-bal-delta">{d !== null ? money(d, currency, { signed: true }) : ""}</small>
       {editable ? (
         <AmountField value={line.value} currency={currency} onCommit={(v) => v !== line.value && edit.onValue(line.id, v)} />
       ) : (
