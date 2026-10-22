@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useFlip } from "@/lib/useFlip";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import BudgetBar from "@/components/finance/BudgetBar";
 import BudgetScaleSwitch from "@/components/finance/BudgetScaleSwitch";
-import { useBudgetCompare } from "@/lib/prefs";
+import { useBudgetCompare, useBudgetLargestFirst } from "@/lib/prefs";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import Segmented from "@/components/finance/Segmented";
@@ -74,6 +75,9 @@ export default function BudgetsPage() {
   const [mode, setMode] = useState<"month" | "year">("month");
   const compare = useBudgetCompare();
   const maxBudget = Math.max(1, ...rows.map((r) => r.budget ?? 0));
+  const largestFirst = useBudgetLargestFirst();
+  const limitsRef = useRef<HTMLDivElement>(null);
+  useFlip(limitsRef, largestFirst);
 
   // Year view: per category, the twelve months with their (carried) budgets.
   const yearRows = rows.map((r) => {
@@ -175,11 +179,11 @@ export default function BudgetsPage() {
       ) : (
       <section key="month" className="pf-readout">
         <h2 className="pf-section-title">Monthly limits — {monthYear(month)}{isFuture && " · forecast"}</h2>
-        <div className="pf-card">
+        <div className="pf-card" ref={limitsRef}>
           <BudgetScaleSwitch />
-          {rows.map(({ c, spent, budget }) => {
+          {(largestFirst ? [...rows].sort((a, b) => (b.budget ?? 0) - (a.budget ?? 0)) : rows).map(({ c, spent, budget }) => {
             return (
-              <button key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
+              <button key={c.id} data-flip-key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
                 <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={32} />
                 <div style={{ flex: 1, display: "grid", gap: 6 }}>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -226,13 +230,16 @@ function YearList({
 }) {
   const compare = useBudgetCompare();
   const maxBudget = Math.max(1, ...rows.map((r) => r.budget ?? 0));
+  const largestFirst = useBudgetLargestFirst();
+  const yearRef = useRef<HTMLDivElement>(null);
+  useFlip(yearRef, largestFirst);
   return (
     <section key="year" className="pf-readout">
       <h2 className="pf-section-title">Year budgets</h2>
-      <div className="pf-card">
+      <div className="pf-card" ref={yearRef}>
         <BudgetScaleSwitch />
-        {rows.map(({ c, spent, budget, months }) => (
-          <button key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
+        {(largestFirst ? [...rows].sort((a, b) => (b.budget ?? 0) - (a.budget ?? 0)) : rows).map(({ c, spent, budget, months }) => (
+          <button key={c.id} data-flip-key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
             <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={32} />
             <div style={{ flex: 1, display: "grid", gap: 6, minWidth: 0 }}>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>

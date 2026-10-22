@@ -45,3 +45,8 @@ const BUDGET_COMPARE = "pf-budget-compare";
  *  against its own budget. */
 export const useBudgetCompare = () => usePref(BUDGET_COMPARE, true);
 export const setBudgetCompare = (on: boolean) => write(BUDGET_COMPARE, on);
+
+const BUDGET_SORT = "pf-budget-largest";
+/** Budget lists sorted largest budget first (true) or in the user's order. */
+export const useBudgetLargestFirst = () => usePref(BUDGET_SORT, false);
+export const setBudgetLargestFirst = (on: boolean) => write(BUDGET_SORT, on);

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BudgetBar from "@/components/finance/BudgetBar";
 import BudgetScaleSwitch from "@/components/finance/BudgetScaleSwitch";
-import { useBudgetCompare } from "@/lib/prefs";
+import { useBudgetCompare, useBudgetLargestFirst } from "@/lib/prefs";
+import { useFlip } from "@/lib/useFlip";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import { CategoryDonut } from "@/components/finance/charts";
@@ -25,6 +26,9 @@ export default function DashboardPage() {
   const byCategory = spendByCategory(data, month);
   const compareBudgets = useBudgetCompare();
   const maxBudget = Math.max(1, ...byCategory.map((e) => e.budget ?? 0));
+  const largestFirst = useBudgetLargestFirst();
+  const budgetsRef = useRef<HTMLDivElement>(null);
+  useFlip(budgetsRef, largestFirst);
   const history = last12Months(data.transactions, now);
 
   // Net worth: accounts + holdings at cost on 1 January plus this year's
@@ -83,11 +87,14 @@ export default function DashboardPage() {
 
       <section>
         <h2 className="pf-section-title">Budgets — {monthYear(month)}</h2>
-        <div className="pf-card">
+        <div className="pf-card" ref={budgetsRef}>
           <BudgetScaleSwitch />
           {byCategory.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>No spending yet this month.</div>}
-          {byCategory.map((e) => (
-            <button key={e.category.id} className="pf-row pf-tap" onClick={(ev) => openCategory(e.category.id, ev.currentTarget)} style={{ display: "grid", gridTemplateColumns: "auto 1fr", alignItems: "center", gap: "6px 12px", width: "100%" }}>
+          {(largestFirst
+            ? [...byCategory].sort((a, b) => (b.budget ?? 0) - (a.budget ?? 0))
+            : [...byCategory].sort((a, b) => a.category.sort_order - b.category.sort_order)
+          ).map((e) => (
+            <button key={e.category.id} data-flip-key={e.category.id} className="pf-row pf-tap" onClick={(ev) => openCategory(e.category.id, ev.currentTarget)} style={{ display: "grid", gridTemplateColumns: "auto 1fr", alignItems: "center", gap: "6px 12px", width: "100%" }}>
               <CategoryIcon icon={e.category.icon} colorHex={e.category.color_hex} size={30} />
               <div style={{ display: "grid", gap: 6 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.92rem" }}>
