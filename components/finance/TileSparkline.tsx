@@ -1,7 +1,7 @@
 "use client";
 
 import { useNow } from "@/lib/motion";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { monthToDate, summarize, yearForecast } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
@@ -36,7 +36,9 @@ import type { FinanceData } from "@/lib/finance/types";
 const H = 54;
 type Series = "income" | "spent" | "balance";
 
-export default function TileSparkline({
+// Memoised: the tile around it re-renders every 80 ms for its number; the
+// chart only needs its own 1 s tick (and new props while zooming).
+export default memo(function TileSparkline({
   data,
   series,
   color,
@@ -206,6 +208,6 @@ export default function TileSparkline({
       )}
     </div>
   );
-}
+});
 
 const lerp = (a: number, b: number, k: number) => a + (b - a) * k;

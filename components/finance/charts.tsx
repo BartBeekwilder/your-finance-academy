@@ -61,7 +61,9 @@ export function CategoryDonut({ months, years, currency, now }: {
   // Tween the non-fixed and fixed parts separately (they only change when
   // the period changes); the fraction is applied every tick on top.
   const tween = useTween([...target.map((v, i) => v - fixedPart[i]), ...fixedPart], 700);
-  const fraction = useMonthFraction(now, isLive && fixedPart.some((f) => f > 0));
+  // Slices move imperceptibly per second, so they tick at 1 s; only the
+  // centre number streams at 80 ms (LiveDonutAmount, its own component).
+  const fraction = useMonthFraction(now, isLive && fixedPart.some((f) => f > 0), 1000);
   const values = order.map((_, i) => tween[i] + tween[order.length + i] * fraction);
 
   const total = values.reduce((s, v) => s + v, 0);
@@ -145,7 +147,16 @@ export function CategoryDonut({ months, years, currency, now }: {
               {shown ? shown.category.name : mode === "year" ? `Spent in ${yearSel?.year}` : monthIndex === now.getMonth() ? "Spent this month" : `Spent in ${monthName}`}
             </span>
             <span className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700 }}>
-              {isLive ? <LiveAmount value={shown ? shown.spent : total} currency={currency} size="1.05rem" /> : money(shown ? shown.spent : total, currency)}
+              {isLive ? (
+                <LiveDonutAmount
+                  base={active !== null ? tween[active] : order.reduce((t, _, i) => t + tween[i], 0)}
+                  fixed={active !== null ? tween[order.length + active] : order.reduce((t, _, i) => t + tween[order.length + i], 0)}
+                  now={now}
+                  currency={currency}
+                />
+              ) : (
+                money(shown ? shown.spent : total, currency)
+              )}
             </span>
             <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>
               {shown
@@ -183,8 +194,14 @@ export function CategoryDonut({ months, years, currency, now }: {
 
 /** Fraction of `now`'s month that has passed, re-read every 80 ms while
  *  `ticking` (same cadence as the live tiles, so the digits stream). */
-function useMonthFraction(now: Date, ticking: boolean) {
-  const clock = useNow(80, ticking);
+/** The donut's centre number, streaming at 80 ms on its own. */
+function LiveDonutAmount({ base, fixed, now, currency }: { base: number; fixed: number; now: Date; currency: string }) {
+  const fraction = useMonthFraction(now, true, 80);
+  return <LiveAmount value={base + fixed * fraction} currency={currency} size="1.05rem" />;
+}
+
+function useMonthFraction(now: Date, ticking: boolean, ms = 80) {
+  const clock = useNow(ms, ticking);
   // Exactly as LiveTiles (days × 24 h), so the total matches the Spent tile.
   const start = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
   const days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();

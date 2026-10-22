@@ -476,14 +476,6 @@
 /* ---------------------------------------------------------------------
    Brand toggle (components/finance/Segmented.tsx)
    --------------------------------------------------------------------- */
-@property --pf-orbit {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-@keyframes pf-orbit {
-  to { --pf-orbit: 360deg; }
-}
 
 .pf-seg {
   position: relative;
@@ -494,28 +486,43 @@
   background: rgba(18, 18, 22, 0.85);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 6px 18px rgba(0, 0, 0, 0.45);
 }
-/* Orbiting rim: a conic gradient masked down to a 1px ring. */
-.pf-seg::before {
-  content: "";
+/* Orbiting rim: a 1px ring (masked) holding a conic gradient that only
+   rotates — a transform the compositor runs, so no repaint per frame. */
+.pf-seg-rim {
   position: absolute;
   inset: -1px;
   z-index: -1;
   border-radius: inherit;
   padding: 1px;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.pf-seg-rim::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160%;
+  aspect-ratio: 1;
   background: conic-gradient(
-    from var(--pf-orbit),
     rgba(108, 92, 231, 0.9),
     rgba(0, 194, 168, 0.9) 25%,
     rgba(255, 255, 255, 0.08) 45%,
     rgba(255, 255, 255, 0.08) 70%,
     rgba(108, 92, 231, 0.9)
   );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: pf-orbit 6s linear infinite;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  animation: pf-rim-spin 6s linear infinite;
 }
-.pf-seg:hover::before {
+@keyframes pf-rim-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.pf-seg:hover .pf-seg-rim::before {
   animation-duration: 2.5s;
 }
 

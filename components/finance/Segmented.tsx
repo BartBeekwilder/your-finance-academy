@@ -36,6 +36,7 @@ export default function Segmented<T extends string>({
 
   return (
     <div role="tablist" aria-label={label} className="pf-seg" style={{ gridTemplateColumns: `repeat(${n}, 1fr)`, width: wide ? "100%" : undefined }}>
+      <span className="pf-seg-rim" aria-hidden />
       <span
         className="pf-seg-thumb"
         data-dir={dir}
