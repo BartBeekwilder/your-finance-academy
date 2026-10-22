@@ -56,3 +56,42 @@ const BALANCE_FULL = "pf-balance-full";
  *  compact bars (false). */
 export const useBalanceFull = () => usePref(BALANCE_FULL, false);
 export const setBalanceFull = (on: boolean) => write(BALANCE_FULL, on);
+
+// ---- Orders (a list of ids, saved as JSON) --------------------------------
+// Cached per key so the snapshot is stable between renders.
+const orderCache = new Map<string, { raw: string | null; ids: string[] }>();
+
+function readOrder(key: string, fallback: string[]) {
+  let raw: string | null = null;
+  try {
+    raw = localStorage.getItem(key);
+  } catch {}
+  const hit = orderCache.get(key);
+  if (hit && hit.raw === raw) return hit.ids;
+  let saved: string[] = [];
+  try {
+    saved = raw ? (JSON.parse(raw) as string[]) : [];
+  } catch {}
+  // Known ids in the saved order, then any new ones in their default place.
+  const ids = [...saved.filter((id) => fallback.includes(id)), ...fallback.filter((id) => !saved.includes(id))];
+  orderCache.set(key, { raw, ids });
+  return ids;
+}
+
+/** A per-browser order of tiles: `fallback` is the default (and the set of ids). */
+export function useOrder(key: string, fallback: string[]) {
+  return useSyncExternalStore(
+    (l) => {
+      listeners.add(l);
+      return () => listeners.delete(l);
+    },
+    () => readOrder(key, fallback),
+    () => fallback,
+  );
+}
+export function setOrder(key: string, ids: string[]) {
+  try {
+    localStorage.setItem(key, JSON.stringify(ids));
+  } catch {}
+  listeners.forEach((l) => l());
+}

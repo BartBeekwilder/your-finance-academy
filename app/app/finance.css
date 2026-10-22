@@ -1868,12 +1868,13 @@ html[data-pf-paused] *::after {
 .pf-bal-seg[data-equity="true"] {
   position: relative;
   z-index: 1;
-  box-shadow: inset 0 0 0 2px rgba(235, 252, 255, 0.95), 0 0 10px 1px rgba(64, 200, 224, 0.9), 0 0 26px 4px rgba(64, 200, 224, 0.45);
-  animation: pf-bal-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both, pf-eq-glow 2.8s ease-in-out 0.8s infinite;
+  box-shadow: inset 0 0 0 1.5px rgba(225, 250, 255, 0.8), 0 0 10px rgba(64, 200, 224, 0.5);
+  animation: pf-bal-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both, pf-eq-glow 3s ease-in-out 0.8s infinite;
 }
 @keyframes pf-eq-glow {
-  50% { box-shadow: inset 0 0 0 2px #fff, 0 0 14px 2px rgba(64, 200, 224, 1), 0 0 36px 8px rgba(64, 200, 224, 0.6); }
+  50% { box-shadow: inset 0 0 0 1.5px rgba(240, 252, 255, 0.95), 0 0 16px 1px rgba(64, 200, 224, 0.7); }
 }
+
 
 .pf-bal-seg {
   flex-grow: 0;
@@ -2244,4 +2245,51 @@ html[data-pf-paused] *::after {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Rearrangeable page tiles (SortableTiles) */
+.pf-tile {
+  position: relative;
+  border-radius: 14px;
+}
+.pf-tile-grip {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 14px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--pf-ink-3);
+  cursor: grab;
+  touch-action: none;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+}
+.pf-tile:hover > .pf-tile-grip,
+.pf-tile-grip:focus-visible,
+.pf-tile[data-dragging="true"] > .pf-tile-grip {
+  opacity: 1;
+}
+.pf-tile-grip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--pf-ink);
+}
+.pf-tile[data-dragging="true"] {
+  z-index: 10;
+  cursor: grabbing;
+}
+.pf-tile[data-dragging="true"] > :not(.pf-tile-grip) {
+  scale: 1.015;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12), 0 0 30px rgba(108, 92, 231, 0.3);
+  transition: scale 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+}
+@media (hover: none) {
+  .pf-tile-grip { opacity: 0.6; }
 }
