@@ -29,7 +29,7 @@ export function WithYAxis({
       <div className="pf-yaxis" style={{ height, marginTop: top }} aria-hidden>
         {ticks.map((t, i) => (
           <span key={i} style={{ bottom: `${t.at * 100}%` }}>
-            {money(t.value, currency, { compact: true })}
+            {money(Math.abs(t.value) < 1000 ? Math.round(t.value) : t.value, currency, { compact: true })}
           </span>
         ))}
       </div>

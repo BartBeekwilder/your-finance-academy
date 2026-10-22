@@ -34,7 +34,7 @@ import type { FinanceData } from "@/lib/finance/types";
 // and shows a guide line,
 // a dot and a little label with its date and running total.
 //
-// Absolute: a subtle ∑ / ▮ switch in the corner turns the running total into
+// Absolute (the tile's ∑ / ▮ switch, beside its number) turns the running total into
 // the amount per period — bars per month (Year) or per day (Month), on the
 // same camera, the periods ahead dashed at their forecast.
 
@@ -50,6 +50,7 @@ export default memo(function TileSparkline({
   z,
   currency,
   offset = 0,
+  absolute = false,
 }: {
   data: FinanceData;
   series: Series;
@@ -59,9 +60,10 @@ export default memo(function TileSparkline({
   currency: string;
   /** Net worth: the start-of-year value the running balance builds on. */
   offset?: number;
+  /** Amount per day / month (bars) instead of the running total. */
+  absolute?: boolean;
 }) {
   const [sel, setSel] = useState<number | null>(null);
-  const [absolute, setAbsolute] = useState(false);
   const tick = useNow(1000);
 
   const live = new Date(tick);
@@ -275,11 +277,6 @@ export default memo(function TileSparkline({
       </svg>
       {/* "Now" — round in HTML (the SVG is stretched). */}
       {!absolute && <span className="pf-tsl-now" style={{ left: `${lastX}%`, top: lastY, ["--dot" as string]: color }} />}
-      {/* Cumulative ⇄ absolute: subtle, top-right of the chart. */}
-      <span className="pf-tsl-mode" role="group" aria-label="Chart values" onPointerDown={(e) => e.stopPropagation()} onPointerMove={(e) => e.stopPropagation()}>
-        <button type="button" aria-pressed={!absolute} title="Running total" onClick={() => { setAbsolute(false); setSel(null); }}>∑</button>
-        <button type="button" aria-pressed={absolute} title={`Per ${z > 0.5 ? "day" : "month"}`} onClick={() => { setAbsolute(true); setSel(null); }}>▮</button>
-      </span>
       {pickedBar && (
         <>
           <span className="pf-tsl-pick" style={{ left: `${pickedX}%`, top: pickedY, ["--dot" as string]: color }} />

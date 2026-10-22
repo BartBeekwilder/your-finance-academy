@@ -83,7 +83,7 @@ export default function LiveTiles({
         before={before.income}
         color={() => GREEN}
         currency={currency}
-        chart={(z) => <TileSparkline data={data} series="income" color="#30d158" z={z} currency={currency} />}
+        chart={(z, _v, abs) => <TileSparkline data={data} series="income" color="#30d158" z={z} currency={currency} absolute={abs} />}
       >
         {(mode) =>
           mode === "month" ? (
@@ -110,7 +110,7 @@ export default function LiveTiles({
         before={before.spent}
         color={() => RED}
         currency={currency}
-        chart={(z) => <TileSparkline data={data} series="spent" color="#ff453a" z={z} currency={currency} />}
+        chart={(z, _v, abs) => <TileSparkline data={data} series="spent" color="#ff453a" z={z} currency={currency} absolute={abs} />}
       >
         {(mode) => {
           const total = mode === "month" ? spentTotal : before.spent + spentTotal;
@@ -145,7 +145,7 @@ export default function LiveTiles({
         color={(v) => (v >= 0 ? BLUE : RED)}
         currency={currency}
         last
-        chart={(z, v) => <TileSparkline data={data} series="balance" color={v >= 0 ? "#0a84ff" : "#ff453a"} z={z} currency={currency} />}
+        chart={(z, v, abs) => <TileSparkline data={data} series="balance" color={v >= 0 ? "#0a84ff" : "#ff453a"} z={z} currency={currency} absolute={abs} />}
       >
         {(mode) => {
           const inc = mode === "month" ? liveIncome : ytd.income;
@@ -185,11 +185,13 @@ export function Tile({ title, value, before, color, currency, last, chart, child
   color: (shown: number) => string;
   currency: string;
   last?: boolean;
-  chart: (z: number, shown: number) => React.ReactNode;
+  chart: (z: number, shown: number, absolute: boolean) => React.ReactNode;
   children: (mode: Mode) => React.ReactNode;
   onModeChange?: (mode: Mode) => void;
 }) {
   const [mode, setMode] = useState<Mode>("month");
+  // The chart: running total (∑) or the amount per day / month (▮).
+  const [absolute, setAbsolute] = useState(false);
   const z = useZoom(mode === "month" ? 1 : 0, 950);
   const shown = value + before * (1 - z);
   const c = color(shown);
@@ -207,10 +209,15 @@ export function Tile({ title, value, before, color, currency, last, chart, child
           options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
         />
       </div>
-      <div>
+      {/* The number, with the chart's ∑ / ▮ switch on the same row. */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
         <LiveAmount value={shown} currency={currency} size="2rem" color={c} />
+        <span className="pf-tsl-mode" role="group" aria-label="Chart values">
+          <button type="button" aria-pressed={!absolute} title="Running total" onClick={() => setAbsolute(false)}>∑</button>
+          <button type="button" aria-pressed={absolute} title={mode === "month" ? "Per day" : "Per month"} onClick={() => setAbsolute(true)}>▮</button>
+        </span>
       </div>
-      {chart(z, shown)}
+      {chart(z, shown, absolute)}
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 4 }}>{children(mode)}</div>
     </div>
   );
