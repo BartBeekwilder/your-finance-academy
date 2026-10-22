@@ -11,7 +11,7 @@ import NetWorthCard from "@/components/finance/NetWorthCard";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
 import YearLines from "@/components/finance/YearLines";
-import { investedIn, last12Months, live, monthProgress, num, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
+import { last12Months, monthProgress, netWorthFigures, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 export default function DashboardPage() {
@@ -23,9 +23,8 @@ export default function DashboardPage() {
   const byCategory = spendByCategory(data, month);
   const history = last12Months(data.transactions, now);
 
-  // Net worth = accounts + holdings at cost (live prices arrive with sync).
-  const accounts = live(data.accounts).reduce((sum, a) => sum + num(a.balance), 0);
-  const holdings = investedIn(data.holdings, currency).total;
+  // Net worth: accounts + holdings at cost on 1 January plus this year's
+  // savings (netWorthFigures — the Net worth page's model, same as iOS).
   const complete = history.slice(0, -1).filter((p) => p.income || p.expense);
   const pace = complete.length ? complete.reduce((t, p) => t + p.income - p.expense, 0) / complete.length : 0;
   const yearDelta = history
@@ -39,7 +38,7 @@ export default function DashboardPage() {
         <Clock />
       </header>
 
-      <NetWorthCard base={accounts + holdings} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} currency={currency} />
+      <NetWorthCard base={netWorthFigures(data, now).base} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} currency={currency} />
 
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}
       <section style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "stretch" }}>

@@ -31,8 +31,10 @@ export default function NetWorthPage() {
   const pct = (from: number, to: number, since: string) =>
     from > 0 && from >= Math.abs(to) * 0.1 ? `${to >= from ? "+" : ""}${(((to - from) / from) * 100).toFixed(1)}% ${since}` : since[0].toUpperCase() + since.slice(1);
 
-  // Where it sits: each account and each holding (at cost, own currency).
+  // Where it sits: each account and holding (their starting values, at
+  // cost) plus what's been saved this year — together today's net worth.
   const parts = [
+    { id: "saved", name: "Saved this year", kind: "Cash flow", value: nowValue - nw.startOfYear, color: "#30d158" },
     ...live(data.accounts)
       .filter((a) => num(a.balance) !== 0)
       .map((a, i) => ({ id: a.id, name: a.name || "Account", kind: "Account", value: num(a.balance), color: ACCOUNT_COLORS[i % ACCOUNT_COLORS.length] })),
@@ -55,7 +57,7 @@ export default function NetWorthPage() {
       <NetWorthTile data={data} currency={currency} onModeChange={setMode} />
 
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
-        <Stat label="Net worth now" value={money(nowValue, currency)} color="#40c8e0" hint={`Accounts ${money(nw.accountsTotal, currency)} · investments ${money(nw.holdingsTotal, currency)}`} />
+        <Stat label="Net worth now" value={money(nowValue, currency)} color="#40c8e0" hint={`Saved this year ${money(nowValue - nw.startOfYear, currency, { signed: true })}`} />
         {mode === "month" ? (
           <>
             <Stat
@@ -106,7 +108,9 @@ export default function NetWorthPage() {
             ))}
             {parts.length === 0 && <div style={{ color: "var(--pf-ink-2)" }}>Add an account balance or an investment to see where your money sits.</div>}
           </div>
-          <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>Investments at what you paid — live prices arrive with account sync.</div>
+          <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
+            Accounts and investments as entered (investments at what you paid — live prices arrive with account sync), plus this year&apos;s income minus spending.
+          </div>
         </div>
       </section>
 
