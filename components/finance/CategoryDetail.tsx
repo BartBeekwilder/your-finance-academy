@@ -1,5 +1,6 @@
 "use client";
 
+import { WithYAxis } from "./YAxis";
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 import { X } from "lucide-react";
 import { categoryYear, live, monthKey, num, type CategoryMonth } from "@/lib/finance/calc";
@@ -176,7 +177,8 @@ function CumulativeChart({ points, color, currency }: { points: Point[]; color: 
           </>
         )}
       </div>
-      <svg
+      <WithYAxis height={H} currency={currency} ticks={[0, 0.5, 1].map((f) => ({ value: max * f, at: (4 + f * (H - 12)) / H }))}>
+<svg
         viewBox={`0 0 ${W} ${H}`}
         width="100%"
         height={H}
@@ -200,6 +202,7 @@ function CumulativeChart({ points, color, currency }: { points: Point[]; color: 
           </>
         )}
       </svg>
+</WithYAxis>
       <Legend color={color} hasBudget={hasBudget} />
     </div>
   );
@@ -238,7 +241,8 @@ function MonthBars({ points, color, currency, current }: {
           </>
         )}
       </div>
-      <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: H + 16 }}>
+      <WithYAxis height={H} top={1} currency={currency} ticks={[0, 0.5, 1].map((f) => ({ value: max * f, at: f }))}>
+<div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: H + 16 }}>
         {points.map((pt, i) => {
           const over = !pt.future && pt.budget !== null && pt.total > pt.budget;
           return (
@@ -279,6 +283,7 @@ function MonthBars({ points, color, currency, current }: {
           );
         })}
       </div>
+</WithYAxis>
       {hasBudget && (
         <div style={{ display: "flex", gap: 14, alignItems: "center", fontSize: "0.68rem", color: "var(--pf-ink-2)", marginTop: 6 }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>

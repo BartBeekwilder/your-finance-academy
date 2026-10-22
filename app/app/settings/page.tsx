@@ -7,6 +7,8 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import { CURRENCIES, currencySymbol } from "@/lib/finance/currencies";
 import { money } from "@/lib/finance/format";
 import { setMotionPaused, useMotionPaused } from "@/lib/motion";
+import { setShowAxes, useShowAxes } from "@/lib/prefs";
+import Segmented from "@/components/finance/Segmented";
 
 // Settings, grouped in sections so new ones slot in as the app grows.
 // Currency is saved to the profile (shared with iOS); it changes how amounts
@@ -68,6 +70,8 @@ export default function SettingsPage() {
         </div>
       </Section>
 
+      <ChartsSection />
+
       <Section title="Account">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
           <div>
@@ -84,6 +88,27 @@ export default function SettingsPage() {
 
       {process.env.NODE_ENV === "development" && <DevelopmentSection />}
     </div>
+  );
+}
+
+/** Chart preferences — kept in this browser. */
+function ChartsSection() {
+  const showAxes = useShowAxes();
+  return (
+    <Section title="Charts" hint="Kept on this device.">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+        <div>
+          <div style={{ fontWeight: 600 }}>Values on chart axes</div>
+          <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>The amounts down the left of every chart, like €10K · €5K · €0.</div>
+        </div>
+        <Segmented
+          label="Values on chart axes"
+          value={showAxes ? "on" : "off"}
+          onChange={(v) => setShowAxes(v === "on")}
+          options={[{ value: "off", label: "Off" }, { value: "on", label: "On" }]}
+        />
+      </div>
+    </Section>
   );
 }
 

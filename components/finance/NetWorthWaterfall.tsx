@@ -1,5 +1,6 @@
 "use client";
 
+import { useShowAxes } from "@/lib/prefs";
 import { useMemo, useState } from "react";
 import { live, netWorthFigures, num } from "@/lib/finance/calc";
 import { money, monthYear, shortMonth } from "@/lib/finance/format";
@@ -24,6 +25,7 @@ const TEAL = "#40c8e0";
 type Step = { key: string; label: string; long: string; from: number; to: number; kind: "total" | "change" | "forecast" | "end"; isNow?: boolean };
 
 export default function NetWorthWaterfall({ data, now, currency, mode }: { data: FinanceData; now: Date; currency: string; mode: Mode }) {
+  const showAxes = useShowAxes();
   const nw = useMemo(() => netWorthFigures(data, now), [data, now]);
   const [hover, setHover] = useState<number | null>(null);
   const steps = mode === "year" ? yearSteps(nw, now) : daySteps(nw, data, now);
@@ -63,14 +65,16 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
         </span>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 8 }}>
-        <div style={{ position: "relative", height: H, fontSize: "0.6rem", color: "var(--pf-ink-3)", textAlign: "right" }}>
+      <div style={{ display: "grid", gridTemplateColumns: showAxes ? "auto 1fr" : "1fr", gap: 8 }}>
+        {showAxes && (
+<div style={{ position: "relative", height: H, fontSize: "0.6rem", color: "var(--pf-ink-3)", textAlign: "right" }}>
           {[1, 0.5, 0].map((f) => (
             <span key={f} style={{ display: "block", position: f === 1 ? "relative" : "absolute", right: 0, bottom: f === 1 ? undefined : f * H, translate: f === 1 ? "0 -50%" : "0 50%", whiteSpace: "nowrap" }}>
               {money(lo + (hi - lo) * f, currency, { compact: true })}
             </span>
           ))}
         </div>
+)}
         <div style={{ minWidth: 0 }}>
           <div key={mode} className="pf-wf-plot" data-mode={mode} style={{ height: H }} onMouseLeave={() => setHover(null)}>
             {[0, 0.5, 1].map((f) => (

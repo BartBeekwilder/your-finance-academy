@@ -1,5 +1,6 @@
 "use client";
 
+import { useShowAxes } from "@/lib/prefs";
 import { useNow } from "@/lib/motion";
 import { useState } from "react";
 import { monthToDate, summarize } from "@/lib/finance/calc";
@@ -47,6 +48,7 @@ export default function YearLines({
   /** This month's projected net income, which the live point accrues toward. */
   monthlyIncome: number;
 }) {
+  const showAxes = useShowAxes();
   const [mode, setMode] = useState<"month" | "year">("year");
   const [sel, setSel] = useState<number | null>(null);
   const [drag, setDrag] = useState<{ a: number; b: number } | null>(null);
@@ -216,12 +218,14 @@ export default function YearLines({
         )}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 6 }}>
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", fontSize: "0.58rem", color: "var(--pf-ink-3)", textAlign: "right", height: H }}>
+      <div style={{ display: "grid", gridTemplateColumns: showAxes ? "auto 1fr" : "1fr", gap: 6 }}>
+        {showAxes && (
+<div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", fontSize: "0.58rem", color: "var(--pf-ink-3)", textAlign: "right", height: H }}>
           <span>{money(max, currency, { compact: true })}</span>
           <span>{money(max / 2, currency, { compact: true })}</span>
           <span>{money(0, currency, { compact: true })}</span>
         </div>
+)}
         <div style={{ minWidth: 0 }}>
           <svg
             viewBox={`0 0 ${W} ${H}`}

@@ -1625,3 +1625,19 @@ html[data-pf-paused] *::after {
   transform-origin: left;
   animation: pf-stat-fill 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) both;
 }
+
+/* Chart value labels (components/finance/YAxis.tsx). */
+.pf-yaxis {
+  position: relative;
+  min-width: 30px;
+  font-size: 0.58rem;
+  color: var(--pf-ink-3);
+}
+.pf-yaxis > span {
+  position: absolute;
+  right: 0;
+  translate: 0 50%;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  animation: pf-fade-up 0.3s ease-out both;
+}

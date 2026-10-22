@@ -1,5 +1,6 @@
 "use client";
 
+import { WithYAxis } from "./YAxis";
 import { useNow } from "@/lib/motion";
 import { memo, useState } from "react";
 import { monthToDate, summarize, yearForecast } from "@/lib/finance/calc";
@@ -154,12 +155,17 @@ export default memo(function TileSparkline({
     for (const i of candidates) if (Math.abs(all[i].t - t) < Math.abs(all[best].t - t)) best = i;
     setSel(best);
   };
+  // Axis labels read like the tile: zoomed into the month they count from the
+  // 1st (the earlier months taken off), eased through the zoom; net worth is
+  // a level and needs no shift.
+  const axisShift = stock ? 0 : before * z;
   const picked = sel !== null && settled && candidates.includes(sel) ? all[sel] : null;
   const pickedX = picked ? x(picked.t) : 0;
   const pickedY = picked ? y(picked.v) : 0;
 
   return (
-    <div
+    <WithYAxis height={H} currency={currency} ticks={[{ value: lo - axisShift, at: 4 / H }, { value: hi - axisShift, at: (H - 4) / H }]}>
+<div
       className="pf-tsl"
       style={{ position: "relative", height: H, cursor: "crosshair", touchAction: "pan-y" }}
       onPointerMove={scrub}
@@ -214,6 +220,7 @@ export default memo(function TileSparkline({
         </>
       )}
     </div>
+</WithYAxis>
   );
 });
 

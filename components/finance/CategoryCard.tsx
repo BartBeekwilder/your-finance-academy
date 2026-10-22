@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { WithYAxis } from "./YAxis";
 import { categoryYear } from "@/lib/finance/calc";
 import { money, shortMonth } from "@/lib/finance/format";
 import type { Category } from "@/lib/finance/types";
@@ -41,7 +42,8 @@ export default function CategoryCard({ category }: { category: Category }) {
         </span>
       </div>
 
-      <div style={{ display: "flex", alignItems: "flex-end", gap: 3 }} onMouseLeave={() => setHover(null)} aria-hidden>
+      <WithYAxis height={H} ticks={[{ value: 0, at: 0 }, { value: max, at: 1 }]} currency={currency}>
+<div style={{ display: "flex", alignItems: "flex-end", gap: 3 }} onMouseLeave={() => setHover(null)} aria-hidden>
         {months.map((m, i) => {
           const over = m.budget !== null && m.total > m.budget;
           const active = i === (hover ?? current);
@@ -90,6 +92,7 @@ export default function CategoryCard({ category }: { category: Category }) {
           );
         })}
       </div>
+</WithYAxis>
 
       {/* Footer describes whichever month the header shows (current, or hovered). */}
       <div style={{ fontSize: "0.7rem", color: shownOver ? RED : "var(--pf-ink-2)" }}>

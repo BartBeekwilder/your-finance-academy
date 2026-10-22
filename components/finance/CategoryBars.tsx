@@ -1,5 +1,6 @@
 "use client";
 
+import { useShowAxes } from "@/lib/prefs";
 import { useState } from "react";
 import { live, num, projectedNetIncome, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear, shortMonth } from "@/lib/finance/format";
@@ -62,6 +63,7 @@ export default function CategoryBars({
   mode: Mode;
   kind?: Kind;
 }) {
+  const showAxes = useShowAxes();
   const openCategory = useCategoryDetail();
   const [hover, setHover] = useState<{ month: number; id: string } | null>(null);
   const [ghost, setGhost] = useState<number | null>(null);
@@ -122,15 +124,17 @@ export default function CategoryBars({
       </div>
 
       <div className="pf-cbar-layout">
-        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 8, minWidth: 0 }}>
+        <div style={{ display: "grid", gridTemplateColumns: showAxes ? "auto 1fr" : "1fr", gap: 8, minWidth: 0 }}>
           {/* Axis labels sit exactly on their grid lines. */}
-          <div style={{ position: "relative", height: H, fontSize: "0.6rem", color: "var(--pf-ink-3)", textAlign: "right" }}>
+          {showAxes && (
+<div style={{ position: "relative", height: H, fontSize: "0.6rem", color: "var(--pf-ink-3)", textAlign: "right" }}>
             {[1, 0.5, 0].map((f) => (
               <span key={f} style={{ display: "block", position: f === 1 ? "relative" : "absolute", right: 0, bottom: f === 1 ? undefined : f * H, translate: f === 1 ? "0 -50%" : "0 50%", whiteSpace: "nowrap" }}>
                 {money(max * f, currency, { compact: true })}
               </span>
             ))}
           </div>
+)}
           <div style={{ position: "relative", minWidth: 0 }}>
             <div key={mode} className="pf-cbar-plot" data-mode={mode} style={{ height: H }} onMouseLeave={() => setHover(null)}>
               {[0, 0.5, 1].map((f) => (

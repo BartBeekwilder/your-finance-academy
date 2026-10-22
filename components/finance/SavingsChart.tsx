@@ -1,5 +1,6 @@
 "use client";
 
+import { WithYAxis } from "./YAxis";
 import { useNow } from "@/lib/motion";
 import { useState } from "react";
 import { summarize } from "@/lib/finance/calc";
@@ -97,7 +98,8 @@ export default function SavingsChart({
         </div>
       </div>
 
-      <div style={{ position: "relative", height: H }} onMouseLeave={() => setHover(null)}>
+      <WithYAxis height={H} currency={currency} ticks={[{ value: top, at: 1 }, { value: 0, at: -bottom / (top - bottom) }, ...(bottom < 0 ? [{ value: bottom, at: 0 }] : [])]}>
+<div style={{ position: "relative", height: H }} onMouseLeave={() => setHover(null)}>
         {/* Zero line */}
         <div style={{ position: "absolute", left: 0, right: 0, top: zero, borderTop: "1px solid var(--pf-line)" }} />
 
@@ -152,6 +154,7 @@ export default function SavingsChart({
           Total {money(cum[11], currency)}
         </div>
       </div>
+</WithYAxis>
 
       {/* Month labels */}
       <div style={{ display: "flex", gap: "1.2%", marginTop: -6 }}>
