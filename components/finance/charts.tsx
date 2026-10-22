@@ -21,8 +21,11 @@ type Slice = { category: CategorySpend["category"]; spent: number; fixed?: numbe
  *  as the Spent tile: fixed costs count for the part of the month that has
  *  passed, variable spending in full. So the rent slice grows through the
  *  month, and the centre total ticks along with — and always matches — the
- *  Spent tile. */
-export function CategoryDonut({ months, years, currency, now }: {
+ *  Spent tile.
+ *
+ *  `control` hands Month / Year and the month to the page (Budgets): the
+ *  donut then follows it and hides its own toggle and slider. */
+export function CategoryDonut({ months, years, currency, now, control }: {
   /** Spend per category for each month of this year so far (index = month);
    *  this month's entries carry `fixed` so they can be shown live. */
   months: Slice[][];
@@ -30,10 +33,14 @@ export function CategoryDonut({ months, years, currency, now }: {
   years: { year: number; slices: Slice[] }[];
   currency: string;
   now: Date;
+  control?: { mode: "month" | "year"; monthIndex: number };
 }) {
-  const [mode, setMode] = useState<"month" | "year">("month");
-  const [monthIndex, setMonthIndex] = useState(now.getMonth());
-  const [yearIndex, setYearIndex] = useState(years.length - 1);
+  const [ownMode, setMode] = useState<"month" | "year">("month");
+  const [ownMonth, setMonthIndex] = useState(now.getMonth());
+  const [ownYear, setYearIndex] = useState(years.length - 1);
+  const mode = control?.mode ?? ownMode;
+  const monthIndex = control?.monthIndex ?? ownMonth;
+  const yearIndex = control ? years.length - 1 : ownYear;
   const month = months[monthIndex] ?? [];
   const yearSel = years[yearIndex] ?? years[years.length - 1];
   const [active, setActive] = useState<number | null>(null);
@@ -89,12 +96,14 @@ export function CategoryDonut({ months, years, currency, now }: {
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 12 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
         <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>Spending by category</span>
-        <Segmented
-          label="Period"
-          value={mode}
-          onChange={(m) => { setMode(m); setActive(null); }}
-          options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
-        />
+        {!control && (
+          <Segmented
+            label="Period"
+            value={mode}
+            onChange={(m) => { setMode(m); setActive(null); }}
+            options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
+          />
+        )}
       </div>
 
       <div style={{ display: "flex", gap: 20, alignItems: "center", justifyContent: "space-around", flexWrap: "wrap" }}>
@@ -169,7 +178,7 @@ export function CategoryDonut({ months, years, currency, now }: {
         </div>
       </div>
 
-      <StepSlider
+      {!control && <StepSlider
         label={mode === "month" ? "Month" : "Year"}
         animKey={mode}
         value={mode === "month" ? monthIndex : yearIndex}
@@ -187,7 +196,7 @@ export function CategoryDonut({ months, years, currency, now }: {
           else setYearIndex(i);
           setActive(null);
         }}
-      />
+      />}
     </div>
   );
 }

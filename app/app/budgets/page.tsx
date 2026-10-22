@@ -8,12 +8,16 @@ import { useBudgetCompare } from "@/lib/prefs";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import Segmented from "@/components/finance/Segmented";
-import { categoryYear, inMonth, live, monthKey, monthProgress, num, selfAndChildren } from "@/lib/finance/calc";
+import StepSlider from "@/components/finance/StepSlider";
+import { CategoryDonut } from "@/components/finance/charts";
+import { categoryYear, inMonth, live, monthProgress, num, selfAndChildren, spendByCategory, spendByCategoryYear, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 // Budgets for the month or the year:
-//   Month — this month's spending against each monthly limit (fixed costs
-//           count as used up to today), with the month's total on top.
+//   Month — a month's spending against each monthly limit (fixed costs
+//           count as used up to today in the current month), the total on
+//           top; a slider picks the month (January … now). The pie chart
+//           beside it follows the same month (or the year).
 //   Year  — the year so far against the year's budget: each month's limit,
 //           carried forward over January–December (as in the category
 //           sheet). The total gets a "today" tick at the budget used up to
@@ -24,9 +28,12 @@ export default function BudgetsPage() {
   const { data, now } = useFinance();
   const openCategory = useCategoryDetail();
   const currency = data.profile.currency_code;
-  const month = new Date(now.getFullYear(), now.getMonth(), 1);
+  // The month shown (this year, up to now); budgets carry forward as in the
+  // category sheet.
+  const [sel, setSel] = useState(now.getMonth());
+  const isCurrent = sel === now.getMonth();
+  const month = new Date(now.getFullYear(), sel, 1);
   const categories = live(data.categories);
-  const budgets = live(data.budgets).filter((b) => b.month.slice(0, 7) === monthKey(month));
   const expenses = live(data.transactions).filter((t) => t.type === "expense" && inMonth(t, month));
 
   const rows = categories
@@ -35,9 +42,9 @@ export default function BudgetsPage() {
     .map((c) => {
       const ids = selfAndChildren(c, categories);
       const spent = expenses.filter((t) => t.category_id && ids.has(t.category_id)).reduce((s, t) => s + num(t.amount), 0);
-      const budget = budgets.find((b) => b.category_id === c.id);
-      return { c, spent, budget: budget ? num(budget.amount) : null };
+      return { c, spent, budget: categoryYear(data, c, now).months[sel].budget };
     });
+  const monthPace = isCurrent ? monthProgress(now) : 1;
 
   const totalBudget = rows.reduce((s, r) => s + (r.budget ?? 0), 0);
   const totalSpent = rows.reduce((s, r) => s + r.spent, 0);
@@ -66,10 +73,12 @@ export default function BudgetsPage() {
     <div style={{ display: "grid", gap: 24 }}>
       <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Budgets</h1>
 
-      <div className="pf-card" style={{ padding: 16, display: "grid", gap: 8 }}>
+      {/* The total (with the month slider) and the pie chart, side by side. */}
+      <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", alignItems: "stretch" }}>
+<div className="pf-card" style={{ padding: 16, display: "grid", gap: 8, alignContent: "space-evenly" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
           <div key={mode} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-            {mode === "month" ? monthYear(month) : `${now.getFullYear()} so far`}
+            {mode === "month" ? `${monthYear(month)}${isCurrent ? "" : " · finished"}` : `${now.getFullYear()} so far`}
           </div>
           <Segmented label="Period" value={mode} onChange={setMode} options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
         </div>
@@ -79,7 +88,18 @@ export default function BudgetsPage() {
               {money(totalSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>of {money(totalBudget, currency)}</span>
             </div>
             {/* The total budget, same bar as each category: over it spills out. */}
-            <BudgetBar spent={totalSpent} budget={totalBudget} color="#30d158" heat currency={currency} monthFraction={monthProgress(now)} />
+            <BudgetBar spent={totalSpent} budget={totalBudget} color="#30d158" heat currency={currency} monthFraction={monthPace} />
+            <StepSlider
+              label="Month"
+              animKey="budget-months"
+              value={sel}
+              steps={Array.from({ length: 12 }, (_, i) => {
+                const d = new Date(now.getFullYear(), i, 1);
+                const name = d.toLocaleDateString("en-GB", { month: "long" });
+                return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}`, disabled: i > now.getMonth() };
+              })}
+              onChange={setSel}
+            />
           </div>
         ) : (
           <div key="y" className="pf-readout" style={{ display: "grid", gap: 8 }}>
@@ -99,12 +119,20 @@ export default function BudgetsPage() {
           </div>
         )}
       </div>
+      <CategoryDonut
+        months={Array.from({ length: now.getMonth() + 1 }, (_, m) => spendByCategory(data, new Date(now.getFullYear(), m, 1)))}
+        years={yearsWithData(data, now).map((year) => ({ year, slices: spendByCategoryYear(data, year) }))}
+        currency={currency}
+        now={now}
+        control={{ mode, monthIndex: sel }}
+      />
+      </div>
 
       {mode === "year" ? (
         <YearList rows={yearRows} currency={currency} yearFraction={yearFraction} openCategory={openCategory} />
       ) : (
       <section key="month" className="pf-readout">
-        <h2 className="pf-section-title">Monthly limits</h2>
+        <h2 className="pf-section-title">Monthly limits — {monthYear(month)}</h2>
         <div className="pf-card">
           <BudgetScaleSwitch />
           {rows.map(({ c, spent, budget }) => {
@@ -119,7 +147,7 @@ export default function BudgetsPage() {
                     </span>
                   </div>
                   {budget !== null ? (
-                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={c.is_fixed_expense ? month : undefined} scaleMax={compare ? maxBudget : undefined} />
+                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={monthPace} fixedMonthStart={c.is_fixed_expense ? month : undefined} scaleMax={compare ? maxBudget : undefined} />
                   ) : (
                     <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(spent, currency)} spent</span>
                   )}
