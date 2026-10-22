@@ -7,9 +7,11 @@ import { money } from "@/lib/finance/format";
 /** A budget bar that carries its own numbers.
  *  - Within budget: fills in the category colour; "€X spent" inside the
  *    fill, "€Y left · Z%" in the empty part.
- *  - Over budget: the scale stretches to the amount spent, so the budget
- *    becomes a visible limit line; the part past it is red with moving
- *    stripes and reads "€Y over · Z%".
+ *  - The bar is always exactly the budget, on a track that leaves room on
+ *    the right. Over budget it fills completely, gets a glowing limit cap,
+ *    and the overspend spills OUT of the bar's end — a red striped piece as
+ *    long as the overspend (pointed when it's bigger than the room left) —
+ *    reading "€Y over · Z%".
  *  - Variable categories: a dashed "today" tick marks where an even spend
  *    of the budget would be at this point in the month.
  *  - Fixed categories (rent, utilities — paid in one go): the bar shows how
@@ -43,7 +45,7 @@ export default function BudgetBar({
   const used = fixed ? spent * fraction : spent;
 
   const over = used > budget;
-  const scale = Math.max(budget, used) || 1;
+  const scale = budget || 1;
   const fill = Math.min(used, budget) / scale;
   const paid = fixed ? Math.min(spent, budget) / scale : 0;
   const limit = budget / scale;
@@ -51,7 +53,13 @@ export default function BudgetBar({
   const pace = monthFraction !== undefined && !fixed && !over ? (budget * monthFraction) / scale : null;
   const aheadOfPace = pace !== null && used / scale > pace;
 
+  // The overspend as a share of the row: the bar is TRACK% wide (= budget),
+  // the spill can use what's left.
+  const spill = over ? ((used - budget) / scale) * TRACK : 0;
+  const capped = spill > 100 - TRACK - 1;
+
   return (
+    <div className="pf-bbar-row" style={{ ["--track" as string]: `${TRACK}%`, ["--c" as string]: color }}>
     <div
       className="pf-bbar"
       role="meter"
@@ -67,7 +75,6 @@ export default function BudgetBar({
         <span className="pf-bbar-under" style={{ left: `${paid * 100}%` }} title={`${money(budget - spent, currency)} under budget`} />
       )}
       <span className="pf-bbar-fill" style={{ width: `${fill * 100}%` }} />
-      {over && <span className="pf-bbar-over" style={{ left: `${limit * 100}%`, width: `${(1 - limit) * 100}%` }} />}
       {over && <span className="pf-bbar-limit" style={{ left: `${limit * 100}%` }} title={`Budget ${money(budget, currency)}`} />}
       {pace !== null && pace > 0.02 && pace < 0.98 && (
         <span className="pf-bbar-pace" data-ahead={aheadOfPace} style={{ left: `${pace * 100}%` }} title="Even pace for today" />
@@ -88,8 +95,21 @@ export default function BudgetBar({
         </span>
       </span>
     </div>
+    {over && (
+      <span
+        className="pf-bbar-spill"
+        data-capped={capped}
+        style={{ width: `${Math.min(spill, 100 - TRACK - 1)}%` }}
+        title={`${money(used - budget, currency)} over budget`}
+      />
+    )}
+    </div>
   );
 }
+
+/** Width of the bar (= the budget) as a share of the row; the rest is room
+ *  for an overspend to spill into. */
+const TRACK = 80;
 
 /** Fraction of the month elapsed, re-read every second; 1 when not needed. */
 function useMonthFraction(monthStart?: Date) {
