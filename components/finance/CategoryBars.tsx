@@ -1,6 +1,7 @@
 "use client";
 
-import { useShowAxes } from "@/lib/prefs";
+import { useCategoryAreas, useShowAxes } from "@/lib/prefs";
+import CategoryAreas from "./CategoryAreas";
 import { useState } from "react";
 import { live, num, projectedNetIncome, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear, shortMonth } from "@/lib/finance/format";
@@ -68,6 +69,7 @@ export default function CategoryBars({
   kind?: Kind;
 }) {
   const showAxes = useShowAxes();
+  const areas = useCategoryAreas();
   const openCategory = useCategoryDetail();
   const [hover, setHover] = useState<{ month: number; id: string } | null>(null);
   const [ghost, setGhost] = useState<number | null>(null);
@@ -161,6 +163,22 @@ export default function CategoryBars({
           </div>
 )}
           <div style={{ position: "relative", minWidth: 0 }}>
+            {areas ? (
+              <CategoryAreas
+                buckets={months}
+                stack={stack}
+                max={max}
+                height={H}
+                mode={mode}
+                lit={lit}
+                hoverIndex={hover?.month ?? null}
+                onHover={setHover}
+                onPick={(id, el) => {
+                  const g = stack.find((s) => s.id === id);
+                  if (g) open(g, el);
+                }}
+              />
+            ) : (
             <div key={mode} className="pf-cbar-plot" data-mode={mode} style={{ height: H }} onMouseLeave={() => setHover(null)}>
               {[0, 0.5, 1].map((f) => (
                 <span key={`g${f}`} className="pf-cbar-grid" style={{ bottom: f * H }} />
@@ -204,6 +222,7 @@ export default function CategoryBars({
                 </div>
               ))}
             </div>
+            )}
             <div key={`l${mode}`} className="pf-cbar-labels pf-readout">
               {months.map((m, i) => (
                 <span key={m.key} data-now={m.isNow} data-lit={hover?.month === i}>

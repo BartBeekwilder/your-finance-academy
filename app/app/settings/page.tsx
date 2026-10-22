@@ -7,7 +7,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import { CURRENCIES, currencySymbol } from "@/lib/finance/currencies";
 import { money } from "@/lib/finance/format";
 import { setMotionPaused, useMotionPaused } from "@/lib/motion";
-import { setShowAxes, useShowAxes } from "@/lib/prefs";
+import { setShowAxes, useCategoryAreas, setCategoryAreas, useShowAxes } from "@/lib/prefs";
 import Segmented from "@/components/finance/Segmented";
 
 // Settings, grouped in sections so new ones slot in as the app grows.
@@ -94,8 +94,21 @@ export default function SettingsPage() {
 /** Chart preferences — kept in this browser. */
 function ChartsSection() {
   const showAxes = useShowAxes();
+  const areas = useCategoryAreas();
   return (
     <Section title="Charts" hint="Kept on this device.">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+        <div>
+          <div style={{ fontWeight: 600 }}>Spending and income by category</div>
+          <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>Per day or month as stacked bars, or as stacked areas with a line per category.</div>
+        </div>
+        <Segmented
+          label="Category chart style"
+          value={areas ? "areas" : "bars"}
+          onChange={(v) => setCategoryAreas(v === "areas")}
+          options={[{ value: "bars", label: "Bars" }, { value: "areas", label: "Areas" }]}
+        />
+      </div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
         <div>
           <div style={{ fontWeight: 600 }}>Values on chart axes</div>
