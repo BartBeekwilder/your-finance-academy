@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BalanceBars, BalanceTable } from "@/components/finance/BalanceSheet";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import EquityHero from "@/components/finance/EquityHero";
@@ -30,11 +30,17 @@ export default function BalancePage() {
   const label = sheet.isCurrent ? `today` : `end of ${name}`;
   const [error, setError] = useState<string | null>(null);
   // Equity at the end of each month so far (today for this month).
-  const points = Array.from({ length: now.getMonth() + 1 }, (_, i) => {
-    const d = new Date(now.getFullYear(), i, 1);
-    const n = d.toLocaleDateString("en-GB", { month: "long" });
-    return { label: n.slice(0, 3), full: i === now.getMonth() ? `Today` : `End of ${n}`, value: balanceSheet(data, now, d).equity };
-  });
+  // Memoised: each sheet walks every transaction, and the slider re-renders often.
+  const points = useMemo(
+    () =>
+      Array.from({ length: now.getMonth() + 1 }, (_, i) => {
+        const d = new Date(now.getFullYear(), i, 1);
+        const n = d.toLocaleDateString("en-GB", { month: "long" });
+        return { label: n.slice(0, 3), full: i === now.getMonth() ? `Today` : `End of ${n}`, value: balanceSheet(data, now, d).equity };
+      }),
+    [data, now],
+  );
+  const yearStart = useMemo(() => balanceSheet(data, now, new Date(now.getFullYear() - 1, 11, 1)).equity, [data, now]);
   const run = (p: Promise<void>) => p.then(() => setError(null)).catch((e: Error) => setError(e.message));
 
   return (
@@ -103,7 +109,7 @@ export default function BalancePage() {
               <EquityWaterfall
                 sheet={sheet}
                 prev={prev}
-                months={{ start: balanceSheet(data, now, new Date(now.getFullYear() - 1, 11, 1)).equity, points }}
+                months={{ start: yearStart, points }}
                 sel={sel}
                 currency={currency}
               />
