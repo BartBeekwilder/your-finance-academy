@@ -11,7 +11,7 @@ import NetWorthCard from "@/components/finance/NetWorthCard";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
 import YearLines from "@/components/finance/YearLines";
-import { last12Months, monthProgress, netWorthFigures, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
+import { yearForecast, last12Months, monthProgress, netWorthFigures, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 
 export default function DashboardPage() {
@@ -74,7 +74,7 @@ export default function DashboardPage() {
 
       <section>
         <h2 className="pf-section-title">Savings</h2>
-        <SavingsChart transactions={data.transactions} now={now} monthlyIncome={projectedNetIncome(data, month)} currency={currency} />
+        <SavingsChart transactions={data.transactions} now={now} monthlyIncome={projectedNetIncome(data, month)} currency={currency} forecast={yearForecast(data, now)} />
       </section>
 
       <section>

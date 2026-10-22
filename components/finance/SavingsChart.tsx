@@ -1,13 +1,16 @@
 "use client";
 
 import { WithYAxis } from "./YAxis";
+import Segmented from "./Segmented";
 import { useNow } from "@/lib/motion";
 import { useState } from "react";
 import { summarize } from "@/lib/finance/calc";
 import { money, monthYear, shortMonth } from "@/lib/finance/format";
 import type { Transaction } from "@/lib/finance/types";
 
-// "Savings": how much you kept each month over the last 12 months.
+// "Savings": how much you kept each month — over the last 12 months, or this
+// year (January–December, the months ahead dashed at their forecast and
+// the running total carrying on dotted to December).
 //   - One bar per month: income − spent. Green above the zero line when you
 //     saved, red below it when you spent more than came in.
 //   - The current month is live, using the same figures as the Balance tile
@@ -22,27 +25,37 @@ const RED = "#ff453a";
 const TEAL = "#00c2a8";
 const H = 180;
 
-type Month = { month: Date; income: number; spent: number; saved: number; live: boolean };
+type Month = { month: Date; income: number; spent: number; saved: number; live: boolean; future?: boolean };
 
 export default function SavingsChart({
   transactions,
   now,
   monthlyIncome,
   currency,
+  forecast = [],
 }: {
   transactions: Transaction[];
   now: Date;
   /** This month's projected net income (the live Balance tile accrues it). */
   monthlyIncome: number;
   currency: string;
+  /** This month and the rest of the year (yearForecast), for "This year". */
+  forecast?: { month: number; income: number; spent: number }[];
 }) {
   const [hover, setHover] = useState<number | null>(null);
+  const [period, setPeriod] = useState<"12m" | "year">("12m");
   const tick = useNow(1000);
 
+  const liveIndex = period === "12m" ? 11 : now.getMonth();
   const months: Month[] = Array.from({ length: 12 }, (_, i) => {
-    const month = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1);
+    const month = period === "12m" ? new Date(now.getFullYear(), now.getMonth() - (11 - i), 1) : new Date(now.getFullYear(), i, 1);
+    if (i > liveIndex) {
+      const f = forecast.find((x) => x.month === i);
+      const income = f?.income ?? 0, spent = f?.spent ?? 0;
+      return { month, income, spent, saved: income - spent, live: false, future: true };
+    }
     const s = summarize(transactions, month);
-    if (i < 11) return { month, income: s.income, spent: s.spent, saved: s.income - s.spent, live: false };
+    if (i < liveIndex) return { month, income: s.income, spent: s.spent, saved: s.income - s.spent, live: false };
     const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
     const f = Math.min(1, Math.max(0, (tick - month.getTime()) / (days * 86_400_000)));
     const income = monthlyIncome * f;
@@ -50,9 +63,11 @@ export default function SavingsChart({
     return { month, income, spent, saved: income - spent, live: true };
   });
 
-  const total = months.reduce((s, m) => s + m.saved, 0);
+  const total = months.filter((m) => !m.future).reduce((s, m) => s + m.saved, 0);
+  // Running total through every month (forecast included) — drawn solid up to
+  // this month, dotted beyond it.
   const cum = months.map((_, i) => months.slice(0, i + 1).reduce((s, m) => s + m.saved, 0));
-  const finished = months.filter((m) => !m.live && (m.income || m.spent));
+  const finished = months.filter((m) => !m.live && !m.future && (m.income || m.spent));
   const average = finished.length ? finished.reduce((s, m) => s + m.saved, 0) / finished.length : 0;
 
   // Bar scale: zero line placed so both the best and worst month fit.
@@ -67,25 +82,36 @@ export default function SavingsChart({
   const cy = (v: number) => H - ((v - cMin) / (cMax - cMin)) * (H - 38) - 8;
   const cx = (i: number) => ((i + 0.5) / 12) * 100;
 
-  const shown = hover ?? 11;
+  const shown = hover ?? liveIndex;
   const m = months[shown];
 
   return (
     <div className="pf-card" style={{ padding: 18, display: "grid", gap: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 16, flexWrap: "wrap" }}>
         <div>
-          <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>Saved in the last 12 months</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+            <span key={period} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
+              {period === "12m" ? "Saved in the last 12 months" : `Saved in ${now.getFullYear()} so far`}
+            </span>
+            <Segmented
+              label="Savings period"
+              value={period}
+              onChange={(p) => { setPeriod(p); setHover(null); }}
+              options={[{ value: "12m", label: "12 months" }, { value: "year", label: "This year" }]}
+            />
+          </div>
           <div className="pf-rounded" style={{ fontSize: "1.9rem", fontWeight: 700, color: total >= 0 ? GREEN : RED, lineHeight: 1.15 }}>
             {money(total, currency, { signed: true })}
           </div>
           <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>
             Average {money(average, currency, { signed: true })} per month
+            {period === "year" && ` · ${money(cum[11], currency, { signed: true })} expected by December`}
           </div>
         </div>
         <div key={shown} className="pf-readout" style={{ textAlign: "right", fontSize: "0.75rem", color: "var(--pf-ink-2)", display: "grid", gap: 2 }}>
           <strong style={{ color: "var(--pf-ink)", fontWeight: 600 }}>
             {monthYear(m.month)}
-            {m.live ? " · live" : ""}
+            {m.live ? " · live" : m.future ? " · forecast" : ""}
           </strong>
           <span>
             Income <b className="pf-rounded" style={{ color: GREEN }}>{money(m.income, currency)}</b> − Spent{" "}
@@ -104,7 +130,7 @@ export default function SavingsChart({
         <div style={{ position: "absolute", left: 0, right: 0, top: zero, borderTop: "1px solid var(--pf-line)" }} />
 
         {/* Bars */}
-        <div style={{ position: "absolute", inset: 0, display: "flex", gap: "1.2%" }}>
+        <div key={period} style={{ position: "absolute", inset: 0, display: "flex", gap: "1.2%" }}>
           {months.map((mo, i) => {
             const up = mo.saved >= 0;
             const h = Math.max(mo.income || mo.spent ? 3 : 0, px(mo.saved));
@@ -122,7 +148,8 @@ export default function SavingsChart({
                 <div
                   className="pf-sbar"
                   data-up={up}
-                  data-live={mo.live}
+                  data-live={mo.live || !!mo.future}
+                  data-future={!!mo.future}
                   data-active={active}
                   style={{
                     top: up ? zero - h : zero,
@@ -139,19 +166,32 @@ export default function SavingsChart({
         {/* Running total */}
         <svg className="pf-sline" viewBox={`0 0 100 ${H}`} preserveAspectRatio="none" width="100%" height={H} style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "visible" }} aria-hidden>
           <path
-            d={cum.map((v, i) => `${i ? "L" : "M"}${cx(i)},${cy(v)}`).join(" ")}
+            key={period}
+            d={cum.slice(0, liveIndex + 1).map((v, i) => `${i ? "L" : "M"}${cx(i)},${cy(v)}`).join(" ")}
             fill="none"
             stroke={TEAL}
             strokeWidth={2}
             strokeLinejoin="round"
             vectorEffect="non-scaling-stroke"
           />
+          {liveIndex < 11 && (
+            <path
+              className="pf-tsl-forecast"
+              d={cum.slice(liveIndex).map((v, i) => `${i ? "L" : "M"}${cx(liveIndex + i)},${cy(v)}`).join(" ")}
+              fill="none"
+              stroke={TEAL}
+              strokeWidth={2}
+              strokeDasharray="2 5"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          )}
         </svg>
         <div
           className="pf-sline-label pf-rounded"
-          style={{ left: `${cx(11)}%`, top: cy(cum[11]) }}
+          style={{ left: `${cx(liveIndex)}%`, top: cy(cum[liveIndex]) }}
         >
-          Total {money(cum[11], currency)}
+          Total {money(cum[liveIndex], currency)}
         </div>
       </div>
 </WithYAxis>
@@ -167,6 +207,7 @@ export default function SavingsChart({
               fontSize: "0.62rem",
               color: i === shown ? "var(--pf-ink)" : "var(--pf-ink-3)",
               fontWeight: mo.live ? 700 : 400,
+              opacity: mo.future ? 0.5 : 1,
               transition: "color 0.2s",
             }}
           >
@@ -179,7 +220,7 @@ export default function SavingsChart({
         <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, background: GREEN }} />} label="Saved that month" />
         <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, background: RED }} />} label="Spent more than earned" />
         <Legend swatch={<span style={{ width: 14, height: 2.5, borderRadius: 2, background: TEAL }} />} label="Total saved so far" />
-        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, border: `1.5px dashed ${GREEN}` }} />} label="This month, live" />
+        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, border: `1.5px dashed ${GREEN}` }} />} label={period === "year" ? "This month, live · ahead, forecast" : "This month, live"} />
       </div>
     </div>
   );
