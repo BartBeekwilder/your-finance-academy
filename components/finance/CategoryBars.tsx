@@ -110,16 +110,17 @@ export default function CategoryBars({
           <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
             {kind === "expense" ? "Spending" : "Income"} per {mode === "year" ? "month" : "day"} by {groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}
           </span>
-          {kind === "income" && mode === "month" && (
-            <Segmented
-              size="sm"
-              label="Income per day"
-              value={spread ? "spread" : "payday"}
-              onChange={(v) => setSpread(v === "spread")}
-              options={[{ value: "spread", label: "Spread" }, { value: "payday", label: "On payday" }]}
-            />
-          )}
         </span>
+        <span style={{ display: "grid", gap: 6, justifyItems: "end" }}>
+        {kind === "income" && mode === "month" && (
+          <Segmented
+            size="sm"
+            label="Income per day"
+            value={spread ? "spread" : "payday"}
+            onChange={(v) => setSpread(v === "spread")}
+            options={[{ value: "spread", label: "Spread" }, { value: "payday", label: "On payday" }]}
+          />
+        )}
         <span key={hover ? `${hover.month}-${hover.id}` : `${focus}-${ghost}`} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
           {ghost !== null && months[ghost] ? (
             <>
@@ -143,6 +144,7 @@ export default function CategoryBars({
               </span>
             </>
           )}
+        </span>
         </span>
       </div>
 
