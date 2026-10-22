@@ -80,6 +80,21 @@ export default function IncomePage() {
             <Stat label="Expected gross / year" value={money(num(p.expected_gross_monthly) * 12, currency)} />
           </>
         )}
+        {mode === "month" ? (
+          <Stat
+            label="Income per day"
+            value={money(forecast[0].income / new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(), currency)}
+            color="var(--pf-green)"
+            hint={`Net, salary spread over ${new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()} days`}
+          />
+        ) : (
+          <Stat
+            label="Income per day"
+            value={money(receivedYear / Math.max(1, Math.ceil((now.getTime() - new Date(now.getFullYear(), 0, 1).getTime()) / 86_400_000)), currency)}
+            color="var(--pf-green)"
+            hint="Received this year, per day so far"
+          />
+        )}
         <Stat label={`Average / month${finished.length ? ` (${finished.length} mo)` : ""}`} value={average ? money(average, currency) : "—"} />
       </div>
 

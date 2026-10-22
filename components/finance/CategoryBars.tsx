@@ -7,6 +7,7 @@ import { money, monthYear, shortMonth } from "@/lib/finance/format";
 import type { FinanceData, Transaction } from "@/lib/finance/types";
 import type { Mode } from "./LiveTiles";
 import { useCategoryDetail } from "./CategoryDetail";
+import Segmented from "./Segmented";
 
 // Spending (or income) as stacked bars, following the page's Month / Year
 // toggle:
@@ -14,8 +15,11 @@ import { useCategoryDetail } from "./CategoryDetail";
 //           still to come are placeholders, outlined at their forecast.
 //   Month — every day of this month. Spending: fixed costs are spread evenly
 //           over the days (the Spent tile's rule), variable spending sits on
-//           the day it happened. Income sits on the day it arrived; an
-//           expected payday still to come is outlined. Days ahead are empty.
+//           the day it happened; days ahead are empty. Income: the month's
+//           expected net is spread evenly over the days (the Income tile's
+//           rule) under the main source, today partly; days ahead dashed at
+//           the same daily amount. Or — the "On payday" switch — income sits
+//           on the day it arrived, the salary still to come dashed on payday.
 // Each bar is built up from its groups in their own colours:
 //   Spending — top-level categories (subcategories rolled in), in the user's
 //              order, fixed-cost categories first at the bottom; no category
@@ -68,12 +72,20 @@ export default function CategoryBars({
   const [hover, setHover] = useState<{ month: number; id: string } | null>(null);
   const [ghost, setGhost] = useState<number | null>(null);
   const [focus, setFocus] = useState<string | null>(null);
+  // Income per day: spread evenly (default) or as it arrives (on payday).
+  const [spread, setSpread] = useState(true);
 
   const accent = kind === "expense" ? "var(--pf-red)" : "var(--pf-green)";
   const { groupOf, groups } = grouping(data, kind, now);
   const forecast = yearForecast(data, now);
   const forecastOf = (m: number) => forecast.find((f) => f.month === m)?.[kind === "expense" ? "spent" : "income"];
-  const months = mode === "year" ? yearBuckets(data, now, kind, groupOf, forecastOf) : dayBuckets(data, now, kind, groupOf);
+  // Income's main source (most received this year) carries the daily share.
+  const mainIncome = (() => {
+    const totals = new Map<string, number>();
+    for (const t of live(data.transactions)) if (t.type === "income" && new Date(t.date).getFullYear() === now.getFullYear()) add(totals, groupOf(t), num(t.amount));
+    return [...totals.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? groups[0]?.id ?? OTHER;
+  })();
+  const months = mode === "year" ? yearBuckets(data, now, kind, groupOf, forecastOf) : dayBuckets(data, now, kind, groupOf, mainIncome, spread);
   const max = niceMax(Math.max(1, ...months.map((m) => Math.max(m.total, m.expected ?? 0))));
   const stack = groups.filter((g) => months.some((m) => m.by.has(g.id)));
 
@@ -94,8 +106,19 @@ export default function CategoryBars({
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 10, ["--pf-cbar-accent" as string]: kind === "expense" ? "255, 69, 58" : "48, 209, 88" }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "baseline" }}>
-        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-          {kind === "expense" ? "Spending" : "Income"} per {mode === "year" ? "month" : "day"} by {groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
+            {kind === "expense" ? "Spending" : "Income"} per {mode === "year" ? "month" : "day"} by {groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}
+          </span>
+          {kind === "income" && mode === "month" && (
+            <Segmented
+              size="sm"
+              label="Income per day"
+              value={spread ? "spread" : "payday"}
+              onChange={(v) => setSpread(v === "spread")}
+              options={[{ value: "spread", label: "Spread" }, { value: "payday", label: "On payday" }]}
+            />
+          )}
         </span>
         <span key={hover ? `${hover.month}-${hover.id}` : `${focus}-${ghost}`} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
           {ghost !== null && months[ghost] ? (
@@ -316,7 +339,7 @@ function yearBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Tran
 /** Every day of this month. Spending: variable on its day, fixed costs spread
  *  evenly over the days so far. Income: on its day, with the expected payday
  *  outlined until the money is in. */
-function dayBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Transaction) => string): Bucket[] {
+function dayBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Transaction) => string, mainIncome: string, spread: boolean): Bucket[] {
   const year = now.getFullYear(), month = now.getMonth(), today = now.getDate();
   const days = new Date(year, month + 1, 0).getDate();
   const byDay = Array.from({ length: days + 1 }, () => new Map<string, number>());
@@ -330,12 +353,18 @@ function dayBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Trans
     received += num(t.amount);
   }
   const payday = data.profile.payday_day;
-  const stillExpected = kind === "income" && payday && payday > today ? Math.max(0, projectedNetIncome(data, new Date(year, month, 1)) - received) : 0;
+  const smear = kind === "income" && spread;
+  // Spread: the month's expected net evenly — today only the part of the
+  // day that has passed. On payday: what's still to come, dashed on payday.
+  const perDay = smear ? projectedNetIncome(data, new Date(year, month, 1)) / days : 0;
+  const stillExpected = kind === "income" && !spread && payday && payday > today ? Math.max(0, projectedNetIncome(data, new Date(year, month, 1)) - received) : 0;
+  const todayShare = (now.getTime() - new Date(year, month, today).getTime()) / 86_400_000;
 
   return Array.from({ length: days }, (_, i) => {
     const day = i + 1;
-    const by = new Map(byDay[day]);
+    const by = smear ? new Map<string, number>() : new Map(byDay[day]);
     if (day <= today) for (const [id, v] of fixed) add(by, id, v / days);
+    if (smear && day <= today) add(by, mainIncome, day < today ? perDay : perDay * Math.min(Math.max(todayShare, 0), 1));
     const d = new Date(year, month, day);
     const show = day === 1 || day === days || day === today || day === payday || (day % 5 === 0 && Math.abs(day - today) > 1 && days - day > 1);
     return {
@@ -346,7 +375,7 @@ function dayBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Trans
       total: [...by.values()].reduce((a, b) => a + b, 0),
       isNow: day === today,
       future: day > today,
-      expected: day === Math.min(payday ?? 0, days) && stillExpected > 0 ? stillExpected : undefined,
+      expected: smear ? (day >= today ? perDay : undefined) : day === Math.min(payday ?? 0, days) && stillExpected > 0 ? stillExpected : undefined,
     };
   });
 }
