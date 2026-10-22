@@ -104,11 +104,9 @@ export default function BudgetsPage() {
         <YearList rows={yearRows} currency={currency} yearFraction={yearFraction} openCategory={openCategory} />
       ) : (
       <section key="month" className="pf-readout">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-          <h2 className="pf-section-title">Monthly limits</h2>
-          <BudgetScaleSwitch />
-        </div>
+        <h2 className="pf-section-title">Monthly limits</h2>
         <div className="pf-card">
+          <BudgetScaleSwitch />
           {rows.map(({ c, spent, budget }) => {
             return (
               <button key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
@@ -160,11 +158,9 @@ function YearList({
   const maxBudget = Math.max(1, ...rows.map((r) => r.budget ?? 0));
   return (
     <section key="year" className="pf-readout">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-        <h2 className="pf-section-title">Year budgets</h2>
-        <BudgetScaleSwitch />
-      </div>
+      <h2 className="pf-section-title">Year budgets</h2>
       <div className="pf-card">
+        <BudgetScaleSwitch />
         {rows.map(({ c, spent, budget, months }) => (
           <button key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
             <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={32} />

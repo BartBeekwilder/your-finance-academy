@@ -82,11 +82,9 @@ export default function DashboardPage() {
       </section>
 
       <section>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-          <h2 className="pf-section-title">Budgets — {monthYear(month)}</h2>
-          <BudgetScaleSwitch />
-        </div>
+        <h2 className="pf-section-title">Budgets — {monthYear(month)}</h2>
         <div className="pf-card">
+          <BudgetScaleSwitch />
           {byCategory.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>No spending yet this month.</div>}
           {byCategory.map((e) => (
             <button key={e.category.id} className="pf-row pf-tap" onClick={(ev) => openCategory(e.category.id, ev.currentTarget)} style={{ display: "grid", gridTemplateColumns: "auto 1fr", alignItems: "center", gap: "6px 12px", width: "100%" }}>
