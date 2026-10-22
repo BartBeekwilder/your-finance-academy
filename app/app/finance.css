@@ -1644,8 +1644,9 @@ html[data-pf-paused] *::after {
 
 /* Tile sparkline: cumulative ⇄ absolute switch and bars. */
 .pf-tsl-mode {
+  /* Above the chart's top-right corner (beside the big number), never over the line. */
   position: absolute;
-  top: -2px;
+  bottom: calc(100% + 6px);
   right: 0;
   z-index: 3;
   display: inline-flex;
