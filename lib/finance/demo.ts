@@ -150,5 +150,27 @@ export function buildDemoData(now = new Date()): FinanceData {
       { ...meta(1, "h"), symbol: "AAPL", name: "Apple Inc.", asset_type: "stock", quantity: "12.0000000000", cost_basis: "2050.00", cost_basis_currency: "USD", date_added: "2025-06-14T10:00:00Z" },
       { ...meta(2, "h"), symbol: "XAU", name: "Gold", asset_type: "metal", quantity: "1.0000000000", cost_basis: "2100.00", cost_basis_currency: null, date_added: "2024-11-20T10:00:00Z" },
     ],
+    ...demoBalance(now),
   };
+}
+
+/** A home, a mortgage in two parts and a car loan, with a month-end stand
+ *  for each month so far (the mortgage paid down, the home slowly rising). */
+function demoBalance(now: Date): Pick<FinanceData, "balanceItems" | "balanceValues"> {
+  const posts: [string, "asset" | "liability", number, number][] = [
+    ["Home", "asset", 660000, 1500],
+    ["Car", "asset", 18500, -250],
+    ["Mortgage (annuity)", "liability", 428000, -620],
+    ["Mortgage (linear)", "liability", 50500, -210],
+    ["Car loan", "liability", 9800, -300],
+  ];
+  const months = now.getMonth() + 1;
+  const iso = (m: number) => `${now.getFullYear()}-${String(m + 1).padStart(2, "0")}-01`;
+  const balanceItems = posts.map(([name, side, start, step], i) => ({
+    ...meta(i, "bi"), name, side, sort_order: i, current_value: (start + step * (months - 1)).toFixed(2),
+  }));
+  const balanceValues = posts.flatMap(([, , start, step], i) =>
+    Array.from({ length: months }, (_, m) => ({ ...meta(i * 12 + m, "bv"), item_id: balanceItems[i].id, month: iso(m), value: (start + step * m).toFixed(2) })),
+  );
+  return { balanceItems, balanceValues };
 }

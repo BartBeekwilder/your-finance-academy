@@ -50,3 +50,9 @@ const BUDGET_SORT = "pf-budget-largest";
 /** Budget lists sorted largest budget first (true) or in the user's order. */
 export const useBudgetLargestFirst = () => usePref(BUDGET_SORT, false);
 export const setBudgetLargestFirst = (on: boolean) => write(BUDGET_SORT, on);
+
+const BALANCE_FULL = "pf-balance-full";
+/** Dashboard balance sheet: the full two-column table (true) or the
+ *  compact bars (false). */
+export const useBalanceFull = () => usePref(BALANCE_FULL, false);
+export const setBalanceFull = (on: boolean) => write(BALANCE_FULL, on);

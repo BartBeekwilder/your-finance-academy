@@ -82,6 +82,21 @@ export type Holding = Synced & {
   date_added: string;
 };
 
+/** A balance sheet post the user keeps (home, mortgage, loan…). */
+export type BalanceItem = Synced & {
+  name: string;
+  side: "asset" | "liability";
+  current_value: Money;
+  sort_order: number;
+};
+
+/** A post's value at the end of a month (month = YYYY-MM-01). */
+export type BalanceValue = Synced & {
+  item_id: UUID;
+  month: string;
+  value: Money;
+};
+
 export type FinanceData = {
   profile: Profile;
   accounts: Account[];
@@ -90,4 +105,6 @@ export type FinanceData = {
   transactions: Transaction[];
   incomeRecords: IncomeRecord[];
   holdings: Holding[];
+  balanceItems: BalanceItem[];
+  balanceValues: BalanceValue[];
 };

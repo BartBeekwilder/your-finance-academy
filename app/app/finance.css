@@ -1846,3 +1846,205 @@ html[data-pf-paused] *::after {
   0%, 100% { opacity: 0.85; }
   50% { opacity: 1; }
 }
+
+/* ---- Balance sheet ---------------------------------------------------- */
+.pf-bal-side {
+  font-size: 0.7rem;
+  color: var(--pf-ink-3);
+  white-space: nowrap;
+}
+.pf-bal-bar {
+  display: flex;
+  gap: 2px;
+  height: 22px;
+  border-radius: 7px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+}
+.pf-bal-seg {
+  flex-grow: 0;
+  flex-shrink: 1;
+  min-width: 3px;
+  transform-origin: left;
+  animation: pf-bal-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: flex-basis 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.2s, opacity 0.2s;
+}
+.pf-bal-bar:hover .pf-bal-seg:not([data-lit="true"]) {
+  opacity: 0.45;
+}
+.pf-bal-seg[data-lit="true"] {
+  filter: brightness(1.2) saturate(1.1);
+}
+@keyframes pf-bal-grow {
+  from { transform: scaleX(0); opacity: 0; }
+}
+.pf-bal-table {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px 28px;
+}
+.pf-bal-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pf-bal-head {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--pf-ink-2);
+  margin-bottom: 4px;
+}
+.pf-bal-line {
+  display: grid;
+  grid-template-columns: 8px 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  padding: 0 6px;
+  margin: 0 -6px;
+  position: relative;
+}
+.pf-bal-line:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.pf-bal-line small {
+  font-size: 0.68rem;
+  color: var(--pf-ink-3);
+}
+.pf-bal-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.pf-bal-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pf-bal-name em {
+  font-style: normal;
+  font-size: 0.6rem;
+  color: var(--pf-ink-3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  padding: 0 4px;
+  margin-left: 6px;
+  vertical-align: 1px;
+}
+.pf-bal-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.pf-bal-input {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: inherit;
+  font: inherit;
+  padding: 3px 6px;
+  margin: 0 -6px;
+  min-width: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+.pf-bal-input.pf-bal-value {
+  width: 9.5em;
+}
+.pf-bal-input:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.pf-bal-input:focus {
+  outline: none;
+  border-color: rgba(64, 200, 224, 0.6);
+  background: rgba(64, 200, 224, 0.08);
+}
+.pf-bal-del {
+  position: absolute;
+  right: -22px;
+  opacity: 0;
+  background: none;
+  border: 0;
+  color: var(--pf-ink-3);
+  cursor: pointer;
+  padding: 4px;
+  transition: opacity 0.15s, color 0.15s;
+}
+.pf-bal-line:hover .pf-bal-del {
+  opacity: 1;
+}
+.pf-bal-del:hover {
+  color: var(--pf-red);
+}
+.pf-bal-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  margin-top: 4px;
+  background: none;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  color: var(--pf-ink-3);
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.pf-bal-add:hover {
+  color: var(--pf-ink);
+  border-color: rgba(64, 200, 224, 0.5);
+}
+.pf-bal-spacer {
+  flex: 1;
+  min-height: 8px;
+}
+.pf-bal-subtotal,
+.pf-bal-equity,
+.pf-bal-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 0.85rem;
+}
+.pf-bal-subtotal {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 4px;
+  color: var(--pf-ink-2);
+}
+.pf-bal-equity {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.pf-bal-equity small {
+  font-size: 0.68rem;
+  font-weight: 500;
+  margin-left: 8px;
+}
+.pf-bal-total {
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 3px double rgba(255, 255, 255, 0.18);
+  font-weight: 700;
+}
+.pf-bal-check {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: rgba(48, 209, 88, 0.18);
+  color: var(--pf-green);
+  vertical-align: -3px;
+  animation: pf-chip-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@media (max-width: 640px) {
+  .pf-bal-del { position: static; opacity: 1; }
+  .pf-bal-line { grid-template-columns: 8px 1fr auto auto auto; }
+}

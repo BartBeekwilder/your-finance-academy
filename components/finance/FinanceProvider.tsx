@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoData } from "@/lib/finance/demo";
-import type { Category, FinanceData, Profile, Transaction } from "@/lib/finance/types";
+import type { BalanceItem, BalanceValue, Category, FinanceData, Profile, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
 import SignIn, { RECOVERY_KEY } from "./SignIn";
 
@@ -23,6 +23,13 @@ type FinanceState = {
   addTransaction: (t: NewTransaction) => Promise<void>;
   /** Saves settings (e.g. currency_code) to the user's profile. */
   updateProfile: (patch: Partial<Profile>) => Promise<void>;
+  /** Balance sheet: add a post (its value becomes this month's stand too). */
+  addBalanceItem: (item: { name: string; side: BalanceItem["side"]; value: number }) => Promise<void>;
+  /** A post's value for a month: this month also sets the current stand;
+   *  an earlier month sets that month-end stand only. */
+  setBalanceValue: (itemId: string, month: Date, value: number) => Promise<void>;
+  renameBalanceItem: (itemId: string, name: string) => Promise<void>;
+  deleteBalanceItem: (itemId: string) => Promise<void>;
   /** Creates a top-level category at the end of the list; returns it. */
   addCategory: (c: NewCategory) => Promise<Category>;
   deleteTransaction: (id: string) => Promise<void>;
@@ -59,7 +66,9 @@ async function fetchAll<T>(supabase: SupabaseClient, table: string, order: strin
 }
 
 async function loadAll(supabase: SupabaseClient): Promise<FinanceData> {
-  const [profile, accounts, categories, budgets, transactions, incomeRecords, holdings] = await Promise.all([
+  // Balance sheet tables are newer: a project without them still loads.
+  const optional = <T,>(p: Promise<T[]>) => p.catch(() => [] as T[]);
+  const [profile, accounts, categories, budgets, transactions, incomeRecords, holdings, balanceItems, balanceValues] = await Promise.all([
     supabase.from("profiles").select("*").maybeSingle().then(({ data, error }) => {
       if (error) throw error;
       return data as Profile | null;
@@ -70,8 +79,10 @@ async function loadAll(supabase: SupabaseClient): Promise<FinanceData> {
     fetchAll<Transaction>(supabase, "transactions", "date"),
     fetchAll<FinanceData["incomeRecords"][number]>(supabase, "income_records", "month"),
     fetchAll<FinanceData["holdings"][number]>(supabase, "holdings", "date_added"),
+    optional(fetchAll<BalanceItem>(supabase, "balance_items", "sort_order")),
+    optional(fetchAll<BalanceValue>(supabase, "balance_values", "month")),
   ]);
-  return { profile: profile ?? DEFAULT_PROFILE, accounts, categories, budgets, transactions, incomeRecords, holdings };
+  return { profile: profile ?? DEFAULT_PROFILE, accounts, categories, budgets, transactions, incomeRecords, holdings, balanceItems, balanceValues };
 }
 
 type Phase =
@@ -221,6 +232,87 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     [source, supabase, update],
   );
 
+  // ---- Balance sheet ----------------------------------------------------------
+  const monthIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
+
+  const upsertValue = useCallback(
+    async (itemId: string, month: Date, value: number) => {
+      const key = monthIso(month);
+      const existing = current?.balanceValues.find((v) => v.item_id === itemId && v.month.slice(0, 10) === key && !v.deleted_at);
+      const row: BalanceValue = existing
+        ? { ...existing, value: value.toFixed(2), updated_at: new Date().toISOString() }
+        : { id: crypto.randomUUID(), item_id: itemId, month: key, value: value.toFixed(2), updated_at: new Date().toISOString(), deleted_at: null };
+      if (source === "supabase" && supabase) {
+        const { error } = existing
+          ? await supabase.from("balance_values").update({ value: row.value }).eq("id", row.id)
+          : await supabase.from("balance_values").insert({ id: row.id, item_id: itemId, month: key, value: row.value });
+        if (error) throw error;
+      }
+      update((d) => ({ ...d, balanceValues: [...d.balanceValues.filter((v) => v.id !== row.id), row] }));
+    },
+    [current, source, supabase, update],
+  );
+
+  const setBalanceValue = useCallback(
+    async (itemId: string, month: Date, value: number) => {
+      const isCurrent = month.getFullYear() === now.getFullYear() && month.getMonth() === now.getMonth();
+      if (isCurrent) {
+        if (source === "supabase" && supabase) {
+          const { error } = await supabase.from("balance_items").update({ current_value: value.toFixed(2) }).eq("id", itemId);
+          if (error) throw error;
+        }
+        update((d) => ({ ...d, balanceItems: d.balanceItems.map((i) => (i.id === itemId ? { ...i, current_value: value.toFixed(2) } : i)) }));
+      }
+      await upsertValue(itemId, month, value);
+    },
+    [now, source, supabase, update, upsertValue],
+  );
+
+  const addBalanceItem = useCallback(
+    async (item: { name: string; side: BalanceItem["side"]; value: number }) => {
+      const sort_order = Math.max(-1, ...(current?.balanceItems ?? []).map((i) => i.sort_order)) + 1;
+      const row: BalanceItem = {
+        id: crypto.randomUUID(),
+        name: item.name,
+        side: item.side,
+        current_value: item.value.toFixed(2),
+        sort_order,
+        updated_at: new Date().toISOString(),
+        deleted_at: null,
+      };
+      if (source === "supabase" && supabase) {
+        const { error } = await supabase.from("balance_items").insert({ id: row.id, name: row.name, side: row.side, current_value: row.current_value, sort_order });
+        if (error) throw error;
+      }
+      update((d) => ({ ...d, balanceItems: [...d.balanceItems, row] }));
+      await upsertValue(row.id, new Date(now.getFullYear(), now.getMonth(), 1), item.value);
+    },
+    [current, now, source, supabase, update, upsertValue],
+  );
+
+  const renameBalanceItem = useCallback(
+    async (itemId: string, name: string) => {
+      if (source === "supabase" && supabase) {
+        const { error } = await supabase.from("balance_items").update({ name }).eq("id", itemId);
+        if (error) throw error;
+      }
+      update((d) => ({ ...d, balanceItems: d.balanceItems.map((i) => (i.id === itemId ? { ...i, name } : i)) }));
+    },
+    [source, supabase, update],
+  );
+
+  const deleteBalanceItem = useCallback(
+    async (itemId: string) => {
+      // Soft delete, like every table, so other devices hear about it.
+      if (source === "supabase" && supabase) {
+        const { error } = await supabase.from("balance_items").update({ deleted_at: new Date().toISOString() }).eq("id", itemId);
+        if (error) throw error;
+      }
+      update((d) => ({ ...d, balanceItems: d.balanceItems.filter((i) => i.id !== itemId), balanceValues: d.balanceValues.filter((v) => v.item_id !== itemId) }));
+    },
+    [source, supabase, update],
+  );
+
   const signOut = useCallback(async () => {
     try {
       sessionStorage.removeItem(DEMO_KEY);
@@ -250,7 +342,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, addCategory, updateProfile, deleteTransaction, reorderCategories, signOut }}
+      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, addCategory, updateProfile, addBalanceItem, setBalanceValue, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
     >
       {children}
     </FinanceContext.Provider>

@@ -250,3 +250,65 @@ export function netWorthFigures(data: FinanceData, now: Date) {
   const forecast = yearForecast(data, now).map((f) => ({ month: f.month, change: f.income - f.spent }));
   return { accountsTotal, holdingsTotal, base, startOfYear, finished, liveChange, forecast, thisMonth, projected, days };
 }
+
+export type BalanceLine = { id: string; name: string; value: number; kind: "manual" | "auto"; hint?: string };
+
+/** The balance sheet at the end of `month` (or now, for the current month),
+ *  on the net worth model:
+ *   Assets      — the user's own posts (home, car…); Accounts = account
+ *                 balances on 1 January + what each month added (income −
+ *                 spending), this month as actually entered; Investments at
+ *                 cost; and, in the current month only, Prepaid (fixed costs
+ *                 paid for the rest of the month) and Receivable (income
+ *                 earned so far but not yet received).
+ *   Liabilities — the user's posts (mortgage, loans…), plus Income received
+ *                 in advance when more came in than has been earned yet.
+ *   Equity      — assets − liabilities.
+ *  Accounts + investments + prepaid + receivable − received in advance is
+ *  exactly the live net worth, so equity = net worth + own assets − own
+ *  liabilities. A post's month value is that month's stand, else the latest
+ *  earlier one (before its first stand: the first one); the current month
+ *  uses its current value. */
+export function balanceSheet(data: FinanceData, now: Date, month: Date) {
+  const year = now.getFullYear(), current = now.getMonth();
+  const m = month.getFullYear() < year ? -1 : month.getMonth();
+  const isCurrent = month.getFullYear() === year && m === current;
+  const nw = netWorthFigures(data, now);
+  const key = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  const values = live(data.balanceValues ?? []);
+  const postValue = (item: FinanceData["balanceItems"][number]) => {
+    if (isCurrent) return num(item.current_value);
+    const rows = values.filter((v) => v.item_id === item.id).sort((a, b) => b.month.localeCompare(a.month));
+    // The latest stand up to this month; before the first stand, the first
+    // one (a post entered today is assumed to have been there all along).
+    const at = rows.find((v) => v.month.slice(0, 7) <= key(month)) ?? rows[rows.length - 1];
+    return at ? num(at.value) : num(item.current_value);
+  };
+  const posts = live(data.balanceItems ?? []).sort((a, b) => a.sort_order - b.sort_order);
+
+  const assets: BalanceLine[] = [];
+  const liabilities: BalanceLine[] = [];
+  for (const p of posts) (p.side === "asset" ? assets : liabilities).push({ id: p.id, name: p.name || "Untitled", value: postValue(p), kind: "manual" });
+
+  let cash = nw.accountsTotal + nw.finished.slice(0, Math.max(m + 1, 0)).reduce((a, b) => a + b, 0);
+  if (isCurrent) {
+    const s = nw.thisMonth;
+    const f = Math.min(Math.max((now.getTime() - new Date(year, current, 1).getTime()) / (nw.days * 86_400_000), 0), 1);
+    cash = nw.base - nw.holdingsTotal + s.income - s.spent;
+    const prepaid = s.fixed * (1 - f);
+    const earned = nw.projected * f - s.income;
+    assets.push({ id: "accounts", name: "Accounts", value: cash, kind: "auto", hint: "Start of the year + what each month added" });
+    assets.push({ id: "investments", name: "Investments", value: nw.holdingsTotal, kind: "auto", hint: "Holdings at cost" });
+    if (prepaid > 0.005) assets.push({ id: "prepaid", name: "Prepaid", value: prepaid, kind: "auto", hint: "Fixed costs paid for the rest of the month" });
+    if (earned > 0.005) assets.push({ id: "receivable", name: "Receivable", value: earned, kind: "auto", hint: "Income earned so far, not yet received" });
+    if (earned < -0.005) liabilities.push({ id: "advance", name: "Income received in advance", value: -earned, kind: "auto", hint: "Received, not yet earned this month" });
+  } else {
+    assets.push({ id: "accounts", name: "Accounts", value: cash, kind: "auto", hint: "Start of the year + what each month added" });
+    assets.push({ id: "investments", name: "Investments", value: nw.holdingsTotal, kind: "auto", hint: "Holdings at cost" });
+  }
+
+  const totalAssets = assets.reduce((t, l) => t + l.value, 0);
+  const totalDebt = liabilities.reduce((t, l) => t + l.value, 0);
+  const equity = totalAssets - totalDebt;
+  return { assets, liabilities, totalAssets, totalDebt, equity, isCurrent };
+}

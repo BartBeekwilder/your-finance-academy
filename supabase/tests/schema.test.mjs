@@ -66,3 +66,17 @@ const seeded = (await as(A, () => sql(`select count(*)::int n, sum(is_fixed_expe
 ok(seeded.n === 9 && seeded.fixed === 2 && seeded.income === 1, "new user gets the 9 iOS starter categories (Rent+Utilities fixed, 1 income)");
 ok((await as(A, () => sql(`select count(*)::int n from accounts where is_default`))).rows[0].n === 1, "new user gets one hidden default account");
 ok((await as(B, () => sql(`select count(*)::int n from categories where is_default`))).rows[0].n === 9, "each user gets their own copy");
+
+// Balance sheet (0003).
+const homeA = (await as(A, () => sql(`insert into balance_items (name, side, current_value) values ('Home', 'asset', 450000) returning id`))).rows[0].id;
+await as(A, () => sql(`insert into balance_values (item_id, month, value) values ($1, '2026-01-01', 440000)`, [homeA]));
+ok((await as(B, () => sql(`select * from balance_items`))).rows.length === 0, "user B cannot see user A's balance items");
+ok((await as(B, () => sql(`select * from balance_values`))).rows.length === 0, "user B cannot see user A's balance values");
+err = null; try { await as(B, () => sql(`insert into balance_values (item_id, month, value) values ($1, '2026-02-01', 1)`, [homeA])); } catch (e) { err = e.message; }
+ok(err && /foreign key/.test(err), "user B cannot add a month value to user A's balance item");
+err = null; try { await as(A, () => sql(`insert into balance_values (item_id, month, value) values ($1, '2026-01-01', 1)`, [homeA])); } catch (e) { err = e.message; }
+ok(err && /unique|duplicate/.test(err), "one value per item per month");
+err = null; try { await as(A, () => sql(`insert into balance_values (item_id, month, value) values ($1, '2026-03-15', 1)`, [homeA])); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "balance months are the 1st of the month");
+err = null; try { await as(A, () => sql(`insert into balance_items (name, side) values ('X', 'equity')`)); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "balance item side is asset or liability");
