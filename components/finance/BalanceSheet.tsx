@@ -18,7 +18,7 @@ import { money } from "@/lib/finance/format";
 export type Sheet = ReturnType<typeof balanceSheet>;
 
 const ASSET_COLORS = ["#30d158", "#40c8e0", "#64d2ff", "#5e5ce6", "#bf5af2", "#d4af37", "#0a84ff", "#66d4cf"];
-const DEBT_COLORS = ["#ff453a", "#ff6961", "#ff9f0a", "#ff7a45", "#ffb340"];
+const DEBT_COLORS = ["#ff453a", "#ff9f0a", "#ff375f", "#ffd60a", "#ac8e68", "#ff6961", "#e5484d"];
 export const EQUITY = "#40c8e0";
 
 function colorFor(side: "asset" | "debt", i: number) {
@@ -43,6 +43,30 @@ export function BalanceBars({ sheet, prev, currency, label }: { sheet: Sheet; pr
   ];
   const eqDelta = prev ? sheet.equity - prev.equity : null;
   const shown = hover;
+
+  const assetLines = assets.map((l, i) => ({ ...l, color: colorFor("asset", i) }));
+  const debtLines = right.filter((l) => l.id !== "equity");
+  const legend = (lines: (BalanceLine & { color: string })[], title: string, total: number) => (
+    <div className="pf-bal-legend">
+      <div className="pf-bal-legend-head">
+        <span>{title}</span>
+        <b className="pf-rounded">{money(total, currency)}</b>
+      </div>
+      {lines.map((l) => (
+        <div
+          key={l.id}
+          className="pf-bal-legend-row"
+          data-lit={hover?.name === l.name}
+          onMouseEnter={() => setHover({ name: l.name, value: l.value, color: l.color })}
+          onMouseLeave={() => setHover(null)}
+        >
+          <span className="pf-bal-dot" style={{ background: l.color }} />
+          <span className="pf-bal-name">{l.name}</span>
+          <span className="pf-rounded">{money(l.value, currency)}</span>
+        </div>
+      ))}
+    </div>
+  );
 
   const row = (lines: (BalanceLine & { color: string })[], side: string) => (
     <div className="pf-bal-bar" aria-label={side} onMouseLeave={() => setHover(null)}>
@@ -86,9 +110,13 @@ export function BalanceBars({ sheet, prev, currency, label }: { sheet: Sheet; pr
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "6px 10px", alignItems: "center" }}>
         <span className="pf-bal-side">Assets</span>
-        {row(assets.map((l, i) => ({ ...l, color: colorFor("asset", i) })), "Assets")}
+        {row(assetLines, "Assets")}
         <span className="pf-bal-side">Debt + equity</span>
         {row(right, "Liabilities and equity")}
+      </div>
+      <div className="pf-bal-legends">
+        {legend(assetLines, "Assets", sheet.totalAssets)}
+        {legend(debtLines, "Liabilities", sheet.totalDebt)}
       </div>
     </div>
   );
