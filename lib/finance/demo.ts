@@ -151,18 +151,29 @@ export function buildDemoData(now = new Date()): FinanceData {
       { ...meta(2, "h"), symbol: "XAU", name: "Gold", asset_type: "metal", quantity: "1.0000000000", cost_basis: "2100.00", cost_basis_currency: null, date_added: "2024-11-20T10:00:00Z" },
     ],
     ...demoBalance(now),
+    ...demoRealEstate(),
   };
 }
 
-/** A home, a mortgage in two parts, a car loan, a student loan, a credit
- *  card and tax to pay, with a month-end stand
+/** A home bought in 2019 with a two-part Dutch mortgage (annuity + linear),
+ *  10-year fixed rates — it feeds the balance sheet's Home and Mortgage. */
+function demoRealEstate(): Pick<FinanceData, "properties" | "mortgageParts"> {
+  const home = { ...meta(0, "p"), name: "Home", value: "675000.00", value_date: null, purchase_price: "520000.00", purchase_date: "2019-06-01", country: "NL" as const, sort_order: 0 };
+  const part = (n: number, name: string, kind: "annuity" | "linear", principal: string, rate: string) => ({
+    ...meta(n, "mp"), property_id: home.id, name, kind, principal, rate, fixed_until: "2029-06-01", start_date: "2019-06-01", term_months: 360, nhg: false, extra_monthly: "0.00", sort_order: n,
+  });
+  return {
+    properties: [home],
+    mortgageParts: [part(0, "Annuity part", "annuity", "450000.00", "2.05"), part(1, "Linear part", "linear", "60000.00", "2.35")],
+  };
+}
+
+/** A car, a car loan, a student loan, a credit card and tax to pay (the
+ *  home and mortgage come from the real-estate module), with a month-end stand
  *  for each month so far (the mortgage paid down, the home slowly rising). */
 function demoBalance(now: Date): Pick<FinanceData, "balanceItems" | "balanceValues"> {
   const posts: [string, "asset" | "liability", number, number][] = [
-    ["Home", "asset", 660000, 1500],
     ["Car", "asset", 18500, -250],
-    ["Mortgage (annuity)", "liability", 428000, -620],
-    ["Mortgage (linear)", "liability", 50500, -210],
     ["Car loan", "liability", 9800, -300],
     ["Student loan (DUO)", "liability", 21400, -145],
     ["Credit card", "liability", 0, 0],

@@ -112,6 +112,19 @@ zh-Hans. Every new UI text must be translatable and translated:
 - Onboarding draft at `/app/welcome` (preview, saves nothing) — waiting for
   Bart's review.
 - Website and iOS fully translated into 17 languages.
+- Real-estate module (web, 2026-10-23): `/app/real-estate`. Migration
+  `0004_real_estate.sql` (properties, mortgage_parts; NOT yet applied on
+  Supabase — ask Bart). Pure maths in `lib/finance/mortgage.ts` (annuity /
+  linear / interest-only, schedule, totals, extra repayments from a month,
+  rate change, ownership, LTV, NL tax: renteaftrek − eigenwoningforfait at
+  2025 rates) with tests `npm run test:calc`. Page: house filling with the
+  ownership share + look-ahead slider, payment split, totals over the term,
+  interest/repayment per year chart with remaining-debt line, loan parts
+  with editors, extra-repayment simulator (to the highest-rate part),
+  fixed-rate period (+1% impact), Dutch tax card, penalty-free 10% room.
+  Properties and parts feed the balance sheet automatically (demo: manual
+  Home/Mortgage posts removed). Translated in 17 languages. Still to port to
+  iOS and Android.
 - Android blueprint: `docs/android-blueprint.md`. Android app started
   (2026-10-23): theme, liquid BrandToggle, live amounts, spill-out budget
   bars, FinanceFigures + demo data identical to web/iOS, dashboard (net
@@ -125,8 +138,9 @@ zh-Hans. Every new UI text must be translatable and translated:
 To do (Bart's list):
 1. Review the onboarding draft (`/app/welcome`), then auto-open it for new
    accounts and port it to iOS.
-2. Real-estate module: home value/WOZ, mortgage parts (annuity/linear, rate,
-   term, payment, remaining debt) feeding the balance sheet automatically.
+2. Real-estate module: BUILT on web (see above). Next: apply migration 0004,
+   port to iOS and Android; later per-country rules (DE, BE, UK, US…),
+   home value history, rental properties.
 3. Multiple years: add/view earlier years (monthly or year totals), year
    switcher; net worth starting before 1 January.
 4. Monthly review / month close: confirm income, check fixed costs, review
@@ -145,6 +159,11 @@ To do (Bart's list):
    N months sooner"), rate-period end reminder, LTV, home value over time,
    NL specifics (hypotheekrenteaftrek, eigenwoningforfait, NHG,
    aflossingsvrij deel). Feeds the balance sheet automatically.
+
+Decisions (Bart, 2026-10-23): build order = real-estate module → month
+close + achievements → onboarding. Achievements: personal first, sharing
+later. Real estate: international by default + Netherlands rules now;
+other countries' rules later (to do: DE, BE, UK, US, …).
 
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?

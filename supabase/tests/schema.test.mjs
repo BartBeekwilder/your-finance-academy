@@ -80,3 +80,17 @@ err = null; try { await as(A, () => sql(`insert into balance_values (item_id, mo
 ok(err && /check/.test(err), "balance months are the 1st of the month");
 err = null; try { await as(A, () => sql(`insert into balance_items (name, side) values ('X', 'equity')`)); } catch (e) { err = e.message; }
 ok(err && /check/.test(err), "balance item side is asset or liability");
+
+// Real estate (0004).
+const houseA = (await as(A, () => sql(`insert into properties (name, value, country) values ('Home', 675000, 'NL') returning id`))).rows[0].id;
+await as(A, () => sql(`insert into mortgage_parts (property_id, kind, principal, rate, term_months) values ($1, 'annuity', 450000, 3.9, 360)`, [houseA]));
+ok((await as(B, () => sql(`select * from properties`))).rows.length === 0, "user B cannot see user A's properties");
+ok((await as(B, () => sql(`select * from mortgage_parts`))).rows.length === 0, "user B cannot see user A's mortgage parts");
+err = null; try { await as(B, () => sql(`insert into mortgage_parts (property_id, principal) values ($1, 1)`, [houseA])); } catch (e) { err = e.message; }
+ok(err && /foreign key/.test(err), "user B cannot add a mortgage part to user A's property");
+err = null; try { await as(A, () => sql(`insert into mortgage_parts (property_id, kind) values ($1, 'balloon')`, [houseA])); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "mortgage kind is annuity, linear or interest_only");
+err = null; try { await as(A, () => sql(`insert into properties (name, country) values ('X', 'XX')`)); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "property country rules are INTL or NL");
+await as(A, () => sql(`delete from properties where id = $1`, [houseA]));
+ok((await as(A, () => sql(`select count(*)::int n from mortgage_parts`))).rows[0].n === 0, "deleting a property removes its mortgage parts");

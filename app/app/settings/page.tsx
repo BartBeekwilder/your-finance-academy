@@ -1,11 +1,11 @@
 "use client";
 
-import { LANGUAGES, setLang, t, useLang } from "@/lib/i18n";
+import { intlLocale, LANGUAGES, setLang, t, useLang } from "@/lib/i18n";
 import { useState, type ReactNode } from "react";
 import { Check } from "lucide-react";
 import BrandMark from "@/components/finance/BrandMark";
 import { useFinance } from "@/components/finance/FinanceProvider";
-import { CURRENCIES, currencySymbol } from "@/lib/finance/currencies";
+import { CURRENCIES, currencyName, currencySymbol } from "@/lib/finance/currencies";
 import { money } from "@/lib/finance/format";
 import { setMotionPaused, useMotionPaused } from "@/lib/motion";
 import { setShowAxes, useCategoryAreas, setCategoryAreas, useShowAxes } from "@/lib/prefs";
@@ -62,7 +62,7 @@ export default function SettingsPage() {
               <span className="pf-currency-symbol pf-rounded">{currencySymbol(c.code)}</span>
               <span style={{ display: "grid", textAlign: "left", minWidth: 0 }}>
                 <b style={{ fontSize: "0.85rem" }}>{c.code}</b>
-                <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.name}</span>
+                <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{currencyName(c.code, intlLocale(), c.name)}</span>
               </span>
               {c.code === current && <Check size={16} className="pf-currency-check" />}
               {saving === c.code && <span className="pf-currency-saving" aria-hidden />}

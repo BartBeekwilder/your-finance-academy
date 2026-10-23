@@ -1,9 +1,10 @@
 "use client";
 
-import { t } from "@/lib/i18n";
+import { t, intlLocale } from "@/lib/i18n";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, Check, Plus, Sparkles, X } from "lucide-react";
 import { live } from "@/lib/finance/calc";
+import { currencyName } from "@/lib/finance/currencies";
 import { money } from "@/lib/finance/format";
 import BrandMark from "./BrandMark";
 import { useTween } from "./charts";
@@ -192,7 +193,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                       <BrandMark size={34} currency={c.code} />
                       <span>
                         <b>{c.code}</b>
-                        <small>{t(c.name)}</small>
+                        <small>{currencyName(c.code, intlLocale(), c.name)}</small>
                       </span>
                     </button>
                   ))}

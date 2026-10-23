@@ -97,6 +97,34 @@ export type BalanceValue = Synced & {
   value: Money;
 };
 
+/** A home or other property (real-estate module). */
+export type Property = Synced & {
+  name: string;
+  value: Money;
+  value_date: string | null;
+  purchase_price: Money | null;
+  purchase_date: string | null;
+  /** Which country's rules apply ('INTL' = none). */
+  country: "INTL" | "NL";
+  sort_order: number;
+};
+
+/** One loan part ("leningdeel") of a mortgage on a property. */
+export type MortgagePartRow = Synced & {
+  property_id: UUID;
+  name: string;
+  kind: "annuity" | "linear" | "interest_only";
+  principal: Money;
+  /** Annual rate in %. */
+  rate: Money;
+  fixed_until: string | null;
+  start_date: string;
+  term_months: number;
+  nhg: boolean;
+  extra_monthly: Money;
+  sort_order: number;
+};
+
 export type FinanceData = {
   profile: Profile;
   accounts: Account[];
@@ -107,4 +135,6 @@ export type FinanceData = {
   holdings: Holding[];
   balanceItems: BalanceItem[];
   balanceValues: BalanceValue[];
+  properties: Property[];
+  mortgageParts: MortgagePartRow[];
 };

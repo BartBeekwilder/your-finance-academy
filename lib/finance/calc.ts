@@ -1,4 +1,6 @@
 import { t } from "@/lib/i18n";
+import { summarize as summarizePart } from "./mortgage";
+import { homes } from "./realEstate";
 import type { Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
 
 // Same rules as the iOS app's BudgetCalculator / DashboardView, so a given
@@ -290,6 +292,16 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
   const assets: BalanceLine[] = [];
   const liabilities: BalanceLine[] = [];
   for (const p of posts) (p.side === "asset" ? assets : liabilities).push({ id: p.id, name: p.name || t("Untitled"), value: postValue(p), kind: "manual" });
+
+  // Real estate: each property at its value, each mortgage part at its
+  // remaining debt at the end of the month (from its schedule).
+  const monthEnd = isCurrent ? now : new Date(month.getFullYear(), month.getMonth() + 1, 0);
+  for (const { property, parts } of homes(data)) {
+    assets.push({ id: `property-${property.id}`, name: property.name || t("Home"), value: num(property.value), kind: "auto", hint: t("From Real estate") });
+    for (const part of parts) {
+      liabilities.push({ id: `mortgage-${part.id}`, name: part.name || t("Mortgage"), value: summarizePart(part, monthEnd).balance, kind: "auto", hint: t("From Real estate") });
+    }
+  }
 
   let cash = nw.accountsTotal + nw.finished.slice(0, Math.max(m + 1, 0)).reduce((a, b) => a + b, 0);
   if (isCurrent) {

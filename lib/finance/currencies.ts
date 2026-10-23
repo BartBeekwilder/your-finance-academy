@@ -1,5 +1,14 @@
 // Currencies offered in Settings. Changing the currency changes how amounts
 // are shown; it doesn't convert them (exchange rates arrive with sync).
+/** A currency's name in the chosen language (Intl knows them all). */
+export function currencyName(code: string, locale: string, fallback: string) {
+  try {
+    return new Intl.DisplayNames([locale], { type: "currency" }).of(code) ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export const CURRENCIES: { code: string; name: string }[] = [
   { code: "EUR", name: "Euro" },
   { code: "USD", name: "US dollar" },

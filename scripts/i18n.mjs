@@ -15,7 +15,7 @@ const MSG = join(ROOT, "lib/i18n/messages");
 const KEYS = join(ROOT, "lib/i18n/keys.json");
 // Texts translated through a variable (menu labels, onboarding lists…).
 const EXTRA = [
-  "Dashboard", "Income", "Expenses", "Net worth", "Balance sheet", "Investments", "Transactions", "Categories", "Budgets",
+  "Dashboard", "Income", "Expenses", "Net worth", "Balance sheet", "Real estate", "Annuity", "Linear", "Interest-only", "Investments", "Transactions", "Categories", "Budgets",
   "Euro", "US dollar", "British pound", "Swiss franc", "Swedish krona", "Japanese yen",
   "Rent or mortgage", "Energy & water", "Insurance", "Internet & phone", "Subscriptions", "Car or transit pass",
   "Groceries", "Dining out", "Transport", "Shopping", "Entertainment", "Health",
