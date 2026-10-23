@@ -16,7 +16,7 @@ backend:
 | Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (not merged to `main`; `main` = live site) |
 | iOS / iPadOS app | repo `Personal Finance` (SwiftUI) | `ios-web-parity-oct21` |
 | Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
-| Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0004 applied; 0005_progress and 0006_insurance NOT yet applied (need Bart's OK) | — |
+| Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0006 all applied (0005 + 0006 on 2026-10-23) | — |
 
 Decisions:
 - Supabase is the ONLY sync (iOS moves off CloudKit, keeps SwiftData as an
@@ -146,8 +146,7 @@ To do (Bart's list):
    switcher; net worth starting before 1 January.
 4+6. Month close + achievements: BUILT on web (commit aab3244). Migration
    0005_progress.sql (month_closes, goals, achievements, activity_days)
-   written + tested, NOT yet applied on Supabase — until then the real
-   account just shows no progress (tables are optional in the provider).
+   written + tested, applied on Supabase 2026-10-23.
    Rules in lib/finance/progress.ts (pure, tested), model in
    progressModel.ts; pages /app/progress and /app/close; dashboard close
    banner + rings/streak strip. Open question: auto-prompt on the 1st or
@@ -171,8 +170,7 @@ later. Real estate: international by default + Netherlands rules now;
 other countries' rules later (to do: DE, BE, UK, US, …).
 
 9. Insurance: STARTED on web (/app/insurance, lib/finance/insurance.ts +
-   tests, migration 0006_insurance.sql written + tested, NOT applied — needs
-   Bart's OK, like 0005). Premiums per month/year split by kind, deductibles,
+   tests, migration 0006_insurance.sql applied 2026-10-23). Premiums per month/year split by kind, deductibles,
    coverage check for your situation (home, mortgage, car, NL), renewals
    timeline with cancel-by dates, policy cards + editor; demo has 7 policies.
    Next: premiums → fixed costs link, policy documents (upload), renewal
