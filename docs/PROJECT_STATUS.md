@@ -132,6 +132,19 @@ To do (Bart's list):
 4. Monthly review / month close: confirm income, check fixed costs, review
    budgets, enter month-end balances, summary, lock the month.
 5. Android: continue phase 1–3 (screens, Supabase sync); see blueprint §9.
+6. Achievements / finance goals (idea stage, 2026-10-23): goals like fitness
+   rings — savings goals, streaks (daily check-in, month close done),
+   budget wins, milestones (equity, debt paid); points, levels, badges.
+   Reward good habits and real progress, never spending; streaks with a
+   grace day. Needs Bart's choices before building.
+7. Real-estate module (expanded 2026-10-23): home + mortgage parts
+   (annuity / linear / interest-only, rate, fixed-rate period, term, start),
+   full amortisation schedule (interest vs repayment per month, total
+   interest over the term, total paid), % ownership shown as a house that
+   fills up, extra repayment scenarios ("pay €X extra → save €Y interest,
+   N months sooner"), rate-period end reminder, LTV, home value over time,
+   NL specifics (hypotheekrenteaftrek, eigenwoningforfait, NHG,
+   aflossingsvrij deel). Feeds the balance sheet automatically.
 
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
