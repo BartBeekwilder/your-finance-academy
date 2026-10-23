@@ -16,7 +16,7 @@ backend:
 | Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (not merged to `main`; `main` = live site) |
 | iOS / iPadOS app | repo `Personal Finance` (SwiftUI) | `ios-web-parity-oct21` |
 | Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
-| Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0004 (all applied) | — |
+| Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0004 applied; 0005_progress NOT yet applied (needs Bart's OK) | — |
 
 Decisions:
 - Supabase is the ONLY sync (iOS moves off CloudKit, keeps SwiftData as an
@@ -143,14 +143,16 @@ To do (Bart's list):
    home value history, rental properties.
 3. Multiple years: add/view earlier years (monthly or year totals), year
    switcher; net worth starting before 1 January.
-4. Monthly review / month close: confirm income, check fixed costs, review
-   budgets, enter month-end balances, summary, lock the month.
+4+6. Month close + achievements: BUILT on web (commit aab3244). Migration
+   0005_progress.sql (month_closes, goals, achievements, activity_days)
+   written + tested, NOT yet applied on Supabase — until then the real
+   account just shows no progress (tables are optional in the provider).
+   Rules in lib/finance/progress.ts (pure, tested), model in
+   progressModel.ts; pages /app/progress and /app/close; dashboard close
+   banner + rings/streak strip. Open question: auto-prompt on the 1st or
+   only the banner (now: banner). Next: port to iOS (queue item 22) and
+   Android; sharing achievements later.
 5. Android: continue phase 1–3 (screens, Supabase sync); see blueprint §9.
-6. Achievements / finance goals (idea stage, 2026-10-23): goals like fitness
-   rings — savings goals, streaks (daily check-in, month close done),
-   budget wins, milestones (equity, debt paid); points, levels, badges.
-   Reward good habits and real progress, never spending; streaks with a
-   grace day. Needs Bart's choices before building.
 7. Real-estate module (expanded 2026-10-23): home + mortgage parts
    (annuity / linear / interest-only, rate, fixed-rate period, term, start),
    full amortisation schedule (interest vs repayment per month, total
