@@ -4,7 +4,7 @@ import { intlLocale, t } from "@/lib/i18n";
 import { useState } from "react";
 import { summarize } from "@/lib/finance/calc";
 import { useNow } from "@/lib/motion";
-import { money } from "@/lib/finance/format";
+import { money, monthName } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import LiveAmount from "./LiveAmount";
 import Segmented from "./Segmented";
@@ -67,7 +67,7 @@ export default function LiveTiles({
   const liveSpent = fixed * fraction + variable;
   const liveBalance = liveIncome - liveSpent;
   const spentTotal = fixed + variable;
-  const month = monthStart.toLocaleDateString(intlLocale(), { month: "long" });
+  const month = monthName(monthStart);
   const year = monthStart.getFullYear();
 
   // The finished months of this year, as entered.

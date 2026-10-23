@@ -9,7 +9,7 @@ import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
 import Stat from "@/components/finance/Stat";
 import { projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
-import { money, monthYear } from "@/lib/finance/format";
+import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 
 // The Income page's counterpart for spending: the dashboard's live Spent
 // tile (Month / Year, zoom and scrub), a few headline figures, and the last
@@ -29,7 +29,7 @@ export default function ExpensesPage() {
   // Finished months as entered, plus the forecast for this month and the rest.
   const forecast = yearForecast(data, now);
   const expectedYear = thisYear.slice(0, -1).reduce((t, m) => t + m.spent, 0) + forecast.reduce((t, f) => t + f.spent, 0);
-  const monthName = month.toLocaleDateString(intlLocale(), { month: "long" });
+  const monthName = monthLabel(month);
 
   const months = Array.from({ length: 12 }, (_, i) => {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);

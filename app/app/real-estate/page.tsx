@@ -8,7 +8,7 @@ import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
 import Stat from "@/components/finance/Stat";
 import { num } from "@/lib/finance/calc";
-import { money } from "@/lib/finance/format";
+import { money, monthYear } from "@/lib/finance/format";
 import { combined, extraEffect, ltv, NL, nlMonthlyTaxEffect, ownership, perYear, summarize, type MortgagePart } from "@/lib/finance/mortgage";
 import { homes } from "@/lib/finance/realEstate";
 import type { MortgagePartRow, Property } from "@/lib/finance/types";
@@ -155,7 +155,7 @@ function HomeView({
   const interestSoFar = totals.reduce((t, s) => t + s.interestSoFar, 0);
   const end = totals.reduce((d, s) => (s.end > d ? s.end : d), now);
   const share = ownership(value, debt);
-  const fmtMonth = (d: Date) => d.toLocaleDateString(intlLocale(), { month: "long", year: "numeric" });
+  const fmtMonth = (d: Date) => monthYear(d);
   const maxOffset = Math.max(months.length - 1 - nowIndex, 0);
 
   // What the extra plan saves (all parts together).

@@ -14,7 +14,7 @@ import StepSlider from "@/components/finance/StepSlider";
 import { CategoryDonut } from "@/components/finance/charts";
 import BudgetDonut from "@/components/finance/BudgetDonut";
 import { categoryYear, inMonth, live, monthProgress, num, selfAndChildren, spendByCategory, spendByCategoryYear, yearsWithData } from "@/lib/finance/calc";
-import { money, monthYear } from "@/lib/finance/format";
+import { money, monthYear, monthName } from "@/lib/finance/format";
 
 // Budgets for the month or the year:
 //   Month — a month's spending against each monthly limit (fixed costs
@@ -127,7 +127,7 @@ export default function BudgetsPage() {
               value={sel}
               steps={Array.from({ length: 12 }, (_, i) => {
                 const d = new Date(now.getFullYear(), i, 1);
-                const name = d.toLocaleDateString(intlLocale(), { month: "long" });
+                const name = monthName(d);
                 return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}${i > now.getMonth() ? ` · ${t("forecast")}` : ""}`, faint: i > now.getMonth() };
               })}
               onChange={setSel}
@@ -155,7 +155,7 @@ export default function BudgetsPage() {
         <BudgetDonut
           items={rows.filter((r) => r.budget !== null).map((r) => ({ category: r.c, budget: r.budget ?? 0, expected: r.expected }))}
           currency={currency}
-          title={t("Budget for {v1}", { v1: month.toLocaleDateString(intlLocale(), { month: "long" }) })}
+          title={t("Budget for {v1}", { v1: monthName(month) })}
           caption={isFuture || isCurrent ? t("Expected") : t("Spent")}
           headerRight={pieSwitch}
         />
@@ -257,7 +257,7 @@ function YearList({
               <div className="pf-month-blocks">
                 {months.map((m, i) => {
                   const state = m.future ? "future" : m.budget === null ? "none" : m.total > m.budget ? "over" : "under";
-                  const name = m.month.toLocaleDateString(intlLocale(), { month: "long" });
+                  const name = monthName(m.month);
                   return (
                     <span
                       key={i}

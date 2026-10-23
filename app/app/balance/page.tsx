@@ -1,5 +1,6 @@
 "use client";
 
+import { monthName } from "@/lib/finance/format";
 import { intlLocale, t } from "@/lib/i18n";
 import { useMemo, useState } from "react";
 import { BalanceBars, BalanceTable } from "@/components/finance/BalanceSheet";
@@ -27,7 +28,7 @@ export default function BalancePage() {
   const month = new Date(now.getFullYear(), sel, 1);
   const sheet = balanceSheet(data, now, month);
   const prev = balanceSheet(data, now, new Date(now.getFullYear(), sel - 1, 1));
-  const name = month.toLocaleDateString(intlLocale(), { month: "long" });
+  const name = monthName(month);
   const label = sheet.isCurrent ? t("today") : t("end of {month}", { month: name });
   const [error, setError] = useState<string | null>(null);
   // Equity at the end of each month so far (today for this month).
@@ -36,7 +37,7 @@ export default function BalancePage() {
     () =>
       Array.from({ length: now.getMonth() + 1 }, (_, i) => {
         const d = new Date(now.getFullYear(), i, 1);
-        const n = d.toLocaleDateString(intlLocale(), { month: "long" });
+        const n = monthName(d);
         return { label: n.slice(0, 3), full: i === now.getMonth() ? t("Today") : t("End of {n}", { n }), value: balanceSheet(data, now, d).equity };
       }),
     [data, now],
@@ -71,7 +72,7 @@ export default function BalancePage() {
                   value={sel}
                   steps={Array.from({ length: 12 }, (_, i) => {
                     const d = new Date(now.getFullYear(), i, 1);
-                    const n = d.toLocaleDateString(intlLocale(), { month: "long" });
+                    const n = monthName(d);
                     return { label: n.slice(0, 3), short: n[0], full: `${n} ${now.getFullYear()}`, disabled: i > now.getMonth() };
                   })}
                   onChange={setSel}

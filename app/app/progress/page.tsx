@@ -8,7 +8,7 @@ import { BadgeTile, Celebration, RingLegend, Rings, StreakFlame } from "@/compon
 import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
 import { live, num } from "@/lib/finance/calc";
-import { money, monthYear } from "@/lib/finance/format";
+import { money, monthYear, shortMonthYear } from "@/lib/finance/format";
 import { BADGES, LEVELS } from "@/lib/finance/progress";
 import { progressModel, type GoalState } from "@/lib/finance/progressModel";
 import type { Goal } from "@/lib/finance/types";
@@ -173,8 +173,8 @@ function GoalCard({ g, currency, locale, onEdit }: { g: GoalState; currency: str
       </div>
       <div className="pf-goal-bar"><span style={{ width: `${g.share * 100}%` }} /></div>
       <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
-        {done ? t("Reached!") : g.eta ? t("At this pace: {date}", { date: g.eta.toLocaleDateString(locale, { month: "long", year: "numeric" }) }) : limit ? t("Stay under {amount} for 3 months in a row", { amount: money(g.target, currency) }) : t("No progress yet to estimate a date")}
-        {g.goal.target_date && !done && <> · {t("target {date}", { date: new Date(g.goal.target_date).toLocaleDateString(locale, { month: "short", year: "numeric" }) })}</>}
+        {done ? t("Reached!") : g.eta ? t("At this pace: {date}", { date: monthYear(g.eta) }) : limit ? t("Stay under {amount} for 3 months in a row", { amount: money(g.target, currency) }) : t("No progress yet to estimate a date")}
+        {g.goal.target_date && !done && <> · {t("target {date}", { date: shortMonthYear(new Date(g.goal.target_date)) })}</>}
       </div>
     </button>
   );

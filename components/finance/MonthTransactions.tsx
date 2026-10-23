@@ -2,7 +2,7 @@
 
 import { intlLocale, t as tr } from "@/lib/i18n";
 import { live, num } from "@/lib/finance/calc";
-import { dayLabel, money } from "@/lib/finance/format";
+import { dayLabel, money, monthName } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import { editProps } from "@/lib/finance/editTransaction";
 import CategoryIcon from "./CategoryIcon";
@@ -27,7 +27,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
   return (
     <section key="month" className="pf-readout">
       <h2 className="pf-section-title">
-        {tr("Transactions in {month}", { month: month.toLocaleDateString(intlLocale(), { month: "long" }) })}{" "}
+        {tr("Transactions in {month}", { month: monthName(month) })}{" "}
         <span style={{ textTransform: "none", color: "var(--pf-ink-3)" }}>
           · {kind === "expense" ? (rows.length === 1 ? tr("1 expense") : tr("{n} expenses", { n: rows.length })) : rows.length === 1 ? tr("1 payment") : tr("{n} payments", { n: rows.length })}
         </span>

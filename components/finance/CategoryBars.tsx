@@ -5,7 +5,7 @@ import { useCategoryAreas, useShowAxes } from "@/lib/prefs";
 import CategoryAreas from "./CategoryAreas";
 import { useState } from "react";
 import { live, num, projectedNetIncome, yearForecast } from "@/lib/finance/calc";
-import { money, monthYear, shortMonth } from "@/lib/finance/format";
+import { money, monthYear, shortMonth, monthName } from "@/lib/finance/format";
 import type { FinanceData, Transaction } from "@/lib/finance/types";
 import type { Mode } from "./LiveTiles";
 import { useCategoryDetail } from "./CategoryDetail";
@@ -237,7 +237,7 @@ export default function CategoryBars({
         {/* The whole period in one bar, with its breakdown beside it. */}
         <div className="pf-cbar-summary">
           <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
-            {mode === "month" ? t("{v1} so far", { v1: now.toLocaleDateString(intlLocale(), { month: "long" }) }) : t("{v1} so far", { v1: now.getFullYear() })}
+            {mode === "month" ? t("{v1} so far", { v1: monthName(now) }) : t("{v1} so far", { v1: now.getFullYear() })}
             <div className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700, color: accent }}>{money(periodTotal, currency)}</div>
             <div>{t("expected {amount}", { amount: money(periodExpected, currency) })}</div>
           </div>

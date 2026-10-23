@@ -7,7 +7,7 @@ import { useCategoryDetail } from "./CategoryDetail";
 import StepSlider from "./StepSlider";
 import Segmented from "./Segmented";
 import LiveAmount from "./LiveAmount";
-import { money } from "@/lib/finance/format";
+import { money, monthName as monthLabel } from "@/lib/finance/format";
 import type { CategorySpend } from "@/lib/finance/calc";
 
 type Slice = { category: CategorySpend["category"]; spent: number; fixed?: number };
@@ -57,7 +57,7 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
   }
   for (const e of month) if (!allTime.has(e.category.id)) allTime.set(e.category.id, { category: e.category, spent: 0 });
   const order = [...allTime.values()].sort((a, b) => b.spent - a.spent).map((e) => e.category);
-  const monthName = new Date(now.getFullYear(), monthIndex, 1).toLocaleDateString(intlLocale(), { month: "long" });
+  const monthName = monthLabel(new Date(now.getFullYear(), monthIndex, 1));
   const valuesFor = (m: "month" | "year") => {
     const src = new Map((m === "month" ? month : (yearSel?.slices ?? [])).map((e) => [e.category.id, e.spent]));
     return order.map((c) => src.get(c.id) ?? 0);
@@ -190,7 +190,7 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
           mode === "month"
             ? Array.from({ length: 12 }, (_, i) => {
                 const d = new Date(now.getFullYear(), i, 1);
-                const name = d.toLocaleDateString(intlLocale(), { month: "long" });
+                const name = monthLabel(d);
                 return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}`, disabled: i > now.getMonth() };
               })
             : years.map((y) => ({ label: String(y.year), full: String(y.year) }))

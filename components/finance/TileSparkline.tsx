@@ -5,7 +5,7 @@ import { WithYAxis } from "./YAxis";
 import { useNow } from "@/lib/motion";
 import { memo, useState } from "react";
 import { live as alive, monthToDate, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
-import { money } from "@/lib/finance/format";
+import { money, monthName as monthLabel } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 
 // Small live chart under each dashboard tile. It is one curve — the running
@@ -81,7 +81,7 @@ export default memo(function TileSparkline({
   // this month day by day, continuing from where last month ended.
   // fx: the fixed-cost part of v (running total), for Spent's split.
   type Pt = { t: number; v: number; fx: number; label: string; day?: boolean; forecast?: boolean };
-  const monthName = (m: number) => new Date(year, m, 1).toLocaleDateString(intlLocale(), { month: "long" });
+  const monthName = (m: number) => monthLabel(new Date(year, m, 1));
   const pts: Pt[] = [{ t: 0, v: offset, fx: 0, label: "" }];
   let before = offset, incBefore = 0, spentBefore = 0, fxBefore = 0;
   for (let m = 0; m < current; m++) {

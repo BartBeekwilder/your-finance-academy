@@ -9,7 +9,7 @@ import NetWorthTile from "@/components/finance/NetWorthTile";
 import NetWorthWaterfall from "@/components/finance/NetWorthWaterfall";
 import Stat from "@/components/finance/Stat";
 import { live, netWorthFigures, num } from "@/lib/finance/calc";
-import { money, monthYear } from "@/lib/finance/format";
+import { money, monthYear, monthName } from "@/lib/finance/format";
 import { useNow } from "@/lib/motion";
 
 // Net worth — the Income and Expenses pages' sibling: the live net worth
@@ -71,7 +71,7 @@ export default function NetWorthPage() {
               color={nowValue >= nw.base ? "var(--pf-green)" : "var(--pf-red)"}
               hint={pct(nw.base, nowValue, t("since the 1st"))}
             />
-            <Stat label={t("Expected at month end")} value={money(monthEnd, currency)} hint={t("Forecast to the end of {v1}", { v1: now.toLocaleDateString(intlLocale(), { month: "long" }) })} />
+            <Stat label={t("Expected at month end")} value={money(monthEnd, currency)} hint={t("Forecast to the end of {v1}", { v1: monthName(now) })} />
             <Stat label={t("Start of month")} value={money(nw.base, currency)} />
           </>
         ) : (

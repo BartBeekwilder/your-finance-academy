@@ -4,7 +4,7 @@ import { intlLocale, t } from "@/lib/i18n";
 import { useShowAxes } from "@/lib/prefs";
 import { useMemo, useState } from "react";
 import { live, netWorthFigures, num } from "@/lib/finance/calc";
-import { money, monthYear, shortMonth } from "@/lib/finance/format";
+import { money, monthYear, shortMonth, monthName } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import type { Mode } from "./LiveTiles";
 
@@ -145,7 +145,7 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
   const soFar = nw.liveChange(now.getTime());
   const ahead = days - today;
   const restPerDay = ahead > 0 ? ((nw.forecast[0]?.change ?? soFar) - soFar) / ahead : 0;
-  const steps: Step[] = [{ key: "start", label: "1", long: t("Start of {month}", { month: now.toLocaleDateString(intlLocale(), { month: "long" }) }), from: nw.base, to: nw.base, kind: "total" }];
+  const steps: Step[] = [{ key: "start", label: "1", long: t("Start of {month}", { month: monthName(now) }), from: nw.base, to: nw.base, kind: "total" }];
   steps[0].label = t("Start");
   let level = nw.base;
   for (let day = 1; day <= days; day++) {
@@ -163,7 +163,7 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
     });
     level += change;
   }
-  steps.push({ key: "end", label: t("End"), long: t("Expected at the end of {month}", { month: now.toLocaleDateString(intlLocale(), { month: "long" }) }), from: level, to: level, kind: "end" });
+  steps.push({ key: "end", label: t("End"), long: t("Expected at the end of {month}", { month: monthName(now) }), from: level, to: level, kind: "end" });
   return steps;
 }
 
