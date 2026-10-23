@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoData } from "@/lib/finance/demo";
-import type { BalanceItem, BalanceValue, Category, FinanceData, Profile, Transaction } from "@/lib/finance/types";
+import type { Account, BalanceItem, BalanceValue, Budget, Category, FinanceData, Profile, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
 import SignIn, { RECOVERY_KEY } from "./SignIn";
 
@@ -32,6 +32,10 @@ type FinanceState = {
   setBalanceValue: (itemId: string, month: Date, value: number) => Promise<void>;
   renameBalanceItem: (itemId: string, name: string) => Promise<void>;
   deleteBalanceItem: (itemId: string) => Promise<void>;
+  /** Creates or updates an account (no id = new). */
+  saveAccount: (a: { id?: string; name: string; type: Account["type"]; balance: number }) => Promise<void>;
+  /** Sets a category's budget for a month (creates or updates that month's row). */
+  setBudget: (categoryId: string, month: Date, amount: number) => Promise<void>;
   /** Creates a top-level category at the end of the list; returns it. */
   addCategory: (c: NewCategory) => Promise<Category>;
   deleteTransaction: (id: string) => Promise<void>;
@@ -246,6 +250,41 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     [source, supabase, update],
   );
 
+  const saveAccount = useCallback(
+    async (a: { id?: string; name: string; type: Account["type"]; balance: number }) => {
+      const existing = a.id ? current?.accounts.find((x) => x.id === a.id) : undefined;
+      const row: Account = existing
+        ? { ...existing, name: a.name, type: a.type, balance: a.balance.toFixed(2), updated_at: new Date().toISOString() }
+        : { id: crypto.randomUUID(), name: a.name, type: a.type, balance: a.balance.toFixed(2), institution: null, is_default: false, updated_at: new Date().toISOString(), deleted_at: null };
+      if (source === "supabase" && supabase) {
+        const { error } = existing
+          ? await supabase.from("accounts").update({ name: row.name, type: row.type, balance: row.balance }).eq("id", row.id)
+          : await supabase.from("accounts").insert({ id: row.id, name: row.name, type: row.type, balance: row.balance, is_default: false });
+        if (error) throw error;
+      }
+      update((d) => ({ ...d, accounts: [...d.accounts.filter((x) => x.id !== row.id), row] }));
+    },
+    [current, source, supabase, update],
+  );
+
+  const setBudget = useCallback(
+    async (categoryId: string, month: Date, amount: number) => {
+      const key = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-01`;
+      const existing = current?.budgets.find((b) => b.category_id === categoryId && b.month.slice(0, 10) === key && !b.deleted_at);
+      const row: Budget = existing
+        ? { ...existing, amount: amount.toFixed(2), updated_at: new Date().toISOString() }
+        : { id: crypto.randomUUID(), category_id: categoryId, amount: amount.toFixed(2), month: key, updated_at: new Date().toISOString(), deleted_at: null };
+      if (source === "supabase" && supabase) {
+        const { error } = existing
+          ? await supabase.from("budgets").update({ amount: row.amount }).eq("id", row.id)
+          : await supabase.from("budgets").insert({ id: row.id, category_id: categoryId, amount: row.amount, month: key });
+        if (error) throw error;
+      }
+      update((d) => ({ ...d, budgets: [...d.budgets.filter((b) => b.id !== row.id), row] }));
+    },
+    [current, source, supabase, update],
+  );
+
   // ---- Balance sheet ----------------------------------------------------------
   const monthIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
 
@@ -356,7 +395,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateProfile, addBalanceItem, setBalanceValue, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
+      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
     >
       {children}
     </FinanceContext.Provider>
