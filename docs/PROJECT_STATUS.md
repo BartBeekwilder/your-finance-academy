@@ -16,7 +16,7 @@ backend:
 | Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (not merged to `main`; `main` = live site) |
 | iOS / iPadOS app | repo `Personal Finance` (SwiftUI) | `ios-web-parity-oct21` |
 | Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
-| Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0003 | — |
+| Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0004 (all applied) | — |
 
 Decisions:
 - Supabase is the ONLY sync (iOS moves off CloudKit, keeps SwiftData as an
@@ -113,8 +113,8 @@ zh-Hans. Every new UI text must be translatable and translated:
   Bart's review.
 - Website and iOS fully translated into 17 languages.
 - Real-estate module (web, 2026-10-23): `/app/real-estate`. Migration
-  `0004_real_estate.sql` (properties, mortgage_parts; NOT yet applied on
-  Supabase — ask Bart). Pure maths in `lib/finance/mortgage.ts` (annuity /
+  `0004_real_estate.sql` (properties, mortgage_parts; applied on Supabase
+  2026-10-23). Pure maths in `lib/finance/mortgage.ts` (annuity /
   linear / interest-only, schedule, totals, extra repayments from a month,
   rate change, ownership, LTV, NL tax: renteaftrek − eigenwoningforfait at
   2025 rates) with tests `npm run test:calc`. Page: house filling with the
@@ -138,7 +138,7 @@ zh-Hans. Every new UI text must be translatable and translated:
 To do (Bart's list):
 1. Review the onboarding draft (`/app/welcome`), then auto-open it for new
    accounts and port it to iOS.
-2. Real-estate module: BUILT on web (see above). Next: apply migration 0004,
+2. Real-estate module: BUILT on web (see above). Migration 0004 applied. Next:
    port to iOS and Android; later per-country rules (DE, BE, UK, US…),
    home value history, rental properties.
 3. Multiple years: add/view earlier years (monthly or year totals), year
