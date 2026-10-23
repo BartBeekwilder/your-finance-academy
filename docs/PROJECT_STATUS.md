@@ -165,6 +165,11 @@ close + achievements → onboarding. Achievements: personal first, sharing
 later. Real estate: international by default + Netherlands rules now;
 other countries' rules later (to do: DE, BE, UK, US, …).
 
+8. Rent vs buy module (Bart, 2026-10-23): visualise the difference between
+   renting and buying over the long term — rent (with yearly increases) +
+   investing the difference vs. mortgage costs, maintenance, taxes, value
+   growth and equity built; break-even year and wealth after N years.
+
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
 - Earlier years: monthly totals enough, or import transactions?
