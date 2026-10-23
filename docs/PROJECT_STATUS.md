@@ -89,6 +89,7 @@ zh-Hans. Every new UI text must be translatable and translated:
   /tmp/pf-loc -exportLanguage nl`, then fill all 16 languages.
 
 ## Design rules (Bart's taste)
+- Month names ALWAYS start with a capital, in every language and also mid-sentence (Bart, 2026-10-23): web `monthName/monthYear/shortMonth` in lib/finance/format.ts, iOS `Date.monthName/monthShort/monthYearDisplay`, Android `monthName()`.
 
 - Premium, alive UI: everything animates fluidly and physically (springs,
   morphs, zooms), never pops. Live numbers tick for real.
