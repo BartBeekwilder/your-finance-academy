@@ -16,7 +16,7 @@ backend:
 | Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (not merged to `main`; `main` = live site) |
 | iOS / iPadOS app | repo `Personal Finance` (SwiftUI) | `ios-web-parity-oct21` |
 | Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
-| Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0004 applied; 0005_progress NOT yet applied (needs Bart's OK) | — |
+| Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0004 applied; 0005_progress and 0006_insurance NOT yet applied (need Bart's OK) | — |
 
 Decisions:
 - Supabase is the ONLY sync (iOS moves off CloudKit, keeps SwiftData as an
@@ -150,8 +150,10 @@ To do (Bart's list):
    Rules in lib/finance/progress.ts (pure, tested), model in
    progressModel.ts; pages /app/progress and /app/close; dashboard close
    banner + rings/streak strip. Open question: auto-prompt on the 1st or
-   only the banner (now: banner). Next: port to iOS (queue item 22) and
-   Android; sharing achievements later.
+   only the banner (now: banner). PORTED to iOS (Progress tab, close
+   wizard, dashboard strip; SwiftData models; 14 unit tests). Android: rules
+   ported + tested; screens wait for Android data/sync (phase 3). Sharing
+   achievements later.
 5. Android: continue phase 1–3 (screens, Supabase sync); see blueprint §9.
 7. Real-estate module (expanded 2026-10-23): home + mortgage parts
    (annuity / linear / interest-only, rate, fixed-rate period, term, start),
@@ -167,19 +169,21 @@ close + achievements → onboarding. Achievements: personal first, sharing
 later. Real estate: international by default + Netherlands rules now;
 other countries' rules later (to do: DE, BE, UK, US, …).
 
-9. Insurance module (Bart, 2026-10-23): overview of all policies (health,
-   home/contents, liability, car, travel, life, disability, legal aid…):
-   insurer, premium per month/year, deductible (eigen risico), coverage,
-   renewal/cancel date, policy documents; premiums feed fixed costs; a
-   coverage check ("what's missing for your situation"), yearly premium
-   total and a renewal reminder.
+9. Insurance: STARTED on web (/app/insurance, lib/finance/insurance.ts +
+   tests, migration 0006_insurance.sql written + tested, NOT applied — needs
+   Bart's OK, like 0005). Premiums per month/year split by kind, deductibles,
+   coverage check for your situation (home, mortgage, car, NL), renewals
+   timeline with cancel-by dates, policy cards + editor; demo has 7 policies.
+   Next: premiums → fixed costs link, policy documents (upload), renewal
+   reminders, port to iOS/Android.
 8. Rent vs buy: BUILT on web (/app/rent-vs-buy, lib/finance/rentVsBuy.ts +
    tests). Both sides spend the same per month, the cheaper side invests
    the difference; renter starts with own money + buying costs invested.
    Hero verdict at a year slider (1–40), break-even year, Difference/Both
    chart, first-month cost split (interest, repayment, upkeep, owner costs,
    NL tax back), totals, all assumptions as sliders (saved per device,
-   prefilled from your home value and rent). Next: port to iOS/Android;
+   prefilled from your home value and rent). PORTED to iOS (tab) and
+   Android (screen), same numbers on all three (tests);
    later: investment tax per country (box 3), rent-to-buy later scenario.
 
 9. Insurance module (Bart, 2026-10-23): overview of all policies (health,

@@ -113,3 +113,13 @@ ok((await as(B, () => sql(`select * from achievements`))).rows.length === 0, "us
 await as(A, () => sql(`insert into activity_days (day) values ('2026-10-23')`));
 err = null; try { await as(A, () => sql(`insert into activity_days (day) values ('2026-10-23')`)); } catch (e) { err = e.message; }
 ok(err && /unique|duplicate/.test(err), "one activity row per day");
+
+// Insurance (0006).
+await as(A, () => sql(`insert into insurance_policies (kind, name, insurer, premium, period, deductible) values ('health', 'Basis', 'Zilveren Kruis', 152.50, 'month', 385)`));
+ok((await as(B, () => sql(`select * from insurance_policies`))).rows.length === 0, "user B cannot see user A's policies");
+err = null; try { await as(A, () => sql(`insert into insurance_policies (kind) values ('lottery')`)); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "policy kind is one of the known kinds");
+err = null; try { await as(A, () => sql(`insert into insurance_policies (period) values ('week')`)); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "premium period is month, quarter or year");
+err = null; try { await as(A, () => sql(`insert into insurance_policies (premium) values (-1)`)); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "premium can't be negative");

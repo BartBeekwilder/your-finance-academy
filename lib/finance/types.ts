@@ -150,6 +150,22 @@ export type Achievement = Synced & { code: string; earned_at: string; points: nu
 
 export type ActivityDay = Synced & { day: string };
 
+/** An insurance policy (insurance module). */
+export type InsurancePolicy = Synced & {
+  kind: "health" | "home" | "contents" | "liability" | "car" | "travel" | "life" | "disability" | "legal" | "pet" | "other";
+  name: string;
+  insurer: string;
+  premium: Money;
+  period: "month" | "quarter" | "year";
+  deductible: Money;
+  coverage: Money | null;
+  start_date: string | null;
+  renewal_date: string | null;
+  notice_months: number;
+  notes: string;
+  sort_order: number;
+};
+
 export type FinanceData = {
   profile: Profile;
   accounts: Account[];
@@ -166,4 +182,5 @@ export type FinanceData = {
   goals: Goal[];
   achievements: Achievement[];
   activityDays: ActivityDay[];
+  insurancePolicies: InsurancePolicy[];
 };

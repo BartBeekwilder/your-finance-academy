@@ -3261,3 +3261,133 @@ html[data-pf-paused] *::after {
 }
 .pf-rvb-reveal { animation: pf-rvb-reveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @keyframes pf-rvb-reveal { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* ---- Insurance --------------------------------------------------------- */
+.pf-ins-hero {
+  display: grid;
+  gap: 14px;
+  padding: 24px;
+  border-radius: 20px;
+  background:
+    radial-gradient(90% 120% at 0% 100%, rgba(64, 200, 224, 0.16), transparent 60%),
+    radial-gradient(80% 100% at 100% 0%, rgba(255, 55, 95, 0.1), transparent 60%),
+    var(--pf-card);
+}
+.pf-ins-bar {
+  display: flex;
+  gap: 3px;
+  height: 14px;
+  border-radius: 7px;
+  overflow: hidden;
+}
+.pf-ins-bar span {
+  min-width: 4px;
+  transform-origin: left;
+  animation: pf-rvb-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: flex 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pf-ins-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  flex: none;
+}
+.pf-ins-check {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  animation: pf-fade-up 0.4s ease-out both;
+}
+.pf-ins-tag {
+  font-style: normal;
+  font-size: 0.62rem;
+  font-weight: 600;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  vertical-align: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--pf-ink-3);
+}
+.pf-ins-tag[data-level="required"] { background: rgba(255, 69, 58, 0.14); color: #ff8a80; }
+.pf-ins-tag[data-level="recommended"] { background: rgba(255, 159, 10, 0.14); color: #ffcf8a; }
+.pf-ins-timeline {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding-left: 6px;
+}
+.pf-ins-timeline::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  background: linear-gradient(var(--pf-brand-a), var(--pf-brand-b));
+  opacity: 0.35;
+  border-radius: 1px;
+}
+.pf-ins-renewal {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 8px 10px 8px 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--pf-ink);
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.pf-ins-renewal:hover { background: rgba(255, 255, 255, 0.04); }
+.pf-ins-dot {
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  position: relative;
+  z-index: 1;
+}
+.pf-ins-renewal[data-soon="true"] .pf-ins-dot { box-shadow: 0 0 0 3px rgba(255, 159, 10, 0.35), 0 0 12px #ff9f0a; animation: pf-ins-pulse 1.8s ease-in-out infinite; }
+@keyframes pf-ins-pulse { 50% { box-shadow: 0 0 0 6px rgba(255, 159, 10, 0.1), 0 0 18px #ff9f0a; } }
+.pf-ins-policy {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  text-align: left;
+  color: var(--pf-ink);
+  font: inherit;
+  cursor: pointer;
+  border-top: 2px solid var(--c);
+  animation: pf-fade-up 0.4s ease-out both;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.pf-ins-policy:hover { transform: translateY(-2px); box-shadow: 0 10px 30px color-mix(in srgb, var(--c) 18%, transparent); }
+.pf-ins-kinds { display: flex; flex-wrap: wrap; gap: 6px; }
+.pf-ins-kinds button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  color: var(--pf-ink-2);
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pf-ins-kinds button[data-on="true"] {
+  color: #fff;
+  border-color: var(--c);
+  background: color-mix(in srgb, var(--c) 22%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--c) 35%, transparent);
+}

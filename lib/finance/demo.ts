@@ -157,6 +157,7 @@ export function buildDemoData(now = new Date()): FinanceData {
     goals: [],
     achievements: [],
     activityDays: [],
+    insurancePolicies: demoInsurance(now),
   };
   return { ...base, ...demoProgress(base, now) };
 }
@@ -240,4 +241,21 @@ function demoBalance(now: Date): Pick<FinanceData, "balanceItems" | "balanceValu
     Array.from({ length: months }, (_, m) => ({ ...meta(i * 12 + m, "bv"), item_id: balanceItems[i].id, month: iso(m), value: valueAt(i, m).toFixed(2) })),
   );
   return { balanceItems, balanceValues };
+}
+
+/** Insurance like a Dutch household with a home and a car. */
+function demoInsurance(now: Date): FinanceData["insurancePolicies"] {
+  const y = now.getFullYear();
+  const p = (n: number, kind: FinanceData["insurancePolicies"][number]["kind"], name: string, insurer: string, premium: string, period: "month" | "quarter" | "year", deductible: string, renewal: string, coverage: string | null = null, notice = 1) => ({
+    ...meta(n, "i"), kind, name, insurer, premium, period, deductible, coverage, start_date: null, renewal_date: renewal, notice_months: notice, notes: "", sort_order: n,
+  });
+  return [
+    p(0, "health", "Basic + supplementary", "Zilveren Kruis", "168.40", "month", "385.00", `${y + 1}-01-01`),
+    p(1, "liability", "Personal liability", "Centraal Beheer", "4.95", "month", "0.00", `${y}-11-15`, "2500000.00"),
+    p(2, "contents", "Home contents", "Centraal Beheer", "11.20", "month", "100.00", `${y}-11-15`, "75000.00"),
+    p(3, "home", "Building insurance", "Centraal Beheer", "24.80", "month", "250.00", `${y}-11-15`),
+    p(4, "car", "Car — all risk", "ANWB", "87.50", "month", "300.00", `${y + 1}-03-01`),
+    p(5, "travel", "Continuous travel", "ANWB", "62.00", "year", "50.00", `${y + 1}-05-20`),
+    p(6, "legal", "Legal aid", "DAS", "21.60", "month", "0.00", `${y + 1}-02-01`),
+  ];
 }
