@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useNow } from "@/lib/motion";
 
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
@@ -53,13 +54,13 @@ export default function NetWorthCard({
           <ArrowDownRight size={16} strokeWidth={3} color="var(--pf-orange)" style={{ marginTop: 8 }} />
         )}
         <div style={{ marginLeft: "auto", display: "grid", gap: 3, textAlign: "right", fontSize: "0.72rem", paddingTop: 4 }}>
-          <Stat label="This Day" value={dayDelta} currency={currency} />
-          <Stat label="This Month" value={monthDelta} currency={currency} />
-          <Stat label="This Year" value={yearDelta} currency={currency} />
+          <Stat label={t("This Day")} value={dayDelta} currency={currency} />
+          <Stat label={t("This Month")} value={monthDelta} currency={currency} />
+          <Stat label={t("This Year")} value={yearDelta} currency={currency} />
         </div>
       </div>
       <p style={{ margin: "6px 0 0", fontSize: "0.68rem", color: "var(--pf-ink-3)" }}>
-        Estimated live pace, based on your recent months
+        {t("Estimated live pace, based on your recent months")}
       </p>
     </section>
   );

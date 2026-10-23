@@ -1,10 +1,13 @@
+import { intlLocale } from "@/lib/i18n";
+
 const cache = new Map<string, Intl.NumberFormat>();
 
 export function money(value: number, currency = "EUR", opts: { compact?: boolean; signed?: boolean } = {}) {
-  const key = `${currency}|${opts.compact}|${opts.signed}`;
+  const locale = intlLocale();
+  const key = `${locale}|${currency}|${opts.compact}|${opts.signed}`;
   let f = cache.get(key);
   if (!f) {
-    f = new Intl.NumberFormat("nl-NL", {
+    f = new Intl.NumberFormat(locale, {
       style: "currency",
       currency,
       notation: opts.compact ? "compact" : "standard",
@@ -17,9 +20,9 @@ export function money(value: number, currency = "EUR", opts: { compact?: boolean
 }
 
 export const monthYear = (d: Date) =>
-  d.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+  d.toLocaleDateString(intlLocale(), { month: "long", year: "numeric" });
 
-export const shortMonth = (d: Date) => d.toLocaleDateString("en-GB", { month: "short" });
+export const shortMonth = (d: Date) => d.toLocaleDateString(intlLocale(), { month: "short" });
 
 export const dayLabel = (iso: string) =>
-  new Date(iso).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+  new Date(iso).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" });

@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { editProps } from "@/lib/finance/editTransaction";
 import { WithYAxis } from "./YAxis";
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
@@ -31,7 +32,7 @@ export function CategoryDetailProvider({ children }: { children: ReactNode }) {
   return (
     <Ctx.Provider value={open}>
       {children}
-      <Sheet open={state.open} onClose={close} origin={state.from} label="Category details">
+      <Sheet open={state.open} onClose={close} origin={state.from} label={t("Category details")}>
         {state.id && <Detail key={state.id} categoryId={state.id} onClose={close} />}
       </Sheet>
     </Ctx.Provider>
@@ -74,20 +75,20 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
           <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{monthYear(now)}</div>
         </div>
         <span className="pf-rounded" style={{ fontSize: "1.3rem", fontWeight: 700 }}>{money(view.monthTotal, currency)}</span>
-        <button className="pf-icon-button" aria-label="Close" onClick={onClose}><X size={18} /></button>
+        <button className="pf-icon-button" aria-label={t("Close")} onClick={onClose}><X size={18} /></button>
       </header>
 
       {view.budget !== null && (
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: -12, fontSize: "0.78rem", fontWeight: 500, color: over ? "var(--pf-red)" : "var(--pf-green)" }}>
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: "currentColor" }} />
-          {over ? "Over Budget" : "Under Budget"}
+          {over ? t("Over Budget") : t("Under Budget")}
           <span style={{ color: "var(--pf-ink-3)", fontWeight: 400 }}>· {money(view.budget, currency)} limit</span>
         </div>
       )}
 
       <section>
         <h3 className="pf-section-title" style={{ marginLeft: 0 }}>Cumulative — {now.getFullYear()}</h3>
-        <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>Year to Date</div>
+        <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{t("Year to Date")}</div>
         <div className="pf-rounded" style={{ fontSize: "1.5rem", fontWeight: 700, color }}>{money(view.ytd, currency)}</div>
         <CumulativeChart points={view.perMonth} color={color} currency={currency} />
       </section>
@@ -100,7 +101,7 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
       <section>
         <h3 className="pf-section-title" style={{ marginLeft: 0 }}>Transactions — {monthYear(now)}</h3>
         <div className="pf-card" style={{ background: "var(--pf-card-2)" }}>
-          {view.thisMonth.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>No expenses in this category this month.</div>}
+          {view.thisMonth.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>{t("No expenses in this category this month.")}</div>}
           {view.thisMonth.map((t) => {
             const sub = t.category_id && t.category_id !== category.id ? byId.get(t.category_id)?.name : undefined;
             return (
@@ -189,7 +190,7 @@ function CumulativeChart({ points, color, currency }: { points: Point[]; color: 
         onPointerDown={pick}
         onPointerLeave={() => setSel(null)}
         role="img"
-        aria-label="Cumulative spending this year against budget"
+        aria-label={t("Cumulative spending this year against budget")}
       >
         <path d={`${path(spent)} L${x(spent.length - 1)},${H} L0,${H} Z`} fill={color} opacity={0.18} />
         {hasBudget && (
@@ -294,7 +295,7 @@ function MonthBars({ points, color, currency, current }: {
             <span style={{ width: 9, height: 9, borderRadius: 2, background: RED }} /> Over budget
           </span>
           <span style={{ marginLeft: "auto" }}>
-            {overCount === 0 ? "Within budget every month" : `Over budget in ${overCount} month${overCount > 1 ? "s" : ""}`}
+            {overCount === 0 ? t("Within budget every month") : (overCount === 1 ? t("Over budget in 1 month") : t("Over budget in {n} months", { n: overCount }))}
           </span>
         </div>
       )}

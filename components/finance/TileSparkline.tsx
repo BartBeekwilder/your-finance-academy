@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t as tr } from "@/lib/i18n";
 import { WithYAxis } from "./YAxis";
 import { useNow } from "@/lib/motion";
 import { memo, useState } from "react";
@@ -80,7 +81,7 @@ export default memo(function TileSparkline({
   // this month day by day, continuing from where last month ended.
   // fx: the fixed-cost part of v (running total), for Spent's split.
   type Pt = { t: number; v: number; fx: number; label: string; day?: boolean; forecast?: boolean };
-  const monthName = (m: number) => new Date(year, m, 1).toLocaleDateString("en-GB", { month: "long" });
+  const monthName = (m: number) => new Date(year, m, 1).toLocaleDateString(intlLocale(), { month: "long" });
   const pts: Pt[] = [{ t: 0, v: offset, fx: 0, label: "" }];
   let before = offset, incBefore = 0, spentBefore = 0, fxBefore = 0;
   for (let m = 0; m < current; m++) {
@@ -96,8 +97,8 @@ export default memo(function TileSparkline({
     const t = p.day === live.getDate() ? current + fraction : current + p.day / days;
     const label =
       p.day === live.getDate()
-        ? "Today · live"
-        : new Date(year, current, p.day).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+        ? tr("Today · live")
+        : new Date(year, current, p.day).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" });
     pts.push({ t, v: before + pick(p.income, p.spent), fx: fxBefore + thisMonth.fixed * (t - current), label, day: true });
   }
   const now = pts[pts.length - 1];
@@ -108,7 +109,7 @@ export default memo(function TileSparkline({
   for (const f of yearForecast(data, live)) {
     incCum += f.income;
     spentCum += f.spent;
-    forecast.push({ t: f.month + 1, v: offset + pick(incCum, spentCum), fx: 0, label: `End of ${monthName(f.month)} · forecast`, forecast: true });
+    forecast.push({ t: f.month + 1, v: offset + pick(incCum, spentCum), fx: 0, label: tr("End of {month} · forecast", { month: monthName(f.month) }), forecast: true });
   }
   const all = [...pts, ...forecast];
 
@@ -122,7 +123,7 @@ export default memo(function TileSparkline({
       prev = pts[m].v;
     }
     const monthLive = now.v - before;
-    bars.push({ t0: current, t1: current + 1, v: monthLive, label: `${monthName(current)} · so far` });
+    bars.push({ t0: current, t1: current + 1, v: monthLive, label: tr("{v1} · so far", { v1: monthName(current) }) });
     const fc = yearForecast(data, live);
     for (const f of fc.slice(1)) bars.push({ t0: f.month, t1: f.month + 1, v: pick(f.income, f.spent), label: `${monthName(f.month)} · forecast`, forecast: true });
     // Days: income accrues evenly, fixed costs spread, variable on its day.
@@ -139,11 +140,11 @@ export default memo(function TileSparkline({
     const dayOf = (d: number, share: number) => pick(projected * share, thisMonth.fixed * share + variableByDay[d]);
     for (let d = 1; d <= today; d++) {
       const share = d < today ? 1 / days : fraction - (today - 1) / days;
-      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: dayOf(d, share), label: d === today ? "Today · live" : new Date(year, current, d).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }), day: true });
+      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: dayOf(d, share), label: d === today ? tr("Today · live") : new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }), day: true });
     }
     const rest = (pick(fc[0]?.income ?? 0, fc[0]?.spent ?? 0) - monthLive) / Math.max(days - today, 1);
     for (let d = today + 1; d <= days; d++) {
-      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: rest, label: `${new Date(year, current, d).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })} · forecast`, forecast: true, day: true });
+      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: rest, label: `${new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" })} · forecast`, forecast: true, day: true });
     }
   }
 

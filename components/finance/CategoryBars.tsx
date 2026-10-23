@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t } from "@/lib/i18n";
 import { useCategoryAreas, useShowAxes } from "@/lib/prefs";
 import CategoryAreas from "./CategoryAreas";
 import { useState } from "react";
@@ -110,17 +111,17 @@ export default function CategoryBars({
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "baseline" }}>
         <span style={{ display: "inline-flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-            {kind === "expense" ? "Spending" : "Income"} per {mode === "year" ? "month" : "day"} by {groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}
+            {kind === "expense" ? t("Spending") : t("Income")} per {mode === "year" ? "month" : "day"} by {groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}
           </span>
         </span>
         <span style={{ display: "grid", gap: 6, justifyItems: "end" }}>
         {kind === "income" && mode === "month" && (
           <Segmented
             size="sm"
-            label="Income per day"
+            label={t("Income per day")}
             value={spread ? "spread" : "payday"}
             onChange={(v) => setSpread(v === "spread")}
-            options={[{ value: "spread", label: "Spread" }, { value: "payday", label: "On payday" }]}
+            options={[{ value: "spread", label: t("Spread") }, { value: "payday", label: t("On payday") }]}
           />
         )}
         <span key={hover ? `${hover.month}-${hover.id}` : `${focus}-${ghost}`} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
@@ -236,7 +237,7 @@ export default function CategoryBars({
         {/* The whole period in one bar, with its breakdown beside it. */}
         <div className="pf-cbar-summary">
           <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
-            {mode === "month" ? `${now.toLocaleDateString("en-GB", { month: "long" })} so far` : `${now.getFullYear()} so far`}
+            {mode === "month" ? t("{v1} so far", { v1: now.toLocaleDateString(intlLocale(), { month: "long" }) }) : t("{v1} so far", { v1: now.getFullYear() })}
             <div className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700, color: accent }}>{money(periodTotal, currency)}</div>
             <div>expected {money(periodExpected, currency)}</div>
           </div>
@@ -391,7 +392,7 @@ function dayBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Trans
     return {
       key: String(day),
       label: show ? String(day) : "",
-      long: d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }),
+      long: d.toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }),
       by,
       total: [...by.values()].reduce((a, b) => a + b, 0),
       isNow: day === today,

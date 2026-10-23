@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { live } from "@/lib/finance/calc";
@@ -10,13 +11,13 @@ export default function CategoriesPage() {
   const top = all.filter((c) => c.parent_id === null);
 
   const groups = [
-    { title: "Expenses", rows: top.filter((c) => !c.is_income_category) },
-    { title: "Income", rows: top.filter((c) => c.is_income_category) },
+    { title: t("Expenses"), rows: top.filter((c) => !c.is_income_category) },
+    { title: t("Income"), rows: top.filter((c) => c.is_income_category) },
   ];
 
   return (
     <div style={{ display: "grid", gap: 24 }}>
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Categories</h1>
+      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Categories")}</h1>
       {groups.map((g) => (
         <section key={g.title}>
           <h2 className="pf-section-title">{g.title}</h2>
@@ -27,7 +28,7 @@ export default function CategoriesPage() {
                   <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={32} />
                   <span style={{ flex: 1 }}>{c.name}</span>
                   {!c.is_income_category && (
-                    <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{c.is_fixed_expense ? "Fixed" : "Variable"}</span>
+                    <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{c.is_fixed_expense ? t("Fixed") : t("Variable")}</span>
                   )}
                 </div>
                 {all

@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useRef, useState } from "react";
 import {
   closestCenter,
@@ -63,7 +64,7 @@ export default function SortableCategoryGrid({ categories }: { categories: Categ
     const visible = new Set(ids);
     let k = 0;
     const full = all.map((id) => (visible.has(id) ? moved[k++] : id));
-    reorderCategories(full).catch((err) => alert(`Couldn't save the new order: ${err.message}`));
+    reorderCategories(full).catch((err) => alert(t("Couldn't save the new order: {v1}", { v1: err.message })));
   }
 
   return (
@@ -111,7 +112,7 @@ function SortableCard({ category }: { category: Category }) {
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      aria-roledescription="Draggable category card"
+      aria-roledescription={t("Draggable category card")}
       className="pf-sortable"
       data-dragging={isDragging}
       style={{ transform: CSS.Transform.toString(transform), transition }}

@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t } from "@/lib/i18n";
 import { useShowAxes } from "@/lib/prefs";
 import { useMemo, useState } from "react";
 import { live, netWorthFigures, num } from "@/lib/finance/calc";
@@ -53,12 +54,12 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
                 {shown.long} ·{" "}
                 <b style={{ color: shown.to >= shown.from ? "var(--pf-green)" : "var(--pf-red)" }}>{money(shown.to - shown.from, currency, { signed: true })}</b>{" "}
                 → {money(shown.to, currency)}
-                {shown.kind === "forecast" && <span style={{ color: "var(--pf-ink-3)" }}> · forecast</span>}
+                {shown.kind === "forecast" && <span style={{ color: "var(--pf-ink-3)" }}> {t("· forecast")}</span>}
               </>
             )
           ) : (
             <>
-              {mode === "year" ? "Start of the year" : "Start of the month"} {money(steps[0].to, currency)} →{" "}
+              {mode === "year" ? t("Start of the year") : t("Start of the month")} {money(steps[0].to, currency)} →{" "}
               <b style={{ color: TEAL }}>{money(steps[steps.length - 1].to, currency)}</b> expected
             </>
           )}
@@ -145,7 +146,7 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
   const soFar = nw.liveChange(now.getTime());
   const ahead = days - today;
   const restPerDay = ahead > 0 ? ((nw.forecast[0]?.change ?? soFar) - soFar) / ahead : 0;
-  const steps: Step[] = [{ key: "start", label: "1", long: `Start of ${now.toLocaleDateString("en-GB", { month: "long" })}`, from: nw.base, to: nw.base, kind: "total" }];
+  const steps: Step[] = [{ key: "start", label: "1", long: `Start of ${now.toLocaleDateString(intlLocale(), { month: "long" })}`, from: nw.base, to: nw.base, kind: "total" }];
   steps[0].label = "Start";
   let level = nw.base;
   for (let day = 1; day <= days; day++) {
@@ -155,7 +156,7 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
     steps.push({
       key: `d${day}`,
       label: show ? String(day) : "",
-      long: d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }) + (day === today ? " · live" : ""),
+      long: d.toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }) + (day === today ? " · live" : ""),
       from: level,
       to: level + change,
       kind: day > today ? "forecast" : "change",
@@ -163,7 +164,7 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
     });
     level += change;
   }
-  steps.push({ key: "end", label: "End", long: `Expected at the end of ${now.toLocaleDateString("en-GB", { month: "long" })}`, from: level, to: level, kind: "end" });
+  steps.push({ key: "end", label: "End", long: `Expected at the end of ${now.toLocaleDateString(intlLocale(), { month: "long" })}`, from: level, to: level, kind: "end" });
   return steps;
 }
 

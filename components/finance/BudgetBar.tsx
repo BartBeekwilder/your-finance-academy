@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useNow } from "@/lib/motion";
 
 import { money } from "@/lib/finance/format";
@@ -115,7 +116,7 @@ export default function BudgetBar({
       />
       {over && <span className="pf-bbar-limit" style={{ left: `${limit * 100}%` }} title={`Budget ${money(budget, currency)}`} />}
       {pace !== null && pace > 0.02 && pace < 0.98 && (
-        <span className="pf-bbar-pace" data-ahead={aheadOfPace} style={{ left: `${pace * 100}%` }} title="Even pace for today" />
+        <span className="pf-bbar-pace" data-ahead={aheadOfPace} style={{ left: `${pace * 100}%` }} title={t("Even pace for today")} />
       )}
 
       <span className="pf-bbar-text">
@@ -128,7 +129,7 @@ export default function BudgetBar({
             : fixed
               ? // "To go" = paid but not yet used; an unpaid part of the
                 // budget (the empty end of the bar) is called out as such.
-                `${money(spent - used, currency)} to go · ${spent < budget ? `${money(budget - spent, currency)} under budget` : `${pct}%`}`
+                `${money(spent - used, currency)} to go · ${spent < budget ? t("{v1} under budget", { v1: money(budget - spent, currency) }) : `${pct}%`}`
               : `${money(budget - used, currency)} left · ${pct}%`}
         </span>
       </span>
@@ -147,7 +148,7 @@ export default function BudgetBar({
         className="pf-bbar-spill"
         data-capped={capped}
         style={{ width: `${spill}%` }}
-        title={`${money(used - budget, currency)} over budget`}
+        title={t("{v1} over budget", { v1: money(used - budget, currency) })}
       />
     )}
     </div>

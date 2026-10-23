@@ -1,5 +1,6 @@
 "use client";
 
+import { LANGUAGES, setLang, t, useLang } from "@/lib/i18n";
 import { useState, type ReactNode } from "react";
 import { Check } from "lucide-react";
 import BrandMark from "@/components/finance/BrandMark";
@@ -26,7 +27,7 @@ export default function SettingsPage() {
     setStatus(null);
     try {
       await updateProfile({ currency_code: code });
-      setStatus({ kind: "saved", text: source === "demo" ? "Changed for this demo" : "Saved — your other devices follow" });
+      setStatus({ kind: "saved", text: source === "demo" ? t("Changed for this demo") : t("Saved — your other devices follow") });
     } catch (err) {
       setStatus({ kind: "error", text: (err as Error).message });
     }
@@ -35,19 +36,19 @@ export default function SettingsPage() {
 
   return (
     <div style={{ display: "grid", gap: 28, maxWidth: 860 }}>
-      <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.1rem)", fontWeight: 700 }}>Settings</h1>
+      <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.1rem)", fontWeight: 700 }}>{t("Settings")}</h1>
 
-      <Section title="Currency" hint="How amounts are shown everywhere. Existing amounts aren't converted.">
+      <Section title={t("Currency")} hint={t("How amounts are shown everywhere. Existing amounts aren't converted.")}>
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
           <BrandMark size={56} currency={current} />
           <div>
             <div className="pf-rounded" style={{ fontSize: "1.5rem", fontWeight: 700 }}>{money(1234.56, current)}</div>
             <div key={status?.text ?? "idle"} className="pf-readout" style={{ fontSize: "0.8rem", color: status?.kind === "error" ? "var(--pf-red)" : "var(--pf-ink-3)" }}>
-              {status?.text ?? "Example amount"}
+              {status?.text ?? t("Example amount")}
             </div>
           </div>
         </div>
-        <div className="pf-currency-grid" role="radiogroup" aria-label="Currency">
+        <div className="pf-currency-grid" role="radiogroup" aria-label={t("Currency")}>
           {CURRENCIES.map((c) => (
             <button
               key={c.code}
@@ -72,16 +73,18 @@ export default function SettingsPage() {
 
       <ChartsSection />
 
-      <Section title="Account">
+      <LanguageSection />
+
+      <Section title={t("Account")}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
           <div>
-            <div style={{ fontWeight: 600 }}>{source === "demo" ? "Demo" : email}</div>
+            <div style={{ fontWeight: 600 }}>{source === "demo" ? t("Demo") : email}</div>
             <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>
-              {source === "demo" ? "Demo data — nothing is saved" : "Signed in · your data syncs to your other devices"}
+              {source === "demo" ? t("Demo data — nothing is saved") : t("Signed in · your data syncs to your other devices")}
             </div>
           </div>
           <button className="pf-chip" onClick={signOut} style={{ padding: "8px 14px" }}>
-            {source === "demo" ? "Leave demo" : "Sign out"}
+            {source === "demo" ? t("Leave demo") : t("Sign out")}
           </button>
         </div>
       </Section>
@@ -91,34 +94,55 @@ export default function SettingsPage() {
   );
 }
 
+/** The app's language — kept in this browser; also how amounts and dates
+ *  are written. The iOS app follows the iPhone's own language setting. */
+function LanguageSection() {
+  const current = useLang();
+  return (
+    <Section title={t("Language")} hint={t("Kept on this device. Amounts and dates follow the language.")}>
+      <div className="pf-currency-grid" role="radiogroup" aria-label={t("Language")}>
+        {LANGUAGES.map((l) => (
+          <button key={l.code} type="button" role="radio" aria-checked={l.code === current} className="pf-currency" onClick={() => setLang(l.code)}>
+            <span className="pf-currency-symbol pf-rounded" style={{ fontSize: "0.7rem" }}>{l.code.slice(0, 2).toUpperCase()}</span>
+            <span style={{ display: "grid", textAlign: "left", minWidth: 0 }}>
+              <b style={{ fontSize: "0.85rem" }}>{l.name}</b>
+            </span>
+            {l.code === current && <Check size={16} className="pf-currency-check" />}
+          </button>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
 /** Chart preferences — kept in this browser. */
 function ChartsSection() {
   const showAxes = useShowAxes();
   const areas = useCategoryAreas();
   return (
-    <Section title="Charts" hint="Kept on this device.">
+    <Section title={t("Charts")} hint={t("Kept on this device.")}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
         <div>
-          <div style={{ fontWeight: 600 }}>Spending and income by category</div>
-          <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>Per day or month as stacked bars, or as stacked areas with a line per category.</div>
+          <div style={{ fontWeight: 600 }}>{t("Spending and income by category")}</div>
+          <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>{t("Per day or month as stacked bars, or as stacked areas with a line per category.")}</div>
         </div>
         <Segmented
-          label="Category chart style"
+          label={t("Category chart style")}
           value={areas ? "areas" : "bars"}
           onChange={(v) => setCategoryAreas(v === "areas")}
-          options={[{ value: "bars", label: "Bars" }, { value: "areas", label: "Areas" }]}
+          options={[{ value: "bars", label: t("Bars") }, { value: "areas", label: t("Areas") }]}
         />
       </div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
         <div>
-          <div style={{ fontWeight: 600 }}>Values on chart axes</div>
-          <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>The amounts down the left of every chart, like €10K · €5K · €0.</div>
+          <div style={{ fontWeight: 600 }}>{t("Values on chart axes")}</div>
+          <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>{t("The amounts down the left of every chart, like €10K · €5K · €0.")}</div>
         </div>
         <Segmented
-          label="Values on chart axes"
+          label={t("Values on chart axes")}
           value={showAxes ? "on" : "off"}
           onChange={(v) => setShowAxes(v === "on")}
-          options={[{ value: "off", label: "Off" }, { value: "on", label: "On" }]}
+          options={[{ value: "off", label: t("Off") }, { value: "on", label: t("On") }]}
         />
       </div>
     </Section>
@@ -128,10 +152,10 @@ function ChartsSection() {
 function DevelopmentSection() {
   const paused = useMotionPaused();
   return (
-    <Section title="Development" hint="Only on the local version.">
+    <Section title={t("Development")} hint={t("Only on the local version.")}>
       <label style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <input type="checkbox" checked={paused} onChange={(e) => setMotionPaused(e.target.checked)} />
-        Pause animations <span style={{ color: "var(--pf-ink-3)" }}>— spares a slow computer</span>
+        Pause animations <span style={{ color: "var(--pf-ink-3)" }}>{t("— spares a slow computer")}</span>
       </label>
     </Section>
   );

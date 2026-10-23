@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t } from "@/lib/i18n";
 import { useShowAxes } from "@/lib/prefs";
 import { useNow } from "@/lib/motion";
 import { useState } from "react";
@@ -84,8 +85,8 @@ export default function YearLines({
     t: dayT(p.day),
     full:
       p.day === live.getDate()
-        ? "Today · live"
-        : new Date(year, current, p.day).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }),
+        ? t("Today · live")
+        : new Date(year, current, p.day).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }),
     // Absolute: that day's amount — the step from the day before.
     income: absolute ? p.income - (i ? running[i - 1].income : 0) : p.income,
     spent: absolute ? p.spent - (i ? running[i - 1].spent : 0) : p.spent,
@@ -188,14 +189,14 @@ export default function YearLines({
           Income vs Spent — {mode === "year" ? year : monthYear(now)}
         </span>
         <Segmented
-          label="Period"
+          label={t("Period")}
           value={mode}
           onChange={(m) => {
             setMode(m);
             setSel(null);
             setZoomed(false);
           }}
-          options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
+          options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]}
         />
       </div>
 
@@ -217,15 +218,15 @@ export default function YearLines({
         )}
         <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
           {mode === "month" && (
-            <span className="pf-tsl-mode pf-mode-inline" role="group" aria-label="Chart values">
-              <button type="button" aria-pressed={!absolute} title="Running total" onClick={() => setAbsolute(false)}>∑</button>
-              <button type="button" aria-pressed={absolute} title="Per day" onClick={() => setAbsolute(true)}>▮</button>
+            <span className="pf-tsl-mode pf-mode-inline" role="group" aria-label={t("Chart values")}>
+              <button type="button" aria-pressed={!absolute} title={t("Running total")} onClick={() => setAbsolute(false)}>∑</button>
+              <button type="button" aria-pressed={absolute} title={t("Per day")} onClick={() => setAbsolute(true)}>▮</button>
             </span>
           )}
           {zoomed ? (
-            <button type="button" className="pf-zoom-out" onClick={zoomOut}>Zoom out</button>
+            <button type="button" className="pf-zoom-out" onClick={zoomOut}>{t("Zoom out")}</button>
           ) : (
-            <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>Drag to zoom</span>
+            <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>{t("Drag to zoom")}</span>
           )}
         </span>
       </div>
@@ -253,7 +254,7 @@ export default function YearLines({
             onPointerLeave={() => !drag && setSel(null)}
             onDoubleClick={zoomOut}
             role="img"
-            aria-label={mode === "year" ? `Income and spending per month in ${year}` : "Income and spending so far this month, day by day"}
+            aria-label={mode === "year" ? t("Income and spending per month in {year}", { year }) : t("Income and spending so far this month, day by day")}
           >
             <defs>
               {(["income", "spent"] as const).map((key) => (
@@ -373,8 +374,8 @@ export default function YearLines({
       </div>
 
       <div style={{ display: "flex", gap: 14, fontSize: "0.68rem", color: "var(--pf-ink-2)", flexWrap: "wrap" }}>
-        <Key color={GREEN} label={mode === "year" ? "Income" : absolute ? "Income per day" : "Income (accruing)"} />
-        <Key color={RED} label={mode === "year" ? "Spent" : absolute ? "Spent per day" : "Spent (running total)"} />
+        <Key color={GREEN} label={mode === "year" ? t("Income") : absolute ? t("Income per day") : t("Income (accruing)")} />
+        <Key color={RED} label={mode === "year" ? t("Spent") : absolute ? t("Spent per day") : t("Spent (running total)")} />
         {mode === "year" && (
           <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
             <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> This month, live

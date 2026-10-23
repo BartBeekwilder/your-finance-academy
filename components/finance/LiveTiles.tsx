@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t } from "@/lib/i18n";
 import { useState } from "react";
 import { summarize } from "@/lib/finance/calc";
 import { useNow } from "@/lib/motion";
@@ -66,7 +67,7 @@ export default function LiveTiles({
   const liveSpent = fixed * fraction + variable;
   const liveBalance = liveIncome - liveSpent;
   const spentTotal = fixed + variable;
-  const month = monthStart.toLocaleDateString("en-GB", { month: "long" });
+  const month = monthStart.toLocaleDateString(intlLocale(), { month: "long" });
   const year = monthStart.getFullYear();
 
   // The finished months of this year, as entered.
@@ -92,15 +93,15 @@ export default function LiveTiles({
         {(mode) =>
           mode === "month" ? (
             <>
-              <Sub label="Entered so far" value={enteredIncome} color={GREEN} currency={currency} />
+              <Sub label={t("Entered so far")} value={enteredIncome} color={GREEN} currency={currency} />
               <Sub label="≈" value={monthlyIncome / days} suffix="/ day net" color={GREEN} currency={currency} />
-              <Bar label={`${Math.round(fraction * 100)}% of month elapsed`} parts={elapsed(fraction, GREEN, "rgba(48,209,88,.25)")} />
+              <Bar label={t("{v1}% of month elapsed", { v1: Math.round(fraction * 100) })} parts={elapsed(fraction, GREEN, "rgba(48,209,88,.25)")} />
             </>
           ) : (
             <>
-              <Sub label="Entered this year" value={before.income + enteredIncome} color={GREEN} currency={currency} />
+              <Sub label={t("Entered this year")} value={before.income + enteredIncome} color={GREEN} currency={currency} />
               <Sub label="≈" value={ytd.income / Math.max(monthsElapsed, 1)} suffix="/ month net" color={GREEN} currency={currency} />
-              <Bar label={`${Math.round((monthsElapsed / 12) * 100)}% of year elapsed`} parts={elapsed(monthsElapsed / 12, GREEN, "rgba(48,209,88,.25)")} />
+              <Bar label={t("{v1}% of year elapsed", { v1: Math.round((monthsElapsed / 12) * 100) })} parts={elapsed(monthsElapsed / 12, GREEN, "rgba(48,209,88,.25)")} />
             </>
           )
         }
@@ -123,7 +124,7 @@ export default function LiveTiles({
           const vary = mode === "month" ? variable : before.variable + variable;
           return (
             <>
-              <Sub label={mode === "month" ? "Entered so far" : "Entered this year"} value={total} color={RED} currency={currency} />
+              <Sub label={mode === "month" ? t("Entered so far") : t("Entered this year")} value={total} color={RED} currency={currency} />
               {mode === "month" ? (
                 <Sub label="≈" value={spentTotal / dayOfMonth} suffix="/ day" color={RED} currency={currency} />
               ) : (
@@ -161,7 +162,7 @@ export default function LiveTiles({
           const c = bal >= 0 ? BLUE : RED;
           return (
             <Bar
-              label={`${retained}% of income retained`}
+              label={t("{retained}% of income retained", { retained })}
               labelColor={c}
               parts={[
                 { share, color: c },
@@ -205,9 +206,9 @@ export function Tile({ title, value, before, color, currency, last, chart, child
   const shown = value + before * (1 - z);
   const c = color(shown);
   const valuesSwitch = (
-    <span className="pf-tsl-mode" role="group" aria-label="Chart values">
-      <button type="button" aria-pressed={!absolute} title="Running total" onClick={() => setAbsolute(false)}>∑</button>
-      <button type="button" aria-pressed={absolute} title={mode === "month" ? "Per day" : "Per month"} onClick={() => setAbsolute(true)}>▮</button>
+    <span className="pf-tsl-mode" role="group" aria-label={t("Chart values")}>
+      <button type="button" aria-pressed={!absolute} title={t("Running total")} onClick={() => setAbsolute(false)}>∑</button>
+      <button type="button" aria-pressed={absolute} title={mode === "month" ? t("Per day") : t("Per month")} onClick={() => setAbsolute(true)}>▮</button>
     </span>
   );
   return (
@@ -223,7 +224,7 @@ export function Tile({ title, value, before, color, currency, last, chart, child
           label={`${title("month").split(" ")[0]} period`}
           value={mode}
           onChange={(m) => { setMode(m); onModeChange?.(m); }}
-          options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
+          options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]}
         />}
       </div>
       {/* The number, with the chart's ∑ / ▮ switch on the same row. */}

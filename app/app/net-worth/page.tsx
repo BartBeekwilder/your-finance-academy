@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t } from "@/lib/i18n";
 import Segmented from "@/components/finance/Segmented";
 import { useState } from "react";
 import { useFinance } from "@/components/finance/FinanceProvider";
@@ -35,10 +36,10 @@ export default function NetWorthPage() {
   // Where it sits: each account and holding (their starting values, at
   // cost) plus what's been saved this year — together today's net worth.
   const parts = [
-    { id: "saved", name: "Saved this year", kind: "Cash flow", value: nowValue - nw.startOfYear, color: "#30d158" },
+    { id: "saved", name: t("Saved this year"), kind: t("Cash flow"), value: nowValue - nw.startOfYear, color: "#30d158" },
     ...live(data.accounts)
       .filter((a) => num(a.balance) !== 0)
-      .map((a, i) => ({ id: a.id, name: a.name || "Account", kind: "Account", value: num(a.balance), color: ACCOUNT_COLORS[i % ACCOUNT_COLORS.length] })),
+      .map((a, i) => ({ id: a.id, name: a.name || t("Account"), kind: t("Account"), value: num(a.balance), color: ACCOUNT_COLORS[i % ACCOUNT_COLORS.length] })),
     ...live(data.holdings)
       .filter((h) => h.cost_basis && (h.cost_basis_currency ?? currency) === currency)
       .map((h) => ({ id: h.id, name: h.name || h.symbol, kind: h.asset_type[0].toUpperCase() + h.asset_type.slice(1), value: num(h.cost_basis), color: ASSET_COLORS[h.asset_type] ?? "#8e8e93" })),
@@ -54,35 +55,35 @@ export default function NetWorthPage() {
   return (
     <div style={{ display: "grid", gap: 24 }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Net worth</h1>
-        <Segmented label="Period" value={mode} onChange={setMode} options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
+        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Net worth")}</h1>
+        <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
       </header>
 
       <NetWorthTile data={data} currency={currency} mode={mode} />
 
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
-        <Stat label="Net worth now" value={money(nowValue, currency)} color="#40c8e0" hint={`Saved this year ${money(nowValue - nw.startOfYear, currency, { signed: true })}`} />
+        <Stat label={t("Net worth now")} value={money(nowValue, currency)} color="#40c8e0" hint={t("Saved this year {v1}", { v1: money(nowValue - nw.startOfYear, currency, { signed: true }) })} />
         {mode === "month" ? (
           <>
             <Stat
-              label="Change this month"
+              label={t("Change this month")}
               value={money(nowValue - nw.base, currency, { signed: true })}
               color={nowValue >= nw.base ? "var(--pf-green)" : "var(--pf-red)"}
               hint={pct(nw.base, nowValue, "since the 1st")}
             />
-            <Stat label="Expected at month end" value={money(monthEnd, currency)} hint={`Forecast to the end of ${now.toLocaleDateString("en-GB", { month: "long" })}`} />
-            <Stat label="Start of month" value={money(nw.base, currency)} />
+            <Stat label={t("Expected at month end")} value={money(monthEnd, currency)} hint={t("Forecast to the end of {v1}", { v1: now.toLocaleDateString(intlLocale(), { month: "long" }) })} />
+            <Stat label={t("Start of month")} value={money(nw.base, currency)} />
           </>
         ) : (
           <>
             <Stat
-              label="Change this year"
+              label={t("Change this year")}
               value={money(nowValue - nw.startOfYear, currency, { signed: true })}
               color={nowValue >= nw.startOfYear ? "var(--pf-green)" : "var(--pf-red)"}
               hint={pct(nw.startOfYear, nowValue, "since 1 January")}
             />
-            <Stat label="Expected at year end" value={money(yearEnd, currency)} hint="Forecast to December" />
-            <Stat label="Start of year" value={money(nw.startOfYear, currency)} />
+            <Stat label={t("Expected at year end")} value={money(yearEnd, currency)} hint={t("Forecast to December")} />
+            <Stat label={t("Start of year")} value={money(nw.startOfYear, currency)} />
           </>
         )}
       </div>
@@ -90,7 +91,7 @@ export default function NetWorthPage() {
       <NetWorthWaterfall data={data} now={now} currency={currency} mode={mode} />
 
       <section>
-        <h2 className="pf-section-title">Where it sits</h2>
+        <h2 className="pf-section-title">{t("Where it sits")}</h2>
         <div className="pf-card" style={{ padding: 16, display: "grid", gap: 14 }}>
           <div className="pf-nw-split">
             {parts.filter((p) => p.value > 0).map((p, i) => (
@@ -110,17 +111,17 @@ export default function NetWorthPage() {
                 </span>
               </div>
             ))}
-            {parts.length === 0 && <div style={{ color: "var(--pf-ink-2)" }}>Add an account balance or an investment to see where your money sits.</div>}
+            {parts.length === 0 && <div style={{ color: "var(--pf-ink-2)" }}>{t("Add an account balance or an investment to see where your money sits.")}</div>}
           </div>
           <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
-            Accounts and investments as entered (investments at what you paid — live prices arrive with account sync), plus this year&apos;s income minus spending.
+            {t("Accounts and investments as entered (investments at what you paid — live prices arrive with account sync), plus this year's income minus spending.")}
           </div>
         </div>
       </section>
 
       {mode === "year" && (
         <section key="by-month" className="pf-readout">
-          <h2 className="pf-section-title">By month</h2>
+          <h2 className="pf-section-title">{t("By month")}</h2>
           <div className="pf-card">
             {[...closes].reverse().map((c) => (
               <div key={c.month.toISOString()} className="pf-row">

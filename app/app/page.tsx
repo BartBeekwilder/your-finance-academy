@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
 import BudgetBar from "@/components/finance/BudgetBar";
 import BudgetScaleSwitch from "@/components/finance/BudgetScaleSwitch";
@@ -76,7 +77,7 @@ export default function DashboardPage() {
       {byCategory.length > 0 && (
         <section>
           <h2 className="pf-section-title">
-            Spending by Category <span style={{ textTransform: "none", color: "var(--pf-ink-3)" }}>· drag to rearrange</span>
+            Spending by Category <span style={{ textTransform: "none", color: "var(--pf-ink-3)" }}>{t("· drag to rearrange")}</span>
           </h2>
           {/* In the user's own order (sort_order), not by amount, so rearranging sticks. */}
           <SortableCategoryGrid categories={byCategory.map((e) => e.category).sort((a, b) => a.sort_order - b.sort_order)} />
@@ -84,7 +85,7 @@ export default function DashboardPage() {
       )}
 
       <section>
-        <h2 className="pf-section-title">Savings</h2>
+        <h2 className="pf-section-title">{t("Savings")}</h2>
         <SavingsChart transactions={data.transactions} now={now} monthlyIncome={projectedNetIncome(data, month)} currency={currency} forecast={yearForecast(data, now)} />
       </section>
 
@@ -92,7 +93,7 @@ export default function DashboardPage() {
         <h2 className="pf-section-title">Budgets — {monthYear(month)}</h2>
         <div className="pf-card" ref={budgetsRef}>
           <BudgetScaleSwitch />
-          {byCategory.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>No spending yet this month.</div>}
+          {byCategory.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>{t("No spending yet this month.")}</div>}
           {(largestFirst
             ? [...byCategory].sort((a, b) => (b.budget ?? 0) - (a.budget ?? 0))
             : [...byCategory].sort((a, b) => a.category.sort_order - b.category.sort_order)
@@ -137,7 +138,7 @@ function Clock() {
   const hh = String(now.getHours()).padStart(2, "0");
   const mm = String(now.getMinutes()).padStart(2, "0");
   // Date first, then time — e.g. "Thu 15 Oct 2026 · 20:14".
-  const date = now.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(",", "");
+  const date = now.toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(",", "");
   return (
     <time className="pf-rounded pf-clock" dateTime={now.toISOString()} aria-label={`${date}, ${hh}:${mm}`}>
       {date}

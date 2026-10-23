@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -26,32 +27,32 @@ export default function AppNav() {
   const { source, email, signOut, data } = useFinance();
 
   return (
-    <nav className="pf-nav" aria-label="App">
+    <nav className="pf-nav" aria-label={t("App")}>
       <div className="pf-brand">
         <BrandMark size={30} currency={data.profile.currency_code} />
-        <strong style={{ fontSize: "1.02rem" }}>Personal Finance</strong>
+        <strong style={{ fontSize: "1.02rem" }}>{t("Personal Finance")}</strong>
       </div>
 
       {TABS.map(({ href, label, Icon }) => (
         <Link key={href} href={href} aria-current={path === href ? "page" : undefined}>
           <Icon size={20} strokeWidth={2} />
-          <span className="pf-nav-label">{label}</span>
+          <span className="pf-nav-label">{t(label)}</span>
         </Link>
       ))}
 
       {/* Settings sits apart from the six iOS tabs, at the foot of the list. */}
       <Link href="/app/settings" aria-current={path === "/app/settings" ? "page" : undefined} className="pf-nav-settings">
         <Settings size={20} strokeWidth={2} />
-        <span className="pf-nav-label">Settings</span>
+        <span className="pf-nav-label">{t("Settings")}</span>
       </Link>
 
       <div className="pf-nav-foot">
         {process.env.NODE_ENV === "development" && <MotionToggle />}
         <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-          {source === "demo" ? "Demo data — nothing is saved" : email}
+          {source === "demo" ? t("Demo data — nothing is saved") : email}
         </div>
         <button className="pf-link" onClick={signOut} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: 0, marginTop: 6 }}>
-          <LogOut size={14} /> {source === "demo" ? "Leave demo" : "Sign out"}
+          <LogOut size={14} /> {source === "demo" ? t("Leave demo") : t("Sign out")}
         </button>
       </div>
     </nav>
@@ -71,7 +72,7 @@ function MotionToggle() {
       onClick={() => setMotionPaused(!paused)}
       style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: 0, marginBottom: 8 }}
     >
-      {paused ? <Play size={14} /> : <Pause size={14} />} {paused ? "Resume animations" : "Pause animations"}
+      {paused ? <Play size={14} /> : <Pause size={14} />} {paused ? t("Resume animations") : t("Pause animations")}
     </button>
   );
 }

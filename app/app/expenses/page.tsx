@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t } from "@/lib/i18n";
 import Segmented from "@/components/finance/Segmented";
 import CategoryBars from "@/components/finance/CategoryBars";
 import { useFinance } from "@/components/finance/FinanceProvider";
@@ -28,7 +29,7 @@ export default function ExpensesPage() {
   // Finished months as entered, plus the forecast for this month and the rest.
   const forecast = yearForecast(data, now);
   const expectedYear = thisYear.slice(0, -1).reduce((t, m) => t + m.spent, 0) + forecast.reduce((t, f) => t + f.spent, 0);
-  const monthName = month.toLocaleDateString("en-GB", { month: "long" });
+  const monthName = month.toLocaleDateString(intlLocale(), { month: "long" });
 
   const months = Array.from({ length: 12 }, (_, i) => {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
@@ -41,8 +42,8 @@ export default function ExpensesPage() {
   return (
     <div style={{ display: "grid", gap: 24 }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Expenses</h1>
-        <Segmented label="Period" value={mode} onChange={setMode} options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
+        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Expenses")}</h1>
+        <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
       </header>
 
       <LiveTiles
@@ -61,28 +62,28 @@ export default function ExpensesPage() {
         {mode === "month" ? (
           <>
             <Stat
-              label="Entered this month"
+              label={t("Entered this month")}
               value={money(s.spent, currency)}
               color="var(--pf-red)"
               progress={forecast[0].spent ? { share: s.spent / forecast[0].spent, of: `${money(forecast[0].spent, currency)} expected` } : undefined}
             />
-            <Stat label="Fixed costs / month" value={money(s.fixed, currency)} />
+            <Stat label={t("Fixed costs / month")} value={money(s.fixed, currency)} />
           </>
         ) : (
           <>
             <Stat
-              label="Entered this year"
+              label={t("Entered this year")}
               value={money(yearSpent, currency)}
               color="var(--pf-red)"
               progress={expectedYear ? { share: yearSpent / expectedYear, of: `${money(expectedYear, currency)} expected` } : undefined}
             />
-            <Stat label="Fixed costs this year" value={money(yearFixed, currency)} />
+            <Stat label={t("Fixed costs this year")} value={money(yearFixed, currency)} />
           </>
         )}
         {mode === "month" ? (
-          <Stat label="Expected this month" value={money(forecast[0].spent, currency)} hint={`Forecast to the end of ${monthName}`} />
+          <Stat label={t("Expected this month")} value={money(forecast[0].spent, currency)} hint={t("Forecast to the end of {monthName}", { monthName })} />
         ) : (
-          <Stat label="Expected this year" value={money(expectedYear, currency)} hint="Forecast to December" />
+          <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} />
         )}
         <Stat label={`Average / month${finished.length ? ` (${finished.length} mo)` : ""}`} value={average ? money(average, currency) : "—"} />
       </div>
@@ -93,7 +94,7 @@ export default function ExpensesPage() {
         <MonthTransactions data={data} month={month} currency={currency} kind="expense" />
       ) : (
       <section>
-        <h2 className="pf-section-title">By month</h2>
+        <h2 className="pf-section-title">{t("By month")}</h2>
         <div className="pf-card">
           {months.map((m, i) => (
             <div key={m.month.toISOString()} className="pf-row">
@@ -106,8 +107,8 @@ export default function ExpensesPage() {
                 )}
               </span>
               <span className="pf-rounded" style={{ fontWeight: 600, color: m.spent ? "var(--pf-red)" : "var(--pf-ink-3)", textAlign: "right" }}>
-                {m.spent ? money(m.spent, currency) : "Nothing spent"}
-                {i === 0 && m.spent > 0 && <span style={{ display: "block", fontSize: "0.7rem", fontWeight: 400, color: "var(--pf-ink-3)" }}>so far</span>}
+                {m.spent ? money(m.spent, currency) : t("Nothing spent")}
+                {i === 0 && m.spent > 0 && <span style={{ display: "block", fontSize: "0.7rem", fontWeight: 400, color: "var(--pf-ink-3)" }}>{t("so far")}</span>}
               </span>
             </div>
           ))}

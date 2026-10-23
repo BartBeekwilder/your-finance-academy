@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t } from "@/lib/i18n";
 import { useNow } from "@/lib/motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useCategoryDetail } from "./CategoryDetail";
@@ -56,7 +57,7 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
   }
   for (const e of month) if (!allTime.has(e.category.id)) allTime.set(e.category.id, { category: e.category, spent: 0 });
   const order = [...allTime.values()].sort((a, b) => b.spent - a.spent).map((e) => e.category);
-  const monthName = new Date(now.getFullYear(), monthIndex, 1).toLocaleDateString("en-GB", { month: "long" });
+  const monthName = new Date(now.getFullYear(), monthIndex, 1).toLocaleDateString(intlLocale(), { month: "long" });
   const valuesFor = (m: "month" | "year") => {
     const src = new Map((m === "month" ? month : (yearSel?.slices ?? [])).map((e) => [e.category.id, e.spent]));
     return order.map((c) => src.get(c.id) ?? 0);
@@ -97,14 +98,14 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
   return (
     <div className={`pf-card${control?.forecast && mode === "month" ? " pf-donut-forecast" : ""}`} style={{ padding: 16, display: "grid", gap: 12 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{control?.forecast && mode === "month" ? "Expected spending by category" : "Spending by category"}</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{control?.forecast && mode === "month" ? t("Expected spending by category") : t("Spending by category")}</span>
         {headerRight}
         {!control && (
           <Segmented
-            label="Period"
+            label={t("Period")}
             value={mode}
             onChange={(m) => { setMode(m); setActive(null); }}
-            options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]}
+            options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]}
           />
         )}
       </div>
@@ -131,7 +132,7 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
         </ul>
 
         <div style={{ position: "relative", width: 200, height: 200, flex: "none" }}>
-          <svg viewBox="0 0 200 200" width={200} height={200} role="img" aria-label={`Spending by category, ${mode === "month" ? "this month" : "this year"}`} style={{ overflow: "visible" }} onMouseLeave={() => setActive(null)}>
+          <svg viewBox="0 0 200 200" width={200} height={200} role="img" aria-label={t("Spending by category, {v1}", { v1: mode === "month" ? "this month" : "this year" })} style={{ overflow: "visible" }} onMouseLeave={() => setActive(null)}>
             {arcs.map((a) =>
               a.d ? (
                 <g key={order[a.i].id} className="pf-slice-in" style={{ animationDelay: `${a.i * 60}ms` }}>
@@ -156,7 +157,7 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
 
           <div key={`${mode}-${active ?? -1}`} className="pf-donut-centre" aria-hidden>
             <span style={{ fontSize: "0.68rem", color: shown ? `#${shown.category.color_hex}` : "var(--pf-ink-2)", fontWeight: 600 }}>
-              {shown ? shown.category.name : mode === "year" ? `Spent in ${yearSel?.year}` : control?.forecast ? `Expected in ${monthName}` : monthIndex === now.getMonth() ? "Spent this month" : `Spent in ${monthName}`}
+              {shown ? shown.category.name : mode === "year" ? t("Spent in {v1}", { v1: yearSel?.year }) : control?.forecast ? t("Expected in {monthName}", { monthName }) : monthIndex === now.getMonth() ? t("Spent this month") : t("Spent in {monthName}", { monthName })}
             </span>
             <span className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700 }}>
               {isLive ? (
@@ -172,7 +173,7 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
             </span>
             <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>
               {shown
-                ? `${share(shown.spent)}% of spending`
+                ? t("{v1}% of spending", { v1: share(shown.spent) })
                 : mode === "year" && yearSel?.year === now.getFullYear()
                   ? "year to date"
                   : `${visible.length} categories`}
@@ -182,14 +183,14 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
       </div>
 
       {!control && <StepSlider
-        label={mode === "month" ? "Month" : "Year"}
+        label={mode === "month" ? t("Month") : t("Year")}
         animKey={mode}
         value={mode === "month" ? monthIndex : yearIndex}
         steps={
           mode === "month"
             ? Array.from({ length: 12 }, (_, i) => {
                 const d = new Date(now.getFullYear(), i, 1);
-                const name = d.toLocaleDateString("en-GB", { month: "long" });
+                const name = d.toLocaleDateString(intlLocale(), { month: "long" });
                 return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}`, disabled: i > now.getMonth() };
               })
             : years.map((y) => ({ label: String(y.year), full: String(y.year) }))

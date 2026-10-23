@@ -1,5 +1,6 @@
 "use client";
 
+import { t as tr } from "@/lib/i18n";
 import { useMemo, useState } from "react";
 import { Trash2 } from "lucide-react";
 import CategoryIcon from "@/components/finance/CategoryIcon";
@@ -36,22 +37,22 @@ export default function TransactionsPage() {
 
   return (
     <div style={{ display: "grid", gap: 20 }}>
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Transactions</h1>
+      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{tr("Transactions")}</h1>
 
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
         <input
           type="search"
-          placeholder="Search"
+          placeholder={tr("Search")}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="pf-card"
           style={{ flex: "1 1 240px", padding: "9px 14px", color: "inherit", font: "inherit", outline: "none" }}
         />
         <Segmented
-          label="Show"
+          label={tr("Show")}
           value={filter}
           onChange={setFilter}
-          options={[{ value: "all", label: "All" }, { value: "expense", label: "Expenses" }, { value: "income", label: "Income" }]}
+          options={[{ value: "all", label: tr("All") }, { value: "expense", label: tr("Expenses") }, { value: "income", label: tr("Income") }]}
         />
       </div>
 
@@ -65,9 +66,9 @@ export default function TransactionsPage() {
                 <div key={t.id} className="pf-row" {...editProps(t)}>
                   <CategoryIcon icon={c?.icon ?? "questionmark.circle.fill"} colorHex={c?.color_hex ?? "808080"} size={32} />
                   <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || "Transaction"}</div>
+                    <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || tr("Transaction")}</div>
                     <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-                      {c?.name ?? "Uncategorized"}
+                      {c?.name ?? tr("Uncategorized")}
                       {t.is_fixed_expense && " · Fixed"}
                     </div>
                   </div>
@@ -91,7 +92,7 @@ export default function TransactionsPage() {
           </div>
         </section>
       ))}
-      {groups.length === 0 && <p style={{ color: "var(--pf-ink-2)" }}>No transactions match.</p>}
+      {groups.length === 0 && <p style={{ color: "var(--pf-ink-2)" }}>{tr("No transactions match.")}</p>}
     </div>
   );
 }

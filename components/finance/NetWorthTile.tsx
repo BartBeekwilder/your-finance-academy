@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useMemo } from "react";
 import { netWorthFigures } from "@/lib/finance/calc";
 import type { FinanceData } from "@/lib/finance/types";
@@ -42,15 +43,15 @@ export default function NetWorthTile({ data, currency, onModeChange, mode }: { d
         {(mode) =>
           mode === "month" ? (
             <>
-              <Sub label="Change this month" value={change} color={change >= 0 ? "var(--pf-green)" : "var(--pf-red)"} currency={currency} />
-              <Sub label="Start of month" value={nw.base} color={TEAL} currency={currency} />
-              <Bar label={`${Math.round(fraction * 100)}% of month elapsed`} parts={[{ share: fraction, color: TEAL }, { share: 1 - fraction, color: "rgba(64,200,224,.25)" }]} />
+              <Sub label={t("Change this month")} value={change} color={change >= 0 ? "var(--pf-green)" : "var(--pf-red)"} currency={currency} />
+              <Sub label={t("Start of month")} value={nw.base} color={TEAL} currency={currency} />
+              <Bar label={t("{v1}% of month elapsed", { v1: Math.round(fraction * 100) })} parts={[{ share: fraction, color: TEAL }, { share: 1 - fraction, color: "rgba(64,200,224,.25)" }]} />
             </>
           ) : (
             <>
-              <Sub label="Change this year" value={yearChange} color={yearChange >= 0 ? "var(--pf-green)" : "var(--pf-red)"} currency={currency} />
+              <Sub label={t("Change this year")} value={yearChange} color={yearChange >= 0 ? "var(--pf-green)" : "var(--pf-red)"} currency={currency} />
               <Sub label="≈" value={yearChange / Math.max(monthsElapsed, 1)} suffix="/ month" color={TEAL} currency={currency} />
-              <Bar label={`${Math.round((monthsElapsed / 12) * 100)}% of year elapsed`} parts={[{ share: monthsElapsed / 12, color: TEAL }, { share: 1 - monthsElapsed / 12, color: "rgba(64,200,224,.25)" }]} />
+              <Bar label={t("{v1}% of year elapsed", { v1: Math.round((monthsElapsed / 12) * 100) })} parts={[{ share: monthsElapsed / 12, color: TEAL }, { share: 1 - monthsElapsed / 12, color: "rgba(64,200,224,.25)" }]} />
             </>
           )
         }

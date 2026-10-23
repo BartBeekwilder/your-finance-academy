@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import Segmented from "@/components/finance/Segmented";
 import { useState } from "react";
 import CategoryBars from "@/components/finance/CategoryBars";
@@ -35,8 +36,8 @@ export default function IncomePage() {
   return (
     <div style={{ display: "grid", gap: 24 }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Income</h1>
-        <Segmented label="Period" value={mode} onChange={setMode} options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
+        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Income")}</h1>
+        <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
       </header>
 
       {/* The dashboard's live Income tile: Month / Year, zoom and scrub. */}
@@ -56,47 +57,47 @@ export default function IncomePage() {
         {mode === "month" ? (
           <>
             <Stat
-              label="Received this month"
+              label={t("Received this month")}
               value={money(s.income, currency)}
               color="var(--pf-green)"
               progress={forecast[0].income ? { share: s.income / forecast[0].income, of: `${money(forecast[0].income, currency)} expected` } : undefined}
             />
             <Stat
-              label="Expected net this month"
+              label={t("Expected net this month")}
               value={money(forecast[0].income, currency)}
               hint={p.expected_gross_monthly ? `Gross ${money(num(p.expected_gross_monthly), currency)}` : undefined}
             />
             <Stat
-              label="Payday"
+              label={t("Payday")}
               value={p.payday_day ? `Day ${p.payday_day}` : "—"}
-              hint={daysToPayday === null ? undefined : daysToPayday > 0 ? `In ${daysToPayday} day${daysToPayday === 1 ? "" : "s"}` : daysToPayday === 0 ? "Today" : "Passed this month"}
+              hint={daysToPayday === null ? undefined : daysToPayday > 0 ? `In ${daysToPayday} day${daysToPayday === 1 ? "" : "s"}` : daysToPayday === 0 ? t("Today") : t("Passed this month")}
             />
           </>
         ) : (
           <>
             <Stat
-              label="Received this year"
+              label={t("Received this year")}
               value={money(receivedYear, currency)}
               color="var(--pf-green)"
               progress={expectedYear ? { share: receivedYear / expectedYear, of: `${money(expectedYear, currency)} expected` } : undefined}
             />
-            <Stat label="Expected this year" value={money(expectedYear, currency)} hint="Forecast to December" />
-            <Stat label="Expected gross / year" value={money(num(p.expected_gross_monthly) * 12, currency)} />
+            <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} />
+            <Stat label={t("Expected gross / year")} value={money(num(p.expected_gross_monthly) * 12, currency)} />
           </>
         )}
         {mode === "month" ? (
           <Stat
-            label="Income per day"
+            label={t("Income per day")}
             value={money(forecast[0].income / new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(), currency)}
             color="var(--pf-green)"
-            hint={`Net, salary spread over ${new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()} days`}
+            hint={t("Net, salary spread over {v1} days", { v1: new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate() })}
           />
         ) : (
           <Stat
-            label="Income per day"
+            label={t("Income per day")}
             value={money(receivedYear / Math.max(1, Math.ceil((now.getTime() - new Date(now.getFullYear(), 0, 1).getTime()) / 86_400_000)), currency)}
             color="var(--pf-green)"
-            hint="Received this year, per day so far"
+            hint={t("Received this year, per day so far")}
           />
         )}
         <Stat label={`Average / month${finished.length ? ` (${finished.length} mo)` : ""}`} value={average ? money(average, currency) : "—"} />
@@ -108,13 +109,13 @@ export default function IncomePage() {
         <MonthTransactions data={data} month={month} currency={currency} kind="income" />
       ) : (
         <section>
-          <h2 className="pf-section-title">By month</h2>
+          <h2 className="pf-section-title">{t("By month")}</h2>
           <div className="pf-card">
             {months.map((m) => (
               <div key={m.month.toISOString()} className="pf-row">
                 <span style={{ flex: 1 }}>{monthYear(m.month)}</span>
                 <span className="pf-rounded" style={{ fontWeight: 600, color: m.income ? "var(--pf-green)" : "var(--pf-ink-3)" }}>
-                  {m.income ? money(m.income, currency) : "Not yet received"}
+                  {m.income ? money(m.income, currency) : t("Not yet received")}
                 </span>
               </div>
             ))}

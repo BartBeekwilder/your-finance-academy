@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, Check, Plus, Sparkles, X } from "lucide-react";
 import { live } from "@/lib/finance/calc";
@@ -66,8 +67,8 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
   const [gross, setGross] = useState("");
   const [payday, setPayday] = useState(25);
   const [accounts, setAccounts] = useState([
-    { key: "checking", name: "Current account", type: "checking" as const, amount: "" },
-    { key: "savings", name: "Savings", type: "savings" as const, amount: "" },
+    { key: "checking", name: t("Current account"), type: "checking" as const, amount: "" },
+    { key: "savings", name: t("Savings"), type: "savings" as const, amount: "" },
   ]);
   const [fixed, setFixed] = useState<Line[]>(FIXED.map((f) => ({ ...f, amount: "", on: false })));
   const [budgets, setBudgets] = useState<Line[] | null>(null);
@@ -134,7 +135,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
         cats.find((c) => c.name.toLowerCase() === name.toLowerCase() && !c.parent_id) ??
         (await addCategory({ name, icon, color_hex: color, is_income_category: false, is_fixed_expense: isFixed }));
       for (const f of fixed.filter((f) => f.on && num(f.amount) > 0)) {
-        const c = await categoryFor(f.name, f.icon, f.color, true);
+        const c = await categoryFor(t(f.name), f.icon, f.color, true);
         await setBudget(c.id, month, num(f.amount));
         await addTransaction({
           amount: num(f.amount).toFixed(2), type: "expense", date: new Date(now.getFullYear(), now.getMonth(), 1, 12).toISOString(),
@@ -159,9 +160,9 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
   const progress = step / (STEPS.length - 1);
 
   return (
-    <div className="pf-ob" role="dialog" aria-modal="true" aria-label="Set up your finances">
+    <div className="pf-ob" role="dialog" aria-modal="true" aria-label={t("Set up your finances")}>
       <div className="pf-ob-glow" />
-      <button className="pf-ob-close pf-icon-button" aria-label="Close" onClick={onClose}>
+      <button className="pf-ob-close pf-icon-button" aria-label={t("Close")} onClick={onClose}>
         <X size={18} />
       </button>
 
@@ -170,7 +171,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
           <div className="pf-ob-progress" aria-hidden>
             <span style={{ width: `${progress * 100}%` }} />
           </div>
-          {preview && <div className="pf-ob-draft">Draft · preview — nothing is saved</div>}
+          {preview && <div className="pf-ob-draft">{t("Draft · preview — nothing is saved")}</div>}
 
           <div key={id} className="pf-ob-step" data-dir={dir}>
             {id === "welcome" && (
@@ -178,20 +179,20 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                 <div className="pf-ob-mark">
                   <BrandMark size={72} currency={currency} />
                 </div>
-                <h1>Run your money like a business.</h1>
-                <p>A few questions and your books are open: what comes in, what goes out, what you own and what you owe. About two minutes — and you can skip anything.</p>
+                <h1>{t("Run your money like a business.")}</h1>
+                <p>{t("A few questions and your books are open: what comes in, what goes out, what you own and what you owe. About two minutes — and you can skip anything.")}</p>
               </Screen>
             )}
 
             {id === "currency" && (
-              <Screen title="Which currency do you use?" hint="Change it any time in Settings.">
+              <Screen title={t("Which currency do you use?")} hint={t("Change it any time in Settings.")}>
                 <div className="pf-ob-grid">
                   {CURRENCIES.map((c) => (
                     <button key={c.code} className="pf-ob-choice" aria-pressed={currency === c.code} onClick={() => setCurrency(c.code)}>
                       <BrandMark size={34} currency={c.code} />
                       <span>
                         <b>{c.code}</b>
-                        <small>{c.name}</small>
+                        <small>{t(c.name)}</small>
                       </span>
                     </button>
                   ))}
@@ -200,22 +201,22 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
             )}
 
             {id === "income" && (
-              <Screen title="What comes in each month?" hint="Your net salary — what lands in your account. The live tiles count it up through the month.">
-                <BigAmount label="Net per month" value={net} onChange={setNet} currency={currency} autoFocus />
+              <Screen title={t("What comes in each month?")} hint={t("Your net salary — what lands in your account. The live tiles count it up through the month.")}>
+                <BigAmount label={t("Net per month")} value={net} onChange={setNet} currency={currency} autoFocus />
                 <div className="pf-ob-row2">
                   <label className="pf-ob-field">
-                    <span>Payday</span>
+                    <span>{t("Payday")}</span>
                     <div className="pf-ob-days">
                       {[1, 15, 20, 23, 25, 28].map((d) => (
                         <button key={d} aria-pressed={payday === d} onClick={() => setPayday(d)}>
                           {d}
                         </button>
                       ))}
-                      <input inputMode="numeric" aria-label="Other day" value={[1, 15, 20, 23, 25, 28].includes(payday) ? "" : String(payday)} placeholder="…" onChange={(e) => setPayday(Math.min(Math.max(Number(e.target.value) || 25, 1), 31))} />
+                      <input inputMode="numeric" aria-label={t("Other day")} value={[1, 15, 20, 23, 25, 28].includes(payday) ? "" : String(payday)} placeholder="…" onChange={(e) => setPayday(Math.min(Math.max(Number(e.target.value) || 25, 1), 31))} />
                     </div>
                   </label>
                   <label className="pf-ob-field">
-                    <span>Gross per month (optional)</span>
+                    <span>{t("Gross per month (optional)")}</span>
                     <input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={gross} onChange={(e) => setGross(e.target.value)} />
                   </label>
                 </div>
@@ -223,15 +224,15 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
             )}
 
             {id === "accounts" && (
-              <Screen title="What's in your accounts today?" hint="Your starting point. From here every month adds what you saved.">
+              <Screen title={t("What's in your accounts today?")} hint={t("Your starting point. From here every month adds what you saved.")}>
                 <div className="pf-ob-list">
                   {accounts.map((a, i) => (
                     <div key={a.key} className="pf-ob-line">
-                      <input className="pf-ob-name" value={a.name} aria-label="Account name" onChange={(e) => setAccounts(accounts.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} />
-                      <input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={a.amount} aria-label={`${a.name} balance`} onChange={(e) => setAccounts(accounts.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))} />
+                      <input className="pf-ob-name" value={a.name} aria-label={t("Account name")} onChange={(e) => setAccounts(accounts.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} />
+                      <input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={a.amount} aria-label={t("{name} balance", { name: a.name })} onChange={(e) => setAccounts(accounts.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))} />
                     </div>
                   ))}
-                  <button className="pf-bal-add" onClick={() => setAccounts([...accounts, { key: crypto.randomUUID(), name: "Another account", type: "savings", amount: "" }])}>
+                  <button className="pf-bal-add" onClick={() => setAccounts([...accounts, { key: crypto.randomUUID(), name: t("Another account"), type: "savings", amount: "" }])}>
                     <Plus size={13} /> Add account
                   </button>
                 </div>
@@ -239,17 +240,17 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
             )}
 
             {id === "fixed" && (
-              <Screen title="Your fixed costs" hint="The same every month. Tap what you have and fill in the amount — they become this month's fixed costs and budgets.">
+              <Screen title={t("Your fixed costs")} hint={t("The same every month. Tap what you have and fill in the amount — they become this month's fixed costs and budgets.")}>
                 <div className="pf-ob-list">
                   {fixed.map((f, i) => (
                     <div key={f.key} className="pf-ob-line" data-on={f.on}>
                       <button className="pf-ob-toggle" aria-pressed={f.on} onClick={() => setFixed(fixed.map((x, j) => (j === i ? { ...x, on: !x.on } : x)))}>
                         <CategoryIcon icon={f.icon} colorHex={f.on ? f.color : "3a3a3c"} size={30} />
-                        <span>{f.name}</span>
+                        <span>{t(f.name)}</span>
                         {f.on && <Check size={14} className="pf-ob-check" />}
                       </button>
                       {f.on && (
-                        <input className="pf-input pf-ob-amount" inputMode="decimal" autoFocus placeholder={money(0, currency)} value={f.amount} aria-label={`${f.name} per month`} onChange={(e) => setFixed(fixed.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))} />
+                        <input className="pf-input pf-ob-amount" inputMode="decimal" autoFocus placeholder={money(0, currency)} value={f.amount} aria-label={t("{name} per month", { name: t(f.name) })} onChange={(e) => setFixed(fixed.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))} />
                       )}
                     </div>
                   ))}
@@ -258,16 +259,16 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
             )}
 
             {id === "budgets" && (
-              <Screen title="Budgets for the rest" hint={netIncome ? "Suggested from your income — adjust them, or switch off what you don't need." : "Set a monthly limit for each, or switch off what you don't need."}>
+              <Screen title={t("Budgets for the rest")} hint={netIncome ? t("Suggested from your income — adjust them, or switch off what you don't need.") : t("Set a monthly limit for each, or switch off what you don't need.")}>
                 <div className="pf-ob-list">
                   {budgetLines.map((b, i) => (
                     <div key={b.key} className="pf-ob-line" data-on={b.on}>
                       <button className="pf-ob-toggle" aria-pressed={b.on} onClick={() => setBudgets(budgetLines.map((x, j) => (j === i ? { ...x, on: !x.on } : x)))}>
                         <CategoryIcon icon={b.icon} colorHex={b.on ? b.color : "3a3a3c"} size={30} />
-                        <span>{b.name}</span>
+                        <span>{t(b.name)}</span>
                       </button>
                       {b.on && (
-                        <input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={b.amount} aria-label={`${b.name} budget`} onChange={(e) => setBudgets(budgetLines.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))} />
+                        <input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={b.amount} aria-label={t("{name} budget", { name: t(b.name) })} onChange={(e) => setBudgets(budgetLines.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))} />
                       )}
                     </div>
                   ))}
@@ -276,22 +277,22 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
             )}
 
             {id === "balance" && (
-              <Screen title="Do you own a home?" hint="Optional — it goes on your balance sheet. A real-estate module with mortgage details comes later.">
+              <Screen title={t("Do you own a home?")} hint={t("Optional — it goes on your balance sheet. A real-estate module with mortgage details comes later.")}>
                 <div className="pf-ob-list">
-                  <Labeled label="Home value (WOZ or estimate)"><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
-                  <Labeled label="Mortgage remaining"><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
-                  <Labeled label="Other loans (car, study…)"><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.loans} onChange={(e) => setHome({ ...home, loans: e.target.value })} /></Labeled>
+                  <Labeled label={t("Home value (WOZ or estimate)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
+                  <Labeled label={t("Mortgage remaining")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
+                  <Labeled label={t("Other loans (car, study…)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.loans} onChange={(e) => setHome({ ...home, loans: e.target.value })} /></Labeled>
                 </div>
               </Screen>
             )}
 
             {id === "history" && (
-              <Screen title="Where do your books start?" hint="You can add earlier months and years later too.">
+              <Screen title={t("Where do your books start?")} hint={t("You can add earlier months and years later too.")}>
                 <div className="pf-ob-grid pf-ob-grid-1">
                   {[
-                    { v: "now" as const, t: "From this month", d: "Start fresh today. Earlier months stay empty." },
-                    { v: "january" as const, t: `From 1 January ${now.getFullYear()}`, d: "Fill in this year's months — totals per month are enough." },
-                    { v: "years" as const, t: "Earlier years too", d: "Bring in year totals (income, spending, net worth) for a long-term view." },
+                    { v: "now" as const, t: t("From this month"), d: t("Start fresh today. Earlier months stay empty.") },
+                    { v: "january" as const, t: t("From 1 January {year}", { year: now.getFullYear() }), d: t("Fill in this year's months — totals per month are enough.") },
+                    { v: "years" as const, t: t("Earlier years too"), d: t("Bring in year totals (income, spending, net worth) for a long-term view.") },
                   ].map((o) => (
                     <button key={o.v} className="pf-ob-choice pf-ob-choice-wide" aria-pressed={history === o.v} onClick={() => setHistory(o.v)}>
                       <span>
@@ -309,16 +310,16 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                 <div className="pf-ob-mark pf-ob-mark-done">
                   <Sparkles size={34} />
                 </div>
-                <h1>{saved ? (preview ? "That was the preview." : "Your books are open.") : "Ready to open your books"}</h1>
+                <h1>{saved ? (preview ? t("That was the preview.") : t("Your books are open.")) : t("Ready to open your books")}</h1>
                 <p>
                   {saved
                     ? preview
-                      ? "Nothing was saved. Tell me what to change — order, wording, steps — and this becomes the real thing."
-                      : "Your dashboard is ready. The month counts along live from here."
-                    : `Each month ${money(netIncome, currency)} comes in; ${money(totals.fixedTotal, currency)} is fixed and ${money(totals.budgetTotal, currency)} budgeted — leaving ${money(totals.left, currency)} to save.`}
+                      ? t("Nothing was saved. Tell me what to change — order, wording, steps — and this becomes the real thing.")
+                      : t("Your dashboard is ready. The month counts along live from here.")
+                    : t("Each month {income} comes in; {fixed} is fixed and {budgets} budgeted — leaving {left} to save.", { income: money(netIncome, currency), fixed: money(totals.fixedTotal, currency), budgets: money(totals.budgetTotal, currency), left: money(totals.left, currency) })}
                 </p>
                 {error && <p style={{ color: "var(--pf-red)" }}>{error}</p>}
-                {source === "supabase" && !preview && !saved && <p className="pf-ob-note">This saves to your account.</p>}
+                {source === "supabase" && !preview && !saved && <p className="pf-ob-note">{t("This saves to your account.")}</p>}
               </Screen>
             )}
           </div>
@@ -331,26 +332,26 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
             ) : (
               <span />
             )}
-            <span className="pf-ob-count">{step > 0 && id !== "done" ? `${step} of ${STEPS.length - 2}` : ""}</span>
+            <span className="pf-ob-count">{step > 0 && id !== "done" ? t("{step} of {total}", { step, total: STEPS.length - 2 }) : ""}</span>
             {id === "done" ? (
               saved ? (
                 <button className="pf-button" onClick={onClose}>
-                  {preview ? "Close preview" : "Open my dashboard"} <ArrowRight size={16} />
+                  {preview ? t("Close preview") : t("Open my dashboard")} <ArrowRight size={16} />
                 </button>
               ) : (
                 <button className="pf-button" onClick={finish} disabled={saving}>
-                  {saving ? "Opening…" : preview ? "Finish preview" : "Open my books"} <ArrowRight size={16} />
+                  {saving ? t("Opening…") : preview ? t("Finish preview") : t("Open my books")} <ArrowRight size={16} />
                 </button>
               )
             ) : (
               <span style={{ display: "flex", gap: 10, alignItems: "center" }}>
                 {id !== "welcome" && (
                   <button className="pf-link" onClick={() => go(1)}>
-                    Skip
+                    {t("Skip")}
                   </button>
                 )}
                 <button className="pf-button" onClick={() => go(1)}>
-                  {id === "welcome" ? "Let's start" : "Continue"} <ArrowRight size={16} />
+                  {id === "welcome" ? t("Let's start") : t("Continue")} <ArrowRight size={16} />
                 </button>
               </span>
             )}
@@ -415,10 +416,10 @@ function Preview({
   ];
   const lit = (s: Step[]) => (s.includes(step) ? "true" : "false");
   return (
-    <aside className="pf-ob-preview" aria-label="Your month so far">
-      <div className="pf-ob-preview-head">Your month</div>
+    <aside className="pf-ob-preview" aria-label={t("Your month so far")}>
+      <div className="pf-ob-preview-head">{t("Your month")}</div>
       <div className="pf-ob-stat" data-lit={lit(["income"])}>
-        <span>Comes in</span>
+        <span>{t("Comes in")}</span>
         <b className="pf-rounded" style={{ color: "var(--pf-green)" }}>{money(inc, currency)}</b>
       </div>
       <div className="pf-ob-flow">
@@ -430,24 +431,24 @@ function Preview({
         </div>
       </div>
       <div className="pf-ob-stat" data-lit={lit(["fixed"])}>
-        <span>Fixed costs</span>
+        <span>{t("Fixed costs")}</span>
         <b className="pf-rounded">{money(fix, currency)}</b>
       </div>
       <div className="pf-ob-stat" data-lit={lit(["budgets"])}>
-        <span>Budgets</span>
+        <span>{t("Budgets")}</span>
         <b className="pf-rounded">{money(bud, currency)}</b>
       </div>
       <div className="pf-ob-stat pf-ob-stat-big" data-lit={lit(["fixed", "budgets", "done"])}>
-        <span>Left to save</span>
+        <span>{t("Left to save")}</span>
         <b className="pf-rounded" style={{ color: left >= 0 ? "var(--pf-green)" : "var(--pf-red)" }}>{money(left, currency)}</b>
       </div>
       <div className="pf-ob-sep" />
       <div className="pf-ob-stat" data-lit={lit(["accounts"])}>
-        <span>In your accounts</span>
+        <span>{t("In your accounts")}</span>
         <b className="pf-rounded">{money(cash, currency)}</b>
       </div>
       <div className="pf-ob-stat pf-ob-stat-big" data-lit={lit(["balance", "done"])}>
-        <span>Equity</span>
+        <span>{t("Equity")}</span>
         <b className="pf-rounded" style={{ color: "#40c8e0" }}>{money(eq, currency)}</b>
       </div>
     </aside>

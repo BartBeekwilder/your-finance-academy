@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { WithYAxis } from "./YAxis";
 import Segmented from "./Segmented";
 import { useNow } from "@/lib/motion";
@@ -90,7 +91,7 @@ export default function SavingsChart({
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 16, flexWrap: "wrap" }}>
         <div>
           <span key={period} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-            {period === "12m" ? "Saved in the last 12 months" : `Saved in ${now.getFullYear()} so far`}
+            {period === "12m" ? t("Saved in the last 12 months") : t("Saved in {v1} so far", { v1: now.getFullYear() })}
           </span>
           <div className="pf-rounded" style={{ fontSize: "1.9rem", fontWeight: 700, color: total >= 0 ? GREEN : RED, lineHeight: 1.15 }}>
             {money(total, currency, { signed: true })}
@@ -103,10 +104,10 @@ export default function SavingsChart({
         <div style={{ display: "grid", gap: 8, justifyItems: "end" }}>
         <Segmented
           size="sm"
-          label="Savings period"
+          label={t("Savings period")}
           value={period}
           onChange={(p) => { setPeriod(p); setHover(null); }}
-          options={[{ value: "12m", label: "12 months" }, { value: "year", label: "This year" }]}
+          options={[{ value: "12m", label: "12 months" }, { value: "year", label: t("This year") }]}
         />
         <div key={shown} className="pf-readout" style={{ textAlign: "right", fontSize: "0.75rem", color: "var(--pf-ink-2)", display: "grid", gap: 2 }}>
           <strong style={{ color: "var(--pf-ink)", fontWeight: 600 }}>
@@ -118,7 +119,7 @@ export default function SavingsChart({
             <b className="pf-rounded" style={{ color: RED }}>{money(m.spent, currency)}</b>
           </span>
           <span>
-            {m.saved >= 0 ? "Saved" : "Overspent"}{" "}
+            {m.saved >= 0 ? t("Saved") : t("Overspent")}{" "}
             <b className="pf-rounded" style={{ color: m.saved >= 0 ? GREEN : RED, fontSize: "0.95rem" }}>{money(Math.abs(m.saved), currency)}</b>
           </span>
         </div>
@@ -218,10 +219,10 @@ export default function SavingsChart({
       </div>
 
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", fontSize: "0.68rem", color: "var(--pf-ink-2)" }}>
-        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, background: GREEN }} />} label="Saved that month" />
-        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, background: RED }} />} label="Spent more than earned" />
-        <Legend swatch={<span style={{ width: 14, height: 2.5, borderRadius: 2, background: TEAL }} />} label="Total saved so far" />
-        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, border: `1.5px dashed ${GREEN}` }} />} label={period === "year" ? "This month, live · ahead, forecast" : "This month, live"} />
+        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, background: GREEN }} />} label={t("Saved that month")} />
+        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, background: RED }} />} label={t("Spent more than earned")} />
+        <Legend swatch={<span style={{ width: 14, height: 2.5, borderRadius: 2, background: TEAL }} />} label={t("Total saved so far")} />
+        <Legend swatch={<span style={{ width: 10, height: 10, borderRadius: 3, border: `1.5px dashed ${GREEN}` }} />} label={period === "year" ? t("This month, live · ahead, forecast") : t("This month, live")} />
       </div>
     </div>
   );

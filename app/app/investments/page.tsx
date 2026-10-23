@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { Bitcoin, ChartLine, Gem } from "lucide-react";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { investedIn, live, num } from "@/lib/finance/calc";
@@ -23,19 +24,19 @@ export default function InvestmentsPage() {
 
   return (
     <div style={{ display: "grid", gap: 24 }}>
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Investments</h1>
+      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Investments")}</h1>
 
       <div className="pf-card" style={{ padding: 16 }}>
-        <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>Total invested</div>
+        <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{t("Total invested")}</div>
         <div className="pf-rounded" style={{ fontSize: "1.8rem", fontWeight: 700 }}>{money(invested.total, currency)}</div>
         <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
           {invested.skipped > 0 && `Excludes ${invested.skipped} holding${invested.skipped > 1 ? "s" : ""} in another currency · `}
-          Live market prices arrive with account sync
+          {t("Live market prices arrive with account sync")}
         </div>
       </div>
 
       <section>
-        <h2 className="pf-section-title">Holdings</h2>
+        <h2 className="pf-section-title">{t("Holdings")}</h2>
         <div className="pf-card">
           {holdings.map((h) => {
             const t = TYPE[h.asset_type];

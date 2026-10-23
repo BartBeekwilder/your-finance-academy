@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { balanceSheet } from "@/lib/finance/calc";
 import type { FinanceData } from "@/lib/finance/types";
@@ -25,17 +26,17 @@ export default function BalanceCard({ data, now }: { data: FinanceData; now: Dat
         </Link>
         <Segmented
           size="sm"
-          label="Balance sheet view"
+          label={t("Balance sheet view")}
           value={full ? "full" : "compact"}
           onChange={(v) => setBalanceFull(v === "full")}
           options={[
-            { value: "compact", label: "Compact" },
-            { value: "full", label: "Full" },
+            { value: "compact", label: t("Compact") },
+            { value: "full", label: t("Full") },
           ]}
         />
       </div>
       <div key={full ? "full" : "compact"} className="pf-readout">
-        {full ? <BalanceTable sheet={sheet} prev={prev} currency={currency} /> : <BalanceBars sheet={sheet} prev={prev} currency={currency} label="today" />}
+        {full ? <BalanceTable sheet={sheet} prev={prev} currency={currency} /> : <BalanceBars sheet={sheet} prev={prev} currency={currency} label={t("today")} />}
       </div>
     </section>
   );

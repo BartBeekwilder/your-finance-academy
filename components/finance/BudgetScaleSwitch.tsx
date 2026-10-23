@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { setBudgetCompare, setBudgetLargestFirst, useBudgetCompare, useBudgetLargestFirst } from "@/lib/prefs";
 import Segmented from "./Segmented";
 
@@ -15,22 +16,22 @@ export default function BudgetScaleSwitch() {
   return (
     <div className="pf-card-toolbar">
       <span key={String(compare)} className="pf-readout">
-        {compare ? "Bar lengths compare the budgets with each other" : "Each bar is measured against its own budget"}
+        {compare ? t("Bar lengths compare the budgets with each other") : t("Each bar is measured against its own budget")}
       </span>
     <span style={{ display: "inline-flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
     <Segmented
       size="sm"
-      label="Budget order"
+      label={t("Budget order")}
       value={largest ? "largest" : "yours"}
       onChange={(v) => setBudgetLargestFirst(v === "largest")}
-      options={[{ value: "yours", label: "Your order" }, { value: "largest", label: "Largest first" }]}
+      options={[{ value: "yours", label: t("Your order") }, { value: "largest", label: t("Largest first") }]}
     />
     <Segmented
       size="sm"
-      label="Budget bars"
+      label={t("Budget bars")}
       value={compare ? "compare" : "own"}
       onChange={(v) => setBudgetCompare(v === "compare")}
-      options={[{ value: "compare", label: "Compare" }, { value: "own", label: "Own budget" }]}
+      options={[{ value: "compare", label: t("Compare") }, { value: "own", label: t("Own budget") }]}
     />
     </span>
     </div>

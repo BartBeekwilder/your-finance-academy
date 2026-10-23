@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t as tr } from "@/lib/i18n";
 import { live, num } from "@/lib/finance/calc";
 import { dayLabel, money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
@@ -26,7 +27,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
   return (
     <section key="month" className="pf-readout">
       <h2 className="pf-section-title">
-        Transactions in {month.toLocaleDateString("en-GB", { month: "long" })}{" "}
+        Transactions in {month.toLocaleDateString(intlLocale(), { month: "long" })}{" "}
         <span style={{ textTransform: "none", color: "var(--pf-ink-3)" }}>
           · {rows.length} {kind === "expense" ? "expenses" : rows.length === 1 ? "payment" : "payments"}
         </span>
@@ -44,11 +45,11 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
                 <div key={t.id} className="pf-row pf-row-in" {...editProps(t)} style={{ animationDelay: `${Math.min(n++, 20) * 25}ms` }}>
                   <CategoryIcon icon={c?.icon ?? "questionmark.circle.fill"} colorHex={c?.color_hex ?? "808080"} size={32} />
                   <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || (kind === "expense" ? "Expense" : "Income")}</div>
+                    <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || (kind === "expense" ? tr("Expense") : tr("Income"))}</div>
                     <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-                      {c?.name ?? "No category"}
-                      {t.is_fixed_expense && <span className="pf-fixed-tag">Fixed</span>}
-                      {t.is_auto_income && <span className="pf-auto-tag">Automatic</span>}
+                      {c?.name ?? tr("No category")}
+                      {t.is_fixed_expense && <span className="pf-fixed-tag">{tr("Fixed")}</span>}
+                      {t.is_auto_income && <span className="pf-auto-tag">{tr("Automatic")}</span>}
                     </div>
                   </div>
                   <span className="pf-rounded" style={{ fontWeight: 600, color: kind === "expense" ? "var(--pf-red)" : "var(--pf-green)" }}>
@@ -60,7 +61,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
           </div>
         ))}
         {rows.length === 0 && (
-          <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>{kind === "expense" ? "No expenses yet this month." : "Nothing received yet this month."}</div>
+          <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>{kind === "expense" ? tr("No expenses yet this month.") : tr("Nothing received yet this month.")}</div>
         )}
       </div>
     </section>

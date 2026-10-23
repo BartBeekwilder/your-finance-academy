@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { Check, Plus, X } from "lucide-react";
 import { useState } from "react";
 import type { BalanceLine, balanceSheet } from "@/lib/finance/calc";
@@ -55,7 +56,7 @@ export function BalanceBars({
   const assets = sheet.assets.filter((l) => l.value > 0);
   const right = [
     ...sheet.liabilities.filter((l) => l.value > 0).map((l, i) => ({ ...l, color: colorFor("debt", i) })),
-    ...(sheet.equity > 0 ? [{ id: "equity", name: "Equity", value: sheet.equity, kind: "auto" as const, color: EQUITY }] : []),
+    ...(sheet.equity > 0 ? [{ id: "equity", name: t("Equity"), value: sheet.equity, kind: "auto" as const, color: EQUITY }] : []),
   ];
   const eqDelta = prev ? sheet.equity - prev.equity : null;
   const shown = hover;
@@ -122,21 +123,21 @@ export function BalanceBars({
             </>
           ) : (
             <>
-              Own <b style={{ color: "var(--pf-ink)" }}>{money(sheet.totalAssets, currency)}</b> · owe <b style={{ color: "var(--pf-ink)" }}>{money(sheet.totalDebt, currency)}</b>
+              Own <b style={{ color: "var(--pf-ink)" }}>{money(sheet.totalAssets, currency)}</b> {t("· owe")} <b style={{ color: "var(--pf-ink)" }}>{money(sheet.totalDebt, currency)}</b>
             </>
           )}
         </span>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "6px 10px", alignItems: "center" }}>
-        <span className="pf-bal-side">Assets</span>
-        {row(assetLines, "Assets")}
-        <span className="pf-bal-side">Debt + equity</span>
-        {row(right, "Liabilities and equity")}
+        <span className="pf-bal-side">{t("Assets")}</span>
+        {row(assetLines, t("Assets"))}
+        <span className="pf-bal-side">{t("Debt + equity")}</span>
+        {row(right, t("Liabilities and equity"))}
       </div>
       {showLegend && (
         <div className="pf-bal-legends">
-          {legend(assetLines, "Assets", sheet.totalAssets)}
-          {legend(debtLines, "Liabilities", sheet.totalDebt)}
+          {legend(assetLines, t("Assets"), sheet.totalAssets)}
+          {legend(debtLines, t("Liabilities"), sheet.totalDebt)}
         </div>
       )}
     </div>
@@ -155,26 +156,26 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
   return (
     <div className="pf-bal-table">
       <div className="pf-bal-col">
-        <h3 className="pf-bal-head">Assets</h3>
+        <h3 className="pf-bal-head">{t("Assets")}</h3>
         {sheet.assets.map((l) => (
           <Line key={l.id} line={l} d={delta(l, prev?.assets)} color={colorFor("asset", sheet.assets.filter((a) => a.value > 0).indexOf(l))} currency={currency} edit={edit} />
         ))}
-        {edit && <AddRow onAdd={() => edit.onAdd("asset")} label="Add asset" />}
+        {edit && <AddRow onAdd={() => edit.onAdd("asset")} label={t("Add asset")} />}
         <div className="pf-bal-spacer" />
-        <Total label="Total" value={sheet.totalAssets} currency={currency} balanced={balanced} />
+        <Total label={t("Total")} value={sheet.totalAssets} currency={currency} balanced={balanced} />
       </div>
       <div className="pf-bal-col">
-        <h3 className="pf-bal-head">Liabilities</h3>
+        <h3 className="pf-bal-head">{t("Liabilities")}</h3>
         {sheet.liabilities.map((l) => (
           <Line key={l.id} line={l} d={delta(l, prev?.liabilities)} color={colorFor("debt", sheet.liabilities.filter((a) => a.value > 0).indexOf(l))} currency={currency} edit={edit} />
         ))}
-        {edit && <AddRow onAdd={() => edit.onAdd("liability")} label="Add liability" />}
+        {edit && <AddRow onAdd={() => edit.onAdd("liability")} label={t("Add liability")} />}
         <div className="pf-bal-subtotal">
-          <span>Total liabilities</span>
+          <span>{t("Total liabilities")}</span>
           <span className="pf-rounded">{money(sheet.totalDebt, currency)}</span>
         </div>
         <div className="pf-bal-equity" data-neg={sheet.equity < 0}>
-          <span>Equity</span>
+          <span>{t("Equity")}</span>
           <span className="pf-rounded" style={{ color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>
             {money(sheet.equity, currency)}
             {prev && Math.abs(sheet.equity - prev.equity) >= 0.005 && (
@@ -183,7 +184,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
           </span>
         </div>
         <div className="pf-bal-spacer" />
-        <Total label="Total" value={sheet.totalDebt + sheet.equity} currency={currency} balanced={balanced} />
+        <Total label={t("Total")} value={sheet.totalDebt + sheet.equity} currency={currency} balanced={balanced} />
       </div>
     </div>
   );
@@ -196,7 +197,7 @@ function Total({ label, value, currency, balanced }: { label: string; value: num
       <span className="pf-rounded">
         {money(value, currency)}
         {balanced && (
-          <span className="pf-bal-check" title="Assets = liabilities + equity">
+          <span className="pf-bal-check" title={t("Assets = liabilities + equity")}>
             <Check size={12} strokeWidth={3} />
           </span>
         )}
@@ -215,7 +216,7 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
       ) : (
         <span className="pf-bal-name">
           {line.name}
-          {line.kind === "auto" && <em>auto</em>}
+          {line.kind === "auto" && <em>{t("auto")}</em>}
         </span>
       )}
       {/* Always present, so the amount columns line up row to row. */}
@@ -248,14 +249,14 @@ function TextField({ value, onCommit, className }: { value: string; onCommit: (v
     <input
       className={`pf-bal-input ${className ?? ""}`}
       value={draft ?? value}
-      autoFocus={value === "New post"}
+      autoFocus={value === t("New post")}
       onFocus={(e) => e.currentTarget.select()}
       onChange={(e) => setDraft(e.target.value)}
       onBlur={() => {
         if (draft !== null) onCommit(draft);
         setDraft(null);
       }}
-      onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+      onKeyDown={(e) => e.key === t("Enter") && e.currentTarget.blur()}
     />
   );
 }
@@ -280,7 +281,7 @@ function AmountField({ value, currency, onCommit }: { value: number; currency: s
         setDraft(null);
       }}
       onKeyDown={(e) => {
-        if (e.key === "Enter") e.currentTarget.blur();
+        if (e.key === t("Enter")) e.currentTarget.blur();
         if (e.key === "Escape") {
           setDraft(null);
           requestAnimationFrame(() => (e.target as HTMLInputElement).blur());

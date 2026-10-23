@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useMemo, useState, type FormEvent } from "react";
 import { Check, Plus, Trash2, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
@@ -41,7 +42,7 @@ export default function QuickAdd() {
     <>
       <button
         className="pf-fab pf-bouncy"
-        aria-label="Quick Add"
+        aria-label={t("Quick Add")}
         onClick={(e) => {
           setFrom(e.currentTarget);
           setSession((n) => n + 1);
@@ -50,10 +51,10 @@ export default function QuickAdd() {
       >
         <Plus size={22} strokeWidth={3} />
       </button>
-      <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label="Quick Add">
+      <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label={t("Quick Add")}>
         <Form key={session} currency={data.profile.currency_code} categories={live(data.categories)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
       </Sheet>
-      <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label="Edit transaction">
+      <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label={t("Edit transaction")}>
         {editing && (
           <Form
             key={`edit${editing.n}`}
@@ -139,30 +140,30 @@ function Form({
   return (
     <form onSubmit={submit} style={{ display: "grid", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 600 }}>{initial ? `Edit ${type === "expense" ? "expense" : "income"}` : "Quick Add"}</h2>
-        <button type="button" className="pf-icon-button" aria-label="Close" onClick={onDone}><X size={18} /></button>
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 600 }}>{initial ? `Edit ${type === "expense" ? "expense" : "income"}` : t("Quick Add")}</h2>
+        <button type="button" className="pf-icon-button" aria-label={t("Close")} onClick={onDone}><X size={18} /></button>
       </div>
 
       <Segmented
         wide
-        label="Type"
+        label={t("Type")}
         value={type}
         onChange={(t) => { setType(t); setCategoryId(null); setCreating(false); }}
-        options={[{ value: "expense", label: "Expense" }, { value: "income", label: "Income" }]}
+        options={[{ value: "expense", label: t("Expense") }, { value: "income", label: t("Income") }]}
       />
 
       <input
         className="pf-input pf-rounded"
         inputMode="decimal"
         placeholder={money(0, currency)}
-        aria-label="Amount"
+        aria-label={t("Amount")}
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
         style={{ fontSize: "2rem", fontWeight: 700, textAlign: "center", color: type === "income" ? "var(--pf-green)" : "var(--pf-ink)" }}
       />
 
       <div>
-        <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 8 }}>Category</div>
+        <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 8 }}>{t("Category")}</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {choices.map((c) => (
             <button
@@ -181,7 +182,7 @@ function Form({
           {!creating && (
             <button type="button" className="pf-chip pf-chip-new" onClick={() => setCreating(true)}>
               <span className="pf-chip-new-icon"><Plus size={14} strokeWidth={3} /></span>
-              New category
+              {t("New category")}
             </button>
           )}
         </div>
@@ -202,21 +203,21 @@ function Form({
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        <input className="pf-input" type="date" aria-label="Date" value={date} onChange={(e) => setDate(e.target.value)} required />
-        <input className="pf-input" placeholder="Note" aria-label="Note" value={note} onChange={(e) => setNote(e.target.value)} />
+        <input className="pf-input" type="date" aria-label={t("Date")} value={date} onChange={(e) => setDate(e.target.value)} required />
+        <input className="pf-input" placeholder={t("Note")} aria-label={t("Note")} value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
 
       {type === "expense" && (
         <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.9rem" }}>
           <input type="checkbox" checked={fixed} onChange={(e) => setFixed(e.target.checked)} />
-          Fixed expense <span style={{ color: "var(--pf-ink-3)" }}>— same amount every month</span>
+          Fixed expense <span style={{ color: "var(--pf-ink-3)" }}>{t("— same amount every month")}</span>
         </label>
       )}
 
       {error && <p style={{ margin: 0, color: "var(--pf-red)", fontSize: "0.85rem" }}>{error}</p>}
 
       <button className="pf-button" disabled={!valid || saving}>
-        {saving ? "Saving…" : initial ? "Save changes" : `Add ${type === "expense" ? "Expense" : "Income"}`}
+        {saving ? t("Saving…") : initial ? t("Save changes") : `Add ${type === "expense" ? t("Expense") : t("Income")}`}
       </button>
 
       {onDelete && (
@@ -239,7 +240,7 @@ function Form({
           }}
           onBlur={() => setConfirming(false)}
         >
-          <Trash2 size={15} /> {confirming ? `Tap again to delete this ${type === "expense" ? "expense" : "income"}` : "Delete"}
+          <Trash2 size={15} /> {confirming ? (type === "expense" ? t("Tap again to delete this expense") : t("Tap again to delete this income")) : t("Delete")}
         </button>
       )}
     </form>
@@ -281,8 +282,8 @@ function NewCategoryEditor({
   const trimmed = name.trim();
 
   async function save() {
-    if (!trimmed) return setError("Give the category a name.");
-    if (taken.includes(trimmed.toLowerCase())) return setError("You already have a category with that name.");
+    if (!trimmed) return setError(t("Give the category a name."));
+    if (taken.includes(trimmed.toLowerCase())) return setError(t("You already have a category with that name."));
     setSaving(true);
     setError("");
     try {
@@ -302,21 +303,21 @@ function NewCategoryEditor({
         <input
           className="pf-input"
           autoFocus
-          placeholder={type === "income" ? "Side job" : "Gym"}
-          aria-label="Category name"
+          placeholder={type === "income" ? t("Side job") : t("Gym")}
+          aria-label={t("Category name")}
           value={name}
           maxLength={40}
           onChange={(e) => { setName(e.target.value); setError(""); }}
           // Enter saves the category, not the whole transaction form.
           onKeyDown={(e) => {
-            if (e.key === "Enter") { e.preventDefault(); save(); }
+            if (e.key === t("Enter")) { e.preventDefault(); save(); }
             if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); onCancel(); }
           }}
           style={{ flex: 1 }}
         />
       </div>
 
-      <div className="pf-newcat-row" role="radiogroup" aria-label="Colour">
+      <div className="pf-newcat-row" role="radiogroup" aria-label={t("Colour")}>
         {COLORS.map((c) => (
           <button
             key={c}
@@ -331,7 +332,7 @@ function NewCategoryEditor({
         ))}
       </div>
 
-      <div className="pf-newcat-row" role="radiogroup" aria-label="Icon">
+      <div className="pf-newcat-row" role="radiogroup" aria-label={t("Icon")}>
         {icons.map((i) => (
           <button key={i} type="button" role="radio" aria-checked={i === icon} aria-label={i} className="pf-iconpick" onClick={() => setIcon(i)}>
             <CategoryIcon icon={i} colorHex={i === icon ? color : "3a3a3c"} size={28} />
@@ -342,9 +343,9 @@ function NewCategoryEditor({
       {error && <p style={{ margin: 0, color: "var(--pf-red)", fontSize: "0.8rem" }}>{error}</p>}
 
       <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
-        <button type="button" className="pf-link" onClick={onCancel}>Cancel</button>
+        <button type="button" className="pf-link" onClick={onCancel}>{t("Cancel")}</button>
         <button type="button" className="pf-button pf-button-sm" onClick={save} disabled={saving}>
-          <Check size={15} strokeWidth={3} /> {saving ? "Adding…" : "Add category"}
+          <Check size={15} strokeWidth={3} /> {saving ? t("Adding…") : t("Add category")}
         </button>
       </div>
     </div>

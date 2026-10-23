@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useState } from "react";
 import { useShowAxes } from "@/lib/prefs";
 import { money } from "@/lib/finance/format";
@@ -56,15 +57,15 @@ export default function EquityWaterfall({
         <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>How your equity moved {view === "post" ? "per post" : "per month"}</span>
         <Segmented
           size="sm"
-          label="Equity waterfall"
+          label={t("Equity waterfall")}
           value={view}
           onChange={(v) => {
             setView(v);
             setHover(null);
           }}
           options={[
-            { value: "post", label: "Per post" },
-            { value: "month", label: "Per month" },
+            { value: "post", label: t("Per post") },
+            { value: "month", label: t("Per month") },
           ]}
         />
       </div>
@@ -150,7 +151,7 @@ function postSteps(sheet: Sheet, prev: Sheet): Step[] {
   // Posts that were there last month and are gone now.
   for (const [id, v] of before) {
     if (seen.has(id) || Math.abs(v) < 0.005) continue;
-    const name = [...prev.assets, ...prev.liabilities].find((l) => l.id === id)?.name ?? "Removed";
+    const name = [...prev.assets, ...prev.liabilities].find((l) => l.id === id)?.name ?? t("Removed");
     steps.push({ key: id, label: name, long: `${name} · gone`, from: level, to: level - v, kind: "change" });
     level -= v;
   }

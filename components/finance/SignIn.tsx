@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useState, type FormEvent } from "react";
 import { guessCurrency } from "@/lib/finance/currencies";
 import { getSupabase } from "@/lib/supabase";
@@ -63,19 +64,19 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
       case "signup":
         if (await run(() => supabase.auth.signUp({ email: mail, password }))) {
           go({ kind: "verify", email: mail, type: "signup" });
-          setNote("We emailed you a 6-digit code to confirm your address.");
+          setNote(t("We emailed you a 6-digit code to confirm your address."));
         }
         break;
       case "code":
         if (await run(() => supabase.auth.signInWithOtp({ email: mail, options: { shouldCreateUser: false } }))) {
           go({ kind: "verify", email: mail, type: "email" });
-          setNote("We emailed you a 6-digit code.");
+          setNote(t("We emailed you a 6-digit code."));
         }
         break;
       case "forgot":
         if (await run(() => supabase.auth.resetPasswordForEmail(mail))) {
           go({ kind: "verify", email: mail, type: "recovery" });
-          setNote("We emailed you a 6-digit code to reset your password.");
+          setNote(t("We emailed you a 6-digit code to reset your password."));
         }
         break;
       case "verify": {
@@ -105,23 +106,23 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
   }
 
   const titles: Record<Step["kind"], [string, string]> = {
-    signin: ["Personal Finance", "Sign in to see the same budgets and transactions as on your iPhone."],
-    signup: ["Create your account", "Your data syncs between your iPhone, iPad and the web."],
-    code: ["Sign in with a code", "We'll email you a 6-digit code — no password needed."],
-    forgot: ["Reset your password", "We'll email you a 6-digit code."],
-    verify: ["Enter your code", "Check your email for the 6-digit code."],
-    newPassword: ["Choose a new password", "At least 8 characters."],
+    signin: ["Personal Finance", t("Sign in to see the same budgets and transactions as on your iPhone.")],
+    signup: ["Create your account", t("Your data syncs between your iPhone, iPad and the web.")],
+    code: ["Sign in with a code", t("We'll email you a 6-digit code — no password needed.")],
+    forgot: ["Reset your password", t("We'll email you a 6-digit code.")],
+    verify: ["Enter your code", t("Check your email for the 6-digit code.")],
+    newPassword: ["Choose a new password", t("At least 8 characters.")],
   };
   const [title, subtitle] = titles[step.kind];
   const needsEmail = step.kind === "signin" || step.kind === "signup" || step.kind === "code" || step.kind === "forgot";
   const needsPassword = step.kind === "signin" || step.kind === "signup" || step.kind === "newPassword";
   const cta: Record<Step["kind"], string> = {
-    signin: "Sign in",
-    signup: "Create account",
-    code: "Email me a code",
-    forgot: "Email me a code",
-    verify: "Continue",
-    newPassword: "Save password",
+    signin: t("Sign in"),
+    signup: t("Create account"),
+    code: t("Email me a code"),
+    forgot: t("Email me a code"),
+    verify: t("Continue"),
+    newPassword: t("Save password"),
   };
 
   return (
@@ -139,9 +140,9 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
               <svg width="16" height="18" viewBox="0 0 814 1000" aria-hidden fill="currentColor">
                 <path d="M788 341c-6 4-108 62-108 190 0 148 130 200 134 202-1 3-21 72-69 142-43 62-88 124-156 124s-86-40-164-40c-76 0-103 41-166 41s-106-57-156-127C45 791 0 666 0 548 0 358 124 257 246 257c65 0 119 43 160 43 39 0 100-45 174-45 28 0 129 2 196 86zM558 158c31-37 53-88 53-139 0-7-1-14-2-20-50 2-110 34-146 76-28 32-55 83-55 135 0 8 1 16 2 18 3 1 9 2 14 2 45 0 101-30 134-72z" />
               </svg>
-              Sign in with Apple
+              {t("Sign in with Apple")}
             </button>
-            <div className="pf-or"><span>or</span></div>
+            <div className="pf-or"><span>{t("or")}</span></div>
           </>
         )}
 
@@ -153,8 +154,8 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
               type="email"
               required
               autoComplete="email"
-              placeholder="Email"
-              aria-label="Email"
+              placeholder={t("Email")}
+              aria-label={t("Email")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="pf-input"
@@ -166,8 +167,8 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
               required
               minLength={step.kind === "signin" ? undefined : 8}
               autoComplete={step.kind === "signin" ? "current-password" : "new-password"}
-              placeholder={step.kind === "newPassword" ? "New password" : "Password"}
-              aria-label="Password"
+              placeholder={step.kind === "newPassword" ? t("New password") : t("Password")}
+              aria-label={t("Password")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="pf-input"
@@ -181,22 +182,22 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
               pattern="[0-9]*"
               maxLength={8}
               placeholder="••••••"
-              aria-label="Code"
+              aria-label={t("Code")}
               autoFocus
               value={code}
               onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
               className="pf-input pf-rounded pf-code"
             />
           )}
-          <button className="pf-button" disabled={busy}>{busy ? "One moment…" : cta[step.kind]}</button>
+          <button className="pf-button" disabled={busy}>{busy ? t("One moment…") : cta[step.kind]}</button>
           {error && <p style={{ margin: 0, color: "var(--pf-red)", fontSize: "0.85rem" }}>{error}</p>}
         </form>
 
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 8 }}>
           {step.kind === "signin" ? (
             <>
-              <button type="button" className="pf-link" onClick={() => go({ kind: "signup" })}>Create account</button>
-              <button type="button" className="pf-link" onClick={() => go({ kind: "forgot" })}>Forgot password?</button>
+              <button type="button" className="pf-link" onClick={() => go({ kind: "signup" })}>{t("Create account")}</button>
+              <button type="button" className="pf-link" onClick={() => go({ kind: "forgot" })}>{t("Forgot password?")}</button>
             </>
           ) : (
             <button type="button" className="pf-link" onClick={() => go({ kind: "signin" })}>← Back to sign in</button>
@@ -205,12 +206,12 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
 
         {step.kind === "signin" && (
           <button type="button" className="pf-link" style={{ color: "var(--pf-ink-2)" }} onClick={() => go({ kind: "code" })}>
-            Email me a code instead
+            {t("Email me a code instead")}
           </button>
         )}
 
         <button type="button" onClick={onDemo} className="pf-link" style={{ color: "var(--pf-ink-3)" }}>
-          Look around with demo data first
+          {t("Look around with demo data first")}
         </button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { intlLocale, t } from "@/lib/i18n";
 import { useRef, useState } from "react";
 import { useFlip } from "@/lib/useFlip";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
@@ -63,10 +64,10 @@ export default function BudgetsPage() {
   const pieSwitch = (
     <Segmented
       size="sm"
-      label="Pie chart"
+      label={t("Pie chart")}
       value={pieView}
       onChange={setPieView}
-      options={[{ value: "budget", label: "Budget" }, { value: "spent", label: "Real spend" }]}
+      options={[{ value: "budget", label: t("Budget") }, { value: "spent", label: t("Real spend") }]}
     />
   );
 
@@ -98,7 +99,7 @@ export default function BudgetsPage() {
 
   return (
     <div style={{ display: "grid", gap: 24 }}>
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Budgets</h1>
+      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Budgets")}</h1>
 
       {/* The total (with the month slider) and the pie chart, side by side. */}
       <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", alignItems: "stretch" }}>
@@ -111,7 +112,7 @@ export default function BudgetsPage() {
               {mode === "month" ? (isFuture ? " · forecast" : isCurrent ? " · so far" : " · finished") : " · so far"}
             </span>
           </div>
-          <Segmented label="Period" value={mode} onChange={setMode} options={[{ value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
+          <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
         </div>
         {mode === "month" ? (
           <div key="m" className="pf-readout" style={{ display: "grid", gap: 8 }}>
@@ -121,12 +122,12 @@ export default function BudgetsPage() {
             {/* The total budget, same bar as each category: over it spills out. */}
             <BudgetBar spent={totalSpent} budget={totalBudget} color="#30d158" heat forecast={isFuture} currency={currency} monthFraction={isFuture ? undefined : monthPace} />
             <StepSlider
-              label="Month"
+              label={t("Month")}
               animKey="budget-months"
               value={sel}
               steps={Array.from({ length: 12 }, (_, i) => {
                 const d = new Date(now.getFullYear(), i, 1);
-                const name = d.toLocaleDateString("en-GB", { month: "long" });
+                const name = d.toLocaleDateString(intlLocale(), { month: "long" });
                 return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}${i > now.getMonth() ? " · forecast" : ""}`, faint: i > now.getMonth() };
               })}
               onChange={setSel}
@@ -145,7 +146,7 @@ export default function BudgetsPage() {
                 {yearSpent > toDate ? `${money(yearSpent - toDate, currency)} over` : `${money(toDate - yearSpent, currency)} under`}
               </span>
               {" · "}
-              {overMonths === 0 ? "no month over budget" : `${overMonths} category-month${overMonths === 1 ? "" : "s"} over budget`}
+              {overMonths === 0 ? t("no month over budget") : overMonths === 1 ? t("1 category-month over budget") : t("{n} category-months over budget", { n: overMonths })}
             </div>
           </div>
         )}
@@ -154,8 +155,8 @@ export default function BudgetsPage() {
         <BudgetDonut
           items={rows.filter((r) => r.budget !== null).map((r) => ({ category: r.c, budget: r.budget ?? 0, expected: r.expected }))}
           currency={currency}
-          title={`Budget for ${month.toLocaleDateString("en-GB", { month: "long" })}`}
-          caption={isFuture || isCurrent ? "Expected" : "Spent"}
+          title={t("Budget for {v1}", { v1: month.toLocaleDateString(intlLocale(), { month: "long" }) })}
+          caption={isFuture || isCurrent ? t("Expected") : t("Spent")}
           headerRight={pieSwitch}
         />
       ) : (
@@ -189,7 +190,7 @@ export default function BudgetsPage() {
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span>{c.name}</span>
                     <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>
-                      {budget === null ? "No budget" : `${money(budget, currency)} budget`}
+                      {budget === null ? t("No budget") : `${money(budget, currency)} budget`}
                     </span>
                   </div>
                   {budget !== null ? (
@@ -235,7 +236,7 @@ function YearList({
   useFlip(yearRef, largestFirst);
   return (
     <section key="year" className="pf-readout">
-      <h2 className="pf-section-title">Year budgets</h2>
+      <h2 className="pf-section-title">{t("Year budgets")}</h2>
       <div className="pf-card" ref={yearRef}>
         <BudgetScaleSwitch />
         {(largestFirst ? [...rows].sort((a, b) => (b.budget ?? 0) - (a.budget ?? 0)) : rows).map(({ c, spent, budget, months }) => (
@@ -245,7 +246,7 @@ function YearList({
               <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
                 <span>{c.name}</span>
                 <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>
-                  {budget === null ? "No budget" : `${money(budget, currency)} for the year`}
+                  {budget === null ? t("No budget") : t("{v1} for the year", { v1: money(budget, currency) })}
                 </span>
               </div>
               {budget !== null ? (
@@ -256,7 +257,7 @@ function YearList({
               <div className="pf-month-blocks">
                 {months.map((m, i) => {
                   const state = m.future ? "future" : m.budget === null ? "none" : m.total > m.budget ? "over" : "under";
-                  const name = m.month.toLocaleDateString("en-GB", { month: "long" });
+                  const name = m.month.toLocaleDateString(intlLocale(), { month: "long" });
                   return (
                     <span
                       key={i}
@@ -264,7 +265,7 @@ function YearList({
                       style={{ animationDelay: `${i * 30}ms` }}
                       title={
                         m.future
-                          ? `${name}: still to come`
+                          ? t("{name}: still to come", { name })
                           : `${name}: ${money(m.total, currency)}${m.budget !== null ? ` of ${money(m.budget, currency)}` : ""}`
                       }
                     >
