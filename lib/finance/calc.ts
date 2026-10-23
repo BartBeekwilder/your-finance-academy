@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import type { Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
 
 // Same rules as the iOS app's BudgetCalculator / DashboardView, so a given
@@ -288,7 +289,7 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
 
   const assets: BalanceLine[] = [];
   const liabilities: BalanceLine[] = [];
-  for (const p of posts) (p.side === "asset" ? assets : liabilities).push({ id: p.id, name: p.name || "Untitled", value: postValue(p), kind: "manual" });
+  for (const p of posts) (p.side === "asset" ? assets : liabilities).push({ id: p.id, name: p.name || t("Untitled"), value: postValue(p), kind: "manual" });
 
   let cash = nw.accountsTotal + nw.finished.slice(0, Math.max(m + 1, 0)).reduce((a, b) => a + b, 0);
   if (isCurrent) {
@@ -297,14 +298,14 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
     cash = nw.base - nw.holdingsTotal + s.income - s.spent;
     const prepaid = s.fixed * (1 - f);
     const earned = nw.projected * f - s.income;
-    assets.push({ id: "accounts", name: "Accounts", value: cash, kind: "auto", hint: "Start of the year + what each month added" });
-    assets.push({ id: "investments", name: "Investments", value: nw.holdingsTotal, kind: "auto", hint: "Holdings at cost" });
-    if (prepaid > 0.005) assets.push({ id: "prepaid", name: "Prepaid", value: prepaid, kind: "auto", hint: "Fixed costs paid for the rest of the month" });
-    if (earned > 0.005) assets.push({ id: "receivable", name: "Receivable", value: earned, kind: "auto", hint: "Income earned so far, not yet received" });
-    if (earned < -0.005) liabilities.push({ id: "advance", name: "Income received in advance", value: -earned, kind: "auto", hint: "Received, not yet earned this month" });
+    assets.push({ id: "accounts", name: t("Accounts"), value: cash, kind: "auto", hint: t("Start of the year + what each month added") });
+    assets.push({ id: "investments", name: t("Investments"), value: nw.holdingsTotal, kind: "auto", hint: t("Holdings at cost") });
+    if (prepaid > 0.005) assets.push({ id: "prepaid", name: t("Prepaid"), value: prepaid, kind: "auto", hint: t("Fixed costs paid for the rest of the month") });
+    if (earned > 0.005) assets.push({ id: "receivable", name: t("Receivable"), value: earned, kind: "auto", hint: t("Income earned so far, not yet received") });
+    if (earned < -0.005) liabilities.push({ id: "advance", name: t("Income received in advance"), value: -earned, kind: "auto", hint: t("Received, not yet earned this month") });
   } else {
-    assets.push({ id: "accounts", name: "Accounts", value: cash, kind: "auto", hint: "Start of the year + what each month added" });
-    assets.push({ id: "investments", name: "Investments", value: nw.holdingsTotal, kind: "auto", hint: "Holdings at cost" });
+    assets.push({ id: "accounts", name: t("Accounts"), value: cash, kind: "auto", hint: t("Start of the year + what each month added") });
+    assets.push({ id: "investments", name: t("Investments"), value: nw.holdingsTotal, kind: "auto", hint: t("Holdings at cost") });
   }
 
   const totalAssets = assets.reduce((t, l) => t + l.value, 0);

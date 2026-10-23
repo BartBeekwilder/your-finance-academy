@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useState } from "react";
 import { money } from "@/lib/finance/format";
 import { useTween } from "./charts";
@@ -56,20 +57,20 @@ export default function EquityHero({
   return (
     <section className="pf-card pf-eq-hero">
       <div style={{ display: "grid", gap: 10, minWidth: 0 }}>
-        <div className="pf-eq-label">EQUITY · {label.toUpperCase()}</div>
+        <div className="pf-eq-label">{t("Equity").toUpperCase()} · {label.toUpperCase()}</div>
         <div className="pf-rounded pf-eq-value" style={{ color: neg ? "var(--pf-red)" : EQUITY }}>
           {money(shown, currency)}
         </div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {prev !== null && chip(value - prev, "since last month")}
-          {sel > 0 && chip(value - first, "since January")}
+          {prev !== null && chip(value - prev, t("since last month"))}
+          {sel > 0 && chip(value - first, t("since January"))}
         </div>
         <div style={{ display: "grid", gap: 5, maxWidth: 360, marginTop: 4 }}>
           <div className="pf-eq-share">
             <span style={{ width: `${share * 100}%` }} />
           </div>
           <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
-            <b className="pf-rounded" style={{ color: "var(--pf-ink)" }}>{Math.round(share * 100)}%</b> of what you own is yours · the rest is financed
+            <b className="pf-rounded" style={{ color: "var(--pf-ink)" }}>{Math.round(share * 100)}%</b> {t("of what you own is yours · the rest is financed")}
           </div>
         </div>
       </div>
@@ -81,7 +82,7 @@ export default function EquityHero({
               {points[tip].full} · <b style={{ color: "var(--pf-ink)" }}>{money(points[tip].value, currency)}</b>
             </>
           ) : (
-            "Equity this year"
+            t("Equity this year")
           )}
         </div>
         <svg viewBox={`0 0 ${W} ${H}`} className="pf-eq-line" preserveAspectRatio="none" onMouseLeave={() => setHover(null)}>

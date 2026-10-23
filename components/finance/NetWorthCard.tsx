@@ -44,7 +44,7 @@ export default function NetWorthCard({
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.05em", color: "var(--pf-ink-2)" }}>
-        <span className="pf-pulse" /> NET WORTH · LIVE
+        <span className="pf-pulse" /> {t("Net worth").toUpperCase()} · {t("live").toUpperCase()}
       </div>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 4, flexWrap: "wrap", marginTop: 4 }}>
         <LiveAmount value={live} currency={currency} size="2.25rem" />

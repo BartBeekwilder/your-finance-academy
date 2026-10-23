@@ -92,13 +92,13 @@ export default function BudgetBar({
       aria-valuemin={0}
       aria-valuemax={budget}
       aria-valuenow={used}
-      aria-label={`${money(used, currency)} ${fixed ? "used" : "spent"} of ${money(budget, currency)} budget${over ? `, ${money(used - budget, currency)} over` : ""}`}
+      aria-label={t("{used} of {budget} budget", { used: money(used, currency), budget: money(budget, currency) })}
       style={{ ["--c" as string]: color }}
     >
-      {fixed && paid > fill && <span className="pf-bbar-paid" style={{ width: `${paid * 100}%` }} title={`${money(spent, currency)} paid`} />}
+      {fixed && paid > fill && <span className="pf-bbar-paid" style={{ width: `${paid * 100}%` }} title={t("{amount} paid", { amount: money(spent, currency) })} />}
       {fixed && !over && spent < budget && (
         // The part of the budget that wasn't needed at all this month.
-        <span className="pf-bbar-under" style={{ left: `${paid * 100}%` }} title={`${money(budget - spent, currency)} under budget`} />
+        <span className="pf-bbar-under" style={{ left: `${paid * 100}%` }} title={t("{v1} under budget", { v1: money(budget - spent, currency) })} />
       )}
       <span
         className="pf-bbar-fill"
@@ -114,32 +114,32 @@ export default function BudgetBar({
             : { width: `${fill * 100}%` }
         }
       />
-      {over && <span className="pf-bbar-limit" style={{ left: `${limit * 100}%` }} title={`Budget ${money(budget, currency)}`} />}
+      {over && <span className="pf-bbar-limit" style={{ left: `${limit * 100}%` }} title={t("Budget {amount}", { amount: money(budget, currency) })} />}
       {pace !== null && pace > 0.02 && pace < 0.98 && (
         <span className="pf-bbar-pace" data-ahead={aheadOfPace} style={{ left: `${pace * 100}%` }} title={t("Even pace for today")} />
       )}
 
       <span className="pf-bbar-text">
         <span className="pf-rounded">
-          {money(used, currency)} {forecast ? "expected" : fixed ? "used" : "spent"}
+          {forecast ? t("{amount} expected", { amount: money(used, currency) }) : fixed ? t("{amount} used", { amount: money(used, currency) }) : t("{amount} spent", { amount: money(used, currency) })}
         </span>
         <span className="pf-rounded" style={{ opacity: over ? 1 : 0.75 }}>
           {over
-            ? `${money(used - budget, currency)} over · ${pct}%`
+            ? `${t("{amount} over", { amount: money(used - budget, currency) })} · ${pct}%`
             : fixed
               ? // "To go" = paid but not yet used; an unpaid part of the
                 // budget (the empty end of the bar) is called out as such.
-                `${money(spent - used, currency)} to go · ${spent < budget ? t("{v1} under budget", { v1: money(budget - spent, currency) }) : `${pct}%`}`
-              : `${money(budget - used, currency)} left · ${pct}%`}
+                `${t("{amount} to go", { amount: money(spent - used, currency) })} · ${spent < budget ? t("{v1} under budget", { v1: money(budget - spent, currency) }) : `${pct}%`}`
+              : `${t("{amount} left", { amount: money(budget - used, currency) })} · ${pct}%`}
         </span>
       </span>
     </div>
     {outside && (
       <span className="pf-bbar-outtext pf-rounded" style={{ left: `calc(${barW + spill}% + 8px)` }}>
-        {money(used, currency)} {forecast ? "expected" : fixed ? "used" : "spent"}
+        {forecast ? t("{amount} expected", { amount: money(used, currency) }) : fixed ? t("{amount} used", { amount: money(used, currency) }) : t("{amount} spent", { amount: money(used, currency) })}
         <span style={{ color: over ? "#ff6a5f" : "var(--pf-ink-3)" }}>
           {" · "}
-          {over ? `${money(used - budget, currency)} over · ${pct}%` : `${money(Math.max(budget - used, 0), currency)} ${fixed ? "to go" : "left"} · ${pct}%`}
+          {over ? `${t("{amount} over", { amount: money(used - budget, currency) })} · ${pct}%` : `${fixed ? t("{amount} to go", { amount: money(Math.max(budget - used, 0), currency) }) : t("{amount} left", { amount: money(Math.max(budget - used, 0), currency) })} · ${pct}%`}
         </span>
       </span>
     )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useState } from "react";
 import { WithYAxis } from "./YAxis";
 import { categoryYear } from "@/lib/finance/calc";
@@ -98,13 +99,13 @@ export default function CategoryCard({ category }: { category: Category }) {
       <div style={{ fontSize: "0.7rem", color: shownOver ? RED : "var(--pf-ink-2)" }}>
         <strong style={{ fontWeight: 600, color: "var(--pf-ink-2)" }}>
           {shortMonth(shown.month)}
-          {shown.month.getMonth() === current ? " · so far" : ""}
+          {shown.month.getMonth() === current ? ` · ${t("so far")}` : ""}
         </strong>
         {shown.future
-          ? " · not yet"
+          ? ` · ${t("not yet")}`
           : shown.budget !== null
-            ? ` · ${Math.round((shown.total / shown.budget) * 100)}% of ${money(shown.budget, currency)} budget`
-            : " · no budget"}
+            ? ` · ${t("{pct}% of {budget} budget", { pct: Math.round((shown.total / shown.budget) * 100), budget: money(shown.budget, currency) })}`
+            : ` · ${t("no budget")}`}
       </div>
     </button>
   );

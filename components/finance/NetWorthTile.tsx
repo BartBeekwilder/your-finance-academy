@@ -30,7 +30,7 @@ export default function NetWorthTile({ data, currency, onModeChange, mode }: { d
   return (
     <div className="pf-card" style={{ overflow: "hidden" }}>
       <Tile
-        title={() => "Net worth"}
+        title={() => t("Net worth")}
         value={value}
         before={0}
         color={() => TEAL}

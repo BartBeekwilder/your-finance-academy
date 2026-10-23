@@ -146,9 +146,9 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
         const c = await categoryFor(b.key, b.icon, b.color, false);
         await setBudget(c.id, month, num(b.amount));
       }
-      if (num(home.value)) await addBalanceItem({ name: "Home", side: "asset", value: num(home.value) });
-      if (num(home.mortgage)) await addBalanceItem({ name: "Mortgage", side: "liability", value: num(home.mortgage) });
-      if (num(home.loans)) await addBalanceItem({ name: "Other loans", side: "liability", value: num(home.loans) });
+      if (num(home.value)) await addBalanceItem({ name: t("Home"), side: "asset", value: num(home.value) });
+      if (num(home.mortgage)) await addBalanceItem({ name: t("Mortgage"), side: "liability", value: num(home.mortgage) });
+      if (num(home.loans)) await addBalanceItem({ name: t("Other loans"), side: "liability", value: num(home.loans) });
       setSaved(true);
     } catch (e) {
       setError((e as Error).message);
@@ -233,7 +233,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                     </div>
                   ))}
                   <button className="pf-bal-add" onClick={() => setAccounts([...accounts, { key: crypto.randomUUID(), name: t("Another account"), type: "savings", amount: "" }])}>
-                    <Plus size={13} /> Add account
+                    <Plus size={13} /> {t("Add account")}
                   </button>
                 </div>
               </Screen>

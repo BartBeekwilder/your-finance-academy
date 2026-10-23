@@ -54,7 +54,7 @@ export default function EquityWaterfall({
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 10 }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>How your equity moved {view === "post" ? "per post" : "per month"}</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{view === "post" ? t("How your equity moved per post") : t("How your equity moved per month")}</span>
         <Segmented
           size="sm"
           label={t("Equity waterfall")}
@@ -135,7 +135,7 @@ export default function EquityWaterfall({
 
 function postSteps(sheet: Sheet, prev: Sheet): Step[] {
   const start = prev.equity;
-  const steps: Step[] = [{ key: "start", label: "Start", long: "End of last month", from: start, to: start, kind: "total" }];
+  const steps: Step[] = [{ key: "start", label: t("Start"), long: t("End of last month"), from: start, to: start, kind: "total" }];
   let level = start;
   const before = new Map([...prev.assets.map((l) => [l.id, l.value] as const), ...prev.liabilities.map((l) => [l.id, -l.value] as const)]);
   const lines = [...sheet.assets.map((l) => ({ ...l, sign: 1 })), ...sheet.liabilities.map((l) => ({ ...l, sign: -1 }))];
@@ -145,7 +145,7 @@ function postSteps(sheet: Sheet, prev: Sheet): Step[] {
     const change = l.sign * l.value - (before.get(l.id) ?? 0);
     if (Math.abs(change) < 0.005) continue;
     const debt = l.sign < 0;
-    steps.push({ key: l.id, label: l.name, long: `${l.name}${debt ? (change > 0 ? " · paid off" : " · more debt") : ""}`, from: level, to: level + change, kind: "change" });
+    steps.push({ key: l.id, label: l.name, long: `${l.name}${debt ? (change > 0 ? ` · ${t("paid off")}` : ` · ${t("more debt")}`) : ""}`, from: level, to: level + change, kind: "change" });
     level += change;
   }
   // Posts that were there last month and are gone now.
@@ -155,18 +155,18 @@ function postSteps(sheet: Sheet, prev: Sheet): Step[] {
     steps.push({ key: id, label: name, long: `${name} · gone`, from: level, to: level - v, kind: "change" });
     level -= v;
   }
-  steps.push({ key: "end", label: "Now", long: sheet.isCurrent ? "Equity today" : "Equity at month end", from: sheet.equity, to: sheet.equity, kind: "total" });
+  steps.push({ key: "end", label: t("Now"), long: sheet.isCurrent ? t("Equity today") : t("Equity at month end"), from: sheet.equity, to: sheet.equity, kind: "total" });
   return steps;
 }
 
 function monthSteps(months: { start: number; points: { label: string; full: string; value: number }[] }, sel: number): Step[] {
-  const steps: Step[] = [{ key: "start", label: "1 Jan", long: "1 January", from: months.start, to: months.start, kind: "total" }];
+  const steps: Step[] = [{ key: "start", label: t("1 Jan"), long: t("1 January"), from: months.start, to: months.start, kind: "total" }];
   let level = months.start;
   months.points.slice(0, sel + 1).forEach((p, i) => {
     steps.push({ key: `m${i}`, label: p.label, long: p.full, from: level, to: p.value, kind: "change" });
     level = p.value;
   });
-  steps.push({ key: "end", label: "Now", long: months.points[sel]?.full ?? "Now", from: level, to: level, kind: "total" });
+  steps.push({ key: "end", label: t("Now"), long: months.points[sel]?.full ?? t("Now"), from: level, to: level, kind: "total" });
   return steps;
 }
 

@@ -19,6 +19,8 @@ const EXTRA = [
   "Euro", "US dollar", "British pound", "Swiss franc", "Swedish krona", "Japanese yen",
   "Rent or mortgage", "Energy & water", "Insurance", "Internet & phone", "Subscriptions", "Car or transit pass",
   "Groceries", "Dining out", "Transport", "Shopping", "Entertainment", "Health",
+  "Crypto", "Stock", "Metal",
+  ...["Spending", "Income"].flatMap((k) => ["month", "day"].flatMap((p) => ["category", "source"].map((g) => `${k} per ${p} by ${g}`))),
 ];
 
 function walk(dir, out = []) {
@@ -32,7 +34,7 @@ function walk(dir, out = []) {
 
 function extract() {
   const keys = new Set(EXTRA);
-  for (const file of [...walk(join(ROOT, "app")), ...walk(join(ROOT, "components"))]) {
+  for (const file of [...walk(join(ROOT, "app")), ...walk(join(ROOT, "components")), ...walk(join(ROOT, "lib")).filter((f) => !f.includes("/i18n/"))]) {
     const src = readFileSync(file, "utf8");
     for (const m of src.matchAll(/\btr?\("((?:[^"\\]|\\.)*)"/g)) keys.add(JSON.parse(`"${m[1]}"`));
   }

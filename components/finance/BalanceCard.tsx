@@ -22,7 +22,7 @@ export default function BalanceCard({ data, now }: { data: FinanceData; now: Dat
     <section className="pf-card" style={{ padding: 18, display: "grid", gap: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
         <Link href="/app/balance" style={{ fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.05em", color: "var(--pf-ink-2)" }}>
-          BALANCE SHEET ›
+          {t("Balance sheet").toUpperCase()} ›
         </Link>
         <Segmented
           size="sm"

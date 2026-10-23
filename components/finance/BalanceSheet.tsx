@@ -106,12 +106,12 @@ export function BalanceBars({
       <div style={{ display: "flex", justifyContent: header ? "space-between" : "flex-end", alignItems: "baseline", gap: 12, flexWrap: "wrap", minHeight: 18 }}>
         {header && (
           <div>
-            <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>Equity{label ? ` · ${label}` : ""}</div>
+            <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{t("Equity")}{label ? ` · ${label}` : ""}</div>
             <div className="pf-rounded" style={{ fontSize: "1.6rem", fontWeight: 700, color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>
               {money(sheet.equity, currency)}
             </div>
             {eqDelta !== null && Math.abs(eqDelta) >= 0.005 && (
-              <div style={{ fontSize: "0.7rem", color: eqDelta >= 0 ? "var(--pf-green)" : "var(--pf-red)" }}>{money(eqDelta, currency, { signed: true })} since last month</div>
+              <div style={{ fontSize: "0.7rem", color: eqDelta >= 0 ? "var(--pf-green)" : "var(--pf-red)" }}>{t("{amount} since last month", { amount: money(eqDelta, currency, { signed: true }) })}</div>
             )}
           </div>
         )}
@@ -123,7 +123,7 @@ export function BalanceBars({
             </>
           ) : (
             <>
-              Own <b style={{ color: "var(--pf-ink)" }}>{money(sheet.totalAssets, currency)}</b> {t("· owe")} <b style={{ color: "var(--pf-ink)" }}>{money(sheet.totalDebt, currency)}</b>
+              {t("Own")} <b style={{ color: "var(--pf-ink)" }}>{money(sheet.totalAssets, currency)}</b> {t("· owe")} <b style={{ color: "var(--pf-ink)" }}>{money(sheet.totalDebt, currency)}</b>
             </>
           )}
         </span>
@@ -256,7 +256,7 @@ function TextField({ value, onCommit, className }: { value: string; onCommit: (v
         if (draft !== null) onCommit(draft);
         setDraft(null);
       }}
-      onKeyDown={(e) => e.key === t("Enter") && e.currentTarget.blur()}
+      onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
     />
   );
 }
@@ -281,7 +281,7 @@ function AmountField({ value, currency, onCommit }: { value: number; currency: s
         setDraft(null);
       }}
       onKeyDown={(e) => {
-        if (e.key === t("Enter")) e.currentTarget.blur();
+        if (e.key === "Enter") e.currentTarget.blur();
         if (e.key === "Escape") {
           setDraft(null);
           requestAnimationFrame(() => (e.target as HTMLInputElement).blur());

@@ -80,7 +80,7 @@ export default function LiveTiles({
   return (
     <div className="pf-card" style={{ overflow: "hidden", display: "grid", gridTemplateRows: only ? undefined : "repeat(3, 1fr)" }}>
       {(!only || only === "income") && <Tile
-        title={() => "Income"}
+        title={() => t("Income")}
         last={only === "income"}
         onModeChange={onModeChange}
         mode={mode}
@@ -94,7 +94,7 @@ export default function LiveTiles({
           mode === "month" ? (
             <>
               <Sub label={t("Entered so far")} value={enteredIncome} color={GREEN} currency={currency} />
-              <Sub label="≈" value={monthlyIncome / days} suffix="/ day net" color={GREEN} currency={currency} />
+              <Sub label="≈" value={monthlyIncome / days} suffix={t("/ day net")} color={GREEN} currency={currency} />
               <Bar label={t("{v1}% of month elapsed", { v1: Math.round(fraction * 100) })} parts={elapsed(fraction, GREEN, "rgba(48,209,88,.25)")} />
             </>
           ) : (
@@ -108,7 +108,7 @@ export default function LiveTiles({
       </Tile>}
 
       {(!only || only === "spent") && <Tile
-        title={() => "Spent"}
+        title={() => t("Spent")}
         last={only === "spent"}
         onModeChange={onModeChange}
         mode={mode}
@@ -126,13 +126,13 @@ export default function LiveTiles({
             <>
               <Sub label={mode === "month" ? t("Entered so far") : t("Entered this year")} value={total} color={RED} currency={currency} />
               {mode === "month" ? (
-                <Sub label="≈" value={spentTotal / dayOfMonth} suffix="/ day" color={RED} currency={currency} />
+                <Sub label="≈" value={spentTotal / dayOfMonth} suffix={t("/ day")} color={RED} currency={currency} />
               ) : (
                 <Sub label="≈" value={ytd.spent / Math.max(monthsElapsed, 1)} suffix="/ month" color={RED} currency={currency} />
               )}
               {total > 0 && (
                 <Bar
-                  label={`Fixed ${Math.round((fix / total) * 100)}% · Variable ${Math.round((vary / total) * 100)}%`}
+                  label={t("Fixed {f}% · Variable {v}%", { f: Math.round((fix / total) * 100), v: Math.round((vary / total) * 100) })}
                   parts={[
                     { share: fix / total, color: RED },
                     { share: vary / total, color: "rgba(255,69,58,.3)" },
@@ -145,7 +145,7 @@ export default function LiveTiles({
       </Tile>}
 
       {(!only || only === "balance") && <Tile
-        title={(mode) => `Balance ${mode === "month" ? month : year}`}
+        title={(mode) => t("Balance {period}", { period: mode === "month" ? month : year })}
         value={liveBalance}
         before={before.income - before.spent}
         color={(v) => (v >= 0 ? BLUE : RED)}

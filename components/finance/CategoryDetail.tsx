@@ -94,7 +94,7 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
       </section>
 
       <section>
-        <h3 className="pf-section-title" style={{ marginLeft: 0 }}>Per Month — {now.getFullYear()}</h3>
+        <h3 className="pf-section-title" style={{ marginLeft: 0 }}>{t("Per month")} — {now.getFullYear()}</h3>
         <MonthBars points={view.perMonth} color={color} currency={currency} current={now.getMonth()} />
       </section>
 
@@ -167,12 +167,12 @@ function CumulativeChart({ points, color, currency }: { points: Point[]; color: 
       <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
         {spent.length > 0 && (
           <>
-            {monthYear(past[shown].month)} · {money(spent[shown], currency)} spent
+            {monthYear(past[shown].month)} · {t("{amount} spent", { amount: money(spent[shown], currency) })}
             {hasBudget && (
               <>
-                {" "}of {money(budget[shown], currency)} ·{" "}
+                {" "}{t("of {budget}", { budget: money(budget[shown], currency) })} ·{" "}
                 <strong style={{ color: diff > 0 ? RED : "var(--pf-green)", fontWeight: 600 }}>
-                  {money(Math.abs(diff), currency)} {diff > 0 ? "over" : "under"}
+                  {diff > 0 ? t("{amount} over", { amount: money(Math.abs(diff), currency) }) : t("{amount} under", { amount: money(Math.abs(diff), currency) })}
                 </strong>
               </>
             )}
@@ -228,15 +228,15 @@ function MonthBars({ points, color, currency, current }: {
       <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
         {monthYear(p.month)} ·{" "}
         {p.future ? (
-          "not yet"
+          t("not yet")
         ) : (
           <>
             {money(p.total, currency)}
             {p.budget !== null && (
               <>
-                {" "}of {money(p.budget, currency)} ·{" "}
+                {" "}{t("of {budget}", { budget: money(p.budget, currency) })} ·{" "}
                 <strong style={{ color: p.total > p.budget ? RED : "var(--pf-green)", fontWeight: 600 }}>
-                  {money(Math.abs(p.total - p.budget), currency)} {p.total > p.budget ? "over" : "under"}
+                  {p.total > p.budget ? t("{amount} over", { amount: money(Math.abs(p.total - p.budget), currency) }) : t("{amount} under", { amount: money(Math.abs(p.total - p.budget), currency) })}
                 </strong>
               </>
             )}
@@ -292,7 +292,7 @@ function MonthBars({ points, color, currency, current }: {
             <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> Budget
           </span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-            <span style={{ width: 9, height: 9, borderRadius: 2, background: RED }} /> Over budget
+            <span style={{ width: 9, height: 9, borderRadius: 2, background: RED }} /> {t("Over budget")}
           </span>
           <span style={{ marginLeft: "auto" }}>
             {overCount === 0 ? t("Within budget every month") : (overCount === 1 ? t("Over budget in 1 month") : t("Over budget in {n} months", { n: overCount }))}

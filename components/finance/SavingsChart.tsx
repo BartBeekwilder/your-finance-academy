@@ -97,8 +97,8 @@ export default function SavingsChart({
             {money(total, currency, { signed: true })}
           </div>
           <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>
-            Average {money(average, currency, { signed: true })} per month
-            {period === "year" && ` · ${money(cum[11], currency, { signed: true })} expected by December`}
+            {t("Average {amount} per month", { amount: money(average, currency, { signed: true }) })}
+            {period === "year" && ` · ${t("{amount} expected by December", { amount: money(cum[11], currency, { signed: true }) })}`}
           </div>
         </div>
         <div style={{ display: "grid", gap: 8, justifyItems: "end" }}>
@@ -107,15 +107,15 @@ export default function SavingsChart({
           label={t("Savings period")}
           value={period}
           onChange={(p) => { setPeriod(p); setHover(null); }}
-          options={[{ value: "12m", label: "12 months" }, { value: "year", label: t("This year") }]}
+          options={[{ value: "12m", label: t("12 months") }, { value: "year", label: t("This year") }]}
         />
         <div key={shown} className="pf-readout" style={{ textAlign: "right", fontSize: "0.75rem", color: "var(--pf-ink-2)", display: "grid", gap: 2 }}>
           <strong style={{ color: "var(--pf-ink)", fontWeight: 600 }}>
             {monthYear(m.month)}
-            {m.live ? " · live" : m.future ? " · forecast" : ""}
+            {m.live ? ` · ${t("live")}` : m.future ? ` · ${t("forecast")}` : ""}
           </strong>
           <span>
-            Income <b className="pf-rounded" style={{ color: GREEN }}>{money(m.income, currency)}</b> − Spent{" "}
+            {t("Income")} <b className="pf-rounded" style={{ color: GREEN }}>{money(m.income, currency)}</b> − {t("Spent")}{" "}
             <b className="pf-rounded" style={{ color: RED }}>{money(m.spent, currency)}</b>
           </span>
           <span>
@@ -193,7 +193,7 @@ export default function SavingsChart({
           className="pf-sline-label pf-rounded"
           style={{ left: `${cx(liveIndex)}%`, top: cy(cum[liveIndex]) }}
         >
-          Total {money(cum[liveIndex], currency)}
+          {t("Total")} {money(cum[liveIndex], currency)}
         </div>
       </div>
 </WithYAxis>

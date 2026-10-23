@@ -69,7 +69,7 @@ export default function TransactionsPage() {
                     <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || tr("Transaction")}</div>
                     <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
                       {c?.name ?? tr("Uncategorized")}
-                      {t.is_fixed_expense && " · Fixed"}
+                      {t.is_fixed_expense && ` · ${tr("Fixed")}`}
                     </div>
                   </div>
                   <span className="pf-rounded" style={{ fontWeight: 600, color: t.type === "income" ? "var(--pf-green)" : "var(--pf-ink)" }}>
@@ -81,7 +81,7 @@ export default function TransactionsPage() {
                     onKeyDown={(e) => e.stopPropagation()}
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (confirm(`Delete ${t.note || c?.name || "this transaction"}?`)) deleteTransaction(t.id).catch((e) => alert(e.message));
+                      if (confirm(t.note || c?.name ? tr("Delete {name}?", { name: t.note || c?.name || "" }) : tr("Delete this transaction?"))) deleteTransaction(t.id).catch((e) => alert(e.message));
                     }}
                   >
                     <Trash2 size={14} />

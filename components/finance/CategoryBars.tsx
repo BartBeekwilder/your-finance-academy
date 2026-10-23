@@ -111,7 +111,7 @@ export default function CategoryBars({
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "baseline" }}>
         <span style={{ display: "inline-flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-            {kind === "expense" ? t("Spending") : t("Income")} per {mode === "year" ? "month" : "day"} by {groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}
+            {t(`${kind === "expense" ? "Spending" : "Income"} per ${mode === "year" ? "month" : "day"} by ${groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}`)}
           </span>
         </span>
         <span style={{ display: "grid", gap: 6, justifyItems: "end" }}>
@@ -129,7 +129,7 @@ export default function CategoryBars({
             <>
               {months[ghost].long} · expected <b style={{ color: "var(--pf-ink)" }}>{money(months[ghost].expected ?? 0, currency)}</b>
               <span style={{ color: "var(--pf-ink-3)" }}>
-                {kind === "expense" ? " · average of the finished months" : mode === "month" ? " · payday" : " · expected net income"}
+                {` · ${kind === "expense" ? t("average of the finished months") : mode === "month" ? t("payday") : t("expected net income")}`}
               </span>
             </>
           ) : hover && shown && shownGroup ? (
@@ -141,9 +141,9 @@ export default function CategoryBars({
             </>
           ) : (
             <>
-              {monthYear(now)} so far <b style={{ color: accent }}>{money(mode === "year" ? (months.find((m) => m.isNow)?.total ?? 0) : periodTotal, currency)}</b>
+              {t("{period} so far", { period: monthYear(now) })} <b style={{ color: accent }}>{money(mode === "year" ? (months.find((m) => m.isNow)?.total ?? 0) : periodTotal, currency)}</b>
               <span style={{ color: "var(--pf-ink-3)" }}>
-                {mode === "year" || kind === "income" ? ` · expected ${money(monthExpected, currency)}` : " · fixed costs spread over the days"}
+                {mode === "year" || kind === "income" ? ` · ${t("expected {amount}", { amount: money(monthExpected, currency) })}` : ` · ${t("fixed costs spread over the days")}`}
               </span>
             </>
           )}
@@ -239,7 +239,7 @@ export default function CategoryBars({
           <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
             {mode === "month" ? t("{v1} so far", { v1: now.toLocaleDateString(intlLocale(), { month: "long" }) }) : t("{v1} so far", { v1: now.getFullYear() })}
             <div className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700, color: accent }}>{money(periodTotal, currency)}</div>
-            <div>expected {money(periodExpected, currency)}</div>
+            <div>{t("expected {amount}", { amount: money(periodExpected, currency) })}</div>
           </div>
           <div style={{ display: "flex", gap: 12, alignItems: "stretch", minHeight: 0 }}>
             <div key={`s${mode}`} className="pf-cbar-total" style={{ height: H }}>
@@ -311,7 +311,7 @@ function grouping(data: FinanceData, kind: Kind, now: Date) {
     .filter((c) => c.is_income_category === (kind === "income") && c.parent_id === null)
     .sort((a, b) => a.sort_order - b.sort_order);
   const asGroup = (c: (typeof ordered)[number]): Group => ({ id: c.id, name: c.name, color: `#${c.color_hex}`, category: true });
-  const other: Group = { id: OTHER, name: "No category", color: "#636366", category: false };
+  const other: Group = { id: OTHER, name: t("No category"), color: "#636366", category: false };
 
   if (kind === "expense") {
     // Categories with fixed costs (e.g. rent) form the base of every stack.

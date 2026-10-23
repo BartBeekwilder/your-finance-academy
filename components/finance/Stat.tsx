@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 /** A headline figure in a card: label, big number, optional hint, and an
  *  optional `progress` (share of an expected total) as a thin line that
  *  fills in on first paint, with its percentage. */
@@ -25,7 +26,7 @@ export default function Stat({
             <span style={{ width: `${Math.min(progress.share, 1) * 100}%`, background: color ?? "var(--pf-ink-2)" }} />
           </div>
           <div style={{ fontSize: "0.68rem", color: "var(--pf-ink-3)" }}>
-            <b className="pf-rounded" style={{ color: "var(--pf-ink-2)" }}>{Math.round(progress.share * 100)}%</b> of {progress.of}
+            <b className="pf-rounded" style={{ color: "var(--pf-ink-2)" }}>{Math.round(progress.share * 100)}%</b> {t("of {total}", { total: progress.of })}
           </div>
         </div>
       )}

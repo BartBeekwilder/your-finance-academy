@@ -310,7 +310,7 @@ function NewCategoryEditor({
           onChange={(e) => { setName(e.target.value); setError(""); }}
           // Enter saves the category, not the whole transaction form.
           onKeyDown={(e) => {
-            if (e.key === t("Enter")) { e.preventDefault(); save(); }
+            if (e.key === "Enter") { e.preventDefault(); save(); }
             if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); onCancel(); }
           }}
           style={{ flex: 1 }}

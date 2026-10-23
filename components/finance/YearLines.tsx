@@ -73,7 +73,7 @@ export default function YearLines({
     const isNow = m === current;
     return {
       t: m,
-      full: `${monthYear(d)}${isNow ? " · live" : ""}`,
+      full: `${monthYear(d)}${isNow ? ` · ${t("live")}` : ""}`,
       income: isNow ? monthlyIncome * fraction : s.income,
       spent: isNow ? s.fixed * fraction + s.variable : s.spent,
     };
@@ -186,7 +186,7 @@ export default function YearLines({
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 8 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
         <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-          Income vs Spent — {mode === "year" ? year : monthYear(now)}
+          {t("Income vs Spent")} — {mode === "year" ? year : monthYear(now)}
         </span>
         <Segmented
           label={t("Period")}
@@ -203,7 +203,7 @@ export default function YearLines({
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, minHeight: 22 }}>
         {span && spanTotals && span.i1 > span.i0 ? (
           <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
-            {pts[span.i0].full.replace(" · live", "")} → {pts[span.i1].full.replace(" · live", "")} ·{" "}
+            {pts[span.i0].full.replace(` · ${t("live")}`, "")} → {pts[span.i1].full.replace(` · ${t("live")}`, "")} ·{" "}
             <span style={{ color: GREEN, fontWeight: 600 }}>{money(spanTotals.income, currency, { signed: mode === "month" })}</span> ·{" "}
             <span style={{ color: RED, fontWeight: 600 }}>{money(spanTotals.spent, currency, { signed: mode === "month" })}</span> ·{" "}
             <span style={{ fontWeight: 600, color: spanTotals.income - spanTotals.spent >= 0 ? "var(--pf-blue)" : RED }}>
@@ -378,7 +378,7 @@ export default function YearLines({
         <Key color={RED} label={mode === "year" ? t("Spent") : absolute ? t("Spent per day") : t("Spent (running total)")} />
         {mode === "year" && (
           <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-            <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> This month, live
+            <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> {t("This month, live")}
           </span>
         )}
       </div>

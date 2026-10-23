@@ -77,7 +77,7 @@ export default function DashboardPage() {
       {byCategory.length > 0 && (
         <section>
           <h2 className="pf-section-title">
-            Spending by Category <span style={{ textTransform: "none", color: "var(--pf-ink-3)" }}>{t("· drag to rearrange")}</span>
+            {t("Spending by Category")} <span style={{ textTransform: "none", color: "var(--pf-ink-3)" }}>{t("· drag to rearrange")}</span>
           </h2>
           {/* In the user's own order (sort_order), not by amount, so rearranging sticks. */}
           <SortableCategoryGrid categories={byCategory.map((e) => e.category).sort((a, b) => a.sort_order - b.sort_order)} />
@@ -90,7 +90,7 @@ export default function DashboardPage() {
       </section>
 
       <section>
-        <h2 className="pf-section-title">Budgets — {monthYear(month)}</h2>
+        <h2 className="pf-section-title">{t("Budgets")} — {monthYear(month)}</h2>
         <div className="pf-card" ref={budgetsRef}>
           <BudgetScaleSwitch />
           {byCategory.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>{t("No spending yet this month.")}</div>}

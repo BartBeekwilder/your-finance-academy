@@ -42,7 +42,7 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 10 }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "baseline" }}>
-        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>How your net worth moved {mode === "year" ? "per month" : "per day"}</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{mode === "year" ? t("How your net worth moved per month") : t("How your net worth moved per day")}</span>
         <span key={hover ?? "idle"} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
           {shown ? (
             shown.kind === "total" || shown.kind === "end" ? (
@@ -60,7 +60,7 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
           ) : (
             <>
               {mode === "year" ? t("Start of the year") : t("Start of the month")} {money(steps[0].to, currency)} →{" "}
-              <b style={{ color: TEAL }}>{money(steps[steps.length - 1].to, currency)}</b> expected
+              <b style={{ color: TEAL }}>{money(steps[steps.length - 1].to, currency)}</b> {t("expected")}
             </>
           )}
         </span>
@@ -119,7 +119,7 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
 
 function yearSteps(nw: ReturnType<typeof netWorthFigures>, now: Date): Step[] {
   const year = now.getFullYear(), current = now.getMonth();
-  const steps: Step[] = [{ key: "start", label: "Start", long: `1 January ${year}`, from: nw.startOfYear, to: nw.startOfYear, kind: "total" }];
+  const steps: Step[] = [{ key: "start", label: t("Start"), long: t("1 January {year}", { year }), from: nw.startOfYear, to: nw.startOfYear, kind: "total" }];
   let level = nw.startOfYear;
   for (let m = 0; m < 12; m++) {
     const d = new Date(year, m, 1);
@@ -130,8 +130,7 @@ function yearSteps(nw: ReturnType<typeof netWorthFigures>, now: Date): Step[] {
   // This month's remaining forecast joins the year-end total.
   const rest = (nw.forecast[0]?.change ?? 0) - nw.liveChange(now.getTime());
   const end = level + rest;
-  steps.push({ key: "end", label: "Dec", long: `Expected on 31 December ${year}`, from: end, to: end, kind: "end" });
-  steps[steps.length - 1].label = "End";
+  steps.push({ key: "end", label: t("End"), long: t("Expected on 31 December {year}", { year }), from: end, to: end, kind: "end" });
   return steps;
 }
 
@@ -146,8 +145,8 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
   const soFar = nw.liveChange(now.getTime());
   const ahead = days - today;
   const restPerDay = ahead > 0 ? ((nw.forecast[0]?.change ?? soFar) - soFar) / ahead : 0;
-  const steps: Step[] = [{ key: "start", label: "1", long: `Start of ${now.toLocaleDateString(intlLocale(), { month: "long" })}`, from: nw.base, to: nw.base, kind: "total" }];
-  steps[0].label = "Start";
+  const steps: Step[] = [{ key: "start", label: "1", long: t("Start of {month}", { month: now.toLocaleDateString(intlLocale(), { month: "long" }) }), from: nw.base, to: nw.base, kind: "total" }];
+  steps[0].label = t("Start");
   let level = nw.base;
   for (let day = 1; day <= days; day++) {
     const d = new Date(year, month, day);
@@ -156,7 +155,7 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
     steps.push({
       key: `d${day}`,
       label: show ? String(day) : "",
-      long: d.toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }) + (day === today ? " · live" : ""),
+      long: d.toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }) + (day === today ? ` · ${t("live")}` : ""),
       from: level,
       to: level + change,
       kind: day > today ? "forecast" : "change",
@@ -164,7 +163,7 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
     });
     level += change;
   }
-  steps.push({ key: "end", label: "End", long: `Expected at the end of ${now.toLocaleDateString(intlLocale(), { month: "long" })}`, from: level, to: level, kind: "end" });
+  steps.push({ key: "end", label: t("End"), long: t("Expected at the end of {month}", { month: now.toLocaleDateString(intlLocale(), { month: "long" }) }), from: level, to: level, kind: "end" });
   return steps;
 }
 

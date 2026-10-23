@@ -107,11 +107,11 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
 
   const titles: Record<Step["kind"], [string, string]> = {
     signin: ["Personal Finance", t("Sign in to see the same budgets and transactions as on your iPhone.")],
-    signup: ["Create your account", t("Your data syncs between your iPhone, iPad and the web.")],
-    code: ["Sign in with a code", t("We'll email you a 6-digit code — no password needed.")],
-    forgot: ["Reset your password", t("We'll email you a 6-digit code.")],
-    verify: ["Enter your code", t("Check your email for the 6-digit code.")],
-    newPassword: ["Choose a new password", t("At least 8 characters.")],
+    signup: [t("Create your account"), t("Your data syncs between your iPhone, iPad and the web.")],
+    code: [t("Sign in with a code"), t("We'll email you a 6-digit code — no password needed.")],
+    forgot: [t("Reset your password"), t("We'll email you a 6-digit code.")],
+    verify: [t("Enter your code"), t("Check your email for the 6-digit code.")],
+    newPassword: [t("Choose a new password"), t("At least 8 characters.")],
   };
   const [title, subtitle] = titles[step.kind];
   const needsEmail = step.kind === "signin" || step.kind === "signup" || step.kind === "code" || step.kind === "forgot";

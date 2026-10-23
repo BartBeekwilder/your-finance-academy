@@ -65,7 +65,7 @@ export default function ExpensesPage() {
               label={t("Entered this month")}
               value={money(s.spent, currency)}
               color="var(--pf-red)"
-              progress={forecast[0].spent ? { share: s.spent / forecast[0].spent, of: `${money(forecast[0].spent, currency)} expected` } : undefined}
+              progress={forecast[0].spent ? { share: s.spent / forecast[0].spent, of: t("{amount} expected", { amount: money(forecast[0].spent, currency) }) } : undefined}
             />
             <Stat label={t("Fixed costs / month")} value={money(s.fixed, currency)} />
           </>
@@ -75,7 +75,7 @@ export default function ExpensesPage() {
               label={t("Entered this year")}
               value={money(yearSpent, currency)}
               color="var(--pf-red)"
-              progress={expectedYear ? { share: yearSpent / expectedYear, of: `${money(expectedYear, currency)} expected` } : undefined}
+              progress={expectedYear ? { share: yearSpent / expectedYear, of: t("{amount} expected", { amount: money(expectedYear, currency) }) } : undefined}
             />
             <Stat label={t("Fixed costs this year")} value={money(yearFixed, currency)} />
           </>
@@ -85,7 +85,7 @@ export default function ExpensesPage() {
         ) : (
           <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} />
         )}
-        <Stat label={`Average / month${finished.length ? ` (${finished.length} mo)` : ""}`} value={average ? money(average, currency) : "—"} />
+        <Stat label={finished.length ? t("Average / month ({n} mo)", { n: finished.length }) : t("Average / month")} value={average ? money(average, currency) : "—"} />
       </div>
 
       <CategoryBars data={data} now={now} currency={currency} mode={mode} />
@@ -102,7 +102,7 @@ export default function ExpensesPage() {
                 {monthYear(m.month)}
                 {m.spent > 0 && (
                   <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-3)" }}>
-                    Fixed {money(m.fixed, currency)} · Variable {money(m.variable, currency)}
+                    {t("Fixed {fixed} · Variable {variable}", { fixed: money(m.fixed, currency), variable: money(m.variable, currency) })}
                   </span>
                 )}
               </span>

@@ -27,9 +27,9 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
   return (
     <section key="month" className="pf-readout">
       <h2 className="pf-section-title">
-        Transactions in {month.toLocaleDateString(intlLocale(), { month: "long" })}{" "}
+        {tr("Transactions in {month}", { month: month.toLocaleDateString(intlLocale(), { month: "long" }) })}{" "}
         <span style={{ textTransform: "none", color: "var(--pf-ink-3)" }}>
-          · {rows.length} {kind === "expense" ? "expenses" : rows.length === 1 ? "payment" : "payments"}
+          · {kind === "expense" ? (rows.length === 1 ? tr("1 expense") : tr("{n} expenses", { n: rows.length })) : rows.length === 1 ? tr("1 payment") : tr("{n} payments", { n: rows.length })}
         </span>
       </h2>
       <div className="pf-card">

@@ -109,7 +109,7 @@ export default function BudgetsPage() {
           <div key={`${mode}-${sel}`} className="pf-readout" style={{ fontSize: "1.15rem", fontWeight: 650, color: "var(--pf-ink)" }}>
             {mode === "month" ? monthYear(month) : now.getFullYear()}
             <span style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--pf-ink-3)" }}>
-              {mode === "month" ? (isFuture ? " · forecast" : isCurrent ? " · so far" : " · finished") : " · so far"}
+              {` · ${mode === "month" ? (isFuture ? t("forecast") : isCurrent ? t("so far") : t("finished")) : t("so far")}`}
             </span>
           </div>
           <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
@@ -117,7 +117,7 @@ export default function BudgetsPage() {
         {mode === "month" ? (
           <div key="m" className="pf-readout" style={{ display: "grid", gap: 8 }}>
             <div className="pf-rounded" style={{ fontSize: "1.6rem", fontWeight: 700 }}>
-              {money(totalSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>of {money(totalBudget, currency)}</span>
+              {money(totalSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>{t("of {budget}", { budget: money(totalBudget, currency) })}</span>
             </div>
             {/* The total budget, same bar as each category: over it spills out. */}
             <BudgetBar spent={totalSpent} budget={totalBudget} color="#30d158" heat forecast={isFuture} currency={currency} monthFraction={isFuture ? undefined : monthPace} />
@@ -128,7 +128,7 @@ export default function BudgetsPage() {
               steps={Array.from({ length: 12 }, (_, i) => {
                 const d = new Date(now.getFullYear(), i, 1);
                 const name = d.toLocaleDateString(intlLocale(), { month: "long" });
-                return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}${i > now.getMonth() ? " · forecast" : ""}`, faint: i > now.getMonth() };
+                return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}${i > now.getMonth() ? ` · ${t("forecast")}` : ""}`, faint: i > now.getMonth() };
               })}
               onChange={setSel}
             />
@@ -136,7 +136,7 @@ export default function BudgetsPage() {
         ) : (
           <div key="y" className="pf-readout" style={{ display: "grid", gap: 8 }}>
             <div className="pf-rounded" style={{ fontSize: "1.6rem", fontWeight: 700 }}>
-              {money(yearSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>of {money(yearBudget, currency)} this year</span>
+              {money(yearSpent, currency)} <span style={{ fontSize: "1rem", color: "var(--pf-ink-2)" }}>{t("of {budget} this year", { budget: money(yearBudget, currency) })}</span>
             </div>
             {/* The year's budget; the pace tick marks the budget used up to today. */}
             <BudgetBar spent={yearSpent} budget={yearBudget} color="#30d158" heat currency={currency} monthFraction={yearBudget ? toDate / yearBudget : 0} />
@@ -179,7 +179,7 @@ export default function BudgetsPage() {
         <YearList rows={yearRows} currency={currency} yearFraction={yearFraction} openCategory={openCategory} />
       ) : (
       <section key="month" className="pf-readout">
-        <h2 className="pf-section-title">Monthly limits — {monthYear(month)}{isFuture && " · forecast"}</h2>
+        <h2 className="pf-section-title">{t("Monthly limits")} — {monthYear(month)}{isFuture && ` · ${t("forecast")}`}</h2>
         <div className="pf-card" ref={limitsRef}>
           <BudgetScaleSwitch />
           {(largestFirst ? [...rows].sort((a, b) => (b.budget ?? 0) - (a.budget ?? 0)) : rows).map(({ c, spent, budget }) => {

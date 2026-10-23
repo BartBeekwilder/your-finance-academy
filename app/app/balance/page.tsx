@@ -28,7 +28,7 @@ export default function BalancePage() {
   const sheet = balanceSheet(data, now, month);
   const prev = balanceSheet(data, now, new Date(now.getFullYear(), sel - 1, 1));
   const name = month.toLocaleDateString(intlLocale(), { month: "long" });
-  const label = sheet.isCurrent ? `today` : `end of ${name}`;
+  const label = sheet.isCurrent ? t("today") : t("end of {month}", { month: name });
   const [error, setError] = useState<string | null>(null);
   // Equity at the end of each month so far (today for this month).
   // Memoised: each sheet walks every transaction, and the slider re-renders often.
@@ -37,7 +37,7 @@ export default function BalancePage() {
       Array.from({ length: now.getMonth() + 1 }, (_, i) => {
         const d = new Date(now.getFullYear(), i, 1);
         const n = d.toLocaleDateString(intlLocale(), { month: "long" });
-        return { label: n.slice(0, 3), full: i === now.getMonth() ? `Today` : t("End of {n}", { n }), value: balanceSheet(data, now, d).equity };
+        return { label: n.slice(0, 3), full: i === now.getMonth() ? t("Today") : t("End of {n}", { n }), value: balanceSheet(data, now, d).equity };
       }),
     [data, now],
   );
@@ -49,7 +49,7 @@ export default function BalancePage() {
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
         <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Balance sheet")}</h1>
         <span style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>
-          {name} {now.getFullYear()} · {sheet.isCurrent ? "current stand" : "month-end stand"}
+          {name} {now.getFullYear()} · {sheet.isCurrent ? t("current stand") : t("month-end stand")}
         </span>
       </header>
 

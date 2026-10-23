@@ -175,8 +175,8 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
               {shown
                 ? t("{v1}% of spending", { v1: share(shown.spent) })
                 : mode === "year" && yearSel?.year === now.getFullYear()
-                  ? "year to date"
-                  : `${visible.length} categories`}
+                  ? t("year to date")
+                  : t("{n} categories", { n: visible.length })}
             </span>
           </div>
         </div>

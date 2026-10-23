@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { useState } from "react";
 import { money } from "@/lib/finance/format";
 import type { Category } from "@/lib/finance/types";
@@ -129,7 +130,7 @@ export default function BudgetDonut({
               {money(shown ? shown.expected : totalExpected, currency)}
             </span>
             <span style={{ fontSize: "0.62rem", color: "var(--pf-ink-3)" }}>
-              of {money(shown ? shown.budget : totalBudget, currency)} · {Math.round(ratio * 100)}%
+              {t("of {budget}", { budget: money(shown ? shown.budget : totalBudget, currency) })} · {Math.round(ratio * 100)}%
             </span>
           </div>
         </div>

@@ -60,17 +60,17 @@ export default function IncomePage() {
               label={t("Received this month")}
               value={money(s.income, currency)}
               color="var(--pf-green)"
-              progress={forecast[0].income ? { share: s.income / forecast[0].income, of: `${money(forecast[0].income, currency)} expected` } : undefined}
+              progress={forecast[0].income ? { share: s.income / forecast[0].income, of: t("{amount} expected", { amount: money(forecast[0].income, currency) }) } : undefined}
             />
             <Stat
               label={t("Expected net this month")}
               value={money(forecast[0].income, currency)}
-              hint={p.expected_gross_monthly ? `Gross ${money(num(p.expected_gross_monthly), currency)}` : undefined}
+              hint={p.expected_gross_monthly ? t("Gross {amount}", { amount: money(num(p.expected_gross_monthly), currency) }) : undefined}
             />
             <Stat
               label={t("Payday")}
-              value={p.payday_day ? `Day ${p.payday_day}` : "—"}
-              hint={daysToPayday === null ? undefined : daysToPayday > 0 ? `In ${daysToPayday} day${daysToPayday === 1 ? "" : "s"}` : daysToPayday === 0 ? t("Today") : t("Passed this month")}
+              value={p.payday_day ? t("Day {n}", { n: p.payday_day }) : "—"}
+              hint={daysToPayday === null ? undefined : daysToPayday > 0 ? (daysToPayday === 1 ? t("Tomorrow") : t("In {n} days", { n: daysToPayday })) : daysToPayday === 0 ? t("Today") : t("Passed this month")}
             />
           </>
         ) : (
@@ -79,7 +79,7 @@ export default function IncomePage() {
               label={t("Received this year")}
               value={money(receivedYear, currency)}
               color="var(--pf-green)"
-              progress={expectedYear ? { share: receivedYear / expectedYear, of: `${money(expectedYear, currency)} expected` } : undefined}
+              progress={expectedYear ? { share: receivedYear / expectedYear, of: t("{amount} expected", { amount: money(expectedYear, currency) }) } : undefined}
             />
             <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} />
             <Stat label={t("Expected gross / year")} value={money(num(p.expected_gross_monthly) * 12, currency)} />
@@ -100,7 +100,7 @@ export default function IncomePage() {
             hint={t("Received this year, per day so far")}
           />
         )}
-        <Stat label={`Average / month${finished.length ? ` (${finished.length} mo)` : ""}`} value={average ? money(average, currency) : "—"} />
+        <Stat label={finished.length ? t("Average / month ({n} mo)", { n: finished.length }) : t("Average / month")} value={average ? money(average, currency) : "—"} />
       </div>
 
       <CategoryBars data={data} now={now} currency={currency} mode={mode} kind="income" />

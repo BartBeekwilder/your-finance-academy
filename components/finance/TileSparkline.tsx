@@ -313,7 +313,7 @@ export default memo(function TileSparkline({
             <b style={{ color }}>{money(inMonth && !stock ? picked.v - before : picked.v, currency)}</b>
             {series === "spent" && !picked.forecast && picked.v > 0 && (
               <span style={{ display: "block", color: "var(--pf-ink-3)" }}>
-                Fixed {money(inMonth ? picked.fx - fxBefore : picked.fx, currency)} · Variable{" "}
+                {tr("Fixed")} {money(inMonth ? picked.fx - fxBefore : picked.fx, currency)} · {tr("Variable")}{" "}
                 {money(inMonth ? picked.v - before - (picked.fx - fxBefore) : picked.v - picked.fx, currency)}
               </span>
             )}

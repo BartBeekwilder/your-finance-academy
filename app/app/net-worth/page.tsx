@@ -31,7 +31,7 @@ export default function NetWorthPage() {
   const yearEnd = nw.base + nw.forecast.reduce((t, f) => t + f.change, 0);
   // A percentage only means something on a solid positive starting point.
   const pct = (from: number, to: number, since: string) =>
-    from > 0 && from >= Math.abs(to) * 0.1 ? `${to >= from ? "+" : ""}${(((to - from) / from) * 100).toFixed(1)}% ${since}` : since[0].toUpperCase() + since.slice(1);
+    from > 0 && from >= Math.abs(to) * 0.1 ? `${to >= from ? "+" : ""}${(((to - from) / from) * 100).toLocaleString(intlLocale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 })}% ${since}` : since[0].toUpperCase() + since.slice(1);
 
   // Where it sits: each account and holding (their starting values, at
   // cost) plus what's been saved this year — together today's net worth.
@@ -42,7 +42,7 @@ export default function NetWorthPage() {
       .map((a, i) => ({ id: a.id, name: a.name || t("Account"), kind: t("Account"), value: num(a.balance), color: ACCOUNT_COLORS[i % ACCOUNT_COLORS.length] })),
     ...live(data.holdings)
       .filter((h) => h.cost_basis && (h.cost_basis_currency ?? currency) === currency)
-      .map((h) => ({ id: h.id, name: h.name || h.symbol, kind: h.asset_type[0].toUpperCase() + h.asset_type.slice(1), value: num(h.cost_basis), color: ASSET_COLORS[h.asset_type] ?? "#8e8e93" })),
+      .map((h) => ({ id: h.id, name: h.name || h.symbol, kind: t(h.asset_type[0].toUpperCase() + h.asset_type.slice(1)), value: num(h.cost_basis), color: ASSET_COLORS[h.asset_type] ?? "#8e8e93" })),
   ].sort((a, b) => b.value - a.value);
   const partsTotal = parts.reduce((t, p) => t + Math.max(p.value, 0), 0);
 
@@ -69,7 +69,7 @@ export default function NetWorthPage() {
               label={t("Change this month")}
               value={money(nowValue - nw.base, currency, { signed: true })}
               color={nowValue >= nw.base ? "var(--pf-green)" : "var(--pf-red)"}
-              hint={pct(nw.base, nowValue, "since the 1st")}
+              hint={pct(nw.base, nowValue, t("since the 1st"))}
             />
             <Stat label={t("Expected at month end")} value={money(monthEnd, currency)} hint={t("Forecast to the end of {v1}", { v1: now.toLocaleDateString(intlLocale(), { month: "long" }) })} />
             <Stat label={t("Start of month")} value={money(nw.base, currency)} />
@@ -80,7 +80,7 @@ export default function NetWorthPage() {
               label={t("Change this year")}
               value={money(nowValue - nw.startOfYear, currency, { signed: true })}
               color={nowValue >= nw.startOfYear ? "var(--pf-green)" : "var(--pf-red)"}
-              hint={pct(nw.startOfYear, nowValue, "since 1 January")}
+              hint={pct(nw.startOfYear, nowValue, t("since 1 January"))}
             />
             <Stat label={t("Expected at year end")} value={money(yearEnd, currency)} hint={t("Forecast to December")} />
             <Stat label={t("Start of year")} value={money(nw.startOfYear, currency)} />
