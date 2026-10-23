@@ -27,6 +27,30 @@ Decisions:
 - Never push, deploy, or change accounts without asking Bart. Pushing to
   `main` deploys the live site (Vercel). Bart signs in to services himself.
 
+## Code on GitHub (works from any computer)
+
+- Website: github.com/BartBeekwilder/your-finance-academy (public) — work
+  on branch `web-app`; `main` is the live site (push to `main` = deploy).
+- iOS: github.com/BartBeekwilder/personal-finance-ios (private) — branch
+  `ios-web-parity-oct21`.
+- Clone both side by side in one folder (the iOS CLAUDE.md refers to
+  `../your-finance-academy`).
+- Start of a session: `git pull`. End of a session: commit, update this
+  file, `git push` (the `web-app` branch and iOS branches may be pushed;
+  `main` only with Bart's OK).
+
+### Setting up the Windows work computer (once)
+
+1. Install Git for Windows, Node.js LTS (20+), and Claude Code.
+2. Sign in to GitHub (`gh auth login`, or Git Credential Manager on first push).
+3. `git clone https://github.com/BartBeekwilder/your-finance-academy.git`
+   then `cd your-finance-academy && git checkout web-app && npm install`.
+4. `git clone https://github.com/BartBeekwilder/personal-finance-ios.git`
+   (can be read and edited on Windows, but only built/run on a Mac).
+5. Create `.env.local` with the two Supabase values (from the Supabase
+   dashboard → Project Settings → API) — or skip it to use demo data.
+6. `npx next dev -p 3000` → http://localhost:3000/app
+
 ## Running it
 
 Website:
