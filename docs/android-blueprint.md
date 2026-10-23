@@ -108,10 +108,11 @@ large screens are common, so tablet layouts are part of version 1.
 
 ## 7. Languages
 
-All 17 languages from day one. A small script converts the existing
-catalogs into `res/values-xx/strings.xml` (iOS `%@` → Android `%1$s`,
-plurals → `<plurals>`), so a text translated once serves all three apps.
-Arabic gets RTL automatically with Compose.
+All 17 languages from day one. Built (2026-10-23): the app reads the
+website's own translation files (`lib/i18n/messages/<lang>.json`, copied
+into `assets/i18n` by `tools/sync-i18n.sh`) with the same `t("English")`
+call as the web, so a text translated once serves both. Arabic gets RTL
+automatically with Compose.
 
 ## 8. Sign-in and subscriptions
 

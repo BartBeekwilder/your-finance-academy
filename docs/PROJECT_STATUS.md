@@ -15,7 +15,7 @@ backend:
 |---|---|---|
 | Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (not merged to `main`; `main` = live site) |
 | iOS / iPadOS app | repo `Personal Finance` (SwiftUI) | `ios-web-parity-oct21` |
-| Android | blueprint only: `docs/android-blueprint.md` | — |
+| Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
 | Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0003 | — |
 
 Decisions:
@@ -33,6 +33,10 @@ Decisions:
   on branch `web-app`; `main` is the live site (push to `main` = deploy).
 - iOS: github.com/BartBeekwilder/personal-finance-ios (private) — branch
   `ios-web-parity-oct21`.
+- Android: github.com/BartBeekwilder/personal-finance-android (private) —
+  branch `main`. Open in Android Studio; `./gradlew testDebugUnitTest
+  assembleDebug`. Translations come from this repo's `lib/i18n/messages`
+  (`tools/sync-i18n.sh ../your-finance-academy`).
 - Clone both side by side in one folder (the iOS CLAUDE.md refers to
   `../your-finance-academy`).
 - Start of a session: `git pull`. End of a session: commit, update this
@@ -47,6 +51,8 @@ Decisions:
    then `cd your-finance-academy && git checkout web-app && npm install`.
 4. `git clone https://github.com/BartBeekwilder/personal-finance-ios.git`
    (can be read and edited on Windows, but only built/run on a Mac).
+   `git clone https://github.com/BartBeekwilder/personal-finance-android.git`
+   and install Android Studio (builds and runs fine on Windows).
 5. Create `.env.local` with the two Supabase values (from the Supabase
    dashboard → Project Settings → API) — or skip it to use demo data.
 6. `npx next dev -p 3000` → http://localhost:3000/app
@@ -106,7 +112,13 @@ zh-Hans. Every new UI text must be translatable and translated:
 - Onboarding draft at `/app/welcome` (preview, saves nothing) — waiting for
   Bart's review.
 - Website and iOS fully translated into 17 languages.
-- Android blueprint: `docs/android-blueprint.md`.
+- Android blueprint: `docs/android-blueprint.md`. Android app started
+  (2026-10-23): theme, liquid BrandToggle, live amounts, spill-out budget
+  bars, FinanceFigures + demo data identical to web/iOS, dashboard (net
+  worth, Income/Spent/Balance tiles, budgets), phone bottom bar / tablet
+  rail, 17 languages from the web's files, unit tests. Not yet run on a
+  device/emulator. Next: charts (sparklines, donut, Income vs Spent),
+  Income/Expenses/Net worth/Balance/Budgets screens, Supabase sign-in + sync.
 
 ## Next / open
 
@@ -119,7 +131,7 @@ To do (Bart's list):
    switcher; net worth starting before 1 January.
 4. Monthly review / month close: confirm income, check fixed costs, review
    budgets, enter month-end balances, summary, lock the month.
-5. Android (after iOS moves to Supabase) — see blueprint §11 for decisions.
+5. Android: continue phase 1–3 (screens, Supabase sync); see blueprint §9.
 
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
