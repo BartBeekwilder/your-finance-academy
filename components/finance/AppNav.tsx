@@ -4,7 +4,7 @@ import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { Banknote, Scale, House, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, LogOut, Receipt, Pause, Play, Settings } from "lucide-react";
+import { Banknote, Scale, House, KeyRound, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, LogOut, Receipt, Pause, Play, Settings } from "lucide-react";
 import { setMotionPaused, useMotionPaused } from "@/lib/motion";
 import BrandMark from "./BrandMark";
 import { useFinance } from "./FinanceProvider";
@@ -17,6 +17,7 @@ const TABS = [
   { href: "/app/net-worth", label: "Net worth", Icon: Landmark },
   { href: "/app/balance", label: "Balance sheet", Icon: Scale },
   { href: "/app/real-estate", label: "Real estate", Icon: House },
+  { href: "/app/rent-vs-buy", label: "Rent or buy", Icon: KeyRound },
   { href: "/app/investments", label: "Investments", Icon: ChartLine },
   { href: "/app/transactions", label: "Transactions", Icon: List },
   { href: "/app/categories", label: "Categories", Icon: LayoutGrid },

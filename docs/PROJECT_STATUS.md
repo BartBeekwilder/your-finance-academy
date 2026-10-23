@@ -173,6 +173,21 @@ other countries' rules later (to do: DE, BE, UK, US, …).
    renewal/cancel date, policy documents; premiums feed fixed costs; a
    coverage check ("what's missing for your situation"), yearly premium
    total and a renewal reminder.
+8. Rent vs buy: BUILT on web (/app/rent-vs-buy, lib/finance/rentVsBuy.ts +
+   tests). Both sides spend the same per month, the cheaper side invests
+   the difference; renter starts with own money + buying costs invested.
+   Hero verdict at a year slider (1–40), break-even year, Difference/Both
+   chart, first-month cost split (interest, repayment, upkeep, owner costs,
+   NL tax back), totals, all assumptions as sliders (saved per device,
+   prefilled from your home value and rent). Next: port to iOS/Android;
+   later: investment tax per country (box 3), rent-to-buy later scenario.
+
+9. Insurance module (Bart, 2026-10-23): overview of all policies (health,
+   home/contents, liability, car, travel, life, disability, legal aid…):
+   insurer, premium per month/year, deductible (eigen risico), coverage,
+   renewal/cancel date, policy documents; premiums feed fixed costs; a
+   coverage check ("what's missing for your situation"), yearly premium
+   total and a renewal reminder.
 8. Rent vs buy module (Bart, 2026-10-23): visualise the difference between
    renting and buying over the long term — rent (with yearly increases) +
    investing the difference vs. mortgage costs, maintenance, taxes, value
