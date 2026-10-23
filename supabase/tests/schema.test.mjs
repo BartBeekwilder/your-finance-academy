@@ -94,3 +94,22 @@ err = null; try { await as(A, () => sql(`insert into properties (name, country) 
 ok(err && /check/.test(err), "property country rules are INTL or NL");
 await as(A, () => sql(`delete from properties where id = $1`, [houseA]));
 ok((await as(A, () => sql(`select count(*)::int n from mortgage_parts`))).rows[0].n === 0, "deleting a property removes its mortgage parts");
+
+// Progress (0005).
+await as(A, () => sql(`insert into month_closes (month, summary, points) values ('2026-09-01', '{"saved": 1200}', 150)`));
+ok((await as(B, () => sql(`select * from month_closes`))).rows.length === 0, "user B cannot see user A's month closes");
+err = null; try { await as(A, () => sql(`insert into month_closes (month) values ('2026-09-01')`)); } catch (e) { err = e.message; }
+ok(err && /unique|duplicate/.test(err), "a month can be closed once");
+err = null; try { await as(A, () => sql(`insert into month_closes (month) values ('2026-09-15')`)); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "closed months are the 1st of the month");
+await as(A, () => sql(`insert into goals (kind, name, target) values ('save', 'Buffer', 5000)`));
+ok((await as(B, () => sql(`select * from goals`))).rows.length === 0, "user B cannot see user A's goals");
+err = null; try { await as(A, () => sql(`insert into goals (kind) values ('lottery')`)); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "goal kind is save, debt, equity or category_limit");
+await as(A, () => sql(`insert into achievements (code, points) values ('first-close', 100)`));
+err = null; try { await as(A, () => sql(`insert into achievements (code) values ('first-close')`)); } catch (e) { err = e.message; }
+ok(err && /unique|duplicate/.test(err), "a badge is earned once");
+ok((await as(B, () => sql(`select * from achievements`))).rows.length === 0, "user B cannot see user A's badges");
+await as(A, () => sql(`insert into activity_days (day) values ('2026-10-23')`));
+err = null; try { await as(A, () => sql(`insert into activity_days (day) values ('2026-10-23')`)); } catch (e) { err = e.message; }
+ok(err && /unique|duplicate/.test(err), "one activity row per day");

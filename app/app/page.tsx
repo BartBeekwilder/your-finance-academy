@@ -13,6 +13,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import NetWorthCard from "@/components/finance/NetWorthCard";
 import BalanceCard from "@/components/finance/BalanceCard";
+import ProgressStrip from "@/components/finance/ProgressStrip";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
 import YearLines from "@/components/finance/YearLines";
@@ -49,6 +50,7 @@ export default function DashboardPage() {
       </header>
 
       <NetWorthCard base={netWorthFigures(data, now).base} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} currency={currency} />
+      <ProgressStrip />
 
       <BalanceCard data={data} now={now} />
 

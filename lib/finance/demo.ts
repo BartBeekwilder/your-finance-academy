@@ -1,3 +1,4 @@
+import { balanceSheet, live, num, spendByCategory, summarize } from "./calc";
 import type { Category, FinanceData, Transaction } from "./types";
 
 // Demo data shown until sign-in exists. The categories are the same starter
@@ -129,7 +130,7 @@ export function buildDemoData(now = new Date()): FinanceData {
     Utilities: 170, Shopping: 200, Entertainment: 80, Health: 60,
   };
 
-  return {
+  const base: FinanceData = {
     profile: {
       currency_code: "EUR",
       appearance_mode: "dark",
@@ -152,7 +153,50 @@ export function buildDemoData(now = new Date()): FinanceData {
     ],
     ...demoBalance(now),
     ...demoRealEstate(),
+    monthCloses: [],
+    goals: [],
+    achievements: [],
+    activityDays: [],
   };
+  return { ...base, ...demoProgress(base, now) };
+}
+
+/** January … the month before last closed (with their snapshots; last
+ *  month is left open so the close banner and wizard can be tried), the last six weeks
+ *  of activity with a few gaps, and three goals. */
+function demoProgress(data: FinanceData, now: Date): Pick<FinanceData, "monthCloses" | "goals" | "activityDays"> {
+  const monthCloses = Array.from({ length: Math.max(now.getMonth() - 1, 0) }, (_, m) => {
+    const month = new Date(now.getFullYear(), m, 1);
+    const s = summarize(data.transactions, month);
+    const saved = s.income - s.spent;
+    const rate = s.income > 0 ? saved / s.income : 0;
+    const kept = live(data.budgets).every((b) => {
+      const c = data.categories.find((x) => x.id === b.category_id);
+      return !c || spendByCategory(data, month).find((e) => e.category.id === c.id)!.spent <= num(b.amount);
+    });
+    const rings = 1 + (kept ? 1 : 0) + (rate >= 0.2 ? 1 : 0);
+    return {
+      ...meta(m, "mc"),
+      month: `${now.getFullYear()}-${String(m + 1).padStart(2, "0")}-01`,
+      closed_at: new Date(now.getFullYear(), m + 1, 2, 20).toISOString(),
+      summary: { income: s.income, spent: s.spent, saved, savingsRate: rate, equity: balanceSheet(data, now, month).equity, allBudgetsKept: kept, rings },
+      points: 100 + 50 * rings,
+    };
+  });
+  const skip = new Set([4, 13, 22, 31]);
+  const activityDays = Array.from({ length: 45 }, (_, i) => i)
+    .filter((i) => !skip.has(i))
+    .map((i) => {
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i - 1);
+      return { ...meta(i, "ad"), day: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}` };
+    });
+  const ago = (months: number) => new Date(now.getFullYear(), now.getMonth() - months, 1).toISOString();
+  const goals = [
+    { ...meta(0, "g"), kind: "save" as const, name: "Emergency buffer", target: "10000.00", start_value: "4000.00", target_date: `${now.getFullYear() + 1}-06-01`, category_id: null, achieved_at: null, sort_order: 0, created_at: ago(4) },
+    { ...meta(1, "g"), kind: "equity" as const, name: "€250k equity", target: "250000.00", start_value: "180000.00", target_date: null, category_id: null, achieved_at: null, sort_order: 1, created_at: ago(9) },
+    { ...meta(2, "g"), kind: "category_limit" as const, name: "Dining out under €120", target: "120.00", start_value: "0.00", target_date: null, category_id: data.categories.find((c) => c.name === "Dining Out")?.id ?? null, achieved_at: null, sort_order: 2, created_at: ago(3) },
+  ];
+  return { monthCloses, goals, activityDays };
 }
 
 /** A home bought in 2019 with a two-part Dutch mortgage (annuity + linear),

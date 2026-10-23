@@ -125,6 +125,31 @@ export type MortgagePartRow = Synced & {
   sort_order: number;
 };
 
+/** A closed month with a snapshot of how it went. */
+export type MonthClose = Synced & {
+  month: string; // YYYY-MM-01
+  closed_at: string;
+  summary: { income: number; spent: number; saved: number; savingsRate: number; equity: number; allBudgetsKept: boolean; rings: number };
+  points: number;
+};
+
+export type Goal = Synced & {
+  kind: "save" | "debt" | "equity" | "category_limit";
+  name: string;
+  target: Money;
+  /** Where it stood when the goal was made. */
+  start_value: Money;
+  target_date: string | null;
+  category_id: UUID | null;
+  achieved_at: string | null;
+  sort_order: number;
+  created_at?: string;
+};
+
+export type Achievement = Synced & { code: string; earned_at: string; points: number };
+
+export type ActivityDay = Synced & { day: string };
+
 export type FinanceData = {
   profile: Profile;
   accounts: Account[];
@@ -137,4 +162,8 @@ export type FinanceData = {
   balanceValues: BalanceValue[];
   properties: Property[];
   mortgageParts: MortgagePartRow[];
+  monthCloses: MonthClose[];
+  goals: Goal[];
+  achievements: Achievement[];
+  activityDays: ActivityDay[];
 };

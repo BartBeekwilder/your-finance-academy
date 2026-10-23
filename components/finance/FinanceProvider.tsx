@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoData } from "@/lib/finance/demo";
-import type { Account, BalanceItem, BalanceValue, Budget, Category, FinanceData, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
+import type { Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
 import SignIn, { RECOVERY_KEY } from "./SignIn";
 
@@ -41,6 +41,12 @@ type FinanceState = {
   deleteProperty: (id: string) => Promise<void>;
   saveMortgagePart: (m: Omit<MortgagePartRow, "updated_at" | "deleted_at" | "id"> & { id?: string }) => Promise<void>;
   deleteMortgagePart: (id: string) => Promise<void>;
+  /** Progress: close a month (with its snapshot) and store new badges. */
+  closeMonth: (month: Date, summary: MonthClose["summary"], points: number, badges: { code: string; points: number }[]) => Promise<void>;
+  /** Stores badges earned outside a month close (e.g. adding a home). */
+  awardBadges: (badges: { code: string; points: number }[]) => Promise<void>;
+  saveGoal: (g: Omit<Goal, "updated_at" | "deleted_at" | "id"> & { id?: string }) => Promise<void>;
+  deleteGoal: (id: string) => Promise<void>;
   /** Creates a top-level category at the end of the list; returns it. */
   addCategory: (c: NewCategory) => Promise<Category>;
   deleteTransaction: (id: string) => Promise<void>;
@@ -79,7 +85,7 @@ async function fetchAll<T>(supabase: SupabaseClient, table: string, order: strin
 async function loadAll(supabase: SupabaseClient): Promise<FinanceData> {
   // Balance sheet tables are newer: a project without them still loads.
   const optional = <T,>(p: Promise<T[]>) => p.catch(() => [] as T[]);
-  const [profile, accounts, categories, budgets, transactions, incomeRecords, holdings, balanceItems, balanceValues, properties, mortgageParts] = await Promise.all([
+  const [profile, accounts, categories, budgets, transactions, incomeRecords, holdings, balanceItems, balanceValues, properties, mortgageParts, monthCloses, goals, achievements, activityDays] = await Promise.all([
     supabase.from("profiles").select("*").maybeSingle().then(({ data, error }) => {
       if (error) throw error;
       return data as Profile | null;
@@ -94,8 +100,12 @@ async function loadAll(supabase: SupabaseClient): Promise<FinanceData> {
     optional(fetchAll<BalanceValue>(supabase, "balance_values", "month")),
     optional(fetchAll<Property>(supabase, "properties", "sort_order")),
     optional(fetchAll<MortgagePartRow>(supabase, "mortgage_parts", "sort_order")),
+    optional(fetchAll<MonthClose>(supabase, "month_closes", "month")),
+    optional(fetchAll<Goal>(supabase, "goals", "sort_order")),
+    optional(fetchAll<Achievement>(supabase, "achievements", "earned_at")),
+    optional(fetchAll<ActivityDay>(supabase, "activity_days", "day")),
   ]);
-  return { profile: profile ?? DEFAULT_PROFILE, accounts, categories, budgets, transactions, incomeRecords, holdings, balanceItems, balanceValues, properties, mortgageParts };
+  return { profile: profile ?? DEFAULT_PROFILE, accounts, categories, budgets, transactions, incomeRecords, holdings, balanceItems, balanceValues, properties, mortgageParts, monthCloses, goals, achievements, activityDays };
 }
 
 type Phase =
@@ -292,10 +302,50 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     [current, source, supabase, update],
   );
 
+  // ---- Progress ---------------------------------------------------------------
+  const insertRows = useCallback(
+    async <K extends "monthCloses" | "achievements" | "activityDays">(key: K, table: string, rows: Omit<FinanceData[K][number], "updated_at" | "deleted_at">[]) => {
+      if (!rows.length) return;
+      if (source === "supabase" && supabase) {
+        const { error } = await supabase.from(table).insert(rows as never);
+        if (error && !/duplicate/.test(error.message)) throw error;
+      }
+      const stamped = rows.map((r) => ({ ...r, updated_at: new Date().toISOString(), deleted_at: null })) as FinanceData[K];
+      update((d) => ({ ...d, [key]: [...(d[key] as FinanceData[K]), ...stamped] }));
+    },
+    [source, supabase, update],
+  );
+
+  const awardBadges = useCallback(
+    async (badges: { code: string; points: number }[]) => {
+      const have = new Set((current?.achievements ?? []).filter((a) => !a.deleted_at).map((a) => a.code));
+      const fresh = badges.filter((b) => !have.has(b.code));
+      await insertRows("achievements", "achievements", fresh.map((b) => ({ id: crypto.randomUUID(), code: b.code, points: b.points, earned_at: new Date().toISOString() })));
+    },
+    [current, insertRows],
+  );
+
+  const closeMonth = useCallback(
+    async (month: Date, summary: MonthClose["summary"], points: number, badges: { code: string; points: number }[]) => {
+      const key = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-01`;
+      await insertRows("monthCloses", "month_closes", [{ id: crypto.randomUUID(), month: key, closed_at: new Date().toISOString(), summary, points }]);
+      await awardBadges(badges);
+    },
+    [insertRows, awardBadges],
+  );
+
+  // One activity row per day the app is used (streaks).
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  const hasToday = !!current?.activityDays?.some((a) => a.day.slice(0, 10) === today && !a.deleted_at);
+  useEffect(() => {
+    if (current && !hasToday) queueMicrotask(() => void insertRows("activityDays", "activity_days", [{ id: crypto.randomUUID(), day: today }]).catch(() => {}));
+  }, [current, hasToday, today, insertRows]);
+
+
   // ---- Real estate ------------------------------------------------------------
   // Generic upsert/soft-delete for the two real-estate tables.
   const upsertRow = useCallback(
-    async <K extends "properties" | "mortgageParts">(key: K, table: string, row: Omit<FinanceData[K][number], "updated_at" | "deleted_at" | "id"> & { id?: string }) => {
+    async <K extends "properties" | "mortgageParts" | "goals">(key: K, table: string, row: Omit<FinanceData[K][number], "updated_at" | "deleted_at" | "id"> & { id?: string }) => {
       const list = (current?.[key] ?? []) as FinanceData[K];
       const existing = row.id ? list.find((x) => x.id === row.id) : undefined;
       const id = row.id ?? crypto.randomUUID();
@@ -312,7 +362,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     [current, source, supabase, update],
   );
   const softDelete = useCallback(
-    async (key: "properties" | "mortgageParts", table: string, id: string) => {
+    async (key: "properties" | "mortgageParts" | "goals", table: string, id: string) => {
       if (source === "supabase" && supabase) {
         const { error } = await supabase.from(table).update({ deleted_at: new Date().toISOString() }).eq("id", id);
         if (error) throw error;
@@ -329,6 +379,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const deleteProperty = useCallback((id: string) => softDelete("properties", "properties", id), [softDelete]);
   const saveMortgagePart = useCallback(async (m: Parameters<FinanceState["saveMortgagePart"]>[0]) => { await upsertRow("mortgageParts", "mortgage_parts", m); }, [upsertRow]);
   const deleteMortgagePart = useCallback((id: string) => softDelete("mortgageParts", "mortgage_parts", id), [softDelete]);
+  const saveGoal = useCallback(async (g: Parameters<FinanceState["saveGoal"]>[0]) => { await upsertRow("goals", "goals", g); }, [upsertRow]);
+  const deleteGoal = useCallback((id: string) => softDelete("goals", "goals", id), [softDelete]);
 
   // ---- Balance sheet ----------------------------------------------------------
   const monthIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
@@ -440,7 +492,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
+      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
     >
       {children}
     </FinanceContext.Provider>
