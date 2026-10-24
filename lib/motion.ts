@@ -97,9 +97,9 @@ export function useNow(ms: number, enabled = true) {
 }
 
 // Live amounts: how many decimals the tickers show (Settings › Animations).
-//   5  cents + three small digits streaming (re-drawn 12× a second)
+//   2  cents only (once a second; a cent takes seconds to move) — default
 //   3  cents + one small digit (twice a second is enough to follow it)
-//   2  cents only (once a second; a cent takes seconds to move)
+//   5  cents + three small digits streaming (re-drawn 12× a second)
 // Fewer decimals → the live tiles re-render far less often.
 export type LiveDecimals = 2 | 3 | 5;
 const DECIMALS = "pf-live-decimals";
@@ -107,9 +107,9 @@ const DECIMALS = "pf-live-decimals";
 function readDecimals(): LiveDecimals {
   try {
     const v = Number(localStorage.getItem(DECIMALS));
-    return v === 2 || v === 3 ? v : 5;
+    return v === 3 || v === 5 ? v : 2;
   } catch {
-    return 5;
+    return 2;
   }
 }
 
@@ -120,7 +120,7 @@ export function setLiveDecimals(d: LiveDecimals) {
   notify();
 }
 
-export const useLiveDecimals = () => useSyncExternalStore(subscribe, readDecimals, () => 5 as LiveDecimals);
+export const useLiveDecimals = () => useSyncExternalStore(subscribe, readDecimals, () => 2 as LiveDecimals);
 
 /** The ticker clock for live amounts, as often as the decimals need. */
 export function useTickerNow(enabled = true) {
