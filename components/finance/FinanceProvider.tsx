@@ -13,7 +13,7 @@ import SignIn, { RECOVERY_KEY } from "./SignIn";
 // they never talk to Supabase directly.
 
 export type NewTransaction = Omit<Transaction, "id" | "updated_at" | "deleted_at">;
-export type NewCategory = Pick<Category, "name" | "icon" | "color_hex" | "is_income_category" | "is_fixed_expense">;
+export type NewCategory = Pick<Category, "name" | "icon" | "color_hex" | "is_income_category" | "is_fixed_expense"> & { parent_id?: string | null };
 
 type FinanceState = {
   data: FinanceData;
@@ -50,8 +50,14 @@ type FinanceState = {
   /** Insurance: create or update a policy (no id = new). */
   savePolicy: (p: Omit<InsurancePolicy, "updated_at" | "deleted_at" | "id"> & { id?: string }) => Promise<void>;
   deletePolicy: (id: string) => Promise<void>;
-  /** Creates a top-level category at the end of the list; returns it. */
+  /** Creates a category (a subcategory when parent_id is set) at the end of
+   *  its list; returns it. */
   addCategory: (c: NewCategory) => Promise<Category>;
+  /** Renames / recolours / re-icons a category or flips fixed ↔ variable. */
+  updateCategory: (id: string, patch: Partial<Pick<Category, "name" | "icon" | "color_hex" | "is_fixed_expense">>) => Promise<void>;
+  /** Soft-deletes a category and its subcategories. Their transactions move
+   *  to the parent (a subcategory) or become uncategorised (a top level). */
+  deleteCategory: (id: string) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
   reorderCategories: (orderedIds: string[]) => Promise<void>;
   signOut: () => Promise<void>;
@@ -218,7 +224,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const addCategory = useCallback(
     async (c: NewCategory) => {
       const sort_order = Math.max(-1, ...(current?.categories ?? []).map((x) => x.sort_order)) + 1;
-      const fields = { ...c, is_default: false, sort_order, parent_id: null };
+      const fields = { ...c, is_default: false, sort_order, parent_id: c.parent_id ?? null };
       const row = { ...fields, id: crypto.randomUUID(), updated_at: new Date().toISOString(), deleted_at: null } as Category;
       if (source === "supabase" && supabase) {
         const { data, error } = await supabase.from("categories").insert({ ...fields, id: row.id }).select().single();
@@ -227,6 +233,44 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       }
       update((d) => ({ ...d, categories: [...d.categories, row] }));
       return row;
+    },
+    [current, source, supabase, update],
+  );
+
+  const updateCategory = useCallback(
+    async (id: string, patch: Partial<Pick<Category, "name" | "icon" | "color_hex" | "is_fixed_expense">>) => {
+      if (source === "supabase" && supabase) {
+        const { error } = await supabase.from("categories").update(patch).eq("id", id);
+        if (error) throw error;
+      }
+      update((d) => ({ ...d, categories: d.categories.map((c) => (c.id === id ? { ...c, ...patch, updated_at: new Date().toISOString() } : c)) }));
+    },
+    [source, supabase, update],
+  );
+
+  const deleteCategory = useCallback(
+    async (id: string) => {
+      if (!current) return;
+      const cat = current.categories.find((c) => c.id === id);
+      if (!cat) return;
+      const gone = new Set([id, ...current.categories.filter((c) => c.parent_id === id).map((c) => c.id)]);
+      const moveTo = cat.parent_id; // a sub's transactions go to its parent
+      const stamp = new Date().toISOString();
+      if (source === "supabase" && supabase) {
+        const ids = [...gone];
+        const r1 = await supabase.from("transactions").update({ category_id: moveTo }).in("category_id", ids);
+        if (r1.error) throw r1.error;
+        const r2 = await supabase.from("budgets").update({ deleted_at: stamp }).in("category_id", ids);
+        if (r2.error) throw r2.error;
+        const r3 = await supabase.from("categories").update({ deleted_at: stamp }).in("id", ids);
+        if (r3.error) throw r3.error;
+      }
+      update((d) => ({
+        ...d,
+        categories: d.categories.filter((c) => !gone.has(c.id)),
+        transactions: d.transactions.map((t) => (t.category_id && gone.has(t.category_id) ? { ...t, category_id: moveTo } : t)),
+        budgets: d.budgets.filter((b) => !(b.category_id && gone.has(b.category_id))),
+      }));
     },
     [current, source, supabase, update],
   );
@@ -498,7 +542,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
+      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
     >
       {children}
     </FinanceContext.Provider>
