@@ -144,7 +144,7 @@ zh-Hans. Every new UI text must be translatable and translated:
 - Charts: y-axis top rounds to 1/1.2/1.5/2/3/4/5/6/8 × 10^n (was 1/2/5) in CategoryBars/CategoryAreas and YearLines, so a €270 peak gets a €300 axis instead of €500.
 - Balance tile sparkline: area split at zero — tile blue above, red gradient below (stronger deeper down).
 - Tile sparklines (Income/Spent/Balance/Net worth): x-axis dates — Month: 1·8·15·22·29 + today lit in the tile colour; Year: short month names, current lit; cross-fade with the zoom, tiny tick marks. Balance's Month-view zero = start of the month (red area below it).
-- Settings › Animations › Live decimals 2 / 3 / 4 / 5 (per browser, lib/motion.ts useLiveDecimals/useTickerNow/tickerMs): 2 = cents at 1 s, 3 = cents + 1 small digit at 500 ms, 4 = + 2 digits at 200 ms (DEFAULT), 5 = + 3 digits at 80 ms. Measured on the demo dashboard: 191 → 3 DOM changes per 3 s.
+- Settings › Animations › Live decimals 2 / 3 / 4 / 5 (per browser, lib/motion.ts useLiveDecimals/useTickerNow/tickerMs): 2 = cents at 1 s, 3 = cents + 1 small digit at 500 ms (DEFAULT), 4 = + 2 digits at 200 ms, 5 = + 3 digits at 80 ms. Measured on the demo dashboard: 191 → 3 DOM changes per 3 s.
 - Live amounts roll like an odometer (LiveAmount + .pf-roll in finance.css): each changed digit slides in over one tick (--roll = tick ms, max 400), up when rising / down when falling; off in Light/Off motion. Same tick rate, so no extra CPU.
 - To port: iOS (dashboard order + expenses chart on dashboard + upright balance stacks + motion settings: iOS has NeonLinesBackground 24 fps → add Light/Off + background switch), Android (motion setting when more screens exist).
 

@@ -11,7 +11,7 @@ import { tickerMs, useLiveDecimals } from "@/lib/motion";
  *  for a falling value). Rounding the cents instead would make the cent move
  *  at …500 and the digits look disconnected. Used by the net worth ticker
  *  and the Income/Spent/Balance tiles. Settings › Animations can cut the
- *  small digits to two, one or none (Live decimals 4 / 3 / 2; 4 by default).
+ *  small digits to two, one or none (Live decimals 4 / 3 / 2; 3 by default).
  *
  *  Each digit rolls like an odometer: only the digits that change slide in
  *  (up while the amount rises, down while it falls), taking about one tick,
