@@ -152,7 +152,10 @@ export default memo(function TileSparkline({
   const range = (from: number) => {
     // Month view frames this month (its forecast end included); Year view all.
     const vs = all.filter((p) => p.t >= from && (from === 0 || p.t <= from + 1)).map((p) => p.v);
-    return { lo: Math.min(...vs, from === 0 && !stock ? 0 : Infinity), hi: Math.max(...vs) };
+    // Balance keeps its zero in view: 0 for the year, the start of the month
+    // (where the month's balance counts from) in Month view.
+    const zero = stock ? Infinity : from === 0 ? 0 : series === "balance" ? before : Infinity;
+    return { lo: Math.min(...vs, zero), hi: Math.max(...vs, series === "balance" && from > 0 ? before : -Infinity) };
   };
   const yearR = range(0), monthR = range(current);
   const anchorAt = lerp(now.t / 12, fraction, z);
@@ -180,7 +183,9 @@ export default memo(function TileSparkline({
   const fixedLine = pts.map((p, i) => `${i ? "L" : "M"}${x(p.t)},${y(fixedAt(p))}`).join(" ");
   const lastX = x(now.t), lastY = y(now.v);
   const forecastLine = `M${lastX},${lastY} ` + forecast.map((p) => `L${x(p.t)},${y(p.v)}`).join(" ");
-  const base = series === "balance" ? Math.min(Math.max(y(0), 0), H) : H - 4;
+  // Balance's zero: 0 in Year view, last month's end in Month view (the
+  // month counts from there), eased through the zoom.
+  const base = series === "balance" ? Math.min(Math.max(y(before * z), 0), H) : H - 4;
 
   const id = `pf-tsl-${series}`;
 
