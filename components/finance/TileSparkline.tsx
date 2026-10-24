@@ -246,8 +246,12 @@ export default memo(function TileSparkline({
           {series === "balance" && (
             <>
               <linearGradient id={`${id}-neg`} gradientUnits="userSpaceOnUse" x1="0" y1={base} x2="0" y2={H}>
-                <stop offset="0" stopColor="#ff453a" stopOpacity="0.08" />
-                <stop offset="1" stopColor="#ff453a" stopOpacity="0.5" />
+                <stop offset="0" stopColor="#ff453a" stopOpacity="0.14" />
+                <stop offset="1" stopColor="#ff453a" stopOpacity="0.55" />
+              </linearGradient>
+              <linearGradient id={`${id}-negline`} gradientUnits="userSpaceOnUse" x1="0" y1={base} x2="0" y2={H}>
+                <stop offset="0" stopColor="#ff8a80" />
+                <stop offset="1" stopColor="#ff3b30" />
               </linearGradient>
               <clipPath id={`${id}-pos`}>
                 <rect x={-1} y={-1} width={102} height={base + 1} />
@@ -299,14 +303,23 @@ export default memo(function TileSparkline({
             <path d={`${line} L${lastX},${base} L${x(0)},${base} Z`} fill={`url(#${id})`} />
           )}
           {series === "spent" && <path d={`${fixedLine} L${lastX},${base} L${x(0)},${base} Z`} fill={color} opacity={0.42} />}
-          <path d={line} fill="none" stroke={color} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+          {series === "balance" ? (
+            // Balance's line splits at zero too: the tile colour above, a red
+            // gradient below (deeper red the further under zero).
+            <>
+              <path d={line} fill="none" stroke={color} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" clipPath={`url(#${id}-pos)`} />
+              <path d={line} fill="none" stroke={`url(#${id}-negline)`} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" clipPath={`url(#${id}-negclip)`} />
+            </>
+          ) : (
+            <path d={line} fill="none" stroke={color} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+          )}
         </g>
         </>
         )}
         {(picked || pickedBar) && <line x1={pickedX} x2={pickedX} y1={0} y2={H} stroke="rgba(255,255,255,0.35)" strokeDasharray="2 3" vectorEffect="non-scaling-stroke" />}
       </svg>
       {/* "Now" — round in HTML (the SVG is stretched). */}
-      {!absolute && <span className="pf-tsl-now" style={{ left: `${lastX}%`, top: lastY, ["--dot" as string]: color }} />}
+      {!absolute && <span className="pf-tsl-now" style={{ left: `${lastX}%`, top: lastY, ["--dot" as string]: series === "balance" && lastY > base ? "#ff453a" : color }} />}
       {pickedBar && (
         <>
           <span className="pf-tsl-pick" style={{ left: `${pickedX}%`, top: pickedY, ["--dot" as string]: color }} />
