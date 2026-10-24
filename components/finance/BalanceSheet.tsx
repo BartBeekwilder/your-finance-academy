@@ -128,7 +128,20 @@ export function BalanceBars({
             )}
           </div>
           {legend(assetLines, t("Assets"), sheet.totalAssets, 4)}
-          {debtLines.length > 0 && legend(debtLines, t("Liabilities"), sheet.totalDebt, 4)}
+          {debtLines.length > 0 ? (
+            legend(debtLines, t("Liabilities"), sheet.totalDebt, 4)
+          ) : (
+            <div className="pf-bal-legend">
+              <div className="pf-bal-legend-head">
+                <span>{t("Liabilities")}</span>
+                <b className="pf-rounded">{money(0, currency)}</b>
+              </div>
+              <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-3)" }}>
+                {t("No debts entered.")}{" "}
+                <a href="/app/balance" style={{ color: "var(--pf-brand-b)" }}>{t("Add a loan or mortgage")}</a>
+              </span>
+            </div>
+          )}
         </div>
       </div>
     );
