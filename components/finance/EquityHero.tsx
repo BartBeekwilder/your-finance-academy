@@ -8,10 +8,11 @@ import { EQUITY } from "./BalanceSheet";
 
 // The Balance page's headline: equity — what is truly yours — big, with how
 // it moved (since last month, since 1 January), the share of what you own
-// that is yours, and a small line of its month-end values this year. The
-// dots are the months: clicking one picks that month on the page.
+// that is yours, and a small line of its month-end values this year,
+// carried on as a dotted forecast to December. The dots are the months:
+// clicking one picks that month on the page.
 
-type Point = { label: string; full: string; value: number };
+type Point = { label: string; full: string; value: number; forecast?: boolean };
 
 export default function EquityHero({
   points,
@@ -21,7 +22,7 @@ export default function EquityHero({
   label,
   currency,
 }: {
-  /** Equity per month, January … now (the last one is today). */
+  /** Equity per month, January … now (today), then forecast months. */
   points: Point[];
   sel: number;
   onSelect: (i: number) => void;
@@ -44,8 +45,13 @@ export default function EquityHero({
   const span = Math.max(hi - lo, Math.abs(hi) * 0.01, 1);
   const x = (i: number) => (points.length === 1 ? W / 2 : P + (i / (points.length - 1)) * (W - 2 * P));
   const y = (v: number) => H - P - ((v - lo + span * 0.15) / (span * 1.3)) * (H - 2 * P);
-  const line = points.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join(" ");
-  const area = `${line} L${x(points.length - 1).toFixed(1)},${H} L${x(0).toFixed(1)},${H} Z`;
+  const done = points.filter((p) => !p.forecast).length;
+  const line = points.slice(0, done).map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join(" ");
+  const area = `${line} L${x(done - 1).toFixed(1)},${H} L${x(0).toFixed(1)},${H} Z`;
+  const ahead = points
+    .slice(done - 1)
+    .map((p, k) => `${k ? "L" : "M"}${x(done - 1 + k).toFixed(1)},${y(p.value).toFixed(1)}`)
+    .join(" ");
   const tip = hover ?? null;
 
   const chip = (d: number, text: string) => (
@@ -94,6 +100,9 @@ export default function EquityHero({
           </defs>
           <path d={area} fill="url(#pf-eq-fill)" className="pf-eq-area" />
           <path d={line} fill="none" stroke={EQUITY} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" className="pf-eq-path" />
+          {done < points.length && (
+            <path d={ahead} fill="none" stroke={EQUITY} strokeWidth="2" strokeDasharray="2 6" strokeLinecap="round" opacity={0.6} vectorEffect="non-scaling-stroke" className="pf-eq-forecast" />
+          )}
         </svg>
         {/* Dots as HTML over the line, so they stay round however it stretches. */}
         <div className="pf-eq-dots">
@@ -103,17 +112,18 @@ export default function EquityHero({
               type="button"
               aria-label={`${p.full}: ${money(p.value, currency)}`}
               data-sel={i === sel}
+              data-forecast={!!p.forecast}
               style={{ left: `${(x(i) / W) * 100}%`, top: `${(y(p.value) / H) * 100}%` }}
               onMouseEnter={() => setHover(i)}
               onFocus={() => setHover(i)}
               onBlur={() => setHover(null)}
-              onClick={() => onSelect(i)}
+              onClick={() => !p.forecast && onSelect(i)}
             />
           ))}
         </div>
         <div className="pf-eq-months">
           {points.map((p, i) => (
-            <span key={p.full} data-sel={i === sel} style={{ left: `${(x(i) / W) * 100}%` }}>
+            <span key={p.full} data-sel={i === sel} data-forecast={!!p.forecast} style={{ left: `${(x(i) / W) * 100}%` }}>
               {p.label}
             </span>
           ))}

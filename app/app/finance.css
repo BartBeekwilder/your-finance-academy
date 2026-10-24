@@ -3711,3 +3711,9 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
   border-bottom-left-radius: 8px;
 }
 :dir(rtl) .pf-budget-sub { padding-left: 14px; padding-right: 56px; }
+
+/* Balance › equity line: the forecast months ahead. */
+.pf-eq-forecast { animation: pf-tsl-forecast-in 0.8s ease-out 1.1s both; }
+.pf-eq-dots button[data-forecast="true"] { cursor: default; border-style: dashed; border-color: rgba(64, 200, 224, 0.55); background: var(--pf-card); width: 10px; height: 10px; }
+.pf-eq-dots button[data-forecast="true"][data-sel="true"] { background: rgba(64, 200, 224, 0.5); border-style: solid; }
+.pf-eq-months span[data-forecast="true"] { opacity: 0.6; font-style: italic; }

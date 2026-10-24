@@ -9,7 +9,7 @@ import EquityHero from "@/components/finance/EquityHero";
 import EquityWaterfall from "@/components/finance/EquityWaterfall";
 import SortableTiles from "@/components/finance/SortableTiles";
 import StepSlider from "@/components/finance/StepSlider";
-import { balanceSheet } from "@/lib/finance/calc";
+import { balanceSheet, netWorthFigures } from "@/lib/finance/calc";
 
 // Balance sheet — the finances as a company's books: what you own (your own
 // posts like a home, plus accounts, investments, prepaid costs and income
@@ -39,7 +39,22 @@ export default function BalancePage() {
         const d = new Date(now.getFullYear(), i, 1);
         const n = monthName(d);
         return { label: n.slice(0, 3), full: i === now.getMonth() ? t("Today") : t("End of {n}", { n }), value: balanceSheet(data, now, d).equity };
-      }),
+      }).concat(
+        // Forecast to December: each later month-end's sheet (posts carried
+        // forward, mortgages on their schedule) plus the cash the forecast
+        // expects to be added from this month up to that month.
+        (() => {
+          const fc = netWorthFigures(data, now).forecast;
+          const out: { label: string; full: string; value: number; forecast: boolean }[] = [];
+          for (let m = now.getMonth() + 1; m < 12; m++) {
+            const d = new Date(now.getFullYear(), m, 1);
+            const n = monthName(d);
+            const added = fc.filter((f) => f.month <= m).reduce((a, f) => a + f.change, 0);
+            out.push({ label: n.slice(0, 3), full: t("End of {n} · forecast", { n }), value: balanceSheet(data, now, d).equity + added, forecast: true });
+          }
+          return out;
+        })(),
+      ),
     [data, now],
   );
   const yearStart = useMemo(() => balanceSheet(data, now, new Date(now.getFullYear() - 1, 11, 1)).equity, [data, now]);
@@ -63,9 +78,9 @@ export default function BalancePage() {
             label: t("Balance bars"),
             node: (
               <section className="pf-card" style={{ padding: 18, display: "grid", gap: 16 }}>
-                <div key={`bars${sel}`}>
-                  <BalanceBars sheet={sheet} prev={prev} currency={currency} header={false} legend={false} />
-                </div>
+                {/* No key per month: the segments stay and glide to the
+                    new month's widths instead of being rebuilt. */}
+                <BalanceBars sheet={sheet} prev={prev} currency={currency} header={false} legend={false} />
                 <StepSlider
                   label={t("Month")}
                   animKey="balance-months"
