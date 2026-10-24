@@ -3611,3 +3611,43 @@ html[data-pf-motion="light"] .pf-roll-d { animation: none !important; }
   animation: pf-newcat-in 0.35s cubic-bezier(0.34, 1.4, 0.64, 1) both;
 }
 .pf-chip.pf-chip-sm { padding: 4px 10px 4px 6px; font-size: 0.8rem; gap: 6px; }
+
+/* Categories page: each category opens to its subcategories. */
+.pf-cats { padding: 4px 0; }
+.pf-cat { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+.pf-cat:last-of-type { border-bottom: 0; }
+.pf-cat-head {
+  width: 100%;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+.pf-cat-head:hover { background: rgba(255, 255, 255, 0.03); }
+.pf-cat-count { display: block; font-size: 0.72rem; color: var(--pf-ink-3); margin-top: 1px; }
+.pf-cat-kind { font-size: 0.75rem; color: var(--pf-ink-2); }
+.pf-cat-chevron { color: var(--pf-ink-3); transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1); }
+.pf-cat[data-open="true"] .pf-cat-chevron { transform: rotate(90deg); }
+:dir(rtl) .pf-cat-chevron { transform: scaleX(-1); }
+:dir(rtl) .pf-cat[data-open="true"] .pf-cat-chevron { transform: scaleX(-1) rotate(90deg); }
+.pf-cat-body {
+  display: grid;
+  gap: 4px;
+  padding: 0 14px 14px 58px;
+  transform-origin: top;
+  animation: pf-newcat-in 0.35s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+.pf-cat-actions { display: flex; gap: 16px; padding: 2px 0 6px; }
+.pf-cat-actions .pf-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; }
+.pf-sub { padding: 6px 4px; border-radius: 10px; gap: 10px; }
+.pf-sub:hover { background: rgba(255, 255, 255, 0.03); }
+.pf-sub .pf-icon-button { opacity: 0.55; transition: opacity 0.2s, color 0.2s; }
+.pf-sub:hover .pf-icon-button, .pf-sub .pf-icon-button:focus-visible { opacity: 1; }
+.pf-danger[data-confirm="true"] { color: var(--pf-red); opacity: 1; }
+.pf-cat-add { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 6px; }
+.pf-chip-suggest { opacity: 0.7; border-style: dashed; transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pf-chip-suggest:hover { opacity: 1; transform: translateY(-1px); }
+@media (max-width: 640px) { .pf-cat-body { padding-left: 14px; } }
