@@ -41,6 +41,7 @@ export function BalanceBars({
   label,
   header = true,
   legend: showLegend = true,
+  vertical = false,
 }: {
   sheet: Sheet;
   prev?: Sheet;
@@ -50,6 +51,9 @@ export function BalanceBars({
   header?: boolean;
   /** Names and amounts under the bars (off where the table follows). */
   legend?: boolean;
+  /** Two upright columns side by side with the legend beside them (compact
+   *  dashboard card), like a balance sheet drawn as two stacks. */
+  vertical?: boolean;
 }) {
   const [hover, setHover] = useState<{ name: string; value: number; color: string } | null>(null);
   const total = Math.max(sheet.totalAssets, sheet.totalDebt + Math.max(sheet.equity, 0), 1);
@@ -63,13 +67,13 @@ export function BalanceBars({
 
   const assetLines = assets.map((l, i) => ({ ...l, color: colorFor("asset", i) }));
   const debtLines = right.filter((l) => l.id !== "equity");
-  const legend = (lines: (BalanceLine & { color: string })[], title: string, total: number) => (
+  const legend = (lines: (BalanceLine & { color: string })[], title: string, total: number, max = Infinity) => (
     <div className="pf-bal-legend">
       <div className="pf-bal-legend-head">
         <span>{title}</span>
         <b className="pf-rounded">{money(total, currency)}</b>
       </div>
-      {lines.map((l) => (
+      {[...lines].sort((a, b) => (max < Infinity ? b.value - a.value : 0)).slice(0, max).map((l) => (
         <div
           key={l.id}
           className="pf-bal-legend-row"
@@ -82,11 +86,12 @@ export function BalanceBars({
           <span className="pf-rounded">{money(l.value, currency)}</span>
         </div>
       ))}
+      {lines.length > max && <div className="pf-bal-legend-more">{t("+{n} more", { n: lines.length - max })}</div>}
     </div>
   );
 
   const row = (lines: (BalanceLine & { color: string })[], side: string) => (
-    <div className="pf-bal-bar" aria-label={side} onMouseLeave={() => setHover(null)}>
+    <div className="pf-bal-bar" data-vertical={vertical} aria-label={side} onMouseLeave={() => setHover(null)}>
       {lines.map((l, i) => (
         <span
           key={l.id}
@@ -94,12 +99,40 @@ export function BalanceBars({
           data-equity={l.id === "equity"}
           data-lit={hover?.name === l.name}
           title={`${l.name} ${money(l.value, currency)}`}
-          style={{ flexBasis: `${(l.value / total) * 100}%`, background: l.color, animationDelay: `${i * 60}ms` }}
+          style={{ flexBasis: `${(l.value / total) * 100}%`, background: l.color, animationDelay: `${(vertical ? 200 : 0) + i * 60}ms` }}
           onMouseEnter={() => setHover({ name: l.name, value: l.value, color: l.color })}
         />
       ))}
     </div>
   );
+
+  if (vertical) {
+    return (
+      <div className="pf-bal-v">
+        <div className="pf-bal-v-cols">
+          <div className="pf-bal-v-col">
+            {row(assetLines, t("Assets"))}
+            <span className="pf-bal-side">{t("Assets")}</span>
+          </div>
+          <div className="pf-bal-v-col">
+            {row(right, t("Liabilities and equity"))}
+            <span className="pf-bal-side">{t("Debt + equity")}</span>
+          </div>
+        </div>
+        <div style={{ display: "grid", gap: 10, alignContent: "start", minWidth: 0 }}>
+          <div>
+            <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>{t("Equity")}{label ? ` · ${label}` : ""}</div>
+            <div className="pf-rounded" style={{ fontSize: "1.5rem", fontWeight: 700, color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>{money(sheet.equity, currency)}</div>
+            {eqDelta !== null && Math.abs(eqDelta) >= 0.005 && (
+              <div style={{ fontSize: "0.68rem", color: eqDelta >= 0 ? "var(--pf-green)" : "var(--pf-red)" }}>{t("{amount} since last month", { amount: money(eqDelta, currency, { signed: true }) })}</div>
+            )}
+          </div>
+          {legend(assetLines, t("Assets"), sheet.totalAssets, 4)}
+          {debtLines.length > 0 && legend(debtLines, t("Liabilities"), sheet.totalDebt, 4)}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ display: "grid", gap: 10 }}>

@@ -36,7 +36,7 @@ export default function BalanceCard({ data, now }: { data: FinanceData; now: Dat
         />
       </div>
       <div key={full ? "full" : "compact"} className="pf-readout">
-        {full ? <BalanceTable sheet={sheet} prev={prev} currency={currency} /> : <BalanceBars sheet={sheet} prev={prev} currency={currency} label={t("today")} />}
+        {full ? <BalanceTable sheet={sheet} prev={prev} currency={currency} /> : <BalanceBars sheet={sheet} prev={prev} currency={currency} label={t("today")} vertical />}
       </div>
     </section>
   );

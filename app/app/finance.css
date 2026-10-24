@@ -3391,3 +3391,66 @@ html[data-pf-paused] *::after {
   background: color-mix(in srgb, var(--c) 22%, transparent);
   box-shadow: 0 0 12px color-mix(in srgb, var(--c) 35%, transparent);
 }
+
+/* Balance sheet as two upright stacks (dashboard compact card). */
+.pf-bal-v {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+.pf-bal-v-cols { display: flex; gap: 10px; }
+.pf-bal-v-col { display: grid; justify-items: center; gap: 6px; }
+.pf-bal-v-col .pf-bal-side { font-size: 0.62rem; max-width: 64px; text-align: center; white-space: normal; line-height: 1.2; }
+.pf-bal-bar[data-vertical="true"] {
+  flex-direction: column-reverse;
+  width: 46px;
+  height: 190px;
+}
+.pf-bal-bar[data-vertical="true"] .pf-bal-seg {
+  min-width: 0;
+  min-height: 3px;
+  transform-origin: bottom;
+  animation-name: pf-bal-grow-v;
+}
+.pf-bal-bar[data-vertical="true"] .pf-bal-seg[data-equity="true"] { animation-name: pf-bal-grow-v, pf-eq-glow; }
+.pf-bal-bar[data-vertical="true"] .pf-bal-seg:first-child { border-radius: 0 0 8px 8px; }
+.pf-bal-bar[data-vertical="true"] .pf-bal-seg:last-child { border-radius: 8px 8px 0 0; }
+.pf-bal-bar[data-vertical="true"] .pf-bal-seg:only-child { border-radius: 8px; }
+@keyframes pf-bal-grow-v {
+  from { transform: scaleY(0); opacity: 0; }
+}
+@media (max-width: 420px) {
+  .pf-bal-v { grid-template-columns: 1fr; }
+  .pf-bal-v-cols { justify-content: center; }
+}
+
+/* Dashboard: balance card and progress next to each other. */
+.pf-dash-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+@media (max-width: 900px) { .pf-dash-pair { grid-template-columns: 1fr; } }
+.pf-progress-mini { padding: 12px; display: grid; gap: 10px; }
+.pf-progress-mini .pf-progress-strip { padding: 4px; background: none; border: 0; }
+.pf-close-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--pf-ink);
+  text-decoration: none;
+  background: linear-gradient(120deg, rgba(108, 92, 231, 0.28), rgba(0, 194, 168, 0.2));
+  border: 1px solid rgba(64, 200, 224, 0.35);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.pf-close-mini:hover { transform: translateY(-1px); box-shadow: 0 0 18px rgba(64, 200, 224, 0.25); }
+.pf-close-mini span { flex: 1; }
+.pf-close-mini em { font-style: normal; }
+.pf-bal-legend-more { font-size: 0.7rem; color: var(--pf-ink-3); padding: 2px 0 0 16px; }
+.pf-bal-v .pf-bal-legend-row { padding-block: 2px; }

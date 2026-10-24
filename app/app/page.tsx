@@ -50,10 +50,6 @@ export default function DashboardPage() {
       </header>
 
       <NetWorthCard base={netWorthFigures(data, now).base} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} currency={currency} />
-      <ProgressStrip />
-
-      <BalanceCard data={data} now={now} />
-
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}
       <section style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "stretch" }}>
         <LiveTiles
@@ -74,6 +70,12 @@ export default function DashboardPage() {
             now={now}
           />
         </div>
+      </section>
+
+      {/* Balance sheet and progress side by side, compact. */}
+      <section className="pf-dash-pair">
+        <BalanceCard data={data} now={now} />
+        <ProgressStrip />
       </section>
 
       {byCategory.length > 0 && (
