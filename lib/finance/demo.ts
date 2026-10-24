@@ -49,7 +49,25 @@ export function buildDemoData(now = new Date()): FinanceData {
     sort_order: i,
     parent_id: null,
   }));
+  // Subcategories (ids after the starters): Utilities, Groceries and
+  // Transport split up. Only the category of existing demo spend changes,
+  // so every total stays the same as on iOS / Android.
+  const SUBS: [string, string, string][] = [
+    ["Utilities", "Electricity", "bolt.fill"],
+    ["Utilities", "Gas", "flame.fill"],
+    ["Utilities", "Water", "drop.fill"],
+    ["Groceries", "Supermarket", "cart.fill"],
+    ["Groceries", "Market", "leaf.fill"],
+    ["Transport", "Public transport", "tram.fill"],
+    ["Transport", "Fuel", "fuelpump.fill"],
+    ["Transport", "Parking", "parkingsign.circle.fill"],
+  ];
+  for (const [parent, name, icon] of SUBS) {
+    const p = categories.find((c) => c.name === parent)!;
+    categories.push({ ...meta(100 + categories.length, "c"), name, icon, color_hex: p.color_hex, is_default: false, is_income_category: false, is_fixed_expense: p.is_fixed_expense, sort_order: categories.length, parent_id: p.id });
+  }
   const cat = (name: string) => categories.find((c) => c.name === name)!.id;
+  const subFor: Record<string, string> = { "Albert Heijn": "Supermarket", Jumbo: "Supermarket", Lidl: "Supermarket", Market: "Market", "NS train": "Public transport", "OV top-up": "Public transport", Fuel: "Fuel", Parking: "Parking" };
 
   // Typical monthly spend per category: [min, max, entries per month]
   const pattern: Record<string, [number, number, number]> = {
@@ -101,23 +119,30 @@ export function buildDemoData(now = new Date()): FinanceData {
 
     push({ amount: "1250.00", type: "expense", date: day(1), note: "Rent", is_auto_income: false,
       is_fixed_expense: true, recurrence_id: id("r", 1), category_id: cat("Rent"), account_id: null });
-    push({ amount: (140 + rand() * 40).toFixed(2), type: "expense", date: day(3), note: "Energy & water",
-      is_auto_income: false, is_fixed_expense: true, recurrence_id: id("r", 2), category_id: cat("Utilities"), account_id: null });
+    // Energy & water, split over its subcategories (same total as before).
+    const utilities = Math.round((140 + rand() * 40) * 100);
+    const elec = Math.round(utilities * 0.5), gas = Math.round(utilities * 0.35);
+    for (const [cents, note, d, r] of [[elec, "Electricity", 3, 2], [gas, "Gas", 3, 3], [utilities - elec - gas, "Water", 8, 4]] as const) {
+      push({ amount: (cents / 100).toFixed(2), type: "expense", date: day(d), note,
+        is_auto_income: false, is_fixed_expense: true, recurrence_id: id("r", r), category_id: cat(note), account_id: null });
+    }
 
     for (const [name, [min, max, count]] of Object.entries(pattern)) {
       for (let i = 0; i < count; i++) {
         const d = 1 + Math.floor(rand() * daysInMonth);
         if (d > lastDay) continue;
         const pool = notes[name];
+        const amount = (min + rand() * (max - min)).toFixed(2);
+        const note = pool[Math.floor(rand() * pool.length)];
         push({
-          amount: (min + rand() * (max - min)).toFixed(2),
+          amount,
           type: "expense",
           date: day(d),
-          note: pool[Math.floor(rand() * pool.length)],
+          note,
           is_auto_income: false,
           is_fixed_expense: false,
           recurrence_id: null,
-          category_id: cat(name),
+          category_id: cat(subFor[note] ?? name),
           account_id: null,
         });
       }

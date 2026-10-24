@@ -1,7 +1,7 @@
 "use client";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { useFlip } from "@/lib/useFlip";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import BudgetBar from "@/components/finance/BudgetBar";
@@ -58,6 +58,18 @@ export default function BudgetsPage() {
       return { c, spent: isFuture ? expected : spent, budget: cy[sel].budget, expected: monthEnd };
     });
   const monthPace = isCurrent ? monthProgress(now) : 1;
+  // Subcategories under their category: shown when they have a budget or
+  // spending this month (their spend already counts in the parent's bar).
+  const subRows = (parent: (typeof rows)[number]["c"]) =>
+    categories
+      .filter((s) => s.parent_id === parent.id)
+      .sort((a, b) => a.sort_order - b.sort_order)
+      .map((s) => ({
+        s,
+        spent: expenses.filter((t) => t.category_id === s.id).reduce((sum, t) => sum + num(t.amount), 0),
+        budget: categoryYear(data, s, now).months[sel].budget,
+      }))
+      .filter((r) => r.budget !== null || (r.spent > 0 && !isFuture));
   // The pie chart: the budget filled in to what's expected (default), or what
   // was really spent.
   const [pieView, setPieView] = useState<"budget" | "spent">("budget");
@@ -184,7 +196,8 @@ export default function BudgetsPage() {
           <BudgetScaleSwitch />
           {(largestFirst ? [...rows].sort((a, b) => (b.budget ?? 0) - (a.budget ?? 0)) : rows).map(({ c, spent, budget }) => {
             return (
-              <button key={c.id} data-flip-key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
+              <Fragment key={c.id}>
+              <button data-flip-key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
                 <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={32} />
                 <div style={{ flex: 1, display: "grid", gap: 6 }}>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -200,6 +213,23 @@ export default function BudgetsPage() {
                   )}
                 </div>
               </button>
+              {subRows(c).map((r) => (
+                <button key={r.s.id} className="pf-row pf-tap pf-budget-sub" onClick={(ev) => openCategory(r.s.id, ev.currentTarget)} style={{ width: "100%" }}>
+                  <CategoryIcon icon={r.s.icon} colorHex={r.s.color_hex} size={22} />
+                  <div style={{ flex: 1, display: "grid", gap: 5 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem" }}>
+                      <span>{r.s.name}</span>
+                      <span className="pf-rounded" style={{ fontSize: "0.74rem", color: "var(--pf-ink-3)" }}>
+                        {r.budget === null ? money(r.spent, currency) : `${money(r.budget, currency)} budget`}
+                      </span>
+                    </div>
+                    {r.budget !== null && (
+                      <BudgetBar spent={r.spent} budget={r.budget} color={`#${r.s.color_hex}`} currency={currency} monthFraction={isFuture ? undefined : monthPace} fixedMonthStart={r.s.is_fixed_expense && !isFuture ? month : undefined} forecast={isFuture} scaleMax={compare ? maxBudget : undefined} />
+                    )}
+                  </div>
+                </button>
+              ))}
+              </Fragment>
             );
           })}
         </div>

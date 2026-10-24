@@ -4,7 +4,7 @@ import { t } from "@/lib/i18n";
 import { editProps } from "@/lib/finance/editTransaction";
 import { WithYAxis } from "./YAxis";
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
-import { X } from "lucide-react";
+import { ChevronRight, X } from "lucide-react";
 import { categoryYear, live, monthKey, num, type CategoryMonth } from "@/lib/finance/calc";
 import { dayLabel, money, monthYear, shortMonth } from "@/lib/finance/format";
 import CategoryIcon from "./CategoryIcon";
@@ -13,7 +13,9 @@ import Sheet from "./Sheet";
 
 // Web version of the iOS CategoryExpensesSheet: tap any category card, donut
 // slice or budget row to see that category's month total and budget status,
-// year-to-date running total, spend per month, and the month's transactions.
+// this month day by day (stacked by subcategory), the split per subcategory
+// (each opens its own sheet), year-to-date running total, spend per month,
+// and the month's transactions.
 
 type Open = (categoryId: string, from?: Element | null) => void;
 const Ctx = createContext<Open>(() => {});
@@ -41,6 +43,7 @@ export function CategoryDetailProvider({ children }: { children: ReactNode }) {
 
 function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => void }) {
   const { data, now } = useFinance();
+  const openCategory = useCategoryDetail();
   const currency = data.profile.currency_code;
   const categories = live(data.categories);
   const category = categories.find((c) => c.id === categoryId);
@@ -85,6 +88,62 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
           <span style={{ color: "var(--pf-ink-3)", fontWeight: 400 }}>· {money(view.budget, currency)} limit</span>
         </div>
       )}
+
+      {!category.is_income_category && <BudgetEditor categoryId={category.id} budget={view.budget} currency={currency} now={now} />}
+
+      {(() => {
+        // Series: the category itself (spend booked straight on it) and each
+        // subcategory, in the sub's own colour or a shade of the parent's.
+        const subs = categories.filter((c) => c.parent_id === category.id).sort((a, b) => a.sort_order - b.sort_order);
+        const series = [category, ...subs].map((c, i) => ({
+          id: c.id,
+          name: c.id === category.id && subs.length ? t("{name} (general)", { name: category.name }) : c.name,
+          color: c.id !== category.id && c.color_hex.toLowerCase() !== category.color_hex.toLowerCase() ? `#${c.color_hex}` : shade(color, i),
+          total: view.thisMonth.filter((x) => (x.category_id ?? category.id) === c.id).reduce((s, x) => s + num(x.amount), 0),
+        }));
+        const seriesOf = (id: string | null) => (id && series.some((x) => x.id === id) ? id : category.id);
+        return (
+          <>
+            <section>
+              <h3 className="pf-section-title" style={{ marginLeft: 0 }}>{t("Per day")} — {monthYear(now)}</h3>
+              <DayBars now={now} currency={currency} series={series.filter((x) => x.total > 0)} txs={view.thisMonth.map((x) => ({ day: new Date(x.date).getDate(), id: seriesOf(x.category_id), amount: num(x.amount) }))} />
+            </section>
+            {subs.length > 0 && (
+              <section>
+                <h3 className="pf-section-title" style={{ marginLeft: 0 }}>{t("Per subcategory")} — {monthYear(now)}</h3>
+                <div className="pf-card" style={{ background: "var(--pf-card-2)" }}>
+                  {[...series].filter((x) => x.id !== category.id || x.total > 0).sort((a, b) => b.total - a.total).map((x) => {
+                    const sub = subs.find((c) => c.id === x.id);
+                    const share = view.monthTotal ? x.total / view.monthTotal : 0;
+                    const inner = (
+                      <>
+                        <span className="pf-cbar-swatch" style={{ background: x.color }} />
+                        <span style={{ flex: 1, minWidth: 0 }}>
+                          {x.name}
+                          <span className="pf-subshare"><span style={{ width: `${share * 100}%`, background: x.color }} /></span>
+                        </span>
+                        <span className="pf-rounded" style={{ color: x.total ? "var(--pf-ink)" : "var(--pf-ink-3)" }}>{money(x.total, currency)}</span>
+                        <span className="pf-rounded" style={{ width: 40, textAlign: "right", fontSize: "0.75rem", color: "var(--pf-ink-3)" }}>{Math.round(share * 100)}%</span>
+                      </>
+                    );
+                    return sub ? (
+                      <button key={x.id} type="button" className="pf-row pf-subrow" onClick={(e) => openCategory(sub.id, e.currentTarget)}>
+                        {inner}
+                        <ChevronRight size={14} style={{ color: "var(--pf-ink-3)" }} />
+                      </button>
+                    ) : (
+                      <div key={x.id} className="pf-row pf-subrow">
+                        {inner}
+                        <span style={{ width: 14 }} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
+          </>
+        );
+      })()}
 
       <section>
         <h3 className="pf-section-title" style={{ marginLeft: 0 }}>Cumulative — {now.getFullYear()}</h3>
@@ -299,6 +358,148 @@ function MonthBars({ points, color, currency, current }: {
           </span>
         </div>
       )}
+    </div>
+  );
+}
+
+/** A lighter or darker step of `hex` for the i-th series (0 = itself). */
+function shade(hex: string, i: number) {
+  if (i === 0) return hex;
+  const steps = [55, 35, 70, 25, 80];
+  const toward = i % 2 ? "white" : "black";
+  return `color-mix(in srgb, ${hex} ${steps[(i - 1) % steps.length]}%, ${toward})`;
+}
+
+/** This month day by day, each day's bar stacked by series (the category
+ *  and its subcategories). Days ahead are faint; today is marked. Point at a
+ *  day to read it. */
+function DayBars({ now, currency, series, txs }: {
+  now: Date;
+  currency: string;
+  series: { id: string; name: string; color: string }[];
+  txs: { day: number; id: string; amount: number }[];
+}) {
+  const [sel, setSel] = useState<number | null>(null);
+  const days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const today = now.getDate();
+  const H = 110;
+  const per = Array.from({ length: days }, (_, d) =>
+    series.map((s) => txs.filter((x) => x.day === d + 1 && x.id === s.id).reduce((a, x) => a + x.amount, 0)),
+  );
+  const totals = per.map((p) => p.reduce((a, b) => a + b, 0));
+  const max = niceTop(Math.max(1, ...totals));
+  const shown = sel ?? null;
+  const ticks = [1, 8, 15, 22, 29].filter((d) => d <= days && Math.abs(d - today) > 1).concat(today);
+
+  return (
+    <div>
+      <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
+        {shown === null ? (
+          t("{amount} this month so far", { amount: money(totals.reduce((a, b) => a + b, 0), currency) })
+        ) : (
+          <>
+            {dayLabel(new Date(now.getFullYear(), now.getMonth(), shown + 1, 12).toISOString())} · <b style={{ color: "var(--pf-ink)" }}>{money(totals[shown], currency)}</b>
+            {series.length > 1 &&
+              per[shown]
+                .map((v, i) => ({ v, s: series[i] }))
+                .filter((x) => x.v > 0)
+                .map((x) => (
+                  <span key={x.s.id} style={{ marginLeft: 8 }}>
+                    <span style={{ display: "inline-block", width: 7, height: 7, borderRadius: 2, background: x.s.color, marginRight: 4 }} />
+                    {x.s.name} {money(x.v, currency)}
+                  </span>
+                ))}
+          </>
+        )}
+      </div>
+      <WithYAxis height={H} top={1} currency={currency} ticks={[0, 0.5, 1].map((f) => ({ value: max * f, at: f }))}>
+        <div className="pf-daybars" style={{ height: H }} onMouseLeave={() => setSel(null)}>
+          {per.map((p, d) => (
+            <button
+              key={d}
+              type="button"
+              className="pf-daybar"
+              data-future={d + 1 > today}
+              data-today={d + 1 === today}
+              data-lit={shown === d}
+              onMouseEnter={() => setSel(d)}
+              onClick={() => setSel(shown === d ? null : d)}
+              aria-label={`${d + 1}: ${money(totals[d], currency)}`}
+            >
+              <span className="pf-daybar-stack" style={{ height: `${(totals[d] / max) * 100}%`, animationDelay: `${d * 12}ms` }}>
+                {p.map((v, i) => (v > 0 ? <span key={series[i].id} style={{ flex: v, background: series[i].color }} /> : null))}
+              </span>
+            </button>
+          ))}
+        </div>
+      </WithYAxis>
+      <div className="pf-tsl-x" aria-hidden style={{ marginLeft: 0 }}>
+        {ticks.map((d) => (
+          <span key={d} data-lit={d === today} style={{ left: `${((d - 0.5) / days) * 100}%`, ["--dot" as string]: "var(--pf-ink)" }}>
+            {d}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Axis top: the next of 1, 1.2, 1.5, 2, 3, 4, 5, 6, 8 × a power of ten. */
+function niceTop(v: number) {
+  const p = 10 ** Math.floor(Math.log10(v));
+  return ([1, 1.2, 1.5, 2, 3, 4, 5, 6, 8, 10].find((m) => m * p >= v) ?? 10) * p;
+}
+
+/** "Monthly budget" with an inline edit: the amount applies from this month
+ *  on (budgets carry forward). Works for categories and subcategories. */
+function BudgetEditor({ categoryId, budget, currency, now }: { categoryId: string; budget: number | null; currency: string; now: Date }) {
+  const { setBudget } = useFinance();
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(budget !== null ? budget.toFixed(2).replace(".", ",") : "");
+  const [error, setError] = useState("");
+  // "1.250,00" and "1250.50" both work: with a comma, dots are thousands.
+  const raw = value.replace(/\s/g, "");
+  const parsed = Number(raw.includes(",") ? raw.replace(/\./g, "").replace(",", ".") : raw);
+  const save = async () => {
+    if (!raw || !(parsed >= 0) || !Number.isFinite(parsed)) return setError(t("Enter an amount."));
+    try {
+      await setBudget(categoryId, new Date(now.getFullYear(), now.getMonth(), 1), parsed);
+      setEditing(false);
+      setError("");
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  };
+  return (
+    <div className="pf-budget-edit">
+      <span style={{ flex: 1 }}>
+        {t("Monthly budget")}
+        <span style={{ display: "block", fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{t("From {month} on", { month: monthYear(now) })}</span>
+      </span>
+      {editing ? (
+        <>
+          <input
+            className="pf-input pf-rounded"
+            autoFocus
+            inputMode="decimal"
+            aria-label={t("Monthly budget")}
+            placeholder={money(0, currency)}
+            value={value}
+            onChange={(e) => { setValue(e.target.value); setError(""); }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") { e.preventDefault(); save(); }
+              if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); setEditing(false); }
+            }}
+            style={{ width: 120, textAlign: "right" }}
+          />
+          <button type="button" className="pf-button pf-button-sm" onClick={save}>{t("Save")}</button>
+        </>
+      ) : (
+        <button type="button" className="pf-link" onClick={() => setEditing(true)}>
+          {budget !== null ? <b className="pf-rounded">{money(budget, currency)}</b> : t("Set a budget")}
+        </button>
+      )}
+      {error && <span style={{ flexBasis: "100%", color: "var(--pf-red)", fontSize: "0.75rem" }}>{error}</span>}
     </div>
   );
 }
