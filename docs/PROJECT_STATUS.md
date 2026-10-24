@@ -144,6 +144,7 @@ zh-Hans. Every new UI text must be translatable and translated:
 - Charts: y-axis top rounds to 1/1.2/1.5/2/3/4/5/6/8 × 10^n (was 1/2/5) in CategoryBars/CategoryAreas and YearLines, so a €270 peak gets a €300 axis instead of €500.
 - Balance tile sparkline: area split at zero — tile blue above, red gradient below (stronger deeper down).
 - Tile sparklines (Income/Spent/Balance/Net worth): x-axis dates — Month: 1·8·15·22·29 + today lit in the tile colour; Year: short month names, current lit; cross-fade with the zoom, tiny tick marks. Balance's Month-view zero = start of the month (red area below it).
+- Settings › Animations › Live decimals 2 / 3 / 5 (per browser, lib/motion.ts useLiveDecimals/useTickerNow): 5 = cents + 3 small digits at 80 ms (default), 3 = cents + 1 digit at 500 ms, 2 = cents at 1 s. Measured on the demo dashboard: 191 → 3 DOM changes per 3 s.
 - To port: iOS (dashboard order + expenses chart on dashboard + upright balance stacks + motion settings: iOS has NeonLinesBackground 24 fps → add Light/Off + background switch), Android (motion setting when more screens exist).
 
 ## Next / open
