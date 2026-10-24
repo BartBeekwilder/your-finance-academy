@@ -402,8 +402,10 @@ function smooth(v: number, a: number, b: number) {
   return k * k * (3 - 2 * k);
 }
 
-/** Round the axis top up to 1, 2 or 5 × a power of ten, so labels read cleanly. */
+/** Round the axis top up to the next of 1, 1.2, 1.5, 2, 3, 4, 5, 6 or 8 × a
+ *  power of ten: tight enough that the peak fills the chart, and the halfway
+ *  line still reads cleanly. */
 function niceMax(v: number) {
   const p = 10 ** Math.floor(Math.log10(v));
-  return ([1, 2, 5, 10].find((m) => m * p >= v) ?? 10) * p;
+  return ([1, 1.2, 1.5, 2, 3, 4, 5, 6, 8, 10].find((m) => m * p >= v) ?? 10) * p;
 }
