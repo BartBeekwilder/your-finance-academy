@@ -142,6 +142,7 @@ zh-Hans. Every new UI text must be translatable and translated:
 - Translations: all new texts in 17 languages (764 keys).
 - Balance card compact: right side is now a T-account — Assets | Liabilities + Equity side by side, matching totals at the bottom (stacks below ~460px card width).
 - Charts: y-axis top rounds to 1/1.2/1.5/2/3/4/5/6/8 × 10^n (was 1/2/5) in CategoryBars/CategoryAreas and YearLines, so a €270 peak gets a €300 axis instead of €500.
+- Balance tile sparkline: area split at zero — tile blue above, red gradient below (stronger deeper down).
 - To port: iOS (dashboard order + expenses chart on dashboard + upright balance stacks + motion settings: iOS has NeonLinesBackground 24 fps → add Light/Off + background switch), Android (motion setting when more screens exist).
 
 ## Next / open
