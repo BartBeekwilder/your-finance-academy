@@ -3466,3 +3466,6 @@ html[data-pf-motion="light"] *::after {
 .pf-bal-v .pf-bal-legend-row { padding-block: 2px; }
 .pf-section-link { text-decoration: none; transition: color 0.2s; }
 .pf-section-link:hover { color: var(--pf-ink); }
+.pf-dash-top { grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); align-items: stretch; }
+.pf-dash-top .pf-progress-mini { align-content: space-between; }
+@media (max-width: 900px) { .pf-dash-top { grid-template-columns: 1fr; } }
