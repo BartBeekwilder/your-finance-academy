@@ -2,11 +2,12 @@
 
 import { t } from "@/lib/i18n";
 import { useMemo, useState, type FormEvent } from "react";
-import { Check, Plus, Trash2, X } from "lucide-react";
+import { Plus, Trash2, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
 import type { Transaction, TransactionType } from "@/lib/finance/types";
+import CategoryEditor from "./CategoryEditor";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
 import Segmented from "./Segmented";
@@ -102,9 +103,17 @@ function Form({
   const [creating, setCreating] = useState(false);
   const [fresh, setFresh] = useState<string | null>(null);
 
+  // Top-level categories as chips; once one is picked, its subcategories
+  // (if any) appear underneath as an optional finer choice.
   const choices = useMemo(
-    () => categories.filter((c) => c.is_income_category === (type === "income")).sort((a, b) => a.sort_order - b.sort_order),
+    () => categories.filter((c) => c.is_income_category === (type === "income") && !c.parent_id).sort((a, b) => a.sort_order - b.sort_order),
     [categories, type],
+  );
+  const selected = categories.find((c) => c.id === categoryId);
+  const parentId = selected?.parent_id ?? selected?.id ?? null;
+  const subs = useMemo(
+    () => (parentId ? categories.filter((c) => c.parent_id === parentId).sort((a, b) => a.sort_order - b.sort_order) : []),
+    [categories, parentId],
   );
 
   // Accept "12,50" as well as "12.50" — Dutch keyboards type a comma.
@@ -171,9 +180,9 @@ function Form({
               type="button"
               onClick={() => { setCategoryId(c.id); setFixed(c.is_fixed_expense); }}
               className="pf-chip"
-              aria-pressed={categoryId === c.id}
+              aria-pressed={parentId === c.id}
               data-fresh={fresh === c.id || undefined}
-              style={categoryId === c.id ? { borderColor: `#${c.color_hex}`, background: `#${c.color_hex}33` } : undefined}
+              style={parentId === c.id ? { borderColor: `#${c.color_hex}`, background: `#${c.color_hex}33` } : undefined}
             >
               <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={20} />
               {c.name}
@@ -186,8 +195,34 @@ function Form({
             </button>
           )}
         </div>
+        {subs.length > 0 && selected && (
+          <div key={parentId} className="pf-subchips">
+            <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("Subcategory (optional)")}</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {subs.map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  className="pf-chip pf-chip-sm"
+                  aria-pressed={categoryId === c.id}
+                  onClick={() => {
+                    // Tapping the chosen sub again goes back to just the parent.
+                    const back = categoryId === c.id;
+                    const next = back ? categories.find((x) => x.id === parentId) : c;
+                    setCategoryId(next?.id ?? null);
+                    if (next) setFixed(next.is_fixed_expense);
+                  }}
+                  style={categoryId === c.id ? { borderColor: `#${c.color_hex}`, background: `#${c.color_hex}33` } : undefined}
+                >
+                  <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={16} />
+                  {c.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         {creating && (
-          <NewCategoryEditor
+          <CategoryEditor
             type={type}
             taken={choices.map((c) => c.name.toLowerCase())}
             onCancel={() => setCreating(false)}
@@ -244,110 +279,5 @@ function Form({
         </button>
       )}
     </form>
-  );
-}
-
-// SF Symbol names (shared with iOS), each drawn by CategoryIcon.
-const ICONS = {
-  expense: [
-    "cart.fill", "fork.knife", "car.fill", "house.fill", "bolt.fill", "heart.fill", "bag.fill", "film.fill",
-    "airplane", "gift.fill", "pawprint.fill", "graduationcap.fill", "dumbbell.fill", "wifi", "phone.fill",
-    "tshirt.fill", "cup.and.saucer.fill", "wrench.and.screwdriver.fill",
-  ],
-  income: [
-    "banknote.fill", "briefcase.fill", "dollarsign.circle.fill", "chart.line.uptrend.xyaxis", "wallet.pass.fill",
-    "gift.fill", "percent", "star.fill", "house.fill", "person.2.fill",
-  ],
-};
-const COLORS = ["30D158", "0A84FF", "5E5CE6", "BF5AF2", "FF375F", "FF453A", "FF9F0A", "FFD60A", "64D2FF", "AC8E68", "8E8E93"];
-
-/** Inline editor for a new category: unfolds under the chips. */
-function NewCategoryEditor({
-  type,
-  taken,
-  onCancel,
-  onSave,
-}: {
-  type: TransactionType;
-  taken: string[];
-  onCancel: () => void;
-  onSave: (c: { name: string; icon: string; color_hex: string }) => Promise<void>;
-}) {
-  const icons = ICONS[type === "income" ? "income" : "expense"];
-  const [name, setName] = useState("");
-  const [icon, setIcon] = useState(icons[0]);
-  const [color, setColor] = useState(COLORS[type === "income" ? 0 : 1]);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
-  const trimmed = name.trim();
-
-  async function save() {
-    if (!trimmed) return setError(t("Give the category a name."));
-    if (taken.includes(trimmed.toLowerCase())) return setError(t("You already have a category with that name."));
-    setSaving(true);
-    setError("");
-    try {
-      await onSave({ name: trimmed, icon, color_hex: color });
-    } catch (err) {
-      setError((err as Error).message);
-      setSaving(false);
-    }
-  }
-
-  return (
-    <div className="pf-newcat" style={{ ["--c" as string]: `#${color}` }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <span className="pf-newcat-preview">
-          <CategoryIcon icon={icon} colorHex={color} size={34} />
-        </span>
-        <input
-          className="pf-input"
-          autoFocus
-          placeholder={type === "income" ? t("Side job") : t("Gym")}
-          aria-label={t("Category name")}
-          value={name}
-          maxLength={40}
-          onChange={(e) => { setName(e.target.value); setError(""); }}
-          // Enter saves the category, not the whole transaction form.
-          onKeyDown={(e) => {
-            if (e.key === "Enter") { e.preventDefault(); save(); }
-            if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); onCancel(); }
-          }}
-          style={{ flex: 1 }}
-        />
-      </div>
-
-      <div className="pf-newcat-row" role="radiogroup" aria-label={t("Colour")}>
-        {COLORS.map((c) => (
-          <button
-            key={c}
-            type="button"
-            role="radio"
-            aria-checked={c === color}
-            aria-label={`Colour #${c}`}
-            className="pf-swatch"
-            onClick={() => setColor(c)}
-            style={{ background: `#${c}` }}
-          />
-        ))}
-      </div>
-
-      <div className="pf-newcat-row" role="radiogroup" aria-label={t("Icon")}>
-        {icons.map((i) => (
-          <button key={i} type="button" role="radio" aria-checked={i === icon} aria-label={i} className="pf-iconpick" onClick={() => setIcon(i)}>
-            <CategoryIcon icon={i} colorHex={i === icon ? color : "3a3a3c"} size={28} />
-          </button>
-        ))}
-      </div>
-
-      {error && <p style={{ margin: 0, color: "var(--pf-red)", fontSize: "0.8rem" }}>{error}</p>}
-
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
-        <button type="button" className="pf-link" onClick={onCancel}>{t("Cancel")}</button>
-        <button type="button" className="pf-button pf-button-sm" onClick={save} disabled={saving}>
-          <Check size={15} strokeWidth={3} /> {saving ? t("Adding…") : t("Add category")}
-        </button>
-      </div>
-    </div>
   );
 }

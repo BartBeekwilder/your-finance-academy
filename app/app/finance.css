@@ -3597,3 +3597,17 @@ html[data-pf-motion="light"] .pf-roll-d { animation: none !important; }
   border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
   animation: pf-chip-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.6s both;
 }
+
+/* Quick Add: a picked category's subcategories, as smaller chips. */
+.pf-subchips {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--pf-line);
+  transform-origin: top;
+  animation: pf-newcat-in 0.35s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+.pf-chip.pf-chip-sm { padding: 4px 10px 4px 6px; font-size: 0.8rem; gap: 6px; }
