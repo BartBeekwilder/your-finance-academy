@@ -147,6 +147,7 @@ zh-Hans. Every new UI text must be translatable and translated:
 - Settings › Animations › Live decimals 2 / 3 / 4 / 5 (per browser, lib/motion.ts useLiveDecimals/useTickerNow/tickerMs): 2 = cents at 1 s, 3 = cents + 1 small digit at 500 ms (DEFAULT), 4 = + 2 digits at 200 ms, 5 = + 3 digits at 80 ms. Measured on the demo dashboard: 191 → 3 DOM changes per 3 s.
 - Live amounts roll like an odometer (LiveAmount + .pf-roll in finance.css): each changed digit slides in over one tick (--roll = tick ms, max 400), up when rising / down when falling; off in Light/Off motion. Same tick rate, so no extra CPU.
 - Net worth page: "Asset mix over time" (components/finance/AssetMixChart.tsx) — stacked areas of each month-end's assets this year (from balanceSheet per month; accounts incl. prepaid/receivable, investments split crypto/stocks/precious metals at cost, homes, own asset posts), Share (100%) | Amount toggle that morphs, hover tooltip with % and €, legend hover dims the others. Only this year until multiple years exists.
+- Progress rings past 100%: second lap in a lighter tint (LAP_COLORS), its head a dot with a dark shadow lying on the first lap (fitness-watch overlap), legend chip "2nd lap".
 - To port: iOS (dashboard order + expenses chart on dashboard + upright balance stacks + motion settings: iOS has NeonLinesBackground 24 fps → add Light/Off + background switch), Android (motion setting when more screens exist).
 
 ## Next / open
@@ -210,6 +211,8 @@ other countries' rules later (to do: DE, BE, UK, US, …).
    renting and buying over the long term — rent (with yearly increases) +
    investing the difference vs. mortgage costs, maintenance, taxes, value
    growth and equity built; break-even year and wealth after N years.
+
+10. FINANCE WRAPPED (Bart, 2026-10-24): a "Spotify Wrapped" for money, per month, shown after a month close. Several highlight cards to swipe through: biggest income, biggest expenses / top categories, savings rate, net worth change, balance-sheet summary (financial position), streaks/badges earned, comparisons with last month. Fluid, premium, shareable later.
 
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
