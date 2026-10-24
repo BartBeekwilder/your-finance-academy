@@ -3542,3 +3542,41 @@ html[data-pf-motion="light"] *::after {
   from { transform: translateY(-0.42em); opacity: 0; }
 }
 html[data-pf-motion="light"] .pf-roll-d { animation: none !important; }
+
+/* Net worth › Asset mix over time (100% stacked areas). */
+.pf-mix-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.pf-mix-legend button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--pf-ink-2);
+  background: none;
+  border: 0;
+  padding: 2px 0;
+  cursor: default;
+  transition: opacity 0.25s;
+}
+.pf-mix-legend button[data-dim="true"] { opacity: 0.35; }
+.pf-mix-band { transition: opacity 0.3s ease; }
+.pf-mix-band[data-dim="true"] { opacity: 0.18; }
+.pf-mix-tip {
+  position: absolute;
+  top: 8px;
+  display: grid;
+  gap: 3px;
+  min-width: 190px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  color: var(--pf-ink-2);
+  background: rgba(20, 20, 26, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  animation: pf-chip-pop 0.25s ease both;
+}
+.pf-mix-tip b { color: var(--pf-ink); font-weight: 600; margin-bottom: 2px; }
+.pf-mix-tip > span { display: flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
+.pf-mix-tip > span .pf-rounded { min-width: 3.2em; text-align: right; }

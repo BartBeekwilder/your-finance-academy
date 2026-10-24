@@ -7,6 +7,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import type { Mode } from "@/components/finance/LiveTiles";
 import NetWorthTile from "@/components/finance/NetWorthTile";
 import NetWorthWaterfall from "@/components/finance/NetWorthWaterfall";
+import AssetMixChart from "@/components/finance/AssetMixChart";
 import Stat from "@/components/finance/Stat";
 import { live, netWorthFigures, num } from "@/lib/finance/calc";
 import { money, monthYear, monthName } from "@/lib/finance/format";
@@ -14,7 +15,7 @@ import { useNow } from "@/lib/motion";
 
 // Net worth — the Income and Expenses pages' sibling: the live net worth
 // tile (Month / Year, zoom, forecast, scrub), the period's figures, a
-// waterfall of how it moved, where it sits (accounts and investments) and,
+// waterfall of how it moved, the asset mix over time, where it sits (accounts and investments) and,
 // in Year view, each month's closing value.
 
 const ASSET_COLORS: Record<string, string> = { crypto: "#F7931A", stock: "#0A84FF", metal: "#D4AF37" };
@@ -89,6 +90,11 @@ export default function NetWorthPage() {
       </div>
 
       <NetWorthWaterfall data={data} now={now} currency={currency} mode={mode} />
+
+      <section>
+        <h2 className="pf-section-title">{t("Asset mix over time")}</h2>
+        <AssetMixChart data={data} now={now} currency={currency} />
+      </section>
 
       <section>
         <h2 className="pf-section-title">{t("Where it sits")}</h2>
