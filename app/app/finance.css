@@ -3717,3 +3717,16 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
 .pf-eq-dots button[data-forecast="true"] { cursor: default; border-style: dashed; border-color: rgba(64, 200, 224, 0.55); background: var(--pf-card); width: 10px; height: 10px; }
 .pf-eq-dots button[data-forecast="true"][data-sel="true"] { background: rgba(64, 200, 224, 0.5); border-style: solid; }
 .pf-eq-months span[data-forecast="true"] { opacity: 0.6; font-style: italic; }
+.pf-mix-legend button[data-picked="true"] { color: var(--pf-ink); font-weight: 600; }
+.pf-mix-picked {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  background: color-mix(in srgb, var(--c) 10%, transparent);
+}
+.pf-bal-bar[data-pickable="true"] .pf-bal-seg { cursor: pointer; }

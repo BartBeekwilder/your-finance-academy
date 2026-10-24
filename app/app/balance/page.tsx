@@ -3,7 +3,9 @@
 import { monthName } from "@/lib/finance/format";
 import { intlLocale, t } from "@/lib/i18n";
 import { useMemo, useState } from "react";
-import { BalanceBars, BalanceTable } from "@/components/finance/BalanceSheet";
+import { BalanceBars, BalanceTable, balanceColors } from "@/components/finance/BalanceSheet";
+import { StackedMix, type Series } from "@/components/finance/AssetMixChart";
+import Segmented from "@/components/finance/Segmented";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import EquityHero from "@/components/finance/EquityHero";
 import EquityWaterfall from "@/components/finance/EquityWaterfall";
@@ -58,6 +60,33 @@ export default function BalancePage() {
     [data, now],
   );
   const yearStart = useMemo(() => balanceSheet(data, now, new Date(now.getFullYear() - 1, 11, 1)).equity, [data, now]);
+  // 2D view: each post through the year, one side at a time. Clicking a
+  // segment in the bars picks it (and switches to its side).
+  const [side, setSide] = useState<"assets" | "funding">("assets");
+  const [picked, setPicked] = useState<string | null>(null);
+  const colors = balanceColors(sheet);
+  const mix = useMemo(() => {
+    const map = new Map<string, Series>();
+    const months = now.getMonth() + 1;
+    for (let m = 0; m < months; m++) {
+      const sh = balanceSheet(data, now, new Date(now.getFullYear(), m, 1));
+      const lines = side === "assets" ? sh.assets : [...sh.liabilities, { id: "equity", name: t("Equity"), value: sh.equity }];
+      for (const l of lines) {
+        if (!map.has(l.id)) map.set(l.id, { id: l.id, name: l.name, color: "", values: new Array(months).fill(0) });
+        map.get(l.id)!.values[m] = Math.max(l.value, 0);
+      }
+    }
+    const list = [...map.values()].filter((s) => s.values.some((v) => v > 0.005));
+    // Equity at the bottom of its side; the rest largest first.
+    list.sort((a, b) => (a.id === "equity" ? -1 : b.id === "equity" ? 1 : b.values[months - 1] - a.values[months - 1]));
+    return list;
+  }, [data, now, side]);
+  const spare = ["#8e8e93", "#66d4cf", "#ffd60a", "#ff9f0a", "#bf5af2", "#64d2ff"];
+  const mixSeries = mix.map((s, i) => ({ ...s, color: colors.get(s.id) ?? spare[i % spare.length] }));
+  const pick = (id: string, s: "assets" | "funding") => {
+    setSide(s);
+    setPicked((p) => (p === id ? null : id));
+  };
   const run = (p: Promise<void>) => p.then(() => setError(null)).catch((e: Error) => setError(e.message));
 
   return (
@@ -80,7 +109,7 @@ export default function BalancePage() {
               <section className="pf-card" style={{ padding: 18, display: "grid", gap: 16 }}>
                 {/* No key per month: the segments stay and glide to the
                     new month's widths instead of being rebuilt. */}
-                <BalanceBars sheet={sheet} prev={prev} currency={currency} header={false} legend={false} />
+                <BalanceBars sheet={sheet} prev={prev} currency={currency} header={false} legend={false} picked={picked} onPick={pick} />
                 <StepSlider
                   label={t("Month")}
                   animKey="balance-months"
@@ -91,6 +120,34 @@ export default function BalancePage() {
                     return { label: n.slice(0, 3), short: n[0], full: `${n} ${now.getFullYear()}`, disabled: i > now.getMonth() };
                   })}
                   onChange={setSel}
+                />
+              </section>
+            ),
+          },
+          {
+            id: "over-time",
+            label: t("Balance over time"),
+            node: (
+              <section style={{ display: "grid", gap: 8 }}>
+                <h2 className="pf-section-title">{t("Balance over time")}</h2>
+                <StackedMix
+                  key={side}
+                  series={mixSeries}
+                  now={now}
+                  currency={currency}
+                  lit={picked}
+                  onLit={setPicked}
+                  lowerIsBetter={(id) => side === "funding" && id !== "equity"}
+                  extra={
+                    <Segmented
+                      size="sm"
+                      label={t("Side")}
+                      value={side}
+                      onChange={(v) => { setSide(v); setPicked(null); }}
+                      options={[{ value: "assets", label: t("Assets") }, { value: "funding", label: t("Debt + equity") }]}
+                    />
+                  }
+                  note={t("Click a bar above or a band here to follow one post through the year.")}
                 />
               </section>
             ),

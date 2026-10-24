@@ -27,12 +27,9 @@ const KIND_COLORS: Record<string, string> = {
 };
 const OTHER_COLORS = ["#30d158", "#bf5af2", "#ff375f", "#8e8e93", "#64d2ff", "#5e5ce6", "#66d4cf", "#ffd60a"];
 
-type Series = { id: string; name: string; color: string; values: number[] };
+export type Series = { id: string; name: string; color: string; values: number[] };
 
 export default function AssetMixChart({ data, now, currency }: { data: FinanceData; now: Date; currency: string }) {
-  const [mode, setMode] = useState<"share" | "amount">("share");
-  const [hover, setHover] = useState<number | null>(null);
-  const [lit, setLit] = useState<string | null>(null);
   const year = now.getFullYear();
   const current = now.getMonth();
 
@@ -69,6 +66,42 @@ export default function AssetMixChart({ data, now, currency }: { data: FinanceDa
     return list;
   }, [data, now, currency, year, current]);
 
+  return <StackedMix series={series} now={now} currency={currency} note={t("End of each month this year (this month: today). Investments at what you paid. Earlier years come with multiple years.")} />;
+}
+
+/** The stacked-areas chart itself (shared with the Balance page's 2D view):
+ *  one band per series over Jan … this month, Share (100%) or Amount, a
+ *  month read-out on hover and a legend that lifts one band. `lit` can be
+ *  controlled from outside (clicking a balance bar picks a post); `extra`
+ *  sits next to the Share | Amount switch. */
+export function StackedMix({
+  series,
+  now,
+  currency,
+  note,
+  lit: litProp,
+  onLit,
+  extra,
+  lowerIsBetter,
+}: {
+  series: Series[];
+  now: Date;
+  currency: string;
+  note?: string;
+  lit?: string | null;
+  onLit?: (id: string | null) => void;
+  extra?: React.ReactNode;
+  /** Series where going down is good (debts): their change shows green. */
+  lowerIsBetter?: (id: string) => boolean;
+}) {
+  const [mode, setMode] = useState<"share" | "amount">("share");
+  const [hover, setHover] = useState<number | null>(null);
+  const [litOwn, setLitOwn] = useState<string | null>(null);
+  // Picked from outside (sticky) wins; hovering the legend previews another.
+  const lit = litOwn ?? litProp ?? null;
+  const setLit = (id: string | null) => setLitOwn(id);
+  const year = now.getFullYear();
+  const current = now.getMonth();
   const months = current + 1;
   const totals = Array.from({ length: months }, (_, m) => series.reduce((t, s) => t + s.values[m], 0));
   const maxTotal = Math.max(...totals, 1);
@@ -118,12 +151,16 @@ export default function AssetMixChart({ data, now, currency }: { data: FinanceDa
               onMouseLeave={() => setLit(null)}
               onFocus={() => setLit(s.id)}
               onBlur={() => setLit(null)}
+              onClick={() => onLit?.(litProp === s.id ? null : s.id)}
+              data-picked={litProp === s.id}
             >
               <span className="pf-cbar-swatch" style={{ background: s.color }} />
               {s.name}
             </button>
           ))}
         </div>
+        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+        {extra}
         <Segmented
           size="sm"
           label={t("Asset mix view")}
@@ -134,7 +171,29 @@ export default function AssetMixChart({ data, now, currency }: { data: FinanceDa
             { value: "amount", label: t("Amount") },
           ]}
         />
+        </div>
       </div>
+      {litProp && (() => {
+        // The picked post through the year: its value now and its range.
+        const s = series.find((x) => x.id === litProp);
+        if (!s) return null;
+        const now_ = s.values[current];
+        const first = s.values.find((v) => v > 0) ?? 0;
+        return (
+          <div key={s.id} className="pf-mix-picked pf-readout" style={{ ["--c" as string]: s.color }}>
+            <span className="pf-cbar-swatch" style={{ background: s.color }} />
+            <b>{s.name}</b>
+            <span className="pf-rounded">{money(now_, currency)}</span>
+            <span style={{ color: "var(--pf-ink-3)" }}>· {pctLabel(now_ / (totals[current] || 1))} {t("today")}</span>
+            {first > 0 && Math.abs(now_ - first) > 0.005 && (
+              <span style={{ color: (now_ >= first) !== !!lowerIsBetter?.(s.id) ? "var(--pf-green)" : "var(--pf-red)" }}>
+                {money(now_ - first, currency, { signed: true })} {t("this year")}
+              </span>
+            )}
+            <button type="button" className="pf-link" onClick={() => onLit?.(null)} style={{ marginLeft: "auto" }}>{t("Show all")}</button>
+          </div>
+        );
+      })()}
 
       <div style={{ display: "grid", gridTemplateColumns: "auto minmax(0, 1fr)", gap: 8 }}>
         <div style={{ position: "relative", height: H, fontSize: "0.6rem", color: "var(--pf-ink-3)", textAlign: "right", minWidth: 34 }} aria-hidden>
@@ -152,7 +211,7 @@ export default function AssetMixChart({ data, now, currency }: { data: FinanceDa
               ))}
               <g className="pf-tsl-draw">
                 {bands.map(({ s, d, line }) => (
-                  <g key={s.id} className="pf-mix-band" data-dim={lit !== null && lit !== s.id}>
+                  <g key={s.id} className="pf-mix-band" data-dim={lit !== null && lit !== s.id} onClick={() => onLit?.(litProp === s.id ? null : s.id)} style={{ cursor: onLit ? "pointer" : undefined }}>
                     <path d={d} fill={s.color} fillOpacity={0.82} />
                     <path d={line} fill="none" stroke={s.color} strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
                   </g>
@@ -198,9 +257,7 @@ export default function AssetMixChart({ data, now, currency }: { data: FinanceDa
           </div>
         </div>
       </div>
-      <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
-        {t("End of each month this year (this month: today). Investments at what you paid. Earlier years come with multiple years.")}
-      </div>
+      {note && <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{note}</div>}
     </div>
   );
 }

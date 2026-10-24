@@ -26,6 +26,16 @@ function colorFor(side: "asset" | "debt", i: number) {
   return side === "asset" ? ASSET_COLORS[i % ASSET_COLORS.length] : DEBT_COLORS[i % DEBT_COLORS.length];
 }
 
+/** The colour of every post in a sheet, as the bars draw it (by position
+ *  among the positive posts per side), so other charts can match. */
+export function balanceColors(sheet: Sheet) {
+  const m = new Map<string, string>();
+  sheet.assets.filter((l) => l.value > 0).forEach((l, i) => m.set(l.id, colorFor("asset", i)));
+  sheet.liabilities.filter((l) => l.value > 0).forEach((l, i) => m.set(l.id, colorFor("debt", i)));
+  m.set("equity", EQUITY);
+  return m;
+}
+
 /** Change against the previous month, or null when there's nothing to compare. */
 function delta(line: BalanceLine, prev: BalanceLine[] | undefined) {
   const before = prev?.find((p) => p.id === line.id);
@@ -42,6 +52,8 @@ export function BalanceBars({
   header = true,
   legend: showLegend = true,
   vertical = false,
+  picked = null,
+  onPick,
 }: {
   sheet: Sheet;
   prev?: Sheet;
@@ -54,6 +66,10 @@ export function BalanceBars({
   /** Two upright columns side by side with the legend beside them (compact
    *  dashboard card), like a balance sheet drawn as two stacks. */
   vertical?: boolean;
+  /** A post picked elsewhere (the 2D view): it stays lit. */
+  picked?: string | null;
+  /** Clicking a segment picks that post (side: assets or debt + equity). */
+  onPick?: (id: string, side: "assets" | "funding") => void;
 }) {
   const [hover, setHover] = useState<{ name: string; value: number; color: string } | null>(null);
   const total = Math.max(sheet.totalAssets, sheet.totalDebt + Math.max(sheet.equity, 0), 1);
@@ -91,13 +107,14 @@ export function BalanceBars({
   );
 
   const row = (lines: (BalanceLine & { color: string })[], side: string) => (
-    <div className="pf-bal-bar" data-vertical={vertical} aria-label={side} onMouseLeave={() => setHover(null)}>
+    <div className="pf-bal-bar" data-vertical={vertical} data-pickable={!!onPick} aria-label={side} onMouseLeave={() => setHover(null)}>
       {lines.map((l, i) => (
         <span
           key={l.id}
           className="pf-bal-seg"
           data-equity={l.id === "equity"}
-          data-lit={hover?.name === l.name}
+          data-lit={hover ? hover.name === l.name : picked === l.id}
+          onClick={onPick ? () => onPick(l.id, lines === assetLines ? "assets" : "funding") : undefined}
           title={`${l.name} ${money(l.value, currency)}`}
           style={{ flexBasis: `${(l.value / total) * 100}%`, background: l.color, animationDelay: `${(vertical ? 200 : 0) + i * 60}ms` }}
           onMouseEnter={() => setHover({ name: l.name, value: l.value, color: l.color })}
