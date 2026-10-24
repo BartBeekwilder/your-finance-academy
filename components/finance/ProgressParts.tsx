@@ -13,9 +13,14 @@ export const RING_COLORS = {
   budget: ["#30d158", "#a6f05a"],
   saving: ["#6c5ce7", "#bf5af2"],
 } as const;
+/** The second lap's lighter tint, so a ring past 100% clearly reads as
+ *  going round again. */
+const LAP_COLORS = { tracking: "#c6f4ff", budget: "#e2ffb0", saving: "#ecc2ff" } as const;
 
 /** Three concentric rings that fill up (and glow when closed). Values 0…1+
- *  (saving can run past 1: the ring wraps a second, brighter lap). */
+ *  (saving can run past 1: the ring wraps a second lap in a lighter tint,
+ *  its head casting a shadow on the first lap like a fitness watch, so it
+ *  is clear the ring is on its second round). */
 export function Rings({ tracking, budget, saving, size = 180 }: { tracking: number; budget: number; saving: number; size?: number }) {
   const id = useId().replace(/:/g, "");
   const [shown, setShown] = useState(false);
@@ -37,6 +42,15 @@ export function Rings({ tracking, budget, saving, size = 180 }: { tracking: numb
             <stop offset="100%" stopColor={x.c[1]} />
           </linearGradient>
         ))}
+        {rings.map((x) => (
+          <linearGradient key={`lap${x.key}`} id={`${id}lap${x.key}`} x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={x.c[1]} />
+            <stop offset="100%" stopColor={LAP_COLORS[x.key as keyof typeof LAP_COLORS]} />
+          </linearGradient>
+        ))}
+        <filter id={`${id}cap`} x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#000" floodOpacity="0.75" />
+        </filter>
       </defs>
       {rings.map((x, i) => {
         const len = 2 * Math.PI * x.r;
@@ -57,17 +71,30 @@ export function Rings({ tracking, budget, saving, size = 180 }: { tracking: numb
               style={{ transition: `stroke-dasharray 1.4s cubic-bezier(0.22, 1, 0.36, 1) ${i * 0.15}s`, filter: closed ? `drop-shadow(0 0 6px ${x.c[0]})` : undefined }}
             />
             {v > 1 && (
-              <circle
-                cx="100"
-                cy="100"
-                r={x.r}
-                fill="none"
-                stroke={x.c[1]}
-                strokeWidth="16"
-                strokeLinecap="round"
-                strokeDasharray={`${len * (v - 1) * (shown ? 1 : 0)} ${len}`}
-                style={{ transition: "stroke-dasharray 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.4s", filter: `drop-shadow(0 0 8px ${x.c[1]})` }}
-              />
+              <>
+                <circle
+                  cx="100"
+                  cy="100"
+                  r={x.r}
+                  fill="none"
+                  stroke={`url(#${id}lap${x.key})`}
+                  strokeWidth="16"
+                  strokeLinecap="round"
+                  strokeDasharray={`${len * (v - 1) * (shown ? 1 : 0)} ${len}`}
+                  style={{ transition: "stroke-dasharray 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.4s", filter: `drop-shadow(0 0 8px ${x.c[1]})` }}
+                />
+                {/* The head of the second lap, lying on top of the first with
+                    a shadow under it — the fitness-watch "overlap" cue. */}
+                <circle
+                  className="pf-ring-cap"
+                  cx={100 + x.r * Math.cos(2 * Math.PI * (v - 1))}
+                  cy={100 + x.r * Math.sin(2 * Math.PI * (v - 1))}
+                  r={8}
+                  fill={LAP_COLORS[x.key as keyof typeof LAP_COLORS]}
+                  filter={`url(#${id}cap)`}
+                  data-shown={shown}
+                />
+              </>
             )}
           </g>
         );
@@ -91,7 +118,14 @@ export function RingLegend({ tracking, budget, saving }: { tracking: number; bud
             <b style={{ fontSize: "0.9rem" }}>{r.label}</b>
             <span style={{ display: "block", fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{r.hint}</span>
           </span>
-          <b className="pf-rounded" style={{ color: r.c }}>{Math.round(r.v * 100)}%</b>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            {r.v > 1 && (
+              <span className="pf-ring-lap" style={{ ["--c" as string]: r.c }}>
+                {t("2nd lap")}
+              </span>
+            )}
+            <b className="pf-rounded" style={{ color: r.c }}>{Math.round(r.v * 100)}%</b>
+          </span>
         </div>
       ))}
     </div>
