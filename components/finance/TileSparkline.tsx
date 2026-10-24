@@ -5,7 +5,7 @@ import { WithYAxis } from "./YAxis";
 import { useNow } from "@/lib/motion";
 import { memo, useState } from "react";
 import { live as alive, monthToDate, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
-import { money, monthName as monthLabel } from "@/lib/finance/format";
+import { money, monthName as monthLabel, shortMonth } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 
 // Small live chart under each dashboard tile. It is one curve — the running
@@ -227,6 +227,7 @@ export default memo(function TileSparkline({
 
   return (
     <WithYAxis height={H} currency={currency} ticks={[{ value: lo - axisShift, at: 4 / H }, { value: hi - axisShift, at: (H - 4) / H }]}>
+<div>
 <div
       className="pf-tsl"
       style={{ position: "relative", height: H, cursor: "crosshair", touchAction: "pan-y" }}
@@ -349,6 +350,27 @@ export default memo(function TileSparkline({
         </>
       )}
     </div>
+      {/* Dates along the bottom, on the same camera: days in Month view,
+          months in Year view, cross-fading through the zoom; "now" lit. */}
+      <div className="pf-tsl-x" aria-hidden>
+        {Array.from({ length: 12 }, (_, m) => ({ key: `m${m}`, t: m + 0.5, text: shortMonth(new Date(year, m, 1)), lit: m === current, o: 1 - smooth(z, 0, 0.5) }))
+          .concat(
+            [1, 8, 15, 22, 29]
+              .filter((d) => d <= days && Math.abs(d - live.getDate()) > 1)
+              .concat(live.getDate())
+              .map((d) => ({ key: `d${d}`, t: current + (d - 0.5) / days, text: String(d), lit: d === live.getDate(), o: smooth(z, 0.5, 1) })),
+          )
+          .map((l) => {
+            const at = x(l.t);
+            if (l.o < 0.01 || at < -5 || at > 105) return null;
+            return (
+              <span key={l.key} data-lit={l.lit} style={{ left: `${at}%`, opacity: l.o, ["--dot" as string]: color }}>
+                {l.text}
+              </span>
+            );
+          })}
+      </div>
+</div>
 </WithYAxis>
   );
 });
