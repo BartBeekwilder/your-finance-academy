@@ -2,52 +2,96 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 
-// A switch that pauses the dashboard's motion — for development on a slow
-// machine. Paused, the live tickers stop updating, the background lines
-// stop drawing and every CSS animation freezes (html[data-pf-paused] in
-// finance.css). Everything else works as normal. Remembered per browser.
+// How much the app moves — remembered per browser (Settings › Animations):
+//   full   everything: tickers 12× a second, the drifting background, glows.
+//   light  for a slower computer: tickers once a second, the background at a
+//          low frame rate with fewer strokes, looping glows play once,
+//          no backdrop blur (html[data-pf-motion="light"] in finance.css).
+//   off    still: tickers stop, the background is one still frame, every CSS
+//          animation is off (html[data-pf-motion="off"]).
+// The background drift has its own switch (on by default).
 
-const KEY = "pf-motion-paused";
+export type MotionMode = "full" | "light" | "off";
+
+const MODE = "pf-motion";
+const OLD_PAUSED = "pf-motion-paused";
+const LAST = "pf-motion-last";
+const BACKGROUND = "pf-motion-background";
 const listeners = new Set<() => void>();
 
-function read() {
+function readMode(): MotionMode {
   try {
-    return localStorage.getItem(KEY) === "1";
+    const v = localStorage.getItem(MODE);
+    if (v === "full" || v === "light" || v === "off") return v;
+    return localStorage.getItem(OLD_PAUSED) === "1" ? "off" : "full";
   } catch {
-    return false;
+    return "full";
   }
 }
 
-export function setMotionPaused(paused: boolean) {
+function readBackground() {
   try {
-    if (paused) localStorage.setItem(KEY, "1");
-    else localStorage.removeItem(KEY);
+    return localStorage.getItem(BACKGROUND) !== "0";
+  } catch {
+    return true;
+  }
+}
+
+const notify = () => listeners.forEach((l) => l());
+const subscribe = (l: () => void) => {
+  listeners.add(l);
+  return () => {
+    listeners.delete(l);
+  };
+};
+
+export function setMotionMode(mode: MotionMode) {
+  try {
+    const prev = readMode();
+    if (prev !== "off") localStorage.setItem(LAST, prev);
+    localStorage.setItem(MODE, mode);
+    localStorage.removeItem(OLD_PAUSED);
   } catch {}
-  listeners.forEach((l) => l());
+  notify();
 }
 
-export function useMotionPaused() {
-  return useSyncExternalStore(
-    (l) => {
-      listeners.add(l);
-      return () => listeners.delete(l);
-    },
-    read,
-    () => false,
-  );
+export function setBackgroundMotion(on: boolean) {
+  try {
+    localStorage.setItem(BACKGROUND, on ? "1" : "0");
+  } catch {}
+  notify();
 }
 
-/** The current time, re-read every `ms` — except while motion is paused or
- *  the tab is hidden (then it holds its last value), or when `enabled` is false. */
+export const useMotionMode = () => useSyncExternalStore(subscribe, readMode, () => "full" as MotionMode);
+export const useBackgroundMotion = () => useSyncExternalStore(subscribe, readBackground, () => true);
+
+/** Paused = mode "off" (the sidebar's Pause button). */
+export const useMotionPaused = () => useMotionMode() === "off";
+
+/** Pause / resume: off, or back to the mode used before (full or light). */
+export function setMotionPaused(paused: boolean) {
+  if (paused) return setMotionMode("off");
+  let last: MotionMode = "full";
+  try {
+    const v = localStorage.getItem(LAST);
+    if (v === "light") last = "light";
+  } catch {}
+  setMotionMode(last);
+}
+
+/** The current time, re-read every `ms` — once a second at most in light
+ *  mode, and not at all while motion is off, the tab is hidden, or when
+ *  `enabled` is false (then it holds its last value). */
 export function useNow(ms: number, enabled = true) {
-  const paused = useMotionPaused();
+  const mode = useMotionMode();
   const [now, setNow] = useState(() => Date.now());
+  const every = mode === "light" ? Math.max(ms, 1000) : ms;
   useEffect(() => {
-    if (paused || !enabled) return;
+    if (mode === "off" || !enabled) return;
     const t = setInterval(() => {
       if (!document.hidden) setNow(Date.now());
-    }, ms);
+    }, every);
     return () => clearInterval(t);
-  }, [ms, paused, enabled]);
+  }, [every, mode, enabled]);
   return now;
 }

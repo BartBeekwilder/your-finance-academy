@@ -4,8 +4,8 @@ import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { Banknote, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, LogOut, Receipt, Pause, Play, Settings } from "lucide-react";
-import { setMotionPaused, useMotionPaused } from "@/lib/motion";
+import { Banknote, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
+import { setBackgroundMotion, setMotionPaused, useBackgroundMotion, useMotionMode } from "@/lib/motion";
 import BrandMark from "./BrandMark";
 import { useFinance } from "./FinanceProvider";
 
@@ -51,7 +51,7 @@ export default function AppNav() {
       </Link>
 
       <div className="pf-nav-foot">
-        {process.env.NODE_ENV === "development" && <MotionToggle />}
+        <MotionToggle />
         <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
           {source === "demo" ? t("Demo data — nothing is saved") : email}
         </div>
@@ -63,20 +63,30 @@ export default function AppNav() {
   );
 }
 
-/** Development only: pause every animation and live ticker (lib/motion.ts),
- *  to spare a slow machine. The site keeps working; it just holds still. */
+/** Quick motion switches in the sidebar: pause everything (tickers, the
+ *  background, CSS animations) and the background drift on its own. Also
+ *  marks <html> with the motion mode for finance.css. Settings has the
+ *  Light mode for slower computers. */
 function MotionToggle() {
-  const paused = useMotionPaused();
+  const mode = useMotionMode();
+  const background = useBackgroundMotion();
+  const paused = mode === "off";
   useEffect(() => {
-    document.documentElement.toggleAttribute("data-pf-paused", paused);
-  }, [paused]);
+    const html = document.documentElement;
+    if (mode === "full") html.removeAttribute("data-pf-motion");
+    else html.setAttribute("data-pf-motion", mode);
+  }, [mode]);
+  const style = { display: "inline-flex", alignItems: "center", gap: 6, padding: 0 } as const;
   return (
-    <button
-      className="pf-link"
-      onClick={() => setMotionPaused(!paused)}
-      style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: 0, marginBottom: 8 }}
-    >
-      {paused ? <Play size={14} /> : <Pause size={14} />} {paused ? t("Resume animations") : t("Pause animations")}
-    </button>
+    <div style={{ display: "grid", gap: 6, justifyItems: "start", marginBottom: 8 }}>
+      <button className="pf-link" onClick={() => setMotionPaused(!paused)} style={style}>
+        {paused ? <Play size={14} /> : <Pause size={14} />} {paused ? t("Resume animations") : t("Pause animations")}
+      </button>
+      {!paused && (
+        <button className="pf-link" onClick={() => setBackgroundMotion(!background)} style={style}>
+          <Sparkles size={14} /> {background ? t("Background still") : t("Background moving")}
+        </button>
+      )}
+    </div>
   );
 }

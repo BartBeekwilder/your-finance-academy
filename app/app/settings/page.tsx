@@ -7,7 +7,7 @@ import BrandMark from "@/components/finance/BrandMark";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { CURRENCIES, currencyName, currencySymbol } from "@/lib/finance/currencies";
 import { money } from "@/lib/finance/format";
-import { setMotionPaused, useMotionPaused } from "@/lib/motion";
+import { setBackgroundMotion, setMotionMode, useBackgroundMotion, useMotionMode, type MotionMode } from "@/lib/motion";
 import { setShowAxes, useCategoryAreas, setCategoryAreas, useShowAxes } from "@/lib/prefs";
 import Segmented from "@/components/finance/Segmented";
 
@@ -89,7 +89,7 @@ export default function SettingsPage() {
         </div>
       </Section>
 
-      {process.env.NODE_ENV === "development" && <DevelopmentSection />}
+      <MotionSection />
     </div>
   );
 }
@@ -149,14 +149,48 @@ function ChartsSection() {
   );
 }
 
-function DevelopmentSection() {
-  const paused = useMotionPaused();
+/** How much the app moves: full, light (for a slower computer) or still,
+ *  and the drifting background on its own. Kept per browser. */
+function MotionSection() {
+  const mode = useMotionMode();
+  const background = useBackgroundMotion();
+  const hint: Record<MotionMode, string> = {
+    full: t("Live amounts tick smoothly, the background drifts, glows pulse."),
+    light: t("Live amounts update once a second, the background moves slowly with fewer lines, glows play once. Uses much less processor."),
+    off: t("Everything holds still. Amounts update when you open a page."),
+  };
   return (
-    <Section title={t("Development")} hint={t("Only on the local version.")}>
-      <label style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <input type="checkbox" checked={paused} onChange={(e) => setMotionPaused(e.target.checked)} />
-        Pause animations <span style={{ color: "var(--pf-ink-3)" }}>{t("— spares a slow computer")}</span>
-      </label>
+    <Section title={t("Animations")} hint={t("Kept on this device.")}>
+      <div style={{ display: "grid", gap: 16 }}>
+        <div style={{ display: "grid", gap: 8 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            <span>{t("Motion")}</span>
+            <Segmented
+              label={t("Motion")}
+              value={mode}
+              onChange={setMotionMode}
+              options={[
+                { value: "full", label: t("Full") },
+                { value: "light", label: t("Light") },
+                { value: "off", label: t("Off") },
+              ]}
+            />
+          </div>
+          <span key={mode} className="pf-readout" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{hint[mode]}</span>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", opacity: mode === "off" ? 0.45 : 1 }}>
+          <span>
+            {t("Moving background")}
+            <span style={{ display: "block", fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{t("The drifting neon lines behind the app.")}</span>
+          </span>
+          <Segmented
+            label={t("Moving background")}
+            value={background && mode !== "off" ? "on" : "off"}
+            onChange={(v) => setBackgroundMotion(v === "on")}
+            options={[{ value: "off", label: t("Off") }, { value: "on", label: t("On") }]}
+          />
+        </div>
+      </div>
     </Section>
   );
 }

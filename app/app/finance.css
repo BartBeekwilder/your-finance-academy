@@ -1087,11 +1087,21 @@
 
 /* Development: "Pause animations" (lib/motion.ts) switches CSS motion off.
    Off, not frozen: a frozen fade-in or draw-in would stay invisible. */
-html[data-pf-paused] *,
-html[data-pf-paused] *::before,
-html[data-pf-paused] *::after {
+html[data-pf-motion="off"] *,
+html[data-pf-motion="off"] *::before,
+html[data-pf-motion="off"] *::after {
   animation: none !important;
   transition: none !important;
+}
+/* Light motion: entrances and transitions stay, but looping animations
+   (glows, the flame, rims, pulses) play once and stop, and backdrop blur —
+   expensive to repaint — is off. */
+html[data-pf-motion="light"] *,
+html[data-pf-motion="light"] *::before,
+html[data-pf-motion="light"] *::after {
+  animation-iteration-count: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* Quick Add: "New category" chip and its inline editor. */

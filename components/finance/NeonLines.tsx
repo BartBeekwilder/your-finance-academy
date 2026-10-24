@@ -1,6 +1,6 @@
 "use client";
 
-import { useMotionPaused } from "@/lib/motion";
+import { useBackgroundMotion, useMotionMode } from "@/lib/motion";
 import { useEffect, useRef } from "react";
 
 // Port of the iOS NeonLinesBackground: faint curves drifting across a black
@@ -43,8 +43,14 @@ function makeSeeds(count: number): Seed[] {
 
 export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?: number; opacity?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
-  // Paused: draw one still frame and stop.
-  const paused = useMotionPaused();
+  // Off (or the background switch off): one still frame. Light: a low frame
+  // rate, device pixels capped at 1× and without the widest glow stroke.
+  // Full: capped at 30 fps — the lines drift slowly, more frames only cost
+  // CPU without looking smoother.
+  const mode = useMotionMode();
+  const background = useBackgroundMotion();
+  const still = mode === "off" || !background;
+  const light = mode === "light";
 
   useEffect(() => {
     const canvas = ref.current;
@@ -54,15 +60,23 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
     const seeds = makeSeeds(lineCount);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
+    let last = -Infinity;
+    const interval = 1000 / (light ? 12 : 30);
+    const strokes = light ? ([[6, 0.75], [1.6, 1.2]] as const) : ([[14, 0.28], [6, 0.62], [1.6, 1.2]] as const);
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, light ? 1 : 2);
       canvas.width = canvas.clientWidth * dpr;
       canvas.height = canvas.clientHeight * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     const draw = (ms: number) => {
+      if (!still && !reduced && ms - last < interval) {
+        frame = requestAnimationFrame(draw);
+        return;
+      }
+      last = ms;
       const t = ms / 1000 + 1000;
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
@@ -88,7 +102,7 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
         let hue = (s.hueBase + 0.04 * Math.sin(t * 0.1 + s.phase)) % 1;
         if (hue < 0) hue += 1;
 
-        for (const [width, alpha] of [[14, 0.28], [6, 0.62], [1.6, 1.2]] as const) {
+        for (const [width, alpha] of strokes) {
           ctx.beginPath();
           ctx.moveTo(x1, y1);
           ctx.quadraticCurveTo(qx, qy, x2, y2);
@@ -98,17 +112,22 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
           ctx.stroke();
         }
       }
-      if (!reduced && !paused) frame = requestAnimationFrame(draw);
+      if (!reduced && !still) frame = requestAnimationFrame(draw);
     };
 
+    // A still picture is redrawn after a resize (resizing clears the canvas).
+    const onResize = () => {
+      resize();
+      if (still || reduced) frame = requestAnimationFrame(draw);
+    };
     resize();
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", onResize);
     frame = requestAnimationFrame(draw);
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", onResize);
     };
-  }, [lineCount, opacity, paused]);
+  }, [lineCount, opacity, still, light]);
 
   return <canvas ref={ref} className="pf-neon" aria-hidden />;
 }
