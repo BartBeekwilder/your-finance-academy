@@ -219,6 +219,8 @@ other countries' rules later (to do: DE, BE, UK, US, …).
 
 10. FINANCE WRAPPED (Bart, 2026-10-24): a "Spotify Wrapped" for money, per month, shown after a month close. Several highlight cards to swipe through: biggest income, biggest expenses / top categories, savings rate, net worth change, balance-sheet summary (financial position), streaks/badges earned, comparisons with last month. Fluid, premium, shareable later.
 
+11. MAC APP (Bart, 2026-10-24): native, from the iOS app — Mac Catalyst "optimised for Mac", branch `mac-app` in the iOS repo. Done: Catalyst enabled (same bundle id; Catalyst minimum macOS 15 via IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]=18.0 because Bart's 2018 MacBook Pro can't run macOS 26; iOS stays 26.2), receipt scanner gated to iOS/macOS 26 (ReceiptScanning), sidebar navigation via Tab API + .sidebarAdaptable (also iPad), Go menu ⌘1…⌘9, window min size 980×680, hidden title. Builds for Mac + iOS; runs locally ad-hoc signed (no iCloud) with `open -n …/Debug-maccatalyst/Personal Finance.app --args -skipPaywall`. Next: signing with iCloud (Xcode must register the Mac + make a Mac Catalyst profile — Bart's OK needed), Mac polish (hover, menus: New transaction ⌘N, Settings ⌘,), then it follows iOS (port list, Supabase sync).
+
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
 - Earlier years: monthly totals enough, or import transactions?
