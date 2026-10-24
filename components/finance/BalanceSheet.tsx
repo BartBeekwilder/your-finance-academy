@@ -127,21 +127,45 @@ export function BalanceBars({
               <div style={{ fontSize: "0.68rem", color: eqDelta >= 0 ? "var(--pf-green)" : "var(--pf-red)" }}>{t("{amount} since last month", { amount: money(eqDelta, currency, { signed: true }) })}</div>
             )}
           </div>
-          {legend(assetLines, t("Assets"), sheet.totalAssets, 4)}
-          {debtLines.length > 0 ? (
-            legend(debtLines, t("Liabilities"), sheet.totalDebt, 4)
-          ) : (
-            <div className="pf-bal-legend">
-              <div className="pf-bal-legend-head">
-                <span>{t("Liabilities")}</span>
-                <b className="pf-rounded">{money(0, currency)}</b>
+          <div className="pf-bal-t">
+            <div className="pf-bal-t-side">
+              {legend(assetLines, t("Assets"), sheet.totalAssets, 5)}
+              <div className="pf-bal-t-total">
+                <span>{t("Total")}</span>
+                <b className="pf-rounded">{money(sheet.totalAssets, currency)}</b>
               </div>
-              <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-3)" }}>
-                {t("No debts entered.")}{" "}
-                <a href="/app/balance" style={{ color: "var(--pf-brand-b)" }}>{t("Add a loan or mortgage")}</a>
-              </span>
             </div>
-          )}
+            <div className="pf-bal-t-side">
+              {debtLines.length > 0 ? (
+                legend(debtLines, t("Liabilities"), sheet.totalDebt, 4)
+              ) : (
+                <div className="pf-bal-legend">
+                  <div className="pf-bal-legend-head">
+                    <span>{t("Liabilities")}</span>
+                    <b className="pf-rounded">{money(0, currency)}</b>
+                  </div>
+                  <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-3)" }}>
+                    {t("No debts entered.")}{" "}
+                    <a href="/app/balance" style={{ color: "var(--pf-brand-b)" }}>{t("Add a loan or mortgage")}</a>
+                  </span>
+                </div>
+              )}
+              <div
+                className="pf-bal-legend-row pf-bal-t-equity"
+                data-lit={hover?.name === t("Equity")}
+                onMouseEnter={() => setHover({ name: t("Equity"), value: sheet.equity, color: EQUITY })}
+                onMouseLeave={() => setHover(null)}
+              >
+                <span className="pf-bal-dot" style={{ background: EQUITY }} />
+                <span className="pf-bal-name">{t("Equity")}</span>
+                <span className="pf-rounded" style={{ color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>{money(sheet.equity, currency)}</span>
+              </div>
+              <div className="pf-bal-t-total">
+                <span>{t("Total")}</span>
+                <b className="pf-rounded">{money(sheet.totalDebt + sheet.equity, currency)}</b>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

@@ -3469,3 +3469,32 @@ html[data-pf-motion="light"] *::after {
 .pf-dash-top { grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); align-items: stretch; }
 .pf-dash-top .pf-progress-mini { align-content: space-between; }
 @media (max-width: 900px) { .pf-dash-top { grid-template-columns: 1fr; } }
+
+/* Compact balance card: assets | liabilities + equity side by side, like a
+   T-account, with matching totals at the bottom. Stacks when narrow. */
+.pf-bal-v > div:last-child { container-type: inline-size; }
+.pf-bal-t {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+}
+.pf-bal-t-side { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding: 0 18px; }
+.pf-bal-t-side:first-child { padding-left: 0; }
+.pf-bal-t-side:last-child { padding-right: 0; border-left: 1px solid rgba(255, 255, 255, 0.1); }
+.pf-bal-t-equity { margin-top: 4px; font-weight: 600; }
+.pf-bal-t-total {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--pf-ink);
+  font-variant-numeric: tabular-nums;
+}
+.pf-bal-t-side > .pf-bal-legend { margin-bottom: 8px; }
+@container (max-width: 460px) {
+  .pf-bal-t { grid-template-columns: 1fr; gap: 16px; }
+  .pf-bal-t-side, .pf-bal-t-side:first-child, .pf-bal-t-side:last-child { padding: 0; border-left: 0; }
+}
