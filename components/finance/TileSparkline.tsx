@@ -237,6 +237,20 @@ export default memo(function TileSparkline({
             <stop offset="0" stopColor={color} stopOpacity="0.35" />
             <stop offset="1" stopColor={color} stopOpacity="0" />
           </linearGradient>
+          {series === "balance" && (
+            <>
+              <linearGradient id={`${id}-neg`} gradientUnits="userSpaceOnUse" x1="0" y1={base} x2="0" y2={H}>
+                <stop offset="0" stopColor="#ff453a" stopOpacity="0.08" />
+                <stop offset="1" stopColor="#ff453a" stopOpacity="0.5" />
+              </linearGradient>
+              <clipPath id={`${id}-pos`}>
+                <rect x={-1} y={-1} width={102} height={base + 1} />
+              </clipPath>
+              <clipPath id={`${id}-negclip`}>
+                <rect x={-1} y={base} width={102} height={Math.max(H - base, 0) + 1} />
+              </clipPath>
+            </>
+          )}
         </defs>
         {/* The whole period as a faint track; from now on it is still to come. */}
         <line x1={0} x2={100} y1={base} y2={base} stroke="rgba(255,255,255,0.08)" strokeWidth={1} vectorEffect="non-scaling-stroke" />
@@ -268,7 +282,16 @@ export default memo(function TileSparkline({
         <>
         <path className="pf-tsl-forecast" d={forecastLine} fill="none" stroke={color} strokeWidth={1.75} strokeDasharray="2 5" strokeLinecap="round" opacity={0.6} vectorEffect="non-scaling-stroke" />
         <g className="pf-tsl-draw">
-          <path d={`${line} L${lastX},${base} L${x(0)},${base} Z`} fill={`url(#${id})`} />
+          {series === "balance" ? (
+            // Balance: the area is split at the zero line — the tile's colour
+            // above, a red gradient below (stronger the deeper it goes).
+            <>
+              <path d={`${line} L${lastX},${base} L${x(0)},${base} Z`} fill={`url(#${id})`} clipPath={`url(#${id}-pos)`} />
+              <path d={`${line} L${lastX},${base} L${x(0)},${base} Z`} fill={`url(#${id}-neg)`} clipPath={`url(#${id}-negclip)`} />
+            </>
+          ) : (
+            <path d={`${line} L${lastX},${base} L${x(0)},${base} Z`} fill={`url(#${id})`} />
+          )}
           {series === "spent" && <path d={`${fixedLine} L${lastX},${base} L${x(0)},${base} Z`} fill={color} opacity={0.42} />}
           <path d={line} fill="none" stroke={color} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
         </g>
