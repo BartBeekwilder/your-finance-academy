@@ -7,7 +7,7 @@ import BrandMark from "@/components/finance/BrandMark";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { CURRENCIES, currencyName, currencySymbol } from "@/lib/finance/currencies";
 import { money } from "@/lib/finance/format";
-import { setBackgroundMotion, setMotionMode, useBackgroundMotion, useMotionMode, type MotionMode } from "@/lib/motion";
+import { setBackgroundMotion, setLiveDecimals, setMotionMode, useBackgroundMotion, useLiveDecimals, useMotionMode, type LiveDecimals, type MotionMode } from "@/lib/motion";
 import { setShowAxes, useCategoryAreas, setCategoryAreas, useShowAxes } from "@/lib/prefs";
 import Segmented from "@/components/finance/Segmented";
 
@@ -154,6 +154,7 @@ function ChartsSection() {
 function MotionSection() {
   const mode = useMotionMode();
   const background = useBackgroundMotion();
+  const decimals = useLiveDecimals();
   const hint: Record<MotionMode, string> = {
     full: t("Live amounts tick smoothly, the background drifts, glows pulse."),
     light: t("Live amounts update once a second, the background moves slowly with fewer lines, glows play once. Uses much less processor."),
@@ -177,6 +178,20 @@ function MotionSection() {
             />
           </div>
           <span key={mode} className="pf-readout" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{hint[mode]}</span>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", opacity: mode === "off" ? 0.45 : 1 }}>
+          <span style={{ flex: "1 1 240px", maxWidth: 440 }}>
+            {t("Live decimals")}
+            <span style={{ display: "block", fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>
+              {t("Digits after the comma on the live amounts. Fewer digits update less often and use less processor.")}
+            </span>
+          </span>
+          <Segmented
+            label={t("Live decimals")}
+            value={String(decimals)}
+            onChange={(v) => setLiveDecimals(Number(v) as LiveDecimals)}
+            options={[{ value: "2", label: "2" }, { value: "3", label: "3" }, { value: "5", label: "5" }]}
+          />
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", opacity: mode === "off" ? 0.45 : 1 }}>
           <span>

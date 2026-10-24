@@ -1,7 +1,7 @@
 "use client";
 
 import { t } from "@/lib/i18n";
-import { useNow } from "@/lib/motion";
+import { useTickerNow } from "@/lib/motion";
 
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { money } from "@/lib/finance/format";
@@ -24,7 +24,7 @@ export default function NetWorthCard({
   yearDelta: number;
   currency: string;
 }) {
-  const now = useNow(80);
+  const now = useTickerNow();
 
   const perMs = monthlyPace / (30.44 * 24 * 3600 * 1000);
   const d = new Date(now);

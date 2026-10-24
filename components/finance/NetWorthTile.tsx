@@ -4,7 +4,7 @@ import { t } from "@/lib/i18n";
 import { useMemo } from "react";
 import { netWorthFigures } from "@/lib/finance/calc";
 import type { FinanceData } from "@/lib/finance/types";
-import { useNow } from "@/lib/motion";
+import { useTickerNow } from "@/lib/motion";
 import { Bar, Sub, Tile, type Mode } from "./LiveTiles";
 import TileSparkline from "./TileSparkline";
 
@@ -19,7 +19,7 @@ const TEAL = "#40c8e0";
 
 export default function NetWorthTile({ data, currency, onModeChange, mode }: { data: FinanceData; currency: string; onModeChange?: (m: Mode) => void; mode?: Mode }) {
   const nw = useMemo(() => netWorthFigures(data, new Date()), [data]);
-  const now = useNow(80);
+  const now = useTickerNow();
   const change = nw.liveChange(now);
   const value = nw.base + change;
   const d = new Date(now);

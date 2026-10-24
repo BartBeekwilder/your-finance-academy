@@ -3,7 +3,7 @@
 import { intlLocale, t } from "@/lib/i18n";
 import { useState } from "react";
 import { summarize } from "@/lib/finance/calc";
-import { useNow } from "@/lib/motion";
+import { useTickerNow } from "@/lib/motion";
 import { money, monthName } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import LiveAmount from "./LiveAmount";
@@ -55,8 +55,9 @@ export default function LiveTiles({
   /** A page-level Month / Year switch the tiles follow (theirs hide). */
   mode?: Mode;
 }) {
-  // 80 ms, like the net worth ticker, so the sub-cent digits visibly stream.
-  const now = useNow(80);
+  // As often as the live decimals need (80 ms at five, so the sub-cent
+  // digits visibly stream; Settings › Animations).
+  const now = useTickerNow();
 
   const start = monthStart.getTime();
   const days = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0).getDate();

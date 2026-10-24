@@ -1,7 +1,7 @@
 "use client";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { useNow } from "@/lib/motion";
+import { useLiveDecimals, useNow } from "@/lib/motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useCategoryDetail } from "./CategoryDetail";
 import StepSlider from "./StepSlider";
@@ -209,7 +209,8 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
  *  `ticking` (same cadence as the live tiles, so the digits stream). */
 /** The donut's centre number, streaming at 80 ms on its own. */
 function LiveDonutAmount({ base, fixed, now, currency }: { base: number; fixed: number; now: Date; currency: string }) {
-  const fraction = useMonthFraction(now, true, 80);
+  const decimals = useLiveDecimals();
+  const fraction = useMonthFraction(now, true, decimals === 5 ? 80 : decimals === 3 ? 500 : 1000);
   return <LiveAmount value={base + fixed * fraction} currency={currency} size="1.05rem" />;
 }
 
