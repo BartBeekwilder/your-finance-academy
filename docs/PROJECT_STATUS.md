@@ -137,8 +137,10 @@ zh-Hans. Every new UI text must be translatable and translated:
 ## Done 2026-10-24 (running log — test list artifact has a matching section)
 - Dashboard order: net worth → live tiles + income-vs-spent/donut → [balance card | progress block] → categories → savings → budgets. Balance card compact = two UPRIGHT stacks (Assets | Debt + equity) with the 4 largest posts per side + "+N more". Progress block smaller (rings, level, streak, small "Close <month>" button).
 - Animations: Settings › Animations — Motion Full / Light / Off and Moving background On / Off (per browser, lib/motion.ts). Light = tickers 1×/s, background 12 fps / 1× pixels / fewer strokes, looping glows play once, no backdrop blur. Sidebar (now always, not only in development): "Pause animations" + "Background still". Full mode also optimised: background capped at 30 fps.
-- Translations: all new texts in 17 languages (762 keys).
-- To port: iOS (dashboard order + upright balance stacks + motion settings: iOS has NeonLinesBackground 24 fps → add Light/Off + background switch), Android (motion setting when more screens exist).
+- Dashboard: the Expenses page chart (per day/month by category, Month | Year switch, title links to /app/expenses) sits above "Spending by category". Balance card says "No debts entered" + link when there are none.
+- Bart's own account: example home "Huis (voorbeeld)" (€450k, bought €385k 2021-03, NL) with one annuity part €340k at 3.9%, 30 yrs, fixed until 2031-03 — dummy data at his request, delete when real data goes in.
+- Translations: all new texts in 17 languages (764 keys).
+- To port: iOS (dashboard order + expenses chart on dashboard + upright balance stacks + motion settings: iOS has NeonLinesBackground 24 fps → add Light/Off + background switch), Android (motion setting when more screens exist).
 
 ## Next / open
 

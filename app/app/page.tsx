@@ -13,6 +13,10 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import NetWorthCard from "@/components/finance/NetWorthCard";
 import BalanceCard from "@/components/finance/BalanceCard";
+import CategoryBars from "@/components/finance/CategoryBars";
+import Segmented from "@/components/finance/Segmented";
+import Link from "next/link";
+import type { Mode } from "@/components/finance/LiveTiles";
 import ProgressStrip from "@/components/finance/ProgressStrip";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
@@ -33,6 +37,7 @@ export default function DashboardPage() {
   const budgetsRef = useRef<HTMLDivElement>(null);
   useFlip(budgetsRef, largestFirst);
   const history = last12Months(data.transactions, now);
+  const [spendMode, setSpendMode] = useState<Mode>("month");
 
   // Net worth: accounts + holdings at cost on 1 January plus this year's
   // savings (netWorthFigures — the Net worth page's model, same as iOS).
@@ -76,6 +81,17 @@ export default function DashboardPage() {
       <section className="pf-dash-pair">
         <BalanceCard data={data} now={now} />
         <ProgressStrip />
+      </section>
+
+      {/* The Expenses page's chart (per day or per month, by category). */}
+      <section style={{ display: "grid", gap: 10 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          <Link href="/app/expenses" className="pf-section-title pf-section-link" style={{ margin: 0 }}>
+            {t("Expenses")} ›
+          </Link>
+          <Segmented size="sm" label={t("Period")} value={spendMode} onChange={setSpendMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+        </div>
+        <CategoryBars data={data} now={now} currency={currency} mode={spendMode} />
       </section>
 
       {byCategory.length > 0 && (

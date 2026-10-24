@@ -3464,3 +3464,5 @@ html[data-pf-motion="light"] *::after {
 .pf-close-mini em { font-style: normal; }
 .pf-bal-legend-more { font-size: 0.7rem; color: var(--pf-ink-3); padding: 2px 0 0 16px; }
 .pf-bal-v .pf-bal-legend-row { padding-block: 2px; }
+.pf-section-link { text-decoration: none; transition: color 0.2s; }
+.pf-section-link:hover { color: var(--pf-ink); }
