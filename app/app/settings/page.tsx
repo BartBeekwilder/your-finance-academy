@@ -190,7 +190,7 @@ function MotionSection() {
             label={t("Live decimals")}
             value={String(decimals)}
             onChange={(v) => setLiveDecimals(Number(v) as LiveDecimals)}
-            options={[{ value: "2", label: "2" }, { value: "3", label: "3" }, { value: "5", label: "5" }]}
+            options={(["2", "3", "4", "5"] as const).map((v) => ({ value: v, label: v }))}
           />
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", opacity: mode === "off" ? 0.45 : 1 }}>

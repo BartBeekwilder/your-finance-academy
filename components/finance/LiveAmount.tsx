@@ -10,7 +10,7 @@ import { useLiveDecimals } from "@/lib/motion";
  *  for a falling value). Rounding the cents instead would make the cent move
  *  at …500 and the digits look disconnected. Used by the net worth ticker
  *  and the Income/Spent/Balance tiles. Settings › Animations can cut the
- *  small digits to one or none (Live decimals 3 / 2). */
+ *  small digits to two, one or none (Live decimals 4 / 3 / 2; 3 by default). */
 export default function LiveAmount({
   value,
   currency,
@@ -36,7 +36,7 @@ export default function LiveAmount({
       <span style={{ fontSize: size, fontWeight: 700, lineHeight: 1.15 }}>{money(shown, currency)}</span>
       {decimals > 2 && (
         <span style={{ fontSize: `calc(${size} * 0.45)`, fontWeight: 600, opacity: 0.6 }}>
-          {decimals === 5 ? String(sub).padStart(3, "0") : String(Math.trunc(sub / 100))}
+          {String(Math.trunc(sub / 10 ** (5 - decimals))).padStart(decimals - 2, "0")}
         </span>
       )}
     </span>
