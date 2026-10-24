@@ -2,7 +2,7 @@
 
 import { t } from "@/lib/i18n";
 import Link from "next/link";
-import { balanceSheet } from "@/lib/finance/calc";
+import { balanceSheet, netWorthFigures } from "@/lib/finance/calc";
 import type { FinanceData } from "@/lib/finance/types";
 import { setBalanceFull, useBalanceFull } from "@/lib/prefs";
 import { BalanceBars, BalanceTable } from "./BalanceSheet";
@@ -17,6 +17,9 @@ export default function BalanceCard({ data, now }: { data: FinanceData; now: Dat
   const currency = data.profile.currency_code;
   const sheet = balanceSheet(data, now, now);
   const prev = balanceSheet(data, now, new Date(now.getFullYear(), now.getMonth() - 1, 1));
+  // Equity today ticks like the live tiles (income earned − fixed costs used).
+  const nw = netWorthFigures(data, now);
+  const liveDelta = (at: number) => nw.liveChange(at) - nw.liveChange(now.getTime());
 
   return (
     <section className="pf-card" style={{ padding: 18, display: "grid", gap: 14 }}>
@@ -36,7 +39,7 @@ export default function BalanceCard({ data, now }: { data: FinanceData; now: Dat
         />
       </div>
       <div key={full ? "full" : "compact"} className="pf-readout">
-        {full ? <BalanceTable sheet={sheet} prev={prev} currency={currency} /> : <BalanceBars sheet={sheet} prev={prev} currency={currency} label={t("today")} vertical />}
+        {full ? <BalanceTable sheet={sheet} prev={prev} currency={currency} /> : <BalanceBars sheet={sheet} prev={prev} currency={currency} label={t("today")} vertical liveDelta={liveDelta} />}
       </div>
     </section>
   );

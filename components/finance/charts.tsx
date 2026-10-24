@@ -7,7 +7,7 @@ import { useCategoryDetail } from "./CategoryDetail";
 import StepSlider from "./StepSlider";
 import Segmented from "./Segmented";
 import LiveAmount from "./LiveAmount";
-import { money, monthName as monthLabel } from "@/lib/finance/format";
+import { money, monthName as monthLabel, shortMonth } from "@/lib/finance/format";
 import type { CategorySpend } from "@/lib/finance/calc";
 
 type Slice = { category: CategorySpend["category"]; spent: number; fixed?: number };
@@ -191,7 +191,7 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
             ? Array.from({ length: 12 }, (_, i) => {
                 const d = new Date(now.getFullYear(), i, 1);
                 const name = monthLabel(d);
-                return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}`, disabled: i > now.getMonth() };
+                return { label: shortMonth(new Date(now.getFullYear(), i, 1)), short: name[0], full: `${name} ${now.getFullYear()}`, disabled: i > now.getMonth() };
               })
             : years.map((y) => ({ label: String(y.year), full: String(y.year) }))
         }

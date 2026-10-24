@@ -33,7 +33,7 @@ export default function EquityWaterfall({
   /** The month before the chosen one. */
   prev: Sheet;
   /** Equity on 1 January, then at the end of each month up to the chosen one. */
-  months: { start: number; points: { label: string; full: string; value: number }[] };
+  months: { start: number; points: { label: string; name?: string; full: string; value: number }[] };
   sel: number;
   currency: string;
 }) {
@@ -159,11 +159,11 @@ function postSteps(sheet: Sheet, prev: Sheet): Step[] {
   return steps;
 }
 
-function monthSteps(months: { start: number; points: { label: string; full: string; value: number }[] }, sel: number): Step[] {
+function monthSteps(months: { start: number; points: { label: string; name?: string; full: string; value: number }[] }, sel: number): Step[] {
   const steps: Step[] = [{ key: "start", label: t("1 Jan"), long: t("1 January"), from: months.start, to: months.start, kind: "total" }];
   let level = months.start;
   months.points.slice(0, sel + 1).forEach((p, i) => {
-    steps.push({ key: `m${i}`, label: p.label, long: p.full, from: level, to: p.value, kind: "change" });
+    steps.push({ key: `m${i}`, label: p.name ?? p.label, long: p.full, from: level, to: p.value, kind: "change" });
     level = p.value;
   });
   steps.push({ key: "end", label: t("Now"), long: months.points[sel]?.full ?? t("Now"), from: level, to: level, kind: "total" });

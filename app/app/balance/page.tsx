@@ -1,6 +1,6 @@
 "use client";
 
-import { monthName } from "@/lib/finance/format";
+import { monthName, shortMonth } from "@/lib/finance/format";
 import { intlLocale, t } from "@/lib/i18n";
 import { useMemo, useState } from "react";
 import { BalanceBars, BalanceTable, balanceColors } from "@/components/finance/BalanceSheet";
@@ -40,19 +40,19 @@ export default function BalancePage() {
       Array.from({ length: now.getMonth() + 1 }, (_, i) => {
         const d = new Date(now.getFullYear(), i, 1);
         const n = monthName(d);
-        return { label: n.slice(0, 3), full: i === now.getMonth() ? t("Today") : t("End of {n}", { n }), value: balanceSheet(data, now, d).equity };
+        return { label: shortMonth(d), name: n, full: i === now.getMonth() ? t("Today") : t("End of {n}", { n }), value: balanceSheet(data, now, d).equity };
       }).concat(
         // Forecast to December: each later month-end's sheet (posts carried
         // forward, mortgages on their schedule) plus the cash the forecast
         // expects to be added from this month up to that month.
         (() => {
           const fc = netWorthFigures(data, now).forecast;
-          const out: { label: string; full: string; value: number; forecast: boolean }[] = [];
+          const out: { label: string; name: string; full: string; value: number; forecast: boolean }[] = [];
           for (let m = now.getMonth() + 1; m < 12; m++) {
             const d = new Date(now.getFullYear(), m, 1);
             const n = monthName(d);
             const added = fc.filter((f) => f.month <= m).reduce((a, f) => a + f.change, 0);
-            out.push({ label: n.slice(0, 3), full: t("End of {n} · forecast", { n }), value: balanceSheet(data, now, d).equity + added, forecast: true });
+            out.push({ label: shortMonth(d), name: n, full: t("End of {n} · forecast", { n }), value: balanceSheet(data, now, d).equity + added, forecast: true });
           }
           return out;
         })(),
@@ -87,6 +87,10 @@ export default function BalancePage() {
     setSide(s);
     setPicked((p) => (p === id ? null : id));
   };
+  // Equity today moves like the Balance tile: income earned minus fixed costs
+  // used up as the month passes (prepaid shrinks, receivable grows).
+  const nwFig = useMemo(() => netWorthFigures(data, now), [data, now]);
+  const liveDelta = (at: number) => nwFig.liveChange(at) - nwFig.liveChange(now.getTime());
   const run = (p: Promise<void>) => p.then(() => setError(null)).catch((e: Error) => setError(e.message));
 
   return (
@@ -101,7 +105,7 @@ export default function BalancePage() {
       <SortableTiles
         storageKey="pf-balance-tiles"
         tiles={[
-          { id: "equity", label: t("Equity"), node: <EquityHero points={points} sel={sel} onSelect={setSel} totalAssets={sheet.totalAssets} label={label} currency={currency} /> },
+          { id: "equity", label: t("Equity"), node: <EquityHero points={points} sel={sel} onSelect={setSel} totalAssets={sheet.totalAssets} label={label} currency={currency} current={now.getMonth()} liveDelta={liveDelta} /> },
           {
             id: "bars",
             label: t("Balance bars"),
@@ -117,37 +121,9 @@ export default function BalancePage() {
                   steps={Array.from({ length: 12 }, (_, i) => {
                     const d = new Date(now.getFullYear(), i, 1);
                     const n = monthName(d);
-                    return { label: n.slice(0, 3), short: n[0], full: `${n} ${now.getFullYear()}`, disabled: i > now.getMonth() };
+                    return { label: shortMonth(d), short: n[0], full: `${n} ${now.getFullYear()}`, disabled: i > now.getMonth() };
                   })}
                   onChange={setSel}
-                />
-              </section>
-            ),
-          },
-          {
-            id: "over-time",
-            label: t("Balance over time"),
-            node: (
-              <section style={{ display: "grid", gap: 8 }}>
-                <h2 className="pf-section-title">{t("Balance over time")}</h2>
-                <StackedMix
-                  key={side}
-                  series={mixSeries}
-                  now={now}
-                  currency={currency}
-                  lit={picked}
-                  onLit={setPicked}
-                  lowerIsBetter={(id) => side === "funding" && id !== "equity"}
-                  extra={
-                    <Segmented
-                      size="sm"
-                      label={t("Side")}
-                      value={side}
-                      onChange={(v) => { setSide(v); setPicked(null); }}
-                      options={[{ value: "assets", label: t("Assets") }, { value: "funding", label: t("Debt + equity") }]}
-                    />
-                  }
-                  note={t("Click a bar above or a band here to follow one post through the year.")}
                 />
               </section>
             ),
@@ -187,6 +163,34 @@ export default function BalancePage() {
                 sel={sel}
                 currency={currency}
               />
+            ),
+          },
+          {
+            id: "over-time",
+            label: t("Balance over time"),
+            node: (
+              <section style={{ display: "grid", gap: 8 }}>
+                <h2 className="pf-section-title">{t("Balance over time")}</h2>
+                <StackedMix
+                  key={side}
+                  series={mixSeries}
+                  now={now}
+                  currency={currency}
+                  lit={picked}
+                  onLit={setPicked}
+                  lowerIsBetter={(id) => side === "funding" && id !== "equity"}
+                  extra={
+                    <Segmented
+                      size="sm"
+                      label={t("Side")}
+                      value={side}
+                      onChange={(v) => { setSide(v); setPicked(null); }}
+                      options={[{ value: "assets", label: t("Assets") }, { value: "funding", label: t("Debt + equity") }]}
+                    />
+                  }
+                  note={t("Click a bar above or a band here to follow one post through the year.")}
+                />
+              </section>
             ),
           },
         ]}

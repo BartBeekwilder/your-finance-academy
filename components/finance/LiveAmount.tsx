@@ -21,11 +21,14 @@ export default function LiveAmount({
   currency,
   size,
   color,
+  roll = true,
 }: {
   value: number;
   currency: string;
   size: string;
   color?: string;
+  /** Off while the number is being tweened (every frame would re-roll). */
+  roll?: boolean;
 }) {
   // Work in thousandths of a cent, truncated toward zero, so the cents and
   // the trailing digits are cut from the same number.
@@ -44,7 +47,7 @@ export default function LiveAmount({
 
   return (
     <span
-      className="pf-rounded pf-roll"
+      className={roll ? "pf-rounded pf-roll" : "pf-rounded"}
       data-dir={dir}
       style={{ display: "inline-flex", alignItems: "baseline", color, fontVariantNumeric: "tabular-nums", ["--roll" as string]: `${Math.min(tickerMs(decimals), 400)}ms` }}
     >

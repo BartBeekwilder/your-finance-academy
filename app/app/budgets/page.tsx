@@ -14,7 +14,7 @@ import StepSlider from "@/components/finance/StepSlider";
 import { CategoryDonut } from "@/components/finance/charts";
 import BudgetDonut from "@/components/finance/BudgetDonut";
 import { categoryYear, inMonth, live, monthProgress, num, selfAndChildren, spendByCategory, spendByCategoryYear, yearsWithData } from "@/lib/finance/calc";
-import { money, monthYear, monthName } from "@/lib/finance/format";
+import { money, monthYear, monthName, shortMonth } from "@/lib/finance/format";
 
 // Budgets for the month or the year:
 //   Month — a month's spending against each monthly limit (fixed costs
@@ -140,7 +140,7 @@ export default function BudgetsPage() {
               steps={Array.from({ length: 12 }, (_, i) => {
                 const d = new Date(now.getFullYear(), i, 1);
                 const name = monthName(d);
-                return { label: name.slice(0, 3), short: name[0], full: `${name} ${now.getFullYear()}${i > now.getMonth() ? ` · ${t("forecast")}` : ""}`, faint: i > now.getMonth() };
+                return { label: shortMonth(new Date(now.getFullYear(), i, 1)), short: name[0], full: `${name} ${now.getFullYear()}${i > now.getMonth() ? ` · ${t("forecast")}` : ""}`, faint: i > now.getMonth() };
               })}
               onChange={setSel}
             />

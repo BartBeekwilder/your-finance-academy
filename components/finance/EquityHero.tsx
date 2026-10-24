@@ -3,7 +3,9 @@
 import { t } from "@/lib/i18n";
 import { useState } from "react";
 import { money } from "@/lib/finance/format";
+import { useTickerNow } from "@/lib/motion";
 import { useTween } from "./charts";
+import LiveAmount from "./LiveAmount";
 import { EQUITY } from "./BalanceSheet";
 
 // The Balance page's headline: equity — what is truly yours — big, with how
@@ -21,6 +23,8 @@ export default function EquityHero({
   totalAssets,
   label,
   currency,
+  liveDelta,
+  current,
 }: {
   /** Equity per month, January … now (today), then forecast months. */
   points: Point[];
@@ -29,10 +33,19 @@ export default function EquityHero({
   totalAssets: number;
   label: string;
   currency: string;
+  /** Today's month: how much equity has moved since the page loaded (ms →
+   *  amount), so the headline ticks live like the other live amounts. */
+  liveDelta?: (at: number) => number;
+  /** Index of this month in `points`. */
+  current?: number;
 }) {
   const [hover, setHover] = useState<number | null>(null);
   const value = points[sel]?.value ?? 0;
   const [shown] = useTween([value], 650);
+  const isLive = !!liveDelta && sel === current;
+  const tick = useTickerNow(isLive);
+  const tweening = Math.abs(shown - value) > 0.005;
+  const liveValue = shown + (isLive ? liveDelta!(tick) : 0);
   const prev = sel > 0 ? points[sel - 1].value : null;
   const first = points[0]?.value ?? value;
   const share = totalAssets > 0 ? Math.max(0, Math.min(1, value / totalAssets)) : 0;
@@ -65,7 +78,7 @@ export default function EquityHero({
       <div style={{ display: "grid", gap: 10, minWidth: 0 }}>
         <div className="pf-eq-label">{t("Equity").toUpperCase()} · {label.toUpperCase()}</div>
         <div className="pf-rounded pf-eq-value" style={{ color: neg ? "var(--pf-red)" : EQUITY }}>
-          {money(shown, currency)}
+          {isLive ? <LiveAmount value={liveValue} currency={currency} size="1em" roll={!tweening} /> : money(shown, currency)}
         </div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           {prev !== null && chip(value - prev, t("since last month"))}

@@ -5,6 +5,8 @@ import { Check, Plus, X } from "lucide-react";
 import { useState } from "react";
 import type { BalanceLine, balanceSheet } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
+import { useTickerNow } from "@/lib/motion";
+import LiveAmount from "./LiveAmount";
 
 // The balance sheet in two forms, shared by the Balance page and the
 // dashboard card:
@@ -54,6 +56,7 @@ export function BalanceBars({
   vertical = false,
   picked = null,
   onPick,
+  liveDelta,
 }: {
   sheet: Sheet;
   prev?: Sheet;
@@ -70,7 +73,13 @@ export function BalanceBars({
   picked?: string | null;
   /** Clicking a segment picks that post (side: assets or debt + equity). */
   onPick?: (id: string, side: "assets" | "funding") => void;
+  /** Today's sheet: equity's live move since load, so it ticks. */
+  liveDelta?: (at: number) => number;
 }) {
+  const tick = useTickerNow(!!liveDelta && sheet.isCurrent);
+  const liveEquity = sheet.equity + (liveDelta && sheet.isCurrent ? liveDelta(tick) : 0);
+  const equityNode = (size: string) =>
+    liveDelta && sheet.isCurrent ? <LiveAmount value={liveEquity} currency={currency} size={size} /> : money(sheet.equity, currency);
   const [hover, setHover] = useState<{ name: string; value: number; color: string } | null>(null);
   const total = Math.max(sheet.totalAssets, sheet.totalDebt + Math.max(sheet.equity, 0), 1);
   const assets = sheet.assets.filter((l) => l.value > 0);
@@ -139,7 +148,7 @@ export function BalanceBars({
         <div style={{ display: "grid", gap: 10, alignContent: "start", minWidth: 0 }}>
           <div>
             <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>{t("Equity")}{label ? ` · ${label}` : ""}</div>
-            <div className="pf-rounded" style={{ fontSize: "1.5rem", fontWeight: 700, color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>{money(sheet.equity, currency)}</div>
+            <div className="pf-rounded" style={{ fontSize: "1.5rem", fontWeight: 700, color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>{equityNode("1em")}</div>
             {eqDelta !== null && Math.abs(eqDelta) >= 0.005 && (
               <div style={{ fontSize: "0.68rem", color: eqDelta >= 0 ? "var(--pf-green)" : "var(--pf-red)" }}>{t("{amount} since last month", { amount: money(eqDelta, currency, { signed: true }) })}</div>
             )}
