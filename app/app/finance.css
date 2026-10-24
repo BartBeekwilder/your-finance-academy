@@ -3529,3 +3529,16 @@ html[data-pf-motion="light"] *::after {
   opacity: 0.5;
 }
 .pf-tsl-x span[data-lit="true"] { color: var(--dot); font-weight: 600; }
+
+/* Live amounts: a digit that changes rolls in (odometer), up while the
+   amount rises and down while it falls, over about one tick (--roll). */
+.pf-roll-d { display: inline-block; }
+.pf-roll .pf-roll-d { animation: pf-roll-up var(--roll, 200ms) cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pf-roll[data-dir="down"] .pf-roll-d { animation-name: pf-roll-down; }
+@keyframes pf-roll-up {
+  from { transform: translateY(0.42em); opacity: 0; }
+}
+@keyframes pf-roll-down {
+  from { transform: translateY(-0.42em); opacity: 0; }
+}
+html[data-pf-motion="light"] .pf-roll-d { animation: none !important; }
