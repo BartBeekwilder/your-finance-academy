@@ -231,6 +231,8 @@ other countries' rules later (to do: DE, BE, UK, US, …).
 
 13. ENCRYPTED UPLOAD (Bart, 2026-10-25): private data stays local for now (.private/finance.json, dev-only /api/local-data). Option to upload encrypted: browser encrypts with a passphrase only Bart knows (WebCrypto AES-GCM, PBKDF2/Argon2 key), Supabase stores ciphertext only. Proposed, waiting for Bart's go.
 
+14. COMPARE (Bart, 2026-10-25): Expenses › Vergelijken. lib/finance/compare.ts (+tests): spend per top-level category per month per year; earlier years without data get a SAMPLE (this year × 0.8 / 1.2 / 0.9 with wobble, flagged 'voorbeeld', never stored; a month with real spending uses real numbers). YearCompare: one smooth line per year (this year bold red, rest dashed at the earlier years' average), min–max band + average, year chips, category select, Per month / Added up, YTD vs last year. MonthCompare: a month vs last year / average per category, bars + € / % difference. Next: import real history (Bart's Numbers sheets 2019–2025 as CSV), category vs category chart, compare in the category sheet.
+
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
 - Earlier years: monthly totals enough, or import transactions?

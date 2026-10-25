@@ -6,6 +6,7 @@ import CategoryBars from "@/components/finance/CategoryBars";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { useState } from "react";
 import CategoryTiles from "@/components/finance/CategoryTiles";
+import { MonthCompare, YearCompare } from "@/components/finance/Compare";
 import { scopeToCategory } from "@/lib/finance/scope";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
@@ -99,6 +100,12 @@ export default function ExpensesPage() {
       </div>
 
       <CategoryBars data={data} now={now} currency={currency} mode={mode} scopeName={scopeName} />
+
+      <section style={{ display: "grid", gap: 12 }}>
+        <h2 className="pf-section-title">{t("Compare")}</h2>
+        <YearCompare key={scope ?? "all"} data={all} now={now} currency={currency} initial={scope} />
+        <MonthCompare data={all} now={now} currency={currency} />
+      </section>
 
       {mode === "month" ? (
         <MonthTransactions data={data} month={month} currency={currency} kind="expense" />

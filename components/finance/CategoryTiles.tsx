@@ -55,7 +55,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
             <b className="pf-rounded">{money(spent, currency)}</b>
             <span className="pf-cattile-bar"><span style={{ width: `${total ? (spent / total) * 100 : 0}%` }} /></span>
             <span className="pf-cattile-meta">
-              {Math.round(total ? (spent / total) * 100 : 0)}%{subs > 0 ? ` · ${subs === 1 ? t("1 subcategory") : t("{n} subcategories", { n: subs })}` : ""}
+              {t("{pct}% of spending", { pct: Math.round(total ? (spent / total) * 100 : 0) })}{subs > 0 ? ` · ${subs === 1 ? t("1 subcategory") : t("{n} subcategories", { n: subs })}` : ""}
             </span>
           </button>
         );
