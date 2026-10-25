@@ -13,7 +13,7 @@ import { WithYAxis } from "./YAxis";
 // Comparing spending:
 //   YearCompare  — one line per year over January…December for one category
 //                  (or everything), per month or added up; this year bold and
-//                  carried on dashed at the earlier years' average, the
+//                  carried on dashed at its own average so far, the
 //                  earlier years' range as a soft band behind it.
 //   MonthCompare — one month against the same month last year (or the
 //                  average of earlier years), per category, with the
@@ -66,8 +66,12 @@ export function YearCompare({ data, now, currency, initial }: { data: FinanceDat
   const [mine, ...earlier] = rows;
   const shownEarlier = earlier.filter((r) => !hidden.has(r.year));
   const band = spread(shownEarlier);
-  // This year carried on at the earlier years' average.
-  const ahead: (number | null)[] = mine.values.map((v, m) => (m >= current ? (m === current ? v : (band[m]?.avg ?? null)) : null));
+  // This year carried on at its own average so far (the finished months
+  // with spending) — the same forecast as the rest of the app, and it
+  // doesn't move when earlier years are switched on or off.
+  const done = mine.values.slice(0, current).filter((v): v is number => v != null && v > 0);
+  const pace = done.length ? done.reduce((a, b) => a + b, 0) / done.length : (mine.values[current] ?? 0);
+  const ahead: (number | null)[] = mine.values.map((v, m) => (m >= current ? (m === current ? v : pace) : null));
   const tf = (vals: (number | null)[]) => (view === "sum" ? cumulative(vals) : vals);
   const lines = [
     ...shownEarlier.map((r, i) => ({ r, vals: tf(r.values), color: PAST[earlier.indexOf(r) % PAST.length], i })),
