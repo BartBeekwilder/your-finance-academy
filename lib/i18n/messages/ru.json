@@ -963,5 +963,6 @@
  "vs {year}": "к {year}",
  "Everything below is about this category only": "Всё ниже относится только к этой категории",
  "{name} per day by subcategory": "{name} по дням и подкатегориям",
- "{name} per month by subcategory": "{name} по месяцам и подкатегориям"
+ "{name} per month by subcategory": "{name} по месяцам и подкатегориям",
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "По дням или месяцам — накопленные области с линией на категорию или накопленные столбцы."
 }

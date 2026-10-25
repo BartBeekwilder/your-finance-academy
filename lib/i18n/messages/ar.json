@@ -963,5 +963,6 @@
  "vs {year}": "مقارنة بـ {year}",
  "Everything below is about this category only": "كل ما يلي يخص هذه الفئة فقط",
  "{name} per day by subcategory": "{name} يوميًا حسب الفئة الفرعية",
- "{name} per month by subcategory": "{name} شهريًا حسب الفئة الفرعية"
+ "{name} per month by subcategory": "{name} شهريًا حسب الفئة الفرعية",
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "يوميًا أو شهريًا كمساحات متراكمة بخط لكل فئة، أو كأعمدة متراكمة."
 }

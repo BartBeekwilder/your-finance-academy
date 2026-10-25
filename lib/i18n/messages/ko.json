@@ -963,5 +963,6 @@
  "vs {year}": "{year}년 대비",
  "Everything below is about this category only": "아래 내용은 모두 이 카테고리에 대한 것이에요",
  "{name} per day by subcategory": "하위 카테고리별 일간 {name}",
- "{name} per month by subcategory": "하위 카테고리별 월간 {name}"
+ "{name} per month by subcategory": "하위 카테고리별 월간 {name}",
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "일별 또는 월별로 카테고리마다 선이 있는 누적 영역, 또는 누적 막대로 표시해요."
 }

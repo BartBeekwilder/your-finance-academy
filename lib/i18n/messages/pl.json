@@ -963,5 +963,6 @@
  "vs {year}": "wobec {year}",
  "Everything below is about this category only": "Wszystko poniżej dotyczy tylko tej kategorii",
  "{name} per day by subcategory": "{name} dziennie według podkategorii",
- "{name} per month by subcategory": "{name} miesięcznie według podkategorii"
+ "{name} per month by subcategory": "{name} miesięcznie według podkategorii",
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "Dziennie lub miesięcznie jako skumulowane obszary z linią na kategorię lub jako skumulowane słupki."
 }

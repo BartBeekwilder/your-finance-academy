@@ -963,5 +963,6 @@
  "vs {year}": "so với {year}",
  "Everything below is about this category only": "Mọi thứ bên dưới chỉ thuộc danh mục này",
  "{name} per day by subcategory": "{name} theo ngày và danh mục con",
- "{name} per month by subcategory": "{name} theo tháng và danh mục con"
+ "{name} per month by subcategory": "{name} theo tháng và danh mục con",
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "Theo ngày hoặc tháng dạng vùng chồng với một đường cho mỗi danh mục, hoặc cột chồng."
 }

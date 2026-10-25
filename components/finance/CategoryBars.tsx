@@ -121,14 +121,14 @@ export default function CategoryBars({
                 : t("{name} per day by subcategory", { name: scopeName })
               : t(`${kind === "expense" ? "Spending" : "Income"} per ${mode === "year" ? "month" : "day"} by ${groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}`)}
           </span>
-          {/* Bars | areas, right on the chart (same setting as Settings;
+          {/* Areas | bars, right on the chart (same setting as Settings;
               kept per browser). */}
           <span className="pf-tsl-mode pf-mode-inline pf-chart-style" role="group" aria-label={t("Chart style")}>
-            <button type="button" aria-pressed={!areas} title={t("Bars")} onClick={() => setCategoryAreas(false)}>
-              <ChartColumnStacked size={11} strokeWidth={2.4} />
-            </button>
             <button type="button" aria-pressed={areas} title={t("Areas")} onClick={() => setCategoryAreas(true)}>
               <ChartArea size={11} strokeWidth={2.4} />
+            </button>
+            <button type="button" aria-pressed={!areas} title={t("Bars")} onClick={() => setCategoryAreas(false)}>
+              <ChartColumnStacked size={11} strokeWidth={2.4} />
             </button>
           </span>
         </span>
@@ -299,8 +299,8 @@ export default function CategoryBars({
                   >
                     <span className="pf-cbar-swatch" style={{ background: s.color }} />
                     <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "left" }}>{s.name}</span>
-                    <span className="pf-rounded" style={{ color: "var(--pf-ink)" }}>{money(v, currency)}</span>
-                    <span className="pf-rounded" style={{ width: 30, textAlign: "right", color: "var(--pf-ink-3)" }}>
+                    <span className="pf-rounded" style={{ color: "var(--pf-ink)", flex: "none" }}>{money(v, currency)}</span>
+                    <span className="pf-rounded" style={{ width: 32, flex: "none", textAlign: "right", color: "var(--pf-ink-3)" }}>
                       {periodTotal ? Math.round((v / periodTotal) * 100) : 0}%
                     </span>
                   </button>

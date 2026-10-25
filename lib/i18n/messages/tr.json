@@ -963,5 +963,6 @@
  "vs {year}": "{year} yılına göre",
  "Everything below is about this category only": "Aşağıdaki her şey yalnızca bu kategoriyle ilgili",
  "{name} per day by subcategory": "Alt kategoriye göre günlük {name}",
- "{name} per month by subcategory": "Alt kategoriye göre aylık {name}"
+ "{name} per month by subcategory": "Alt kategoriye göre aylık {name}",
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "Günlük veya aylık; kategori başına bir çizgiyle yığılmış alanlar ya da yığılmış çubuklar."
 }

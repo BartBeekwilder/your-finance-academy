@@ -127,13 +127,13 @@ function ChartsSection() {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
         <div>
           <div style={{ fontWeight: 600 }}>{t("Spending and income by category")}</div>
-          <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>{t("Per day or month as stacked bars, or as stacked areas with a line per category.")}</div>
+          <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>{t("Per day or month as stacked areas with a line per category, or as stacked bars.")}</div>
         </div>
         <Segmented
           label={t("Category chart style")}
           value={areas ? "areas" : "bars"}
           onChange={(v) => setCategoryAreas(v === "areas")}
-          options={[{ value: "bars", label: t("Bars") }, { value: "areas", label: t("Areas") }]}
+          options={[{ value: "areas", label: t("Areas") }, { value: "bars", label: t("Bars") }]}
         />
       </div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>

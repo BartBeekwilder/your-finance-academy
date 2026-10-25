@@ -99,5 +99,6 @@ export function setOrder(key: string, ids: string[]) {
 const CATEGORY_AREAS = "pf-category-areas";
 /** Spending/income per day or month by category as stacked areas (true)
  *  or stacked bars (false, the default). Settings › Charts. */
-export const useCategoryAreas = () => usePref(CATEGORY_AREAS, false);
+// Areas (a line per category) by default; bars are the second choice.
+export const useCategoryAreas = () => usePref(CATEGORY_AREAS, true);
 export const setCategoryAreas = (on: boolean) => write(CATEGORY_AREAS, on);
