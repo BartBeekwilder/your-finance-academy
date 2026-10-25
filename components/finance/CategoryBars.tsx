@@ -298,7 +298,7 @@ export default function CategoryBars({
                     onClick={(e) => open(s, e.currentTarget)}
                   >
                     <span className="pf-cbar-swatch" style={{ background: s.color }} />
-                    <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "left" }}>{s.name}</span>
+                    <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "left" }} title={s.name}>{s.name}</span>
                     <span className="pf-rounded" style={{ color: "var(--pf-ink)", flex: "none" }}>{money(v, currency)}</span>
                     <span className="pf-rounded" style={{ width: 32, flex: "none", textAlign: "right", color: "var(--pf-ink-3)" }}>
                       {periodTotal ? Math.round((v / periodTotal) * 100) : 0}%

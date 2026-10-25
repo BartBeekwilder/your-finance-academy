@@ -1422,7 +1422,7 @@ html[data-pf-motion="light"] *::after {
 /* Category bars + the period's summary bar on the right (below when narrow). */
 .pf-cbar-layout {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(250px, 1fr);
+  grid-template-columns: minmax(0, 3fr) minmax(280px, 1fr);
   gap: 24px;
   align-items: end;
 }
@@ -4018,7 +4018,8 @@ span.pf-cmp-chip { cursor: default; }
 .pf-expbar-track { position: relative; width: 22px; min-height: 58px; border-radius: 6px; border: 1.5px dashed color-mix(in srgb, var(--c) 70%, transparent); overflow: hidden; }
 .pf-expbar-track span { position: absolute; left: 0; right: 0; bottom: 0; background: var(--c); border-radius: 3px; transform-origin: bottom; animation: pf-yrs-grow 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; box-shadow: 0 0 10px color-mix(in srgb, var(--c) 50%, transparent); }
 .pf-expbar b { font-size: 0.68rem; color: var(--pf-ink-2); }
-.pf-cbar-summary { min-width: 0; }
+.pf-cbar-summary { min-width: 0; grid-template-columns: minmax(0, 1fr); }
+.pf-cbar-summary > * { min-width: 0; }
 
 /* Dashboard net worth card — equity over the years, quietly behind it */
 .pf-nwc { position: relative; overflow: hidden; }
