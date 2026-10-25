@@ -964,5 +964,6 @@
  "Everything below is about this category only": "Tutto ciò che segue riguarda solo questa categoria",
  "{name} per day by subcategory": "{name} al giorno per sottocategoria",
  "{name} per month by subcategory": "{name} al mese per sottocategoria",
- "Per day or month as stacked areas with a line per category, or as stacked bars.": "Per giorno o mese come aree impilate con una linea per categoria, o come barre impilate."
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "Per giorno o mese come aree impilate con una linea per categoria, o come barre impilate.",
+ "Equity {from}–{to}: {a} → {b}": "Patrimonio netto {from}–{to}: {a} → {b}"
 }

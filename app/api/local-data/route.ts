@@ -32,13 +32,17 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
   if (!allowed(req)) return notFound();
-  const text = await req.text();
+  let data: Record<string, unknown>;
   try {
-    const data = JSON.parse(text);
+    data = JSON.parse(await req.text());
     if (!data || typeof data !== "object" || !Array.isArray(data.transactions)) throw new Error("bad shape");
   } catch {
     return new Response("Invalid data", { status: 400 });
   }
+  // Keep top-level parts the page doesn't know about (e.g. added to the file
+  // while a tab was open) instead of dropping them on the next save.
+  const existing = await fs.readFile(FILE, "utf8").then((t) => JSON.parse(t) as Record<string, unknown>).catch(() => ({}));
+  const text = JSON.stringify({ ...existing, ...data }, null, 1);
   await fs.mkdir(DIR, { recursive: true });
   // Keep the previous version, then swap the new one in atomically.
   await fs.copyFile(FILE, path.join(DIR, "finance.prev.json")).catch(() => {});

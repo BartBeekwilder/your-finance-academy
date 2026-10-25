@@ -326,6 +326,7 @@
  "Entered this year",
  "Entertainment",
  "Equity",
+ "Equity {from}–{to}: {a} → {b}",
  "Equity at month end",
  "Equity now",
  "Equity this year",

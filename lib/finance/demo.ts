@@ -187,6 +187,11 @@ export function buildDemoData(now = new Date()): FinanceData {
     ],
     ...demoBalance(now),
     ...demoRealEstate(),
+    // Year-end stands before the app, for the dashboard's equity backdrop.
+    yearSnapshots: [
+      [2019, 152000, 498000], [2020, 214000, 486500], [2021, 268000, 474800], [2022, 271500, 463000],
+      [2023, 312000, 451500], [2024, 365000, 440000], [2025, 412000, 428500],
+    ].map(([year, assets, liabilities]) => ({ year: now.getFullYear() - 2026 + year, assets: assets.toFixed(2), liabilities: liabilities.toFixed(2) })),
     monthCloses: [],
     goals: [],
     achievements: [],

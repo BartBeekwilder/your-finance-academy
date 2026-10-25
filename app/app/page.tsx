@@ -1,7 +1,7 @@
 "use client";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import BudgetBar from "@/components/finance/BudgetBar";
 import BudgetScaleSwitch from "@/components/finance/BudgetScaleSwitch";
 import { useBudgetCompare, useBudgetLargestFirst } from "@/lib/prefs";
@@ -20,6 +20,7 @@ import Link from "next/link";
 import type { Mode } from "@/components/finance/LiveTiles";
 import YearsOverview from "@/components/finance/YearsOverview";
 import { YearCompare } from "@/components/finance/Compare";
+import { balanceSheet } from "@/lib/finance/calc";
 import ProgressStrip from "@/components/finance/ProgressStrip";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
@@ -57,6 +58,16 @@ export default function DashboardPage() {
     .filter((p) => p.month.getFullYear() === now.getFullYear())
     .reduce((t, p) => t + p.income - p.expense, 0);
 
+  // Equity over the years behind the net worth card: imported year-end
+  // stands, then this year live from the balance sheet.
+  const equityYears = useMemo(() => {
+    const past = (data.yearSnapshots ?? [])
+      .filter((y) => y.year < now.getFullYear())
+      .sort((a, b) => a.year - b.year)
+      .map((y) => ({ year: y.year, equity: Number(y.assets) - Number(y.liabilities) }));
+    return past.length ? [...past, { year: now.getFullYear(), equity: balanceSheet(data, now, month).equity, live: true }] : [];
+  }, [data, now, month]);
+
   return (
     <div style={{ display: "grid", gap: 28 }}>
       <header style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
@@ -72,7 +83,7 @@ export default function DashboardPage() {
 
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">
-        <NetWorthCard base={netWorthFigures(data, now).base} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} currency={currency} />
+        <NetWorthCard base={netWorthFigures(data, now).base} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} currency={currency} history={equityYears} />
         <ProgressStrip />
       </section>
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}

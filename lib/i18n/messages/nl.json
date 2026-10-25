@@ -971,5 +971,6 @@
  "Everything below is about this category only": "Alles hieronder gaat alleen over deze categorie",
  "{name} per day by subcategory": "{name} per dag per subcategorie",
  "{name} per month by subcategory": "{name} per maand per subcategorie",
- "Per day or month as stacked areas with a line per category, or as stacked bars.": "Per dag of maand als gestapelde vlakken met een lijn per categorie, of als gestapelde staven."
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "Per dag of maand als gestapelde vlakken met een lijn per categorie, of als gestapelde staven.",
+ "Equity {from}–{to}: {a} → {b}": "Eigen vermogen {from}–{to}: {a} → {b}"
 }

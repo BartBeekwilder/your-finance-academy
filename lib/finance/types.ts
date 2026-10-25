@@ -193,6 +193,10 @@ export type FinanceData = {
   achievements: Achievement[];
   activityDays: ActivityDay[];
   insurancePolicies: InsurancePolicy[];
+  /** Year-end stands from before the app (imported history): assets and
+   *  liabilities per year — the dashboard draws equity over the years from
+   *  them. Local data only for now (no Supabase table yet). */
+  yearSnapshots?: { year: number; assets: Money; liabilities: Money }[];
   /** Runtime only (never stored): each holding's market value over time in
    *  the profile currency, [unix ms, value] by holding id, from live quotes
    *  (FinanceProvider). Missing = value holdings at cost. */

@@ -964,5 +964,6 @@
  "Everything below is about this category only": "以下はすべてこのカテゴリのみの内容です",
  "{name} per day by subcategory": "{name}（日別・サブカテゴリ別）",
  "{name} per month by subcategory": "{name}（月別・サブカテゴリ別）",
- "Per day or month as stacked areas with a line per category, or as stacked bars.": "日別・月別に、カテゴリごとの線付き積み上げエリア、または積み上げ棒グラフで表示。"
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "日別・月別に、カテゴリごとの線付き積み上げエリア、または積み上げ棒グラフで表示。",
+ "Equity {from}–{to}: {a} → {b}": "純資産 {from}–{to}：{a} → {b}"
 }

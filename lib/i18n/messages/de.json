@@ -964,5 +964,6 @@
  "Everything below is about this category only": "Alles hier unten betrifft nur diese Kategorie",
  "{name} per day by subcategory": "{name} pro Tag nach Unterkategorie",
  "{name} per month by subcategory": "{name} pro Monat nach Unterkategorie",
- "Per day or month as stacked areas with a line per category, or as stacked bars.": "Pro Tag oder Monat als gestapelte Flächen mit einer Linie pro Kategorie oder als gestapelte Balken."
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "Pro Tag oder Monat als gestapelte Flächen mit einer Linie pro Kategorie oder als gestapelte Balken.",
+ "Equity {from}–{to}: {a} → {b}": "Eigenkapital {from}–{to}: {a} → {b}"
 }

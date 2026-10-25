@@ -964,5 +964,6 @@
  "Everything below is about this category only": "Aşağıdaki her şey yalnızca bu kategoriyle ilgili",
  "{name} per day by subcategory": "Alt kategoriye göre günlük {name}",
  "{name} per month by subcategory": "Alt kategoriye göre aylık {name}",
- "Per day or month as stacked areas with a line per category, or as stacked bars.": "Günlük veya aylık; kategori başına bir çizgiyle yığılmış alanlar ya da yığılmış çubuklar."
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "Günlük veya aylık; kategori başına bir çizgiyle yığılmış alanlar ya da yığılmış çubuklar.",
+ "Equity {from}–{to}: {a} → {b}": "Özkaynak {from}–{to}: {a} → {b}"
 }

@@ -4019,3 +4019,22 @@ span.pf-cmp-chip { cursor: default; }
 .pf-expbar-track span { position: absolute; left: 0; right: 0; bottom: 0; background: var(--c); border-radius: 3px; transform-origin: bottom; animation: pf-yrs-grow 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; box-shadow: 0 0 10px color-mix(in srgb, var(--c) 50%, transparent); }
 .pf-expbar b { font-size: 0.68rem; color: var(--pf-ink-2); }
 .pf-cbar-summary { min-width: 0; }
+
+/* Dashboard net worth card — equity over the years, quietly behind it */
+.pf-nwc { position: relative; overflow: hidden; }
+.pf-nwc-bg { position: absolute; inset: 34% 0 0 0; }
+.pf-nwc-plot { position: absolute; inset: 0 0 18px 0; }
+.pf-nwc-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pf-nwc-area { animation: pf-cmp-fade 1.2s ease-out 0.3s both; }
+.pf-nwc-line { stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: pf-nwc-draw 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards; }
+@keyframes pf-nwc-draw { to { stroke-dashoffset: 0; } }
+.pf-nwc-dot { position: absolute; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: #30d158; box-shadow: 0 0 10px #30d158; pointer-events: none; }
+.pf-nwc-dot-hover { background: #fff; box-shadow: 0 0 8px rgba(255,255,255,0.6); }
+.pf-nwc-years { position: absolute; left: 0; right: 0; bottom: 2px; height: 14px; }
+.pf-nwc-years span { position: absolute; transform: translateX(-50%); font-size: 0.6rem; color: var(--pf-ink-3); opacity: 0.6; font-variant-numeric: tabular-nums; transition: opacity 0.2s, color 0.2s; }
+.pf-nwc-years span:first-child { transform: none; }
+.pf-nwc-years span:last-child { transform: translateX(-100%); }
+.pf-nwc-years span[data-on="true"] { opacity: 1; color: var(--pf-ink); }
+.pf-nwc-hit { position: absolute; top: 0; bottom: 0; }
+.pf-nwc-caption { position: relative; margin: 2px 0 0; text-align: right; font-size: 0.66rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .pf-nwc-line { animation: none; stroke-dashoffset: 0; } .pf-nwc-area { animation: none; } }

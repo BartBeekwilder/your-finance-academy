@@ -964,5 +964,6 @@
  "Everything below is about this category only": "以下内容仅涉及此类别",
  "{name} per day by subcategory": "{name}：按天、按子类别",
  "{name} per month by subcategory": "{name}：按月、按子类别",
- "Per day or month as stacked areas with a line per category, or as stacked bars.": "按天或按月显示为每类一条线的堆叠面积图，或堆叠柱状图。"
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "按天或按月显示为每类一条线的堆叠面积图，或堆叠柱状图。",
+ "Equity {from}–{to}: {a} → {b}": "净资产 {from}–{to}：{a} → {b}"
 }

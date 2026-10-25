@@ -964,5 +964,6 @@
  "Everything below is about this category only": "Semua di bawah hanya tentang kategori ini",
  "{name} per day by subcategory": "{name} per hari per subkategori",
  "{name} per month by subcategory": "{name} per bulan per subkategori",
- "Per day or month as stacked areas with a line per category, or as stacked bars.": "Per hari atau bulan sebagai area bertumpuk dengan satu garis per kategori, atau batang bertumpuk."
+ "Per day or month as stacked areas with a line per category, or as stacked bars.": "Per hari atau bulan sebagai area bertumpuk dengan satu garis per kategori, atau batang bertumpuk.",
+ "Equity {from}–{to}: {a} → {b}": "Ekuitas {from}–{to}: {a} → {b}"
 }
