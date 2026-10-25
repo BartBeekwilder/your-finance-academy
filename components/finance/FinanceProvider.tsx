@@ -1,5 +1,6 @@
 "use client";
 
+import { t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
 import { useMarket } from "@/lib/finance/useMarket";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
@@ -600,9 +601,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     return (
       <div className="pf-solo">
         <div className="pf-card" style={{ padding: 20, maxWidth: 480 }}>
-          <strong>Couldn&apos;t load your data</strong>
+          <strong>{t("Couldn't load your data")}</strong>
           <p style={{ color: "var(--pf-ink-2)", margin: "6px 0 14px" }}>{phase.message}</p>
-          <button className="pf-button" onClick={() => location.reload()}>Try again</button>
+          <button className="pf-button" onClick={() => location.reload()}>{t("Try again")}</button>
         </div>
       </div>
     );

@@ -101,7 +101,7 @@ export default function LiveTiles({
           ) : (
             <>
               <Sub label={t("Entered this year")} value={before.income + enteredIncome} color={GREEN} currency={currency} />
-              <Sub label="≈" value={ytd.income / Math.max(monthsElapsed, 1)} suffix="/ month net" color={GREEN} currency={currency} />
+              <Sub label="≈" value={ytd.income / Math.max(monthsElapsed, 1)} suffix={t("/ month net")} color={GREEN} currency={currency} />
               <Bar label={t("{v1}% of year elapsed", { v1: Math.round((monthsElapsed / 12) * 100) })} parts={elapsed(monthsElapsed / 12, GREEN, "rgba(48,209,88,.25)")} />
             </>
           )
@@ -129,7 +129,7 @@ export default function LiveTiles({
               {mode === "month" ? (
                 <Sub label="≈" value={spentTotal / dayOfMonth} suffix={t("/ day")} color={RED} currency={currency} />
               ) : (
-                <Sub label="≈" value={ytd.spent / Math.max(monthsElapsed, 1)} suffix="/ month" color={RED} currency={currency} />
+                <Sub label="≈" value={ytd.spent / Math.max(monthsElapsed, 1)} suffix={t("/ month")} color={RED} currency={currency} />
               )}
               {total > 0 && (
                 <Bar
