@@ -152,8 +152,8 @@ export function BadgeTile({ badge, earnedAt, locale }: { badge: Badge; earnedAt?
   const Icon = ICONS[badge.icon] ?? Trophy;
   const earned = !!earnedAt;
   return (
-    <div className="pf-badge" data-earned={earned} title={t(badge.hint)}>
-      <span className="pf-badge-icon">{earned ? <Icon size={22} /> : <Lock size={16} />}</span>
+    <div className="pf-award" data-earned={earned} title={t(badge.hint)}>
+      <span className="pf-award-icon">{earned ? <Icon size={22} /> : <Lock size={16} />}</span>
       <b>{t(badge.title)}</b>
       <span>{earned ? new Date(earnedAt).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" }) : t(badge.hint)}</span>
       <em className="pf-rounded">+{badge.points}</em>

@@ -109,6 +109,21 @@ export function investedIn(holdings: Holding[], currency: string) {
   return { total, skipped };
 }
 
+/** What each account gained this year so far (income − spending booked on
+ *  it, up to `now`), by account id. An account's balance today is its
+ *  1 January balance plus this. */
+export function accountFlows(data: FinanceData, now: Date) {
+  const out = new Map<string, number>();
+  const year = now.getFullYear();
+  for (const t of live(data.transactions)) {
+    if (!t.account_id) continue;
+    const d = new Date(t.date);
+    if (d.getFullYear() !== year || d > now) continue;
+    out.set(t.account_id, (out.get(t.account_id) ?? 0) + (t.type === "income" ? 1 : -1) * num(t.amount));
+  }
+  return out;
+}
+
 /** The month's net income for the live Income/Balance tiles — iOS
  *  IncomeManager.projectedAmounts: that month's income record if there is
  *  one, else the expected net income from settings, else (income never set

@@ -2,11 +2,11 @@
 
 import { t } from "@/lib/i18n";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { Plus, Trash2, X } from "lucide-react";
+import { Banknote, CreditCard, Landmark, PiggyBank, Plus, Trash2, Wallet, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
 import { money, shortMonthYear } from "@/lib/finance/format";
-import type { Transaction, TransactionType } from "@/lib/finance/types";
+import type { Account, Transaction, TransactionType } from "@/lib/finance/types";
 import CategoryEditor from "./CategoryEditor";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
@@ -63,7 +63,7 @@ export default function QuickAdd() {
         <Plus size={22} strokeWidth={3} />
       </button>
       <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label={t("Quick Add")}>
-        <Form key={session} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
+        <Form key={session} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
       </Sheet>
       <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label={t("Edit transaction")}>
         {editing && (
@@ -73,6 +73,7 @@ export default function QuickAdd() {
             currency={data.profile.currency_code}
             grossRatio={grossRatio(data.profile)}
             categories={live(data.categories)}
+            accounts={live(data.accounts)}
             onDone={closeTransactionEditor}
             add={(t) => updateTransaction(editing.transaction.id, t)}
             onDelete={() => deleteTransaction(editing.transaction.id)}
@@ -95,12 +96,15 @@ function Form({
   currency,
   grossRatio = 1,
   categories,
+  accounts = [],
   add,
   addCategory,
   onDone,
   initial,
   onDelete,
 }: {
+  /** Accounts to pay from / receive on. */
+  accounts?: Account[];
   /** Editing an existing transaction: its values fill the form. */
   initial?: Transaction;
   onDelete?: () => Promise<void>;
@@ -122,6 +126,17 @@ function Form({
   const [fixed, setFixed] = useState(initial?.is_fixed_expense ?? false);
   // Expense: spread a big purchase over N months (null = book it at once).
   const [spread, setSpread] = useState<number | null>(initial?.spread_months ?? null);
+  // Which account it comes off (or goes to): the transaction's own, else the
+  // one used last in this browser, else the default account.
+  const payable = accounts.filter((a) => a.type !== "investment");
+  const [accountId, setAccountId] = useState<string | null>(() => {
+    if (initial) return initial.account_id;
+    let last: string | null = null;
+    try {
+      last = localStorage.getItem("pf-last-account");
+    } catch {}
+    return payable.find((a) => a.id === last)?.id ?? payable.find((a) => a.is_default)?.id ?? payable[0]?.id ?? null;
+  });
   const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -166,8 +181,11 @@ function Form({
         spread_months: spreading ? spread : null,
         recurrence_id: initial?.recurrence_id ?? null,
         category_id: categoryId,
-        account_id: initial?.account_id ?? null,
+        account_id: accountId,
       });
+      try {
+        if (accountId) localStorage.setItem("pf-last-account", accountId);
+      } catch {}
       onDone();
     } catch (err) {
       setError((err as Error).message);
@@ -302,6 +320,25 @@ function Form({
         <input className="pf-input" placeholder={t("Note")} aria-label={t("Note")} value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
 
+      {payable.length > 0 && (
+        <div>
+          <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 8 }}>{type === "expense" ? t("Paid with") : t("Received on")}</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {payable.map((a) => {
+              const Icon = ACCOUNT_ICON[a.type] ?? Wallet;
+              return (
+                <button key={a.id} type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === a.id} onClick={() => setAccountId(accountId === a.id ? null : a.id)}>
+                  <span className="pf-acct-icon" data-type={a.type}>
+                    <Icon size={13} strokeWidth={2.4} />
+                  </span>
+                  {a.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {type === "expense" && !spreading && (
         <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.9rem" }}>
           <input type="checkbox" checked={fixed} onChange={(e) => setFixed(e.target.checked)} />
@@ -345,6 +382,8 @@ function Form({
     </form>
   );
 }
+
+const ACCOUNT_ICON: Partial<Record<Account["type"], typeof Wallet>> = { checking: Landmark, savings: PiggyBank, credit: CreditCard, cash: Banknote };
 
 const SPREAD_CHOICES = [6, 12, 24, 36, 48, 60];
 

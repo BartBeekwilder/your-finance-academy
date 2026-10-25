@@ -908,5 +908,9 @@
  "1 holding": "1 belegging",
  "{n} holdings": "{n} beleggingen",
  "At cost": "Tegen aankoopprijs",
- "Accounts as entered plus this year's income minus spending; investments at their live market value.": "Rekeningen zoals ingevoerd plus de inkomsten min uitgaven van dit jaar; beleggingen tegen hun live marktwaarde."
+ "Accounts as entered plus this year's income minus spending; investments at their live market value.": "Rekeningen zoals ingevoerd plus de inkomsten min uitgaven van dit jaar; beleggingen tegen hun live marktwaarde.",
+ "Paid with": "Betaald met",
+ "Received on": "Ontvangen op",
+ "Balance today": "Saldo vandaag",
+ "Click an account to set its balance today. Accounts include what's booked on them this year; the rest of this year's income minus spending is under Saved this year. Investments at their live market value.": "Klik op een rekening om het saldo van vandaag in te vullen. Rekeningen tellen mee wat je dit jaar op die rekening boekt; de rest van de inkomsten min uitgaven van dit jaar staat onder Dit jaar gespaard. Beleggingen tegen hun live marktwaarde."
 }

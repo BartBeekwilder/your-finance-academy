@@ -9,7 +9,7 @@ import NetWorthTile from "@/components/finance/NetWorthTile";
 import NetWorthWaterfall from "@/components/finance/NetWorthWaterfall";
 import AssetMixChart from "@/components/finance/AssetMixChart";
 import Stat from "@/components/finance/Stat";
-import { live, netWorthFigures, num } from "@/lib/finance/calc";
+import { accountFlows, live, netWorthFigures, num } from "@/lib/finance/calc";
 import { money, monthYear, monthName } from "@/lib/finance/format";
 import { useNow } from "@/lib/motion";
 
@@ -22,7 +22,8 @@ const ASSET_COLORS: Record<string, string> = { crypto: "#F7931A", stock: "#0A84F
 const ACCOUNT_COLORS = ["#40c8e0", "#30d158", "#5e5ce6", "#64d2ff", "#bf5af2", "#ff9f0a"];
 
 export default function NetWorthPage() {
-  const { data, now } = useFinance();
+  const { data, now, saveAccount } = useFinance();
+  const [editing, setEditing] = useState<{ id: string; text: string } | null>(null);
   const currency = data.profile.currency_code;
   const [mode, setMode] = useState<Mode>("month");
   const nw = netWorthFigures(data, now);
@@ -53,11 +54,15 @@ export default function NetWorthPage() {
     kinds.set(h.asset_type, k);
   }
   const KIND_NAME: Record<string, string> = { stock: "Stocks", crypto: "Crypto", metal: "Metals" };
+  // Accounts: their 1 January balance plus what was booked on them this
+  // year; what wasn't booked on an account stays under "Saved this year".
+  const flows = accountFlows(data, new Date(tick));
+  const tagged = [...flows.values()].reduce((a, b) => a + b, 0);
   const parts = [
-    { id: "saved", name: t("Saved this year"), kind: t("Cash flow"), value: nowValue - nw.startOfYear, color: "#30d158" },
+    { id: "saved", name: t("Saved this year"), kind: t("Cash flow"), value: nowValue - nw.startOfYear - tagged, color: "#30d158" },
     ...live(data.accounts)
-      .filter((a) => num(a.balance) !== 0)
-      .map((a, i) => ({ id: a.id, name: a.name || t("Account"), kind: t("Account"), value: num(a.balance), color: ACCOUNT_COLORS[i % ACCOUNT_COLORS.length] })),
+      .filter((a) => num(a.balance) !== 0 || flows.has(a.id))
+      .map((a, i) => ({ id: a.id, name: a.name || t("Account"), kind: t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0), color: ACCOUNT_COLORS[i % ACCOUNT_COLORS.length], account: a })),
     ...[...kinds].map(([kind, k]) => ({
       id: `kind-${kind}`,
       name: t(KIND_NAME[kind] ?? kind),
@@ -126,22 +131,50 @@ export default function NetWorthPage() {
             ))}
           </div>
           <div style={{ display: "grid", gap: 2 }}>
-            {parts.map((p) => (
-              <div key={p.id} className="pf-row" style={{ padding: "8px 2px" }}>
+            {parts.map((p) => {
+              const acct = "account" in p ? p.account : null;
+              const isEditing = acct && editing?.id === acct.id;
+              const save = () => {
+                if (!acct || !editing) return;
+                const v = Number(editing.text.replace(/\s/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", "."));
+                setEditing(null);
+                // The typed amount is today's balance: store its 1 January value.
+                if (Number.isFinite(v)) saveAccount({ id: acct.id, name: acct.name, type: acct.type, balance: v - (flows.get(acct.id) ?? 0) }).catch((e: Error) => alert(e.message));
+              };
+              return (
+              <div key={p.id} className={`pf-row${acct ? " pf-nw-acct" : ""}`} style={{ padding: "8px 2px" }}
+                onClick={acct && !isEditing ? () => setEditing({ id: acct.id, text: p.value.toFixed(2).replace(".", ",") }) : undefined}
+                role={acct ? "button" : undefined} tabIndex={acct ? 0 : undefined}
+                onKeyDown={acct && !isEditing ? (e) => { if (e.key === "Enter") setEditing({ id: acct.id, text: p.value.toFixed(2).replace(".", ",") }); } : undefined}>
                 <span className="pf-cbar-swatch" style={{ background: p.color }} />
                 <span style={{ flex: 1 }}>
                   {p.name} <span style={{ color: "var(--pf-ink-3)", fontSize: "0.75rem" }}>· {p.kind}</span>
                 </span>
-                <span className="pf-rounded" style={{ fontWeight: 600 }}>{money(p.value, currency)}</span>
+                {isEditing ? (
+                  <input
+                    className="pf-input pf-nw-acct-input"
+                    autoFocus
+                    inputMode="decimal"
+                    aria-label={t("Balance today")}
+                    value={editing!.text}
+                    onChange={(e) => setEditing({ id: acct!.id, text: e.target.value })}
+                    onKeyDown={(e) => { if (e.key === "Enter") save(); if (e.key === "Escape") setEditing(null); }}
+                    onBlur={save}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                ) : (
+                  <span className="pf-rounded" style={{ fontWeight: 600 }}>{money(p.value, currency)}</span>
+                )}
                 <span className="pf-rounded" style={{ width: 44, textAlign: "right", color: "var(--pf-ink-3)", fontSize: "0.8rem" }}>
                   {partsTotal ? Math.round((Math.max(p.value, 0) / partsTotal) * 100) : 0}%
                 </span>
               </div>
-            ))}
+              );
+            })}
             {parts.length === 0 && <div style={{ color: "var(--pf-ink-2)" }}>{t("Add an account balance or an investment to see where your money sits.")}</div>}
           </div>
           <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
-            {t("Accounts as entered plus this year's income minus spending; investments at their live market value.")}
+            {t("Click an account to set its balance today. Accounts include what's booked on them this year; the rest of this year's income minus spending is under Saved this year. Investments at their live market value.")}
           </div>
         </div>
       </section>
