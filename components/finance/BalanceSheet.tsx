@@ -21,19 +21,33 @@ import LiveAmount from "./LiveAmount";
 
 export type Sheet = ReturnType<typeof balanceSheet>;
 
-const ASSET_COLORS = ["#30d158", "#40c8e0", "#64d2ff", "#5e5ce6", "#bf5af2", "#d4af37", "#0a84ff", "#66d4cf"];
+// Cyan belongs to equity alone. The calculated asset lines keep one colour
+// each wherever they sit (home indigo, accounts green, investments purple…);
+// the user's own posts take the rest of the palette — no blues, so nothing
+// reads as equity.
+const AUTO_ASSET: [RegExp, string][] = [
+  [/^property-/, "#5e5ce6"],
+  [/^accounts$/, "#30d158"],
+  [/^investments$/, "#bf5af2"],
+  [/^prepaid$/, "#d4af37"],
+  [/^spread$/, "#a2845e"],
+  [/^receivable$/, "#e8c547"],
+];
+const ASSET_COLORS = ["#a3e635", "#fb923c", "#c69c6d", "#da8fff", "#8e8e93", "#f472b6"];
 const DEBT_COLORS = ["#ff453a", "#ff9f0a", "#ff375f", "#ffd60a", "#ac8e68", "#ff6961", "#e5484d"];
 export const EQUITY = "#40c8e0";
 
-function colorFor(side: "asset" | "debt", i: number) {
-  return side === "asset" ? ASSET_COLORS[i % ASSET_COLORS.length] : DEBT_COLORS[i % DEBT_COLORS.length];
+function colorFor(side: "asset" | "debt", i: number, id?: string) {
+  if (side === "debt") return DEBT_COLORS[i % DEBT_COLORS.length];
+  const auto = id ? AUTO_ASSET.find(([re]) => re.test(id)) : undefined;
+  return auto ? auto[1] : ASSET_COLORS[i % ASSET_COLORS.length];
 }
 
 /** The colour of every post in a sheet, as the bars draw it (by position
  *  among the positive posts per side), so other charts can match. */
 export function balanceColors(sheet: Sheet) {
   const m = new Map<string, string>();
-  sheet.assets.filter((l) => l.value > 0).forEach((l, i) => m.set(l.id, colorFor("asset", i)));
+  sheet.assets.filter((l) => l.value > 0).forEach((l, i) => m.set(l.id, colorFor("asset", i, l.id)));
   sheet.liabilities.filter((l) => l.value > 0).forEach((l, i) => m.set(l.id, colorFor("debt", i)));
   m.set("equity", EQUITY);
   return m;
@@ -91,7 +105,7 @@ export function BalanceBars({
   const eqDelta = prev ? sheet.equity - prev.equity : null;
   const shown = hover;
 
-  const assetLines = assets.map((l, i) => ({ ...l, color: colorFor("asset", i) }));
+  const assetLines = assets.map((l, i) => ({ ...l, color: colorFor("asset", i, l.id) }));
   const debtLines = right.filter((l) => l.id !== "equity");
   const legend = (lines: (BalanceLine & { color: string })[], title: string, total: number, max = Infinity) => (
     <div className="pf-bal-legend">
@@ -258,7 +272,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
       <div className="pf-bal-col">
         <h3 className="pf-bal-head">{t("Assets")}</h3>
         {sheet.assets.map((l) => (
-          <Line key={l.id} line={l} d={delta(l, prev?.assets)} color={colorFor("asset", sheet.assets.filter((a) => a.value > 0).indexOf(l))} currency={currency} edit={edit} />
+          <Line key={l.id} line={l} d={delta(l, prev?.assets)} color={colorFor("asset", sheet.assets.filter((a) => a.value > 0).indexOf(l), l.id)} currency={currency} edit={edit} />
         ))}
         {edit && <AddRow onAdd={() => edit.onAdd("asset")} label={t("Add asset")} />}
         <div className="pf-bal-spacer" />
