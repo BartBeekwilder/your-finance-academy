@@ -3860,3 +3860,4 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
 .pf-pf-stat span { font-size: 0.7rem; color: var(--pf-ink-2); }
 .pf-pf-stat b { font-size: 0.9rem; font-weight: 600; }
 .pf-pf-hero .pf-eq-value { white-space: nowrap; font-size: clamp(1.9rem, 4.2vw, 2.9rem); }
+.pf-tsl-x span[data-forecast="true"] { opacity: 0.55; font-style: italic; }

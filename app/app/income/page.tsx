@@ -114,7 +114,7 @@ export default function IncomePage() {
         <Stat label={finished.length ? t("Average / month ({n} mo)", { n: finished.length }) : t("Average / month")} value={average ? money(average, currency) : "—"} />
       </div>
 
-      <GrossNetChart data={data} now={now} currency={currency} />
+      <GrossNetChart data={data} now={now} currency={currency} mode={mode} />
 
       <CategoryBars data={data} now={now} currency={currency} mode={mode} kind="income" />
 
