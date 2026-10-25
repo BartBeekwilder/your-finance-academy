@@ -3733,3 +3733,25 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
 /* Bars | areas switch on the category chart: tiny, quiet until hovered. */
 .pf-chart-style button { display: inline-grid; place-items: center; }
 .pf-card:hover .pf-chart-style { opacity: 1; }
+
+/* Dashboard: "Last updated" pill under the title. */
+.pf-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 10px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--pf-ink-2);
+  background: color-mix(in srgb, var(--c) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c) 35%, transparent);
+  cursor: pointer;
+  --c: #ff9f0a;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s, border-color 0.25s;
+  animation: pf-chip-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.pf-updated[data-fresh="true"] { --c: #30d158; }
+.pf-updated:hover { transform: translateY(-1px); box-shadow: 0 0 14px color-mix(in srgb, var(--c) 30%, transparent); border-color: color-mix(in srgb, var(--c) 60%, transparent); }
+.pf-updated-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); }
+.pf-updated-gap { color: var(--c); }

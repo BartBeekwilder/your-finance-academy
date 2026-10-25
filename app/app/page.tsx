@@ -11,6 +11,7 @@ import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import { CategoryDonut } from "@/components/finance/charts";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
+import LastUpdated from "@/components/finance/LastUpdated";
 import NetWorthCard from "@/components/finance/NetWorthCard";
 import BalanceCard from "@/components/finance/BalanceCard";
 import CategoryBars from "@/components/finance/CategoryBars";
@@ -50,7 +51,10 @@ export default function DashboardPage() {
   return (
     <div style={{ display: "grid", gap: 28 }}>
       <header style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-        <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.1rem)", fontWeight: 700 }}>Dashboard - {monthYear(month)}</h1>
+        <div style={{ display: "grid", gap: 8, justifyItems: "start" }}>
+          <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.1rem)", fontWeight: 700 }}>Dashboard - {monthYear(month)}</h1>
+          <LastUpdated />
+        </div>
         <Clock />
       </header>
 

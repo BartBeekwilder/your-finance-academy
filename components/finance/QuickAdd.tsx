@@ -1,7 +1,7 @@
 "use client";
 
 import { t } from "@/lib/i18n";
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Plus, Trash2, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
@@ -38,6 +38,16 @@ export default function QuickAdd() {
   // keeps its content mounted for the closing animation).
   const [session, setSession] = useState(0);
   const [from, setFrom] = useState<Element | null>(null);
+  // Other places can open Quick Add (the dashboard's "Last updated" pill).
+  useEffect(() => {
+    const open = () => {
+      setFrom(null);
+      setSession((n) => n + 1);
+      setOpen(true);
+    };
+    window.addEventListener("pf-quick-add", open);
+    return () => window.removeEventListener("pf-quick-add", open);
+  }, []);
 
   return (
     <>
