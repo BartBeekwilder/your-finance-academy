@@ -5,7 +5,7 @@
 //   Real    ("reëel")    — what it's worth now: quantity × price, in the
 //                          profile currency (converted with the FX quote).
 
-import type { Holding } from "./types";
+import type { FinanceData, Holding } from "./types";
 
 export type Quote = {
   symbol: string;
@@ -139,4 +139,30 @@ export function portfolioSeries(holdings: Holding[], quotes: Quotes, currency: s
       }
       return { t, value, cost };
     });
+}
+
+/** Investments at their market value at `at` (real), from the live quotes in
+ *  data.market: the value at the last price on or before that moment (before
+ *  the history starts, its first price). A holding without quotes counts at
+ *  cost. `real` = at least one holding is at market value. Like the cost
+ *  model, every holding counts for the whole year (its money is in the
+ *  year's starting point, not taken out of Accounts when bought). */
+export function investmentsValue(data: Pick<FinanceData, "holdings" | "market" | "profile">, at: Date) {
+  const t = at.getTime();
+  const currency = data.profile.currency_code;
+  let total = 0, real = false;
+  for (const h of data.holdings) {
+    if (h.deleted_at) continue;
+    const pts = data.market?.[h.id];
+    if (pts?.length) {
+      let v = pts[0][1];
+      for (const [pt, val] of pts) {
+        if (pt > t) break;
+        v = val;
+      }
+      total += v;
+      real = true;
+    } else if (h.cost_basis && (h.cost_basis_currency ?? currency) === currency) total += Number(h.cost_basis);
+  }
+  return { total, real };
 }

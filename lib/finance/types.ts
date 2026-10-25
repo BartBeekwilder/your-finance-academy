@@ -193,4 +193,8 @@ export type FinanceData = {
   achievements: Achievement[];
   activityDays: ActivityDay[];
   insurancePolicies: InsurancePolicy[];
+  /** Runtime only (never stored): each holding's market value over time in
+   *  the profile currency, [unix ms, value] by holding id, from live quotes
+   *  (FinanceProvider). Missing = value holdings at cost. */
+  market?: Record<string, [number, number][]>;
 };

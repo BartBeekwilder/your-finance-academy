@@ -1,6 +1,7 @@
 "use client";
 
 import { withSpread } from "@/lib/finance/spread";
+import { useMarket } from "@/lib/finance/useMarket";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoData } from "@/lib/finance/demo";
@@ -282,7 +283,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     return () => clearTimeout(id);
   }, [localData]);
   // What every screen sees: spread expenses as their monthly parts.
-  const shown = useMemo(() => (current ? withSpread(current) : null), [current]);
+  // …and investments with their live market value (for the balance sheet).
+  const market = useMarket(current);
+  const shown = useMemo(() => (current ? { ...withSpread(current), market } : null), [current, market]);
 
   const addCategory = useCallback(
     async (c: NewCategory) => {
