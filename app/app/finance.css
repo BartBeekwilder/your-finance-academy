@@ -4104,3 +4104,8 @@ span.pf-cmp-chip { cursor: default; }
 .pf-nw-tip i { width: 9px; height: 9px; border-radius: 3px; }
 .pf-nw-tip b { font-weight: 600; }
 .pf-row[data-lit="true"] { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+
+/* Balance equity line — a quiet value axis: faint dashed lines, the amount
+   tucked just under each at the left. */
+.pf-eq-yaxis { position: relative; grid-row: 2; grid-column: 1; height: 110px; pointer-events: none; }
+.pf-eq-yaxis span { position: absolute; left: 0; right: 0; padding-top: 2px; border-top: 1px dashed rgba(255, 255, 255, 0.08); font-size: 0.58rem; line-height: 1; color: var(--pf-ink-3); opacity: 0.75; font-variant-numeric: tabular-nums; }

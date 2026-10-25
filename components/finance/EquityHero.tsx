@@ -58,6 +58,14 @@ export default function EquityHero({
   const span = Math.max(hi - lo, Math.abs(hi) * 0.01, 1);
   const x = (i: number) => (points.length === 1 ? W / 2 : P + (i / (points.length - 1)) * (W - 2 * P));
   const y = (v: number) => H - P - ((v - lo + span * 0.15) / (span * 1.3)) * (H - 2 * P);
+  // A quiet value axis: round amounts inside the visible range, as faint
+  // lines with a tiny label at the left.
+  const vMin = lo - span * 0.15, vMax = lo + span * 1.15;
+  const raw = (vMax - vMin) / 3;
+  const mag = 10 ** Math.floor(Math.log10(Math.max(raw, 1)));
+  const step = ([1, 2, 2.5, 5, 10].find((k) => k * mag >= raw) ?? 10) * mag;
+  const ticks: number[] = [];
+  for (let v = Math.ceil(vMin / step) * step; v <= vMax; v += step) ticks.push(v);
   const done = points.filter((p) => !p.forecast).length;
   const line = points.slice(0, done).map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join(" ");
   const area = `${line} L${x(done - 1).toFixed(1)},${H} L${x(0).toFixed(1)},${H} Z`;
@@ -117,6 +125,13 @@ export default function EquityHero({
             <path d={ahead} fill="none" stroke={EQUITY} strokeWidth="2" strokeDasharray="2 6" strokeLinecap="round" opacity={0.6} vectorEffect="non-scaling-stroke" className="pf-eq-forecast" />
           )}
         </svg>
+        <div className="pf-eq-yaxis" aria-hidden>
+          {ticks.map((v) => (
+            <span key={v} style={{ top: `${(y(v) / H) * 100}%` }}>
+              {money(v, currency, { compact: true })}
+            </span>
+          ))}
+        </div>
         {/* Dots as HTML over the line, so they stay round however it stretches. */}
         <div className="pf-eq-dots">
           {points.map((p, i) => (
