@@ -43,11 +43,12 @@ export async function PUT(req: Request) {
   // while a tab was open) instead of dropping them on the next save.
   const existing = await fs.readFile(FILE, "utf8").then((t) => JSON.parse(t) as Record<string, unknown>).catch(() => ({}));
   const text = JSON.stringify({ ...existing, ...data }, null, 1);
-  await fs.mkdir(DIR, { recursive: true });
+  // Owner-only: the folder 700, the files 600.
+  await fs.mkdir(DIR, { recursive: true, mode: 0o700 });
   // Keep the previous version, then swap the new one in atomically.
-  await fs.copyFile(FILE, path.join(DIR, "finance.prev.json")).catch(() => {});
+  await fs.copyFile(FILE, path.join(DIR, "finance.prev.json")).then(() => fs.chmod(path.join(DIR, "finance.prev.json"), 0o600)).catch(() => {});
   const tmp = `${FILE}.tmp`;
-  await fs.writeFile(tmp, text, "utf8");
+  await fs.writeFile(tmp, text, { encoding: "utf8", mode: 0o600 });
   await fs.rename(tmp, FILE);
   return new Response(null, { status: 204 });
 }
