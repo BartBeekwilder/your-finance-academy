@@ -1018,5 +1018,8 @@
  "Who paid": "من دفع",
  "Who paid — {year}": "من دفع — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "تديران هذه الحسابات معًا. كل دخل يخص شخصًا؛ وكل مصروف يدفعه أحدكما أو كلاكما.",
- "Your name": "اسمك"
+ "Your name": "اسمك",
+ "Order": "الترتيب",
+ "Own order": "ترتيبي",
+ "Smallest first": "الأصغر أولًا"
 }

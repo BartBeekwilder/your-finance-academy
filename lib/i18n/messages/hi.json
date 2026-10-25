@@ -1018,5 +1018,8 @@
  "Who paid": "किसने चुकाया",
  "Who paid — {year}": "किसने चुकाया — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "आप यह हिसाब साथ रखते हैं। हर आय किसी की है; हर खर्च कोई एक या दोनों मिलकर चुकाते हैं।",
- "Your name": "आपका नाम"
+ "Your name": "आपका नाम",
+ "Order": "क्रम",
+ "Own order": "अपना क्रम",
+ "Smallest first": "छोटे पहले"
 }

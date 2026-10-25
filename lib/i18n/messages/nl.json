@@ -1025,5 +1025,8 @@
  "Who paid": "Wie betaalde",
  "Who paid — {year}": "Wie betaalde — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "Jullie houden dit samen bij. Elke inkomst is van iemand; elke uitgave betaalt iemand of jullie samen.",
- "Your name": "Jouw naam"
+ "Your name": "Jouw naam",
+ "Order": "Volgorde",
+ "Own order": "Eigen volgorde",
+ "Smallest first": "Kleinste eerst"
 }

@@ -1018,5 +1018,8 @@
  "Who paid": "Кто оплатил",
  "Who paid — {year}": "Кто оплатил — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "Вы ведёте финансы вместе. Каждый доход чей-то; каждый расход оплачивает кто-то или вы вместе.",
- "Your name": "Ваше имя"
+ "Your name": "Ваше имя",
+ "Order": "Порядок",
+ "Own order": "Свой порядок",
+ "Smallest first": "Сначала мелкие"
 }

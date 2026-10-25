@@ -3,7 +3,9 @@
 import { t } from "@/lib/i18n";
 import { Check, ChevronRight, Plus, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useFlip } from "@/lib/useFlip";
+import Segmented from "./Segmented";
 import type { BalanceLine, balanceSheet } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
 import { useTickerNow } from "@/lib/motion";
@@ -265,14 +267,51 @@ type Edit = {
   onAccount?: (accountId: string, opening: number) => void;
 };
 
+type Order = "own" | "desc" | "asc";
+
 export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; prev?: Sheet; currency: string; edit?: Edit }) {
   const balanced = Math.abs(sheet.totalAssets - (sheet.totalDebt + sheet.equity)) < 0.01;
+  // Order of the posts: your own, or by amount either way (kept per browser);
+  // switching glides every row to its new place.
+  const [order, setOrder] = useState<Order>(() => {
+    try {
+      const v = localStorage.getItem("pf-balance-order");
+      return v === "desc" || v === "asc" ? v : "own";
+    } catch {
+      return "own";
+    }
+  });
+  const pick = (o: Order) => {
+    setOrder(o);
+    try {
+      localStorage.setItem("pf-balance-order", o);
+    } catch {}
+  };
+  const box = useRef<HTMLDivElement>(null);
+  useFlip(box, order);
+  const sorted = (lines: BalanceLine[]) => (order === "own" ? lines : [...lines].sort((a, b) => (order === "desc" ? b.value - a.value : a.value - b.value)));
   return (
-    <div className="pf-bal-table">
+    <div style={{ display: "grid", gap: 10 }}>
+    <div className="pf-bal-sort">
+      <Segmented
+        size="sm"
+        label={t("Order")}
+        value={order}
+        onChange={pick}
+        options={[
+          { value: "own", label: t("Own order") },
+          { value: "desc", label: t("Largest first") },
+          { value: "asc", label: t("Smallest first") },
+        ]}
+      />
+    </div>
+    <div className="pf-bal-table" ref={box}>
       <div className="pf-bal-col">
         <h3 className="pf-bal-head">{t("Assets")}</h3>
-        {sheet.assets.map((l) => (
-          <Line key={l.id} line={l} d={delta(l, prev?.assets)} color={colorFor("asset", sheet.assets.filter((a) => a.value > 0).indexOf(l), l.id)} currency={currency} edit={edit} />
+        {sorted(sheet.assets).map((l) => (
+          <div key={l.id} data-flip-key={`a-${l.id}`}>
+            <Line line={l} d={delta(l, prev?.assets)} color={colorFor("asset", sheet.assets.filter((a) => a.value > 0).indexOf(l), l.id)} currency={currency} edit={edit} />
+          </div>
         ))}
         {edit && <AddRow onAdd={() => edit.onAdd("asset")} label={t("Add asset")} />}
         <div className="pf-bal-spacer" />
@@ -280,8 +319,10 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
       </div>
       <div className="pf-bal-col">
         <h3 className="pf-bal-head">{t("Liabilities")}</h3>
-        {sheet.liabilities.map((l) => (
-          <Line key={l.id} line={l} d={delta(l, prev?.liabilities)} color={colorFor("debt", sheet.liabilities.filter((a) => a.value > 0).indexOf(l))} currency={currency} edit={edit} />
+        {sorted(sheet.liabilities).map((l) => (
+          <div key={l.id} data-flip-key={`l-${l.id}`}>
+            <Line line={l} d={delta(l, prev?.liabilities)} color={colorFor("debt", sheet.liabilities.filter((a) => a.value > 0).indexOf(l))} currency={currency} edit={edit} />
+          </div>
         ))}
         {edit && <AddRow onAdd={() => edit.onAdd("liability")} label={t("Add liability")} />}
         <div className="pf-bal-subtotal">
@@ -300,6 +341,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
         <div className="pf-bal-spacer" />
         <Total label={t("Total")} value={sheet.totalDebt + sheet.equity} currency={currency} balanced={balanced} />
       </div>
+    </div>
     </div>
   );
 }

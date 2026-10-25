@@ -1018,5 +1018,8 @@
  "Who paid": "支払った人",
  "Who paid — {year}": "支払った人 — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "ふたりで家計簿をつけています。収入は誰かのもの、支出は誰かか共有で払います。",
- "Your name": "あなたの名前"
+ "Your name": "あなたの名前",
+ "Order": "並び順",
+ "Own order": "自分の順番",
+ "Smallest first": "小さい順"
 }

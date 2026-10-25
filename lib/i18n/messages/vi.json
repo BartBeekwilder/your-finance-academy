@@ -1018,5 +1018,8 @@
  "Who paid": "Ai đã trả",
  "Who paid — {year}": "Ai đã trả — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "Hai bạn cùng quản lý sổ này. Mỗi khoản thu thuộc về một người; mỗi khoản chi do một người hoặc cả hai trả.",
- "Your name": "Tên của bạn"
+ "Your name": "Tên của bạn",
+ "Order": "Thứ tự",
+ "Own order": "Thứ tự riêng",
+ "Smallest first": "Nhỏ nhất trước"
 }

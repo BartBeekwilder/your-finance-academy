@@ -1018,5 +1018,8 @@
  "Who paid": "Kim ödedi",
  "Who paid — {year}": "Kim ödedi — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "Bu kayıtları birlikte tutuyorsunuz. Her gelir birine aittir; her gideri biri ya da ikiniz ödersiniz.",
- "Your name": "Adın"
+ "Your name": "Adın",
+ "Order": "Sıra",
+ "Own order": "Kendi sıram",
+ "Smallest first": "Küçükten büyüğe"
 }

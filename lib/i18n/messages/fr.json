@@ -1018,5 +1018,8 @@
  "Who paid": "Qui a payé",
  "Who paid — {year}": "Qui a payé — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "Vous tenez ces comptes ensemble. Chaque revenu appartient à quelqu’un ; chaque dépense est payée par quelqu’un ou en commun.",
- "Your name": "Votre nom"
+ "Your name": "Votre nom",
+ "Order": "Ordre",
+ "Own order": "Mon ordre",
+ "Smallest first": "Plus petits d'abord"
 }

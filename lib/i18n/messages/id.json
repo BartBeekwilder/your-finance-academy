@@ -1018,5 +1018,8 @@
  "Who paid": "Siapa yang membayar",
  "Who paid — {year}": "Siapa yang membayar — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "Kalian mengelola pembukuan ini bersama. Setiap pemasukan milik seseorang; setiap pengeluaran dibayar seseorang atau bersama.",
- "Your name": "Nama Anda"
+ "Your name": "Nama Anda",
+ "Order": "Urutan",
+ "Own order": "Urutan sendiri",
+ "Smallest first": "Terkecil dulu"
 }

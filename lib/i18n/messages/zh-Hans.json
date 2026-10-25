@@ -1018,5 +1018,8 @@
  "Who paid": "谁付的",
  "Who paid — {year}": "谁付的 — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "你们一起记账。每笔收入属于某人；每笔支出由某人或共同支付。",
- "Your name": "你的名字"
+ "Your name": "你的名字",
+ "Order": "排序",
+ "Own order": "自定义顺序",
+ "Smallest first": "从小到大"
 }

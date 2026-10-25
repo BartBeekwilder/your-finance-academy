@@ -1018,5 +1018,8 @@
  "Who paid": "누가 냈나요",
  "Who paid — {year}": "누가 냈나요 — {year}",
  "You keep these books together. Each income is someone's; each expense is paid by someone or shared.": "둘이 함께 가계부를 관리해요. 수입은 각자의 것이고, 지출은 한 사람이나 함께 내요.",
- "Your name": "내 이름"
+ "Your name": "내 이름",
+ "Order": "순서",
+ "Own order": "내 순서",
+ "Smallest first": "작은 순서"
 }
