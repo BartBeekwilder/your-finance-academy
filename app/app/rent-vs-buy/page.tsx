@@ -27,7 +27,8 @@ const UPKEEP = "#ff6482";
 const COSTS = "#ffd60a";
 const KEY = "pf-rent-vs-buy";
 
-/** Starting point: saved inputs, else what we know (home value, your rent). */
+/** Starting point: saved inputs, else what we know (your home and mortgage,
+ *  your rent). */
 function initial(data: FinanceData, now: Date): RentBuyInput {
   try {
     const saved = localStorage.getItem(KEY);
@@ -38,9 +39,20 @@ function initial(data: FinanceData, now: Date): RentBuyInput {
   const since = new Date(now.getFullYear(), now.getMonth() - 3, 1);
   const rents = rentCat ? live(data.transactions).filter((x) => x.category_id === rentCat.id && x.type === "expense" && new Date(x.date) >= since && new Date(x.date) < new Date(now.getFullYear(), now.getMonth(), 1)) : [];
   const rent = rents.length ? Math.round(rents.reduce((s, x) => s + num(x.amount), 0) / 3 / 25) * 25 : RENT_BUY_DEFAULTS.rent;
-  const price = home ? Math.round(num(home.property.value) / 5000) * 5000 : RENT_BUY_DEFAULTS.price;
   const nl = home?.property.country === "NL" || intlLocale().startsWith("nl");
-  return { ...RENT_BUY_DEFAULTS, price, ownMoney: Math.round(price * 0.1), rent, nlTax: nl, buyCostsRate: nl ? 0.04 : RENT_BUY_DEFAULTS.buyCostsRate };
+  const buyCostsRate = nl ? 0.04 : RENT_BUY_DEFAULTS.buyCostsRate;
+  // Your own home: what you paid (else today's value), and your mortgage —
+  // total loan, its average rate (weighted by amount), kind and term. Own
+  // money is what the purchase plus costs took beyond the loan.
+  const parts = home?.parts ?? [];
+  const loan = parts.reduce((s, p) => s + p.principal, 0);
+  const price = home ? Math.round(num(home.property.purchase_price ?? home.property.value) / 1000) * 1000 : RENT_BUY_DEFAULTS.price;
+  if (!loan) return { ...RENT_BUY_DEFAULTS, price, ownMoney: Math.round(price * 0.1), rent, nlTax: nl, buyCostsRate };
+  const rate = parts.reduce((s, p) => s + p.rate * p.principal, 0) / loan / 100;
+  const termYears = Math.round(Math.max(...parts.map((p) => p.termMonths)) / 12);
+  const kind = parts.every((p) => p.kind === "linear") ? "linear" : "annuity";
+  const ownMoney = Math.max(Math.round(price * (1 + buyCostsRate) - loan), 0);
+  return { ...RENT_BUY_DEFAULTS, price, ownMoney, rate: Math.round(rate * 10000) / 10000, termYears, kind, rent, nlTax: nl, buyCostsRate };
 }
 
 export default function RentVsBuyPage() {
