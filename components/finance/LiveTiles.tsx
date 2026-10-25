@@ -157,11 +157,27 @@ export default function LiveTiles({
         {(mode) => {
           const inc = mode === "month" ? liveIncome : ytd.income;
           const bal = mode === "month" ? liveBalance : ytd.income - ytd.spent;
-          if (inc <= 0) return null;
+          // As entered (income in − spending out), like Spent's lines: the
+          // total so far and what's left over per day (month) / per month (year).
+          const entered = mode === "month" ? enteredIncome - spentTotal : before.income + enteredIncome - (before.spent + spentTotal);
+          const ec = entered >= 0 ? BLUE : RED;
+          const lines = (
+            <>
+              <Sub label={mode === "month" ? t("Entered so far") : t("Entered this year")} value={entered} color={ec} currency={currency} />
+              {mode === "month" ? (
+                <Sub label="≈" value={entered / dayOfMonth} suffix={t("/ day left over")} color={ec} currency={currency} />
+              ) : (
+                <Sub label="≈" value={entered / Math.max(monthsElapsed, 1)} suffix={t("/ month left over")} color={ec} currency={currency} />
+              )}
+            </>
+          );
+          if (inc <= 0) return lines;
           const retained = Math.round((bal / inc) * 100);
           const share = Math.min(Math.max(retained, 0), 100) / 100;
           const c = bal >= 0 ? BLUE : RED;
           return (
+            <>
+            {lines}
             <Bar
               label={t("{retained}% of income retained", { retained })}
               labelColor={c}
@@ -170,6 +186,7 @@ export default function LiveTiles({
                 { share: 1 - share, color: bal >= 0 ? "rgba(10,132,255,.25)" : "rgba(255,69,58,.25)" },
               ]}
             />
+            </>
           );
         }}
       </Tile>}
