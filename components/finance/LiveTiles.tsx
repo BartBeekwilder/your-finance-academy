@@ -157,20 +157,15 @@ export default function LiveTiles({
         {(mode) => {
           const inc = mode === "month" ? liveIncome : ytd.income;
           const bal = mode === "month" ? liveBalance : ytd.income - ytd.spent;
-          // As entered (income in − spending out), like Spent's lines: the
-          // total so far and what's left over per day (month) / per month (year).
-          const entered = mode === "month" ? enteredIncome - spentTotal : before.income + enteredIncome - (before.spent + spentTotal);
-          const ec = entered >= 0 ? BLUE : RED;
-          const lines = (
-            <>
-              <Sub label={mode === "month" ? t("Entered so far") : t("Entered this year")} value={entered} color={ec} currency={currency} />
-              {mode === "month" ? (
-                <Sub label="≈" value={entered / dayOfMonth} suffix={t("/ day left over")} color={ec} currency={currency} />
-              ) : (
-                <Sub label="≈" value={entered / Math.max(monthsElapsed, 1)} suffix={t("/ month left over")} color={ec} currency={currency} />
-              )}
-            </>
-          );
+          // What's left over on average so far: the tile's own balance (the
+          // same live model as the big number) per day (month) / month (year).
+          const lc = bal >= 0 ? BLUE : RED;
+          const lines =
+            mode === "month" ? (
+              <Sub label="≈" value={bal / dayOfMonth} suffix={t("/ day left over")} color={lc} currency={currency} />
+            ) : (
+              <Sub label="≈" value={bal / Math.max(monthsElapsed, 1)} suffix={t("/ month left over")} color={lc} currency={currency} />
+            );
           if (inc <= 0) return lines;
           const retained = Math.round((bal / inc) * 100);
           const share = Math.min(Math.max(retained, 0), 100) / 100;
