@@ -2,6 +2,7 @@
 
 import { t } from "@/lib/i18n";
 import { Check, ChevronRight, Plus, X } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import type { BalanceLine, balanceSheet } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
@@ -245,6 +246,9 @@ type Edit = {
   onRename: (id: string, name: string) => void;
   onDelete: (id: string) => void;
   onAdd: (side: "asset" | "liability") => void;
+  /** An account's balance at this sheet's moment was typed; `opening` is
+   *  the 1 January balance that gives it. */
+  onAccount?: (accountId: string, opening: number) => void;
 };
 
 export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; prev?: Sheet; currency: string; edit?: Edit }) {
@@ -351,12 +355,33 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
       {row}
       <div className="pf-bal-parts" aria-hidden={!open}>
         <div>
-          {parts.map((p, i) => (
-            <div key={p.id} className="pf-bal-part" title={p.hint} style={{ ["--i" as string]: i }}>
-              <span className="pf-bal-part-name">{p.name}</span>
-              <span className="pf-rounded" style={{ color: p.value < 0 ? "var(--pf-red)" : undefined }}>{money(p.value, currency)}</span>
-            </div>
-          ))}
+          {parts.map((p, i) => {
+            const body = (
+              <>
+                <span className="pf-bal-part-name">
+                  {p.name}
+                  {p.hint && <span className="pf-bal-part-hint">{p.hint}</span>}
+                </span>
+                {p.flow != null && edit?.onAccount ? (
+                  <AmountField value={p.value} currency={currency} onCommit={(v) => Math.abs(v - p.value) >= 0.005 && edit.onAccount!(p.id, v - p.flow!)} />
+                ) : (
+                  <span className="pf-rounded" style={{ color: p.value < 0 ? "var(--pf-red)" : undefined }}>
+                    {money(p.value, currency)}
+                    {p.href && <ChevronRight size={13} className="pf-bal-part-go" aria-hidden />}
+                  </span>
+                )}
+              </>
+            );
+            return p.href ? (
+              <Link key={p.id} href={p.href} className="pf-bal-part pf-bal-part-link" style={{ ["--i" as string]: i }} tabIndex={open ? 0 : -1}>
+                {body}
+              </Link>
+            ) : (
+              <div key={p.id} className="pf-bal-part" data-edit={p.flow != null && !!edit?.onAccount} style={{ ["--i" as string]: i }}>
+                {body}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

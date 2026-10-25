@@ -3899,3 +3899,11 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
 .pf-bal-name-fold { display: flex; align-items: center; }
 .pf-bal-name-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .pf-bal-name-fold em, .pf-bal-name-fold .pf-bal-chev { flex: none; }
+.pf-bal-part { align-items: center; }
+.pf-bal-part .pf-bal-input { width: 8em; font-size: 0.85rem; }
+.pf-bal-part[data-edit="true"] .pf-bal-input { border-bottom: 1px dashed transparent; }
+.pf-bal-part[data-edit="true"]:hover .pf-bal-input { border-bottom-color: var(--pf-ink-3); }
+.pf-bal-part-hint { display: block; font-size: 0.68rem; color: var(--pf-ink-3); white-space: normal; }
+.pf-bal-part-link { color: var(--pf-ink-2); text-decoration: none; border-radius: 0 8px 8px 0; }
+.pf-bal-part-link:hover { background: rgba(255, 255, 255, 0.04); color: var(--pf-ink); }
+.pf-bal-part-go { margin-left: 4px; vertical-align: -2px; color: var(--pf-ink-3); }

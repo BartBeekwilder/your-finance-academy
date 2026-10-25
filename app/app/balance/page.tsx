@@ -24,7 +24,7 @@ import { balanceSheet, netWorthFigures } from "@/lib/finance/calc";
 // stand of its own carries the latest earlier one forward.
 
 export default function BalancePage() {
-  const { data, now, setBalanceValue, renameBalanceItem, deleteBalanceItem, addBalanceItem } = useFinance();
+  const { data, now, setBalanceValue, renameBalanceItem, deleteBalanceItem, addBalanceItem, saveAccount } = useFinance();
   const currency = data.profile.currency_code;
   const [sel, setSel] = useState(now.getMonth());
   const month = new Date(now.getFullYear(), sel, 1);
@@ -146,6 +146,10 @@ export default function BalancePage() {
                       if (confirm(t("Remove “{v1}” from the balance sheet, including its history?", { v1: line?.name ?? "" }))) run(deleteBalanceItem(id));
                     },
                     onAdd: (side) => run(addBalanceItem({ name: t("New post"), side, value: 0 })),
+                    onAccount: (id, opening) => {
+                      const a = data.accounts.find((x) => x.id === id);
+                      if (a) run(saveAccount({ id, name: a.name, type: a.type, balance: opening }));
+                    },
                   }}
                 />
                 {error && <p style={{ color: "var(--pf-red)", fontSize: "0.8rem", marginTop: 10 }}>{error}</p>}

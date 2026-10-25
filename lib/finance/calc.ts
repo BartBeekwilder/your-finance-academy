@@ -279,7 +279,17 @@ export type BalanceLine = {
   hint?: string;
   /** What an auto line is made of (accounts, kinds of investment) — the
    *  balance table unfolds it. */
-  parts?: { id: string; name: string; value: number; hint?: string }[];
+  parts?: {
+    id: string;
+    name: string;
+    value: number;
+    hint?: string;
+    /** An account: what was booked on it up to this sheet's moment, so a
+     *  typed balance can be turned back into its 1 January balance. */
+    flow?: number;
+    /** Where to see / change it (e.g. the Investments page). */
+    href?: string;
+  }[];
 };
 
 /** The balance sheet at the end of `month` (or now, for the current month),
@@ -362,11 +372,11 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
   const acc = assets.find((l) => l.id === "accounts");
   if (acc) {
     const flows = accountFlows(data, at);
-    const parts = live(data.accounts)
+    const parts: NonNullable<BalanceLine["parts"]> = live(data.accounts)
       .filter((a) => a.type !== "investment" && (num(a.balance) !== 0 || flows.has(a.id)))
-      .map((a) => ({ id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0) }));
+      .map((a) => ({ id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0), flow: flows.get(a.id) ?? 0 }));
     const rest = acc.value - parts.reduce((s2, p) => s2 + p.value, 0);
-    if (Math.abs(rest) >= 0.005) parts.push({ id: "unassigned", name: t("Saved this year, not on an account"), value: rest, hint: t("Income minus spending without an account, plus corrections") } as (typeof parts)[number]);
+    if (Math.abs(rest) >= 0.005) parts.push({ id: "unassigned", name: t("Saved this year, not on an account"), value: rest, hint: t("Income minus spending without an account, plus corrections") });
     if (parts.length) acc.parts = parts.sort((a, b) => b.value - a.value);
   }
   const invLine = assets.find((l) => l.id === "investments");
@@ -374,7 +384,7 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
     const KIND: Record<string, string> = { stock: t("Stocks"), crypto: t("Crypto"), metal: t("Metals") };
     const kinds = investmentsByKind(data, at);
     invLine.parts = [...kinds]
-      .map(([k, v]) => ({ id: `kind-${k}`, name: `${KIND[k] ?? k} · ${v.count === 1 ? t("1 holding") : t("{n} holdings", { n: v.count })}`, value: v.value }))
+      .map(([k, v]) => ({ id: `kind-${k}`, name: `${KIND[k] ?? k} · ${v.count === 1 ? t("1 holding") : t("{n} holdings", { n: v.count })}`, value: v.value, href: "/app/investments" }))
       .sort((a, b) => b.value - a.value);
   }
 
