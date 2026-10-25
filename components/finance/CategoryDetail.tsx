@@ -166,7 +166,10 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
             return (
               <div key={t.id} className="pf-row" {...editProps(t)}>
                 <div style={{ flex: 1 }}>
-                  <div>{t.note || sub || category.name}</div>
+                  <div>
+                    {t.note || sub || category.name}
+                    {t.spread_total ? <span className="pf-txn-part"> · {t.spread_index}/{t.spread_total}</span> : null}
+                  </div>
                   {sub && sub !== t.note && <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-2)" }}>{sub}</div>}
                   <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{dayLabel(t.date)}</div>
                 </div>

@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Plus, Trash2, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
-import { money } from "@/lib/finance/format";
+import { money, shortMonthYear } from "@/lib/finance/format";
 import type { Transaction, TransactionType } from "@/lib/finance/types";
 import CategoryEditor from "./CategoryEditor";
 import CategoryIcon from "./CategoryIcon";
@@ -120,6 +120,8 @@ function Form({
   // Income: the amount is net (what came in); gross is optional.
   const [gross, setGross] = useState(initial?.gross_amount ? Number(initial.gross_amount).toFixed(2).replace(".", ",") : "");
   const [fixed, setFixed] = useState(initial?.is_fixed_expense ?? false);
+  // Expense: spread a big purchase over N months (null = book it at once).
+  const [spread, setSpread] = useState<number | null>(initial?.spread_months ?? null);
   const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -143,6 +145,7 @@ function Form({
   const parsed = Number(amount.replace(/\s/g, "").replace(",", "."));
   const valid = parsed > 0 && Number.isFinite(parsed);
   const grossParsed = Number(gross.replace(/\s/g, "").replace(",", ".")) || 0;
+  const spreading = type === "expense" && spread != null && spread >= 2;
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -160,6 +163,7 @@ function Form({
         is_auto_income: initial?.is_auto_income ?? false,
         gross_amount: type === "income" && grossParsed > 0 ? grossParsed.toFixed(2) : null,
         is_fixed_expense: type === "expense" && fixed,
+        spread_months: spreading ? spread : null,
         recurrence_id: initial?.recurrence_id ?? null,
         category_id: categoryId,
         account_id: initial?.account_id ?? null,
@@ -298,11 +302,15 @@ function Form({
         <input className="pf-input" placeholder={t("Note")} aria-label={t("Note")} value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
 
-      {type === "expense" && (
+      {type === "expense" && !spreading && (
         <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.9rem" }}>
           <input type="checkbox" checked={fixed} onChange={(e) => setFixed(e.target.checked)} />
           Fixed expense <span style={{ color: "var(--pf-ink-3)" }}>{t("— same amount every month")}</span>
         </label>
+      )}
+
+      {type === "expense" && (
+        <SpreadPicker months={spread} onChange={setSpread} amount={valid ? parsed : 0} date={date} currency={currency} />
       )}
 
       {error && <p style={{ margin: 0, color: "var(--pf-red)", fontSize: "0.85rem" }}>{error}</p>}
@@ -335,5 +343,60 @@ function Form({
         </button>
       )}
     </form>
+  );
+}
+
+const SPREAD_CHOICES = [6, 12, 24, 36, 48, 60];
+
+/** "Spread out": book a big purchase (a laptop, a sofa) as a monthly cost
+ *  over the months you'll use it, instead of one big dip. The money still
+ *  leaves your account at once; the balance sheet keeps the unused part as
+ *  "Spread purchases" until it's used up. */
+function SpreadPicker({ months, onChange, amount, date, currency }: { months: number | null; onChange: (m: number | null) => void; amount: number; date: string; currency: string }) {
+  const on = months != null;
+  const custom = on && !SPREAD_CHOICES.includes(months);
+  const [y, m] = date.split("-").map(Number);
+  const first = new Date(y, m - 1, 1);
+  const last = on ? new Date(y, m - 1 + months - 1, 1) : first;
+  const label = (n: number) => (n < 12 ? t("{n} mo", { n }) : n === 12 ? t("1 yr") : t("{n} yrs", { n: n / 12 }));
+  return (
+    <div className={`pf-spread${on ? " is-on" : ""}`}>
+      <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.9rem" }}>
+        <input type="checkbox" checked={on} onChange={(e) => onChange(e.target.checked ? 48 : null)} />
+        {t("Spread out")} <span style={{ color: "var(--pf-ink-3)" }}>{t("— count it monthly over the time you use it")}</span>
+      </label>
+      {on && (
+        <div className="pf-spread-body">
+          <div className="pf-spread-chips">
+            {SPREAD_CHOICES.map((n) => (
+              <button key={n} type="button" className={`pf-spread-chip${months === n ? " is-active" : ""}`} onClick={() => onChange(n)}>
+                {label(n)}
+              </button>
+            ))}
+            <label className={`pf-spread-chip pf-spread-custom${custom ? " is-active" : ""}`}>
+              <input
+                type="number"
+                min={2}
+                max={120}
+                inputMode="numeric"
+                aria-label={t("Months")}
+                value={custom ? months : ""}
+                placeholder="…"
+                onChange={(e) => {
+                  const n = Math.round(Number(e.target.value));
+                  if (n >= 2 && n <= 120) onChange(n);
+                }}
+              />
+              {t("mo")}
+            </label>
+          </div>
+          {amount > 0 && (
+            <span key={`${months}-${amount}`} className="pf-spread-readout pf-readout">
+              {t("{amount} per month, {from} – {to}", { amount: money(amount / months, currency), from: shortMonthYear(first), to: shortMonthYear(last) })}
+            </span>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

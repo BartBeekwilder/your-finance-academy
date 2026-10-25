@@ -20,7 +20,12 @@ export default function TransactionsPage() {
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
+    // The ledger shows what actually left the account: a spread purchase
+    // once, at its full amount — not its monthly parts.
+    const seen = new Set<string>();
     const rows = live(data.transactions)
+      .map((t) => t.spread_of ?? t)
+      .filter((t) => !seen.has(t.id) && !!seen.add(t.id))
       .filter((t) => filter === "all" || t.type === filter)
       .filter((t) => {
         if (!q) return true;
@@ -66,7 +71,10 @@ export default function TransactionsPage() {
                 <div key={t.id} className="pf-row" {...editProps(t)}>
                   <CategoryIcon icon={c?.icon ?? "questionmark.circle.fill"} colorHex={c?.color_hex ?? "808080"} size={32} />
                   <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || tr("Transaction")}</div>
+                    <div style={{ fontSize: "0.95rem" }}>
+                      {t.note || c?.name || tr("Transaction")}
+                      {t.spread_months ? <span className="pf-txn-part"> · {tr("spread over {n} mo", { n: t.spread_months })}</span> : null}
+                    </div>
                     <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
                       {c?.name ?? tr("Uncategorized")}
                       {t.is_fixed_expense && ` · ${tr("Fixed")}`}

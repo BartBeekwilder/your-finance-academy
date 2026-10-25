@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { withSpread } from "@/lib/finance/spread";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoData } from "@/lib/finance/demo";
 import type { Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
@@ -184,11 +185,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   // gross_amount is only sent when set, so saving keeps working on a database
   // without migration 0007 as long as no gross is entered.
+  // …same for spread_months (0008). Runtime-only spread fields never go out.
   const withoutEmptyGross = (t: NewTransaction) => {
-    if (t.gross_amount != null) return t;
-    const { gross_amount: _g, ...rest } = t;
-    void _g;
-    return rest;
+    const { gross_amount, spread_months, spread_of: _o, spread_index: _i, spread_total: _n, ...rest } = t;
+    void _o; void _i; void _n;
+    return { ...rest, ...(gross_amount != null ? { gross_amount } : {}), ...(spread_months != null ? { spread_months } : {}) };
   };
 
   const addTransaction = useCallback(
@@ -209,7 +210,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       const patch = { ...t, updated_at: new Date().toISOString() };
       if (source === "supabase" && supabase) {
         const had = (phase.kind === "ready" ? phase.data.transactions : []).find((x) => x.id === id)?.gross_amount != null;
-        const { error } = await supabase.from("transactions").update(had ? t : withoutEmptyGross(t)).eq("id", id);
+        const before = (phase.kind === "ready" ? phase.data.transactions : []).find((x) => x.id === id);
+        const out = withoutEmptyGross(t) as Record<string, unknown>;
+        if (had) out.gross_amount = t.gross_amount ?? null;
+        if (before?.spread_months != null) out.spread_months = t.spread_months ?? null;
+        const { error } = await supabase.from("transactions").update(out).eq("id", id);
         if (error) throw error;
       }
       update((d) => ({ ...d, transactions: d.transactions.map((x) => (x.id === id ? { ...x, ...patch } : x)).sort((a, b) => b.date.localeCompare(a.date)) }));
@@ -230,6 +235,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   );
 
   const current = phase.kind === "ready" ? phase.data : null;
+  // What every screen sees: spread expenses as their monthly parts.
+  const shown = useMemo(() => (current ? withSpread(current) : null), [current]);
 
   const addCategory = useCallback(
     async (c: NewCategory) => {
@@ -552,7 +559,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
     >
       {children}
     </FinanceContext.Provider>

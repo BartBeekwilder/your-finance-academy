@@ -129,3 +129,9 @@ await as(A, () => sql(`insert into transactions (amount, type, gross_amount) val
 ok(Number((await as(A, () => sql(`select gross_amount from transactions where type = 'income'`))).rows[0].gross_amount) === 5200, "income keeps its gross amount");
 err = null; try { await as(A, () => sql(`insert into transactions (amount, type, gross_amount) values (10, 'income', -1)`)); } catch (e) { err = e.message; }
 ok(err && /check/.test(err), "gross amount can't be negative");
+
+// Spread expenses (0008).
+await as(A, () => sql(`insert into transactions (amount, type, spread_months) values (2000, 'expense', 48)`));
+ok(Number((await as(A, () => sql(`select spread_months from transactions where spread_months is not null`))).rows[0].spread_months) === 48, "an expense keeps its spread period");
+err = null; try { await as(A, () => sql(`insert into transactions (amount, type, spread_months) values (10, 'expense', 1)`)); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "a spread is 2 to 120 months");

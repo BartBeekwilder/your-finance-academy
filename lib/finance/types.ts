@@ -64,6 +64,13 @@ export type Transaction = Synced & {
   /** Income only: the amount before tax and deductions (migration 0007);
    *  null / missing = gross equals net. */
   gross_amount?: Money | null;
+  /** Expense spread over this many months (migration 0008); null = one-off. */
+  spread_months?: number | null;
+  /** Runtime only (never stored): a monthly part of a spread expense — the
+   *  original purchase, and which part of how many this is. */
+  spread_of?: Transaction;
+  spread_index?: number;
+  spread_total?: number;
 };
 
 export type IncomeRecord = Synced & {

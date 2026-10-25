@@ -1,3 +1,4 @@
+import { spreadBookValue } from "./spread";
 import { t } from "@/lib/i18n";
 import { summarize as summarizePart } from "./mortgage";
 import { homes } from "./realEstate";
@@ -310,14 +311,20 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
     cash = nw.base - nw.holdingsTotal + s.income - s.spent;
     const prepaid = s.fixed * (1 - f);
     const earned = nw.projected * f - s.income;
-    assets.push({ id: "accounts", name: t("Accounts"), value: cash, kind: "auto", hint: t("Start of the year + what each month added") });
+    const book = spreadBookValue(data, now);
+    assets.push({ id: "accounts", name: t("Accounts"), value: cash - book.total, kind: "auto", hint: t("Start of the year + what each month added") });
     assets.push({ id: "investments", name: t("Investments"), value: nw.holdingsTotal, kind: "auto", hint: t("Holdings at cost") });
+    if (book.total > 0.005) assets.push({ id: "spread", name: t("Spread purchases"), value: book.total, kind: "auto", hint: t("Paid, not yet used up (book value)") });
     if (prepaid > 0.005) assets.push({ id: "prepaid", name: t("Prepaid"), value: prepaid, kind: "auto", hint: t("Fixed costs paid for the rest of the month") });
     if (earned > 0.005) assets.push({ id: "receivable", name: t("Receivable"), value: earned, kind: "auto", hint: t("Income earned so far, not yet received") });
     if (earned < -0.005) liabilities.push({ id: "advance", name: t("Income received in advance"), value: -earned, kind: "auto", hint: t("Received, not yet earned this month") });
   } else {
-    assets.push({ id: "accounts", name: t("Accounts"), value: cash, kind: "auto", hint: t("Start of the year + what each month added") });
+    // Spread purchases: paid at once, used up month by month — the part not
+    // yet used comes off Accounts and shows as an asset (book value).
+    const book = spreadBookValue(data, month);
+    assets.push({ id: "accounts", name: t("Accounts"), value: cash - book.total, kind: "auto", hint: t("Start of the year + what each month added") });
     assets.push({ id: "investments", name: t("Investments"), value: nw.holdingsTotal, kind: "auto", hint: t("Holdings at cost") });
+    if (book.total > 0.005) assets.push({ id: "spread", name: t("Spread purchases"), value: book.total, kind: "auto", hint: t("Paid, not yet used up (book value)") });
   }
 
   const totalAssets = assets.reduce((t, l) => t + l.value, 0);

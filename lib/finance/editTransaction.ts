@@ -14,7 +14,8 @@ let n = 0;
 const listeners = new Set<() => void>();
 
 export function openTransactionEditor(transaction: Transaction, origin: Element | null) {
-  target = { transaction, origin, n: ++n, open: true };
+  // A monthly part of a spread expense edits the purchase itself.
+  target = { transaction: transaction.spread_of ?? transaction, origin, n: ++n, open: true };
   listeners.forEach((l) => l());
 }
 

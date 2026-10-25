@@ -153,6 +153,11 @@ export function buildDemoData(now = new Date()): FinanceData {
     }
   }
 
+  // A laptop bought five months ago, spread over the 4 years it'll last:
+  // €41.67 a month in Shopping instead of one €2,000 dip.
+  push({ amount: "2000.00", type: "expense", date: new Date(now.getFullYear(), now.getMonth() - 5, 14, 12).toISOString(), note: "Laptop",
+    is_auto_income: false, is_fixed_expense: false, recurrence_id: null, category_id: cat("Shopping"), account_id: null, spread_months: 48 });
+
   const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
   const budgetAmounts: Record<string, number> = {
     Groceries: 450, Rent: 1250, Transport: 180, "Dining Out": 150,

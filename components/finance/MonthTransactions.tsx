@@ -45,7 +45,9 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
                 <div key={t.id} className="pf-row pf-row-in" {...editProps(t)} style={{ animationDelay: `${Math.min(n++, 20) * 25}ms` }}>
                   <CategoryIcon icon={c?.icon ?? "questionmark.circle.fill"} colorHex={c?.color_hex ?? "808080"} size={32} />
                   <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || (kind === "expense" ? tr("Expense") : tr("Income"))}</div>
+                    <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || (kind === "expense" ? tr("Expense") : tr("Income"))}
+                      {t.spread_total ? <span className="pf-txn-part"> · {t.spread_index}/{t.spread_total}</span> : null}
+                    </div>
                     <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
                       {c?.name ?? tr("No category")}
                       {t.is_fixed_expense && <span className="pf-fixed-tag">{tr("Fixed")}</span>}
