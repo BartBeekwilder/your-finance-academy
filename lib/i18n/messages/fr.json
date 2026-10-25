@@ -961,5 +961,7 @@
  "Average per year": "Moyenne par an",
  "Balance": "Solde",
  "vs {year}": "vs {year}",
- "Everything below is about this category only": "Tout ce qui suit concerne uniquement cette catégorie"
+ "Everything below is about this category only": "Tout ce qui suit concerne uniquement cette catégorie",
+ "{name} per day by subcategory": "{name} par jour et par sous-catégorie",
+ "{name} per month by subcategory": "{name} par mois et par sous-catégorie"
 }

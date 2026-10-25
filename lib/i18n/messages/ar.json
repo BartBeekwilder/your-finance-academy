@@ -961,5 +961,7 @@
  "Average per year": "المتوسط السنوي",
  "Balance": "الرصيد",
  "vs {year}": "مقارنة بـ {year}",
- "Everything below is about this category only": "كل ما يلي يخص هذه الفئة فقط"
+ "Everything below is about this category only": "كل ما يلي يخص هذه الفئة فقط",
+ "{name} per day by subcategory": "{name} يوميًا حسب الفئة الفرعية",
+ "{name} per month by subcategory": "{name} شهريًا حسب الفئة الفرعية"
 }

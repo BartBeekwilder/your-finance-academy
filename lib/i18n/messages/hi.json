@@ -961,5 +961,7 @@
  "Average per year": "प्रति वर्ष औसत",
  "Balance": "बैलेंस",
  "vs {year}": "{year} की तुलना में",
- "Everything below is about this category only": "नीचे सब कुछ केवल इस श्रेणी के बारे में है"
+ "Everything below is about this category only": "नीचे सब कुछ केवल इस श्रेणी के बारे में है",
+ "{name} per day by subcategory": "उपश्रेणी के अनुसार प्रतिदिन {name}",
+ "{name} per month by subcategory": "उपश्रेणी के अनुसार प्रति माह {name}"
 }

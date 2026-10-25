@@ -961,5 +961,7 @@
  "Average per year": "연평균",
  "Balance": "잔액",
  "vs {year}": "{year}년 대비",
- "Everything below is about this category only": "아래 내용은 모두 이 카테고리에 대한 것이에요"
+ "Everything below is about this category only": "아래 내용은 모두 이 카테고리에 대한 것이에요",
+ "{name} per day by subcategory": "하위 카테고리별 일간 {name}",
+ "{name} per month by subcategory": "하위 카테고리별 월간 {name}"
 }

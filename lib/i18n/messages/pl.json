@@ -961,5 +961,7 @@
  "Average per year": "Średnio rocznie",
  "Balance": "Saldo",
  "vs {year}": "wobec {year}",
- "Everything below is about this category only": "Wszystko poniżej dotyczy tylko tej kategorii"
+ "Everything below is about this category only": "Wszystko poniżej dotyczy tylko tej kategorii",
+ "{name} per day by subcategory": "{name} dziennie według podkategorii",
+ "{name} per month by subcategory": "{name} miesięcznie według podkategorii"
 }

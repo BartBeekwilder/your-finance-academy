@@ -4005,3 +4005,9 @@ span.pf-cmp-chip { cursor: default; }
 .pf-scope-bar span span, .pf-scope-bar > span > span { font-size: 0.78rem; color: var(--pf-ink-2); }
 .pf-scope-clear { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; flex: none; }
 .pf-scope-in[data-scoped="true"] .pf-card { box-shadow: inset 3px 0 0 var(--scope); }
+
+/* Stat tile — expected bar */
+.pf-expbar { display: grid; grid-template-rows: 1fr auto; justify-items: center; gap: 4px; flex: none; width: 34px; }
+.pf-expbar-track { position: relative; width: 22px; min-height: 58px; border-radius: 6px; border: 1.5px dashed color-mix(in srgb, var(--c) 70%, transparent); overflow: hidden; }
+.pf-expbar-track span { position: absolute; left: 0; right: 0; bottom: 0; background: var(--c); border-radius: 3px; transform-origin: bottom; animation: pf-yrs-grow 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; box-shadow: 0 0 10px color-mix(in srgb, var(--c) 50%, transparent); }
+.pf-expbar b { font-size: 0.68rem; color: var(--pf-ink-2); }

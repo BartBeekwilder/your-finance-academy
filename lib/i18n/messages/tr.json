@@ -961,5 +961,7 @@
  "Average per year": "Yıllık ortalama",
  "Balance": "Bakiye",
  "vs {year}": "{year} yılına göre",
- "Everything below is about this category only": "Aşağıdaki her şey yalnızca bu kategoriyle ilgili"
+ "Everything below is about this category only": "Aşağıdaki her şey yalnızca bu kategoriyle ilgili",
+ "{name} per day by subcategory": "Alt kategoriye göre günlük {name}",
+ "{name} per month by subcategory": "Alt kategoriye göre aylık {name}"
 }

@@ -968,5 +968,7 @@
  "Average per year": "Gemiddeld per jaar",
  "Balance": "Saldo",
  "vs {year}": "t.o.v. {year}",
- "Everything below is about this category only": "Alles hieronder gaat alleen over deze categorie"
+ "Everything below is about this category only": "Alles hieronder gaat alleen over deze categorie",
+ "{name} per day by subcategory": "{name} per dag per subcategorie",
+ "{name} per month by subcategory": "{name} per maand per subcategorie"
 }

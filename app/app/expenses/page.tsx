@@ -12,7 +12,7 @@ import { MonthCompare, YearCompare } from "@/components/finance/Compare";
 import { scopeToCategory } from "@/lib/finance/scope";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
-import Stat from "@/components/finance/Stat";
+import Stat, { ExpectedBar } from "@/components/finance/Stat";
 import { projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 
@@ -29,6 +29,8 @@ export default function ExpensesPage() {
   const data = scope ? scopeToCategory(all, scope) : all;
   const scopeCat = scope ? all.categories.find((c) => c.id === scope) : undefined;
   const scopeName = scopeCat?.name;
+  const hasSubs = !!scope && all.categories.some((c) => c.parent_id === scope && !c.deleted_at);
+  const accent = scopeCat ? `#${scopeCat.color_hex}` : "var(--pf-red)";
   const currency = data.profile.currency_code;
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
@@ -115,14 +117,16 @@ export default function ExpensesPage() {
           </>
         )}
         {mode === "month" ? (
-          <Stat label={t("Expected this month")} value={money(forecast[0].spent, currency)} hint={t("Forecast to the end of {monthName}", { monthName })} />
+          <Stat label={t("Expected this month")} value={money(forecast[0].spent, currency)} hint={t("Forecast to the end of {monthName}", { monthName })} side={<ExpectedBar done={s.spent} expected={forecast[0].spent} color={accent} />} />
         ) : (
-          <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} />
+          <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} side={<ExpectedBar done={yearSpent} expected={expectedYear} color={accent} />} />
         )}
         <Stat label={finished.length ? t("Average / month ({n} mo)", { n: finished.length }) : t("Average / month")} value={average ? money(average, currency) : "—"} />
       </div>
 
-      <CategoryBars data={data} now={now} currency={currency} mode={mode} scopeName={scopeName} />
+      {/* Narrowed to a category without subcategories, the per-day chart
+          only repeats the tile above — leave it out. */}
+      {!(scopeCat && !hasSubs) && <CategoryBars data={data} now={now} currency={currency} mode={mode} scopeName={scopeName} />}
 
       <section style={{ display: "grid", gap: 12 }}>
         <h2 className="pf-section-title">{t("Compare")}</h2>

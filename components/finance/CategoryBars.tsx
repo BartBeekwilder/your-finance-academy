@@ -116,7 +116,9 @@ export default function CategoryBars({
         <span style={{ display: "inline-flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
             {scopeName
-              ? t(mode === "year" ? "{name} per month by subcategory" : "{name} per day by subcategory", { name: scopeName })
+              ? mode === "year"
+                ? t("{name} per month by subcategory", { name: scopeName })
+                : t("{name} per day by subcategory", { name: scopeName })
               : t(`${kind === "expense" ? "Spending" : "Income"} per ${mode === "year" ? "month" : "day"} by ${groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}`)}
           </span>
           {/* Bars | areas, right on the chart (same setting as Settings;

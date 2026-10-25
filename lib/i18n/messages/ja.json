@@ -961,5 +961,7 @@
  "Average per year": "年平均",
  "Balance": "収支",
  "vs {year}": "{year}年比",
- "Everything below is about this category only": "以下はすべてこのカテゴリのみの内容です"
+ "Everything below is about this category only": "以下はすべてこのカテゴリのみの内容です",
+ "{name} per day by subcategory": "{name}（日別・サブカテゴリ別）",
+ "{name} per month by subcategory": "{name}（月別・サブカテゴリ別）"
 }

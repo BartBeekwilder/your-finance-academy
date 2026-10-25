@@ -961,5 +961,7 @@
  "Average per year": "В среднем за год",
  "Balance": "Сальдо",
  "vs {year}": "к {year}",
- "Everything below is about this category only": "Всё ниже относится только к этой категории"
+ "Everything below is about this category only": "Всё ниже относится только к этой категории",
+ "{name} per day by subcategory": "{name} по дням и подкатегориям",
+ "{name} per month by subcategory": "{name} по месяцам и подкатегориям"
 }
