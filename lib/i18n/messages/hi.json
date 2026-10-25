@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "उपश्रेणी के अनुसार प्रतिदिन {name}",
  "{name} per month by subcategory": "उपश्रेणी के अनुसार प्रति माह {name}",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "प्रतिदिन या प्रति माह, हर श्रेणी की एक रेखा वाले स्टैक्ड क्षेत्र या स्टैक्ड बार के रूप में।",
- "Equity {from}–{to}: {a} → {b}": "इक्विटी {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "इक्विटी {from}–{to}: {a} → {b}",
+ "year total": "वार्षिक कुल",
+ "no income data": "आय का कोई डेटा नहीं",
+ "From your imported year totals, spread evenly over the months": "आपके आयात किए गए वार्षिक कुल से, महीनों में बराबर बाँटा गया",
+ "year total ÷ 12": "वार्षिक कुल ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "पिछले वर्ष: आयात किए गए वार्षिक कुल, महीनों में बराबर बाँटे गए"
 }

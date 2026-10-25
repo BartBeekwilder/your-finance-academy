@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "Alt kategoriye göre günlük {name}",
  "{name} per month by subcategory": "Alt kategoriye göre aylık {name}",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "Günlük veya aylık; kategori başına bir çizgiyle yığılmış alanlar ya da yığılmış çubuklar.",
- "Equity {from}–{to}: {a} → {b}": "Özkaynak {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "Özkaynak {from}–{to}: {a} → {b}",
+ "year total": "yıllık toplam",
+ "no income data": "gelir verisi yok",
+ "From your imported year totals, spread evenly over the months": "İçe aktardığın yıllık toplamlardan, aylara eşit dağıtılmış",
+ "year total ÷ 12": "yıllık toplam ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "Önceki yıllar: içe aktarılan yıllık toplamlar, aylara eşit dağıtılmış"
 }

@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "{name} по дням и подкатегориям",
  "{name} per month by subcategory": "{name} по месяцам и подкатегориям",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "По дням или месяцам — накопленные области с линией на категорию или накопленные столбцы.",
- "Equity {from}–{to}: {a} → {b}": "Собственный капитал {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "Собственный капитал {from}–{to}: {a} → {b}",
+ "year total": "итог за год",
+ "no income data": "нет данных о доходах",
+ "From your imported year totals, spread evenly over the months": "Из импортированных годовых итогов, равномерно по месяцам",
+ "year total ÷ 12": "итог за год ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "Прошлые годы: импортированные годовые итоги, равномерно по месяцам"
 }

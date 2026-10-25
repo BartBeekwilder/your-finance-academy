@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "{name} per hari per subkategori",
  "{name} per month by subcategory": "{name} per bulan per subkategori",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "Per hari atau bulan sebagai area bertumpuk dengan satu garis per kategori, atau batang bertumpuk.",
- "Equity {from}–{to}: {a} → {b}": "Ekuitas {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "Ekuitas {from}–{to}: {a} → {b}",
+ "year total": "total tahunan",
+ "no income data": "tidak ada data pemasukan",
+ "From your imported year totals, spread evenly over the months": "Dari total tahunan yang Anda impor, dibagi rata per bulan",
+ "year total ÷ 12": "total tahunan ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "Tahun sebelumnya: total tahunan yang diimpor, dibagi rata per bulan"
 }

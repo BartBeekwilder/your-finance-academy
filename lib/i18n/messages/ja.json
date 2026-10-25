@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "{name}（日別・サブカテゴリ別）",
  "{name} per month by subcategory": "{name}（月別・サブカテゴリ別）",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "日別・月別に、カテゴリごとの線付き積み上げエリア、または積み上げ棒グラフで表示。",
- "Equity {from}–{to}: {a} → {b}": "純資産 {from}–{to}：{a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "純資産 {from}–{to}：{a} → {b}",
+ "year total": "年間合計",
+ "no income data": "収入データなし",
+ "From your imported year totals, spread evenly over the months": "インポートした年間合計を各月に均等に配分",
+ "year total ÷ 12": "年間合計 ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "過去の年：インポートした年間合計を各月に均等に配分"
 }

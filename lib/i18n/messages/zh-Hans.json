@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "{name}：按天、按子类别",
  "{name} per month by subcategory": "{name}：按月、按子类别",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "按天或按月显示为每类一条线的堆叠面积图，或堆叠柱状图。",
- "Equity {from}–{to}: {a} → {b}": "净资产 {from}–{to}：{a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "净资产 {from}–{to}：{a} → {b}",
+ "year total": "年度合计",
+ "no income data": "无收入数据",
+ "From your imported year totals, spread evenly over the months": "来自你导入的年度合计，平均分配到各月",
+ "year total ÷ 12": "年度合计 ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "往年：导入的年度合计，平均分配到各月"
 }

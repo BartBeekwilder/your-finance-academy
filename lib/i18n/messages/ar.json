@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "{name} يوميًا حسب الفئة الفرعية",
  "{name} per month by subcategory": "{name} شهريًا حسب الفئة الفرعية",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "يوميًا أو شهريًا كمساحات متراكمة بخط لكل فئة، أو كأعمدة متراكمة.",
- "Equity {from}–{to}: {a} → {b}": "حقوق الملكية {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "حقوق الملكية {from}–{to}: {a} → {b}",
+ "year total": "إجمالي السنة",
+ "no income data": "لا توجد بيانات دخل",
+ "From your imported year totals, spread evenly over the months": "من إجماليات السنوات المستوردة، موزعة بالتساوي على الأشهر",
+ "year total ÷ 12": "إجمالي السنة ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "السنوات السابقة: إجماليات سنوية مستوردة موزعة بالتساوي على الأشهر"
 }

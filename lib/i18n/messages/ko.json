@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "하위 카테고리별 일간 {name}",
  "{name} per month by subcategory": "하위 카테고리별 월간 {name}",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "일별 또는 월별로 카테고리마다 선이 있는 누적 영역, 또는 누적 막대로 표시해요.",
- "Equity {from}–{to}: {a} → {b}": "순자산 {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "순자산 {from}–{to}: {a} → {b}",
+ "year total": "연간 합계",
+ "no income data": "수입 데이터 없음",
+ "From your imported year totals, spread evenly over the months": "가져온 연간 합계를 달마다 균등하게 나눈 값",
+ "year total ÷ 12": "연간 합계 ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "이전 연도: 가져온 연간 합계를 달마다 균등하게 나눔"
 }

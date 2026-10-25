@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "{name} por dia e subcategoria",
  "{name} per month by subcategory": "{name} por mês e subcategoria",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "Por dia ou mês como áreas empilhadas com uma linha por categoria, ou como barras empilhadas.",
- "Equity {from}–{to}: {a} → {b}": "Patrimônio líquido {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "Patrimônio líquido {from}–{to}: {a} → {b}",
+ "year total": "total anual",
+ "no income data": "sem dados de receita",
+ "From your imported year totals, spread evenly over the months": "Dos seus totais anuais importados, distribuídos igualmente pelos meses",
+ "year total ÷ 12": "total anual ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "Anos anteriores: totais anuais importados, distribuídos igualmente pelos meses"
 }

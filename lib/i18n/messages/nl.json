@@ -972,5 +972,10 @@
  "{name} per day by subcategory": "{name} per dag per subcategorie",
  "{name} per month by subcategory": "{name} per maand per subcategorie",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "Per dag of maand als gestapelde vlakken met een lijn per categorie, of als gestapelde staven.",
- "Equity {from}–{to}: {a} → {b}": "Eigen vermogen {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "Eigen vermogen {from}–{to}: {a} → {b}",
+ "year total": "jaartotaal",
+ "no income data": "geen inkomensgegevens",
+ "From your imported year totals, spread evenly over the months": "Uit je geïmporteerde jaartotalen, gelijk verdeeld over de maanden",
+ "year total ÷ 12": "jaartotaal ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "Eerdere jaren: geïmporteerde jaartotalen, gelijk verdeeld over de maanden"
 }

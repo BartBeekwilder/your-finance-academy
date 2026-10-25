@@ -3,21 +3,24 @@
 import { t } from "@/lib/i18n";
 import { useMemo, useState } from "react";
 import { yearForecast } from "@/lib/finance/calc";
-import { yearTotals, type YearTotal } from "@/lib/finance/compare";
+import { historyBack, yearTotals, type YearTotal } from "@/lib/finance/compare";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 
 // The dashboard's Years view, in place of the live Month / Year tiles:
 // income, spending and balance per calendar year. This year shows what's
 // entered so far as a solid bar and the forecast for the rest of the year as
-// a dashed cap; earlier years without data are samples (lib/finance/compare)
-// until history is imported. Pointing at a bar reads it out.
+// a dashed cap. Earlier years use imported year totals where there are no
+// transactions, and samples only for years with no data at all
+// (lib/finance/compare). Pointing at a bar reads it out.
 
 const GREEN = "#30d158", RED = "#ff453a", BLUE = "#0a84ff";
 
 type Row = { key: "income" | "spent" | "balance"; title: string; color: string };
 
-export default function YearsOverview({ data, now, currency, back = 4 }: { data: FinanceData; now: Date; currency: string; back?: number }) {
+export default function YearsOverview({ data, now, currency, back: backProp }: { data: FinanceData; now: Date; currency: string; back?: number }) {
+  // As far back as the history goes (at least four years; samples fill in).
+  const back = backProp ?? historyBack(data, now, 4);
   const years = useMemo(() => yearTotals(data, now, yearForecast(data, now), { back, sample: true }), [data, now, back]);
   const first = years[0].year, last = years[years.length - 1].year;
   const rows: Row[] = [
@@ -68,6 +71,8 @@ function YearsRow({ row, years, currency, span }: { row: Row; years: YearTotal[]
           <b>{years[sel].year}</b> {money(s.done + s.ahead, currency)}
           {s.ahead !== 0 && <em> · {t("{amount} so far", { amount: money(s.done, currency) })}</em>}
           {years[sel].sample && <em> · {t("sample")}</em>}
+          {years[sel].yearly && <em> · {t("year total")}</em>}
+          {row.key !== "spent" && years[sel].incomeMissing && <em> · {t("no income data")}</em>}
         </span>
       </div>
       <div className="pf-yrs-main">
@@ -102,7 +107,7 @@ function YearsRow({ row, years, currency, span }: { row: Row; years: YearTotal[]
                     }}
                   />
                 </div>
-                <span className="pf-yrs-label">{years[i].year}</span>
+                <span className="pf-yrs-label">{years.length > 6 && i !== sel && i !== 0 && i !== cur ? `’${String(years[i].year).slice(2)}` : years[i].year}</span>
               </div>
             );
           })}

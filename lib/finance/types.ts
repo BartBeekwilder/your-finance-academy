@@ -197,6 +197,13 @@ export type FinanceData = {
    *  liabilities per year — the dashboard draws equity over the years from
    *  them. Local data only for now (no Supabase table yet). */
   yearSnapshots?: { year: number; assets: Money; liabilities: Money }[];
+  /** Imported spending history: a year's total per category (from before
+   *  transactions were kept). Charts spread it evenly over the months that
+   *  have no transactions. Local data only for now. */
+  yearCategoryTotals?: { year: number; category_id: string | null; amount: Money }[];
+  /** Imported income history: a year's total income received (net, all
+   *  sources) and gross salary if known. Spread like yearCategoryTotals. */
+  yearIncomeTotals?: { year: number; amount: Money; gross?: Money | null; grossEstimated?: boolean }[];
   /** Runtime only (never stored): each holding's market value over time in
    *  the profile currency, [unix ms, value] by holding id, from live quotes
    *  (FinanceProvider). Missing = value holdings at cost. */

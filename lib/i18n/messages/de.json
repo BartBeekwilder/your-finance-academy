@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "{name} pro Tag nach Unterkategorie",
  "{name} per month by subcategory": "{name} pro Monat nach Unterkategorie",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "Pro Tag oder Monat als gestapelte Flächen mit einer Linie pro Kategorie oder als gestapelte Balken.",
- "Equity {from}–{to}: {a} → {b}": "Eigenkapital {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "Eigenkapital {from}–{to}: {a} → {b}",
+ "year total": "Jahressumme",
+ "no income data": "keine Einkommensdaten",
+ "From your imported year totals, spread evenly over the months": "Aus deinen importierten Jahressummen, gleichmäßig auf die Monate verteilt",
+ "year total ÷ 12": "Jahressumme ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "Frühere Jahre: importierte Jahressummen, gleichmäßig auf die Monate verteilt"
 }

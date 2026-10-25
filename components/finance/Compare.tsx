@@ -4,7 +4,7 @@ import { t } from "@/lib/i18n";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
 import { live } from "@/lib/finance/calc";
-import { ALL, compareYears, cumulative, spread, type YearRow } from "@/lib/finance/compare";
+import { ALL, compareYears, cumulative, historyBack, spread, type YearRow } from "@/lib/finance/compare";
 import { money, monthName, shortMonth } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import Segmented from "./Segmented";
@@ -22,7 +22,7 @@ import { WithYAxis } from "./YAxis";
 // marked as such, until real history is imported.
 
 const THIS_YEAR = "#ff453a";
-const PAST = ["#bf5af2", "#ff9f0a", "#64d2ff", "#30d158"];
+const PAST = ["#bf5af2", "#ff9f0a", "#64d2ff", "#30d158", "#ffd60a", "#ff6b9a", "#5e5ce6", "#a2845e", "#66d4cf", "#8e8e93", "#e8c547"];
 
 /** A smooth line through the points (Catmull-Rom as cubic Béziers), kept
  *  above the baseline so it never dips below zero. */
@@ -55,9 +55,12 @@ export function YearCompare({ data, now, currency, initial }: { data: FinanceDat
   const categories = useCategories(data);
   const [key, setKey] = useState<string>(initial ?? ALL);
   const [view, setView] = useState<"month" | "sum">("month");
-  const [hidden, setHidden] = useState<Set<number>>(new Set());
+  // All years of history; the three before this one shown, older ones a
+  // chip away.
+  const back = historyBack(data, now, 3);
+  const [hidden, setHidden] = useState<Set<number>>(() => new Set(Array.from({ length: Math.max(back - 3, 0) }, (_, i) => now.getFullYear() - 4 - i)));
   const [hover, setHover] = useState<number | null>(null);
-  const all = useMemo(() => compareYears(data, now, { sample: true }), [data, now]);
+  const all = useMemo(() => compareYears(data, now, { sample: true, back }), [data, now, back]);
   const rows = all.get(key) ?? all.get(ALL)!;
   const current = now.getMonth();
   const [mine, ...earlier] = rows;
@@ -137,6 +140,7 @@ export function YearCompare({ data, now, currency, initial }: { data: FinanceDat
         {earlier.map((r, i) => {
           const on = !hidden.has(r.year);
           const sample = r.sample.some(Boolean);
+          const yearly = r.yearly.some(Boolean);
           return (
             <button
               key={r.year}
@@ -144,10 +148,12 @@ export function YearCompare({ data, now, currency, initial }: { data: FinanceDat
               className="pf-cmp-chip"
               data-on={on}
               style={{ ["--c" as string]: PAST[i % PAST.length] }}
+              title={yearly ? t("From your imported year totals, spread evenly over the months") : undefined}
               onClick={() => setHidden((h) => { const n = new Set(h); if (n.has(r.year)) n.delete(r.year); else n.add(r.year); return n; })}
             >
               <i /> {r.year}
               {sample && <em>{t("sample")}</em>}
+              {yearly && !sample && <em>{t("year total")}</em>}
             </button>
           );
         })}
@@ -205,6 +211,7 @@ export function YearCompare({ data, now, currency, initial }: { data: FinanceDat
         <span><i className="pf-cmp-dots" /> {t("Their average")}</span>
         <span><i className="pf-cmp-dash" style={{ ["--c" as string]: THIS_YEAR }} /> {t("Rest of this year (forecast)")}</span>
         {anySample && <span style={{ fontStyle: "italic" }}>{t("Sample years: made from this year's numbers until you import your history")}</span>}
+        {earlier.some((r) => r.yearly.some(Boolean)) && <span style={{ fontStyle: "italic" }}>{t("Earlier years: imported year totals, spread evenly over the months")}</span>}
       </div>
     </section>
   );
@@ -216,7 +223,8 @@ export function MonthCompare({ data, now, currency }: { data: FinanceData; now: 
   // The last finished month by default; this month can be picked ("so far").
   const [m, setM] = useState(Math.max(current - 1, 0));
   const [against, setAgainst] = useState<"last" | "avg">("last");
-  const all = useMemo(() => compareYears(data, now, { sample: true }), [data, now]);
+  const back = historyBack(data, now, 3);
+  const all = useMemo(() => compareYears(data, now, { sample: true, back }), [data, now, back]);
 
   const valueFor = (key: string) => {
     const [mine, ...earlier] = all.get(key) ?? [];
@@ -225,7 +233,7 @@ export function MonthCompare({ data, now, currency }: { data: FinanceData; now: 
     const pool = against === "last" ? earlier.slice(0, 1) : earlier;
     const vs = pool.map((r) => r.values[m]).filter((v): v is number => v != null);
     const b = vs.length ? vs.reduce((s, v) => s + v, 0) / vs.length : 0;
-    return { a, b, sample: pool.some((r) => r.sample[m]) };
+    return { a, b, sample: pool.some((r) => r.sample[m]), yearly: pool.some((r) => r.yearly[m]) };
   };
   const total = valueFor(ALL);
   const lines = categories
@@ -263,7 +271,7 @@ export function MonthCompare({ data, now, currency }: { data: FinanceData; now: 
               {money(Math.abs(total.a - total.b), currency)} {total.a <= total.b ? t("less") : t("more")} {pct(total.a, total.b)}
             </b>{" "}
             {t("than {other}", { other: otherLabel })} ({money(total.b, currency)}
-            {total.sample ? ` · ${t("sample")}` : ""})
+            {total.sample ? ` · ${t("sample")}` : total.yearly ? ` · ${t("year total ÷ 12")}` : ""})
           </span>
         </div>
       )}

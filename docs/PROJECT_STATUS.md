@@ -235,6 +235,8 @@ other countries' rules later (to do: DE, BE, UK, US, …).
 
 15. DASHBOARD YEARS VIEW (Bart, 2026-10-26): top-right Month · Year · Years switch on the dashboard. Month / Year drive the live tiles (controlled) and the expenses chart; Years swaps the tiles for YearsOverview (income / spent / balance per year 2022–2026: this year solid + dashed forecast cap, expected this year, % vs last year, average per year, total; samples for years without data) and the expenses chart for YearCompare. compare.yearTotals (+test).
 
+16. HISTORY IMPORT (Bart, 2026-10-26): FinanceData.yearSnapshots (assets/liabilities per year → equity backdrop on the dashboard net worth card), yearCategoryTotals (spending per category per year 2017–2025) and yearIncomeTotals (income per year + gross; 2018 gross estimated from 2019's ratio). Local data only — needs Supabase tables before sync. compare.ts: real transactions first, then the year total's remainder spread evenly over months without transactions ('jaartotaal'), samples only for years with nothing imported, income never invented for imported years. historyBack() → Years view and Compare show all years (older ones hidden behind chips in Compare).
+
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
 - Earlier years: monthly totals enough, or import transactions?

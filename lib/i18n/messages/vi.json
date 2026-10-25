@@ -965,5 +965,10 @@
  "{name} per day by subcategory": "{name} theo ngày và danh mục con",
  "{name} per month by subcategory": "{name} theo tháng và danh mục con",
  "Per day or month as stacked areas with a line per category, or as stacked bars.": "Theo ngày hoặc tháng dạng vùng chồng với một đường cho mỗi danh mục, hoặc cột chồng.",
- "Equity {from}–{to}: {a} → {b}": "Vốn chủ sở hữu {from}–{to}: {a} → {b}"
+ "Equity {from}–{to}: {a} → {b}": "Vốn chủ sở hữu {from}–{to}: {a} → {b}",
+ "year total": "tổng năm",
+ "no income data": "không có dữ liệu thu nhập",
+ "From your imported year totals, spread evenly over the months": "Từ tổng năm bạn đã nhập, chia đều cho các tháng",
+ "year total ÷ 12": "tổng năm ÷ 12",
+ "Earlier years: imported year totals, spread evenly over the months": "Các năm trước: tổng năm đã nhập, chia đều cho các tháng"
 }
