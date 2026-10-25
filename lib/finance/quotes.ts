@@ -166,3 +166,19 @@ export function investmentsValue(data: Pick<FinanceData, "holdings" | "market" |
   }
   return { total, real };
 }
+
+/** Investments per kind (stock / crypto / metal) at `at`, valued like
+ *  investmentsValue — for the balance sheet's breakdown. */
+export function investmentsByKind(data: Pick<FinanceData, "holdings" | "market" | "profile">, at: Date) {
+  const out = new Map<string, { value: number; count: number }>();
+  for (const h of data.holdings) {
+    if (h.deleted_at) continue;
+    const v = investmentsValue({ ...data, holdings: [h] }, at);
+    if (!v.real && v.total === 0) continue;
+    const e = out.get(h.asset_type) ?? { value: 0, count: 0 };
+    e.value += v.total;
+    e.count++;
+    out.set(h.asset_type, e);
+  }
+  return out;
+}

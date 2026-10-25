@@ -1,5 +1,5 @@
 import { spreadBookValue } from "./spread";
-import { investmentsValue } from "./quotes";
+import { investmentsByKind, investmentsValue } from "./quotes";
 import { t } from "@/lib/i18n";
 import { summarize as summarizePart } from "./mortgage";
 import { homes } from "./realEstate";
@@ -271,7 +271,16 @@ export function netWorthFigures(data: FinanceData, now: Date) {
   return { accountsTotal, holdingsTotal, base, startOfYear, finished, liveChange, forecast, thisMonth, projected, days };
 }
 
-export type BalanceLine = { id: string; name: string; value: number; kind: "manual" | "auto"; hint?: string };
+export type BalanceLine = {
+  id: string;
+  name: string;
+  value: number;
+  kind: "manual" | "auto";
+  hint?: string;
+  /** What an auto line is made of (accounts, kinds of investment) — the
+   *  balance table unfolds it. */
+  parts?: { id: string; name: string; value: number; hint?: string }[];
+};
 
 /** The balance sheet at the end of `month` (or now, for the current month),
  *  on the net worth model:
@@ -344,6 +353,29 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
     assets.push({ id: "accounts", name: t("Accounts"), value: cash - book.total, kind: "auto", hint: t("Start of the year + what each month added") });
     assets.push({ id: "investments", name: t("Investments"), value: inv.total, kind: "auto", hint: inv.real ? t("Market value") : t("Holdings at cost") });
     if (book.total > 0.005) assets.push({ id: "spread", name: t("Spread purchases"), value: book.total, kind: "auto", hint: t("Paid, not yet used up (book value)") });
+  }
+
+  // Breakdowns: Accounts per account (1 January + what was booked on it up
+  // to the month's end), the rest of the year's cash flow on its own line;
+  // Investments per kind.
+  const at = isCurrent ? now : new Date(month.getFullYear(), month.getMonth() + 1, 0, 23, 59, 59);
+  const acc = assets.find((l) => l.id === "accounts");
+  if (acc) {
+    const flows = accountFlows(data, at);
+    const parts = live(data.accounts)
+      .filter((a) => a.type !== "investment" && (num(a.balance) !== 0 || flows.has(a.id)))
+      .map((a) => ({ id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0) }));
+    const rest = acc.value - parts.reduce((s2, p) => s2 + p.value, 0);
+    if (Math.abs(rest) >= 0.005) parts.push({ id: "unassigned", name: t("Saved this year, not on an account"), value: rest, hint: t("Income minus spending without an account, plus corrections") } as (typeof parts)[number]);
+    if (parts.length) acc.parts = parts.sort((a, b) => b.value - a.value);
+  }
+  const invLine = assets.find((l) => l.id === "investments");
+  if (invLine) {
+    const KIND: Record<string, string> = { stock: t("Stocks"), crypto: t("Crypto"), metal: t("Metals") };
+    const kinds = investmentsByKind(data, at);
+    invLine.parts = [...kinds]
+      .map(([k, v]) => ({ id: `kind-${k}`, name: `${KIND[k] ?? k} · ${v.count === 1 ? t("1 holding") : t("{n} holdings", { n: v.count })}`, value: v.value }))
+      .sort((a, b) => b.value - a.value);
   }
 
   const totalAssets = assets.reduce((t, l) => t + l.value, 0);

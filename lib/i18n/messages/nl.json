@@ -912,5 +912,7 @@
  "Paid with": "Betaald met",
  "Received on": "Ontvangen op",
  "Balance today": "Saldo vandaag",
- "Click an account to set its balance today. Accounts include what's booked on them this year; the rest of this year's income minus spending is under Saved this year. Investments at their live market value.": "Klik op een rekening om het saldo van vandaag in te vullen. Rekeningen tellen mee wat je dit jaar op die rekening boekt; de rest van de inkomsten min uitgaven van dit jaar staat onder Dit jaar gespaard. Beleggingen tegen hun live marktwaarde."
+ "Click an account to set its balance today. Accounts include what's booked on them this year; the rest of this year's income minus spending is under Saved this year. Investments at their live market value.": "Klik op een rekening om het saldo van vandaag in te vullen. Rekeningen tellen mee wat je dit jaar op die rekening boekt; de rest van de inkomsten min uitgaven van dit jaar staat onder Dit jaar gespaard. Beleggingen tegen hun live marktwaarde.",
+ "Saved this year, not on an account": "Dit jaar gespaard, niet aan een rekening gekoppeld",
+ "Income minus spending without an account, plus corrections": "Inkomsten min uitgaven zonder rekening, plus correcties"
 }

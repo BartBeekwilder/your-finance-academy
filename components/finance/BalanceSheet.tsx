@@ -1,7 +1,7 @@
 "use client";
 
 import { t } from "@/lib/i18n";
-import { Check, Plus, X } from "lucide-react";
+import { Check, ChevronRight, Plus, X } from "lucide-react";
 import { useState } from "react";
 import type { BalanceLine, balanceSheet } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
@@ -304,15 +304,29 @@ function Total({ label, value, currency, balanced }: { label: string; value: num
 
 function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number | null; color: string; currency: string; edit?: Edit }) {
   const editable = edit && line.kind === "manual";
-  return (
-    <div className="pf-bal-line" data-auto={line.kind === "auto"} title={line.hint}>
+  const [open, setOpen] = useState(false);
+  const parts = line.parts?.length ? line.parts : null;
+  const row = (
+    <div
+      className="pf-bal-line"
+      data-auto={line.kind === "auto"}
+      data-folds={!!parts}
+      data-open={open}
+      title={line.hint}
+      role={parts ? "button" : undefined}
+      tabIndex={parts ? 0 : undefined}
+      aria-expanded={parts ? open : undefined}
+      onClick={parts ? () => setOpen((o) => !o) : undefined}
+      onKeyDown={parts ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen((o) => !o); } } : undefined}
+    >
       <span className="pf-bal-dot" style={{ background: line.value > 0 ? color : "var(--pf-ink-3)" }} />
       {editable ? (
         <TextField className="pf-bal-name" value={line.name} onCommit={(v) => v.trim() && v !== line.name && edit.onRename(line.id, v.trim())} />
       ) : (
-        <span className="pf-bal-name">
-          {line.name}
+        <span className={parts ? "pf-bal-name pf-bal-name-fold" : "pf-bal-name"}>
+          {parts ? <span className="pf-bal-name-text">{line.name}</span> : line.name}
           {line.kind === "auto" && <em>{t("auto")}</em>}
+          {parts && <ChevronRight size={14} className="pf-bal-chev" aria-hidden />}
         </span>
       )}
       {/* Always present, so the amount columns line up row to row. */}
@@ -327,6 +341,24 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
           <X size={13} />
         </button>
       )}
+    </div>
+  );
+  if (!parts) return row;
+  // Unfolds with a grid-rows 0fr → 1fr transition: the height follows the
+  // content, the rows slide in one after another.
+  return (
+    <div className="pf-bal-fold" data-open={open}>
+      {row}
+      <div className="pf-bal-parts" aria-hidden={!open}>
+        <div>
+          {parts.map((p, i) => (
+            <div key={p.id} className="pf-bal-part" title={p.hint} style={{ ["--i" as string]: i }}>
+              <span className="pf-bal-part-name">{p.name}</span>
+              <span className="pf-rounded" style={{ color: p.value < 0 ? "var(--pf-red)" : undefined }}>{money(p.value, currency)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
