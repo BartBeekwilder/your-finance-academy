@@ -4165,3 +4165,13 @@ span.pf-cmp-chip { cursor: default; }
 .pf-gloss:target { background: rgba(10, 132, 255, 0.08); }
 .pf-info-pop[data-below="true"] { bottom: auto; top: calc(100% + 8px); }
 @keyframes pf-info-in { from { opacity: 0; } }
+
+/* Quick Add: a description used before filled in category / account. */
+.pf-remembered {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: -8px;
+  font-size: 0.75rem;
+  color: var(--pf-brand-b);
+}

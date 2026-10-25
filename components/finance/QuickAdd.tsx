@@ -2,7 +2,7 @@
 
 import { t } from "@/lib/i18n";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { Banknote, Check, CreditCard, Hourglass, Landmark, PiggyBank, Plus, Trash2, Wallet, X } from "lucide-react";
+import { Banknote, Check, CreditCard, Hourglass, Landmark, PiggyBank, Plus, Sparkles, Trash2, Wallet, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
 import { money, shortMonthYear } from "@/lib/finance/format";
@@ -64,7 +64,7 @@ export default function QuickAdd() {
         <Plus size={22} strokeWidth={3} />
       </button>
       <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label={t("Quick Add")}>
-        <Form key={session} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} household={householdOf(data.profile)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
+        <Form key={session} past={data.transactions} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} household={householdOf(data.profile)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
       </Sheet>
       <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label={t("Edit transaction")}>
         {editing && (
@@ -105,7 +105,11 @@ function Form({
   onDone,
   initial,
   onDelete,
+  past = [],
 }: {
+  /** Earlier transactions: a description used before fills in its category
+   *  and account (new transactions only). */
+  past?: Transaction[];
   /** Accounts to pay from / receive on. */
   accounts?: Account[];
   /** Two or more people: income "from", expense "paid by". */
@@ -153,6 +157,44 @@ function Form({
     } catch {}
     return household.find((m) => m.id === last)?.id ?? null;
   });
+  // What the person picked by hand in this form; a remembered description
+  // never overrides those.
+  const [touched, setTouched] = useState({ category: !!initial, account: !!initial });
+  const [remembered, setRemembered] = useState<string | null>(null);
+  // Latest transaction per description (lower-cased), per type.
+  const memory = useMemo(() => {
+    const m = new Map<string, Transaction>();
+    for (const tx of past) {
+      const k = tx.note?.trim().toLowerCase();
+      if (!k || tx.deleted_at) continue;
+      const key = `${tx.type}:${k}`;
+      const had = m.get(key);
+      if (!had || had.date < tx.date) m.set(key, tx);
+    }
+    return m;
+  }, [past]);
+  const suggestions = useMemo(() => {
+    const names = new Map<string, string>();
+    for (const [key, tx] of memory) if (key.startsWith(`${type}:`)) names.set(key, tx.note!.trim());
+    return [...names.values()].sort((a, b) => a.localeCompare(b));
+  }, [memory, type]);
+  function recall(text: string) {
+    const tx = memory.get(`${type}:${text.trim().toLowerCase()}`);
+    if (!tx) return setRemembered(null);
+    const cat = categories.find((c) => c.id === tx.category_id);
+    const changed: string[] = [];
+    if (!touched.category && cat && cat.id !== categoryId) {
+      setCategoryId(cat.id);
+      setFixed(cat.is_fixed_expense);
+      changed.push(cat.id);
+    }
+    if (!touched.account && tx.account_id !== accountId && (tx.account_id === null ? type === "income" : payable.some((a) => a.id === tx.account_id))) {
+      setAccountId(tx.account_id);
+      changed.push(tx.account_id ?? "pending");
+    }
+    if (changed.length) setRemembered(changed.join(","));
+  }
+
   const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -238,7 +280,7 @@ function Form({
         wide
         label={t("Type")}
         value={type}
-        onChange={(t) => { setType(t); setCategoryId(null); setCreating(false); }}
+        onChange={(t) => { setType(t); setCategoryId(null); setCreating(false); setTouched((x) => ({ ...x, category: false })); setRemembered(null); }}
         options={[{ value: "expense", label: t("Expense") }, { value: "income", label: t("Income") }]}
       />
 
@@ -290,10 +332,10 @@ function Form({
             <button
               key={c.id}
               type="button"
-              onClick={() => { setCategoryId(c.id); setFixed(c.is_fixed_expense); setNewSub(null); }}
+              onClick={() => { setCategoryId(c.id); setFixed(c.is_fixed_expense); setNewSub(null); setTouched((x) => ({ ...x, category: true })); }}
               className="pf-chip"
               aria-pressed={parentId === c.id}
-              data-fresh={fresh === c.id || undefined}
+              data-fresh={fresh === c.id || (remembered?.split(",").includes(categoryId ?? "") && parentId === c.id) || undefined}
               style={parentId === c.id ? { borderColor: `#${c.color_hex}`, background: `#${c.color_hex}33` } : undefined}
             >
               <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={20} />
@@ -321,6 +363,7 @@ function Form({
                   onClick={() => {
                     // Tapping the chosen sub again goes back to just the parent.
                     const back = categoryId === c.id;
+                    setTouched((x) => ({ ...x, category: true }));
                     const next = back ? categories.find((x) => x.id === parentId) : c;
                     setCategoryId(next?.id ?? null);
                     if (next) setFixed(next.is_fixed_expense);
@@ -378,8 +421,28 @@ function Form({
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
         <input className="pf-input" type="date" aria-label={t("Date")} value={date} onChange={(e) => setDate(e.target.value)} required />
-        <input className="pf-input" placeholder={t("Note")} aria-label={t("Note")} value={note} onChange={(e) => setNote(e.target.value)} />
+        <input
+          className="pf-input"
+          placeholder={t("Note")}
+          aria-label={t("Note")}
+          list={initial ? undefined : "pf-note-memory"}
+          value={note}
+          onChange={(e) => {
+            setNote(e.target.value);
+            if (!initial) recall(e.target.value);
+          }}
+        />
+        {!initial && (
+          <datalist id="pf-note-memory">
+            {suggestions.map((n) => <option key={n} value={n} />)}
+          </datalist>
+        )}
       </div>
+      {remembered && (
+        <span key={remembered} className="pf-remembered pf-readout">
+          <Sparkles size={12} /> {t("Filled in like last time")}
+        </span>
+      )}
 
       {household.length > 0 && (
         <div>
@@ -409,7 +472,7 @@ function Form({
           <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 8 }}>{type === "expense" ? t("Paid with") : t("Received on")}</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {type === "income" && (
-              <button type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === null} onClick={() => setAccountId(null)} title={t("Not on an account yet — shows under Amounts to receive")}>
+              <button type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === null} onClick={() => { setAccountId(null); setTouched((x) => ({ ...x, account: true })); }} title={t("Not on an account yet — shows under Amounts to receive")}>
                 <span className="pf-acct-icon" style={{ background: "#66d4cf" }}>
                   <Hourglass size={12} strokeWidth={2.4} />
                 </span>
@@ -419,7 +482,7 @@ function Form({
             {payable.map((a) => {
               const Icon = ACCOUNT_ICON[a.type] ?? Wallet;
               return (
-                <button key={a.id} type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === a.id} onClick={() => setAccountId(type === "income" || accountId !== a.id ? a.id : null)}>
+                <button key={a.id} type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === a.id} onClick={() => { setAccountId(type === "income" || accountId !== a.id ? a.id : null); setTouched((x) => ({ ...x, account: true })); }}>
                   <span className="pf-acct-icon" data-type={a.type}>
                     <Icon size={13} strokeWidth={2.4} />
                   </span>
