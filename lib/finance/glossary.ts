@@ -4,7 +4,7 @@
 export type Term = { id: string; term: string; text: string };
 
 export const GLOSSARY: Term[] = [
-  { id: "liquidity", term: "Liquidity", text: "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans." },
+  { id: "liquidity", term: "Liquidity", text: "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans." },
   { id: "equity", term: "Equity", text: "Everything you own minus everything you owe. What is truly yours." },
   { id: "assets", term: "Assets", text: "Everything you own: your home, accounts, investments and costs you've already paid ahead." },
   { id: "liabilities", term: "Liabilities", text: "How your assets are paid for: your debts (mortgage, loans) plus your equity. Both sides of the balance sheet are always equal." },

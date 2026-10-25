@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "入力したがまだ口座に入っていない収入（振込待ちの給与など）。入金されたら「入金先」を選びます。",
  "Liquidity": "流動資産",
  "Liquidity now": "現在の流動資産",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "すぐに使えるお金：口座と今日の価格での投資 — 住まいとローンは含みません。",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "「自動」の項目は口座・取引・投資から算出されます。口座：1月1日の残高に毎月の増減を加えたもの。投資：時価。今月の「前払い」は残りの日数分の固定費、「稼いだがまだ入金なし」は稼いだがまだ入っていない収入です。自分の項目：今月の値は現在の残高、過去の月は月末残高を保持します。",
  "Real value minus nominal: what you've gained or lost.": "実質価値から名目を引いたもの：得た利益または損失。",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "口座残高と記録の差。表示されたら、まだどこかが合っていません。",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "{term}とは？",
  "What it's worth now, at live market prices.": "今の価値（リアルタイムの市場価格）。",
  "What you put in: the price you paid for an investment.": "投じた金額：投資に支払った価格。",
- "Year total": "年間合計"
+ "Year total": "年間合計",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "使えるお金のすべて：口座と今日の価格での投資 — 住まいとローンは含みません。",
+ "How your liquidity moved per day": "流動資産の日ごとの動き",
+ "How your liquidity moved per month": "流動資産の月ごとの動き"
 }

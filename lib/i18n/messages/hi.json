@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "दर्ज की गई आय जो अभी किसी खाते में नहीं आई, जैसे रास्ते में वेतन। आने पर “प्राप्ति खाता” चुनें।",
  "Liquidity": "तरलता",
  "Liquidity now": "अभी की तरलता",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "वह पैसा जिस तक आप पहुँच सकते हैं: आपके खाते और आज के भाव पर निवेश — घर और ऋण के बिना।",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "‘ऑटो’ मदें आपके खातों, लेन-देन और निवेश से बनती हैं। खाते: 1 जनवरी का शेष और हर महीने जो जुड़ा। निवेश: बाज़ार मूल्य पर। चालू महीने में पूर्व-भुगतान बाकी दिनों के स्थायी खर्च का हिस्सा है, और कमाया, अभी नहीं मिला वह आय है जो कमाई जा चुकी पर अभी आई नहीं। आपकी मदें: इस महीने का मान मौजूदा स्थिति है; पिछले महीने अपना महीने-अंत मान रखते हैं।",
  "Real value minus nominal: what you've gained or lost.": "वास्तविक मूल्य घटा नाममात्र: आपने कितना कमाया या गँवाया।",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "आपके खाता शेष और प्रविष्टियों का अंतर। दिखे तो अभी कुछ मेल नहीं खा रहा।",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "{term} क्या है?",
  "What it's worth now, at live market prices.": "अभी इसका मूल्य, लाइव बाज़ार भाव पर।",
  "What you put in: the price you paid for an investment.": "आपने कितना लगाया: किसी निवेश के लिए चुकाई गई कीमत।",
- "Year total": "वार्षिक कुल"
+ "Year total": "वार्षिक कुल",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "आपका सारा खर्च करने योग्य पैसा: आपके खाते और आज के भाव पर निवेश — घर और ऋण के बिना।",
+ "How your liquidity moved per day": "आपकी तरलता हर दिन कैसे बदली",
+ "How your liquidity moved per month": "आपकी तरलता हर महीने कैसे बदली"
 }

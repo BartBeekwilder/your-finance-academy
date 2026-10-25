@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "دخل أدخلته لكنه لم يصل إلى حساب بعد، مثل راتب في الطريق. اختر «الإيداع في» عند وصوله.",
  "Liquidity": "السيولة",
  "Liquidity now": "السيولة الآن",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "المال الذي يمكنك الوصول إليه: حساباتك واستثماراتك بأسعار اليوم — دون منزلك وقروضك.",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "البنود «التلقائية» تُستمد من حساباتك ومعاملاتك واستثماراتك. الحسابات: الرصيد في 1 يناير مضافًا إليه ما أضافه كل شهر. الاستثمارات: بالقيمة السوقية. في الشهر الحالي، «مدفوع مقدمًا» هو جزء التكاليف الثابتة الذي يغطي الأيام المتبقية، و«مكتسب ولم يصل» هو الدخل المكتسب الذي لم يصل بعد. بنودك: قيمة هذا الشهر هي الرصيد الحالي؛ وتحتفظ الأشهر السابقة برصيد نهاية الشهر.",
  "Real value minus nominal: what you've gained or lost.": "القيمة الحقيقية ناقص الاسمية: ما ربحته أو خسرته.",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "الفرق بين أرصدة حساباتك وقيودك. إن ظهر فهناك شيء لا يتطابق بعد.",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "ما هو {term}؟",
  "What it's worth now, at live market prices.": "قيمته الآن بأسعار السوق المباشرة.",
  "What you put in: the price you paid for an investment.": "ما وضعته: السعر الذي دفعته لاستثمار.",
- "Year total": "إجمالي السنة"
+ "Year total": "إجمالي السنة",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "كل المال الذي يمكنك إنفاقه: حساباتك واستثماراتك بأسعار اليوم — دون منزلك وقروضك.",
+ "How your liquidity moved per day": "كيف تغيّرت سيولتك يوميًا",
+ "How your liquidity moved per month": "كيف تغيّرت سيولتك شهريًا"
 }

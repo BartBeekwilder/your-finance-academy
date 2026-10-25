@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "已录入但尚未到账的收入，如正在路上的工资。到账后选择“收款账户”。",
  "Liquidity": "流动性",
  "Liquidity now": "当前流动性",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "你能动用的钱：账户加上按今日价格计的投资——不含住房和贷款。",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "“自动”项目来自你的账户、交易和投资。账户：1 月 1 日余额加上每月的增减。投资：按市值。本月中，“预付”是覆盖剩余天数的固定费用，“已赚未到账”是已赚到但未收到的收入。你的项目：本月数值为当前余额；以往月份保留各自的月末余额。",
  "Real value minus nominal: what you've gained or lost.": "实际价值减去名义：你的盈亏。",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "账户余额与记录之间的差额。出现时说明还有地方对不上。",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "什么是{term}？",
  "What it's worth now, at live market prices.": "现在值多少，按实时市场价格。",
  "What you put in: the price you paid for an investment.": "你投入的：为一项投资支付的价格。",
- "Year total": "年度合计"
+ "Year total": "年度合计",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "你所有可支配的钱：账户加上按今日价格计的投资——不含住房和贷款。",
+ "How your liquidity moved per day": "流动性每天的变化",
+ "How your liquidity moved per month": "流动性每月的变化"
 }

@@ -42,7 +42,7 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 10 }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "baseline" }}>
-        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{mode === "year" ? t("How your net worth moved per month") : t("How your net worth moved per day")}</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{mode === "year" ? t("How your liquidity moved per month") : t("How your liquidity moved per day")}</span>
         <span key={hover ?? "idle"} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
           {shown ? (
             shown.kind === "total" || shown.kind === "end" ? (

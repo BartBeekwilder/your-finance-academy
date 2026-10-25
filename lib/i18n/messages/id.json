@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "Pemasukan yang Anda catat tetapi belum masuk ke rekening, seperti gaji yang sedang dalam perjalanan. Pilih “Diterima di” saat masuk.",
  "Liquidity": "Likuiditas",
  "Liquidity now": "Likuiditas sekarang",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "Uang yang bisa Anda akses: rekening ditambah investasi dengan harga hari ini — tanpa rumah dan pinjaman.",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "Pos ‘auto’ berasal dari rekening, transaksi, dan investasi Anda. Rekening: saldo 1 Januari ditambah yang ditambahkan tiap bulan. Investasi: nilai pasar. Di bulan berjalan, Dibayar di muka adalah bagian biaya tetap untuk sisa hari, dan Sudah diperoleh, belum masuk adalah penghasilan yang sudah diperoleh tetapi belum diterima. Pos Anda sendiri: nilai bulan ini adalah posisi saat ini; bulan sebelumnya menyimpan posisi akhir bulannya.",
  "Real value minus nominal: what you've gained or lost.": "Nilai riil dikurangi nominal: untung atau rugi Anda.",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "Selisih antara saldo rekening dan pencatatan Anda. Jika muncul, ada yang belum cocok.",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "Apa itu {term}?",
  "What it's worth now, at live market prices.": "Nilainya sekarang, dengan harga pasar langsung.",
  "What you put in: the price you paid for an investment.": "Yang Anda setor: harga yang dibayar untuk sebuah investasi.",
- "Year total": "Total tahunan"
+ "Year total": "Total tahunan",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Semua uang yang bisa Anda belanjakan: rekening ditambah investasi dengan harga hari ini — tanpa rumah dan pinjaman.",
+ "How your liquidity moved per day": "Perubahan likuiditas per hari",
+ "How your liquidity moved per month": "Perubahan likuiditas per bulan"
 }

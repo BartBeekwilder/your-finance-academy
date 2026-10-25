@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "Thu nhập bạn đã nhập nhưng chưa vào tài khoản, như lương đang chuyển. Chọn “Nhận vào” khi tiền đến.",
  "Liquidity": "Thanh khoản",
  "Liquidity now": "Thanh khoản hiện tại",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "Số tiền bạn có thể dùng: tài khoản cộng khoản đầu tư theo giá hôm nay — không gồm nhà và các khoản vay.",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "Các mục ‘auto’ đến từ tài khoản, giao dịch và đầu tư. Tài khoản: số dư ngày 1/1 cộng phần mỗi tháng thêm vào. Đầu tư: theo giá thị trường. Trong tháng hiện tại, Trả trước là phần chi phí cố định cho những ngày còn lại, và Đã kiếm, chưa về là thu nhập đã kiếm nhưng chưa nhận. Mục của bạn: giá trị tháng này là hiện tại; các tháng trước giữ số cuối tháng.",
  "Real value minus nominal: what you've gained or lost.": "Giá trị thực trừ danh nghĩa: bạn lãi hay lỗ bao nhiêu.",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "Chênh lệch giữa số dư tài khoản và các ghi chép. Nếu xuất hiện, có điều gì đó chưa khớp.",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "{term} là gì?",
  "What it's worth now, at live market prices.": "Giá trị hiện tại, theo giá thị trường trực tiếp.",
  "What you put in: the price you paid for an investment.": "Số tiền bạn bỏ vào: giá đã trả cho một khoản đầu tư.",
- "Year total": "Tổng năm"
+ "Year total": "Tổng năm",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Toàn bộ số tiền bạn có thể chi tiêu: tài khoản cộng khoản đầu tư theo giá hôm nay — không gồm nhà và các khoản vay.",
+ "How your liquidity moved per day": "Thanh khoản thay đổi theo ngày",
+ "How your liquidity moved per month": "Thanh khoản thay đổi theo tháng"
 }

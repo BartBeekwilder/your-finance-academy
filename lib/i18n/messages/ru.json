@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "Внесённый доход, который ещё не поступил на счёт, например зарплата в пути. Выберите «Зачислено на», когда она придёт.",
  "Liquidity": "Ликвидность",
  "Liquidity now": "Ликвидность сейчас",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "Деньги, к которым есть доступ: ваши счета плюс инвестиции по сегодняшним ценам — без жилья и кредитов.",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "Статьи «авто» складываются из счетов, операций и инвестиций. Счета: остаток на 1 января плюс то, что добавил каждый месяц. Инвестиции: по рыночной стоимости. В текущем месяце «Оплачено заранее» — часть постоянных расходов на оставшиеся дни, а «Заработано, ещё не получено» — доход, уже заработанный, но не поступивший. Ваши статьи: значение этого месяца — текущее; прошлые месяцы сохраняют остаток на конец месяца.",
  "Real value minus nominal: what you've gained or lost.": "Реальная стоимость минус номинальная: сколько вы заработали или потеряли.",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "Разница между остатками на счетах и вашими записями. Если она есть, что-то ещё не сходится.",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "Что такое {term}?",
  "What it's worth now, at live market prices.": "Сколько это стоит сейчас по текущим рыночным ценам.",
  "What you put in: the price you paid for an investment.": "Сколько вы вложили: цена, уплаченная за инвестицию.",
- "Year total": "Итог за год"
+ "Year total": "Итог за год",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Все деньги, которые можно потратить: ваши счета плюс инвестиции по сегодняшним ценам — без жилья и кредитов.",
+ "How your liquidity moved per day": "Как менялась ликвидность по дням",
+ "How your liquidity moved per month": "Как менялась ликвидность по месяцам"
 }

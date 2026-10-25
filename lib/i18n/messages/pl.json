@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "Wpisany przychód, który nie trafił jeszcze na konto, np. pensja w drodze. Wybierz „Otrzymano na”, gdy wpłynie.",
  "Liquidity": "Płynność",
  "Liquidity now": "Płynność teraz",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "Pieniądze, do których masz dostęp: konta plus inwestycje po dzisiejszych cenach — bez domu i kredytów.",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "Pozycje „auto” wynikają z kont, transakcji i inwestycji. Konta: saldo na 1 stycznia plus to, co dodał każdy miesiąc. Inwestycje: według wartości rynkowej. W bieżącym miesiącu Opłacone z góry to część kosztów stałych na pozostałe dni, a Zarobione, jeszcze nie wpłynęło to przychód już zarobiony, ale nieotrzymany. Twoje pozycje: wartość z tego miesiąca to bieżący stan; wcześniejsze miesiące zachowują stan na koniec miesiąca.",
  "Real value minus nominal: what you've gained or lost.": "Wartość realna minus nominalna: ile zyskałeś lub straciłeś.",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "Różnica między saldami kont a zapisami. Jeśli się pojawia, coś się jeszcze nie zgadza.",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "Co to jest {term}?",
  "What it's worth now, at live market prices.": "Ile jest warte teraz, po bieżących cenach rynkowych.",
  "What you put in: the price you paid for an investment.": "Ile włożyłeś: cena zapłacona za inwestycję.",
- "Year total": "Suma roczna"
+ "Year total": "Suma roczna",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Wszystkie pieniądze, które możesz wydać: konta plus inwestycje po dzisiejszych cenach — bez domu i kredytów.",
+ "How your liquidity moved per day": "Jak zmieniała się płynność dziennie",
+ "How your liquidity moved per month": "Jak zmieniała się płynność miesięcznie"
 }

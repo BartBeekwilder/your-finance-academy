@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "입력했지만 아직 계좌에 들어오지 않은 수입(오고 있는 급여 등). 들어오면 ‘입금 계좌’를 골라요.",
  "Liquidity": "유동성",
  "Liquidity now": "현재 유동성",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "바로 쓸 수 있는 돈: 계좌와 오늘 가격 기준 투자 — 집과 대출은 제외해요.",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "‘자동’ 항목은 계좌·거래·투자에서 계산돼요. 계좌: 1월 1일 잔액에 매달 더해진 금액. 투자: 시장가치. 이번 달 ‘선지급’은 남은 날의 고정비, ‘벌었지만 아직 안 들어옴’은 이미 벌었지만 받지 않은 수입이에요. 내 항목: 이번 달 값은 현재 잔액, 지난 달은 월말 잔액을 유지해요.",
  "Real value minus nominal: what you've gained or lost.": "실질가치에서 명목을 뺀 값: 얻거나 잃은 금액.",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "계좌 잔액과 기록의 차이. 보이면 아직 뭔가 맞지 않아요.",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "{term}이란?",
  "What it's worth now, at live market prices.": "지금의 가치(실시간 시장 가격).",
  "What you put in: the price you paid for an investment.": "넣은 돈: 투자에 지불한 가격.",
- "Year total": "연간 합계"
+ "Year total": "연간 합계",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "쓸 수 있는 모든 돈: 계좌와 오늘 가격 기준 투자 — 집과 대출은 제외해요.",
+ "How your liquidity moved per day": "일별 유동성 변화",
+ "How your liquidity moved per month": "월별 유동성 변화"
 }

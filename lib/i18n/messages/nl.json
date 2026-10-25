@@ -1068,7 +1068,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "Inkomen dat je hebt ingevoerd maar dat nog niet op een rekening staat, zoals een salaris dat onderweg is. Kies “Ontvangen op” als het binnen is.",
  "Liquidity": "Liquiditeit",
  "Liquidity now": "Liquiditeit nu",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "Geld waar je bij kunt: je rekeningen plus je beleggingen tegen de koers van vandaag — zonder je huis en je leningen.",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "Posten met ‘auto’ volgen uit je rekeningen, transacties en beleggingen. Rekeningen: het saldo op 1 januari plus wat elke maand erbij kwam. Beleggingen: tegen marktwaarde. In de huidige maand is Vooruitbetaald het deel van de vaste lasten dat de rest van de maand dekt, en Verdiend, nog niet binnen het inkomen dat al verdiend is maar nog niet binnen. Je eigen posten: de waarde van deze maand is de huidige stand; eerdere maanden houden hun eigen eindstand.",
  "Real value minus nominal: what you've gained or lost.": "Reële waarde min nominaal: wat je hebt gewonnen of verloren.",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "Het verschil tussen je rekeningsaldi en je boekingen. Staat het er, dan klopt er nog iets niet.",
@@ -1077,5 +1076,8 @@
  "What is {term}?": "Wat is {term}?",
  "What it's worth now, at live market prices.": "Wat het nu waard is, tegen de live koers.",
  "What you put in: the price you paid for an investment.": "Wat je erin hebt gestoken: de prijs die je voor een belegging betaalde.",
- "Year total": "Jaartotaal"
+ "Year total": "Jaartotaal",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Al je besteedbare geld: je rekeningen plus je beleggingen tegen de koers van vandaag — zonder je huis en je leningen.",
+ "How your liquidity moved per day": "Hoe je liquiditeit per dag bewoog",
+ "How your liquidity moved per month": "Hoe je liquiditeit per maand bewoog"
 }

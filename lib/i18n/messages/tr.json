@@ -1061,7 +1061,6 @@
  "Income you've entered that hasn't landed on an account yet, like a salary on its way. Pick “Received on” when it arrives.": "Girdiğin ama henüz bir hesaba gelmemiş gelir, yoldaki bir maaş gibi. Geldiğinde “Yatırılan hesap”ı seç.",
  "Liquidity": "Likidite",
  "Liquidity now": "Şu anki likidite",
- "Money you can get at: your accounts plus your investments at today's prices — without your home and your loans.": "Erişebildiğin para: hesapların artı bugünkü fiyatlarla yatırımların — evin ve kredilerin hariç.",
  "Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.": "“Otomatik” kalemler hesaplarından, işlemlerinden ve yatırımlarından çıkar. Hesaplar: 1 Ocak bakiyesi artı her ayın eklediği. Yatırımlar: piyasa değeriyle. İçinde bulunulan ayda Peşin ödenen, sabit giderlerin kalan günleri karşılayan kısmıdır; Kazanılmış, henüz gelmemiş ise kazanılmış ama gelmemiş gelirdir. Kendi kalemlerin: bu ayın değeri güncel durumdur; önceki aylar kendi ay sonu değerlerini korur.",
  "Real value minus nominal: what you've gained or lost.": "Reel değer eksi nominal: kazandığın ya da kaybettiğin.",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.": "Hesap bakiyelerin ile kayıtların arasındaki fark. Görünüyorsa bir şey henüz tutmuyor.",
@@ -1070,5 +1069,8 @@
  "What is {term}?": "{term} nedir?",
  "What it's worth now, at live market prices.": "Şu an ne ettiği, canlı piyasa fiyatlarıyla.",
  "What you put in: the price you paid for an investment.": "Yatırdığın tutar: bir yatırım için ödediğin fiyat.",
- "Year total": "Yıllık toplam"
+ "Year total": "Yıllık toplam",
+ "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Harcayabileceğin tüm para: hesapların artı bugünkü fiyatlarla yatırımların — evin ve kredilerin hariç.",
+ "How your liquidity moved per day": "Likiditenin günlük değişimi",
+ "How your liquidity moved per month": "Likiditenin aylık değişimi"
 }
