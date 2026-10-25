@@ -30,6 +30,35 @@ export const RANGES: { value: Range; label: string }[] = [
   { value: "5y", label: "5Y" },
 ];
 
+/** A holding's icon: the company logo for a stock (by ticker, from
+ *  Financial Modeling Prep's public logo images — only the ticker is sent),
+ *  else — or when the logo can't load — the asset type's symbol. */
+export function AssetIcon({ symbol, type, size = 32 }: { symbol: string; type: AssetType; size?: number }) {
+  const [failed, setFailed] = useState(false);
+  const ty = TYPE[type];
+  const radius = Math.round(size * 0.28);
+  if (type === "stock" && !failed && /^[A-Z0-9.\-]{1,10}$/.test(symbol))
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        className="pf-pf-icon pf-pf-logo"
+        src={`https://financialmodelingprep.com/image-stock/${encodeURIComponent(symbol)}.png`}
+        alt=""
+        width={size}
+        height={size}
+        loading="lazy"
+        referrerPolicy="no-referrer"
+        style={{ width: size, height: size, borderRadius: radius }}
+        onError={() => setFailed(true)}
+      />
+    );
+  return (
+    <span className="pf-pf-icon" style={{ background: ty.color, width: size, height: size, borderRadius: radius }}>
+      <ty.Icon size={Math.round(size * 0.56)} color="white" strokeWidth={2.2} />
+    </span>
+  );
+}
+
 const UP = "var(--pf-green)";
 const DOWN = "var(--pf-red)";
 export const tone = (v: number | null | undefined) => (v == null ? "var(--pf-ink-2)" : v >= 0 ? UP : DOWN);
@@ -268,13 +297,10 @@ export function PortfolioHero({
 
 export function HoldingRow({ v, currency, rangeQuotes, onOpen }: { v: HoldingValue; currency: string; rangeQuotes: Quotes | null; onOpen: (e: Element) => void }) {
   const h = v.holding;
-  const ty = TYPE[h.asset_type];
   const spark = useMemo(() => (rangeQuotes ? holdingSeries(h, rangeQuotes, currency).map((p) => p.value) : []), [h, rangeQuotes, currency]);
   return (
     <button type="button" className="pf-row pf-pf-row" onClick={(e) => onOpen(e.currentTarget)}>
-      <span className="pf-pf-icon" style={{ background: ty.color }}>
-        <ty.Icon size={18} color="white" strokeWidth={2.2} />
-      </span>
+      <AssetIcon symbol={h.symbol} type={h.asset_type} />
       <span className="pf-pf-name">
         <span>
           {h.name}
@@ -335,9 +361,7 @@ export function HoldingDetail({
   return (
     <div style={{ display: "grid", gap: 16 }}>
       <div style={{ display: "flex", gap: 12, alignItems: "center", paddingRight: 40 }}>
-        <span className="pf-pf-icon" style={{ background: ty.color, width: 42, height: 42, borderRadius: 12 }}>
-          <ty.Icon size={22} color="white" strokeWidth={2.2} />
-        </span>
+        <AssetIcon symbol={h.symbol} type={h.asset_type} size={42} />
         <div style={{ minWidth: 0 }}>
           <h2 style={{ fontSize: "1.15rem", fontWeight: 650 }}>{h.name}</h2>
           <div style={{ fontSize: "0.78rem", color: "var(--pf-ink-2)" }}>

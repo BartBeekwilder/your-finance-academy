@@ -34,16 +34,37 @@ export default function NetWorthPage() {
   const pct = (from: number, to: number, since: string) =>
     from > 0 && from >= Math.abs(to) * 0.1 ? `${to >= from ? "+" : ""}${(((to - from) / from) * 100).toLocaleString(intlLocale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 })}% ${since}` : since[0].toUpperCase() + since.slice(1);
 
-  // Where it sits: each account and holding (their starting values, at
-  // cost) plus what's been saved this year — together today's net worth.
+  // Where it sits: each account (its starting value) plus what's been saved
+  // this year, and the investments per kind (stocks together, crypto, metals)
+  // at their real value — the latest live price, else what was paid.
+  const realOf = (h: (typeof data.holdings)[number]) => {
+    const pts = data.market?.[h.id];
+    if (pts?.length) return { value: pts[pts.length - 1][1], real: true };
+    return h.cost_basis && (h.cost_basis_currency ?? currency) === currency ? { value: num(h.cost_basis), real: false } : null;
+  };
+  const kinds = new Map<string, { value: number; count: number; real: boolean }>();
+  for (const h of live(data.holdings)) {
+    const v = realOf(h);
+    if (!v) continue;
+    const k = kinds.get(h.asset_type) ?? { value: 0, count: 0, real: false };
+    k.value += v.value;
+    k.count++;
+    k.real ||= v.real;
+    kinds.set(h.asset_type, k);
+  }
+  const KIND_NAME: Record<string, string> = { stock: "Stocks", crypto: "Crypto", metal: "Metals" };
   const parts = [
     { id: "saved", name: t("Saved this year"), kind: t("Cash flow"), value: nowValue - nw.startOfYear, color: "#30d158" },
     ...live(data.accounts)
       .filter((a) => num(a.balance) !== 0)
       .map((a, i) => ({ id: a.id, name: a.name || t("Account"), kind: t("Account"), value: num(a.balance), color: ACCOUNT_COLORS[i % ACCOUNT_COLORS.length] })),
-    ...live(data.holdings)
-      .filter((h) => h.cost_basis && (h.cost_basis_currency ?? currency) === currency)
-      .map((h) => ({ id: h.id, name: h.name || h.symbol, kind: t(h.asset_type[0].toUpperCase() + h.asset_type.slice(1)), value: num(h.cost_basis), color: ASSET_COLORS[h.asset_type] ?? "#8e8e93" })),
+    ...[...kinds].map(([kind, k]) => ({
+      id: `kind-${kind}`,
+      name: t(KIND_NAME[kind] ?? kind),
+      kind: `${k.count === 1 ? t("1 holding") : t("{n} holdings", { n: k.count })} · ${k.real ? t("Market value") : t("At cost")}`,
+      value: k.value,
+      color: ASSET_COLORS[kind] ?? "#8e8e93",
+    })),
   ].sort((a, b) => b.value - a.value);
   const partsTotal = parts.reduce((t, p) => t + Math.max(p.value, 0), 0);
 
@@ -120,7 +141,7 @@ export default function NetWorthPage() {
             {parts.length === 0 && <div style={{ color: "var(--pf-ink-2)" }}>{t("Add an account balance or an investment to see where your money sits.")}</div>}
           </div>
           <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
-            {t("Accounts and investments as entered (investments at what you paid — live prices arrive with account sync), plus this year's income minus spending.")}
+            {t("Accounts as entered plus this year's income minus spending; investments at their live market value.")}
           </div>
         </div>
       </section>

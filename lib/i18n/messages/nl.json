@@ -903,5 +903,10 @@
  "Edit expense": "Uitgave bewerken",
  "Edit income": "Inkomen bewerken",
  "Market value": "Marktwaarde",
- "Estimate / forecast": "Schatting / prognose"
+ "Estimate / forecast": "Schatting / prognose",
+ "Metals": "Edelmetalen",
+ "1 holding": "1 belegging",
+ "{n} holdings": "{n} beleggingen",
+ "At cost": "Tegen aankoopprijs",
+ "Accounts as entered plus this year's income minus spending; investments at their live market value.": "Rekeningen zoals ingevoerd plus de inkomsten min uitgaven van dit jaar; beleggingen tegen hun live marktwaarde."
 }
