@@ -282,13 +282,14 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
     }
   });
   const pick = (o: Order) => {
+    capture();
     setOrder(o);
     try {
       localStorage.setItem("pf-balance-order", o);
     } catch {}
   };
   const box = useRef<HTMLDivElement>(null);
-  useFlip(box, order);
+  const capture = useFlip(box, order);
   const sorted = (lines: BalanceLine[]) => (order === "own" ? lines : [...lines].sort((a, b) => (order === "desc" ? b.value - a.value : a.value - b.value)));
   return (
     <div style={{ display: "grid", gap: 10 }}>
