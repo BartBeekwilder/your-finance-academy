@@ -53,10 +53,10 @@ export default function AppNav() {
       <div className="pf-nav-foot">
         <MotionToggle />
         <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-          {source === "demo" ? t("Demo data — nothing is saved") : email}
+          {source === "demo" ? t("Demo data — nothing is saved") : source === "local" ? t("Local data — only on this Mac") : email}
         </div>
         <button className="pf-link" onClick={signOut} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: 0, marginTop: 6 }}>
-          <LogOut size={14} /> {source === "demo" ? t("Leave demo") : t("Sign out")}
+          <LogOut size={14} /> {source === "demo" ? t("Leave demo") : source === "local" ? t("Close local data") : t("Sign out")}
         </button>
       </div>
     </nav>

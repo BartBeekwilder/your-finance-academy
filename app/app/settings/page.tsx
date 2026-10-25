@@ -27,7 +27,7 @@ export default function SettingsPage() {
     setStatus(null);
     try {
       await updateProfile({ currency_code: code });
-      setStatus({ kind: "saved", text: source === "demo" ? t("Changed for this demo") : t("Saved — your other devices follow") });
+      setStatus({ kind: "saved", text: source === "demo" ? t("Changed for this demo") : source === "local" ? t("Saved on this Mac") : t("Saved — your other devices follow") });
     } catch (err) {
       setStatus({ kind: "error", text: (err as Error).message });
     }
@@ -78,13 +78,13 @@ export default function SettingsPage() {
       <Section title={t("Account")}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
           <div>
-            <div style={{ fontWeight: 600 }}>{source === "demo" ? t("Demo") : email}</div>
+            <div style={{ fontWeight: 600 }}>{source === "demo" ? t("Demo") : source === "local" ? t("Local data") : email}</div>
             <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>
-              {source === "demo" ? t("Demo data — nothing is saved") : t("Signed in · your data syncs to your other devices")}
+              {source === "demo" ? t("Demo data — nothing is saved") : source === "local" ? t("Only on this Mac — not uploaded") : t("Signed in · your data syncs to your other devices")}
             </div>
           </div>
           <button className="pf-chip" onClick={signOut} style={{ padding: "8px 14px" }}>
-            {source === "demo" ? t("Leave demo") : t("Sign out")}
+            {source === "demo" ? t("Leave demo") : source === "local" ? t("Close local data") : t("Sign out")}
           </button>
         </div>
       </Section>

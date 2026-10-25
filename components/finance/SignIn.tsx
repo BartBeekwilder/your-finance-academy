@@ -25,7 +25,7 @@ type Step =
 /** Set while a password reset is in progress (read by FinanceProvider). */
 export const RECOVERY_KEY = "pf-recovery";
 
-export default function SignIn({ onDemo }: { onDemo: () => void }) {
+export default function SignIn({ onDemo, onLocal }: { onDemo: () => void; /** Dev only: open the private data file on this Mac. */ onLocal?: () => void }) {
   const [step, setStep] = useState<Step>({ kind: "signin" });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -207,6 +207,12 @@ export default function SignIn({ onDemo }: { onDemo: () => void }) {
         {step.kind === "signin" && (
           <button type="button" className="pf-link" style={{ color: "var(--pf-ink-2)" }} onClick={() => go({ kind: "code" })}>
             {t("Email me a code instead")}
+          </button>
+        )}
+
+        {onLocal && (
+          <button type="button" onClick={onLocal} className="pf-link pf-local-open">
+            {t("Open my local data (this Mac only)")}
           </button>
         )}
 

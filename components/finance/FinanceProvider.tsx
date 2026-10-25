@@ -18,7 +18,7 @@ export type NewCategory = Pick<Category, "name" | "icon" | "color_hex" | "is_inc
 
 type FinanceState = {
   data: FinanceData;
-  source: "demo" | "supabase";
+  source: Source;
   now: Date;
   email: string | null;
   addTransaction: (t: NewTransaction) => Promise<void>;
@@ -64,8 +64,15 @@ type FinanceState = {
   signOut: () => Promise<void>;
 };
 
+/** demo = built-in sample data; supabase = the signed-in account; local =
+ *  the owner's private file on this Mac (dev only, see app/api/local-data). */
+export type Source = "demo" | "supabase" | "local";
+
 const FinanceContext = createContext<FinanceState | null>(null);
 const DEMO_KEY = "pf-demo";
+const LOCAL_KEY = "pf-local";
+const LOCAL_API = "/api/local-data";
+const DEV = process.env.NODE_ENV === "development";
 
 const DEFAULT_PROFILE: Profile = {
   currency_code: "EUR",
@@ -124,7 +131,7 @@ type Phase =
   | { kind: "signed-out" }
   | { kind: "loading"; session: Session }
   | { kind: "error"; message: string }
-  | { kind: "ready"; data: FinanceData; source: "demo" | "supabase"; email: string | null };
+  | { kind: "ready"; data: FinanceData; source: Source; email: string | null };
 
 export function FinanceProvider({ children }: { children: ReactNode }) {
   const [phase, setPhase] = useState<Phase>({ kind: "starting" });
@@ -138,12 +145,35 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     setPhase({ kind: "ready", data: buildDemoData(new Date()), source: "demo", email: null });
   }, []);
 
+  // Dev only: is there a private data file on this Mac?
+  const [hasLocal, setHasLocal] = useState(false);
+  useEffect(() => {
+    if (!DEV) return;
+    fetch(LOCAL_API, { method: "GET", cache: "no-store" }).then((r) => setHasLocal(r.ok)).catch(() => {});
+  }, []);
+
+  const startLocal = useCallback(async () => {
+    const r = await fetch(LOCAL_API, { cache: "no-store" });
+    if (!r.ok) return setPhase({ kind: "error", message: "No local data file (.private/finance.json)." });
+    const empty: FinanceData = { profile: DEFAULT_PROFILE, accounts: [], categories: [], budgets: [], transactions: [], incomeRecords: [], holdings: [], balanceItems: [], balanceValues: [], properties: [], mortgageParts: [], monthCloses: [], goals: [], achievements: [], activityDays: [], insurancePolicies: [] };
+    const data = { ...empty, ...((await r.json()) as Partial<FinanceData>) };
+    try {
+      sessionStorage.setItem(LOCAL_KEY, "1");
+    } catch {}
+    setPhase({ kind: "ready", data, source: "local", email: null });
+  }, []);
+
   // Follow the auth session: signed in → load that user's data.
   useEffect(() => {
-    let demo = false;
+    let demo = false, local = false;
     try {
       demo = sessionStorage.getItem(DEMO_KEY) === "1";
+      local = DEV && sessionStorage.getItem(LOCAL_KEY) === "1";
     } catch {}
+    if (local) {
+      queueMicrotask(() => void startLocal());
+      return;
+    }
     if (!supabase || demo) {
       queueMicrotask(startDemo);
       return;
@@ -175,7 +205,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "TOKEN_REFRESHED") apply(session);
     });
     return () => sub.subscription.unsubscribe();
-  }, [supabase, startDemo]);
+  }, [supabase, startDemo, startLocal]);
 
   const update = useCallback((fn: (d: FinanceData) => FinanceData) => {
     setPhase((p) => (p.kind === "ready" ? { ...p, data: fn(p.data) } : p));
@@ -235,6 +265,17 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   );
 
   const current = phase.kind === "ready" ? phase.data : null;
+
+  // Local mode: every change is written back to the private file (debounced;
+  // the stored data never contains the runtime spread parts).
+  const localData = phase.kind === "ready" && phase.source === "local" ? phase.data : null;
+  useEffect(() => {
+    if (!localData) return;
+    const id = setTimeout(() => {
+      fetch(LOCAL_API, { method: "PUT", body: JSON.stringify(localData, null, 1) }).catch(() => {});
+    }, 600);
+    return () => clearTimeout(id);
+  }, [localData]);
   // What every screen sees: spread expenses as their monthly parts.
   const shown = useMemo(() => (current ? withSpread(current) : null), [current]);
 
@@ -533,16 +574,18 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(async () => {
     try {
       sessionStorage.removeItem(DEMO_KEY);
+      sessionStorage.removeItem(LOCAL_KEY);
     } catch {}
+    if (phase.kind === "ready" && phase.source === "local") return setPhase(supabase ? { kind: "signed-out" } : { kind: "starting" });
     if (!supabase) return startDemo(); // demo is the only mode without Supabase config
     await supabase.auth.signOut();
     setPhase({ kind: "signed-out" });
-  }, [supabase, startDemo]);
+  }, [supabase, startDemo, phase]);
 
   if (phase.kind === "signed-out")
     return (
       <div className="pf-solo">
-        <SignIn onDemo={startDemo} />
+        <SignIn onDemo={startDemo} onLocal={hasLocal ? () => void startLocal() : undefined} />
       </div>
     );
   if (phase.kind === "error")

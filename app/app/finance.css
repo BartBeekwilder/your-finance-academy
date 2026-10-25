@@ -3812,3 +3812,6 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
 .pf-spread-custom input::placeholder { color: inherit; opacity: 0.6; }
 .pf-spread-readout { font-size: 0.82rem; color: var(--pf-ink-2); font-variant-numeric: tabular-nums; }
 .pf-txn-part { color: var(--pf-ink-3); font-size: 0.78em; font-variant-numeric: tabular-nums; }
+
+/* Sign-in: open the private local data (dev only) */
+.pf-local-open { color: var(--pf-green); font-weight: 600; }
