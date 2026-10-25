@@ -25,7 +25,7 @@ type Step =
 /** Set while a password reset is in progress (read by FinanceProvider). */
 export const RECOVERY_KEY = "pf-recovery";
 
-export default function SignIn({ onDemo, onLocal }: { /** Omitted: no demo link (e.g. signing in from Settings). */ onDemo?: () => void; /** Dev only: open the private data file on this Mac. */ onLocal?: () => void }) {
+export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: no demo link (e.g. signing in from Settings). */ onDemo?: () => void; /** Dev only: open the private data file on this computer. */ onLocal?: () => void; /** Dev only, no file yet: start one (to restore an encrypted copy). */ onLocalNew?: () => void }) {
   const [step, setStep] = useState<Step>({ kind: "signin" });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -212,7 +212,12 @@ export default function SignIn({ onDemo, onLocal }: { /** Omitted: no demo link 
 
         {onLocal && (
           <button type="button" onClick={onLocal} className="pf-link pf-local-open">
-            {t("Open my local data (this Mac only)")}
+            {t("Open my local data (this computer only)")}
+          </button>
+        )}
+        {onLocalNew && (
+          <button type="button" onClick={onLocalNew} className="pf-link pf-local-open" title={t("Creates an empty private file on this computer; restore your encrypted copy into it in Settings.")}>
+            {t("Start local data on this computer (to restore an encrypted copy)")}
           </button>
         )}
 

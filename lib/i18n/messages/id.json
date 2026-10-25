@@ -1072,5 +1072,8 @@
  "Year total": "Total tahunan",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Semua uang yang bisa Anda belanjakan: rekening ditambah investasi dengan harga hari ini — tanpa rumah dan pinjaman.",
  "How your liquidity moved per day": "Perubahan likuiditas per hari",
- "How your liquidity moved per month": "Perubahan likuiditas per bulan"
+ "How your liquidity moved per month": "Perubahan likuiditas per bulan",
+ "Open my local data (this computer only)": "Buka data lokal saya (hanya komputer ini)",
+ "Start local data on this computer (to restore an encrypted copy)": "Mulai data lokal di komputer ini (untuk memulihkan salinan terenkripsi)",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Membuat file pribadi kosong di komputer ini; pulihkan salinan terenkripsi ke dalamnya di Pengaturan."
 }

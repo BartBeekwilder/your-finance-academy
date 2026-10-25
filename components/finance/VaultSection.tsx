@@ -105,7 +105,7 @@ export default function VaultSection() {
   const when = info ? new Date(info.updated_at).toLocaleString(intlLocale(), { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) : null;
 
   return (
-    <section className="pf-card pf-vault" style={{ padding: 18, display: "grid", gap: 14 }}>
+    <section id="vault" className="pf-card pf-vault" style={{ padding: 18, display: "grid", gap: 14, scrollMarginTop: 20 }}>
       <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
         <span className="pf-vault-icon"><LockKeyhole size={18} /></span>
         <div style={{ display: "grid", gap: 4 }}>

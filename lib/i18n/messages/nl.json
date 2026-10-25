@@ -1079,5 +1079,8 @@
  "Year total": "Jaartotaal",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Al je besteedbare geld: je rekeningen plus je beleggingen tegen de koers van vandaag — zonder je huis en je leningen.",
  "How your liquidity moved per day": "Hoe je liquiditeit per dag bewoog",
- "How your liquidity moved per month": "Hoe je liquiditeit per maand bewoog"
+ "How your liquidity moved per month": "Hoe je liquiditeit per maand bewoog",
+ "Open my local data (this computer only)": "Open mijn lokale gegevens (alleen deze computer)",
+ "Start local data on this computer (to restore an encrypted copy)": "Lokale gegevens beginnen op deze computer (om een versleutelde kopie te herstellen)",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Maakt een leeg privébestand op deze computer; herstel daar in Instellingen je versleutelde kopie in."
 }

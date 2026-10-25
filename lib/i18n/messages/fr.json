@@ -1072,5 +1072,8 @@
  "Year total": "Total annuel",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Tout l’argent que vous pouvez dépenser : vos comptes plus vos placements aux cours du jour — sans votre logement ni vos prêts.",
  "How your liquidity moved per day": "Évolution de vos liquidités par jour",
- "How your liquidity moved per month": "Évolution de vos liquidités par mois"
+ "How your liquidity moved per month": "Évolution de vos liquidités par mois",
+ "Open my local data (this computer only)": "Ouvrir mes données locales (cet ordinateur uniquement)",
+ "Start local data on this computer (to restore an encrypted copy)": "Commencer des données locales sur cet ordinateur (pour restaurer une copie chiffrée)",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Crée un fichier privé vide sur cet ordinateur ; restaurez-y votre copie chiffrée dans Réglages."
 }

@@ -1072,5 +1072,8 @@
  "Year total": "연간 합계",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "쓸 수 있는 모든 돈: 계좌와 오늘 가격 기준 투자 — 집과 대출은 제외해요.",
  "How your liquidity moved per day": "일별 유동성 변화",
- "How your liquidity moved per month": "월별 유동성 변화"
+ "How your liquidity moved per month": "월별 유동성 변화",
+ "Open my local data (this computer only)": "내 로컬 데이터 열기(이 컴퓨터만)",
+ "Start local data on this computer (to restore an encrypted copy)": "이 컴퓨터에서 로컬 데이터 시작(암호화 사본 복원용)",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "이 컴퓨터에 빈 개인 파일을 만들어요. 설정에서 암호화 사본을 복원하세요."
 }

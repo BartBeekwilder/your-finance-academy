@@ -1072,5 +1072,8 @@
  "Year total": "Yıllık toplam",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Harcayabileceğin tüm para: hesapların artı bugünkü fiyatlarla yatırımların — evin ve kredilerin hariç.",
  "How your liquidity moved per day": "Likiditenin günlük değişimi",
- "How your liquidity moved per month": "Likiditenin aylık değişimi"
+ "How your liquidity moved per month": "Likiditenin aylık değişimi",
+ "Open my local data (this computer only)": "Yerel verilerimi aç (yalnızca bu bilgisayar)",
+ "Start local data on this computer (to restore an encrypted copy)": "Bu bilgisayarda yerel veri başlat (şifreli kopyayı geri yüklemek için)",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Bu bilgisayarda boş bir özel dosya oluşturur; şifreli kopyanı Ayarlar'dan buna geri yükle."
 }

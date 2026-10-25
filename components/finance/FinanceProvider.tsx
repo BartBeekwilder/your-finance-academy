@@ -156,17 +156,31 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     setPhase({ kind: "ready", data: buildDemoData(new Date()), source: "demo", email: null });
   }, []);
 
-  // Dev only: is there a private data file on this Mac?
-  const [hasLocal, setHasLocal] = useState(false);
+  // Dev only: is there a private data file on this computer? ("missing" =
+  // the dev site runs but has none yet — e.g. a second computer, which can
+  // start empty and restore an encrypted copy.)
+  const [localFile, setLocalFile] = useState<"unknown" | "has" | "missing">("unknown");
   useEffect(() => {
     if (!DEV) return;
-    fetch(LOCAL_API, { method: "GET", cache: "no-store" }).then((r) => setHasLocal(r.ok)).catch(() => {});
+    fetch(LOCAL_API, { method: "GET", cache: "no-store" })
+      .then((r) => setLocalFile(r.ok ? "has" : r.status === 404 ? "missing" : "unknown"))
+      .catch(() => {});
   }, []);
 
-  const startLocal = useCallback(async () => {
-    const r = await fetch(LOCAL_API, { cache: "no-store" });
-    if (!r.ok) return setPhase({ kind: "error", message: "No local data file (.private/finance.json)." });
+  const startLocal = useCallback(async (fresh = false) => {
     const empty: FinanceData = { profile: DEFAULT_PROFILE, accounts: [], categories: [], budgets: [], transactions: [], incomeRecords: [], holdings: [], balanceItems: [], balanceValues: [], properties: [], mortgageParts: [], monthCloses: [], goals: [], achievements: [], activityDays: [], insurancePolicies: [] };
+    let r = await fetch(LOCAL_API, { cache: "no-store" });
+    if (!r.ok && fresh) {
+      // A new, empty private file on this computer — then Settings, where an
+      // encrypted copy can be restored into it.
+      await fetch(LOCAL_API, { method: "PUT", body: JSON.stringify(empty) });
+      try {
+        sessionStorage.setItem(LOCAL_KEY, "1");
+      } catch {}
+      location.assign("/app/settings#vault");
+      return;
+    }
+    if (!r.ok) return setPhase({ kind: "error", message: "No local data file (.private/finance.json)." });
     const data = { ...empty, ...((await r.json()) as Partial<FinanceData>) };
     try {
       sessionStorage.setItem(LOCAL_KEY, "1");
@@ -619,7 +633,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   if (phase.kind === "signed-out")
     return (
       <div className="pf-solo">
-        <SignIn onDemo={startDemo} onLocal={hasLocal ? () => void startLocal() : undefined} />
+        <SignIn onDemo={startDemo} onLocal={localFile === "has" ? () => void startLocal() : undefined} onLocalNew={localFile === "missing" ? () => void startLocal(true) : undefined} />
       </div>
     );
   if (phase.kind === "error")

@@ -1072,5 +1072,8 @@
  "Year total": "年間合計",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "使えるお金のすべて：口座と今日の価格での投資 — 住まいとローンは含みません。",
  "How your liquidity moved per day": "流動資産の日ごとの動き",
- "How your liquidity moved per month": "流動資産の月ごとの動き"
+ "How your liquidity moved per month": "流動資産の月ごとの動き",
+ "Open my local data (this computer only)": "ローカルデータを開く（このコンピュータのみ）",
+ "Start local data on this computer (to restore an encrypted copy)": "このコンピュータでローカルデータを始める（暗号化コピーを復元するため）",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "このコンピュータに空の個人ファイルを作成します。設定から暗号化コピーを復元してください。"
 }

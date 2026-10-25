@@ -1072,5 +1072,8 @@
  "Year total": "إجمالي السنة",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "كل المال الذي يمكنك إنفاقه: حساباتك واستثماراتك بأسعار اليوم — دون منزلك وقروضك.",
  "How your liquidity moved per day": "كيف تغيّرت سيولتك يوميًا",
- "How your liquidity moved per month": "كيف تغيّرت سيولتك شهريًا"
+ "How your liquidity moved per month": "كيف تغيّرت سيولتك شهريًا",
+ "Open my local data (this computer only)": "فتح بياناتي المحلية (هذا الكمبيوتر فقط)",
+ "Start local data on this computer (to restore an encrypted copy)": "بدء بيانات محلية على هذا الكمبيوتر (لاستعادة نسخة مشفرة)",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "ينشئ ملفًا خاصًا فارغًا على هذا الكمبيوتر؛ استعد نسختك المشفرة فيه من الإعدادات."
 }

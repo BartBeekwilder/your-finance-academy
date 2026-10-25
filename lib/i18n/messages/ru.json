@@ -1072,5 +1072,8 @@
  "Year total": "Итог за год",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Все деньги, которые можно потратить: ваши счета плюс инвестиции по сегодняшним ценам — без жилья и кредитов.",
  "How your liquidity moved per day": "Как менялась ликвидность по дням",
- "How your liquidity moved per month": "Как менялась ликвидность по месяцам"
+ "How your liquidity moved per month": "Как менялась ликвидность по месяцам",
+ "Open my local data (this computer only)": "Открыть мои локальные данные (только этот компьютер)",
+ "Start local data on this computer (to restore an encrypted copy)": "Начать локальные данные на этом компьютере (чтобы восстановить зашифрованную копию)",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Создаёт пустой личный файл на этом компьютере; восстановите в него зашифрованную копию в Настройках."
 }

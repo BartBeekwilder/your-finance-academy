@@ -1072,5 +1072,8 @@
  "Year total": "Tổng năm",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "Toàn bộ số tiền bạn có thể chi tiêu: tài khoản cộng khoản đầu tư theo giá hôm nay — không gồm nhà và các khoản vay.",
  "How your liquidity moved per day": "Thanh khoản thay đổi theo ngày",
- "How your liquidity moved per month": "Thanh khoản thay đổi theo tháng"
+ "How your liquidity moved per month": "Thanh khoản thay đổi theo tháng",
+ "Open my local data (this computer only)": "Mở dữ liệu cục bộ của tôi (chỉ máy này)",
+ "Start local data on this computer (to restore an encrypted copy)": "Bắt đầu dữ liệu cục bộ trên máy này (để khôi phục bản sao mã hóa)",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Tạo tệp riêng trống trên máy này; khôi phục bản sao mã hóa vào đó trong Cài đặt."
 }

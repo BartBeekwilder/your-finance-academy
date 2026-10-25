@@ -1072,5 +1072,8 @@
  "Year total": "वार्षिक कुल",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "आपका सारा खर्च करने योग्य पैसा: आपके खाते और आज के भाव पर निवेश — घर और ऋण के बिना।",
  "How your liquidity moved per day": "आपकी तरलता हर दिन कैसे बदली",
- "How your liquidity moved per month": "आपकी तरलता हर महीने कैसे बदली"
+ "How your liquidity moved per month": "आपकी तरलता हर महीने कैसे बदली",
+ "Open my local data (this computer only)": "मेरा स्थानीय डेटा खोलें (सिर्फ़ यह कंप्यूटर)",
+ "Start local data on this computer (to restore an encrypted copy)": "इस कंप्यूटर पर स्थानीय डेटा शुरू करें (एन्क्रिप्टेड कॉपी बहाल करने के लिए)",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "इस कंप्यूटर पर एक खाली निजी फ़ाइल बनाता है; सेटिंग्स में अपनी एन्क्रिप्टेड कॉपी उसमें बहाल करें।"
 }

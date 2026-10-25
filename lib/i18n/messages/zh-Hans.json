@@ -1072,5 +1072,8 @@
  "Year total": "年度合计",
  "All the money you can spend: your accounts plus your investments at today's prices — without your home and your loans.": "你所有可支配的钱：账户加上按今日价格计的投资——不含住房和贷款。",
  "How your liquidity moved per day": "流动性每天的变化",
- "How your liquidity moved per month": "流动性每月的变化"
+ "How your liquidity moved per month": "流动性每月的变化",
+ "Open my local data (this computer only)": "打开我的本地数据（仅此电脑）",
+ "Start local data on this computer (to restore an encrypted copy)": "在此电脑上开始本地数据（用于恢复加密副本）",
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "在此电脑上创建一个空的私密文件；在设置中把加密副本恢复进去。"
 }
