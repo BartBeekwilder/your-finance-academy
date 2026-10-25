@@ -6,7 +6,8 @@ import { Banknote, CreditCard, Landmark, PiggyBank, Plus, Trash2, Wallet, X } fr
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
 import { money, shortMonthYear } from "@/lib/finance/format";
-import type { Account, Transaction, TransactionType } from "@/lib/finance/types";
+import type { Account, HouseholdMember, Transaction, TransactionType } from "@/lib/finance/types";
+import { householdOf } from "@/lib/finance/household";
 import CategoryEditor from "./CategoryEditor";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
@@ -63,7 +64,7 @@ export default function QuickAdd() {
         <Plus size={22} strokeWidth={3} />
       </button>
       <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label={t("Quick Add")}>
-        <Form key={session} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
+        <Form key={session} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} household={householdOf(data.profile)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
       </Sheet>
       <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label={t("Edit transaction")}>
         {editing && (
@@ -74,6 +75,7 @@ export default function QuickAdd() {
             grossRatio={grossRatio(data.profile)}
             categories={live(data.categories)}
             accounts={live(data.accounts)}
+            household={householdOf(data.profile)}
             onDone={closeTransactionEditor}
             add={(t) => updateTransaction(editing.transaction.id, t)}
             onDelete={() => deleteTransaction(editing.transaction.id)}
@@ -97,6 +99,7 @@ function Form({
   grossRatio = 1,
   categories,
   accounts = [],
+  household = [],
   add,
   addCategory,
   onDone,
@@ -105,6 +108,8 @@ function Form({
 }: {
   /** Accounts to pay from / receive on. */
   accounts?: Account[];
+  /** Two or more people: income "from", expense "paid by". */
+  household?: HouseholdMember[];
   /** Editing an existing transaction: its values fill the form. */
   initial?: Transaction;
   onDelete?: () => Promise<void>;
@@ -136,6 +141,17 @@ function Form({
       last = localStorage.getItem("pf-last-account");
     } catch {}
     return payable.find((a) => a.id === last)?.id ?? payable.find((a) => a.is_default)?.id ?? payable[0]?.id ?? null;
+  });
+  // Whose income / who paid: the transaction's own, else the last choice
+  // per kind in this browser; an income defaults to the first person, an
+  // expense to shared.
+  const [personId, setPersonId] = useState<string | null>(() => {
+    if (initial) return initial.person_id ?? null;
+    let last: string | null = null;
+    try {
+      last = localStorage.getItem("pf-last-person-expense");
+    } catch {}
+    return household.find((m) => m.id === last)?.id ?? null;
   });
   const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -182,7 +198,11 @@ function Form({
         recurrence_id: initial?.recurrence_id ?? null,
         category_id: categoryId,
         account_id: accountId,
+        person_id: household.length ? (type === "income" ? (personId ?? household[0].id) : personId) : (initial?.person_id ?? null),
       });
+      try {
+        if (household.length) localStorage.setItem(`pf-last-person-${type}`, (type === "income" ? (personId ?? household[0].id) : personId) ?? "");
+      } catch {}
       try {
         if (accountId) localStorage.setItem("pf-last-account", accountId);
       } catch {}
@@ -319,6 +339,29 @@ function Form({
         <input className="pf-input" type="date" aria-label={t("Date")} value={date} onChange={(e) => setDate(e.target.value)} required />
         <input className="pf-input" placeholder={t("Note")} aria-label={t("Note")} value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
+
+      {household.length > 0 && (
+        <div>
+          <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 8 }}>{type === "expense" ? t("Paid by") : t("From")}</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {type === "expense" && (
+              <button type="button" className="pf-chip pf-acct-chip" aria-pressed={personId === null} onClick={() => setPersonId(null)}>
+                <span className="pf-acct-icon" style={{ background: "linear-gradient(135deg, " + household.map((m) => m.color).join(", ") + ")" }} />
+                {t("Shared")}
+              </button>
+            )}
+            {household.map((m) => {
+              const on = type === "income" ? (personId ?? household[0].id) === m.id : personId === m.id;
+              return (
+                <button key={m.id} type="button" className="pf-chip pf-acct-chip" aria-pressed={on} onClick={() => setPersonId(m.id)}>
+                  <span className="pf-acct-icon" style={{ background: m.color }}>{m.name.slice(0, 1).toUpperCase()}</span>
+                  {m.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {payable.length > 0 && (
         <div>

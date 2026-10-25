@@ -17,7 +17,13 @@ type Synced = {
   deleted_at: string | null;
 };
 
+/** Someone in the household: incomes are theirs, expenses can be paid by
+ *  them (or shared). */
+export type HouseholdMember = { id: string; name: string; color: string };
+
 export type Profile = {
+  /** Two or more people keep these books together (empty / one = just me). */
+  household?: HouseholdMember[];
   currency_code: string;
   appearance_mode: AppearanceMode;
   expected_gross_monthly: Money | null;
@@ -64,6 +70,9 @@ export type Transaction = Synced & {
   /** Income only: the amount before tax and deductions (migration 0007);
    *  null / missing = gross equals net. */
   gross_amount?: Money | null;
+  /** Household member (migration 0010): who earned it (income) or who paid
+   *  (expense); null = shared / not set. */
+  person_id?: string | null;
   /** Expense spread over this many months (migration 0008); null = one-off. */
   spread_months?: number | null;
   /** Runtime only (never stored): a monthly part of a spread expense — the

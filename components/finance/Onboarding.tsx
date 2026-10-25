@@ -1,5 +1,6 @@
 "use client";
 
+import { newHousehold } from "@/lib/finance/household";
 import { t, intlLocale } from "@/lib/i18n";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, Check, Plus, Sparkles, X } from "lucide-react";
@@ -21,8 +22,8 @@ import { useFinance } from "./FinanceProvider";
 // so. Otherwise finishing writes the profile, accounts, this month's fixed
 // costs (as fixed transactions + budgets), budgets and balance posts.
 
-type Step = "welcome" | "currency" | "income" | "accounts" | "fixed" | "budgets" | "balance" | "history" | "done";
-const STEPS: Step[] = ["welcome", "currency", "income", "accounts", "fixed", "budgets", "balance", "history", "done"];
+type Step = "welcome" | "currency" | "household" | "income" | "accounts" | "fixed" | "budgets" | "balance" | "history" | "done";
+const STEPS: Step[] = ["welcome", "currency", "household", "income", "accounts", "fixed", "budgets", "balance", "history", "done"];
 
 const CURRENCIES = [
   { code: "EUR", name: "Euro" },
@@ -67,6 +68,13 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
   const [net, setNet] = useState("");
   const [gross, setGross] = useState("");
   const [payday, setPayday] = useState(25);
+  // Who keeps these books: just me, or two people (incomes per person,
+  // expenses paid by one or shared).
+  const [together, setTogether] = useState((data.profile.household ?? []).length >= 2);
+  const [names, setNames] = useState<[string, string]>([
+    data.profile.household?.[0]?.name ?? t("Me"),
+    data.profile.household?.[1]?.name ?? t("Partner"),
+  ]);
   const [accounts, setAccounts] = useState([
     { key: "checking", name: t("Current account"), type: "checking" as const, amount: "" },
     { key: "savings", name: t("Savings"), type: "savings" as const, amount: "" },
@@ -125,6 +133,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
         expected_net_monthly: netIncome ? netIncome.toFixed(2) : null,
         expected_gross_monthly: num(gross) ? num(gross).toFixed(2) : null,
         payday_day: payday,
+        household: together ? newHousehold(names[0].trim() || t("Me"), names[1].trim() || t("Partner"), () => crypto.randomUUID()) : [],
       });
       const def = live(data.accounts).find((a) => a.is_default);
       for (const a of accounts) {
@@ -198,6 +207,31 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                     </button>
                   ))}
                 </div>
+              </Screen>
+            )}
+
+            {id === "household" && (
+              <Screen title={t("Who are these books for?")} hint={t("Together, each income is someone's and each expense is paid by one of you or shared — and every chart can show it per person.")}>
+                <div className="pf-ob-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+                  <button className="pf-ob-choice" aria-pressed={!together} onClick={() => setTogether(false)}>
+                    <span className="pf-ob-ppl">1</span>
+                    <span><b>{t("Just me")}</b><small>{t("One income, one person")}</small></span>
+                  </button>
+                  <button className="pf-ob-choice" aria-pressed={together} onClick={() => setTogether(true)}>
+                    <span className="pf-ob-ppl">2</span>
+                    <span><b>{t("The two of us")}</b><small>{t("Two incomes, shared costs")}</small></span>
+                  </button>
+                </div>
+                {together && (
+                  <div className="pf-ob-row2">
+                    {[0, 1].map((i) => (
+                      <label key={i} className="pf-ob-field">
+                        <span>{i === 0 ? t("Your name") : t("Partner's name")}</span>
+                        <input className="pf-input" value={names[i]} onChange={(e) => setNames((n) => (i === 0 ? [e.target.value, n[1]] : [n[0], e.target.value]))} />
+                      </label>
+                    ))}
+                  </div>
+                )}
               </Screen>
             )}
 

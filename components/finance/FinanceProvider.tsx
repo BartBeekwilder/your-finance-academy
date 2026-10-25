@@ -231,11 +231,12 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   // gross_amount is only sent when set, so saving keeps working on a database
   // without migration 0007 as long as no gross is entered.
-  // …same for spread_months (0008). Runtime-only spread fields never go out.
+  // …same for spread_months (0008) and person_id (0010). Runtime-only spread
+  // fields never go out.
   const withoutEmptyGross = (t: NewTransaction) => {
-    const { gross_amount, spread_months, spread_of: _o, spread_index: _i, spread_total: _n, ...rest } = t;
+    const { gross_amount, spread_months, person_id, spread_of: _o, spread_index: _i, spread_total: _n, ...rest } = t;
     void _o; void _i; void _n;
-    return { ...rest, ...(gross_amount != null ? { gross_amount } : {}), ...(spread_months != null ? { spread_months } : {}) };
+    return { ...rest, ...(gross_amount != null ? { gross_amount } : {}), ...(spread_months != null ? { spread_months } : {}), ...(person_id != null ? { person_id } : {}) };
   };
 
   const addTransaction = useCallback(
@@ -260,6 +261,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         const out = withoutEmptyGross(t) as Record<string, unknown>;
         if (had) out.gross_amount = t.gross_amount ?? null;
         if (before?.spread_months != null) out.spread_months = t.spread_months ?? null;
+        if (before?.person_id != null) out.person_id = t.person_id ?? null;
         const { error } = await supabase.from("transactions").update(out).eq("id", id);
         if (error) throw error;
       }

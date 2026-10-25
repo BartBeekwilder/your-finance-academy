@@ -144,3 +144,9 @@ err = null; try { await as(B, () => sql(`insert into encrypted_vaults (user_id, 
 ok(err, "user B cannot write user A's vault");
 err = null; try { await as(A, () => sql(`insert into encrypted_vaults (ciphertext, iv, salt) values ('c2', 'i', 's')`)); } catch (e) { err = e.message; }
 ok(err && /duplicate|unique/.test(err), "one vault per user (upsert replaces it)");
+
+// Household (0010).
+await as(A, () => sql(`update profiles set household = '[{"id":"9b1d4c1e-0000-4000-8000-000000000001","name":"Bart","color":"#30d158"}]'::jsonb`));
+ok((await as(A, () => sql(`select jsonb_array_length(household) n from profiles`))).rows[0].n === 1, "a profile keeps its household");
+await as(A, () => sql(`insert into transactions (amount, type, person_id) values (10, 'expense', '9b1d4c1e-0000-4000-8000-000000000001')`));
+ok((await as(A, () => sql(`select count(*)::int n from transactions where person_id is not null`))).rows[0].n === 1, "a transaction can name who paid");

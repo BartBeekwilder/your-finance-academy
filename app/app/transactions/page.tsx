@@ -8,6 +8,8 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import Segmented from "@/components/finance/Segmented";
 import { live, num } from "@/lib/finance/calc";
 import { editProps } from "@/lib/finance/editTransaction";
+import { householdOf } from "@/lib/finance/household";
+import { PersonTag } from "@/components/finance/HouseholdSection";
 import { dayLabel, money } from "@/lib/finance/format";
 
 export default function TransactionsPage() {
@@ -17,6 +19,7 @@ export default function TransactionsPage() {
   const [filter, setFilter] = useState<"all" | "expense" | "income">("all");
 
   const categories = useMemo(() => new Map(data.categories.map((c) => [c.id, c])), [data.categories]);
+  const people = new Map(householdOf(data.profile).map((m) => [m.id, m]));
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -74,6 +77,7 @@ export default function TransactionsPage() {
                     <div style={{ fontSize: "0.95rem" }}>
                       {t.note || c?.name || tr("Transaction")}
                       {t.spread_months ? <span className="pf-txn-part"> · {tr("spread over {n} mo", { n: t.spread_months })}</span> : null}
+                      {t.person_id && <PersonTag member={people.get(t.person_id)} />}
                     </div>
                     <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
                       {c?.name ?? tr("Uncategorized")}

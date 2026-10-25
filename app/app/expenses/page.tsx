@@ -9,6 +9,8 @@ import { X } from "lucide-react";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import CategoryTiles from "@/components/finance/CategoryTiles";
 import { MonthCompare, YearCompare } from "@/components/finance/Compare";
+import PeopleSplit from "@/components/finance/PeopleSplit";
+import { householdOf } from "@/lib/finance/household";
 import { scopeToCategory } from "@/lib/finance/scope";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
@@ -36,6 +38,8 @@ export default function ExpensesPage() {
   const s = summarize(data.transactions, month);
   // The stats follow the tile's Month / Year toggle.
   const [mode, setMode] = useState<Mode>("month");
+  const together = householdOf(all.profile).length > 0;
+  const [view, setView] = useState<"together" | "people">("together");
   const thisYear = Array.from({ length: now.getMonth() + 1 }, (_, m) => summarize(data.transactions, new Date(now.getFullYear(), m, 1)));
   const yearSpent = thisYear.reduce((t, m) => t + m.spent, 0);
   const yearFixed = thisYear.reduce((t, m) => t + m.fixed, 0);
@@ -56,7 +60,10 @@ export default function ExpensesPage() {
     <div style={{ display: "grid", gap: 24 }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
         <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Expenses")}</h1>
-        <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          {together && <Segmented label={t("People")} value={view} onChange={setView} options={[{ value: "together", label: t("Together") }, { value: "people", label: t("Who paid") }]} />}
+          <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+        </div>
       </header>
 
       <CategoryTiles data={all} now={now} mode={mode} currency={currency} selected={scope} onSelect={setScope} />
@@ -126,7 +133,11 @@ export default function ExpensesPage() {
 
       {/* Narrowed to a category without subcategories, the per-day chart
           only repeats the tile above — leave it out. */}
-      {!(scopeCat && !hasSubs) && <CategoryBars data={data} now={now} currency={currency} mode={mode} scopeName={scopeName} />}
+      {together && view === "people" ? (
+        <PeopleSplit data={data} now={now} currency={currency} kind="expense" mode={mode} />
+      ) : (
+        !(scopeCat && !hasSubs) && <CategoryBars data={data} now={now} currency={currency} mode={mode} scopeName={scopeName} />
+      )}
 
       <section style={{ display: "grid", gap: 12 }}>
         <h2 className="pf-section-title">{t("Compare")}</h2>

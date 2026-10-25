@@ -11,6 +11,7 @@ import { setBackgroundMotion, setLiveDecimals, setMotionMode, useBackgroundMotio
 import { setShowAxes, useCategoryAreas, setCategoryAreas, useShowAxes } from "@/lib/prefs";
 import Segmented from "@/components/finance/Segmented";
 import VaultSection from "@/components/finance/VaultSection";
+import HouseholdSection from "@/components/finance/HouseholdSection";
 
 // Settings, grouped in sections so new ones slot in as the app grows.
 // Currency is saved to the profile (shared with iOS); it changes how amounts
@@ -89,6 +90,8 @@ export default function SettingsPage() {
           </button>
         </div>
       </Section>
+
+      <HouseholdSection />
 
       <VaultSection />
 

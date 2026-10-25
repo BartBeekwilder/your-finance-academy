@@ -5,6 +5,8 @@ import Segmented from "@/components/finance/Segmented";
 import { useState } from "react";
 import CategoryBars from "@/components/finance/CategoryBars";
 import GrossNetChart, { grossNetByMonth } from "@/components/finance/GrossNetChart";
+import PeopleSplit from "@/components/finance/PeopleSplit";
+import { householdOf } from "@/lib/finance/household";
 import { PayslipArchive, PayslipButton, PayslipSheet } from "@/components/finance/Payslips";
 import type { FinanceDocument } from "@/lib/finance/types";
 import { useFinance } from "@/components/finance/FinanceProvider";
@@ -26,6 +28,9 @@ export default function IncomePage() {
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
   const [mode, setMode] = useState<Mode>("month");
+  // Two or more people: the category chart can become income per person.
+  const together = householdOf(data.profile).length > 0;
+  const [view, setView] = useState<"together" | "people">("together");
   const [slip, setSlip] = useState<{ doc: FinanceDocument | null; open: boolean; from: Element | null }>({ doc: null, open: false, from: null });
 
   const months = last12Months(data.transactions, now).reverse();
@@ -46,7 +51,10 @@ export default function IncomePage() {
     <div style={{ display: "grid", gap: 24 }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
         <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Income")}</h1>
-        <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          {together && <Segmented label={t("People")} value={view} onChange={setView} options={[{ value: "together", label: t("Together") }, { value: "people", label: t("Per person") }]} />}
+          <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+        </div>
       </header>
 
       {/* The dashboard's live Income tile: Month / Year, zoom and scrub. */}
@@ -119,7 +127,11 @@ export default function IncomePage() {
 
       <GrossNetChart data={data} now={now} currency={currency} mode={mode} />
 
-      <CategoryBars data={data} now={now} currency={currency} mode={mode} kind="income" />
+      {together && view === "people" ? (
+        <PeopleSplit data={data} now={now} currency={currency} kind="income" mode={mode} />
+      ) : (
+        <CategoryBars data={data} now={now} currency={currency} mode={mode} kind="income" />
+      )}
 
       {mode === "month" ? (
         <MonthTransactions data={data} month={month} currency={currency} kind="income" />

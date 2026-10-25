@@ -1,5 +1,7 @@
 "use client";
 
+import { householdOf } from "@/lib/finance/household";
+import { PersonTag } from "./HouseholdSection";
 import { intlLocale, t as tr } from "@/lib/i18n";
 import { live, num } from "@/lib/finance/calc";
 import { dayLabel, money, monthName } from "@/lib/finance/format";
@@ -11,6 +13,7 @@ import CategoryIcon from "./CategoryIcon";
  *  subtotal. Shown on the Expenses and Income pages in Month view. */
 export default function MonthTransactions({ data, month, currency, kind }: { data: FinanceData; month: Date; currency: string; kind: "expense" | "income" }) {
   const categories = new Map(data.categories.map((c) => [c.id, c]));
+  const people = new Map(householdOf(data.profile).map((m) => [m.id, m]));
   const rows = live(data.transactions)
     .filter((t) => {
       const d = new Date(t.date);
@@ -47,6 +50,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <div style={{ fontSize: "0.95rem" }}>{t.note || c?.name || (kind === "expense" ? tr("Expense") : tr("Income"))}
                       {t.spread_total ? <span className="pf-txn-part"> · {t.spread_index}/{t.spread_total}</span> : null}
+                      {t.person_id && <PersonTag member={people.get(t.person_id)} />}
                     </div>
                     <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
                       {c?.name ?? tr("No category")}
