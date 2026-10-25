@@ -135,3 +135,12 @@ await as(A, () => sql(`insert into transactions (amount, type, spread_months) va
 ok(Number((await as(A, () => sql(`select spread_months from transactions where spread_months is not null`))).rows[0].spread_months) === 48, "an expense keeps its spread period");
 err = null; try { await as(A, () => sql(`insert into transactions (amount, type, spread_months) values (10, 'expense', 1)`)); } catch (e) { err = e.message; }
 ok(err && /check/.test(err), "a spread is 2 to 120 months");
+
+// Encrypted vault (0009).
+await as(A, () => sql(`insert into encrypted_vaults (ciphertext, iv, salt, bytes) values ('c', 'i', 's', 1)`));
+ok((await as(A, () => sql(`select user_id from encrypted_vaults`))).rows[0].user_id === A, "a vault belongs to the signed-in user");
+ok((await as(B, () => sql(`select * from encrypted_vaults`))).rows.length === 0, "user B cannot see user A's vault");
+err = null; try { await as(B, () => sql(`insert into encrypted_vaults (user_id, ciphertext, iv, salt) values ($1, 'x', 'x', 'x')`, [A])); } catch (e) { err = e.message; }
+ok(err, "user B cannot write user A's vault");
+err = null; try { await as(A, () => sql(`insert into encrypted_vaults (ciphertext, iv, salt) values ('c2', 'i', 's')`)); } catch (e) { err = e.message; }
+ok(err && /duplicate|unique/.test(err), "one vault per user (upsert replaces it)");

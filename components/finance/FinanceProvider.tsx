@@ -64,6 +64,11 @@ type FinanceState = {
   deleteTransaction: (id: string) => Promise<void>;
   reorderCategories: (orderedIds: string[]) => Promise<void>;
   signOut: () => Promise<void>;
+  /** The stored data as it is (no runtime spread parts or market values) —
+   *  what an encrypted copy is made of. */
+  storedData: () => FinanceData;
+  /** Local mode: replace everything with a restored copy (saved to the file). */
+  restoreLocal: (d: FinanceData) => void;
 };
 
 /** demo = built-in sample data; supabase = the signed-in account; local =
@@ -591,6 +596,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     setPhase({ kind: "signed-out" });
   }, [supabase, startDemo, phase]);
 
+  const storedData = useCallback(() => (phase.kind === "ready" ? phase.data : (null as unknown as FinanceData)), [phase]);
+  const restoreLocal = useCallback((d: FinanceData) => {
+    setPhase((p) => (p.kind === "ready" && p.source === "local" ? { ...p, data: d } : p));
+  }, []);
+
   if (phase.kind === "signed-out")
     return (
       <div className="pf-solo">
@@ -611,7 +621,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal }}
     >
       {children}
     </FinanceContext.Provider>
