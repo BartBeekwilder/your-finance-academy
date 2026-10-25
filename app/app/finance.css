@@ -3730,3 +3730,6 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
   background: color-mix(in srgb, var(--c) 10%, transparent);
 }
 .pf-bal-bar[data-pickable="true"] .pf-bal-seg { cursor: pointer; }
+/* Bars | areas switch on the category chart: tiny, quiet until hovered. */
+.pf-chart-style button { display: inline-grid; place-items: center; }
+.pf-card:hover .pf-chart-style { opacity: 1; }

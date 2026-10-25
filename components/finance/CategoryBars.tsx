@@ -1,7 +1,8 @@
 "use client";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { useCategoryAreas, useShowAxes } from "@/lib/prefs";
+import { setCategoryAreas, useCategoryAreas, useShowAxes } from "@/lib/prefs";
+import { ChartArea, ChartColumnStacked } from "lucide-react";
 import CategoryAreas from "./CategoryAreas";
 import { useState } from "react";
 import { live, num, projectedNetIncome, yearForecast } from "@/lib/finance/calc";
@@ -112,6 +113,16 @@ export default function CategoryBars({
         <span style={{ display: "inline-flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
             {t(`${kind === "expense" ? "Spending" : "Income"} per ${mode === "year" ? "month" : "day"} by ${groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}`)}
+          </span>
+          {/* Bars | areas, right on the chart (same setting as Settings;
+              kept per browser). */}
+          <span className="pf-tsl-mode pf-mode-inline pf-chart-style" role="group" aria-label={t("Chart style")}>
+            <button type="button" aria-pressed={!areas} title={t("Bars")} onClick={() => setCategoryAreas(false)}>
+              <ChartColumnStacked size={11} strokeWidth={2.4} />
+            </button>
+            <button type="button" aria-pressed={areas} title={t("Areas")} onClick={() => setCategoryAreas(true)}>
+              <ChartArea size={11} strokeWidth={2.4} />
+            </button>
           </span>
         </span>
         <span style={{ display: "grid", gap: 6, justifyItems: "end" }}>
