@@ -167,6 +167,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let demo = false, local = false;
     try {
+      // Dev only: /app?local=1 opens the private data straight away.
+      if (DEV && new URLSearchParams(location.search).get("local") === "1") {
+        sessionStorage.removeItem(DEMO_KEY);
+        sessionStorage.setItem(LOCAL_KEY, "1");
+      }
       demo = sessionStorage.getItem(DEMO_KEY) === "1";
       local = DEV && sessionStorage.getItem(LOCAL_KEY) === "1";
     } catch {}
