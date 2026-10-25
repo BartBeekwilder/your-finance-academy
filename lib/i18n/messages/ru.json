@@ -1021,5 +1021,9 @@
  "Your name": "Ваше имя",
  "Order": "Порядок",
  "Own order": "Свой порядок",
- "Smallest first": "Сначала мелкие"
+ "Smallest first": "Сначала мелкие",
+ "Drag to reorder": "Перетащите, чтобы изменить порядок",
+ "Menu": "Меню",
+ "Drag the tabs in the sidebar to put them in your own order.": "Перетаскивайте вкладки на боковой панели, чтобы расставить их по-своему.",
+ "Standard order": "Стандартный порядок"
 }

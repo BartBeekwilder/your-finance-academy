@@ -1021,5 +1021,9 @@
  "Your name": "Nama Anda",
  "Order": "Urutan",
  "Own order": "Urutan sendiri",
- "Smallest first": "Terkecil dulu"
+ "Smallest first": "Terkecil dulu",
+ "Drag to reorder": "Seret untuk mengurutkan",
+ "Menu": "Menu",
+ "Drag the tabs in the sidebar to put them in your own order.": "Seret tab di bilah samping untuk menyusunnya sesuai keinginan.",
+ "Standard order": "Urutan standar"
 }

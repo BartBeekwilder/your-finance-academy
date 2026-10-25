@@ -1021,5 +1021,9 @@
  "Your name": "Tên của bạn",
  "Order": "Thứ tự",
  "Own order": "Thứ tự riêng",
- "Smallest first": "Nhỏ nhất trước"
+ "Smallest first": "Nhỏ nhất trước",
+ "Drag to reorder": "Kéo để sắp xếp",
+ "Menu": "Menu",
+ "Drag the tabs in the sidebar to put them in your own order.": "Kéo các tab ở thanh bên để sắp theo thứ tự của bạn.",
+ "Standard order": "Thứ tự mặc định"
 }

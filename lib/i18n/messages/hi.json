@@ -1021,5 +1021,9 @@
  "Your name": "आपका नाम",
  "Order": "क्रम",
  "Own order": "अपना क्रम",
- "Smallest first": "छोटे पहले"
+ "Smallest first": "छोटे पहले",
+ "Drag to reorder": "क्रम बदलने के लिए खींचें",
+ "Menu": "मेन्यू",
+ "Drag the tabs in the sidebar to put them in your own order.": "साइडबार के टैब को अपने क्रम में रखने के लिए खींचें।",
+ "Standard order": "मानक क्रम"
 }

@@ -1028,5 +1028,9 @@
  "Your name": "Jouw naam",
  "Order": "Volgorde",
  "Own order": "Eigen volgorde",
- "Smallest first": "Kleinste eerst"
+ "Smallest first": "Kleinste eerst",
+ "Drag to reorder": "Sleep om te ordenen",
+ "Menu": "Menu",
+ "Drag the tabs in the sidebar to put them in your own order.": "Sleep de tabs in de zijbalk om ze in je eigen volgorde te zetten.",
+ "Standard order": "Standaardvolgorde"
 }

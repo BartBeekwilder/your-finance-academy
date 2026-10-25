@@ -1021,5 +1021,9 @@
  "Your name": "Adın",
  "Order": "Sıra",
  "Own order": "Kendi sıram",
- "Smallest first": "Küçükten büyüğe"
+ "Smallest first": "Küçükten büyüğe",
+ "Drag to reorder": "Sıralamak için sürükle",
+ "Menu": "Menü",
+ "Drag the tabs in the sidebar to put them in your own order.": "Kenar çubuğundaki sekmeleri kendi sırana koymak için sürükle.",
+ "Standard order": "Standart sıra"
 }

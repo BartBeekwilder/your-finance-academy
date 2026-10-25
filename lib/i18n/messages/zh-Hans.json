@@ -1021,5 +1021,9 @@
  "Your name": "你的名字",
  "Order": "排序",
  "Own order": "自定义顺序",
- "Smallest first": "从小到大"
+ "Smallest first": "从小到大",
+ "Drag to reorder": "拖动以排序",
+ "Menu": "菜单",
+ "Drag the tabs in the sidebar to put them in your own order.": "拖动侧边栏中的标签，按你喜欢的顺序排列。",
+ "Standard order": "默认顺序"
 }

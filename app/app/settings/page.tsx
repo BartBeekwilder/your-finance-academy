@@ -12,6 +12,7 @@ import { setShowAxes, useCategoryAreas, setCategoryAreas, useShowAxes } from "@/
 import Segmented from "@/components/finance/Segmented";
 import VaultSection from "@/components/finance/VaultSection";
 import HouseholdSection from "@/components/finance/HouseholdSection";
+import { resetNavOrder } from "@/components/finance/AppNav";
 
 // Settings, grouped in sections so new ones slot in as the app grows.
 // Currency is saved to the profile (shared with iOS); it changes how amounts
@@ -74,6 +75,15 @@ export default function SettingsPage() {
       </Section>
 
       <ChartsSection />
+
+      <Section title={t("Menu")}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+          <span style={{ fontSize: "0.85rem", color: "var(--pf-ink-2)" }}>{t("Drag the tabs in the sidebar to put them in your own order.")}</span>
+          <button className="pf-chip" onClick={resetNavOrder} style={{ padding: "8px 14px" }}>
+            {t("Standard order")}
+          </button>
+        </div>
+      </Section>
 
       <LanguageSection />
 

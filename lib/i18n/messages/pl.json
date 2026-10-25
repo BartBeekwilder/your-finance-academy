@@ -1021,5 +1021,9 @@
  "Your name": "Twoje imię",
  "Order": "Kolejność",
  "Own order": "Własna kolejność",
- "Smallest first": "Najmniejsze najpierw"
+ "Smallest first": "Najmniejsze najpierw",
+ "Drag to reorder": "Przeciągnij, aby zmienić kolejność",
+ "Menu": "Menu",
+ "Drag the tabs in the sidebar to put them in your own order.": "Przeciągaj karty na pasku bocznym, aby ułożyć je po swojemu.",
+ "Standard order": "Domyślna kolejność"
 }

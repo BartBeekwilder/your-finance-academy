@@ -1021,5 +1021,9 @@
  "Your name": "내 이름",
  "Order": "순서",
  "Own order": "내 순서",
- "Smallest first": "작은 순서"
+ "Smallest first": "작은 순서",
+ "Drag to reorder": "드래그해서 순서 변경",
+ "Menu": "메뉴",
+ "Drag the tabs in the sidebar to put them in your own order.": "사이드바의 탭을 드래그해 원하는 순서로 배치하세요.",
+ "Standard order": "기본 순서"
 }

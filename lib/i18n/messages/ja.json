@@ -1021,5 +1021,9 @@
  "Your name": "あなたの名前",
  "Order": "並び順",
  "Own order": "自分の順番",
- "Smallest first": "小さい順"
+ "Smallest first": "小さい順",
+ "Drag to reorder": "ドラッグで並べ替え",
+ "Menu": "メニュー",
+ "Drag the tabs in the sidebar to put them in your own order.": "サイドバーのタブをドラッグして好きな順番に並べ替えられます。",
+ "Standard order": "標準の順番"
 }

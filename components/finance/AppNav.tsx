@@ -6,6 +6,10 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { Banknote, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
 import { setBackgroundMotion, setMotionPaused, useBackgroundMotion, useMotionMode } from "@/lib/motion";
+import { closestCenter, DndContext, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
+import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { setOrder, useOrder } from "@/lib/prefs";
 import BrandMark from "./BrandMark";
 import { useFinance } from "./FinanceProvider";
 
@@ -26,9 +30,60 @@ const TABS = [
   { href: "/app/progress", label: "Progress", Icon: Trophy },
 ] as const;
 
+const NAV_ORDER = "pf-nav-order";
+// Set while a tab is being dragged and just after, so letting go doesn't
+// also follow the link.
+let dragging = false;
+
+/** Resets the menu to its standard order (Settings). */
+export const resetNavOrder = () => setOrder(NAV_ORDER, TABS.map((x) => x.href));
+
+/** One tab: a link you can also pick up and move. A drag doesn't follow
+ *  the link (it needs a few pixels of movement first). */
+function NavItem({ tab, current }: { tab: (typeof TABS)[number]; current: boolean }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: tab.href });
+  const { Icon } = tab;
+  return (
+    <Link
+      ref={setNodeRef}
+      href={tab.href}
+      aria-current={current ? "page" : undefined}
+      className="pf-nav-item"
+      data-dragging={isDragging || undefined}
+      style={{ transform: CSS.Translate.toString(transform), transition }}
+      onClickCapture={(e) => {
+        if (dragging) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }}
+      {...attributes}
+      {...listeners}
+      title={t("Drag to reorder")}
+    >
+      <Icon size={20} strokeWidth={2} />
+      <span className="pf-nav-label">{t(tab.label)}</span>
+    </Link>
+  );
+}
+
 export default function AppNav() {
   const path = usePathname();
   const { source, email, signOut, data } = useFinance();
+  // The tabs in the user's own order (drag to rearrange; kept per browser).
+  // Tabs added later join at the end of a saved order.
+  const saved = useOrder(NAV_ORDER, TABS.map((x) => x.href));
+  const order = [...saved.filter((h) => TABS.some((x) => x.href === h)), ...TABS.map((x) => x.href).filter((h) => !saved.includes(h))];
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 220, tolerance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+  function onDragEnd({ active, over }: DragEndEvent) {
+    setTimeout(() => (dragging = false), 0);
+    if (!over || active.id === over.id) return;
+    setOrder(NAV_ORDER, arrayMove(order, order.indexOf(String(active.id)), order.indexOf(String(over.id))));
+  }
 
   return (
     <nav className="pf-nav" aria-label={t("App")}>
@@ -37,12 +92,14 @@ export default function AppNav() {
         <strong style={{ fontSize: "1.02rem" }}>{t("Personal Finance")}</strong>
       </div>
 
-      {TABS.map(({ href, label, Icon }) => (
-        <Link key={href} href={href} aria-current={path === href ? "page" : undefined}>
-          <Icon size={20} strokeWidth={2} />
-          <span className="pf-nav-label">{t(label)}</span>
-        </Link>
-      ))}
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={() => (dragging = true)} onDragCancel={() => setTimeout(() => (dragging = false), 0)} onDragEnd={onDragEnd}>
+        <SortableContext items={order} strategy={rectSortingStrategy}>
+          {order.map((href) => {
+            const tab = TABS.find((x) => x.href === href);
+            return tab ? <NavItem key={href} tab={tab} current={path === href} /> : null;
+          })}
+        </SortableContext>
+      </DndContext>
 
       {/* Settings sits apart from the six iOS tabs, at the foot of the list. */}
       <Link href="/app/settings" aria-current={path === "/app/settings" ? "page" : undefined} className="pf-nav-settings">

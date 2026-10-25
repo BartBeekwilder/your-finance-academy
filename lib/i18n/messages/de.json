@@ -1021,5 +1021,9 @@
  "Your name": "Dein Name",
  "Order": "Reihenfolge",
  "Own order": "Eigene Reihenfolge",
- "Smallest first": "Kleinste zuerst"
+ "Smallest first": "Kleinste zuerst",
+ "Drag to reorder": "Zum Sortieren ziehen",
+ "Menu": "Menü",
+ "Drag the tabs in the sidebar to put them in your own order.": "Ziehe die Tabs in der Seitenleiste in deine eigene Reihenfolge.",
+ "Standard order": "Standardreihenfolge"
 }

@@ -1021,5 +1021,9 @@
  "Your name": "Tu nombre",
  "Order": "Orden",
  "Own order": "Orden propio",
- "Smallest first": "Menor primero"
+ "Smallest first": "Menor primero",
+ "Drag to reorder": "Arrastra para ordenar",
+ "Menu": "Menú",
+ "Drag the tabs in the sidebar to put them in your own order.": "Arrastra las pestañas de la barra lateral para ordenarlas a tu gusto.",
+ "Standard order": "Orden estándar"
 }

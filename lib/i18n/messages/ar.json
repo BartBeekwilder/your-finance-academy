@@ -1021,5 +1021,9 @@
  "Your name": "اسمك",
  "Order": "الترتيب",
  "Own order": "ترتيبي",
- "Smallest first": "الأصغر أولًا"
+ "Smallest first": "الأصغر أولًا",
+ "Drag to reorder": "اسحب لإعادة الترتيب",
+ "Menu": "القائمة",
+ "Drag the tabs in the sidebar to put them in your own order.": "اسحب علامات التبويب في الشريط الجانبي لترتيبها كما تحب.",
+ "Standard order": "الترتيب الافتراضي"
 }
