@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "Dùng ít nhất {n} ký tự.",
  "Working…": "Đang xử lý…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "Dữ liệu của bạn được mã hóa trên Mac này bằng cụm mật khẩu chỉ bạn biết. Máy chủ chỉ lưu dữ liệu không đọc được — không ai, kể cả chúng tôi, mở được. Quên cụm mật khẩu thì mất bản sao.",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "Dữ liệu cục bộ vẫn ở trên Mac này; đăng nhập chỉ cho bản sao một chỗ."
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "Dữ liệu cục bộ vẫn ở trên Mac này; đăng nhập chỉ cho bản sao một chỗ.",
+ "{amount} so far": "{amount} đến giờ",
+ "Average per year": "Trung bình mỗi năm",
+ "Balance": "Số dư",
+ "vs {year}": "so với {year}"
 }

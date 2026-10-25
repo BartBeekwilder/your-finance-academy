@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "{n}文字以上にしてください。",
  "Working…": "処理中…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "データはこのMac上で、あなただけが知るパスフレーズで暗号化されます。サーバーには読めないデータだけが保存され、私たちを含め誰も開けません。パスフレーズを忘れるとコピーは失われます。",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "ローカルデータはこのMacに残ります。ログインはコピーの置き場所を作るだけです。"
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "ローカルデータはこのMacに残ります。ログインはコピーの置き場所を作るだけです。",
+ "{amount} so far": "これまで {amount}",
+ "Average per year": "年平均",
+ "Balance": "収支",
+ "vs {year}": "{year}年比"
 }

@@ -963,5 +963,9 @@
  "Use at least {n} characters.": "Gebruik minstens {n} tekens.",
  "Working…": "Bezig…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "Je gegevens worden op deze Mac versleuteld met een wachtwoordzin die alleen jij kent. De server bewaart alleen onleesbare data — niemand, ook wij niet, kan die openen. Vergeet je de wachtwoordzin, dan is de kopie verloren.",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "Je lokale gegevens blijven op deze Mac; inloggen geeft de kopie alleen een plek."
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "Je lokale gegevens blijven op deze Mac; inloggen geeft de kopie alleen een plek.",
+ "{amount} so far": "{amount} tot nu toe",
+ "Average per year": "Gemiddeld per jaar",
+ "Balance": "Saldo",
+ "vs {year}": "t.o.v. {year}"
 }

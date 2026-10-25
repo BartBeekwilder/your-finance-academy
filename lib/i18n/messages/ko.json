@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "{n}자 이상 입력하세요.",
  "Working…": "처리 중…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "데이터는 나만 아는 암호 문구로 이 Mac에서 암호화돼요. 서버에는 읽을 수 없는 데이터만 저장되어 저희를 포함해 누구도 열 수 없어요. 암호 문구를 잊으면 사본은 사라져요.",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "로컬 데이터는 이 Mac에 남아요. 로그인은 사본을 둘 곳만 만들어요."
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "로컬 데이터는 이 Mac에 남아요. 로그인은 사본을 둘 곳만 만들어요.",
+ "{amount} so far": "지금까지 {amount}",
+ "Average per year": "연평균",
+ "Balance": "잔액",
+ "vs {year}": "{year}년 대비"
 }

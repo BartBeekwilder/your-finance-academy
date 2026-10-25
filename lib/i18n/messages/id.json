@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "Gunakan minimal {n} karakter.",
  "Working…": "Sedang diproses…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "Data Anda dienkripsi di Mac ini dengan frasa sandi yang hanya Anda ketahui. Server hanya menyimpan data yang tak terbaca — tak seorang pun, termasuk kami, bisa membukanya. Lupa frasa sandi berarti salinan hilang.",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "Data lokal Anda tetap di Mac ini; masuk hanya memberi tempat untuk salinan."
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "Data lokal Anda tetap di Mac ini; masuk hanya memberi tempat untuk salinan.",
+ "{amount} so far": "{amount} sejauh ini",
+ "Average per year": "Rata-rata per tahun",
+ "Balance": "Saldo",
+ "vs {year}": "vs {year}"
 }

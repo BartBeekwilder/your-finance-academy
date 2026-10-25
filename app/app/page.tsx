@@ -18,6 +18,8 @@ import CategoryBars from "@/components/finance/CategoryBars";
 import Segmented from "@/components/finance/Segmented";
 import Link from "next/link";
 import type { Mode } from "@/components/finance/LiveTiles";
+import YearsOverview from "@/components/finance/YearsOverview";
+import { YearCompare } from "@/components/finance/Compare";
 import ProgressStrip from "@/components/finance/ProgressStrip";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
@@ -39,6 +41,13 @@ export default function DashboardPage() {
   useFlip(budgetsRef, largestFirst);
   const history = last12Months(data.transactions, now);
   const [spendMode, setSpendMode] = useState<Mode>("month");
+  // The dashboard's period, top right: Month and Year drive the live tiles
+  // (and the expenses chart); Years swaps in the multi-year overview.
+  const [view, setView] = useState<Mode | "years">("month");
+  const pick = (v: Mode | "years") => {
+    setView(v);
+    if (v !== "years") setSpendMode(v);
+  };
 
   // Net worth: accounts + holdings at cost on 1 January plus this year's
   // savings (netWorthFigures — the Net worth page's model, same as iOS).
@@ -55,7 +64,10 @@ export default function DashboardPage() {
           <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.1rem)", fontWeight: 700 }}>Dashboard - {monthYear(month)}</h1>
           <LastUpdated />
         </div>
-        <Clock />
+        <div style={{ display: "grid", gap: 10, justifyItems: "end" }}>
+          <Clock />
+          <Segmented label={t("Period")} value={view} onChange={pick} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }, { value: "years", label: t("Years") }]} />
+        </div>
       </header>
 
       {/* Net worth with progress beside it. */}
@@ -65,15 +77,20 @@ export default function DashboardPage() {
       </section>
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}
       <section style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "stretch" }}>
-        <LiveTiles
-          data={data}
-          monthStart={month}
-          monthlyIncome={projectedNetIncome(data, month)}
-          enteredIncome={s.income}
-          fixed={s.fixed}
-          variable={s.variable}
-          currency={currency}
-        />
+        {view === "years" ? (
+          <YearsOverview data={data} now={now} currency={currency} />
+        ) : (
+          <LiveTiles
+            data={data}
+            monthStart={month}
+            monthlyIncome={projectedNetIncome(data, month)}
+            enteredIncome={s.income}
+            fixed={s.fixed}
+            variable={s.variable}
+            currency={currency}
+            mode={view}
+          />
+        )}
         <div style={{ display: "grid", gap: 12, gridTemplateRows: "auto 1fr" }}>
           <YearLines data={data} now={now} currency={currency} monthlyIncome={projectedNetIncome(data, month)} />
           <CategoryDonut
@@ -93,9 +110,9 @@ export default function DashboardPage() {
           <Link href="/app/expenses" className="pf-section-title pf-section-link" style={{ margin: 0 }}>
             {t("Expenses")} ›
           </Link>
-          <Segmented size="sm" label={t("Period")} value={spendMode} onChange={setSpendMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+          {view !== "years" && <Segmented size="sm" label={t("Period")} value={spendMode} onChange={setSpendMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />}
         </div>
-        <CategoryBars data={data} now={now} currency={currency} mode={spendMode} />
+        {view === "years" ? <YearCompare data={data} now={now} currency={currency} /> : <CategoryBars data={data} now={now} currency={currency} mode={spendMode} />}
       </section>
 
       {byCategory.length > 0 && (

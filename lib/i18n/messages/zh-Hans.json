@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "请至少使用 {n} 个字符。",
  "Working…": "处理中…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "你的数据在此 Mac 上用只有你知道的密码短语加密。服务器只保存无法读取的数据——包括我们在内，任何人都无法打开。忘记密码短语，副本就无法找回。",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "你的本地数据仍留在此 Mac 上；登录只是为副本提供存放位置。"
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "你的本地数据仍留在此 Mac 上；登录只是为副本提供存放位置。",
+ "{amount} so far": "至今 {amount}",
+ "Average per year": "年均",
+ "Balance": "结余",
+ "vs {year}": "较 {year}"
 }

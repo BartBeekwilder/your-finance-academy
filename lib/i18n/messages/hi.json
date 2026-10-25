@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "कम से कम {n} अक्षर इस्तेमाल करें।",
  "Working…": "काम चल रहा है…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "आपका डेटा इस Mac पर ऐसे पासफ़्रेज़ से एन्क्रिप्ट होता है जिसे केवल आप जानते हैं। सर्वर केवल न पढ़ा जा सकने वाला डेटा रखता है — हम सहित कोई भी इसे नहीं खोल सकता। पासफ़्रेज़ भूल गए तो कॉपी खो जाएगी।",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "आपका स्थानीय डेटा इसी Mac पर रहता है; साइन इन केवल कॉपी को जगह देता है।"
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "आपका स्थानीय डेटा इसी Mac पर रहता है; साइन इन केवल कॉपी को जगह देता है।",
+ "{amount} so far": "अब तक {amount}",
+ "Average per year": "प्रति वर्ष औसत",
+ "Balance": "बैलेंस",
+ "vs {year}": "{year} की तुलना में"
 }

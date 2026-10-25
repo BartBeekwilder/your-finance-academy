@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "Use pelo menos {n} caracteres.",
  "Working…": "Processando…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "Seus dados são criptografados neste Mac com uma frase secreta que só você conhece. O servidor guarda apenas dados ilegíveis — ninguém, nem nós, consegue abri-los. Se esquecer a frase, a cópia se perde.",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "Seus dados locais ficam neste Mac; entrar só dá um lugar para a cópia."
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "Seus dados locais ficam neste Mac; entrar só dá um lugar para a cópia.",
+ "{amount} so far": "{amount} até agora",
+ "Average per year": "Média por ano",
+ "Balance": "Saldo",
+ "vs {year}": "vs {year}"
 }

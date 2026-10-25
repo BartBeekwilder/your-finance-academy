@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "استخدم {n} أحرف على الأقل.",
  "Working…": "جارٍ العمل…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "تُشفَّر بياناتك على هذا الـMac بعبارة مرور تعرفها أنت فقط. لا يحفظ الخادم إلا بيانات غير مقروءة — لا أحد، ولا نحن، يستطيع فتحها. إن نسيت العبارة ضاعت النسخة.",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "تبقى بياناتك المحلية على هذا الـMac؛ تسجيل الدخول يمنح النسخة مكانًا فقط."
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "تبقى بياناتك المحلية على هذا الـMac؛ تسجيل الدخول يمنح النسخة مكانًا فقط.",
+ "{amount} so far": "{amount} حتى الآن",
+ "Average per year": "المتوسط السنوي",
+ "Balance": "الرصيد",
+ "vs {year}": "مقارنة بـ {year}"
 }

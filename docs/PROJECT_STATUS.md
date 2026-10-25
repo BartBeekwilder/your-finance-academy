@@ -233,6 +233,8 @@ other countries' rules later (to do: DE, BE, UK, US, …).
 
 14. COMPARE (Bart, 2026-10-25): Expenses › Vergelijken. lib/finance/compare.ts (+tests): spend per top-level category per month per year; earlier years without data get a SAMPLE (this year × 0.8 / 1.2 / 0.9 with wobble, flagged 'voorbeeld', never stored; a month with real spending uses real numbers). YearCompare: one smooth line per year (this year bold red, rest dashed at the earlier years' average), min–max band + average, year chips, category select, Per month / Added up, YTD vs last year. MonthCompare: a month vs last year / average per category, bars + € / % difference. Next: import real history (Bart's Numbers sheets 2019–2025 as CSV), category vs category chart, compare in the category sheet.
 
+15. DASHBOARD YEARS VIEW (Bart, 2026-10-26): top-right Month · Year · Years switch on the dashboard. Month / Year drive the live tiles (controlled) and the expenses chart; Years swaps the tiles for YearsOverview (income / spent / balance per year 2022–2026: this year solid + dashed forecast cap, expected this year, % vs last year, average per year, total; samples for years without data) and the expenses chart for YearCompare. compare.yearTotals (+test).
+
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
 - Earlier years: monthly totals enough, or import transactions?

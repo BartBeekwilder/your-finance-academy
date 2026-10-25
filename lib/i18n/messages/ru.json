@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "Используйте не менее {n} символов.",
  "Working…": "Выполняется…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "Ваши данные шифруются на этом Mac парольной фразой, которую знаете только вы. Сервер хранит только нечитаемые данные — никто, включая нас, не может их открыть. Забудете фразу — копия будет потеряна.",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "Ваши локальные данные остаются на этом Mac; вход лишь даёт копии место."
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "Ваши локальные данные остаются на этом Mac; вход лишь даёт копии место.",
+ "{amount} so far": "{amount} пока",
+ "Average per year": "В среднем за год",
+ "Balance": "Сальдо",
+ "vs {year}": "к {year}"
 }

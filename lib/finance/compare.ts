@@ -26,13 +26,14 @@ const FACTORS = [0.8, 1.2, 0.9, 1.1];
 /** Deterministic month-to-month variation for sample years. */
 const wobble = (k: number, m: number) => 1 + 0.12 * Math.sin(k * 7.3 + m * 1.9);
 
-/** Spending per key (top-level category id, and ALL) per month of `year`. */
-export function spendGrid(data: Pick<FinanceData, "transactions" | "categories">, year: number) {
+/** Spending (or income) per key (top-level category id, and ALL) per month
+ *  of `year`. */
+export function spendGrid(data: Pick<FinanceData, "transactions" | "categories">, year: number, type: "expense" | "income" = "expense") {
   const parent = new Map(data.categories.map((c) => [c.id, c.parent_id ?? c.id]));
   const grid = new Map<string, number[]>();
   const row = (k: string) => grid.get(k) ?? (grid.set(k, new Array(12).fill(0)), grid.get(k)!);
   for (const t of data.transactions) {
-    if (t.deleted_at || t.type !== "expense") continue;
+    if (t.deleted_at || t.type !== type) continue;
     const d = new Date(t.date);
     if (d.getFullYear() !== year) continue;
     const v = Number(t.amount) || 0;
@@ -47,11 +48,11 @@ export function spendGrid(data: Pick<FinanceData, "transactions" | "categories">
  * This year plus `back` earlier years, per key. `sample`: fill months of
  * earlier years that have no spending at all with a sample (see above).
  */
-export function compareYears(data: Pick<FinanceData, "transactions" | "categories">, now: Date, opts: { back?: number; sample?: boolean } = {}) {
+export function compareYears(data: Pick<FinanceData, "transactions" | "categories">, now: Date, opts: { back?: number; sample?: boolean; type?: "expense" | "income" } = {}) {
   const back = opts.back ?? 3;
   const year = now.getFullYear(), current = now.getMonth();
   const grids = new Map<number, Map<string, number[]>>();
-  for (let y = year - back; y <= year; y++) grids.set(y, spendGrid(data, y));
+  for (let y = year - back; y <= year; y++) grids.set(y, spendGrid(data, y, opts.type));
   const thisYear = grids.get(year)!;
   const keys = new Set<string>([ALL]);
   for (const g of grids.values()) for (const k of g.keys()) keys.add(k);
@@ -107,4 +108,46 @@ export function spread(rows: YearRow[]) {
     if (!vs.length) return null;
     return { min: Math.min(...vs), max: Math.max(...vs), avg: vs.reduce((a, b) => a + b, 0) / vs.length };
   });
+}
+
+export type YearTotal = {
+  year: number;
+  income: number;
+  spent: number;
+  /** This year: what the forecast adds for the rest of the year. */
+  incomeAhead: number;
+  spentAhead: number;
+  /** Some months are samples (see compareYears). */
+  sample: boolean;
+};
+
+/** Income and spending per calendar year, this year and `back` before it,
+ *  for the dashboard's Years view. This year counts what's entered so far;
+ *  `ahead` (from the caller's forecast, per month from the current one on)
+ *  gives the rest. Earlier years can be sampled like compareYears. */
+export function yearTotals(
+  data: Pick<FinanceData, "transactions" | "categories">,
+  now: Date,
+  ahead: { income: number; spent: number }[] = [],
+  opts: { back?: number; sample?: boolean } = {},
+): YearTotal[] {
+  const spent = compareYears(data, now, { ...opts, type: "expense" }).get(ALL)!;
+  const income = compareYears(data, now, { ...opts, type: "income" }).get(ALL)!;
+  const sum = (v: (number | null)[]) => v.reduce<number>((a, b) => a + (b ?? 0), 0);
+  // Ahead starts with the current month in full; what's entered this month
+  // is already in the totals, so only the rest of it counts.
+  const cur = now.getMonth();
+  return spent.map((s, i) => {
+    const inc = income[i];
+    const isNow = i === 0;
+    const enteredSpent = s.values[cur] ?? 0, enteredIncome = inc.values[cur] ?? 0;
+    return {
+      year: s.year,
+      income: sum(inc.values),
+      spent: sum(s.values),
+      incomeAhead: isNow ? ahead.reduce((a, f, k) => a + (k === 0 ? Math.max(f.income - enteredIncome, 0) : f.income), 0) : 0,
+      spentAhead: isNow ? ahead.reduce((a, f, k) => a + (k === 0 ? Math.max(f.spent - enteredSpent, 0) : f.spent), 0) : 0,
+      sample: s.sample.some(Boolean) || inc.sample.some(Boolean),
+    };
+  }).reverse();
 }

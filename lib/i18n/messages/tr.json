@@ -956,5 +956,9 @@
  "Use at least {n} characters.": "En az {n} karakter kullan.",
  "Working…": "İşleniyor…",
  "Your data is encrypted on this Mac with a passphrase only you know. The server only stores unreadable data — nobody, including us, can open it. Forget the passphrase and the copy is lost.": "Verilerin bu Mac'te yalnızca senin bildiğin bir parolayla şifrelenir. Sunucu yalnızca okunamaz veri saklar — biz dahil kimse açamaz. Parolayı unutursan kopya kaybolur.",
- "Your local data stays on this Mac; signing in only gives the copy a place.": "Yerel verilerin bu Mac'te kalır; giriş yapmak yalnızca kopyaya bir yer verir."
+ "Your local data stays on this Mac; signing in only gives the copy a place.": "Yerel verilerin bu Mac'te kalır; giriş yapmak yalnızca kopyaya bir yer verir.",
+ "{amount} so far": "Şu ana kadar {amount}",
+ "Average per year": "Yıllık ortalama",
+ "Balance": "Bakiye",
+ "vs {year}": "{year} yılına göre"
 }
