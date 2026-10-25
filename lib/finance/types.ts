@@ -125,6 +125,8 @@ export type Property = Synced & {
   purchase_date: string | null;
   /** Which country's rules apply ('INTL' = none). */
   country: "INTL" | "NL";
+  /** What renting a similar home would cost per month (Rent or buy). */
+  comparable_rent?: Money | null;
   sort_order: number;
 };
 

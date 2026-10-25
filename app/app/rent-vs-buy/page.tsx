@@ -38,7 +38,12 @@ function initial(data: FinanceData, now: Date): RentBuyInput {
   const rentCat = data.categories.find((c) => c.name.toLowerCase() === "rent");
   const since = new Date(now.getFullYear(), now.getMonth() - 3, 1);
   const rents = rentCat ? live(data.transactions).filter((x) => x.category_id === rentCat.id && x.type === "expense" && new Date(x.date) >= since && new Date(x.date) < new Date(now.getFullYear(), now.getMonth(), 1)) : [];
-  const rent = rents.length ? Math.round(rents.reduce((s, x) => s + num(x.amount), 0) / 3 / 25) * 25 : RENT_BUY_DEFAULTS.rent;
+  // Your rent if you pay it, else what a similar home would rent for.
+  const rent = rents.length
+    ? Math.round(rents.reduce((s, x) => s + num(x.amount), 0) / 3 / 25) * 25
+    : home?.property.comparable_rent
+      ? num(home.property.comparable_rent)
+      : RENT_BUY_DEFAULTS.rent;
   const nl = home?.property.country === "NL" || intlLocale().startsWith("nl");
   const buyCostsRate = nl ? 0.04 : RENT_BUY_DEFAULTS.buyCostsRate;
   // Your own home: what you paid (else today's value), and your mortgage —
