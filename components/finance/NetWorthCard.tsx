@@ -149,10 +149,12 @@ function EquityBackdrop({ history, hover, onHover }: { history: EquityYear[]; ho
           </span>
         ))}
       </div>
-      {/* Hover areas per year, full height. */}
-      {history.map((h, i) => (
-        <span key={`hit${h.year}`} className="pf-nwc-hit" style={{ left: `${((x(i) - W / (2 * (history.length - 1))) / W) * 100}%`, width: `${100 / (history.length - 1)}%` }} onMouseEnter={() => onHover(i)} />
-      ))}
+      {/* Hover areas per year, full height, on the plot's own width. */}
+      <div className="pf-nwc-hits">
+        {history.map((h, i) => (
+          <span key={`hit${h.year}`} className="pf-nwc-hit" style={{ left: `${((x(i) - W / (2 * (history.length - 1))) / W) * 100}%`, width: `${100 / (history.length - 1)}%` }} onMouseEnter={() => onHover(i)} />
+        ))}
+      </div>
     </div>
   );
 }
