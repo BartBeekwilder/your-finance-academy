@@ -182,11 +182,20 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const source = phase.kind === "ready" ? phase.source : "demo";
 
+  // gross_amount is only sent when set, so saving keeps working on a database
+  // without migration 0007 as long as no gross is entered.
+  const withoutEmptyGross = (t: NewTransaction) => {
+    if (t.gross_amount != null) return t;
+    const { gross_amount: _g, ...rest } = t;
+    void _g;
+    return rest;
+  };
+
   const addTransaction = useCallback(
     async (t: NewTransaction) => {
       const row: Transaction = { ...t, id: crypto.randomUUID(), updated_at: new Date().toISOString(), deleted_at: null };
       if (source === "supabase" && supabase) {
-        const { data, error } = await supabase.from("transactions").insert({ ...t, id: row.id }).select().single();
+        const { data, error } = await supabase.from("transactions").insert({ ...withoutEmptyGross(t), id: row.id }).select().single();
         if (error) throw error;
         Object.assign(row, data);
       }
@@ -199,12 +208,13 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     async (id: string, t: NewTransaction) => {
       const patch = { ...t, updated_at: new Date().toISOString() };
       if (source === "supabase" && supabase) {
-        const { error } = await supabase.from("transactions").update(t).eq("id", id);
+        const had = (phase.kind === "ready" ? phase.data.transactions : []).find((x) => x.id === id)?.gross_amount != null;
+        const { error } = await supabase.from("transactions").update(had ? t : withoutEmptyGross(t)).eq("id", id);
         if (error) throw error;
       }
       update((d) => ({ ...d, transactions: d.transactions.map((x) => (x.id === id ? { ...x, ...patch } : x)).sort((a, b) => b.date.localeCompare(a.date)) }));
     },
-    [source, supabase, update],
+    [source, supabase, update, phase],
   );
 
   const deleteTransaction = useCallback(

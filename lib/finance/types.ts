@@ -61,6 +61,9 @@ export type Transaction = Synced & {
   recurrence_id: UUID | null;
   category_id: UUID | null;
   account_id: UUID | null;
+  /** Income only: the amount before tax and deductions (migration 0007);
+   *  null / missing = gross equals net. */
+  gross_amount?: Money | null;
 };
 
 export type IncomeRecord = Synced & {

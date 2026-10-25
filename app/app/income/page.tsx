@@ -4,6 +4,7 @@ import { t } from "@/lib/i18n";
 import Segmented from "@/components/finance/Segmented";
 import { useState } from "react";
 import CategoryBars from "@/components/finance/CategoryBars";
+import GrossNetChart, { grossNetByMonth } from "@/components/finance/GrossNetChart";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
@@ -32,6 +33,11 @@ export default function IncomePage() {
   const finished = months.slice(1).filter((m) => m.income > 0);
   const average = finished.length ? finished.reduce((t, m) => t + m.income, 0) / finished.length : 0;
   const daysToPayday = p.payday_day ? p.payday_day - now.getDate() : null;
+  // Gross vs net: this month, and this year so far.
+  const gn = grossNetByMonth(data, now.getFullYear(), now.getMonth());
+  const gnMonth = gn[now.getMonth()];
+  const gnYear = gn.reduce((a, b) => ({ gross: a.gross + b.gross, net: a.net + b.net }), { gross: 0, net: 0 });
+  const deductionHint = (g: number, n: number) => (g > n ? t("Deductions {amount} ({pct}%)", { amount: money(g - n, currency), pct: Math.round(((g - n) / g) * 100) }) : undefined);
 
   return (
     <div style={{ display: "grid", gap: 24 }}>
@@ -67,6 +73,7 @@ export default function IncomePage() {
               value={money(forecast[0].income, currency)}
               hint={p.expected_gross_monthly ? t("Gross {amount}", { amount: money(num(p.expected_gross_monthly), currency) }) : undefined}
             />
+            {gnMonth.gross > gnMonth.net && <Stat label={t("Gross this month")} value={money(gnMonth.gross, currency)} color="#bf5af2" hint={deductionHint(gnMonth.gross, gnMonth.net)} />}
             <Stat
               label={t("Payday")}
               value={p.payday_day ? t("Day {n}", { n: p.payday_day }) : "—"}
@@ -82,7 +89,11 @@ export default function IncomePage() {
               progress={expectedYear ? { share: receivedYear / expectedYear, of: t("{amount} expected", { amount: money(expectedYear, currency) }) } : undefined}
             />
             <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} />
-            <Stat label={t("Expected gross / year")} value={money(num(p.expected_gross_monthly) * 12, currency)} />
+            {gnYear.gross > gnYear.net ? (
+              <Stat label={t("Gross this year")} value={money(gnYear.gross, currency)} color="#bf5af2" hint={deductionHint(gnYear.gross, gnYear.net)} />
+            ) : (
+              <Stat label={t("Expected gross / year")} value={money(num(p.expected_gross_monthly) * 12, currency)} />
+            )}
           </>
         )}
         {mode === "month" ? (
@@ -102,6 +113,8 @@ export default function IncomePage() {
         )}
         <Stat label={finished.length ? t("Average / month ({n} mo)", { n: finished.length }) : t("Average / month")} value={average ? money(average, currency) : "—"} />
       </div>
+
+      <GrossNetChart data={data} now={now} currency={currency} />
 
       <CategoryBars data={data} now={now} currency={currency} mode={mode} kind="income" />
 

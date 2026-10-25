@@ -63,7 +63,7 @@ export default function QuickAdd() {
         <Plus size={22} strokeWidth={3} />
       </button>
       <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label={t("Quick Add")}>
-        <Form key={session} currency={data.profile.currency_code} categories={live(data.categories)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
+        <Form key={session} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
       </Sheet>
       <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label={t("Edit transaction")}>
         {editing && (
@@ -71,6 +71,7 @@ export default function QuickAdd() {
             key={`edit${editing.n}`}
             initial={editing.transaction}
             currency={data.profile.currency_code}
+            grossRatio={grossRatio(data.profile)}
             categories={live(data.categories)}
             onDone={closeTransactionEditor}
             add={(t) => updateTransaction(editing.transaction.id, t)}
@@ -83,8 +84,16 @@ export default function QuickAdd() {
   );
 }
 
+/** Expected gross ÷ net from the profile (1 when unknown), to suggest a
+ *  gross amount for a net income. */
+function grossRatio(p: { expected_gross_monthly: string | number | null; expected_net_monthly: string | number | null }) {
+  const g = Number(p.expected_gross_monthly), n = Number(p.expected_net_monthly);
+  return g > 0 && n > 0 ? g / n : 1;
+}
+
 function Form({
   currency,
+  grossRatio = 1,
   categories,
   add,
   addCategory,
@@ -96,6 +105,8 @@ function Form({
   initial?: Transaction;
   onDelete?: () => Promise<void>;
   currency: string;
+  /** Profile's gross ÷ net, for the gross suggestion. */
+  grossRatio?: number;
   categories: ReturnType<typeof useFinance>["data"]["categories"];
   add: ReturnType<typeof useFinance>["addTransaction"];
   addCategory: ReturnType<typeof useFinance>["addCategory"];
@@ -106,6 +117,8 @@ function Form({
   const [categoryId, setCategoryId] = useState<string | null>(initial?.category_id ?? null);
   const [date, setDate] = useState(() => (initial ? localDate(initial.date) : todayLocal()));
   const [note, setNote] = useState(initial?.note ?? "");
+  // Income: the amount is net (what came in); gross is optional.
+  const [gross, setGross] = useState(initial?.gross_amount ? Number(initial.gross_amount).toFixed(2).replace(".", ",") : "");
   const [fixed, setFixed] = useState(initial?.is_fixed_expense ?? false);
   const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -129,6 +142,7 @@ function Form({
   // Accept "12,50" as well as "12.50" — Dutch keyboards type a comma.
   const parsed = Number(amount.replace(/\s/g, "").replace(",", "."));
   const valid = parsed > 0 && Number.isFinite(parsed);
+  const grossParsed = Number(gross.replace(/\s/g, "").replace(",", ".")) || 0;
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -144,6 +158,7 @@ function Form({
         date: new Date(y, m - 1, d, 12).toISOString(),
         note: note.trim() || null,
         is_auto_income: initial?.is_auto_income ?? false,
+        gross_amount: type === "income" && grossParsed > 0 ? grossParsed.toFixed(2) : null,
         is_fixed_expense: type === "expense" && fixed,
         recurrence_id: initial?.recurrence_id ?? null,
         category_id: categoryId,
@@ -180,6 +195,37 @@ function Form({
         onChange={(e) => setAmount(e.target.value)}
         style={{ fontSize: "2rem", fontWeight: 700, textAlign: "center", color: type === "income" ? "var(--pf-green)" : "var(--pf-ink)" }}
       />
+
+      {type === "income" && (
+        <div className="pf-gross">
+          <label className="pf-gross-field">
+            <span>{t("Net received")}</span>
+            <b className="pf-rounded">{valid ? money(parsed, currency) : "—"}</b>
+          </label>
+          <label className="pf-gross-field">
+            <span>{t("Gross (optional)")}</span>
+            <input
+              className="pf-input pf-rounded"
+              inputMode="decimal"
+              aria-label={t("Gross (optional)")}
+              placeholder={valid && grossRatio > 1 ? money(Math.round(parsed * grossRatio * 100) / 100, currency) : money(0, currency)}
+              value={gross}
+              onChange={(e) => setGross(e.target.value)}
+              onKeyDown={(e) => {
+                // Tab on an empty field takes the suggestion.
+                if (e.key === "Tab" && !gross && valid && grossRatio > 1) setGross((Math.round(parsed * grossRatio * 100) / 100).toFixed(2).replace(".", ","));
+              }}
+            />
+          </label>
+          {grossParsed > 0 && valid && (
+            <span key={Math.round(grossParsed - parsed)} className="pf-gross-deductions pf-readout">
+              {grossParsed >= parsed
+                ? t("Deductions {amount} ({pct}%)", { amount: money(grossParsed - parsed, currency), pct: Math.round(((grossParsed - parsed) / grossParsed) * 100) })
+                : t("Gross is lower than net")}
+            </span>
+          )}
+        </div>
+      )}
 
       <div>
         <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 8 }}>{t("Category")}</div>

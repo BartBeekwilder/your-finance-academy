@@ -123,3 +123,9 @@ err = null; try { await as(A, () => sql(`insert into insurance_policies (period)
 ok(err && /check/.test(err), "premium period is month, quarter or year");
 err = null; try { await as(A, () => sql(`insert into insurance_policies (premium) values (-1)`)); } catch (e) { err = e.message; }
 ok(err && /check/.test(err), "premium can't be negative");
+
+// Gross income (0007).
+await as(A, () => sql(`insert into transactions (amount, type, gross_amount) values (3850, 'income', 5200)`));
+ok(Number((await as(A, () => sql(`select gross_amount from transactions where type = 'income'`))).rows[0].gross_amount) === 5200, "income keeps its gross amount");
+err = null; try { await as(A, () => sql(`insert into transactions (amount, type, gross_amount) values (10, 'income', -1)`)); } catch (e) { err = e.message; }
+ok(err && /check/.test(err), "gross amount can't be negative");
