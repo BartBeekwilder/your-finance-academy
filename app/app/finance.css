@@ -3852,7 +3852,8 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
 .pf-pf-row-live { width: 6px; height: 6px; border-radius: 50%; background: var(--pf-green); animation: pf-pf-pulse 1.8s ease-out infinite; }
 .pf-pf-spark { width: 90px; height: 30px; flex: none; }
 @media (max-width: 520px) { .pf-pf-spark { width: 54px; } }
-.pf-pf-right { display: grid; justify-items: end; gap: 2px; flex: none; font-size: 0.75rem; }
+.pf-pf-right { display: grid; justify-items: end; gap: 2px; flex: none; width: 150px; font-size: 0.75rem; white-space: nowrap; }
+@media (max-width: 520px) { .pf-pf-right { width: 112px; } }
 .pf-pf-right b { font-size: 0.95rem; font-weight: 600; }
 .pf-pf-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; border-radius: 14px; overflow: hidden; background: var(--pf-line); }
 .pf-pf-stat { display: grid; gap: 3px; padding: 10px 12px; background: var(--pf-card); }
