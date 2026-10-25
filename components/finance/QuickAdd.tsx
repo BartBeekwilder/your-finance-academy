@@ -178,7 +178,7 @@ function Form({
   return (
     <form onSubmit={submit} style={{ display: "grid", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 600 }}>{initial ? `Edit ${type === "expense" ? "expense" : "income"}` : t("Quick Add")}</h2>
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 600 }}>{initial ? type === "expense" ? t("Edit expense") : t("Edit income") : t("Quick Add")}</h2>
         <button type="button" className="pf-icon-button" aria-label={t("Close")} onClick={onDone}><X size={18} /></button>
       </div>
 
@@ -305,7 +305,7 @@ function Form({
       {type === "expense" && !spreading && (
         <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.9rem" }}>
           <input type="checkbox" checked={fixed} onChange={(e) => setFixed(e.target.checked)} />
-          Fixed expense <span style={{ color: "var(--pf-ink-3)" }}>{t("— same amount every month")}</span>
+          {t("Fixed expense")} <span style={{ color: "var(--pf-ink-3)" }}>{t("— same amount every month")}</span>
         </label>
       )}
 
@@ -316,7 +316,7 @@ function Form({
       {error && <p style={{ margin: 0, color: "var(--pf-red)", fontSize: "0.85rem" }}>{error}</p>}
 
       <button className="pf-button" disabled={!valid || saving}>
-        {saving ? t("Saving…") : initial ? t("Save changes") : `Add ${type === "expense" ? t("Expense") : t("Income")}`}
+        {saving ? t("Saving…") : initial ? t("Save changes") : type === "expense" ? t("Add expense") : t("Add income")}
       </button>
 
       {onDelete && (
