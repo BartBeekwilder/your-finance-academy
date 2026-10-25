@@ -937,5 +937,6 @@
  "than {other}": "dan {other}",
  "same": "gelijk",
  "Nothing spent in this month or the one to compare with.": "Niets uitgegeven in deze maand of de maand om mee te vergelijken.",
- "{pct}% of spending": "{pct}% van je uitgaven"
+ "{pct}% of spending": "{pct}% van je uitgaven",
+ "{pct}% of income": "{pct}% van je inkomen"
 }

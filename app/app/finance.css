@@ -3945,3 +3945,5 @@ span.pf-cmp-chip { cursor: default; }
 .pf-cmp-vals b { font-size: 0.88rem; font-weight: 600; }
 @media (max-width: 560px) { .pf-cmp-row { grid-template-columns: 90px minmax(0, 1fr) 110px; gap: 8px; } }
 @media (prefers-reduced-motion: reduce) { .pf-cmp-row, .pf-cmp-bar, .pf-cmp-band { animation: none; } }
+.pf-cattile-income { color: var(--pf-green); opacity: 0.85; margin-top: -2px; }
+.pf-cattile-income[data-over="true"] { color: var(--pf-red); }
