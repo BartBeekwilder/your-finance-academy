@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "आपकी इक्विटी हर साल कैसे बदली",
  "Per year": "प्रति वर्ष",
  "End of {year}": "{year} का अंत",
- "{year} so far": "{year} अब तक"
+ "{year} so far": "{year} अब तक",
+ "Amounts to receive": "प्राप्त होने वाली राशियाँ",
+ "Income entered, not yet received on an account": "दर्ज आय, अभी किसी खाते में नहीं आई",
+ "Correction": "सुधार",
+ "Difference between your account balances and this year's bookings": "खाता शेष और इस साल की प्रविष्टियों का अंतर",
+ "Current accounts": "चालू खाते",
+ "Savings accounts": "बचत खाते",
+ "Credit cards": "क्रेडिट कार्ड",
+ "Cash": "नकद",
+ "Not on an account yet": "अभी किसी खाते में नहीं",
+ "Still to receive": "प्राप्त होना बाकी",
+ "Not on an account yet — shows under Amounts to receive": "अभी किसी खाते में नहीं — प्राप्त होने वाली राशियों में दिखता है"
 }

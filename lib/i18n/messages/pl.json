@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "Jak zmieniał się kapitał własny w latach",
  "Per year": "Na rok",
  "End of {year}": "Koniec {year}",
- "{year} so far": "{year} do teraz"
+ "{year} so far": "{year} do teraz",
+ "Amounts to receive": "Kwoty do otrzymania",
+ "Income entered, not yet received on an account": "Wpisany przychód, jeszcze nie wpłynął na konto",
+ "Correction": "Korekta",
+ "Difference between your account balances and this year's bookings": "Różnica między saldami a tegorocznymi zapisami",
+ "Current accounts": "Rachunki bieżące",
+ "Savings accounts": "Konta oszczędnościowe",
+ "Credit cards": "Karty kredytowe",
+ "Cash": "Gotówka",
+ "Not on an account yet": "Jeszcze nie na koncie",
+ "Still to receive": "Do otrzymania",
+ "Not on an account yet — shows under Amounts to receive": "Jeszcze nie na koncie — widoczne w Kwoty do otrzymania"
 }

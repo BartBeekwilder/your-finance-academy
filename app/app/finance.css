@@ -4114,3 +4114,6 @@ span.pf-cmp-chip { cursor: default; }
 /* Sidebar tabs: drag to reorder */
 .pf-nav-item { touch-action: pan-y; }
 .pf-nav-item[data-dragging] { position: relative; z-index: 5; cursor: grabbing; background: rgba(255, 255, 255, 0.1) !important; color: var(--pf-ink) !important; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45); scale: 1.03; }
+.pf-bal-group { display: flex; justify-content: space-between; padding: 8px 0 2px 22px; margin-left: 3px; border-left: 1px solid var(--pf-line); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--pf-ink-3); opacity: 0; transform: translateY(-6px); transition: opacity 0.3s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-bal-fold[data-open="true"] .pf-bal-group { opacity: 1; transform: none; transition-delay: calc(var(--i) * 45ms + 60ms); }
+.pf-bal-part[data-grouped="true"] { padding-left: 32px; }

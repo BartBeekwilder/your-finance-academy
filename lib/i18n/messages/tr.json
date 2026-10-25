@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "Özkaynağının yıllara göre değişimi",
  "Per year": "Yıllık",
  "End of {year}": "{year} sonu",
- "{year} so far": "{year} şu ana kadar"
+ "{year} so far": "{year} şu ana kadar",
+ "Amounts to receive": "Alınacak tutarlar",
+ "Income entered, not yet received on an account": "Girilen gelir, henüz bir hesaba gelmedi",
+ "Correction": "Düzeltme",
+ "Difference between your account balances and this year's bookings": "Hesap bakiyeleri ile bu yılki kayıtlar arasındaki fark",
+ "Current accounts": "Vadesiz hesaplar",
+ "Savings accounts": "Birikim hesapları",
+ "Credit cards": "Kredi kartları",
+ "Cash": "Nakit",
+ "Not on an account yet": "Henüz bir hesapta değil",
+ "Still to receive": "Alınacak",
+ "Not on an account yet — shows under Amounts to receive": "Henüz bir hesapta değil — Alınacak tutarlar altında görünür"
 }

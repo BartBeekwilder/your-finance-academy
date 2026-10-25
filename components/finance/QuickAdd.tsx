@@ -2,7 +2,7 @@
 
 import { t } from "@/lib/i18n";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { Banknote, CreditCard, Landmark, PiggyBank, Plus, Trash2, Wallet, X } from "lucide-react";
+import { Banknote, CreditCard, Hourglass, Landmark, PiggyBank, Plus, Trash2, Wallet, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
 import { money, shortMonthYear } from "@/lib/finance/format";
@@ -367,10 +367,18 @@ function Form({
         <div>
           <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 8 }}>{type === "expense" ? t("Paid with") : t("Received on")}</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {type === "income" && (
+              <button type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === null} onClick={() => setAccountId(null)} title={t("Not on an account yet — shows under Amounts to receive")}>
+                <span className="pf-acct-icon" style={{ background: "#66d4cf" }}>
+                  <Hourglass size={12} strokeWidth={2.4} />
+                </span>
+                {t("Still to receive")}
+              </button>
+            )}
             {payable.map((a) => {
               const Icon = ACCOUNT_ICON[a.type] ?? Wallet;
               return (
-                <button key={a.id} type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === a.id} onClick={() => setAccountId(accountId === a.id ? null : a.id)}>
+                <button key={a.id} type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === a.id} onClick={() => setAccountId(type === "income" || accountId !== a.id ? a.id : null)}>
                   <span className="pf-acct-icon" data-type={a.type}>
                     <Icon size={13} strokeWidth={2.4} />
                   </span>

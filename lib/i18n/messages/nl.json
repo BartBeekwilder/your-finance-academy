@@ -586,7 +586,7 @@
  "Ready to open your books": "Klaar om je boeken te openen",
  "Real estate": "Vastgoed",
  "Real spend": "Echte uitgaven",
- "Receivable": "Nog te ontvangen",
+ "Receivable": "Verdiend, nog niet binnen",
  "Received": "Ontvangen",
  "Received this month": "Ontvangen deze maand",
  "Received this year": "Ontvangen dit jaar",
@@ -1036,5 +1036,16 @@
  "How your equity moved per year": "Hoe je eigen vermogen bewoog per jaar",
  "Per year": "Per jaar",
  "End of {year}": "Eind {year}",
- "{year} so far": "{year} tot nu toe"
+ "{year} so far": "{year} tot nu toe",
+ "Amounts to receive": "Nog te ontvangen bedragen",
+ "Income entered, not yet received on an account": "Ingevoerd inkomen, nog niet op een rekening ontvangen",
+ "Correction": "Correctie",
+ "Difference between your account balances and this year's bookings": "Verschil tussen je rekeningsaldi en de boekingen van dit jaar",
+ "Current accounts": "Betaalrekeningen",
+ "Savings accounts": "Spaarrekeningen",
+ "Credit cards": "Creditcards",
+ "Cash": "Contant",
+ "Not on an account yet": "Nog niet op een rekening",
+ "Still to receive": "Nog te ontvangen",
+ "Not on an account yet — shows under Amounts to receive": "Nog niet op een rekening — staat onder Nog te ontvangen bedragen"
 }

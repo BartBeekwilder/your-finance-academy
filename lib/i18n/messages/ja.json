@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "純資産の年ごとの動き",
  "Per year": "年別",
  "End of {year}": "{year}年末",
- "{year} so far": "{year}年これまで"
+ "{year} so far": "{year}年これまで",
+ "Amounts to receive": "受取予定額",
+ "Income entered, not yet received on an account": "入力済みの収入（まだ口座に入金されていない）",
+ "Correction": "調整",
+ "Difference between your account balances and this year's bookings": "口座残高と今年の記録との差",
+ "Current accounts": "普通口座",
+ "Savings accounts": "貯蓄口座",
+ "Credit cards": "クレジットカード",
+ "Cash": "現金",
+ "Not on an account yet": "まだ口座にない",
+ "Still to receive": "受取予定",
+ "Not on an account yet — shows under Amounts to receive": "まだ口座にありません — 受取予定額に表示されます"
 }

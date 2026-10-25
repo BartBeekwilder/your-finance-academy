@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "Come è cambiato il patrimonio netto per anno",
  "Per year": "Per anno",
  "End of {year}": "Fine {year}",
- "{year} so far": "{year} finora"
+ "{year} so far": "{year} finora",
+ "Amounts to receive": "Importi da ricevere",
+ "Income entered, not yet received on an account": "Entrata inserita, non ancora ricevuta su un conto",
+ "Correction": "Correzione",
+ "Difference between your account balances and this year's bookings": "Differenza tra i saldi dei conti e le registrazioni dell’anno",
+ "Current accounts": "Conti correnti",
+ "Savings accounts": "Conti di risparmio",
+ "Credit cards": "Carte di credito",
+ "Cash": "Contanti",
+ "Not on an account yet": "Non ancora su un conto",
+ "Still to receive": "Da ricevere",
+ "Not on an account yet — shows under Amounts to receive": "Non ancora su un conto — compare in Importi da ricevere"
 }

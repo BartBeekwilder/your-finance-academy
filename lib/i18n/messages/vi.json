@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "Vốn chủ sở hữu thay đổi theo năm",
  "Per year": "Theo năm",
  "End of {year}": "Cuối {year}",
- "{year} so far": "{year} đến giờ"
+ "{year} so far": "{year} đến giờ",
+ "Amounts to receive": "Khoản sắp nhận",
+ "Income entered, not yet received on an account": "Thu nhập đã nhập, chưa vào tài khoản",
+ "Correction": "Điều chỉnh",
+ "Difference between your account balances and this year's bookings": "Chênh lệch giữa số dư và các giao dịch năm nay",
+ "Current accounts": "Tài khoản thanh toán",
+ "Savings accounts": "Tài khoản tiết kiệm",
+ "Credit cards": "Thẻ tín dụng",
+ "Cash": "Tiền mặt",
+ "Not on an account yet": "Chưa vào tài khoản",
+ "Still to receive": "Sắp nhận",
+ "Not on an account yet — shows under Amounts to receive": "Chưa vào tài khoản — hiển thị ở Khoản sắp nhận"
 }

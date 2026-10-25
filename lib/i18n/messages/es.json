@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "Cómo cambió tu patrimonio neto por año",
  "Per year": "Por año",
  "End of {year}": "Fin de {year}",
- "{year} so far": "{year} hasta ahora"
+ "{year} so far": "{year} hasta ahora",
+ "Amounts to receive": "Importes por cobrar",
+ "Income entered, not yet received on an account": "Ingreso registrado, aún no recibido en una cuenta",
+ "Correction": "Corrección",
+ "Difference between your account balances and this year's bookings": "Diferencia entre tus saldos y los movimientos de este año",
+ "Current accounts": "Cuentas corrientes",
+ "Savings accounts": "Cuentas de ahorro",
+ "Credit cards": "Tarjetas de crédito",
+ "Cash": "Efectivo",
+ "Not on an account yet": "Aún no está en una cuenta",
+ "Still to receive": "Por cobrar",
+ "Not on an account yet — shows under Amounts to receive": "Aún no está en una cuenta — aparece en Importes por cobrar"
 }

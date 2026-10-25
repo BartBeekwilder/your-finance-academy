@@ -30,6 +30,7 @@ export type Sheet = ReturnType<typeof balanceSheet>;
 const AUTO_ASSET: [RegExp, string][] = [
   [/^property-/, "#5e5ce6"],
   [/^accounts$/, "#30d158"],
+  [/^pending$/, "#66d4cf"],
   [/^investments$/, "#bf5af2"],
   [/^prepaid$/, "#d4af37"],
   [/^spread$/, "#a2845e"],
@@ -413,6 +414,14 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
       <div className="pf-bal-parts" aria-hidden={!open}>
         <div>
           {parts.map((p, i) => {
+            // A heading (with subtotal) where a new group starts.
+            const heading =
+              p.group && p.group !== parts[i - 1]?.group ? (
+                <div key={`g-${p.group}`} className="pf-bal-group" style={{ ["--i" as string]: i }}>
+                  <span>{p.group}</span>
+                  <span className="pf-rounded">{money(parts.filter((x) => x.group === p.group).reduce((s, x) => s + x.value, 0), currency)}</span>
+                </div>
+              ) : null;
             const body = (
               <>
                 <span className="pf-bal-part-name">
@@ -429,15 +438,16 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
                 )}
               </>
             );
-            return p.href ? (
+            const row = p.href ? (
               <Link key={p.id} href={p.href} className="pf-bal-part pf-bal-part-link" style={{ ["--i" as string]: i }} tabIndex={open ? 0 : -1}>
                 {body}
               </Link>
             ) : (
-              <div key={p.id} className="pf-bal-part" data-edit={p.flow != null && !!edit?.onAccount} style={{ ["--i" as string]: i }}>
+              <div key={p.id} className="pf-bal-part" data-edit={p.flow != null && !!edit?.onAccount} data-grouped={!!p.group} style={{ ["--i" as string]: i }}>
                 {body}
               </div>
             );
+            return heading ? [heading, row] : row;
           })}
         </div>
       </div>

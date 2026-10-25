@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "كيف تغيّرت حقوق الملكية سنويًا",
  "Per year": "سنويًا",
  "End of {year}": "نهاية {year}",
- "{year} so far": "{year} حتى الآن"
+ "{year} so far": "{year} حتى الآن",
+ "Amounts to receive": "مبالغ مستحقة القبض",
+ "Income entered, not yet received on an account": "دخل مُدخل لم يصل بعد إلى حساب",
+ "Correction": "تصحيح",
+ "Difference between your account balances and this year's bookings": "الفرق بين أرصدة حساباتك ومعاملات هذا العام",
+ "Current accounts": "حسابات جارية",
+ "Savings accounts": "حسابات توفير",
+ "Credit cards": "بطاقات ائتمان",
+ "Cash": "نقدًا",
+ "Not on an account yet": "ليس في حساب بعد",
+ "Still to receive": "قيد الاستلام",
+ "Not on an account yet — shows under Amounts to receive": "ليس في حساب بعد — يظهر ضمن مبالغ مستحقة القبض"
 }

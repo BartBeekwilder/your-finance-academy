@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "Как менялся капитал по годам",
  "Per year": "По годам",
  "End of {year}": "Конец {year}",
- "{year} so far": "{year} пока"
+ "{year} so far": "{year} пока",
+ "Amounts to receive": "Суммы к получению",
+ "Income entered, not yet received on an account": "Доход внесён, но ещё не поступил на счёт",
+ "Correction": "Корректировка",
+ "Difference between your account balances and this year's bookings": "Разница между остатками и операциями этого года",
+ "Current accounts": "Текущие счета",
+ "Savings accounts": "Сберегательные счета",
+ "Credit cards": "Кредитные карты",
+ "Cash": "Наличные",
+ "Not on an account yet": "Ещё не на счёте",
+ "Still to receive": "К получению",
+ "Not on an account yet — shows under Amounts to receive": "Ещё не на счёте — показано в «Суммы к получению»"
 }

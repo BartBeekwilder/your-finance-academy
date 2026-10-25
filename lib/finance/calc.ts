@@ -1,9 +1,9 @@
 import { spreadBookValue } from "./spread";
 import { investmentsByKind, investmentsValue } from "./quotes";
-import { t } from "@/lib/i18n";
+import { intlLocale, t } from "@/lib/i18n";
 import { summarize as summarizePart } from "./mortgage";
 import { homes } from "./realEstate";
-import type { Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
+import type { Account, Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
 
 // Same rules as the iOS app's BudgetCalculator / DashboardView, so a given
 // month's totals read identically on both platforms.
@@ -111,17 +111,41 @@ export function investedIn(holdings: Holding[], currency: string) {
 
 /** What each account gained this year so far (income − spending booked on
  *  it, up to `now`), by account id. An account's balance today is its
- *  1 January balance plus this. */
+ *  1 January balance plus this. Spending without an account counts on the
+ *  default account (as a bank app would); income without one hasn't landed
+ *  anywhere yet — see pendingIncome. */
 export function accountFlows(data: FinanceData, now: Date) {
   const out = new Map<string, number>();
   const year = now.getFullYear();
+  const fallback = live(data.accounts).find((a) => a.is_default)?.id ?? null;
   for (const t of live(data.transactions)) {
-    if (!t.account_id) continue;
+    if (t.spread_of) continue; // spread parts are bookkeeping, not cash
+    const account = t.account_id ?? (t.type === "expense" ? fallback : null);
+    if (!account) continue;
     const d = new Date(t.date);
     if (d.getFullYear() !== year || d > now) continue;
-    out.set(t.account_id, (out.get(t.account_id) ?? 0) + (t.type === "income" ? 1 : -1) * num(t.amount));
+    out.set(account, (out.get(account) ?? 0) + (t.type === "income" ? 1 : -1) * num(t.amount));
+  }
+  // A spread purchase left the account at once, in full.
+  for (const t of live(data.transactions)) {
+    const o = t.spread_of;
+    if (!o || t.spread_index !== 1) continue;
+    const account = o.account_id ?? fallback;
+    const d = new Date(o.date);
+    if (!account || d.getFullYear() !== year || d > now) continue;
+    out.set(account, (out.get(account) ?? 0) - num(o.amount));
   }
   return out;
+}
+
+/** Income entered this year without an account: money that's yours but
+ *  hasn't landed on an account yet ("still to receive"). Choosing "Received
+ *  on" for it moves it to that account. */
+export function pendingIncome(data: FinanceData, at: Date) {
+  const year = at.getFullYear();
+  return live(data.transactions)
+    .filter((t) => t.type === "income" && !t.account_id && new Date(t.date).getFullYear() === year && new Date(t.date) <= at)
+    .sort((a, b) => b.date.localeCompare(a.date));
 }
 
 /** The month's net income for the live Income/Balance tiles — iOS
@@ -289,6 +313,8 @@ export type BalanceLine = {
     flow?: number;
     /** Where to see / change it (e.g. the Investments page). */
     href?: string;
+    /** A heading the part sits under (accounts: by kind, like a bank app). */
+    group?: string;
   }[];
 };
 
@@ -370,14 +396,42 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
   // Investments per kind.
   const at = isCurrent ? now : new Date(month.getFullYear(), month.getMonth() + 1, 0, 23, 59, 59);
   const acc = assets.find((l) => l.id === "accounts");
+  // Income without an account: its own line, out of Accounts.
+  const pending = pendingIncome(data, at);
+  const pendingTotal = pending.reduce((s2, x) => s2 + num(x.amount), 0);
+  if (acc && pendingTotal > 0.005) {
+    acc.value -= pendingTotal;
+    const cats = new Map(data.categories.map((c) => [c.id, c.name]));
+    assets.splice(assets.indexOf(acc) + 1, 0, {
+      id: "pending",
+      name: t("Amounts to receive"),
+      value: pendingTotal,
+      kind: "auto",
+      hint: t("Income entered, not yet received on an account"),
+      parts: pending.map((x) => ({
+        id: x.id,
+        name: `${x.note || (x.category_id ? cats.get(x.category_id) : "") || t("Income")} · ${new Date(x.date).toLocaleDateString(intlLocale(), { day: "numeric", month: "short" })}`,
+        value: num(x.amount),
+      })),
+    });
+  }
   if (acc) {
     const flows = accountFlows(data, at);
-    const parts: NonNullable<BalanceLine["parts"]> = live(data.accounts)
-      .filter((a) => a.type !== "investment" && (num(a.balance) !== 0 || flows.has(a.id)))
-      .map((a) => ({ id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0), flow: flows.get(a.id) ?? 0 }));
+    // Grouped by kind in a bank's order (current, savings, credit, cash),
+    // each group in the order the accounts were added — so it reads like
+    // the bank's own overview.
+    const KINDS: Account["type"][] = ["checking", "savings", "credit", "cash"];
+    const GROUP: Record<string, string> = { checking: t("Current accounts"), savings: t("Savings accounts"), credit: t("Credit cards"), cash: t("Cash") };
+    const parts: NonNullable<BalanceLine["parts"]> = KINDS.flatMap((kind) =>
+      live(data.accounts)
+        .filter((a) => a.type === kind)
+        .map((a) => ({ id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0), flow: flows.get(a.id) ?? 0, group: GROUP[kind] }))
+        // An empty account isn't worth a line (it shows again once it isn't).
+        .filter((p) => Math.abs(p.value) >= 0.005),
+    );
     const rest = acc.value - parts.reduce((s2, p) => s2 + p.value, 0);
-    if (Math.abs(rest) >= 0.005) parts.push({ id: "unassigned", name: t("Saved this year, not on an account"), value: rest, hint: t("Income minus spending without an account, plus corrections") });
-    if (parts.length) acc.parts = parts.sort((a, b) => b.value - a.value);
+    if (Math.abs(rest) >= 0.005) parts.push({ id: "unassigned", name: t("Correction"), value: rest, hint: t("Difference between your account balances and this year's bookings") });
+    if (parts.length) acc.parts = parts;
   }
   const invLine = assets.find((l) => l.id === "investments");
   if (invLine) {

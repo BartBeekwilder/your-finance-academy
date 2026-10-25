@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "净资产每年的变化",
  "Per year": "按年",
  "End of {year}": "{year} 年末",
- "{year} so far": "{year} 年至今"
+ "{year} so far": "{year} 年至今",
+ "Amounts to receive": "待收金额",
+ "Income entered, not yet received on an account": "已录入但尚未到账的收入",
+ "Correction": "调整",
+ "Difference between your account balances and this year's bookings": "账户余额与今年记录之间的差额",
+ "Current accounts": "活期账户",
+ "Savings accounts": "储蓄账户",
+ "Credit cards": "信用卡",
+ "Cash": "现金",
+ "Not on an account yet": "尚未到账",
+ "Still to receive": "待收",
+ "Not on an account yet — shows under Amounts to receive": "尚未到账——显示在待收金额中"
 }

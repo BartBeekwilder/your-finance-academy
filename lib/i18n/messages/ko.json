@@ -1029,5 +1029,16 @@
  "How your equity moved per year": "연도별 순자산 변화",
  "Per year": "연도별",
  "End of {year}": "{year}년 말",
- "{year} so far": "{year}년 지금까지"
+ "{year} so far": "{year}년 지금까지",
+ "Amounts to receive": "받을 금액",
+ "Income entered, not yet received on an account": "입력했지만 아직 계좌에 들어오지 않은 수입",
+ "Correction": "조정",
+ "Difference between your account balances and this year's bookings": "계좌 잔액과 올해 기록의 차이",
+ "Current accounts": "입출금 계좌",
+ "Savings accounts": "저축 계좌",
+ "Credit cards": "신용카드",
+ "Cash": "현금",
+ "Not on an account yet": "아직 계좌에 없음",
+ "Still to receive": "받을 예정",
+ "Not on an account yet — shows under Amounts to receive": "아직 계좌에 없음 — 받을 금액에 표시돼요"
 }
