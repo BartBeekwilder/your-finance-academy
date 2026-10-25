@@ -1025,5 +1025,9 @@
  "Drag to reorder": "Sıralamak için sürükle",
  "Menu": "Menü",
  "Drag the tabs in the sidebar to put them in your own order.": "Kenar çubuğundaki sekmeleri kendi sırana koymak için sürükle.",
- "Standard order": "Standart sıra"
+ "Standard order": "Standart sıra",
+ "How your equity moved per year": "Özkaynağının yıllara göre değişimi",
+ "Per year": "Yıllık",
+ "End of {year}": "{year} sonu",
+ "{year} so far": "{year} şu ana kadar"
 }

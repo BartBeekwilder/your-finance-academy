@@ -1025,5 +1025,9 @@
  "Drag to reorder": "Kéo để sắp xếp",
  "Menu": "Menu",
  "Drag the tabs in the sidebar to put them in your own order.": "Kéo các tab ở thanh bên để sắp theo thứ tự của bạn.",
- "Standard order": "Thứ tự mặc định"
+ "Standard order": "Thứ tự mặc định",
+ "How your equity moved per year": "Vốn chủ sở hữu thay đổi theo năm",
+ "Per year": "Theo năm",
+ "End of {year}": "Cuối {year}",
+ "{year} so far": "{year} đến giờ"
 }

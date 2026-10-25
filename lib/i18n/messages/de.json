@@ -1025,5 +1025,9 @@
  "Drag to reorder": "Zum Sortieren ziehen",
  "Menu": "Menü",
  "Drag the tabs in the sidebar to put them in your own order.": "Ziehe die Tabs in der Seitenleiste in deine eigene Reihenfolge.",
- "Standard order": "Standardreihenfolge"
+ "Standard order": "Standardreihenfolge",
+ "How your equity moved per year": "Wie sich dein Eigenkapital pro Jahr bewegt hat",
+ "Per year": "Pro Jahr",
+ "End of {year}": "Ende {year}",
+ "{year} so far": "{year} bisher"
 }

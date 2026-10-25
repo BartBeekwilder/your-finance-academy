@@ -1025,5 +1025,9 @@
  "Drag to reorder": "드래그해서 순서 변경",
  "Menu": "메뉴",
  "Drag the tabs in the sidebar to put them in your own order.": "사이드바의 탭을 드래그해 원하는 순서로 배치하세요.",
- "Standard order": "기본 순서"
+ "Standard order": "기본 순서",
+ "How your equity moved per year": "연도별 순자산 변화",
+ "Per year": "연도별",
+ "End of {year}": "{year}년 말",
+ "{year} so far": "{year}년 지금까지"
 }

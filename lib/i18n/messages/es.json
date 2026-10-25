@@ -1025,5 +1025,9 @@
  "Drag to reorder": "Arrastra para ordenar",
  "Menu": "Menú",
  "Drag the tabs in the sidebar to put them in your own order.": "Arrastra las pestañas de la barra lateral para ordenarlas a tu gusto.",
- "Standard order": "Orden estándar"
+ "Standard order": "Orden estándar",
+ "How your equity moved per year": "Cómo cambió tu patrimonio neto por año",
+ "Per year": "Por año",
+ "End of {year}": "Fin de {year}",
+ "{year} so far": "{year} hasta ahora"
 }

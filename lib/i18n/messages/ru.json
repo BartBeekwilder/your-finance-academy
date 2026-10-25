@@ -1025,5 +1025,9 @@
  "Drag to reorder": "Перетащите, чтобы изменить порядок",
  "Menu": "Меню",
  "Drag the tabs in the sidebar to put them in your own order.": "Перетаскивайте вкладки на боковой панели, чтобы расставить их по-своему.",
- "Standard order": "Стандартный порядок"
+ "Standard order": "Стандартный порядок",
+ "How your equity moved per year": "Как менялся капитал по годам",
+ "Per year": "По годам",
+ "End of {year}": "Конец {year}",
+ "{year} so far": "{year} пока"
 }

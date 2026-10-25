@@ -1032,5 +1032,9 @@
  "Drag to reorder": "Sleep om te ordenen",
  "Menu": "Menu",
  "Drag the tabs in the sidebar to put them in your own order.": "Sleep de tabs in de zijbalk om ze in je eigen volgorde te zetten.",
- "Standard order": "Standaardvolgorde"
+ "Standard order": "Standaardvolgorde",
+ "How your equity moved per year": "Hoe je eigen vermogen bewoog per jaar",
+ "Per year": "Per jaar",
+ "End of {year}": "Eind {year}",
+ "{year} so far": "{year} tot nu toe"
 }

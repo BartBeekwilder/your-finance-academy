@@ -1025,5 +1025,9 @@
  "Drag to reorder": "拖动以排序",
  "Menu": "菜单",
  "Drag the tabs in the sidebar to put them in your own order.": "拖动侧边栏中的标签，按你喜欢的顺序排列。",
- "Standard order": "默认顺序"
+ "Standard order": "默认顺序",
+ "How your equity moved per year": "净资产每年的变化",
+ "Per year": "按年",
+ "End of {year}": "{year} 年末",
+ "{year} so far": "{year} 年至今"
 }

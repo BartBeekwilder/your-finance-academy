@@ -1025,5 +1025,9 @@
  "Drag to reorder": "ドラッグで並べ替え",
  "Menu": "メニュー",
  "Drag the tabs in the sidebar to put them in your own order.": "サイドバーのタブをドラッグして好きな順番に並べ替えられます。",
- "Standard order": "標準の順番"
+ "Standard order": "標準の順番",
+ "How your equity moved per year": "純資産の年ごとの動き",
+ "Per year": "年別",
+ "End of {year}": "{year}年末",
+ "{year} so far": "{year}年これまで"
 }

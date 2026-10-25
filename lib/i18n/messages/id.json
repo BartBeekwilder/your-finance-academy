@@ -1025,5 +1025,9 @@
  "Drag to reorder": "Seret untuk mengurutkan",
  "Menu": "Menu",
  "Drag the tabs in the sidebar to put them in your own order.": "Seret tab di bilah samping untuk menyusunnya sesuai keinginan.",
- "Standard order": "Urutan standar"
+ "Standard order": "Urutan standar",
+ "How your equity moved per year": "Perubahan ekuitas per tahun",
+ "Per year": "Per tahun",
+ "End of {year}": "Akhir {year}",
+ "{year} so far": "{year} sejauh ini"
 }

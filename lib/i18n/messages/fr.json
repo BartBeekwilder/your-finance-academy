@@ -1025,5 +1025,9 @@
  "Drag to reorder": "Glisser pour réorganiser",
  "Menu": "Menu",
  "Drag the tabs in the sidebar to put them in your own order.": "Faites glisser les onglets de la barre latérale pour les mettre dans votre ordre.",
- "Standard order": "Ordre standard"
+ "Standard order": "Ordre standard",
+ "How your equity moved per year": "Évolution de vos capitaux propres par an",
+ "Per year": "Par an",
+ "End of {year}": "Fin {year}",
+ "{year} so far": "{year} jusqu’ici"
 }

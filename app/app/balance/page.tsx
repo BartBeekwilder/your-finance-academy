@@ -59,6 +59,15 @@ export default function BalancePage() {
       ),
     [data, now],
   );
+  // Equity per year for the waterfall's Per year: imported year-end stands,
+  // then today.
+  const equityYears = useMemo(() => {
+    const past = (data.yearSnapshots ?? [])
+      .filter((y) => y.year < now.getFullYear())
+      .sort((a, b) => a.year - b.year)
+      .map((y) => ({ year: y.year, equity: Number(y.assets) - Number(y.liabilities) }));
+    return past.length ? [...past, { year: now.getFullYear(), equity: balanceSheet(data, now, new Date(now.getFullYear(), now.getMonth(), 1)).equity, live: true }] : [];
+  }, [data, now]);
   const yearStart = useMemo(() => balanceSheet(data, now, new Date(now.getFullYear() - 1, 11, 1)).equity, [data, now]);
   // 2D view: each post through the year, one side at a time. Clicking a
   // segment in the bars picks it (and switches to its side).
@@ -161,6 +170,7 @@ export default function BalancePage() {
             label: t("Equity waterfall"),
             node: (
               <EquityWaterfall
+                years={equityYears}
                 sheet={sheet}
                 prev={prev}
                 months={{ start: yearStart, points }}

@@ -1025,5 +1025,9 @@
  "Drag to reorder": "क्रम बदलने के लिए खींचें",
  "Menu": "मेन्यू",
  "Drag the tabs in the sidebar to put them in your own order.": "साइडबार के टैब को अपने क्रम में रखने के लिए खींचें।",
- "Standard order": "मानक क्रम"
+ "Standard order": "मानक क्रम",
+ "How your equity moved per year": "आपकी इक्विटी हर साल कैसे बदली",
+ "Per year": "प्रति वर्ष",
+ "End of {year}": "{year} का अंत",
+ "{year} so far": "{year} अब तक"
 }

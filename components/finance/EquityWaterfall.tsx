@@ -14,13 +14,15 @@ import Segmented from "./Segmented";
 //               ending in the chosen month's equity.
 //   Per month — equity on 1 January, then each month's change up to the
 //               chosen month, ending in its equity.
+//   Per year  — (with year-end stands) equity at the end of the first year,
+//               then each year's change, ending in equity today.
 // Bars float from the level before to the level after, grow one after
 // another, and the axis is fitted to the levels. Pointing at a bar says
 // what it is.
 
 const H = 210;
 type Step = { key: string; label: string; long: string; from: number; to: number; kind: "total" | "change" };
-type View = "post" | "month";
+type View = "post" | "month" | "year";
 
 export default function EquityWaterfall({
   sheet,
@@ -28,6 +30,7 @@ export default function EquityWaterfall({
   months,
   sel,
   currency,
+  years = [],
 }: {
   sheet: Sheet;
   /** The month before the chosen one. */
@@ -36,11 +39,14 @@ export default function EquityWaterfall({
   months: { start: number; points: { label: string; name?: string; full: string; value: number }[] };
   sel: number;
   currency: string;
+  /** Equity per year, oldest first, the last one today (Per year). */
+  years?: { year: number; equity: number; live?: boolean }[];
 }) {
   const showAxes = useShowAxes();
   const [view, setView] = useState<View>("post");
   const [hover, setHover] = useState<number | null>(null);
-  const steps = view === "post" ? postSteps(sheet, prev) : monthSteps(months, sel);
+  const hasYears = years.length >= 2;
+  const steps = view === "post" ? postSteps(sheet, prev) : view === "year" && hasYears ? yearSteps(years) : monthSteps(months, sel);
 
   const levels = steps.flatMap((s) => [s.from, s.to]);
   const lo0 = Math.min(...levels), hi0 = Math.max(...levels);
@@ -54,7 +60,7 @@ export default function EquityWaterfall({
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 10 }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{view === "post" ? t("How your equity moved per post") : t("How your equity moved per month")}</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{view === "post" ? t("How your equity moved per post") : view === "year" ? t("How your equity moved per year") : t("How your equity moved per month")}</span>
         <Segmented
           size="sm"
           label={t("Equity waterfall")}
@@ -66,6 +72,7 @@ export default function EquityWaterfall({
           options={[
             { value: "post", label: t("Per post") },
             { value: "month", label: t("Per month") },
+            ...(hasYears ? [{ value: "year" as View, label: t("Per year") }] : []),
           ]}
         />
       </div>
@@ -167,6 +174,18 @@ function monthSteps(months: { start: number; points: { label: string; name?: str
     level = p.value;
   });
   steps.push({ key: "end", label: t("Now"), long: months.points[sel]?.full ?? t("Now"), from: level, to: level, kind: "total" });
+  return steps;
+}
+
+function yearSteps(years: { year: number; equity: number; live?: boolean }[]): Step[] {
+  const [first, ...rest] = years;
+  const steps: Step[] = [{ key: "start", label: String(first.year), long: t("End of {year}", { year: first.year }), from: first.equity, to: first.equity, kind: "total" }];
+  let level = first.equity;
+  for (const y of rest) {
+    steps.push({ key: `y${y.year}`, label: `’${String(y.year).slice(2)}`, long: y.live ? t("{year} so far", { year: y.year }) : String(y.year), from: level, to: y.equity, kind: "change" });
+    level = y.equity;
+  }
+  steps.push({ key: "end", label: t("Now"), long: t("Equity today"), from: level, to: level, kind: "total" });
   return steps;
 }
 

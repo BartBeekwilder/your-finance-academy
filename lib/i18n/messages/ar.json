@@ -1025,5 +1025,9 @@
  "Drag to reorder": "اسحب لإعادة الترتيب",
  "Menu": "القائمة",
  "Drag the tabs in the sidebar to put them in your own order.": "اسحب علامات التبويب في الشريط الجانبي لترتيبها كما تحب.",
- "Standard order": "الترتيب الافتراضي"
+ "Standard order": "الترتيب الافتراضي",
+ "How your equity moved per year": "كيف تغيّرت حقوق الملكية سنويًا",
+ "Per year": "سنويًا",
+ "End of {year}": "نهاية {year}",
+ "{year} so far": "{year} حتى الآن"
 }

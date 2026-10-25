@@ -1025,5 +1025,9 @@
  "Drag to reorder": "Trascina per riordinare",
  "Menu": "Menu",
  "Drag the tabs in the sidebar to put them in your own order.": "Trascina le schede nella barra laterale per metterle nel tuo ordine.",
- "Standard order": "Ordine standard"
+ "Standard order": "Ordine standard",
+ "How your equity moved per year": "Come è cambiato il patrimonio netto per anno",
+ "Per year": "Per anno",
+ "End of {year}": "Fine {year}",
+ "{year} so far": "{year} finora"
 }

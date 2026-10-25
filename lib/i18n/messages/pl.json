@@ -1025,5 +1025,9 @@
  "Drag to reorder": "Przeciągnij, aby zmienić kolejność",
  "Menu": "Menu",
  "Drag the tabs in the sidebar to put them in your own order.": "Przeciągaj karty na pasku bocznym, aby ułożyć je po swojemu.",
- "Standard order": "Domyślna kolejność"
+ "Standard order": "Domyślna kolejność",
+ "How your equity moved per year": "Jak zmieniał się kapitał własny w latach",
+ "Per year": "Na rok",
+ "End of {year}": "Koniec {year}",
+ "{year} so far": "{year} do teraz"
 }
