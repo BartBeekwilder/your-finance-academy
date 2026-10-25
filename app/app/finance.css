@@ -4089,3 +4089,18 @@ span.pf-cmp-chip { cursor: default; }
 .pf-ppl-row b { flex: none; font-weight: 600; }
 .pf-ppl-pct { flex: none; width: 34px; text-align: right; color: var(--pf-ink-3); font-size: 0.72rem; }
 .pf-ob-ppl { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; font-weight: 700; color: #fff; background: linear-gradient(135deg, #30d158, #0a84ff); }
+
+/* Net worth — where it sits: hover a piece of the bar */
+.pf-nw-splitwrap { position: relative; padding-top: 4px; }
+.pf-nw-split > span { cursor: default; transition: opacity 0.2s, filter 0.2s; }
+.pf-nw-split[data-lit="true"] > span { opacity: 0.35; }
+.pf-nw-split[data-lit="true"] > span[data-on="true"] { opacity: 1; filter: brightness(1.15) drop-shadow(0 0 6px rgba(255, 255, 255, 0.25)); }
+.pf-nw-tip {
+  position: absolute; bottom: calc(100% + 6px); transform: translateX(-50%); z-index: 3; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  padding: 6px 11px; border-radius: 10px; font-size: 0.8rem; background: rgba(28, 28, 32, 0.96); border: 1px solid var(--pf-line); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  pointer-events: none; animation: pf-nw-tip-in 0.18s ease-out both;
+}
+@keyframes pf-nw-tip-in { from { opacity: 0; transform: translate(-50%, 4px); } }
+.pf-nw-tip i { width: 9px; height: 9px; border-radius: 3px; }
+.pf-nw-tip b { font-weight: 600; }
+.pf-row[data-lit="true"] { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }

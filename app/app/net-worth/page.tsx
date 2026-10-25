@@ -24,6 +24,7 @@ const ACCOUNT_COLORS = ["#40c8e0", "#30d158", "#5e5ce6", "#64d2ff", "#bf5af2", "
 export default function NetWorthPage() {
   const { data, now, saveAccount } = useFinance();
   const [editing, setEditing] = useState<{ id: string; text: string } | null>(null);
+  const [lit, setLit] = useState<string | null>(null);
   const currency = data.profile.currency_code;
   const [mode, setMode] = useState<Mode>("month");
   const nw = netWorthFigures(data, now);
@@ -72,6 +73,16 @@ export default function NetWorthPage() {
     })),
   ].sort((a, b) => b.value - a.value);
   const partsTotal = parts.reduce((t, p) => t + Math.max(p.value, 0), 0);
+  // The bar's pieces with the middle of each (0–1), for the tooltip.
+  let acc = 0;
+  const pieces = parts
+    .filter((p) => p.value > 0)
+    .map((p) => {
+      const center = partsTotal ? (acc + p.value / 2) / partsTotal : 0;
+      acc += p.value;
+      return { ...p, center };
+    });
+  const litPiece = pieces.find((p) => p.id === lit);
 
   // Closing value of each month this year (finished months as entered).
   const closes = nw.finished.reduce<{ month: Date; change: number; close: number }[]>((acc, change, m) => {
@@ -125,10 +136,22 @@ export default function NetWorthPage() {
       <section>
         <h2 className="pf-section-title">{t("Where it sits")}</h2>
         <div className="pf-card" style={{ padding: 16, display: "grid", gap: 14 }}>
-          <div className="pf-nw-split">
-            {parts.filter((p) => p.value > 0).map((p, i) => (
-              <span key={p.id} title={`${p.name}: ${money(p.value, currency)}`} style={{ flex: p.value, background: p.color, animationDelay: `${i * 60}ms` }} />
-            ))}
+          {/* Pointing at a piece names it (a tooltip above it) and lights
+              its row below; pointing at a row lights its piece. */}
+          <div className="pf-nw-splitwrap" onMouseLeave={() => setLit(null)}>
+            <div className="pf-nw-split" data-lit={lit !== null}>
+              {pieces.map((p, i) => (
+                <span key={p.id} data-on={lit === p.id} onMouseEnter={() => setLit(p.id)} style={{ flex: p.value, background: p.color, animationDelay: `${i * 60}ms` }} />
+              ))}
+            </div>
+            {litPiece && (
+              <div key={litPiece.id} className="pf-nw-tip" style={{ left: `${Math.min(Math.max(litPiece.center * 100, 10), 90)}%` }}>
+                <i style={{ background: litPiece.color }} />
+                <b>{litPiece.name}</b>
+                <span className="pf-rounded">{money(litPiece.value, currency)}</span>
+                <span className="pf-rounded" style={{ color: "var(--pf-ink-3)" }}>{partsTotal ? Math.round((litPiece.value / partsTotal) * 100) : 0}%</span>
+              </div>
+            )}
           </div>
           <div style={{ display: "grid", gap: 2 }}>
             {parts.map((p) => {
@@ -142,7 +165,9 @@ export default function NetWorthPage() {
                 if (Number.isFinite(v)) saveAccount({ id: acct.id, name: acct.name, type: acct.type, balance: v - (flows.get(acct.id) ?? 0) }).catch((e: Error) => alert(e.message));
               };
               return (
-              <div key={p.id} className={`pf-row${acct ? " pf-nw-acct" : ""}`} style={{ padding: "8px 2px" }}
+              <div key={p.id} className={`pf-row${acct ? " pf-nw-acct" : ""}`} data-lit={lit === p.id} style={{ padding: "8px 2px" }}
+                onMouseEnter={() => setLit(p.id)}
+                onMouseLeave={() => setLit(null)}
                 onClick={acct && !isEditing ? () => setEditing({ id: acct.id, text: p.value.toFixed(2).replace(".", ",") }) : undefined}
                 role={acct ? "button" : undefined} tabIndex={acct ? 0 : undefined}
                 onKeyDown={acct && !isEditing ? (e) => { if (e.key === "Enter") setEditing({ id: acct.id, text: p.value.toFixed(2).replace(".", ",") }); } : undefined}>
