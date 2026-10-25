@@ -204,8 +204,27 @@ export type FinanceData = {
   /** Imported income history: a year's total income received (net, all
    *  sources) and gross salary if known. Spread like yearCategoryTotals. */
   yearIncomeTotals?: { year: number; amount: Money; gross?: Money | null; grossEstimated?: boolean }[];
+  /** Documents kept with the data (payslips…): the file itself lives in
+   *  private storage (local: .private/docs via /api/local-docs). */
+  documents?: FinanceDocument[];
   /** Runtime only (never stored): each holding's market value over time in
    *  the profile currency, [unix ms, value] by holding id, from live quotes
    *  (FinanceProvider). Missing = value holdings at cost. */
   market?: Record<string, [number, number][]>;
+};
+
+/** A stored document, e.g. a payslip for a month. */
+export type FinanceDocument = {
+  id: string;
+  kind: "payslip" | "other";
+  /** The month it belongs to (YYYY-MM-01). */
+  month: string | null;
+  /** Household member it belongs to (null = shared / not set). */
+  person_id?: string | null;
+  name: string;
+  mime: string;
+  size: number;
+  added_at: string;
+  /** Figures read from it (payslips). */
+  extracted?: { gross: number | null; net: number | null; tax: number | null } | null;
 };

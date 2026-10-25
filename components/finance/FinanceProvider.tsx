@@ -6,7 +6,7 @@ import { useMarket } from "@/lib/finance/useMarket";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoData } from "@/lib/finance/demo";
-import type { Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
+import type { FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
 import SignIn, { RECOVERY_KEY } from "./SignIn";
 
@@ -69,6 +69,10 @@ type FinanceState = {
   storedData: () => FinanceData;
   /** Local mode: replace everything with a restored copy (saved to the file). */
   restoreLocal: (d: FinanceData) => void;
+  /** Documents (payslips…): the file is stored first (/api/local-docs), this
+   *  keeps its record with the data. Local mode only for now. */
+  addDocument: (d: FinanceDocument) => Promise<void>;
+  removeDocument: (id: string) => Promise<void>;
 };
 
 /** demo = built-in sample data; supabase = the signed-in account; local =
@@ -601,6 +605,15 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     setPhase((p) => (p.kind === "ready" && p.source === "local" ? { ...p, data: d } : p));
   }, []);
 
+  const addDocument = useCallback(async (d: FinanceDocument) => {
+    if (source !== "local") throw new Error("Documents can be kept with local data for now.");
+    update((x) => ({ ...x, documents: [...(x.documents ?? []), d] }));
+  }, [source, update]);
+  const removeDocument = useCallback(async (id: string) => {
+    if (source === "local") await fetch(`${LOCAL_API.replace("local-data", "local-docs")}?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+    update((x) => ({ ...x, documents: (x.documents ?? []).filter((d) => d.id !== id) }));
+  }, [source, update]);
+
   if (phase.kind === "signed-out")
     return (
       <div className="pf-solo">
@@ -621,7 +634,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
     </FinanceContext.Provider>

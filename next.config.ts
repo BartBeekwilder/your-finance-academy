@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   // ".nosync" is skipped by iCloud, so a running dev server doesn't keep
   // syncing a gigabyte of build cache. Production builds (Vercel) keep .next.
   distDir: process.env.NODE_ENV === "development" ? ".next.nosync" : ".next",
+  // pdf.js reads payslips in a route; load it from node_modules as is.
+  serverExternalPackages: ["pdfjs-dist"],
 };
 
 export default nextConfig;

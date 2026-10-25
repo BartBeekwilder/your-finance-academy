@@ -5,6 +5,8 @@ import Segmented from "@/components/finance/Segmented";
 import { useState } from "react";
 import CategoryBars from "@/components/finance/CategoryBars";
 import GrossNetChart, { grossNetByMonth } from "@/components/finance/GrossNetChart";
+import { PayslipArchive, PayslipButton, PayslipSheet } from "@/components/finance/Payslips";
+import type { FinanceDocument } from "@/lib/finance/types";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
@@ -24,6 +26,7 @@ export default function IncomePage() {
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
   const [mode, setMode] = useState<Mode>("month");
+  const [slip, setSlip] = useState<{ doc: FinanceDocument | null; open: boolean; from: Element | null }>({ doc: null, open: false, from: null });
 
   const months = last12Months(data.transactions, now).reverse();
   const thisYear = Array.from({ length: now.getMonth() + 1 }, (_, m) => summarize(data.transactions, new Date(now.getFullYear(), m, 1)));
@@ -127,6 +130,7 @@ export default function IncomePage() {
             {months.map((m) => (
               <div key={m.month.toISOString()} className="pf-row">
                 <span style={{ flex: 1 }}>{monthYear(m.month)}</span>
+                <PayslipButton month={m.month} onOpen={(doc, from) => setSlip({ doc, open: true, from })} />
                 <span className="pf-rounded" style={{ fontWeight: 600, color: m.income ? "var(--pf-green)" : "var(--pf-ink-3)" }}>
                   {m.income ? money(m.income, currency) : t("Not yet received")}
                 </span>
@@ -135,6 +139,9 @@ export default function IncomePage() {
           </div>
         </section>
       )}
+
+      <PayslipArchive onOpen={(doc, from) => setSlip({ doc, open: true, from })} />
+      <PayslipSheet doc={slip.doc} open={slip.open} origin={slip.from} onClose={() => setSlip((x) => ({ ...x, open: false }))} />
     </div>
   );
 }

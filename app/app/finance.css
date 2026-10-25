@@ -4038,3 +4038,24 @@ span.pf-cmp-chip { cursor: default; }
 .pf-nwc-hit { position: absolute; top: 0; bottom: 0; }
 .pf-nwc-caption { position: relative; margin: 2px 0 0; text-align: right; font-size: 0.66rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .pf-nwc-line { animation: none; stroke-dashoffset: 0; } .pf-nwc-area { animation: none; } }
+
+/* Income — payslips */
+.pf-slip-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 30px; height: 28px; padding: 0 8px; margin-right: 10px; border-radius: 999px; border: 1px dashed var(--pf-line); background: transparent; color: var(--pf-ink-3); font: inherit; font-size: 0.72rem; cursor: pointer; opacity: 0.6; transition: opacity 0.2s, color 0.2s, border-color 0.2s, background 0.2s; }
+.pf-row:hover .pf-slip-btn, .pf-slip-btn:focus-visible { opacity: 1; }
+.pf-slip-btn:hover { color: var(--pf-ink); border-color: var(--pf-ink-3); }
+.pf-slip-btn[data-has="true"] { opacity: 1; border-style: solid; border-color: rgba(48, 209, 88, 0.4); color: var(--pf-green); background: rgba(48, 209, 88, 0.1); }
+.pf-slip-spin { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--pf-ink-3); border-top-color: transparent; animation: pf-spin 0.8s linear infinite; }
+@keyframes pf-spin { to { transform: rotate(360deg); } }
+.pf-slip-icon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px; color: #fff; background: linear-gradient(135deg, #30d158, #2a9d8f); }
+.pf-slip-icon-sm { width: 30px; height: 30px; border-radius: 9px; }
+.pf-slip-open { justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; text-decoration: none; color: inherit; }
+.pf-slip-table { display: grid; border-radius: 12px; overflow: hidden; border: 1px solid var(--pf-line); }
+.pf-slip-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; padding: 9px 12px; font-size: 0.85rem; }
+.pf-slip-row + .pf-slip-row { border-top: 1px solid var(--pf-line); }
+.pf-slip-row > :nth-child(2), .pf-slip-row > :nth-child(3) { text-align: right; }
+.pf-slip-row > :nth-child(3) { color: var(--pf-ink-2); }
+.pf-slip-row > [data-same="true"] { color: var(--pf-green); }
+.pf-slip-head { font-size: 0.7rem; color: var(--pf-ink-3); background: rgba(255, 255, 255, 0.03); }
+.pf-slip-done { display: inline-flex; align-items: center; gap: 6px; margin: 0; color: var(--pf-green); font-size: 0.85rem; }
+.pf-slip-arch { width: 100%; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.pf-slip-arch:hover { background: rgba(255, 255, 255, 0.04); }
