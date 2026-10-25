@@ -960,5 +960,6 @@
  "{amount} so far": "{amount} пока",
  "Average per year": "В среднем за год",
  "Balance": "Сальдо",
- "vs {year}": "к {year}"
+ "vs {year}": "к {year}",
+ "Everything below is about this category only": "Всё ниже относится только к этой категории"
 }

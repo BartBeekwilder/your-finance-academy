@@ -967,5 +967,6 @@
  "{amount} so far": "{amount} tot nu toe",
  "Average per year": "Gemiddeld per jaar",
  "Balance": "Saldo",
- "vs {year}": "t.o.v. {year}"
+ "vs {year}": "t.o.v. {year}",
+ "Everything below is about this category only": "Alles hieronder gaat alleen over deze categorie"
 }

@@ -40,6 +40,7 @@ export default function LiveTiles({
   only,
   onModeChange,
   mode,
+  scopeName,
 }: {
   data: FinanceData;
   monthStart: Date;
@@ -54,6 +55,8 @@ export default function LiveTiles({
   onModeChange?: (mode: Mode) => void;
   /** A page-level Month / Year switch the tiles follow (theirs hide). */
   mode?: Mode;
+  /** The category the page is narrowed to, shown in the Spent title. */
+  scopeName?: string;
 }) {
   // As often as the live decimals need (80 ms at five, so the sub-cent
   // digits visibly stream; Settings › Animations).
@@ -109,7 +112,7 @@ export default function LiveTiles({
       </Tile>}
 
       {(!only || only === "spent") && <Tile
-        title={() => t("Spent")}
+        title={() => (scopeName ? `${t("Spent")} · ${scopeName}` : t("Spent"))}
         last={only === "spent"}
         onModeChange={onModeChange}
         mode={mode}

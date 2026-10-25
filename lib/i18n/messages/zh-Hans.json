@@ -960,5 +960,6 @@
  "{amount} so far": "至今 {amount}",
  "Average per year": "年均",
  "Balance": "结余",
- "vs {year}": "较 {year}"
+ "vs {year}": "较 {year}",
+ "Everything below is about this category only": "以下内容仅涉及此类别"
 }

@@ -960,5 +960,6 @@
  "{amount} so far": "{amount} حتى الآن",
  "Average per year": "المتوسط السنوي",
  "Balance": "الرصيد",
- "vs {year}": "مقارنة بـ {year}"
+ "vs {year}": "مقارنة بـ {year}",
+ "Everything below is about this category only": "كل ما يلي يخص هذه الفئة فقط"
 }

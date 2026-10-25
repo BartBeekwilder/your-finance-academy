@@ -5,6 +5,8 @@ import Segmented from "@/components/finance/Segmented";
 import CategoryBars from "@/components/finance/CategoryBars";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { useState } from "react";
+import { X } from "lucide-react";
+import CategoryIcon from "@/components/finance/CategoryIcon";
 import CategoryTiles from "@/components/finance/CategoryTiles";
 import { MonthCompare, YearCompare } from "@/components/finance/Compare";
 import { scopeToCategory } from "@/lib/finance/scope";
@@ -25,7 +27,8 @@ export default function ExpensesPage() {
   // charts by subcategory); null = everything.
   const [scope, setScope] = useState<string | null>(null);
   const data = scope ? scopeToCategory(all, scope) : all;
-  const scopeName = scope ? all.categories.find((c) => c.id === scope)?.name : undefined;
+  const scopeCat = scope ? all.categories.find((c) => c.id === scope) : undefined;
+  const scopeName = scopeCat?.name;
   const currency = data.profile.currency_code;
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
@@ -56,8 +59,28 @@ export default function ExpensesPage() {
 
       <CategoryTiles data={all} now={now} mode={mode} currency={currency} selected={scope} onSelect={setScope} />
 
-      <div key={scope ?? "all"} className="pf-scope-in" style={{ display: "grid", gap: 24 }}>
+      <div
+        key={scope ?? "all"}
+        className="pf-scope-in"
+        data-scoped={!!scopeCat}
+        style={{ display: "grid", gap: 24, ...(scopeCat ? { ["--scope" as string]: `#${scopeCat.color_hex}` } : {}) }}
+      >
+      {/* Narrowed to a category: say so above everything it affects, and
+          keep saying it while scrolling. */}
+      {scopeCat && (
+        <div className="pf-scope-bar" role="status">
+          <CategoryIcon icon={scopeCat.icon} colorHex={scopeCat.color_hex} size={28} />
+          <span style={{ display: "grid", gap: 1, minWidth: 0 }}>
+            <b>{scopeCat.name}</b>
+            <span>{t("Everything below is about this category only")}</span>
+          </span>
+          <button type="button" className="pf-chip pf-scope-clear" onClick={() => setScope(null)}>
+            <X size={14} /> {t("Show all")}
+          </button>
+        </div>
+      )}
       <LiveTiles
+        scopeName={scopeName}
         only="spent"
         data={data}
         monthStart={month}

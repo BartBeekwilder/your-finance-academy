@@ -3990,3 +3990,18 @@ span.pf-cmp-chip { cursor: default; }
 .pf-yrs-foot { font-size: 0.75rem; color: var(--pf-ink-2); }
 .pf-yrs-foot b { color: var(--pf-ink); }
 @media (prefers-reduced-motion: reduce) { .pf-yrs-row, .pf-yrs-bar { animation: none; } }
+
+/* Expenses narrowed to a category */
+.pf-scope-bar {
+  position: sticky; top: 10px; z-index: 5; display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 14px; border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--scope) 55%, transparent);
+  background: color-mix(in srgb, var(--scope) 18%, rgba(20, 20, 22, 0.88));
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35), 0 0 24px color-mix(in srgb, var(--scope) 30%, transparent);
+  animation: pf-scope-bar-in 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+@keyframes pf-scope-bar-in { from { opacity: 0; transform: translateY(-8px) scale(0.98); } }
+.pf-scope-bar b { font-size: 1rem; }
+.pf-scope-bar span span, .pf-scope-bar > span > span { font-size: 0.78rem; color: var(--pf-ink-2); }
+.pf-scope-clear { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; flex: none; }
+.pf-scope-in[data-scoped="true"] .pf-card { box-shadow: inset 3px 0 0 var(--scope); }

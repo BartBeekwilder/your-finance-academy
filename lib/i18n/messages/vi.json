@@ -960,5 +960,6 @@
  "{amount} so far": "{amount} đến giờ",
  "Average per year": "Trung bình mỗi năm",
  "Balance": "Số dư",
- "vs {year}": "so với {year}"
+ "vs {year}": "so với {year}",
+ "Everything below is about this category only": "Mọi thứ bên dưới chỉ thuộc danh mục này"
 }

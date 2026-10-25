@@ -960,5 +960,6 @@
  "{amount} so far": "{amount} jusqu’ici",
  "Average per year": "Moyenne par an",
  "Balance": "Solde",
- "vs {year}": "vs {year}"
+ "vs {year}": "vs {year}",
+ "Everything below is about this category only": "Tout ce qui suit concerne uniquement cette catégorie"
 }

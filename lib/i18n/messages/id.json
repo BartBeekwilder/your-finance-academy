@@ -960,5 +960,6 @@
  "{amount} so far": "{amount} sejauh ini",
  "Average per year": "Rata-rata per tahun",
  "Balance": "Saldo",
- "vs {year}": "vs {year}"
+ "vs {year}": "vs {year}",
+ "Everything below is about this category only": "Semua di bawah hanya tentang kategori ini"
 }

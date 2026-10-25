@@ -960,5 +960,6 @@
  "{amount} so far": "अब तक {amount}",
  "Average per year": "प्रति वर्ष औसत",
  "Balance": "बैलेंस",
- "vs {year}": "{year} की तुलना में"
+ "vs {year}": "{year} की तुलना में",
+ "Everything below is about this category only": "नीचे सब कुछ केवल इस श्रेणी के बारे में है"
 }

@@ -960,5 +960,6 @@
  "{amount} so far": "Şu ana kadar {amount}",
  "Average per year": "Yıllık ortalama",
  "Balance": "Bakiye",
- "vs {year}": "{year} yılına göre"
+ "vs {year}": "{year} yılına göre",
+ "Everything below is about this category only": "Aşağıdaki her şey yalnızca bu kategoriyle ilgili"
 }
