@@ -211,7 +211,7 @@ export default function BalancePage() {
       />
 
       <p style={{ fontSize: "0.75rem", color: "var(--pf-ink-3)", lineHeight: 1.5, maxWidth: 720 }}>
-        {t("Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: holdings at cost. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.")}
+        {t("Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.")}
       </p>
     </div>
   );

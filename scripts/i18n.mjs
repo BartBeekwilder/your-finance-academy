@@ -37,6 +37,8 @@ function extract() {
   for (const file of [...walk(join(ROOT, "app")), ...walk(join(ROOT, "components")), ...walk(join(ROOT, "lib")).filter((f) => !f.includes("/i18n/"))]) {
     const src = readFileSync(file, "utf8");
     for (const m of src.matchAll(/\btr?\("((?:[^"\\]|\\.)*)"/g)) keys.add(JSON.parse(`"${m[1]}"`));
+    // Data tables translated through a variable (the Glossary's terms).
+    if (file.endsWith("glossary.ts")) for (const m of src.matchAll(/\b(?:term|text):\s*"((?:[^"\\]|\\.)*)"/g)) keys.add(JSON.parse(`"${m[1]}"`));
   }
   const list = [...keys].sort((a, b) => a.localeCompare(b));
   writeFileSync(KEYS, JSON.stringify(list, null, 1) + "\n");

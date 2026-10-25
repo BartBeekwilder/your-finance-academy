@@ -50,7 +50,7 @@ export default function DashboardPage() {
     if (v !== "years") setSpendMode(v);
   };
 
-  // Net worth: accounts + holdings at cost on 1 January plus this year's
+  // Liquidity: accounts + holdings (market value) on 1 January plus this year's
   // savings (netWorthFigures — the Net worth page's model, same as iOS).
   const complete = history.slice(0, -1).filter((p) => p.income || p.expense);
   const pace = complete.length ? complete.reduce((t, p) => t + p.income - p.expense, 0) / complete.length : 0;

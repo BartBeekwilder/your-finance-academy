@@ -1,5 +1,7 @@
 "use client";
 
+import InfoTip from "./InfoTip";
+
 import { t } from "@/lib/i18n";
 import { useTickerNow } from "@/lib/motion";
 
@@ -56,7 +58,8 @@ export default function NetWorthCard({
     >
       {history.length >= 2 && <EquityBackdrop history={history} hover={hover} onHover={setHover} />}
       <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 8, fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.05em", color: "var(--pf-ink-2)" }}>
-        <span className="pf-pulse" /> {t("Net worth").toUpperCase()} · {t("live").toUpperCase()}
+        <span className="pf-pulse" /> {t("Liquidity").toUpperCase()} · {t("live").toUpperCase()}
+        <InfoTip id="liquidity" />
       </div>
       <div style={{ position: "relative", display: "flex", alignItems: "flex-start", gap: 4, flexWrap: "wrap", marginTop: 4, pointerEvents: "none" }}>
         <LiveAmount value={live} currency={currency} size="2.25rem" />

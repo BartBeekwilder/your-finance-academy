@@ -266,7 +266,7 @@ export function yearForecast(data: FinanceData, now: Date) {
 
 /** Net worth over the year, on the live tiles' rules — the same model as
  *  iOS (DashboardView.netWorthYearlyTrend): account balances + holdings (at
- *  cost) are the starting point on 1 January; finished months move it by
+ *  market value when quotes are in, else cost) are the starting point on 1 January; finished months move it by
  *  what was entered (income − spending), this month by the live Balance
  *  (projected income × fraction − fixed × fraction − variable), the months
  *  ahead by the forecast. `base` is the net worth at the start of this month. */
@@ -274,7 +274,8 @@ export function netWorthFigures(data: FinanceData, now: Date) {
   const currency = data.profile.currency_code;
   const accounts = live(data.accounts);
   const accountsTotal = accounts.reduce((t, a) => t + num(a.balance), 0);
-  const holdingsTotal = investedIn(data.holdings, currency).total;
+  // Investments at their market value (live quotes), else at cost.
+  const holdingsTotal = data.market ? investmentsValue(data, now).total : investedIn(data.holdings, currency).total;
   const year = now.getFullYear(), current = now.getMonth();
   const finished = Array.from({ length: current }, (_, m) => {
     const s = summarize(data.transactions, new Date(year, m, 1));

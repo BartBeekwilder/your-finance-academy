@@ -1,5 +1,7 @@
 "use client";
 
+import InfoTip from "@/components/finance/InfoTip";
+
 import { intlLocale, t } from "@/lib/i18n";
 import Segmented from "@/components/finance/Segmented";
 import { useState } from "react";
@@ -95,14 +97,14 @@ export default function NetWorthPage() {
   return (
     <div style={{ display: "grid", gap: 24 }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Net worth")}</h1>
+        <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Liquidity")} <InfoTip id="liquidity" /></h1>
         <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
       </header>
 
       <NetWorthTile data={data} currency={currency} mode={mode} />
 
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
-        <Stat label={t("Net worth now")} value={money(nowValue, currency)} color="#40c8e0" hint={t("Saved this year {v1}", { v1: money(nowValue - nw.startOfYear, currency, { signed: true }) })} />
+        <Stat label={t("Liquidity now")} value={money(nowValue, currency)} color="#40c8e0" hint={t("Saved this year {v1}", { v1: money(nowValue - nw.startOfYear, currency, { signed: true }) })} />
         {mode === "month" ? (
           <>
             <Stat

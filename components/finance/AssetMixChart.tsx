@@ -13,7 +13,7 @@ import Segmented from "./Segmented";
 // all assets, the bands fill the height) or Amount (the bands in money).
 // Built from the balance sheet of each month: accounts (with prepaid and
 // receivable folded in), investments split by kind (crypto, stocks, precious
-// metals — at cost), homes and the user's own asset posts. Largest band at
+// metals — at market value), homes and the user's own asset posts. Largest band at
 // the bottom. Switching Share ↔ Amount morphs the bands; pointing at a month
 // shows its split; pointing at a legend entry lifts that band.
 
@@ -34,14 +34,6 @@ export default function AssetMixChart({ data, now, currency }: { data: FinanceDa
   const current = now.getMonth();
 
   const series = useMemo(() => {
-    // Investments by kind, as shares of the at-cost total (constant through
-    // the year until live prices arrive).
-    const byKind = new Map<string, number>();
-    for (const h of live(data.holdings)) {
-      if (!h.cost_basis || (h.cost_basis_currency ?? currency) !== currency) continue;
-      byKind.set(h.asset_type, (byKind.get(h.asset_type) ?? 0) + num(h.cost_basis));
-    }
-    const kindTotal = [...byKind.values()].reduce((a, b) => a + b, 0);
     const kindName: Record<string, string> = { crypto: t("Crypto"), stock: t("Stocks"), metal: t("Precious metals") };
 
     const map = new Map<string, Series>();
@@ -52,9 +44,10 @@ export default function AssetMixChart({ data, now, currency }: { data: FinanceDa
     for (let m = 0; m <= current; m++) {
       const sheet = balanceSheet(data, now, m === current ? now : new Date(year, m, 1));
       for (const l of sheet.assets) {
-        if (l.id === "accounts" || l.id === "prepaid" || l.id === "receivable") add("accounts", t("Accounts"), m, l.value);
+        if (l.id === "accounts" || l.id === "prepaid" || l.id === "receivable" || l.id === "pending") add("accounts", t("Accounts"), m, l.value);
         else if (l.id === "investments") {
-          if (kindTotal > 0) for (const [k, v] of byKind) add(k, kindName[k] ?? k, m, (l.value * v) / kindTotal);
+          // Per kind at that month's market value (the balance line's parts).
+          if (l.parts?.length) for (const p of l.parts) add(p.id.replace("kind-", ""), kindName[p.id.replace("kind-", "")] ?? p.name, m, p.value);
           else add("investments", t("Investments"), m, l.value);
         } else add(l.id, l.name, m, l.value);
       }
@@ -66,7 +59,7 @@ export default function AssetMixChart({ data, now, currency }: { data: FinanceDa
     return list;
   }, [data, now, currency, year, current]);
 
-  return <StackedMix series={series} now={now} currency={currency} note={t("End of each month this year (this month: today). Investments at what you paid. Earlier years come with multiple years.")} />;
+  return <StackedMix series={series} now={now} currency={currency} note={t("End of each month this year (this month: today). Investments at market value.")} />;
 }
 
 /** The stacked-areas chart itself (shared with the Balance page's 2D view):

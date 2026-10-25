@@ -4,7 +4,7 @@ import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { Banknote, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
+import { BookOpen, Banknote, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
 import { setBackgroundMotion, setMotionPaused, useBackgroundMotion, useMotionMode } from "@/lib/motion";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
@@ -18,7 +18,7 @@ const TABS = [
   { href: "/app", label: "Dashboard", Icon: ChartPie },
   { href: "/app/income", label: "Income", Icon: Banknote },
   { href: "/app/expenses", label: "Expenses", Icon: Receipt },
-  { href: "/app/net-worth", label: "Net worth", Icon: Landmark },
+  { href: "/app/net-worth", label: "Liquidity", Icon: Landmark },
   { href: "/app/balance", label: "Balance sheet", Icon: Scale },
   { href: "/app/real-estate", label: "Real estate", Icon: House },
   { href: "/app/rent-vs-buy", label: "Rent or buy", Icon: KeyRound },
@@ -101,7 +101,11 @@ export default function AppNav() {
         </SortableContext>
       </DndContext>
 
-      {/* Settings sits apart from the six iOS tabs, at the foot of the list. */}
+      {/* Glossary and Settings sit apart, at the foot of the list. */}
+      <Link href="/app/glossary" aria-current={path === "/app/glossary" ? "page" : undefined} className="pf-nav-settings">
+        <BookOpen size={20} strokeWidth={2} />
+        <span className="pf-nav-label">{t("Glossary")}</span>
+      </Link>
       <Link href="/app/settings" aria-current={path === "/app/settings" ? "page" : undefined} className="pf-nav-settings">
         <Settings size={20} strokeWidth={2} />
         <span className="pf-nav-label">{t("Settings")}</span>

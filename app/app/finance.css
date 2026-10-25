@@ -4117,3 +4117,20 @@ span.pf-cmp-chip { cursor: default; }
 .pf-bal-group { display: flex; justify-content: space-between; padding: 8px 0 2px 22px; margin-left: 3px; border-left: 1px solid var(--pf-line); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--pf-ink-3); opacity: 0; transform: translateY(-6px); transition: opacity 0.3s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
 .pf-bal-fold[data-open="true"] .pf-bal-group { opacity: 1; transform: none; transition-delay: calc(var(--i) * 45ms + 60ms); }
 .pf-bal-part[data-grouped="true"] { padding-left: 32px; }
+
+/* ⓘ explanations and the Glossary */
+.pf-info { position: relative; display: inline-flex; vertical-align: 1px; margin-left: 5px; }
+.pf-info > button { display: grid; place-items: center; width: 16px; height: 16px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.08); color: var(--pf-ink-3); cursor: help; transition: background 0.2s, color 0.2s; }
+.pf-info > button:hover, .pf-info > button[aria-expanded="true"] { background: rgba(255, 255, 255, 0.16); color: var(--pf-ink); }
+.pf-info-pop {
+  position: absolute; left: 50%; bottom: calc(100% + 8px); z-index: 20; display: grid; gap: 5px; width: 260px; transform: translateX(-50%);
+  padding: 10px 12px; border-radius: 12px; font-size: 0.78rem; font-weight: 400; line-height: 1.45; letter-spacing: 0; text-transform: none; text-align: left; white-space: normal;
+  color: var(--pf-ink-2); background: rgba(28, 28, 32, 0.97); border: 1px solid var(--pf-line); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); animation: pf-nw-tip-in 0.18s ease-out both;
+}
+.pf-info-pop b { color: var(--pf-ink); font-size: 0.82rem; }
+.pf-info-pop a { color: var(--pf-blue); text-decoration: none; font-size: 0.74rem; }
+.pf-gloss { padding: 14px 18px; scroll-margin-top: 20px; }
+.pf-gloss + .pf-gloss { border-top: 1px solid var(--pf-line); }
+.pf-gloss h2 { font-size: 0.98rem; font-weight: 650; margin: 0 0 4px; }
+.pf-gloss p { margin: 0; color: var(--pf-ink-2); font-size: 0.88rem; line-height: 1.5; }
+.pf-gloss:target { background: rgba(10, 132, 255, 0.08); }

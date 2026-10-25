@@ -1,5 +1,7 @@
 "use client";
 
+import InfoTip from "./InfoTip";
+
 import { intlLocale, t } from "@/lib/i18n";
 import { Bitcoin, ChartLine, Gem } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -270,10 +272,10 @@ export function PortfolioHero({
         )}
         <div className="pf-pf-nomreal">
           <span>
-            {t("Nominal")} <b className="pf-rounded">{money(nominal, currency)}</b>
+            {t("Nominal")} <InfoTip id="nominal" /> <b className="pf-rounded">{money(nominal, currency)}</b>
           </span>
           <span>
-            {t("Real")} <b className="pf-rounded" style={{ color: loaded ? tone(result) : undefined }}>{money(real, currency)}</b>
+            {t("Real")} <InfoTip id="real" /> <b className="pf-rounded" style={{ color: loaded ? tone(result) : undefined }}>{money(real, currency)}</b>
           </span>
         </div>
       </div>

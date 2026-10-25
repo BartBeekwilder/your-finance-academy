@@ -9,7 +9,7 @@ import { Bar, Sub, Tile, type Mode } from "./LiveTiles";
 import TileSparkline from "./TileSparkline";
 
 // The live net worth tile — the Income / Spent / Balance tiles' sibling.
-// Net worth = today's accounts + holdings (at cost), moved through this
+// Liquidity = today's accounts + holdings (at market value), moved through this
 // month by the live Balance (same rules). Month / Year: the number stays the
 // net worth; the sparkline zooms between this month and the year (built from
 // the start-of-year value, with the dotted forecast to December) and the
@@ -30,7 +30,7 @@ export default function NetWorthTile({ data, currency, onModeChange, mode }: { d
   return (
     <div className="pf-card" style={{ overflow: "hidden" }}>
       <Tile
-        title={() => t("Net worth")}
+        title={() => t("Liquidity")}
         value={value}
         before={0}
         color={() => TEAL}

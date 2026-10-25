@@ -1,5 +1,7 @@
 "use client";
 
+import InfoTip from "./InfoTip";
+
 import { t } from "@/lib/i18n";
 import { Check, ChevronRight, Plus, X } from "lucide-react";
 import Link from "next/link";
@@ -270,6 +272,9 @@ type Edit = {
 
 type Order = "own" | "desc" | "asc";
 
+// Auto lines with a Glossary entry (their ⓘ).
+const TIP: Record<string, string> = { pending: "pending", receivable: "receivable", advance: "advance", prepaid: "prepaid", spread: "spread", investments: "real", unassigned: "correction" };
+
 export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; prev?: Sheet; currency: string; edit?: Edit }) {
   const balanced = Math.abs(sheet.totalAssets - (sheet.totalDebt + sheet.equity)) < 0.01;
   // Order of the posts: your own, or by amount either way (kept per browser);
@@ -309,7 +314,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
     </div>
     <div className="pf-bal-table" ref={box}>
       <div className="pf-bal-col">
-        <h3 className="pf-bal-head">{t("Assets")}</h3>
+        <h3 className="pf-bal-head">{t("Assets")} <InfoTip id="assets" /></h3>
         {sorted(sheet.assets).map((l) => (
           <div key={l.id} data-flip-key={`a-${l.id}`}>
             <Line line={l} d={delta(l, prev?.assets)} color={colorFor("asset", sheet.assets.filter((a) => a.value > 0).indexOf(l), l.id)} currency={currency} edit={edit} />
@@ -320,7 +325,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
         <Total label={t("Total")} value={sheet.totalAssets} currency={currency} balanced={balanced} />
       </div>
       <div className="pf-bal-col">
-        <h3 className="pf-bal-head">{t("Liabilities")}</h3>
+        <h3 className="pf-bal-head">{t("Liabilities")} <InfoTip id="liabilities" /></h3>
         {sorted(sheet.liabilities).map((l) => (
           <div key={l.id} data-flip-key={`l-${l.id}`}>
             <Line line={l} d={delta(l, prev?.liabilities)} color={colorFor("debt", sheet.liabilities.filter((a) => a.value > 0).indexOf(l))} currency={currency} edit={edit} />
@@ -332,7 +337,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
           <span className="pf-rounded">{money(sheet.totalDebt, currency)}</span>
         </div>
         <div className="pf-bal-equity" data-neg={sheet.equity < 0}>
-          <span>{t("Equity")}</span>
+          <span>{t("Equity")} <InfoTip id="equity" /></span>
           <span className="pf-rounded" style={{ color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>
             {money(sheet.equity, currency)}
             {prev && Math.abs(sheet.equity - prev.equity) >= 0.005 && (
@@ -388,6 +393,7 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
         <span className={parts ? "pf-bal-name pf-bal-name-fold" : "pf-bal-name"}>
           {parts ? <span className="pf-bal-name-text">{line.name}</span> : line.name}
           {line.kind === "auto" && <em>{t("auto")}</em>}
+          {TIP[line.id] && <InfoTip id={TIP[line.id]} />}
           {parts && <ChevronRight size={14} className="pf-bal-chev" aria-hidden />}
         </span>
       )}

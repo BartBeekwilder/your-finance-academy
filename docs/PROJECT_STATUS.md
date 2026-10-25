@@ -242,6 +242,8 @@ other countries' rules later (to do: DE, BE, UK, US, …).
 
 19. ACCOUNTS LIKE THE BANK (Bart, 2026-10-26): spending without an account counts on the default account (calc.accountFlows); income without an account is 'Amounts to receive' (calc.pendingIncome) — its own balance line, unfoldable per transaction; Quick Add income has 'Still to receive'. Accounts fold grouped by kind (current / savings / credit / cash) in the order added, empty accounts hidden; leftover shows as 'Correction'. Bart's local data: savings accounts as in his bank (Spaarrekening I, II, De 10 van Gent, Autoverzekering, Gemeentelijke Belasting — the last two moved from balance posts), 2026 history booked on Lopende rekening, the old correction account removed. Balance equity waterfall: Per year.
 
+20. LIQUIDITY + GLOSSARY (Bart, 2026-10-26): 'Net worth' renamed 'Liquidity' (nav, page, dashboard card, tile; route stays /app/net-worth) — accounts + investments at market value (netWorthFigures uses investmentsValue when quotes are in); asset mix per kind at market value. Glossary: lib/finance/glossary.ts (18 terms, keys extracted by scripts/i18n.mjs), page /app/glossary (nav foot, above Settings), InfoTip ⓘ on Liquidity, balance Assets / Liabilities / Equity and auto lines, investments Nominal / Real. Bart wants to see the ⓘ first before adding more.
+
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
 - Earlier years: monthly totals enough, or import transactions?
