@@ -5,6 +5,8 @@ import Segmented from "@/components/finance/Segmented";
 import CategoryBars from "@/components/finance/CategoryBars";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { useState } from "react";
+import CategoryTiles from "@/components/finance/CategoryTiles";
+import { scopeToCategory } from "@/lib/finance/scope";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
 import Stat from "@/components/finance/Stat";
@@ -17,7 +19,12 @@ import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format"
 // month's expenses day by day.
 
 export default function ExpensesPage() {
-  const { data, now } = useFinance();
+  const { data: all, now } = useFinance();
+  // A category tile narrows the whole page to that category (and stacks its
+  // charts by subcategory); null = everything.
+  const [scope, setScope] = useState<string | null>(null);
+  const data = scope ? scopeToCategory(all, scope) : all;
+  const scopeName = scope ? all.categories.find((c) => c.id === scope)?.name : undefined;
   const currency = data.profile.currency_code;
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
@@ -46,6 +53,9 @@ export default function ExpensesPage() {
         <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
       </header>
 
+      <CategoryTiles data={all} now={now} mode={mode} currency={currency} selected={scope} onSelect={setScope} />
+
+      <div key={scope ?? "all"} className="pf-scope-in" style={{ display: "grid", gap: 24 }}>
       <LiveTiles
         only="spent"
         data={data}
@@ -88,7 +98,7 @@ export default function ExpensesPage() {
         <Stat label={finished.length ? t("Average / month ({n} mo)", { n: finished.length }) : t("Average / month")} value={average ? money(average, currency) : "—"} />
       </div>
 
-      <CategoryBars data={data} now={now} currency={currency} mode={mode} />
+      <CategoryBars data={data} now={now} currency={currency} mode={mode} scopeName={scopeName} />
 
       {mode === "month" ? (
         <MonthTransactions data={data} month={month} currency={currency} kind="expense" />
@@ -115,6 +125,7 @@ export default function ExpensesPage() {
         </div>
       </section>
       )}
+      </div>
     </div>
   );
 }

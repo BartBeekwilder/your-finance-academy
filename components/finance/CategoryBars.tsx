@@ -63,12 +63,15 @@ export default function CategoryBars({
   currency,
   mode,
   kind = "expense",
+  scopeName,
 }: {
   data: FinanceData;
   now: Date;
   currency: string;
   mode: Mode;
   kind?: Kind;
+  /** Narrowed to one category: its subcategories are the groups. */
+  scopeName?: string;
 }) {
   const showAxes = useShowAxes();
   const areas = useCategoryAreas();
@@ -112,7 +115,9 @@ export default function CategoryBars({
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "baseline" }}>
         <span style={{ display: "inline-flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-            {t(`${kind === "expense" ? "Spending" : "Income"} per ${mode === "year" ? "month" : "day"} by ${groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}`)}
+            {scopeName
+              ? t(mode === "year" ? "{name} per month by subcategory" : "{name} per day by subcategory", { name: scopeName })
+              : t(`${kind === "expense" ? "Spending" : "Income"} per ${mode === "year" ? "month" : "day"} by ${groups.some((g) => !g.category && g.id !== OTHER) ? "source" : "category"}`)}
           </span>
           {/* Bars | areas, right on the chart (same setting as Settings;
               kept per browser). */}
