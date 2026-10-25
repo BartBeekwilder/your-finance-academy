@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "Perubahan likuiditas per bulan",
  "Open my local data (this computer only)": "Buka data lokal saya (hanya komputer ini)",
  "Start local data on this computer (to restore an encrypted copy)": "Mulai data lokal di komputer ini (untuk memulihkan salinan terenkripsi)",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Membuat file pribadi kosong di komputer ini; pulihkan salinan terenkripsi ke dalamnya di Pengaturan."
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Membuat file pribadi kosong di komputer ini; pulihkan salinan terenkripsi ke dalamnya di Pengaturan.",
+ "Add": "Tambah",
+ "New subcategory": "Subkategori baru",
+ "e.g. {example}": "mis. {example}",
+ "Furniture": "Perabot",
+ "Something specific": "Sesuatu yang spesifik"
 }

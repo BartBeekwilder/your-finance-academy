@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "Likiditenin aylık değişimi",
  "Open my local data (this computer only)": "Yerel verilerimi aç (yalnızca bu bilgisayar)",
  "Start local data on this computer (to restore an encrypted copy)": "Bu bilgisayarda yerel veri başlat (şifreli kopyayı geri yüklemek için)",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Bu bilgisayarda boş bir özel dosya oluşturur; şifreli kopyanı Ayarlar'dan buna geri yükle."
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Bu bilgisayarda boş bir özel dosya oluşturur; şifreli kopyanı Ayarlar'dan buna geri yükle.",
+ "Add": "Ekle",
+ "New subcategory": "Yeni alt kategori",
+ "e.g. {example}": "ör. {example}",
+ "Furniture": "Mobilya",
+ "Something specific": "Belirli bir şey"
 }

@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "流動資産の月ごとの動き",
  "Open my local data (this computer only)": "ローカルデータを開く（このコンピュータのみ）",
  "Start local data on this computer (to restore an encrypted copy)": "このコンピュータでローカルデータを始める（暗号化コピーを復元するため）",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "このコンピュータに空の個人ファイルを作成します。設定から暗号化コピーを復元してください。"
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "このコンピュータに空の個人ファイルを作成します。設定から暗号化コピーを復元してください。",
+ "Add": "追加",
+ "New subcategory": "新しいサブカテゴリ",
+ "e.g. {example}": "例：{example}",
+ "Furniture": "家具",
+ "Something specific": "具体的なもの"
 }

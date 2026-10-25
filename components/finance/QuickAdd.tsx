@@ -2,7 +2,7 @@
 
 import { t } from "@/lib/i18n";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { Banknote, CreditCard, Hourglass, Landmark, PiggyBank, Plus, Trash2, Wallet, X } from "lucide-react";
+import { Banknote, Check, CreditCard, Hourglass, Landmark, PiggyBank, Plus, Trash2, Wallet, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
 import { money, shortMonthYear } from "@/lib/finance/format";
@@ -172,6 +172,20 @@ function Form({
     [categories, parentId],
   );
 
+  const parent = categories.find((c) => c.id === parentId);
+  // Typing a new subcategory under the picked category (null = closed).
+  const [newSub, setNewSub] = useState<string | null>(null);
+  async function saveSub() {
+    const name = newSub?.trim();
+    if (!name || !parent) return;
+    const same = subs.find((c) => c.name.toLowerCase() === name.toLowerCase());
+    const row = same ?? (await addCategory({ name, icon: parent.icon, color_hex: parent.color_hex, is_income_category: parent.is_income_category, is_fixed_expense: parent.is_fixed_expense, parent_id: parent.id }));
+    setNewSub(null);
+    setCategoryId(row.id);
+    setFixed(row.is_fixed_expense);
+    setFresh(row.id);
+  }
+
   // Accept "12,50" as well as "12.50" — Dutch keyboards type a comma.
   const parsed = Number(amount.replace(/\s/g, "").replace(",", "."));
   const valid = parsed > 0 && Number.isFinite(parsed);
@@ -276,7 +290,7 @@ function Form({
             <button
               key={c.id}
               type="button"
-              onClick={() => { setCategoryId(c.id); setFixed(c.is_fixed_expense); }}
+              onClick={() => { setCategoryId(c.id); setFixed(c.is_fixed_expense); setNewSub(null); }}
               className="pf-chip"
               aria-pressed={parentId === c.id}
               data-fresh={fresh === c.id || undefined}
@@ -293,16 +307,17 @@ function Form({
             </button>
           )}
         </div>
-        {subs.length > 0 && selected && (
+        {selected && !creating && (
           <div key={parentId} className="pf-subchips">
             <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("Subcategory (optional)")}</span>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
               {subs.map((c) => (
                 <button
                   key={c.id}
                   type="button"
                   className="pf-chip pf-chip-sm"
                   aria-pressed={categoryId === c.id}
+                  data-fresh={fresh === c.id || undefined}
                   onClick={() => {
                     // Tapping the chosen sub again goes back to just the parent.
                     const back = categoryId === c.id;
@@ -316,6 +331,32 @@ function Form({
                   {c.name}
                 </button>
               ))}
+              {newSub === null ? (
+                <button type="button" className="pf-chip pf-chip-sm pf-chip-new" onClick={() => setNewSub("")}>
+                  <span className="pf-chip-new-icon" style={{ width: 16, height: 16, borderRadius: 5 }}><Plus size={11} strokeWidth={3} /></span>
+                  {t("Subcategory")}
+                </button>
+              ) : (
+                // A new subcategory takes its parent's icon and colour; the
+                // categories page can change those later.
+                <span className="pf-chip pf-chip-sm pf-subnew">
+                  <input
+                    autoFocus
+                    aria-label={t("New subcategory")}
+                    placeholder={t("e.g. {example}", { example: subExample(parent?.name) })}
+                    value={newSub}
+                    onChange={(e) => setNewSub(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); setNewSub(null); }
+                      if (e.key === "Enter") { e.preventDefault(); void saveSub(); }
+                    }}
+                    onBlur={() => { if (!newSub.trim()) setNewSub(null); }}
+                  />
+                  <button type="button" className="pf-subnew-ok" disabled={!newSub.trim()} onMouseDown={(e) => e.preventDefault()} onClick={() => void saveSub()} aria-label={t("Add")}>
+                    <Check size={13} strokeWidth={3} />
+                  </button>
+                </span>
+              )}
             </div>
           </div>
         )}
@@ -432,6 +473,16 @@ function Form({
       )}
     </form>
   );
+}
+
+/** A placeholder for a new subcategory that fits the parent, where known. */
+function subExample(parent?: string) {
+  const n = (parent ?? "").toLowerCase();
+  if (/bood|grocer/.test(n)) return t("Bakery");
+  if (/uitgaan|going out|dining|eten/.test(n)) return t("Restaurant");
+  if (/auto|car/.test(n)) return t("Parking");
+  if (/wonen|home|housing/.test(n)) return t("Furniture");
+  return t("Something specific");
 }
 
 const ACCOUNT_ICON: Partial<Record<Account["type"], typeof Wallet>> = { checking: Landmark, savings: PiggyBank, credit: CreditCard, cash: Banknote };

@@ -1082,5 +1082,10 @@
  "How your liquidity moved per month": "Hoe je liquiditeit per maand bewoog",
  "Open my local data (this computer only)": "Open mijn lokale gegevens (alleen deze computer)",
  "Start local data on this computer (to restore an encrypted copy)": "Lokale gegevens beginnen op deze computer (om een versleutelde kopie te herstellen)",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Maakt een leeg privébestand op deze computer; herstel daar in Instellingen je versleutelde kopie in."
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Maakt een leeg privébestand op deze computer; herstel daar in Instellingen je versleutelde kopie in.",
+ "Add": "Toevoegen",
+ "New subcategory": "Nieuwe subcategorie",
+ "e.g. {example}": "bijv. {example}",
+ "Furniture": "Meubels",
+ "Something specific": "Iets specifieks"
 }

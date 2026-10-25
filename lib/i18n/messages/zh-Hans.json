@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "流动性每月的变化",
  "Open my local data (this computer only)": "打开我的本地数据（仅此电脑）",
  "Start local data on this computer (to restore an encrypted copy)": "在此电脑上开始本地数据（用于恢复加密副本）",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "在此电脑上创建一个空的私密文件；在设置中把加密副本恢复进去。"
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "在此电脑上创建一个空的私密文件；在设置中把加密副本恢复进去。",
+ "Add": "添加",
+ "New subcategory": "新子类别",
+ "e.g. {example}": "例如{example}",
+ "Furniture": "家具",
+ "Something specific": "具体的东西"
 }

@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "Cómo cambió tu liquidez por mes",
  "Open my local data (this computer only)": "Abrir mis datos locales (solo este ordenador)",
  "Start local data on this computer (to restore an encrypted copy)": "Empezar datos locales en este ordenador (para restaurar una copia cifrada)",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Crea un archivo privado vacío en este ordenador; restaura en él tu copia cifrada desde Ajustes."
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Crea un archivo privado vacío en este ordenador; restaura en él tu copia cifrada desde Ajustes.",
+ "Add": "Añadir",
+ "New subcategory": "Nueva subcategoría",
+ "e.g. {example}": "p. ej. {example}",
+ "Furniture": "Muebles",
+ "Something specific": "Algo concreto"
 }

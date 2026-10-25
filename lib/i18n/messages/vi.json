@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "Thanh khoản thay đổi theo tháng",
  "Open my local data (this computer only)": "Mở dữ liệu cục bộ của tôi (chỉ máy này)",
  "Start local data on this computer (to restore an encrypted copy)": "Bắt đầu dữ liệu cục bộ trên máy này (để khôi phục bản sao mã hóa)",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Tạo tệp riêng trống trên máy này; khôi phục bản sao mã hóa vào đó trong Cài đặt."
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Tạo tệp riêng trống trên máy này; khôi phục bản sao mã hóa vào đó trong Cài đặt.",
+ "Add": "Thêm",
+ "New subcategory": "Danh mục con mới",
+ "e.g. {example}": "vd. {example}",
+ "Furniture": "Nội thất",
+ "Something specific": "Một thứ cụ thể"
 }

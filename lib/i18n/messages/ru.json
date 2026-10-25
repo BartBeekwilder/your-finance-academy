@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "Как менялась ликвидность по месяцам",
  "Open my local data (this computer only)": "Открыть мои локальные данные (только этот компьютер)",
  "Start local data on this computer (to restore an encrypted copy)": "Начать локальные данные на этом компьютере (чтобы восстановить зашифрованную копию)",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Создаёт пустой личный файл на этом компьютере; восстановите в него зашифрованную копию в Настройках."
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Создаёт пустой личный файл на этом компьютере; восстановите в него зашифрованную копию в Настройках.",
+ "Add": "Добавить",
+ "New subcategory": "Новая подкатегория",
+ "e.g. {example}": "напр. {example}",
+ "Furniture": "Мебель",
+ "Something specific": "Что-то конкретное"
 }

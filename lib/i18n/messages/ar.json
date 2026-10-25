@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "كيف تغيّرت سيولتك شهريًا",
  "Open my local data (this computer only)": "فتح بياناتي المحلية (هذا الكمبيوتر فقط)",
  "Start local data on this computer (to restore an encrypted copy)": "بدء بيانات محلية على هذا الكمبيوتر (لاستعادة نسخة مشفرة)",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "ينشئ ملفًا خاصًا فارغًا على هذا الكمبيوتر؛ استعد نسختك المشفرة فيه من الإعدادات."
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "ينشئ ملفًا خاصًا فارغًا على هذا الكمبيوتر؛ استعد نسختك المشفرة فيه من الإعدادات.",
+ "Add": "إضافة",
+ "New subcategory": "فئة فرعية جديدة",
+ "e.g. {example}": "مثلًا {example}",
+ "Furniture": "أثاث",
+ "Something specific": "شيء محدد"
 }

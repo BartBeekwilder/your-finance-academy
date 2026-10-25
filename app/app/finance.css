@@ -3613,6 +3613,35 @@ html[data-pf-motion="light"] .pf-roll-d { animation: none !important; }
   animation: pf-newcat-in 0.35s cubic-bezier(0.34, 1.4, 0.64, 1) both;
 }
 .pf-chip.pf-chip-sm { padding: 4px 10px 4px 6px; font-size: 0.8rem; gap: 6px; }
+/* Inline "new subcategory" field, in the shape of a chip. */
+.pf-chip.pf-subnew {
+  padding: 2px 3px 2px 10px;
+  border-color: var(--pf-brand-b);
+  animation: pf-chip-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.pf-subnew input {
+  width: 13ch;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--pf-ink);
+  font: inherit;
+}
+.pf-subnew input::placeholder { color: var(--pf-ink-3); }
+.pf-subnew-ok {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b));
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.pf-subnew-ok:disabled { opacity: 0.35; cursor: default; }
+.pf-subnew-ok:not(:disabled):active { transform: scale(0.9); }
 
 /* Categories page: each category opens to its subcategories. */
 .pf-cats { padding: 4px 0; }

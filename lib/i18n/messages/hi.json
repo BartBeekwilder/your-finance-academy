@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "आपकी तरलता हर महीने कैसे बदली",
  "Open my local data (this computer only)": "मेरा स्थानीय डेटा खोलें (सिर्फ़ यह कंप्यूटर)",
  "Start local data on this computer (to restore an encrypted copy)": "इस कंप्यूटर पर स्थानीय डेटा शुरू करें (एन्क्रिप्टेड कॉपी बहाल करने के लिए)",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "इस कंप्यूटर पर एक खाली निजी फ़ाइल बनाता है; सेटिंग्स में अपनी एन्क्रिप्टेड कॉपी उसमें बहाल करें।"
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "इस कंप्यूटर पर एक खाली निजी फ़ाइल बनाता है; सेटिंग्स में अपनी एन्क्रिप्टेड कॉपी उसमें बहाल करें।",
+ "Add": "जोड़ें",
+ "New subcategory": "नई उपश्रेणी",
+ "e.g. {example}": "जैसे {example}",
+ "Furniture": "फ़र्नीचर",
+ "Something specific": "कुछ खास"
 }

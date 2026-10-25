@@ -1075,5 +1075,10 @@
  "How your liquidity moved per month": "Jak zmieniała się płynność miesięcznie",
  "Open my local data (this computer only)": "Otwórz moje dane lokalne (tylko ten komputer)",
  "Start local data on this computer (to restore an encrypted copy)": "Utwórz dane lokalne na tym komputerze (aby przywrócić zaszyfrowaną kopię)",
- "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Tworzy pusty prywatny plik na tym komputerze; przywróć do niego zaszyfrowaną kopię w Ustawieniach."
+ "Creates an empty private file on this computer; restore your encrypted copy into it in Settings.": "Tworzy pusty prywatny plik na tym komputerze; przywróć do niego zaszyfrowaną kopię w Ustawieniach.",
+ "Add": "Dodaj",
+ "New subcategory": "Nowa podkategoria",
+ "e.g. {example}": "np. {example}",
+ "Furniture": "Meble",
+ "Something specific": "Coś konkretnego"
 }
