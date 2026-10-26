@@ -1,7 +1,7 @@
 "use client";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Flame } from "lucide-react";
 import { budgetIn } from "@/lib/finance/budgetPlan";
 import { live, projectedNetIncome, summarize } from "@/lib/finance/calc";
@@ -10,7 +10,7 @@ import { monthYear } from "@/lib/finance/format";
 import { SAVINGS_SHARE } from "@/lib/finance/progressModel";
 import { streak } from "@/lib/finance/progress";
 import type { FinanceData } from "@/lib/finance/types";
-import { RING_COLORS } from "./ProgressParts";
+import { LAP_COLORS, RING_COLORS } from "./ProgressParts";
 
 // The activity calendar: every day of a month with its three small rings
 // (bookkeeping, budget on track, saved so far) — like a watch's activity
@@ -50,10 +50,11 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
   const perfect = rings.filter((r) => r.perfect).length;
 
   const chips = [
-    { label: t("Bookkeeping streak"), value: streak(active, now), unit: t("days"), color: RING_COLORS.tracking[0], icon: true },
-    { label: t("Longest streak"), value: longestStreak(active), unit: t("days"), color: RING_COLORS.tracking[1] },
-    { label: t("Within budget in a row"), value: offset === 0 ? ringStreak(rings, "budget") : null, unit: t("days"), color: RING_COLORS.budget[0] },
-    { label: t("Perfect days"), value: perfect, unit: t("this month"), color: "#ffd60a" },
+    { label: t("Bookkeeping streak"), value: streak(active, now), unit: t("days"), color: RING_COLORS.tracking, icon: true },
+    { label: t("Longest streak"), value: longestStreak(active), unit: t("days"), color: RING_COLORS.tracking },
+    { label: t("Within budget in a row"), value: offset === 0 ? ringStreak(rings, "budget") : null, unit: t("days"), color: RING_COLORS.budget },
+    // All three rings closed: their three colours.
+    { label: t("Perfect days"), value: perfect, unit: t("this month"), color: [RING_COLORS.tracking[0], RING_COLORS.budget[0], RING_COLORS.saving[1]] as readonly string[] },
   ];
 
   return (
@@ -62,9 +63,9 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
         {chips.map((c) => (
           <div key={c.label} className="pf-cal-chip">
             <span>{c.label}</span>
-            <b className="pf-rounded" style={{ color: c.color }}>
-              {c.icon && <Flame size={16} />}
-              {c.value ?? "—"} <small>{c.unit}</small>
+            <b className="pf-rounded">
+              {c.icon && <Flame size={16} color={c.color[0]} />}
+              <em className="pf-cal-num" style={{ backgroundImage: `linear-gradient(135deg, ${c.color.join(", ")})` }}>{c.value ?? "—"}</em> <small>{c.unit}</small>
             </b>
           </div>
         ))}
@@ -121,23 +122,33 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
   );
 }
 
-/** Three small concentric rings for one day. */
+/** Three small concentric rings for one day — the same gradients as the
+ *  month's big rings, and their lighter tint for a second lap. */
 function MiniRings({ r }: { r: DayRing }) {
+  const id = useId().replace(/:/g, "");
   const rows = [
-    { v: r.tracking, R: 15, c: RING_COLORS.tracking },
-    { v: r.budget, R: 10.5, c: RING_COLORS.budget },
-    { v: r.saving, R: 6, c: RING_COLORS.saving },
+    { key: "tracking" as const, v: r.tracking, R: 15 },
+    { key: "budget" as const, v: r.budget, R: 10.5 },
+    { key: "saving" as const, v: r.saving, R: 6 },
   ];
   return (
     <svg viewBox="0 0 36 36" className="pf-cal-rings" aria-hidden>
-      {rows.map((x, i) => {
+      <defs>
+        {rows.map((x) => (
+          <linearGradient key={x.key} id={`${id}${x.key}`} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor={RING_COLORS[x.key][0]} />
+            <stop offset="100%" stopColor={RING_COLORS[x.key][1]} />
+          </linearGradient>
+        ))}
+      </defs>
+      {rows.map((x) => {
         const len = 2 * Math.PI * x.R;
         const v = x.v ?? 0;
         return (
-          <g key={i} transform="rotate(-90 18 18)">
-            <circle cx="18" cy="18" r={x.R} fill="none" stroke={x.c[0]} strokeOpacity={x.v == null ? 0.06 : 0.18} strokeWidth="3.6" />
-            {v > 0 && <circle className="pf-cal-arc" cx="18" cy="18" r={x.R} fill="none" stroke={x.c[0]} strokeWidth="3.6" strokeLinecap="round" strokeDasharray={`${len * Math.min(v, 1)} ${len}`} />}
-            {v > 1 && <circle className="pf-cal-arc" cx="18" cy="18" r={x.R} fill="none" stroke={x.c[1]} strokeWidth="3.6" strokeLinecap="round" strokeDasharray={`${len * Math.min(v - 1, 0.999)} ${len}`} />}
+          <g key={x.key} transform="rotate(-90 18 18)">
+            <circle cx="18" cy="18" r={x.R} fill="none" stroke={RING_COLORS[x.key][0]} strokeOpacity={x.v == null ? 0.06 : 0.16} strokeWidth="3.6" />
+            {v > 0 && <circle className="pf-cal-arc" cx="18" cy="18" r={x.R} fill="none" stroke={`url(#${id}${x.key})`} strokeWidth="3.6" strokeLinecap="round" strokeDasharray={`${len * Math.min(v, 1)} ${len}`} />}
+            {v > 1 && <circle className="pf-cal-arc" cx="18" cy="18" r={x.R} fill="none" stroke={LAP_COLORS[x.key]} strokeWidth="3.6" strokeLinecap="round" strokeDasharray={`${len * Math.min(v - 1, 0.999)} ${len}`} />}
           </g>
         );
       })}

@@ -15,7 +15,7 @@ export const RING_COLORS = {
 } as const;
 /** The second lap's lighter tint, so a ring past 100% clearly reads as
  *  going round again. */
-const LAP_COLORS = { tracking: "#c6f4ff", budget: "#e2ffb0", saving: "#ecc2ff" } as const;
+export const LAP_COLORS = { tracking: "#c6f4ff", budget: "#e2ffb0", saving: "#ecc2ff" } as const;
 
 /** Three concentric rings that fill up (and glow when closed). Values 0…1+
  *  (saving can run past 1: the ring wraps a second lap in a lighter tint,
