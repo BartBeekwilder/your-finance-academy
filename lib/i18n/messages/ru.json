@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "Вы потратили больше, чем получили.",
  "Your {month}": "Ваш {month}",
  "Your equity at the end of {month}: {amount}.": "Ваш собственный капитал на конец {month}: {amount}.",
- "Your investments grew.": "Ваши инвестиции выросли."
+ "Your investments grew.": "Ваши инвестиции выросли.",
+ "avg": "ср."
 }

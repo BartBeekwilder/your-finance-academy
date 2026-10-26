@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "Bạn chi nhiều hơn số tiền vào.",
  "Your {month}": "{month} của bạn",
  "Your equity at the end of {month}: {amount}.": "Vốn chủ sở hữu cuối {month}: {amount}.",
- "Your investments grew.": "Khoản đầu tư của bạn đã tăng."
+ "Your investments grew.": "Khoản đầu tư của bạn đã tăng.",
+ "avg": "TB"
 }

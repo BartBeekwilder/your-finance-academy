@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "आने से ज़्यादा ख़र्च किया।",
  "Your {month}": "आपका {month}",
  "Your equity at the end of {month}: {amount}.": "{month} के अंत में आपकी इक्विटी: {amount}।",
- "Your investments grew.": "आपके निवेश बढ़े।"
+ "Your investments grew.": "आपके निवेश बढ़े।",
+ "avg": "औसत"
 }

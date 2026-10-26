@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "収入より多く使いました。",
  "Your {month}": "あなたの{month}",
  "Your equity at the end of {month}: {amount}.": "{month}末の純資産：{amount}。",
- "Your investments grew.": "投資が増えました。"
+ "Your investments grew.": "投資が増えました。",
+ "avg": "平均"
 }

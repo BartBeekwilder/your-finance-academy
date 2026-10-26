@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "支出超过了收入。",
  "Your {month}": "你的{month}",
  "Your equity at the end of {month}: {amount}.": "{month}末的净资产：{amount}。",
- "Your investments grew.": "你的投资增长了。"
+ "Your investments grew.": "你的投资增长了。",
+ "avg": "平均"
 }

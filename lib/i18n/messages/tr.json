@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "Gelenden fazla harcadın.",
  "Your {month}": "Senin {month} ayın",
  "Your equity at the end of {month}: {amount}.": "{month} sonu özsermayen: {amount}.",
- "Your investments grew.": "Yatırımların büyüdü."
+ "Your investments grew.": "Yatırımların büyüdü.",
+ "avg": "ort."
 }

@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "들어온 것보다 더 썼어요.",
  "Your {month}": "나의 {month}",
  "Your equity at the end of {month}: {amount}.": "{month} 말 자기자본: {amount}.",
- "Your investments grew.": "투자가 늘었어요."
+ "Your investments grew.": "투자가 늘었어요.",
+ "avg": "평균"
 }

@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "Du hast mehr ausgegeben als eingenommen.",
  "Your {month}": "Dein {month}",
  "Your equity at the end of {month}: {amount}.": "Dein Eigenkapital Ende {month}: {amount}.",
- "Your investments grew.": "Deine Anlagen sind gewachsen."
+ "Your investments grew.": "Deine Anlagen sind gewachsen.",
+ "avg": "Ø"
 }

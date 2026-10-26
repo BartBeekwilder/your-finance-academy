@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "Vous avez dépensé plus que vos revenus.",
  "Your {month}": "Votre {month}",
  "Your equity at the end of {month}: {amount}.": "Vos fonds propres fin {month} : {amount}.",
- "Your investments grew.": "Vos placements ont progressé."
+ "Your investments grew.": "Vos placements ont progressé.",
+ "avg": "moy."
 }

@@ -4408,8 +4408,10 @@ span.pf-cmp-chip { cursor: default; }
 .pf-wr-bar-name i { display: block; height: 6px; border-radius: 999px; transform-origin: left; animation: pf-wr-grow 1s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--d) + 0.2s); }
 @keyframes pf-wr-grow { from { transform: scaleX(0); } }
 .pf-wr-bar b { font-size: 1.05rem; }
-.pf-wr-rings { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 16px 10px; }
-.pf-wr-ring { position: relative; display: grid; justify-items: center; gap: 4px; text-align: center; }
+.pf-wr-rings { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 18px 10px; align-items: start; }
+.pf-wr-ring { position: relative; display: grid; justify-items: center; align-content: start; gap: 3px; text-align: center; }
+.pf-wr-ring-amt { font-size: 0.7rem; color: rgba(255, 255, 255, 0.75); white-space: nowrap; }
+.pf-wr-ring-amt i { font-style: normal; color: rgba(255, 255, 255, 0.5); }
 .pf-wr-ring-icon { position: absolute; top: 29px; left: 50%; translate: -50% 0; }
 .pf-wr-ring-name { font-size: 0.78rem; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pf-wr-ring-pct { font-size: 0.78rem; font-weight: 700; }

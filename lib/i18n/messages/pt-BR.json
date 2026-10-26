@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "Você gastou mais do que entrou.",
  "Your {month}": "Seu {month}",
  "Your equity at the end of {month}: {amount}.": "Seu patrimônio no fim de {month}: {amount}.",
- "Your investments grew.": "Seus investimentos cresceram."
+ "Your investments grew.": "Seus investimentos cresceram.",
+ "avg": "média"
 }

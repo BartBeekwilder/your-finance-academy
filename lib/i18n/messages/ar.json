@@ -1149,5 +1149,6 @@
  "You spent more than came in.": "أنفقت أكثر مما دخل.",
  "Your {month}": "{month} الخاص بك",
  "Your equity at the end of {month}: {amount}.": "حقوق ملكيتك في نهاية {month}: {amount}.",
- "Your investments grew.": "نمت استثماراتك."
+ "Your investments grew.": "نمت استثماراتك.",
+ "avg": "متوسط"
 }
