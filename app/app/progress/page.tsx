@@ -59,7 +59,7 @@ export default function ProgressPage() {
           <CalendarCheck size={22} />
           <span>
             <b>{t("Close {month}", { month: monthYear(m.closable) })}</b>
-            <span>{t("Five short steps: check the month, enter month-end balances, collect your points.")}</span>
+            <span>{t("Six short steps: check the month, see how it went, plan next month's budgets, collect your points.")}</span>
           </span>
           <em>→</em>
         </Link>
