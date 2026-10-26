@@ -3531,6 +3531,34 @@ html[data-pf-motion="light"] *::after {
   opacity: 0.5;
 }
 .pf-tsl-x span[data-lit="true"] { color: var(--dot); font-weight: 600; }
+/* Income: salary in — a green tick under the date. */
+.pf-tsl-x[data-paid] { height: 30px; }
+.pf-tsl-paid {
+  position: absolute;
+  top: 17px;
+  translate: -50% 0;
+  display: grid;
+  place-items: center;
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  color: #06210f;
+  background: #30d158;
+  box-shadow: 0 0 8px rgba(48, 209, 88, 0.55);
+  pointer-events: auto;
+  cursor: default;
+  animation: pf-paid-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.pf-tsl-paid[data-pending] {
+  color: #30d158;
+  background: transparent;
+  border: 1px dashed #30d158;
+  box-shadow: none;
+  opacity: 0.8;
+}
+@keyframes pf-paid-in {
+  from { scale: 0.3; }
+}
 
 /* Live amounts: a digit that changes rolls in (odometer), up while the
    amount rises and down while it falls, over about one tick (--roll). */
@@ -4189,3 +4217,26 @@ span.pf-cmp-chip { cursor: default; }
   border: 1px solid var(--pf-line);
 }
 .pf-amount-sum[data-bad] { color: var(--pf-ink-3); }
+
+/* Local data: a save refused because the file changed elsewhere. */
+.pf-stale {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 200;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: min(560px, calc(100vw - 32px));
+  padding: 12px 14px 12px 18px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  color: var(--pf-ink);
+  background: rgba(40, 24, 10, 0.92);
+  border: 1px solid rgba(255, 159, 10, 0.5);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  animation: pf-paid-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.pf-stale .pf-button { flex: none; padding: 8px 16px; }

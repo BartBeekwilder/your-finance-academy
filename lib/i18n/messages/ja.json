@@ -1082,5 +1082,7 @@
  "Furniture": "家具",
  "Something specific": "具体的なもの",
  "Filled in like last time": "前回と同じように入力しました",
- "not a valid amount": "有効な金額ではありません"
+ "not a valid amount": "有効な金額ではありません",
+ "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "データが別の場所（別のタブやウィンドウ）で変更されました。このタブの最後の変更は保存されていません。",
+ "Reload": "再読み込み"
 }

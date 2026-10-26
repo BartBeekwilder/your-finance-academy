@@ -1082,5 +1082,7 @@
  "Furniture": "फ़र्नीचर",
  "Something specific": "कुछ खास",
  "Filled in like last time": "पिछली बार की तरह भरा गया",
- "not a valid amount": "मान्य राशि नहीं"
+ "not a valid amount": "मान्य राशि नहीं",
+ "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "आपका डेटा कहीं और (दूसरे टैब या विंडो में) बदला गया। इस टैब का आख़िरी बदलाव सहेजा नहीं गया।",
+ "Reload": "फिर से लोड करें"
 }

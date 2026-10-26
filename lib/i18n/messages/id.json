@@ -1082,5 +1082,7 @@
  "Furniture": "Perabot",
  "Something specific": "Sesuatu yang spesifik",
  "Filled in like last time": "Diisi seperti terakhir kali",
- "not a valid amount": "jumlah tidak valid"
+ "not a valid amount": "jumlah tidak valid",
+ "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Datamu diubah di tempat lain (tab atau jendela lain). Perubahan terakhir di tab ini tidak tersimpan.",
+ "Reload": "Muat ulang"
 }

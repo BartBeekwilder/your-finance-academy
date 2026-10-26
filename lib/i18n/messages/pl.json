@@ -1082,5 +1082,7 @@
  "Furniture": "Meble",
  "Something specific": "Coś konkretnego",
  "Filled in like last time": "Wypełniono jak ostatnio",
- "not a valid amount": "nieprawidłowa kwota"
+ "not a valid amount": "nieprawidłowa kwota",
+ "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Twoje dane zmieniono gdzie indziej (inna karta lub okno). Ostatnia zmiana w tej karcie nie została zapisana.",
+ "Reload": "Odśwież"
 }

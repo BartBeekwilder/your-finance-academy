@@ -1,3 +1,4 @@
+import { createHash } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
 
@@ -20,11 +21,18 @@ function allowed(req: Request) {
 
 const notFound = () => new Response("Not found", { status: 404 });
 
+// Each version of the file has a fingerprint. A tab sends the one it loaded
+// (or last saved) with every save; if the file changed since — another tab,
+// or the file edited directly — the save is refused (409) instead of
+// silently writing old data over the new.
+const VERSION = "x-data-version";
+const versionOf = (text: string) => createHash("sha256").update(text).digest("hex").slice(0, 16);
+
 export async function GET(req: Request) {
   if (!allowed(req)) return notFound();
   try {
     const text = await fs.readFile(FILE, "utf8");
-    return new Response(text, { headers: { "content-type": "application/json", "cache-control": "no-store" } });
+    return new Response(text, { headers: { "content-type": "application/json", "cache-control": "no-store", [VERSION]: versionOf(text) } });
   } catch {
     return notFound();
   }
@@ -41,7 +49,11 @@ export async function PUT(req: Request) {
   }
   // Keep top-level parts the page doesn't know about (e.g. added to the file
   // while a tab was open) instead of dropping them on the next save.
-  const existing = await fs.readFile(FILE, "utf8").then((t) => JSON.parse(t) as Record<string, unknown>).catch(() => ({}));
+  const current = await fs.readFile(FILE, "utf8").catch(() => null);
+  if (current !== null && req.headers.get(VERSION) !== versionOf(current)) {
+    return new Response("The data changed since this page loaded it. Reload to see the latest.", { status: 409 });
+  }
+  const existing = current !== null ? (JSON.parse(current) as Record<string, unknown>) : {};
   const text = JSON.stringify({ ...existing, ...data }, null, 1);
   // Owner-only: the folder 700, the files 600.
   await fs.mkdir(DIR, { recursive: true, mode: 0o700 });
@@ -50,5 +62,5 @@ export async function PUT(req: Request) {
   const tmp = `${FILE}.tmp`;
   await fs.writeFile(tmp, text, { encoding: "utf8", mode: 0o600 });
   await fs.rename(tmp, FILE);
-  return new Response(null, { status: 204 });
+  return new Response(null, { status: 204, headers: { [VERSION]: versionOf(text) } });
 }

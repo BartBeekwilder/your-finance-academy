@@ -3,7 +3,7 @@
 import { t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
 import { useMarket } from "@/lib/finance/useMarket";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoData } from "@/lib/finance/demo";
 import type { FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
@@ -83,6 +83,9 @@ const FinanceContext = createContext<FinanceState | null>(null);
 const DEMO_KEY = "pf-demo";
 const LOCAL_KEY = "pf-local";
 const LOCAL_API = "/api/local-data";
+// The private file's version this tab last loaded or saved (see the route).
+const VERSION = "x-data-version";
+let localVersion: string | null = null;
 const DEV = process.env.NODE_ENV === "development";
 
 const DEFAULT_PROFILE: Profile = {
@@ -169,7 +172,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const startLocal = useCallback(async (fresh = false) => {
     const empty: FinanceData = { profile: DEFAULT_PROFILE, accounts: [], categories: [], budgets: [], transactions: [], incomeRecords: [], holdings: [], balanceItems: [], balanceValues: [], properties: [], mortgageParts: [], monthCloses: [], goals: [], achievements: [], activityDays: [], insurancePolicies: [] };
-    let r = await fetch(LOCAL_API, { cache: "no-store" });
+    const r = await fetch(LOCAL_API, { cache: "no-store" });
     if (!r.ok && fresh) {
       // A new, empty private file on this computer — then Settings, where an
       // encrypted copy can be restored into it.
@@ -181,6 +184,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       return;
     }
     if (!r.ok) return setPhase({ kind: "error", message: "No local data file (.private/finance.json)." });
+    localVersion = r.headers.get(VERSION);
     const data = { ...empty, ...((await r.json()) as Partial<FinanceData>) };
     try {
       sessionStorage.setItem(LOCAL_KEY, "1");
@@ -300,14 +304,23 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   // Local mode: every change is written back to the private file (debounced;
   // the stored data never contains the runtime spread parts).
+  // Saves go one after another, each with the version the previous one
+  // returned; if the file changed elsewhere the save is refused and the tab
+  // asks to reload rather than overwrite it.
   const localData = phase.kind === "ready" && phase.source === "local" ? phase.data : null;
+  const saving = useRef<Promise<void>>(Promise.resolve());
+  const [stale, setStale] = useState(false);
   useEffect(() => {
-    if (!localData) return;
+    if (!localData || stale) return;
     const id = setTimeout(() => {
-      fetch(LOCAL_API, { method: "PUT", body: JSON.stringify(localData, null, 1) }).catch(() => {});
+      saving.current = saving.current.then(async () => {
+        const r = await fetch(LOCAL_API, { method: "PUT", headers: localVersion ? { [VERSION]: localVersion } : {}, body: JSON.stringify(localData, null, 1) }).catch(() => null);
+        if (r?.status === 409) setStale(true);
+        else if (r?.ok) localVersion = r.headers.get(VERSION) ?? localVersion;
+      });
     }, 600);
     return () => clearTimeout(id);
-  }, [localData]);
+  }, [localData, stale]);
   // What every screen sees: spread expenses as their monthly parts.
   // …and investments with their live market value (for the balance sheet).
   const market = useMarket(current);
@@ -653,6 +666,12 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
+      {stale && (
+        <div className="pf-stale" role="alert">
+          <span>{t("Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.")}</span>
+          <button className="pf-button" onClick={() => location.reload()}>{t("Reload")}</button>
+        </div>
+      )}
     </FinanceContext.Provider>
   );
 }

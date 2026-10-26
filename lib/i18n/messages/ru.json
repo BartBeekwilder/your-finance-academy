@@ -1082,5 +1082,7 @@
  "Furniture": "Мебель",
  "Something specific": "Что-то конкретное",
  "Filled in like last time": "Заполнено как в прошлый раз",
- "not a valid amount": "неверная сумма"
+ "not a valid amount": "неверная сумма",
+ "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Ваши данные изменены в другом месте (другая вкладка или окно). Последнее изменение в этой вкладке не сохранено.",
+ "Reload": "Перезагрузить"
 }

@@ -1082,5 +1082,7 @@
  "Furniture": "أثاث",
  "Something specific": "شيء محدد",
  "Filled in like last time": "تمت التعبئة كما في المرة الماضية",
- "not a valid amount": "مبلغ غير صالح"
+ "not a valid amount": "مبلغ غير صالح",
+ "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "تم تغيير بياناتك في مكان آخر (علامة تبويب أو نافذة أخرى). لم يُحفظ آخر تغيير في علامة التبويب هذه.",
+ "Reload": "إعادة التحميل"
 }

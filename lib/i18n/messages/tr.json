@@ -1082,5 +1082,7 @@
  "Furniture": "Mobilya",
  "Something specific": "Belirli bir şey",
  "Filled in like last time": "Geçen seferki gibi dolduruldu",
- "not a valid amount": "geçerli bir tutar değil"
+ "not a valid amount": "geçerli bir tutar değil",
+ "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Verilerin başka yerde değiştirildi (başka sekme veya pencere). Bu sekmedeki son değişiklik kaydedilmedi.",
+ "Reload": "Yeniden yükle"
 }

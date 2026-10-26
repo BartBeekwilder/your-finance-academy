@@ -1082,5 +1082,7 @@
  "Furniture": "Nội thất",
  "Something specific": "Một thứ cụ thể",
  "Filled in like last time": "Đã điền như lần trước",
- "not a valid amount": "số tiền không hợp lệ"
+ "not a valid amount": "số tiền không hợp lệ",
+ "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Dữ liệu của bạn đã được thay đổi ở nơi khác (tab hoặc cửa sổ khác). Thay đổi cuối trong tab này chưa được lưu.",
+ "Reload": "Tải lại"
 }

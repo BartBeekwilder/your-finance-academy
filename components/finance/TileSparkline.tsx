@@ -3,7 +3,8 @@
 import { intlLocale, t as tr } from "@/lib/i18n";
 import { WithYAxis } from "./YAxis";
 import { useNow } from "@/lib/motion";
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
+import { Check } from "lucide-react";
 import { live as alive, monthToDate, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthName as monthLabel, shortMonth } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
@@ -72,6 +73,10 @@ export default memo(function TileSparkline({
   const current = live.getMonth();
   const days = new Date(year, current + 1, 0).getDate();
   const fraction = Math.min(Math.max((tick - new Date(year, current, 1).getTime()) / (days * 86_400_000), 0), 1);
+  // Income: a green tick under the x-axis on the day the salary came in
+  // (Month view) or under each month it did (Year view); hollow while it's
+  // still to receive (not on an account yet).
+  const salaries = useMemo(() => (series === "income" ? salaryPayments(data, year) : []), [data, series, year]);
   const pick = (income: number, spent: number) => (series === "income" ? income : series === "spent" ? spent : income - spent);
   // Net worth is a level, not a flow: the balance curve lifted by `offset`,
   // and no forced zero in the y-range.
@@ -365,7 +370,32 @@ export default memo(function TileSparkline({
     </div>
       {/* Dates along the bottom, on the same camera: days in Month view,
           months in Year view, cross-fading through the zoom; "now" lit. */}
-      <div className="pf-tsl-x" aria-hidden>
+      <div className="pf-tsl-x" aria-hidden data-paid={salaries.length > 0 || undefined}>
+        {salaries
+          .map((p) => {
+            const day = p.month === current;
+            // Month view: this month's payday; Year view: one tick per month.
+            return [
+              ...(day ? [{ key: `pd${p.id}`, t: current + (p.day - 0.5) / days, o: smooth(z, 0.5, 1), p }] : []),
+              { key: `pm${p.id}`, t: p.month + 0.5, o: 1 - smooth(z, 0, 0.5), p },
+            ];
+          })
+          .flat()
+          .map(({ key, t, o, p }) => {
+            const at = x(t);
+            if (o < 0.01 || at < -5 || at > 105) return null;
+            return (
+              <i
+                key={key}
+                className="pf-tsl-paid"
+                data-pending={!p.received || undefined}
+                style={{ left: `${at}%`, opacity: o }}
+                title={`${p.name} · ${money(p.amount, currency)}${p.received ? "" : ` · ${tr("Still to receive")}`}`}
+              >
+                <Check size={9} strokeWidth={3.4} />
+              </i>
+            );
+          })}
         {Array.from({ length: 12 }, (_, m) => ({ key: `m${m}`, t: m + 0.5, text: shortMonth(new Date(year, m, 1)), lit: m === current, o: 1 - smooth(z, 0, 0.5) }))
           .concat(
             [1, 8, 15, 22, 29]
@@ -387,6 +417,26 @@ export default memo(function TileSparkline({
 </WithYAxis>
   );
 });
+
+/** This year's salary payments: income in a salary-like category, or at
+ *  least half the expected net pay. One per month (the largest). */
+function salaryPayments(data: FinanceData, year: number) {
+  const names = new Map(data.categories.map((c) => [c.id, c.name]));
+  const expected = num(data.profile.expected_net_monthly);
+  const best = new Map<number, { id: string; month: number; day: number; amount: number; received: boolean; name: string }>();
+  for (const t of alive(data.transactions)) {
+    if (t.type !== "income") continue;
+    const d = new Date(t.date);
+    if (d.getFullYear() !== year) continue;
+    const name = names.get(t.category_id ?? "") ?? "";
+    const amount = num(t.amount);
+    if (!SALARY.test(name) && !(expected > 0 && amount >= expected * 0.5)) continue;
+    const had = best.get(d.getMonth());
+    if (!had || had.amount < amount) best.set(d.getMonth(), { id: t.id, month: d.getMonth(), day: d.getDate(), amount, received: t.account_id != null, name: name || tr("Salary") });
+  }
+  return [...best.values()];
+}
+const SALARY = /salar|loon|lohn|gehalt|salaire|sueldo|stipend|wage|maaş|зарплат|給|급여|工资|راتب|वेतन|gaji|lương/i;
 
 const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
 

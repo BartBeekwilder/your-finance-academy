@@ -1082,5 +1082,7 @@
  "Furniture": "Meubles",
  "Something specific": "Quelque chose de précis",
  "Filled in like last time": "Rempli comme la dernière fois",
- "not a valid amount": "montant non valide"
+ "not a valid amount": "montant non valide",
+ "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Vos données ont été modifiées ailleurs (autre onglet ou fenêtre). La dernière modification de cet onglet n'a pas été enregistrée.",
+ "Reload": "Recharger"
 }
