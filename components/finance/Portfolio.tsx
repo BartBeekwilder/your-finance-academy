@@ -3,7 +3,7 @@
 import InfoTip from "./InfoTip";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { Bitcoin, ChartLine, Gem, ZoomOut } from "lucide-react";
+import { Bitcoin, ChartLine, Gem, ZoomIn, ZoomOut } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { money } from "@/lib/finance/format";
 import { holdingSeries, type HoldingValue, type Quotes } from "@/lib/finance/quotes";
@@ -118,15 +118,18 @@ export function usePref<T>(key: string, initial: T) {
 }
 
 /** Click-and-drag across a chart to select a stretch of time — it shows the
- *  change between the two ends while dragging and zooms into it on release
- *  (like the Stocks app). Double-click or "Zoom out" goes back. The visible
- *  window glides between ranges. */
+ *  change between the two ends (like the Stocks app) and stays selected
+ *  after letting go; "Zoom in" magnifies it, a click clears it. Double-click
+ *  or "Zoom out" goes back. The visible window glides between ranges. */
 export function useDragZoom(t0: number, t1: number, resetKey: string) {
   const [zoom, setZoom] = useState<[number, number] | null>(null);
   const [drag, setDrag] = useState<{ a: number; b: number; x0: number; moved: boolean } | null>(null);
+  // The stretch selected by the last drag, kept until a click or a zoom.
+  const [picked, setPicked] = useState<[number, number] | null>(null);
   useEffect(() => {
     setZoom(null);
     setDrag(null);
+    setPicked(null);
   }, [resetKey]);
   const target = zoom ?? [t0, t1];
   // Glide only while zooming in or out; new data or a new period shows
@@ -142,6 +145,7 @@ export function useDragZoom(t0: number, t1: number, resetKey: string) {
   const zoomTo = (z: [number, number] | null) => {
     setGliding(true);
     setZoom(z);
+    setPicked(null);
   };
   const at = (clientX: number, el: Element) => {
     const r = el.getBoundingClientRect();
@@ -163,14 +167,15 @@ export function useDragZoom(t0: number, t1: number, resetKey: string) {
     onPointerUp: () => {
       if (drag?.moved) {
         const lo = Math.min(drag.a, drag.b), hi = Math.max(drag.a, drag.b);
-        if (hi - lo > (t1 - t0) / 400) zoomTo([lo, hi]);
-      }
+        setPicked(hi - lo > (t1 - t0) / 400 ? [lo, hi] : null);
+      } else if (drag) setPicked(null);
       setDrag(null);
     },
     onPointerCancel: () => setDrag(null),
     onDoubleClick: () => zoom && zoomTo(null),
   };
-  return { view: [v0, v1] as const, target, gliding, zoomed: zoom != null, selecting: drag?.moved ? ([Math.min(drag.a, drag.b), Math.max(drag.a, drag.b)] as const) : null, handlers, at, reset: () => zoomTo(null) };
+  const selecting = drag?.moved ? ([Math.min(drag.a, drag.b), Math.max(drag.a, drag.b)] as const) : picked;
+  return { view: [v0, v1] as const, target, gliding, zoomed: zoom != null, selecting, picked: !drag && picked != null, handlers, at, reset: () => zoomTo(null), zoomIn: () => picked && zoomTo(picked) };
 }
 
 /** The point nearest a moment. */
@@ -189,10 +194,11 @@ const growth = (a: { value: number; cost?: number }, b: { value: number; cost?: 
   return { change, share: base ? change / base : null };
 };
 
-export function ZoomOutChip({ onClick }: { onClick: () => void }) {
+export function ZoomOutChip({ onClick, zoomIn }: { onClick: () => void; zoomIn?: boolean }) {
+  const Icon = zoomIn ? ZoomIn : ZoomOut;
   return (
     <button type="button" className="pf-zoom-out" onClick={onClick}>
-      <ZoomOut size={12} strokeWidth={2.4} /> {t("Zoom out")}
+      <Icon size={12} strokeWidth={2.4} /> {zoomIn ? t("Zoom in") : t("Zoom out")}
     </button>
   );
 }
@@ -260,7 +266,7 @@ export function PriceChart({
   return (
     <div className="pf-pf-chart">
       <div className="pf-pf-readout-row">
-        {z.zoomed && !sel ? <ZoomOutChip onClick={z.reset} /> : <span />}
+        {z.picked ? <ZoomOutChip zoomIn onClick={z.zoomIn} /> : z.zoomed && !sel ? <ZoomOutChip onClick={z.reset} /> : <span />}
         <div key={sel ? "sel" : (hover ?? (z.zoomed ? "zoom" : "idle"))} className="pf-readout pf-pf-readout">
           {sel && selGrowth ? (
             <>
