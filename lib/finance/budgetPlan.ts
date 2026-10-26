@@ -68,6 +68,6 @@ export function budgetPlan(data: FinanceData, month: Date): PlanRow[] {
 export function withGoal(amount: number, less: number) {
   if (!less) return amount;
   const v = amount * (1 - less);
-  const step = v < 100 ? 1 : v < 1000 ? 5 : 10;
+  const step = v < 20 ? 0.5 : v < 100 ? 1 : v < 1000 ? 5 : 10;
   return Math.max(step, Math.floor(v / step) * step);
 }

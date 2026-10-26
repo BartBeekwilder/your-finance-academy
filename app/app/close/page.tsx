@@ -47,7 +47,8 @@ export default function ClosePage() {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<{ points: number; badges: typeof BADGES } | null>(null);
   // Next month's budgets: per category on/off and amount (unset = proposal).
-  const [plan, setPlan] = useState<Record<string, { on: boolean; amount: string }>>({});
+  // goal: the button last picked (null once an amount is typed).
+  const [plan, setPlan] = useState<Record<string, { on: boolean; amount: string; goal: number | null }>>({});
   const planRows = useMemo(() => (closing ?? model.closable ? budgetPlan(data, (closing ?? model.closable)!) : []), [data, closing, model.closable]);
 
   if (!month) {
@@ -74,8 +75,8 @@ export default function ClosePage() {
   const own = [...sheet.assets, ...sheet.liabilities].filter((l) => l.kind === "manual");
   const category = (id: string | null) => data.categories.find((c) => c.id === id);
   const points = POINTS.monthClose + POINTS.ring * summary.rings;
-  const rowPlan = (r: PlanRow) => plan[r.category.id] ?? { on: r.current != null, amount: String(r.suggested) };
-  const setRow = (r: PlanRow, patch: Partial<{ on: boolean; amount: string }>) => setPlan((p) => ({ ...p, [r.category.id]: { ...rowPlan(r), ...patch } }));
+  const rowPlan = (r: PlanRow) => plan[r.category.id] ?? { on: r.current != null, amount: String(r.suggested), goal: 0 };
+  const setRow = (r: PlanRow, patch: Partial<{ on: boolean; amount: string; goal: number | null }>) => setPlan((p) => ({ ...p, [r.category.id]: { ...rowPlan(r), ...patch } }));
   const anyBudget = planRows.some((r) => r.current != null);
   const nextMonth = new Date(month.getFullYear(), month.getMonth() + 1, 1);
   const go = (d: 1 | -1) => {
@@ -185,7 +186,7 @@ export default function ClosePage() {
                         key={g}
                         type="button"
                         className="pf-chip pf-chip-sm"
-                        onClick={() => setPlan(Object.fromEntries(planRows.map((r) => [r.category.id, { ...rowPlan(r), amount: String(withGoal(r.current ?? r.suggested, g)) }])))}
+                        onClick={() => setPlan(Object.fromEntries(planRows.map((r) => [r.category.id, { ...rowPlan(r), amount: String(withGoal(r.current ?? r.suggested, g)).replace(".", ","), goal: g }])))}
                       >
                         {g ? t("All {pct} less", { pct: `${g * 100}%` }) : t("All as they are")}
                       </button>
@@ -213,13 +214,13 @@ export default function ClosePage() {
                         {GOALS.map((g) => {
                           const v = withGoal(base, g);
                           return (
-                            <button key={g} type="button" disabled={!p.on} aria-pressed={p.on && amount === v} onClick={() => setRow(r, { amount: String(v) })}>
+                            <button key={g} type="button" disabled={!p.on} aria-pressed={p.on && p.goal === g} onClick={() => setRow(r, { amount: String(v).replace(".", ","), goal: g })}>
                               {g ? `−${g * 100}%` : "="}
                             </button>
                           );
                         })}
                       </span>
-                      <input className="pf-input pf-rounded pf-plan-input" inputMode="decimal" disabled={!p.on} aria-label={t("Budget for {name}", { name: r.category.name })} value={p.amount} onChange={(e) => setRow(r, { amount: e.target.value })} />
+                      <input className="pf-input pf-rounded pf-plan-input" inputMode="decimal" disabled={!p.on} aria-label={t("Budget for {name}", { name: r.category.name })} value={p.amount} onChange={(e) => setRow(r, { amount: e.target.value, goal: null })} />
                       <span className="pf-plan-vs pf-rounded" title={t("Compared with your average")} style={{ color: vs == null || !p.on ? "var(--pf-ink-3)" : Math.round(vs * 100) < 0 ? "var(--pf-green)" : "var(--pf-ink-2)" }}>
                         {p.on && vs != null ? (Math.round(vs * 100) === 0 ? "0%" : `${vs > 0 ? "+" : "−"}${Math.abs(Math.round(vs * 100))}%`) : ""}
                       </span>
