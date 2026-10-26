@@ -4410,9 +4410,11 @@ span.pf-cmp-chip { cursor: default; }
 .pf-wr-bar b { font-size: 1.05rem; }
 .pf-wr-rings { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 18px 10px; align-items: start; }
 .pf-wr-ring { position: relative; display: grid; justify-items: center; align-content: start; gap: 3px; text-align: center; }
-.pf-wr-ring-amt { font-size: 0.7rem; color: rgba(255, 255, 255, 0.75); white-space: nowrap; }
-.pf-wr-ring-amt i { font-style: normal; color: rgba(255, 255, 255, 0.5); }
-.pf-wr-ring-icon { position: absolute; top: 29px; left: 50%; translate: -50% 0; }
+.pf-wr-ring-amt { font-size: 0.82rem; font-weight: 600; color: rgba(255, 255, 255, 0.92); }
+.pf-wr-ring-of { font-size: 0.68rem; color: rgba(255, 255, 255, 0.5); margin-top: -2px; }
+.pf-wr-ring-dial { position: relative; display: block; width: 84px; height: 84px; }
+.pf-wr-ring-dial svg { display: block; }
+.pf-wr-ring-icon { position: absolute; inset: 0; display: grid; place-items: center; line-height: 0; }
 .pf-wr-ring-name { font-size: 0.78rem; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pf-wr-ring-pct { font-size: 0.78rem; font-weight: 700; }
 .pf-wr-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }

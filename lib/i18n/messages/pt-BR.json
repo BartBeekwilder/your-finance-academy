@@ -1150,5 +1150,7 @@
  "Your {month}": "Seu {month}",
  "Your equity at the end of {month}: {amount}.": "Seu patrimônio no fim de {month}: {amount}.",
  "Your investments grew.": "Seus investimentos cresceram.",
- "avg": "média"
+ "avg": "média",
+ "of {amount} avg": "de {amount} na média",
+ "of {amount}": "de {amount}"
 }

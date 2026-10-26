@@ -169,6 +169,7 @@ function CategoryRing({ r, currency, delay }: { r: RingRow; currency: string; de
   const gid = `pf-wr-lap-${r.category.id}`;
   return (
     <div className="pf-wr-ring" title={`${r.category.name}: ${money(r.spent, currency)} / ${money(r.target, currency)}`}>
+      <span className="pf-wr-ring-dial">
       <svg viewBox="0 0 84 84" width={84} height={84}>
         <g transform="rotate(-90 42 42)">
           <circle cx="42" cy="42" r={R} fill="none" stroke={color} strokeOpacity="0.18" strokeWidth="9" />
@@ -204,21 +205,18 @@ function CategoryRing({ r, currency, delay }: { r: RingRow; currency: string; de
       <span className="pf-wr-ring-icon">
         <CategoryIcon icon={r.category.icon} colorHex={r.category.color_hex} size={26} />
       </span>
+      </span>
       <span className="pf-wr-ring-name">{r.category.name}</span>
       <span className="pf-wr-ring-pct pf-rounded" style={{ color: over ? "#ff8a80" : "#7dffa5" }}>
         {r.target > 0 ? `${Math.round(v * 100)}%` : money(r.spent, currency)}
       </span>
       {/* What was spent against the budget (or the average). */}
-      <span className="pf-wr-ring-amt pf-rounded">
-        {money(r.spent, currency)}
-        {r.target > 0 && (
-          <>
-            {" / "}
-            {r.kind === "average" && <i>{t("avg")} </i>}
-            {money(r.target, currency)}
-          </>
-        )}
-      </span>
+      <span className="pf-wr-ring-amt pf-rounded">{money(r.spent, currency)}</span>
+      {r.target > 0 && (
+        <span className="pf-wr-ring-of pf-rounded">
+          {r.kind === "average" ? t("of {amount} avg", { amount: money(r.target, currency) }) : t("of {amount}", { amount: money(r.target, currency) })}
+        </span>
+      )}
       {over && r.target > 0 && <span className="pf-wr-ring-over pf-rounded">{t("{amount} over", { amount: money(r.spent - r.target, currency) })}</span>}
     </div>
   );

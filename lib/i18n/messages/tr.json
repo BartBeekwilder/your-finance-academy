@@ -1150,5 +1150,7 @@
  "Your {month}": "Senin {month} ayın",
  "Your equity at the end of {month}: {amount}.": "{month} sonu özsermayen: {amount}.",
  "Your investments grew.": "Yatırımların büyüdü.",
- "avg": "ort."
+ "avg": "ort.",
+ "of {amount} avg": "ort. {amount} içinden",
+ "of {amount}": "{amount} içinden"
 }

@@ -1150,5 +1150,7 @@
  "Your {month}": "你的{month}",
  "Your equity at the end of {month}: {amount}.": "{month}末的净资产：{amount}。",
  "Your investments grew.": "你的投资增长了。",
- "avg": "平均"
+ "avg": "平均",
+ "of {amount} avg": "平均 {amount} 中",
+ "of {amount}": "共 {amount}"
 }

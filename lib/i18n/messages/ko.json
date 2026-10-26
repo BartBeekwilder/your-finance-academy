@@ -1150,5 +1150,7 @@
  "Your {month}": "나의 {month}",
  "Your equity at the end of {month}: {amount}.": "{month} 말 자기자본: {amount}.",
  "Your investments grew.": "투자가 늘었어요.",
- "avg": "평균"
+ "avg": "평균",
+ "of {amount} avg": "평균 {amount} 중",
+ "of {amount}": "{amount} 중"
 }

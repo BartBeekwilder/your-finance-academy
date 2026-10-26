@@ -1150,5 +1150,7 @@
  "Your {month}": "Votre {month}",
  "Your equity at the end of {month}: {amount}.": "Vos fonds propres fin {month} : {amount}.",
  "Your investments grew.": "Vos placements ont progressé.",
- "avg": "moy."
+ "avg": "moy.",
+ "of {amount} avg": "sur {amount} en moy.",
+ "of {amount}": "sur {amount}"
 }

@@ -1150,5 +1150,7 @@
  "Your {month}": "Twój {month}",
  "Your equity at the end of {month}: {amount}.": "Twój kapitał własny na koniec {month}: {amount}.",
  "Your investments grew.": "Twoje inwestycje urosły.",
- "avg": "śr."
+ "avg": "śr.",
+ "of {amount} avg": "z śr. {amount}",
+ "of {amount}": "z {amount}"
 }

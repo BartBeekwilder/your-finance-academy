@@ -1150,5 +1150,7 @@
  "Your {month}": "あなたの{month}",
  "Your equity at the end of {month}: {amount}.": "{month}末の純資産：{amount}。",
  "Your investments grew.": "投資が増えました。",
- "avg": "平均"
+ "avg": "平均",
+ "of {amount} avg": "平均 {amount} 中",
+ "of {amount}": "{amount} 中"
 }

@@ -1157,5 +1157,7 @@
  "Your {month}": "Jouw {month}",
  "Your equity at the end of {month}: {amount}.": "Je eigen vermogen eind {month}: {amount}.",
  "Your investments grew.": "Je beleggingen groeiden.",
- "avg": "gem."
+ "avg": "gem.",
+ "of {amount} avg": "van gem. {amount}",
+ "of {amount}": "van {amount}"
 }

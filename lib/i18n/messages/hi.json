@@ -1150,5 +1150,7 @@
  "Your {month}": "आपका {month}",
  "Your equity at the end of {month}: {amount}.": "{month} के अंत में आपकी इक्विटी: {amount}।",
  "Your investments grew.": "आपके निवेश बढ़े।",
- "avg": "औसत"
+ "avg": "औसत",
+ "of {amount} avg": "औसत {amount} में से",
+ "of {amount}": "{amount} में से"
 }

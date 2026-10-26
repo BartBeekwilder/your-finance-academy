@@ -1150,5 +1150,7 @@
  "Your {month}": "{month}-mu",
  "Your equity at the end of {month}: {amount}.": "Ekuitasmu di akhir {month}: {amount}.",
  "Your investments grew.": "Investasimu tumbuh.",
- "avg": "rata²"
+ "avg": "rata²",
+ "of {amount} avg": "dari rata² {amount}",
+ "of {amount}": "dari {amount}"
 }

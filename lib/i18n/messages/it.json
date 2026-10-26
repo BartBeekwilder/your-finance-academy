@@ -1150,5 +1150,7 @@
  "Your {month}": "Il tuo {month}",
  "Your equity at the end of {month}: {amount}.": "Il tuo patrimonio a fine {month}: {amount}.",
  "Your investments grew.": "I tuoi investimenti sono cresciuti.",
- "avg": "media"
+ "avg": "media",
+ "of {amount} avg": "su {amount} di media",
+ "of {amount}": "su {amount}"
 }

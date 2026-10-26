@@ -1150,5 +1150,7 @@
  "Your {month}": "{month} الخاص بك",
  "Your equity at the end of {month}: {amount}.": "حقوق ملكيتك في نهاية {month}: {amount}.",
  "Your investments grew.": "نمت استثماراتك.",
- "avg": "متوسط"
+ "avg": "متوسط",
+ "of {amount} avg": "من متوسط {amount}",
+ "of {amount}": "من {amount}"
 }

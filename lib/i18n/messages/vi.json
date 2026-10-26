@@ -1150,5 +1150,7 @@
  "Your {month}": "{month} của bạn",
  "Your equity at the end of {month}: {amount}.": "Vốn chủ sở hữu cuối {month}: {amount}.",
  "Your investments grew.": "Khoản đầu tư của bạn đã tăng.",
- "avg": "TB"
+ "avg": "TB",
+ "of {amount} avg": "trên TB {amount}",
+ "of {amount}": "trên {amount}"
 }
