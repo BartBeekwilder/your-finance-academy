@@ -1103,5 +1103,7 @@
  "— day {n} from now on": "— voortaan dag {n}",
  "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "De dag dat je salaris binnenkomt. Nieuw salaris start op deze dag; een salaris op een andere datum kan hem ook bijwerken.",
  "total": "totaal",
- "Value per holding": "Waarde per positie"
+ "Value per holding": "Waarde per positie",
+ "Show {name}": "{name} tonen",
+ "Hide {name}": "{name} verbergen"
 }

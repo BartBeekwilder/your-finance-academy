@@ -1096,5 +1096,7 @@
  "— day {n} from now on": "— từ nay ngày {n}",
  "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "Ngày lương về. Khoản lương mới bắt đầu vào ngày này; lương vào ngày khác cũng có thể cập nhật nó.",
  "total": "tổng",
- "Value per holding": "Giá trị theo vị thế"
+ "Value per holding": "Giá trị theo vị thế",
+ "Show {name}": "Hiện {name}",
+ "Hide {name}": "Ẩn {name}"
 }

@@ -1096,5 +1096,7 @@
  "— day {n} from now on": "— désormais le {n}",
  "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "Le jour où votre salaire arrive. Les nouveaux salaires commencent à ce jour ; un salaire à une autre date peut aussi le mettre à jour.",
  "total": "total",
- "Value per holding": "Valeur par position"
+ "Value per holding": "Valeur par position",
+ "Show {name}": "Afficher {name}",
+ "Hide {name}": "Masquer {name}"
 }

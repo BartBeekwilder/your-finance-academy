@@ -1,19 +1,21 @@
 "use client";
 
 import { t } from "@/lib/i18n";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { money } from "@/lib/finance/format";
 import { holdingSeries, type Quotes } from "@/lib/finance/quotes";
 import type { Holding } from "@/lib/finance/types";
 import { RANGES, timeLabel, useDragZoom, ZoomOutChip, type Range } from "./Portfolio";
 import Segmented from "./Segmented";
 import { WithYAxis } from "./YAxis";
+import { useTween } from "./charts";
 
 // Investments › value per holding: every holding's real value over the
 // chosen period, stacked (Amount) or as shares of the whole (Share), with
 // the mix as a bar and a list on the right — at "now", or at the moment
 // pointed at. Like the Expenses chart, and like the chart above, drag across
-// it to select a stretch and zoom in.
+// it to select a stretch and zoom in. A name in the list switches that
+// holding off or on; the stack reshapes smoothly (remembered per browser).
 
 // Neutral colours — no red or green, which would read as loss or gain.
 // Bitcoin keeps its orange and gold its gold.
@@ -50,23 +52,63 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
     lines.sort((a, b) => (b.values[b.values.length - 1] ?? 0) - (a.values[a.values.length - 1] ?? 0));
     let next = 0;
     const colored = lines.map((l) => ({ ...l, color: /^BTC/i.test(l.symbol) ? "#f7931a" : /^(XAU|GC=F)/i.test(l.symbol) ? "#d4af37" : PALETTE[next++ % PALETTE.length] }));
-    const totals = times.map((_, k) => colored.reduce((s, l) => s + l.values[k], 0));
-    return { times, lines: colored, totals };
+    return { times, lines: colored };
   }, [holdings, quotes, currency, range]);
 
-  const { times, lines, totals } = model;
+  const { times, lines } = model;
   const t0 = times[0] ?? 0, t1 = times[times.length - 1] ?? 1;
   const z = useDragZoom(t0, t1, `${range}|${mode}`);
+
+  // Holdings switched off (by id), remembered in this browser. Each line's
+  // weight glides between 1 and 0, so the stack reshapes instead of jumping.
+  const [hidden, setHidden] = useState<Set<string>>(() => {
+    try {
+      return new Set(JSON.parse(localStorage.getItem("pf-mix-hidden") ?? "[]") as string[]);
+    } catch {
+      return new Set();
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem("pf-mix-hidden", JSON.stringify([...hidden]));
+    } catch {}
+  }, [hidden]);
+  const toggle = (id: string) => setHidden((h) => {
+    const next = new Set(h);
+    if (next.has(id)) next.delete(id);
+    else if (lines.some((l) => l.id !== id && !next.has(l.id))) next.add(id); // keep one on
+    return next;
+  });
+  const targetW = lines.map((l) => (hidden.has(l.id) ? 0 : 1));
+  const weights = useTween(targetW, 480);
+  const wOf = (i: number) => weights[i] ?? targetW[i];
+  const totals = times.map((_, k) => lines.reduce((s, l, i) => s + l.values[k] * wOf(i), 0));
+  const targetTotals = times.map((_, k) => lines.reduce((s, l, i) => s + l.values[k] * targetW[i], 0));
+
+  // The chart is as tall as the list beside it (wide screens).
+  const side = useRef<HTMLDivElement>(null);
+  const [sideH, setSideH] = useState(0);
+  useEffect(() => {
+    const el = side.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setSideH(window.matchMedia("(max-width: 860px)").matches ? 0 : el.offsetHeight));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const inWin = times.map((x, k) => (x >= z.target[0] && x <= z.target[1] ? k : -1)).filter((k) => k >= 0);
+  const peak = Math.max(1, ...(inWin.length ? inWin : times.map((_, k) => k)).map((k) => targetTotals[k] ?? 0));
+  const [max] = useTween([mode === "share" ? 1 : niceMax(peak)], 480);
   if (times.length < 2) return null;
 
   const [v0, v1] = z.view;
-  const W = 600, H = 220;
-  const inWin = times.map((x, k) => (x >= z.target[0] && x <= z.target[1] ? k : -1)).filter((k) => k >= 0);
-  const peak = Math.max(1, ...(inWin.length ? inWin : times.map((_, k) => k)).map((k) => totals[k]));
-  const max = mode === "share" ? 1 : niceMax(peak);
+  const W = 600, H = Math.max(220, sideH - 22);
   const x = (tt: number) => ((tt - v0) / Math.max(v1 - v0, 1)) * W;
   const y = (v: number) => H - (v / max) * H;
-  const value = (l: (typeof lines)[number], k: number) => (mode === "share" ? (totals[k] ? l.values[k] / totals[k] : 0) : l.values[k]);
+  const value = (l: (typeof lines)[number], k: number) => {
+    const v = l.values[k] * wOf(lines.indexOf(l));
+    return mode === "share" ? (totals[k] ? v / totals[k] : 0) : v;
+  };
 
   // Stacked bands, bottom up.
   const k0 = Math.max(0, times.findIndex((tt) => tt >= v0) - 1);
@@ -144,7 +186,7 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
         ) : (
           chart
         )}
-        <div className="pf-mix-side">
+        <div className="pf-mix-side" ref={side}>
           <div key={label} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
             {hover == null ? `${rangeLabel} · ${label}` : label}
           </div>
@@ -152,18 +194,37 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
           <div className="pf-mix-body">
             <div className="pf-mix-bar" aria-hidden>
               {[...lines].reverse().map((l) => (
-                <span key={l.id} style={{ flexGrow: total ? l.values[at] / total : 0, background: l.color }} data-dim={lit != null && lit !== l.id} />
+                <span key={l.id} style={{ flexGrow: total ? (l.values[at] * wOf(lines.indexOf(l))) / total : 0, background: l.color }} data-dim={lit != null && lit !== l.id} />
               ))}
             </div>
             <div className="pf-mix-list">
-              {lines.map((l) => (
-                <div key={l.id} className="pf-mix-row" data-dim={lit != null && lit !== l.id} onMouseEnter={() => setLit(l.id)} onMouseLeave={() => setLit(null)}>
-                  <i style={{ background: l.color }} />
-                  <span className="pf-mix-name">{l.name}</span>
-                  <b className="pf-rounded">{money(l.values[at], currency)}</b>
-                  <span className="pf-rounded pf-mix-pct">{total ? Math.round((l.values[at] / total) * 100) : 0}%</span>
-                </div>
-              ))}
+              {lines.map((l) => {
+                const off = hidden.has(l.id);
+                return (
+                  <button
+                    key={l.id}
+                    type="button"
+                    className="pf-mix-row"
+                    aria-pressed={!off}
+                    title={off ? t("Show {name}", { name: l.name }) : t("Hide {name}", { name: l.name })}
+                    data-off={off || undefined}
+                    data-dim={lit != null && lit !== l.id}
+                    onClick={() => toggle(l.id)}
+                    onMouseEnter={() => setLit(off ? null : l.id)}
+                    onMouseLeave={() => setLit(null)}
+                  >
+                    <i style={{ background: off ? "transparent" : l.color, borderColor: l.color }} />
+                    <span className="pf-mix-name">{l.name}</span>
+                    <b className="pf-rounded">{money(l.values[at], currency)}</b>
+                    <span className="pf-rounded pf-mix-pct">{off ? "—" : `${total ? Math.round((l.values[at] / total) * 100) : 0}%`}</span>
+                  </button>
+                );
+              })}
+              {hidden.size > 0 && (
+                <button type="button" className="pf-zoom-out pf-mix-all" onClick={() => setHidden(new Set())}>
+                  {t("Show all")}
+                </button>
+              )}
             </div>
           </div>
         </div>

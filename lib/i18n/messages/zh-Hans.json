@@ -1096,5 +1096,7 @@
  "— day {n} from now on": "— 今后为 {n} 日",
  "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "工资到账的日子。新的工资记录从这一天开始；其他日期的工资也可以更新它。",
  "total": "总计",
- "Value per holding": "各持仓价值"
+ "Value per holding": "各持仓价值",
+ "Show {name}": "显示{name}",
+ "Hide {name}": "隐藏{name}"
 }

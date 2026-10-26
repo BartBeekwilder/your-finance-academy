@@ -1096,5 +1096,7 @@
  "— day {n} from now on": "— bundan sonra {n}. gün",
  "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "Maaşının yattığı gün. Yeni maaş kayıtları bu günden başlar; başka tarihli bir maaş da bunu güncelleyebilir.",
  "total": "toplam",
- "Value per holding": "Pozisyon başına değer"
+ "Value per holding": "Pozisyon başına değer",
+ "Show {name}": "{name} göster",
+ "Hide {name}": "{name} gizle"
 }

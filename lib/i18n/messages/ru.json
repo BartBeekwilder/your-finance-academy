@@ -1096,5 +1096,7 @@
  "— day {n} from now on": "— теперь {n}-е число",
  "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "День, когда приходит зарплата. Новые записи зарплаты начинаются с этого дня; зарплата в другой день тоже может его изменить.",
  "total": "всего",
- "Value per holding": "Стоимость по позициям"
+ "Value per holding": "Стоимость по позициям",
+ "Show {name}": "Показать {name}",
+ "Hide {name}": "Скрыть {name}"
 }

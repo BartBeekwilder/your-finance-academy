@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronRight } from "lucide-react";
 import BudgetBar from "@/components/finance/BudgetBar";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
@@ -13,6 +13,8 @@ import { dayLabel, money, monthYear } from "@/lib/finance/format";
 import { BADGES, POINTS, newBadges } from "@/lib/finance/progress";
 import { monthRings, monthSummary, progressModel } from "@/lib/finance/progressModel";
 import { t } from "@/lib/i18n";
+import { openTransactionEditor } from "@/lib/finance/editTransaction";
+import type { Transaction } from "@/lib/finance/types";
 
 // Close the month — five short steps, then the month is in the books:
 //   1. Income: what came in against what was expected.
@@ -110,7 +112,7 @@ export default function ClosePage() {
               <Figure label={t("Expected")} value={money(expected, currency)} />
             </div>
             {summary.income < expected * 0.98 && <p className="pf-close-note">{t("Less than expected came in. Missing a payment? Add it with + before closing.")}</p>}
-            <List rows={income.map((x) => ({ id: x.id, icon: category(x.category_id), title: x.note || category(x.category_id)?.name || t("Income"), sub: dayLabel(x.date), amount: money(num(x.amount), currency), color: "var(--pf-green)" }))} empty={t("No income entered this month.")} />
+            <List rows={income.map((x) => ({ tx: x, id: x.id, icon: category(x.category_id), title: x.note || category(x.category_id)?.name || t("Income"), sub: dayLabel(x.date), amount: money(num(x.amount), currency), color: "var(--pf-green)" }))} empty={t("No income entered this month.")} />
           </div>
         )}
 
@@ -124,7 +126,7 @@ export default function ClosePage() {
                 <ul>{missing.map((x) => <li key={x.id}>{x.note || category(x.category_id)?.name} · {money(num(x.amount), currency)}</li>)}</ul>
               </div>
             )}
-            <List rows={fixed.map((x) => ({ id: x.id, icon: category(x.category_id), title: x.note || category(x.category_id)?.name || t("Expense"), sub: dayLabel(x.date), amount: money(num(x.amount), currency), color: "var(--pf-red)" }))} empty={t("No fixed costs this month.")} />
+            <List rows={fixed.map((x) => ({ tx: x, id: x.id, icon: category(x.category_id), title: x.note || category(x.category_id)?.name || t("Expense"), sub: dayLabel(x.date), amount: money(num(x.amount), currency), color: "var(--pf-red)" }))} empty={t("No fixed costs this month.")} />
           </div>
         )}
 
@@ -210,19 +212,24 @@ function Figure({ label, value, color }: { label: string; value: string; color?:
   );
 }
 
-function List({ rows, empty }: { rows: { id: string; icon?: { icon: string; color_hex: string }; title: string; sub: string; amount: string; color: string }[]; empty: string }) {
+/** The month's lines; each opens in the editor to correct or delete it. */
+function List({ rows, empty }: { rows: { tx: Transaction; id: string; icon?: { icon: string; color_hex: string }; title: string; sub: string; amount: string; color: string }[]; empty: string }) {
   if (!rows.length) return <p style={{ color: "var(--pf-ink-3)" }}>{empty}</p>;
   return (
     <div className="pf-card" style={{ background: "var(--pf-card-2)" }}>
       {rows.map((r) => (
-        <div key={r.id} className="pf-row">
+        <button key={r.id} type="button" className="pf-row pf-close-line" onClick={(e) => openTransactionEditor(r.tx, e.currentTarget)}>
           <CategoryIcon icon={r.icon?.icon ?? "questionmark.circle.fill"} colorHex={r.icon?.color_hex ?? "808080"} size={28} />
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, textAlign: "left" }}>
             <div>{r.title}</div>
-            <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>{r.sub}</div>
+            <div style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
+              {r.sub}
+              {r.tx.type === "income" && !r.tx.account_id && <span className="pf-close-pending"> · {t("Still to receive")}</span>}
+            </div>
           </div>
           <span className="pf-rounded" style={{ color: r.color, fontWeight: 600 }}>{r.amount}</span>
-        </div>
+          <ChevronRight size={16} className="pf-close-chev" />
+        </button>
       ))}
     </div>
   );

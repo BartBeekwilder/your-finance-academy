@@ -1096,5 +1096,7 @@
  "— day {n} from now on": "— 今後は{n}日",
  "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "給料が入る日。新しい給与はこの日付で始まり、別の日付の給与で更新することもできます。",
  "total": "合計",
- "Value per holding": "銘柄別の評価額"
+ "Value per holding": "銘柄別の評価額",
+ "Show {name}": "{name}を表示",
+ "Hide {name}": "{name}を非表示"
 }
