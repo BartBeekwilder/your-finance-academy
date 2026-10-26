@@ -6,6 +6,7 @@ import { Banknote, Check, CreditCard, Hourglass, Landmark, PiggyBank, Plus, Spar
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
 import { evalAmount } from "@/lib/finance/amountExpr";
+import { isSalaryName, mainIncomeCategory, nearestPayday } from "@/lib/finance/salary";
 import { money, shortMonthYear } from "@/lib/finance/format";
 import type { Account, HouseholdMember, Transaction, TransactionType } from "@/lib/finance/types";
 import { householdOf } from "@/lib/finance/household";
@@ -32,7 +33,8 @@ function localDate(iso: string) {
 }
 
 export default function QuickAdd() {
-  const { data, addTransaction, updateTransaction, deleteTransaction, addCategory } = useFinance();
+  const { data, addTransaction, updateTransaction, deleteTransaction, addCategory, updateProfile } = useFinance();
+  const salaryCategory = useMemo(() => mainIncomeCategory(data.transactions, Number(data.profile.expected_net_monthly) || 0), [data.transactions, data.profile.expected_net_monthly]);
   // Any transaction row can ask for the editor; it opens in this same sheet.
   const editing = useTransactionEditor();
   const [open, setOpen] = useState(false);
@@ -65,7 +67,7 @@ export default function QuickAdd() {
         <Plus size={22} strokeWidth={3} />
       </button>
       <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label={t("Quick Add")}>
-        <Form key={session} past={data.transactions} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} household={householdOf(data.profile)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
+        <Form key={session} past={data.transactions} salaryCategory={salaryCategory} payday={data.profile.payday_day} setPayday={(d) => updateProfile({ payday_day: d })} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} household={householdOf(data.profile)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
       </Sheet>
       <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label={t("Edit transaction")}>
         {editing && (
@@ -77,6 +79,9 @@ export default function QuickAdd() {
             categories={live(data.categories)}
             accounts={live(data.accounts)}
             household={householdOf(data.profile)}
+            payday={data.profile.payday_day}
+            salaryCategory={salaryCategory}
+            setPayday={(d) => updateProfile({ payday_day: d })}
             onDone={closeTransactionEditor}
             add={(t) => updateTransaction(editing.transaction.id, t)}
             onDelete={() => deleteTransaction(editing.transaction.id)}
@@ -107,7 +112,15 @@ function Form({
   initial,
   onDelete,
   past = [],
+  payday = null,
+  setPayday,
+  salaryCategory = null,
 }: {
+  /** The income category the salary usually lands in (besides salary-like names). */
+  salaryCategory?: string | null;
+  /** The profile's payday (day of the month), and a way to change it. */
+  payday?: number | null;
+  setPayday?: (day: number) => Promise<void>;
   /** Earlier transactions: a description used before fills in its category
    *  and account (new transactions only). */
   past?: Transaction[];
@@ -196,6 +209,21 @@ function Form({
     if (changed.length) setRemembered(changed.join(","));
   }
 
+  // Salary: the date starts on the nearest payday (unless picked by hand),
+  // and a salary on another day can become the new payday.
+  const [dateTouched, setDateTouched] = useState(!!initial);
+  const [isPayday, setIsPayday] = useState(false);
+  const picked = categories.find((c) => c.id === categoryId);
+  const pickedTop = categories.find((c) => c.id === (picked?.parent_id ?? picked?.id));
+  const salaryPicked = type === "income" && !!picked && (isSalaryName(picked.name) || isSalaryName(pickedTop?.name) || pickedTop?.id === salaryCategory);
+  useEffect(() => {
+    if (!salaryPicked || dateTouched || !payday) return;
+    const d = nearestPayday(payday, new Date());
+    setDate(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
+  }, [salaryPicked, dateTouched, payday]);
+  const pickedDay = Number(date.slice(8, 10));
+  const offerPayday = salaryPicked && !!setPayday && pickedDay > 0 && pickedDay !== payday;
+
   const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -265,6 +293,7 @@ function Form({
       try {
         if (accountId) localStorage.setItem("pf-last-account", accountId);
       } catch {}
+      if (offerPayday && isPayday) await setPayday!(pickedDay);
       onDone();
     } catch (err) {
       setError((err as Error).message);
@@ -432,7 +461,7 @@ function Form({
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        <input className="pf-input" type="date" aria-label={t("Date")} value={date} onChange={(e) => setDate(e.target.value)} required />
+        <input className="pf-input" type="date" aria-label={t("Date")} value={date} onChange={(e) => { setDate(e.target.value); setDateTouched(true); }} required />
         <input
           className="pf-input"
           placeholder={t("Note")}
@@ -454,6 +483,16 @@ function Form({
         <span key={remembered} className="pf-remembered pf-readout">
           <Sparkles size={12} /> {t("Filled in like last time")}
         </span>
+      )}
+
+      {offerPayday && (
+        <label key={pickedDay} className="pf-payday-offer">
+          <input type="checkbox" checked={isPayday} onChange={(e) => setIsPayday(e.target.checked)} />
+          {t("This is my payday")}{" "}
+          <span style={{ color: "var(--pf-ink-3)" }}>
+            {payday ? t("— day {n} from now on (was day {old})", { n: pickedDay, old: payday }) : t("— day {n} from now on", { n: pickedDay })}
+          </span>
+        </label>
       )}
 
       {household.length > 0 && (

@@ -1090,5 +1090,9 @@
  "Paper trail": "書類の足跡",
  "Add 12 payslips from earlier months": "過去の月の給与明細を12件追加",
  "A full year of payslips": "1年分の給与明細",
- "Keep the payslips of all 12 months of a year": "1年12か月すべての給与明細を保存"
+ "Keep the payslips of all 12 months of a year": "1年12か月すべての給与明細を保存",
+ "This is my payday": "この日が給料日",
+ "— day {n} from now on (was day {old})": "— 今後は{n}日（以前は{old}日）",
+ "— day {n} from now on": "— 今後は{n}日",
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "給料が入る日。新しい給与はこの日付で始まり、別の日付の給与で更新することもできます。"
 }

@@ -1,5 +1,7 @@
 [
  "— count it monthly over the time you use it",
+ "— day {n} from now on",
+ "— day {n} from now on (was day {old})",
  "— same amount every month",
  "· drag to rearrange",
  "· forecast",
@@ -945,6 +947,7 @@
  "than {year} in the same months",
  "That was the preview.",
  "The amounts down the left of every chart, like €10K · €5K · €0.",
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.",
  "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet.",
  "The drifting neon lines behind the app.",
  "The first month",
@@ -956,6 +959,7 @@
  "Their average",
  "Third-party car insurance is required by law",
  "This Day",
+ "This is my payday",
  "This month",
  "This Month",
  "This month {payment} (interest {interest})",

@@ -1090,5 +1090,9 @@
  "Paper trail": "서류 기록",
  "Add 12 payslips from earlier months": "지난 달 급여명세서 12개 추가",
  "A full year of payslips": "1년 치 급여명세서",
- "Keep the payslips of all 12 months of a year": "한 해 12개월 급여명세서 모두 보관"
+ "Keep the payslips of all 12 months of a year": "한 해 12개월 급여명세서 모두 보관",
+ "This is my payday": "이날이 내 월급날이에요",
+ "— day {n} from now on (was day {old})": "— 이제부터 {n}일 (이전 {old}일)",
+ "— day {n} from now on": "— 이제부터 {n}일",
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "월급이 들어오는 날. 새 급여는 이 날짜로 시작하고, 다른 날짜의 급여로 바꿀 수도 있어요."
 }

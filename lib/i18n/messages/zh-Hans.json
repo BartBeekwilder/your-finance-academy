@@ -1090,5 +1090,9 @@
  "Paper trail": "纸质记录",
  "Add 12 payslips from earlier months": "添加 12 张以前月份的工资单",
  "A full year of payslips": "一整年的工资单",
- "Keep the payslips of all 12 months of a year": "保存一年全部 12 个月的工资单"
+ "Keep the payslips of all 12 months of a year": "保存一年全部 12 个月的工资单",
+ "This is my payday": "这是我的发薪日",
+ "— day {n} from now on (was day {old})": "— 今后为 {n} 日（原为 {old} 日）",
+ "— day {n} from now on": "— 今后为 {n} 日",
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "工资到账的日子。新的工资记录从这一天开始；其他日期的工资也可以更新它。"
 }

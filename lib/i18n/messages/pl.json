@@ -1090,5 +1090,9 @@
  "Paper trail": "Ślad na papierze",
  "Add 12 payslips from earlier months": "Dodaj 12 pasków z wcześniejszych miesięcy",
  "A full year of payslips": "Cały rok pasków płacowych",
- "Keep the payslips of all 12 months of a year": "Zachowaj paski ze wszystkich 12 miesięcy roku"
+ "Keep the payslips of all 12 months of a year": "Zachowaj paski ze wszystkich 12 miesięcy roku",
+ "This is my payday": "To mój dzień wypłaty",
+ "— day {n} from now on (was day {old})": "— od teraz dzień {n} (był dzień {old})",
+ "— day {n} from now on": "— od teraz dzień {n}",
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "Dzień, w którym wpływa pensja. Nowe wpisy pensji zaczynają się tego dnia; pensja z inną datą też może go zmienić."
 }

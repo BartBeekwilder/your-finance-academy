@@ -101,6 +101,8 @@ export default function SettingsPage() {
         </div>
       </Section>
 
+      <PaydaySection />
+
       <HouseholdSection />
 
       <VaultSection />
@@ -221,6 +223,42 @@ function MotionSection() {
             options={[{ value: "off", label: t("Off") }, { value: "on", label: t("On") }]}
           />
         </div>
+      </div>
+    </Section>
+  );
+}
+
+const PAYDAYS = [1, 15, 20, 23, 24, 25, 28];
+
+/** The day the salary comes in: dates new salary entries and the
+ *  Income page's "Payday". */
+function PaydaySection() {
+  const { data, updateProfile } = useFinance();
+  const day = data.profile.payday_day;
+  const set = (d: number) => void updateProfile({ payday_day: Math.min(Math.max(Math.round(d), 1), 31) });
+  return (
+    <Section title={t("Payday")} hint={t("The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.")}>
+      <div className="pf-ob-days">
+        {PAYDAYS.map((d) => (
+          <button key={d} type="button" aria-pressed={day === d} onClick={() => set(d)}>
+            {d}
+          </button>
+        ))}
+        <input
+          inputMode="numeric"
+          aria-label={t("Other day")}
+          placeholder="…"
+          defaultValue={day && !PAYDAYS.includes(day) ? String(day) : ""}
+          key={day ?? "none"}
+          onBlur={(e) => {
+            const n = Number(e.target.value);
+            if (n >= 1 && n <= 31 && n !== day) set(n);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") e.currentTarget.blur();
+          }}
+          style={day && !PAYDAYS.includes(day) ? { background: "linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b))", borderColor: "transparent" } : undefined}
+        />
       </div>
     </Section>
   );

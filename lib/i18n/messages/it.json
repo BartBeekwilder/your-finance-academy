@@ -1090,5 +1090,9 @@
  "Paper trail": "Traccia scritta",
  "Add 12 payslips from earlier months": "Aggiungi 12 buste paga di mesi precedenti",
  "A full year of payslips": "Un anno intero di buste paga",
- "Keep the payslips of all 12 months of a year": "Conserva le buste paga di tutti i 12 mesi di un anno"
+ "Keep the payslips of all 12 months of a year": "Conserva le buste paga di tutti i 12 mesi di un anno",
+ "This is my payday": "Questo è il mio giorno di paga",
+ "— day {n} from now on (was day {old})": "— d'ora in poi giorno {n} (era giorno {old})",
+ "— day {n} from now on": "— d'ora in poi giorno {n}",
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "Il giorno in cui arriva lo stipendio. I nuovi stipendi partono da questo giorno; uno stipendio in un'altra data può aggiornarlo."
 }

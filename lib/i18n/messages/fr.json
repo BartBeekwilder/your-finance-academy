@@ -1090,5 +1090,9 @@
  "Paper trail": "Trace écrite",
  "Add 12 payslips from earlier months": "Ajoutez 12 fiches de paie de mois précédents",
  "A full year of payslips": "Une année complète de fiches",
- "Keep the payslips of all 12 months of a year": "Conservez les fiches de paie des 12 mois d'une année"
+ "Keep the payslips of all 12 months of a year": "Conservez les fiches de paie des 12 mois d'une année",
+ "This is my payday": "C'est mon jour de paie",
+ "— day {n} from now on (was day {old})": "— désormais le {n} (avant le {old})",
+ "— day {n} from now on": "— désormais le {n}",
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "Le jour où votre salaire arrive. Les nouveaux salaires commencent à ce jour ; un salaire à une autre date peut aussi le mettre à jour."
 }

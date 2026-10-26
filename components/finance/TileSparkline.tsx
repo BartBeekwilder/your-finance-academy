@@ -8,6 +8,7 @@ import { Check } from "lucide-react";
 import { live as alive, monthToDate, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthName as monthLabel, shortMonth } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
+import { isSalaryName } from "@/lib/finance/salary";
 
 // Small live chart under each dashboard tile. It is one curve — the running
 // total for the year so far — seen through a camera:
@@ -430,13 +431,12 @@ function salaryPayments(data: FinanceData, year: number) {
     if (d.getFullYear() !== year) continue;
     const name = names.get(t.category_id ?? "") ?? "";
     const amount = num(t.amount);
-    if (!SALARY.test(name) && !(expected > 0 && amount >= expected * 0.5)) continue;
+    if (!isSalaryName(name) && !(expected > 0 && amount >= expected * 0.5)) continue;
     const had = best.get(d.getMonth());
     if (!had || had.amount < amount) best.set(d.getMonth(), { id: t.id, month: d.getMonth(), day: d.getDate(), amount, received: t.account_id != null, name: name || tr("Salary") });
   }
   return [...best.values()];
 }
-const SALARY = /salar|loon|lohn|gehalt|salaire|sueldo|stipend|wage|maaş|зарплат|給|급여|工资|راتب|वेतन|gaji|lương/i;
 
 const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
 

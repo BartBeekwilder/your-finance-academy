@@ -1090,5 +1090,9 @@
  "Paper trail": "Rastro de papel",
  "Add 12 payslips from earlier months": "Añade 12 nóminas de meses anteriores",
  "A full year of payslips": "Un año entero de nóminas",
- "Keep the payslips of all 12 months of a year": "Guarda las nóminas de los 12 meses de un año"
+ "Keep the payslips of all 12 months of a year": "Guarda las nóminas de los 12 meses de un año",
+ "This is my payday": "Este es mi día de cobro",
+ "— day {n} from now on (was day {old})": "— a partir de ahora día {n} (antes día {old})",
+ "— day {n} from now on": "— a partir de ahora día {n}",
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "El día en que llega tu sueldo. Los nuevos sueldos empiezan en este día; un sueldo en otra fecha también puede actualizarlo."
 }
