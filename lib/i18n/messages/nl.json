@@ -1091,5 +1091,11 @@
  "Filled in like last time": "Ingevuld zoals vorige keer",
  "not a valid amount": "geen geldig bedrag",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Je gegevens zijn ergens anders gewijzigd (ander tabblad of venster). De laatste wijziging in dit tabblad is niet opgeslagen.",
- "Reload": "Herladen"
+ "Reload": "Herladen",
+ "First payslip": "Eerste loonstrook",
+ "Keep a payslip with your income": "Bewaar een loonstrook bij je inkomen",
+ "Paper trail": "Papieren spoor",
+ "Add 12 payslips from earlier months": "Voeg 12 loonstroken van eerdere maanden toe",
+ "A full year of payslips": "Een heel jaar loonstroken",
+ "Keep the payslips of all 12 months of a year": "Bewaar de loonstroken van alle 12 maanden van een jaar"
 }

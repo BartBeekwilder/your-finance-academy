@@ -1084,5 +1084,11 @@
  "Filled in like last time": "Wie beim letzten Mal ausgefüllt",
  "not a valid amount": "kein gültiger Betrag",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Deine Daten wurden woanders geändert (anderer Tab oder Fenster). Die letzte Änderung in diesem Tab wurde nicht gespeichert.",
- "Reload": "Neu laden"
+ "Reload": "Neu laden",
+ "First payslip": "Erste Gehaltsabrechnung",
+ "Keep a payslip with your income": "Bewahre eine Gehaltsabrechnung zu deinem Einkommen auf",
+ "Paper trail": "Papierspur",
+ "Add 12 payslips from earlier months": "Füge 12 Gehaltsabrechnungen früherer Monate hinzu",
+ "A full year of payslips": "Ein ganzes Jahr Abrechnungen",
+ "Keep the payslips of all 12 months of a year": "Bewahre die Abrechnungen aller 12 Monate eines Jahres auf"
 }

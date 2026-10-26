@@ -1084,5 +1084,11 @@
  "Filled in like last time": "Заполнено как в прошлый раз",
  "not a valid amount": "неверная сумма",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Ваши данные изменены в другом месте (другая вкладка или окно). Последнее изменение в этой вкладке не сохранено.",
- "Reload": "Перезагрузить"
+ "Reload": "Перезагрузить",
+ "First payslip": "Первый расчётный лист",
+ "Keep a payslip with your income": "Сохраните расчётный лист к доходу",
+ "Paper trail": "Бумажный след",
+ "Add 12 payslips from earlier months": "Добавьте 12 расчётных листов за прошлые месяцы",
+ "A full year of payslips": "Целый год расчётных листов",
+ "Keep the payslips of all 12 months of a year": "Сохраните расчётные листы за все 12 месяцев года"
 }

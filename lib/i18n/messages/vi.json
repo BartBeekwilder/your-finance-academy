@@ -1084,5 +1084,11 @@
  "Filled in like last time": "Đã điền như lần trước",
  "not a valid amount": "số tiền không hợp lệ",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Dữ liệu của bạn đã được thay đổi ở nơi khác (tab hoặc cửa sổ khác). Thay đổi cuối trong tab này chưa được lưu.",
- "Reload": "Tải lại"
+ "Reload": "Tải lại",
+ "First payslip": "Phiếu lương đầu tiên",
+ "Keep a payslip with your income": "Lưu một phiếu lương cùng thu nhập",
+ "Paper trail": "Dấu vết giấy tờ",
+ "Add 12 payslips from earlier months": "Thêm 12 phiếu lương của các tháng trước",
+ "A full year of payslips": "Trọn một năm phiếu lương",
+ "Keep the payslips of all 12 months of a year": "Lưu phiếu lương của cả 12 tháng trong năm"
 }

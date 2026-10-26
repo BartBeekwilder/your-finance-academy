@@ -1084,5 +1084,11 @@
  "Filled in like last time": "تمت التعبئة كما في المرة الماضية",
  "not a valid amount": "مبلغ غير صالح",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "تم تغيير بياناتك في مكان آخر (علامة تبويب أو نافذة أخرى). لم يُحفظ آخر تغيير في علامة التبويب هذه.",
- "Reload": "إعادة التحميل"
+ "Reload": "إعادة التحميل",
+ "First payslip": "أول قسيمة راتب",
+ "Keep a payslip with your income": "احتفظ بقسيمة راتب مع دخلك",
+ "Paper trail": "أثر ورقي",
+ "Add 12 payslips from earlier months": "أضف 12 قسيمة راتب من أشهر سابقة",
+ "A full year of payslips": "سنة كاملة من القسائم",
+ "Keep the payslips of all 12 months of a year": "احتفظ بقسائم الرواتب لكل أشهر السنة الـ12"
 }

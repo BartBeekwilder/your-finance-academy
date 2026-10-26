@@ -1084,5 +1084,11 @@
  "Filled in like last time": "Preenchido como da última vez",
  "not a valid amount": "valor inválido",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Seus dados foram alterados em outro lugar (outra aba ou janela). A última alteração desta aba não foi salva.",
- "Reload": "Recarregar"
+ "Reload": "Recarregar",
+ "First payslip": "Primeiro holerite",
+ "Keep a payslip with your income": "Guarde um holerite com sua renda",
+ "Paper trail": "Rastro de papel",
+ "Add 12 payslips from earlier months": "Adicione 12 holerites de meses anteriores",
+ "A full year of payslips": "Um ano inteiro de holerites",
+ "Keep the payslips of all 12 months of a year": "Guarde os holerites dos 12 meses de um ano"
 }

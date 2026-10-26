@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarCheck, CalendarRange, Flag, Flame, Gem, House, HousePlus, Landmark, Lock, Medal, PartyPopper, Percent, PiggyBank, Scale, ShieldCheck, Sprout, Target, TrendingUp, Trophy, type LucideIcon } from "lucide-react";
+import { CalendarCheck, CalendarRange, Flag, Flame, Gem, House, HousePlus, Landmark, Lock, Medal, PartyPopper, Percent, PiggyBank, Scale, ShieldCheck, Sprout, Target, TrendingUp, Trophy, FileText, FolderCheck, History, type LucideIcon } from "lucide-react";
 import { useEffect, useId, useState } from "react";
 import { t } from "@/lib/i18n";
 import type { Badge } from "@/lib/finance/progress";
@@ -146,6 +146,7 @@ const ICONS: Record<string, LucideIcon> = {
   "calendar-check": CalendarCheck, "calendar-range": CalendarRange, trophy: Trophy, flame: Flame, "piggy-bank": PiggyBank, gem: Gem,
   "trending-up": TrendingUp, landmark: Landmark, house: House, "shield-check": ShieldCheck, percent: Percent, target: Target,
   medal: Medal, sprout: Sprout, flag: Flag, "party-popper": PartyPopper, scale: Scale, "house-plus": HousePlus,
+  "file-text": FileText, history: History, "folder-check": FolderCheck,
 };
 
 export function BadgeTile({ badge, earnedAt, locale }: { badge: Badge; earnedAt?: string; locale: string }) {

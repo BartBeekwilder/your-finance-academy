@@ -1084,5 +1084,11 @@
  "Filled in like last time": "Wypełniono jak ostatnio",
  "not a valid amount": "nieprawidłowa kwota",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Twoje dane zmieniono gdzie indziej (inna karta lub okno). Ostatnia zmiana w tej karcie nie została zapisana.",
- "Reload": "Odśwież"
+ "Reload": "Odśwież",
+ "First payslip": "Pierwszy pasek płacowy",
+ "Keep a payslip with your income": "Zachowaj pasek płacowy przy dochodzie",
+ "Paper trail": "Ślad na papierze",
+ "Add 12 payslips from earlier months": "Dodaj 12 pasków z wcześniejszych miesięcy",
+ "A full year of payslips": "Cały rok pasków płacowych",
+ "Keep the payslips of all 12 months of a year": "Zachowaj paski ze wszystkich 12 miesięcy roku"
 }

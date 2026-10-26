@@ -1084,5 +1084,11 @@
  "Filled in like last time": "前回と同じように入力しました",
  "not a valid amount": "有効な金額ではありません",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "データが別の場所（別のタブやウィンドウ）で変更されました。このタブの最後の変更は保存されていません。",
- "Reload": "再読み込み"
+ "Reload": "再読み込み",
+ "First payslip": "初めての給与明細",
+ "Keep a payslip with your income": "収入と一緒に給与明細を保存",
+ "Paper trail": "書類の足跡",
+ "Add 12 payslips from earlier months": "過去の月の給与明細を12件追加",
+ "A full year of payslips": "1年分の給与明細",
+ "Keep the payslips of all 12 months of a year": "1年12か月すべての給与明細を保存"
 }

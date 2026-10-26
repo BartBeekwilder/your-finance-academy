@@ -1084,5 +1084,11 @@
  "Filled in like last time": "Rellenado como la última vez",
  "not a valid amount": "importe no válido",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Tus datos se cambiaron en otro sitio (otra pestaña o ventana). El último cambio de esta pestaña no se guardó.",
- "Reload": "Recargar"
+ "Reload": "Recargar",
+ "First payslip": "Primera nómina",
+ "Keep a payslip with your income": "Guarda una nómina con tus ingresos",
+ "Paper trail": "Rastro de papel",
+ "Add 12 payslips from earlier months": "Añade 12 nóminas de meses anteriores",
+ "A full year of payslips": "Un año entero de nóminas",
+ "Keep the payslips of all 12 months of a year": "Guarda las nóminas de los 12 meses de un año"
 }

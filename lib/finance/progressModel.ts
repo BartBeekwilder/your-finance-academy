@@ -95,6 +95,7 @@ export function progressModel(data: FinanceData, now: Date) {
     properties: homes(data).length,
     ownership: share,
     otherDebt,
+    payslips: (data.documents ?? []).filter((d) => d.kind === "payslip" && d.month).map((d) => ({ month: d.month!.slice(0, 7), added: d.added_at.slice(0, 7) })),
   };
   const have = new Set(achievements.map((a) => a.code));
   const earnable = BADGES.filter((b) => !have.has(b.code) && b.earned(context));

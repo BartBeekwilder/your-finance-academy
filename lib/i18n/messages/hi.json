@@ -1084,5 +1084,11 @@
  "Filled in like last time": "पिछली बार की तरह भरा गया",
  "not a valid amount": "मान्य राशि नहीं",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "आपका डेटा कहीं और (दूसरे टैब या विंडो में) बदला गया। इस टैब का आख़िरी बदलाव सहेजा नहीं गया।",
- "Reload": "फिर से लोड करें"
+ "Reload": "फिर से लोड करें",
+ "First payslip": "पहली वेतन पर्ची",
+ "Keep a payslip with your income": "अपनी आय के साथ एक वेतन पर्ची रखें",
+ "Paper trail": "काग़ज़ी रिकॉर्ड",
+ "Add 12 payslips from earlier months": "पिछले महीनों की 12 वेतन पर्चियाँ जोड़ें",
+ "A full year of payslips": "पूरे साल की वेतन पर्चियाँ",
+ "Keep the payslips of all 12 months of a year": "साल के सभी 12 महीनों की पर्चियाँ रखें"
 }

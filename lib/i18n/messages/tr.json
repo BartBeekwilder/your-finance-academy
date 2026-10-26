@@ -1084,5 +1084,11 @@
  "Filled in like last time": "Geçen seferki gibi dolduruldu",
  "not a valid amount": "geçerli bir tutar değil",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Verilerin başka yerde değiştirildi (başka sekme veya pencere). Bu sekmedeki son değişiklik kaydedilmedi.",
- "Reload": "Yeniden yükle"
+ "Reload": "Yeniden yükle",
+ "First payslip": "İlk maaş bordrosu",
+ "Keep a payslip with your income": "Gelirinle birlikte bir bordro sakla",
+ "Paper trail": "Kâğıt izi",
+ "Add 12 payslips from earlier months": "Önceki aylardan 12 bordro ekle",
+ "A full year of payslips": "Tam bir yıllık bordro",
+ "Keep the payslips of all 12 months of a year": "Bir yılın 12 ayının bordrolarını sakla"
 }

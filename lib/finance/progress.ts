@@ -105,6 +105,9 @@ export type BadgeContext = {
   ownership: number;
   /** Debts other than the mortgage. */
   otherDebt: number;
+  /** Payslips kept, each as its month ("2026-10") and the month it was
+   *  added — earlier = uploaded afterwards. Optional for older callers. */
+  payslips?: { month: string; added: string }[];
 };
 
 export type Badge = {
@@ -124,6 +127,13 @@ const consecutive = (c: BadgeContext, n: number, f: (m: BadgeContext["closed"][n
     if (run >= n) return true;
   }
   return false;
+};
+
+/** Some year with a payslip for every month. */
+const fullYear = (slips: { month: string }[]) => {
+  const months = new Map<string, Set<string>>();
+  for (const p of slips) months.set(p.month.slice(0, 4), (months.get(p.month.slice(0, 4)) ?? new Set()).add(p.month.slice(5, 7)));
+  return [...months.values()].some((m) => m.size >= 12);
 };
 
 export const BADGES: Badge[] = [
@@ -146,6 +156,9 @@ export const BADGES: Badge[] = [
   { code: "budget-month", group: "discipline", title: "Every budget kept", hint: "Close a month with all budgets kept", icon: "target", points: 150, earned: (c) => c.closed.some((m) => m.allBudgetsKept) },
   { code: "budget-3", group: "discipline", title: "Three months on budget", hint: "Keep every budget 3 closed months in a row", icon: "medal", points: 400, earned: (c) => consecutive(c, 3, (m) => m.allBudgetsKept) },
   { code: "saver-3", group: "discipline", title: "Three months in the plus", hint: "Save something 3 closed months in a row", icon: "sprout", points: 200, earned: (c) => consecutive(c, 3, (m) => m.saved > 0) },
+  { code: "first-payslip", group: "discover", title: "First payslip", hint: "Keep a payslip with your income", icon: "file-text", points: 50, earned: (c) => (c.payslips?.length ?? 0) >= 1 },
+  { code: "payslips-back-12", group: "habits", title: "Paper trail", hint: "Add 12 payslips from earlier months", icon: "history", points: 200, earned: (c) => (c.payslips ?? []).filter((p) => p.month < p.added).length >= 12 },
+  { code: "payslips-year", group: "habits", title: "A full year of payslips", hint: "Keep the payslips of all 12 months of a year", icon: "folder-check", points: 300, earned: (c) => fullYear(c.payslips ?? []) },
   { code: "first-goal", group: "discover", title: "Goal setter", hint: "Create your first goal", icon: "flag", points: 50, earned: (c) => c.goals >= 1 },
   { code: "goal-achieved", group: "discover", title: "Goal reached", hint: "Reach one of your goals", icon: "party-popper", points: 300, earned: (c) => c.goalsAchieved >= 1 },
   { code: "balance-sheet", group: "discover", title: "Books balanced", hint: "Add posts to your balance sheet", icon: "scale", points: 50, earned: (c) => c.balancePosts >= 1 },

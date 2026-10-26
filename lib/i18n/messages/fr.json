@@ -1084,5 +1084,11 @@
  "Filled in like last time": "Rempli comme la dernière fois",
  "not a valid amount": "montant non valide",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Vos données ont été modifiées ailleurs (autre onglet ou fenêtre). La dernière modification de cet onglet n'a pas été enregistrée.",
- "Reload": "Recharger"
+ "Reload": "Recharger",
+ "First payslip": "Première fiche de paie",
+ "Keep a payslip with your income": "Conservez une fiche de paie avec vos revenus",
+ "Paper trail": "Trace écrite",
+ "Add 12 payslips from earlier months": "Ajoutez 12 fiches de paie de mois précédents",
+ "A full year of payslips": "Une année complète de fiches",
+ "Keep the payslips of all 12 months of a year": "Conservez les fiches de paie des 12 mois d'une année"
 }

@@ -1084,5 +1084,11 @@
  "Filled in like last time": "已按上次填写",
  "not a valid amount": "金额无效",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "你的数据已在别处（其他标签页或窗口）更改。此标签页的最后一次更改未保存。",
- "Reload": "重新加载"
+ "Reload": "重新加载",
+ "First payslip": "第一张工资单",
+ "Keep a payslip with your income": "随收入保存一张工资单",
+ "Paper trail": "纸质记录",
+ "Add 12 payslips from earlier months": "添加 12 张以前月份的工资单",
+ "A full year of payslips": "一整年的工资单",
+ "Keep the payslips of all 12 months of a year": "保存一年全部 12 个月的工资单"
 }

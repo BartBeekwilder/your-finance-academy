@@ -1084,5 +1084,11 @@
  "Filled in like last time": "Diisi seperti terakhir kali",
  "not a valid amount": "jumlah tidak valid",
  "Your data was changed elsewhere (another tab or window). This tab's last change wasn't saved.": "Datamu diubah di tempat lain (tab atau jendela lain). Perubahan terakhir di tab ini tidak tersimpan.",
- "Reload": "Muat ulang"
+ "Reload": "Muat ulang",
+ "First payslip": "Slip gaji pertama",
+ "Keep a payslip with your income": "Simpan slip gaji bersama penghasilanmu",
+ "Paper trail": "Jejak kertas",
+ "Add 12 payslips from earlier months": "Tambahkan 12 slip gaji bulan-bulan sebelumnya",
+ "A full year of payslips": "Setahun penuh slip gaji",
+ "Keep the payslips of all 12 months of a year": "Simpan slip gaji ke-12 bulan dalam setahun"
 }
