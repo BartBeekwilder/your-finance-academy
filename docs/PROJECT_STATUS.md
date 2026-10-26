@@ -4,7 +4,7 @@ Read this first on any computer. It says where the project stands, how to
 run it, and what's next. Keep it up to date at the end of every session
 (Claude: update this file and commit it before finishing).
 
-Last updated: 2026-10-23.
+Last updated: 2026-10-26.
 
 ## The product
 
@@ -55,7 +55,34 @@ Decisions:
    and install Android Studio (builds and runs fine on Windows).
 5. Create `.env.local` with the two Supabase values (from the Supabase
    dashboard → Project Settings → API) — or skip it to use demo data.
-6. `npx next dev -p 3000` → http://localhost:3000/app
+   Needed for step 7 (signing in to fetch the encrypted copy).
+6. `npx next dev -p 3000 -H localhost` → http://localhost:3000/app
+7. Bart's real data (see "Bart's private data" below): on the sign-in page
+   click "Start local data on this computer" (appears only in dev when
+   `.private/finance.json` doesn't exist yet) → it creates an empty private
+   file and opens Settings › Encrypted copy → sign in → Restore → Bart types
+   his passphrase. Claude never types the passphrase or the password.
+
+## Bart's private data (CONFIDENTIAL — read before touching it)
+
+- Bart's real finances live ONLY in `.private/finance.json` (git-ignored,
+  owner-only) on each computer, plus payslip files in `.private/docs`.
+  This repo is PUBLIC: never commit, paste into docs, demo data, tests or
+  commit messages any of his amounts, account numbers or documents.
+- Open: dev server, then http://localhost:3000/app?local=1 (or the
+  "Open my local data" link on sign-in). Routes `/api/local-data` and
+  `/api/local-docs` only answer in dev on localhost.
+- Saving writes the whole file and keeps `finance.prev.json` as backup.
+  Before editing the file directly: make a copy
+  (`finance.before-<what>.json`) and close other app tabs (a stale tab
+  overwrites on its next save).
+- Between computers: Settings › Encrypted copy — upload on one, restore on
+  the other (Supabase table `encrypted_vaults`, ciphertext only, one copy
+  per account, a new upload replaces it). There is no automatic sync, so
+  restoring replaces that computer's local data with the uploaded copy.
+- Supabase sync of real data waits for tables for the history fields
+  (yearSnapshots, yearCategoryTotals, yearIncomeTotals), documents and
+  property.comparable_rent.
 
 ## Running it
 
@@ -243,6 +270,14 @@ other countries' rules later (to do: DE, BE, UK, US, …).
 19. ACCOUNTS LIKE THE BANK (Bart, 2026-10-26): spending without an account counts on the default account (calc.accountFlows); income without an account is 'Amounts to receive' (calc.pendingIncome) — its own balance line, unfoldable per transaction; Quick Add income has 'Still to receive'. Accounts fold grouped by kind (current / savings / credit / cash) in the order added, empty accounts hidden; leftover shows as 'Correction'. Bart's local data: savings accounts as in his bank (Spaarrekening I, II, De 10 van Gent, Autoverzekering, Gemeentelijke Belasting — the last two moved from balance posts), 2026 history booked on Lopende rekening, the old correction account removed. Balance equity waterfall: Per year.
 
 20. LIQUIDITY + GLOSSARY (Bart, 2026-10-26): 'Net worth' renamed 'Liquidity' (nav, page, dashboard card, tile; route stays /app/net-worth) — accounts + investments at market value (netWorthFigures uses investmentsValue when quotes are in); asset mix per kind at market value. Glossary: lib/finance/glossary.ts (18 terms, keys extracted by scripts/i18n.mjs), page /app/glossary (nav foot, above Settings), InfoTip ⓘ on Liquidity, balance Assets / Liabilities / Equity and auto lines, investments Nominal / Real. Bart wants to see the ⓘ first before adding more.
+
+21. NEW COMPUTER (2026-10-26): sign-in shows "Start local data on this computer" in dev when there's no private file; it PUTs an empty file and opens /app/settings#vault to restore the encrypted copy.
+
+22. QUICK ADD (2026-10-26): the subcategory row always opens under a picked category, with an inline "+ Subcategory" chip (takes the parent's icon/colour, Enter saves and selects). It also remembers descriptions: typing a note used before (datalist suggestions) fills in that transaction's category/subcategory and account, never overriding what was picked by hand in the form; hint "Filled in like last time". New transactions only.
+
+23. BART'S DATA FILLED IN (2026-10-25/26, local only): accounts in his bank's order, investments (live quotes, logos), 2017–2025 history, mortgage from the bank offer (two annuity parts), home, rent vs buy prefilled from the home (purchase price, loan parts, weighted rate) and property.comparable_rent.
+
+Next (web): see whether Bart likes the ⓘ tips before adding more; category vs category compare; compare inside the category sheet; payslips into the encrypted vault (document vault, 12); Supabase tables for the local-only fields above; onboarding review; Finance Wrapped (10). Then port everything to iOS/Mac/Android when Bart says the web is done — the port list is Bart's Apple Note "port list" (Mac only; on Windows ask him or read this file).
 
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
