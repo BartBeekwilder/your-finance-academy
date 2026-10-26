@@ -6,16 +6,16 @@ import { ArrowLeft, ArrowRight, Check, ChevronRight } from "lucide-react";
 import MonthWrapped from "@/components/finance/MonthWrapped";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
-import { Celebration, Rings } from "@/components/finance/ProgressParts";
+import { Celebration, RingLegend, Rings } from "@/components/finance/ProgressParts";
 import { parseAmount } from "@/components/finance/BalanceSheet";
 import { balanceSheet, live, num, projectedNetIncome } from "@/lib/finance/calc";
 import { dayLabel, money, monthName, monthYear } from "@/lib/finance/format";
-import { budgetPlan, withGoal, type PlanRow } from "@/lib/finance/budgetPlan";
+import { budgetIn, budgetPlan, withGoal, type PlanRow } from "@/lib/finance/budgetPlan";
 import { BADGES, POINTS, newBadges } from "@/lib/finance/progress";
 import { monthRings, monthSummary, progressModel } from "@/lib/finance/progressModel";
 import { t } from "@/lib/i18n";
 import { openTransactionEditor } from "@/lib/finance/editTransaction";
-import type { Transaction } from "@/lib/finance/types";
+import type { FinanceData, Transaction } from "@/lib/finance/types";
 
 // Close the month — five short steps, then the month is in the books:
 //   1. Income: what came in against what was expected.
@@ -34,6 +34,10 @@ import type { Transaction } from "@/lib/finance/types";
 
 const STEPS = ["Income", "Fixed costs", "Your month", "Budgets", "Month-end balances", "Summary"] as const;
 const GOALS = [0, 0.05, 0.1, 0.2];
+
+/** Any budget in force in that month (carried on or set). */
+const hasBudget = (data: FinanceData, month: Date) =>
+  live(data.categories).some((c) => budgetIn(live(data.budgets), c.id, month) != null);
 
 export default function ClosePage() {
   const router = useRouter();
@@ -67,6 +71,14 @@ export default function ClosePage() {
 
   const summary = monthSummary(data, month, now);
   const ringValues = monthRings(data, month);
+  // Why a ring stayed empty: the app wasn't in use yet that month (no days
+  // to count), or there were no budgets to keep.
+  const firstActive = live(data.activityDays ?? []).map((a) => a.day.slice(0, 10)).sort()[0];
+  const monthEnd = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-31`;
+  const ringNotes = {
+    tracking: !firstActive || firstActive > monthEnd ? t("Not counted yet — the app wasn't in use this month") : undefined,
+    budget: !hasBudget(data, month) ? t("No budgets this month — set them in step 4") : undefined,
+  };
   const income = live(data.transactions).filter((x) => x.type === "income" && sameMonth(x.date, month));
   const expected = projectedNetIncome(data, month);
   const fixed = live(data.transactions).filter((x) => x.type === "expense" && x.is_fixed_expense && sameMonth(x.date, month));
@@ -247,9 +259,12 @@ export default function ClosePage() {
               <Figure label={t("Equity at month end")} value={money(summary.equity, currency)} color="#40c8e0" />
               <Figure label={t("Points for this close")} value={`+${points}`} color="#ffd60a" />
             </div>
-            <div style={{ display: "grid", justifyItems: "center", gap: 8 }}>
+            <div style={{ display: "grid", justifyItems: "center", gap: 14 }}>
               <Rings {...ringValues} size={190} />
               <span style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{t("{n} of 3 rings closed", { n: summary.rings })}</span>
+              <div style={{ width: "100%", maxWidth: 340 }}>
+                <RingLegend {...ringValues} notes={ringNotes} />
+              </div>
             </div>
           </div>
         )}

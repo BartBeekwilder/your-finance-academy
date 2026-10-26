@@ -1159,5 +1159,7 @@
  "Your investments grew.": "Je beleggingen groeiden.",
  "avg": "gem.",
  "of {amount} avg": "van gem. {amount}",
- "of {amount}": "van {amount}"
+ "of {amount}": "van {amount}",
+ "Not counted yet — the app wasn't in use this month": "Nog niet geteld — de app was deze maand nog niet in gebruik",
+ "No budgets this month — set them in step 4": "Geen budgetten deze maand — stel ze in bij stap 4"
 }

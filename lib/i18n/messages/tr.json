@@ -1152,5 +1152,7 @@
  "Your investments grew.": "Yatırımların büyüdü.",
  "avg": "ort.",
  "of {amount} avg": "ort. {amount} içinden",
- "of {amount}": "{amount} içinden"
+ "of {amount}": "{amount} içinden",
+ "Not counted yet — the app wasn't in use this month": "Henüz sayılmadı — uygulama bu ay kullanılmıyordu",
+ "No budgets this month — set them in step 4": "Bu ay bütçe yok — 4. adımda belirle"
 }

@@ -1152,5 +1152,7 @@
  "Your investments grew.": "Ваши инвестиции выросли.",
  "avg": "ср.",
  "of {amount} avg": "из ср. {amount}",
- "of {amount}": "из {amount}"
+ "of {amount}": "из {amount}",
+ "Not counted yet — the app wasn't in use this month": "Ещё не учитывается — приложением в этом месяце не пользовались",
+ "No budgets this month — set them in step 4": "В этом месяце нет бюджетов — задайте их на шаге 4"
 }

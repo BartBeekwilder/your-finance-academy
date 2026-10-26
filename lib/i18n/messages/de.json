@@ -1152,5 +1152,7 @@
  "Your investments grew.": "Deine Anlagen sind gewachsen.",
  "avg": "Ø",
  "of {amount} avg": "von Ø {amount}",
- "of {amount}": "von {amount}"
+ "of {amount}": "von {amount}",
+ "Not counted yet — the app wasn't in use this month": "Noch nicht gezählt — die App war diesen Monat noch nicht in Gebrauch",
+ "No budgets this month — set them in step 4": "Keine Budgets diesen Monat — lege sie in Schritt 4 fest"
 }

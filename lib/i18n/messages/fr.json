@@ -1152,5 +1152,7 @@
  "Your investments grew.": "Vos placements ont progressé.",
  "avg": "moy.",
  "of {amount} avg": "sur {amount} en moy.",
- "of {amount}": "sur {amount}"
+ "of {amount}": "sur {amount}",
+ "Not counted yet — the app wasn't in use this month": "Pas encore compté — l'app n'était pas utilisée ce mois-ci",
+ "No budgets this month — set them in step 4": "Pas de budgets ce mois-ci — fixez-les à l'étape 4"
 }

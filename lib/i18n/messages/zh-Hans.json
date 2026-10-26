@@ -1152,5 +1152,7 @@
  "Your investments grew.": "你的投资增长了。",
  "avg": "平均",
  "of {amount} avg": "平均 {amount} 中",
- "of {amount}": "共 {amount}"
+ "of {amount}": "共 {amount}",
+ "Not counted yet — the app wasn't in use this month": "尚未计入 — 本月还未使用应用",
+ "No budgets this month — set them in step 4": "本月没有预算 — 在第 4 步设置"
 }

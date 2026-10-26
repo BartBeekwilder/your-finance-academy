@@ -1152,5 +1152,7 @@
  "Your investments grew.": "투자가 늘었어요.",
  "avg": "평균",
  "of {amount} avg": "평균 {amount} 중",
- "of {amount}": "{amount} 중"
+ "of {amount}": "{amount} 중",
+ "Not counted yet — the app wasn't in use this month": "아직 집계 안 됨 — 이번 달엔 앱을 쓰지 않았어요",
+ "No budgets this month — set them in step 4": "이번 달 예산 없음 — 4단계에서 정하세요"
 }

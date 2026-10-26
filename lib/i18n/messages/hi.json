@@ -1152,5 +1152,7 @@
  "Your investments grew.": "आपके निवेश बढ़े।",
  "avg": "औसत",
  "of {amount} avg": "औसत {amount} में से",
- "of {amount}": "{amount} में से"
+ "of {amount}": "{amount} में से",
+ "Not counted yet — the app wasn't in use this month": "अभी गिना नहीं गया — इस महीने ऐप इस्तेमाल में नहीं था",
+ "No budgets this month — set them in step 4": "इस महीने कोई बजट नहीं — चरण 4 में तय करें"
 }

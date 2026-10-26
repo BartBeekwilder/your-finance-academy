@@ -1152,5 +1152,7 @@
  "Your investments grew.": "Seus investimentos cresceram.",
  "avg": "média",
  "of {amount} avg": "de {amount} na média",
- "of {amount}": "de {amount}"
+ "of {amount}": "de {amount}",
+ "Not counted yet — the app wasn't in use this month": "Ainda não contado — o app não era usado neste mês",
+ "No budgets this month — set them in step 4": "Sem orçamentos neste mês — defina-os no passo 4"
 }

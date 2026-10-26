@@ -1152,5 +1152,7 @@
  "Your investments grew.": "Investasimu tumbuh.",
  "avg": "rata²",
  "of {amount} avg": "dari rata² {amount}",
- "of {amount}": "dari {amount}"
+ "of {amount}": "dari {amount}",
+ "Not counted yet — the app wasn't in use this month": "Belum dihitung — aplikasi belum dipakai bulan ini",
+ "No budgets this month — set them in step 4": "Tidak ada anggaran bulan ini — atur di langkah 4"
 }

@@ -1152,5 +1152,7 @@
  "Your investments grew.": "Khoản đầu tư của bạn đã tăng.",
  "avg": "TB",
  "of {amount} avg": "trên TB {amount}",
- "of {amount}": "trên {amount}"
+ "of {amount}": "trên {amount}",
+ "Not counted yet — the app wasn't in use this month": "Chưa tính — tháng này chưa dùng ứng dụng",
+ "No budgets this month — set them in step 4": "Tháng này không có ngân sách — đặt ở bước 4"
 }

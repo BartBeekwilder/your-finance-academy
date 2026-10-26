@@ -103,11 +103,11 @@ export function Rings({ tracking, budget, saving, size = 180 }: { tracking: numb
   );
 }
 
-export function RingLegend({ tracking, budget, saving }: { tracking: number; budget: number; saving: number }) {
+export function RingLegend({ tracking, budget, saving, notes = {} }: { tracking: number; budget: number; saving: number; /** Why a ring can't fill (shown instead of its %). */ notes?: { tracking?: string; budget?: string } }) {
   const rows = [
-    { label: t("Tracking"), hint: t("Days you updated your books"), v: tracking, c: RING_COLORS.tracking[0] },
-    { label: t("Budget"), hint: t("Budgets on track"), v: budget, c: RING_COLORS.budget[0] },
-    { label: t("Saving"), hint: t("Saved against 20% of income"), v: saving, c: RING_COLORS.saving[0] },
+    { label: t("Tracking"), hint: notes.tracking ?? t("Days you updated your books"), v: tracking, c: RING_COLORS.tracking[0], na: !!notes.tracking },
+    { label: t("Budget"), hint: notes.budget ?? t("Budgets on track"), v: budget, c: RING_COLORS.budget[0], na: !!notes.budget },
+    { label: t("Saving"), hint: t("Saved against 20% of income"), v: saving, c: RING_COLORS.saving[0], na: false },
   ];
   return (
     <div style={{ display: "grid", gap: 10 }}>
@@ -124,7 +124,7 @@ export function RingLegend({ tracking, budget, saving }: { tracking: number; bud
                 {t("2nd lap")}
               </span>
             )}
-            <b className="pf-rounded" style={{ color: r.c }}>{Math.round(r.v * 100)}%</b>
+            <b className="pf-rounded" style={{ color: r.na ? "var(--pf-ink-3)" : r.c }}>{r.na ? "—" : `${Math.round(r.v * 100)}%`}</b>
           </span>
         </div>
       ))}

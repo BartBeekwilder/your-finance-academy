@@ -1152,5 +1152,7 @@
  "Your investments grew.": "投資が増えました。",
  "avg": "平均",
  "of {amount} avg": "平均 {amount} 中",
- "of {amount}": "{amount} 中"
+ "of {amount}": "{amount} 中",
+ "Not counted yet — the app wasn't in use this month": "まだカウントされません — 今月はアプリを使っていませんでした",
+ "No budgets this month — set them in step 4": "今月は予算なし — ステップ4で設定"
 }
