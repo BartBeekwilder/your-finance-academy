@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { HoldingDetail, HoldingRow, PortfolioHero, useQuotes, type Range } from "@/components/finance/Portfolio";
 import Sheet from "@/components/finance/Sheet";
+import PortfolioMix from "@/components/finance/PortfolioMix";
 import { live } from "@/lib/finance/calc";
 import { holdingValue, portfolioSeries, symbolsFor } from "@/lib/finance/quotes";
 
@@ -56,10 +57,12 @@ export default function InvestmentsPage() {
         <h2 className="pf-section-title">{tr("Holdings")}</h2>
         <div className="pf-card">
           {sorted.map((v) => (
-            <HoldingRow key={v.holding.id} v={v} currency={currency} rangeQuotes={rangeQuotes} onOpen={(from) => setOpen({ id: v.holding.id, show: true, from })} />
+            <HoldingRow key={v.holding.id} v={v} currency={currency} rangeQuotes={rangeQuotes} range={range} onOpen={(from) => setOpen({ id: v.holding.id, show: true, from })} />
           ))}
         </div>
       </section>
+
+      {rangeQuotes && holdings.length > 1 && <PortfolioMix holdings={holdings} quotes={rangeQuotes} currency={currency} range={range} onRange={setRange} />}
 
       <Sheet open={open.show} onClose={() => setOpen((o) => ({ ...o, show: false }))} origin={open.from} label={tr("Holding details")}>
         {current && (

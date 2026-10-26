@@ -1094,5 +1094,7 @@
  "This is my payday": "هذا يوم راتبي",
  "— day {n} from now on (was day {old})": "— من الآن اليوم {n} (كان اليوم {old})",
  "— day {n} from now on": "— من الآن اليوم {n}",
- "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "اليوم الذي يصل فيه راتبك. تبدأ الرواتب الجديدة في هذا اليوم؛ ويمكن لراتب بتاريخ آخر تحديثه أيضًا."
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "اليوم الذي يصل فيه راتبك. تبدأ الرواتب الجديدة في هذا اليوم؛ ويمكن لراتب بتاريخ آخر تحديثه أيضًا.",
+ "total": "إجمالي",
+ "Value per holding": "القيمة لكل مركز"
 }

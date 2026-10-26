@@ -1094,5 +1094,7 @@
  "This is my payday": "यही मेरा वेतन दिवस है",
  "— day {n} from now on (was day {old})": "— अब से {n} तारीख़ (पहले {old})",
  "— day {n} from now on": "— अब से {n} तारीख़",
- "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "जिस दिन वेतन आता है। नया वेतन इसी दिन से शुरू होता है; किसी और तारीख़ का वेतन भी इसे बदल सकता है।"
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "जिस दिन वेतन आता है। नया वेतन इसी दिन से शुरू होता है; किसी और तारीख़ का वेतन भी इसे बदल सकता है।",
+ "total": "कुल",
+ "Value per holding": "प्रति होल्डिंग मूल्य"
 }

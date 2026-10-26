@@ -3,7 +3,7 @@
 import InfoTip from "./InfoTip";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { Bitcoin, ChartLine, Gem } from "lucide-react";
+import { Bitcoin, ChartLine, Gem, ZoomOut } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { money } from "@/lib/finance/format";
 import { holdingSeries, type HoldingValue, type Quotes } from "@/lib/finance/quotes";
@@ -93,14 +93,95 @@ export function useQuotes(symbols: string[], range: Range, pollMs: number) {
   return state && state.key === `${key}|${range}` ? state : null;
 }
 
-const timeLabel = (ms: number, range: Range) =>
+export const timeLabel = (ms: number, range: Range) =>
   new Date(ms).toLocaleString(
     intlLocale(),
     range === "1d" ? { hour: "2-digit", minute: "2-digit" } : range === "5d" ? { weekday: "short", hour: "2-digit", minute: "2-digit" } : { day: "numeric", month: "short", year: range === "5y" ? "numeric" : undefined },
   );
 
+/** Click-and-drag across a chart to select a stretch of time — it shows the
+ *  change between the two ends while dragging and zooms into it on release
+ *  (like the Stocks app). Double-click or "Zoom out" goes back. The visible
+ *  window glides between ranges. */
+export function useDragZoom(t0: number, t1: number, resetKey: string) {
+  const [zoom, setZoom] = useState<[number, number] | null>(null);
+  const [drag, setDrag] = useState<{ a: number; b: number; x0: number; moved: boolean } | null>(null);
+  useEffect(() => {
+    setZoom(null);
+    setDrag(null);
+  }, [resetKey]);
+  const target = zoom ?? [t0, t1];
+  // Glide only while zooming in or out; new data or a new period shows
+  // straight away (else the first load would sweep in from nothing).
+  const [gliding, setGliding] = useState(false);
+  const tweened = useTween(target, 520);
+  useEffect(() => {
+    if (!gliding) return;
+    const id = setTimeout(() => setGliding(false), 560);
+    return () => clearTimeout(id);
+  }, [gliding, zoom]);
+  const [v0, v1] = gliding ? tweened : target;
+  const zoomTo = (z: [number, number] | null) => {
+    setGliding(true);
+    setZoom(z);
+  };
+  const at = (clientX: number, el: Element) => {
+    const r = el.getBoundingClientRect();
+    return v0 + Math.min(Math.max((clientX - r.left) / Math.max(r.width, 1), 0), 1) * (v1 - v0);
+  };
+  const handlers = {
+    onPointerDown: (e: React.PointerEvent<Element>) => {
+      if (e.button !== 0) return;
+      try {
+        // Keep receiving moves when the drag leaves the chart.
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch {}
+      const t = at(e.clientX, e.currentTarget);
+      setDrag({ a: t, b: t, x0: e.clientX, moved: false });
+    },
+    onPointerMove: (e: React.PointerEvent<Element>) => {
+      if (drag) setDrag({ ...drag, b: at(e.clientX, e.currentTarget), moved: drag.moved || Math.abs(e.clientX - drag.x0) > 6 });
+    },
+    onPointerUp: () => {
+      if (drag?.moved) {
+        const lo = Math.min(drag.a, drag.b), hi = Math.max(drag.a, drag.b);
+        if (hi - lo > (t1 - t0) / 400) zoomTo([lo, hi]);
+      }
+      setDrag(null);
+    },
+    onPointerCancel: () => setDrag(null),
+    onDoubleClick: () => zoom && zoomTo(null),
+  };
+  return { view: [v0, v1] as const, target, gliding, zoomed: zoom != null, selecting: drag?.moved ? ([Math.min(drag.a, drag.b), Math.max(drag.a, drag.b)] as const) : null, handlers, at, reset: () => zoomTo(null) };
+}
+
+/** The point nearest a moment. */
+const nearest = <P extends { t: number }>(pts: P[], t: number) => {
+  let best = 0;
+  for (let i = 1; i < pts.length; i++) if (Math.abs(pts[i].t - t) < Math.abs(pts[best].t - t)) best = i;
+  return best;
+};
+
+/** Growth between two points: with a nominal line, money put in between
+ *  isn't profit. */
+const growth = (a: { value: number; cost?: number }, b: { value: number; cost?: number }) => {
+  const withCost = a.cost != null && b.cost != null;
+  const change = withCost ? b.value - b.cost! - (a.value - a.cost!) : b.value - a.value;
+  const base = withCost ? b.cost! : a.value;
+  return { change, share: base ? change / base : null };
+};
+
+export function ZoomOutChip({ onClick }: { onClick: () => void }) {
+  return (
+    <button type="button" className="pf-zoom-out" onClick={onClick}>
+      <ZoomOut size={12} strokeWidth={2.4} /> {t("Zoom out")}
+    </button>
+  );
+}
+
 /** Line + area of a value over time, with an optional dashed nominal line
- *  and a scrub readout. Green when the range ends at or above its start. */
+ *  and a scrub readout. Green when the range ends at or above its start.
+ *  Drag across it to compare two moments and zoom in. */
 export function PriceChart({
   series,
   currency,
@@ -117,65 +198,87 @@ export function PriceChart({
 }) {
   const [hover, setHover] = useState<number | null>(null);
   const W = 600, H = height, P = 6;
-  if (series.length < 2) return <div className="pf-pf-chart-empty" style={{ height }}>{t("No price history yet")}</div>;
+  const full0 = series[0]?.t ?? 0, full1 = series[series.length - 1]?.t ?? 1;
+  const z = useDragZoom(full0, full1, range);
+  // The window being shown (gliding) and the one it's heading for: the
+  // y-range and colour follow the destination so they don't flicker.
+  const [v0, v1] = z.view;
+  const win = series.filter((p) => p.t >= z.target[0] && p.t <= z.target[1]);
   // Nominal only over longer periods: within a day or a week it sits far
   // from the price and would flatten the line that matters.
   const withCost = range !== "1d" && range !== "5d";
-  const vals = series.flatMap((p) => (withCost && p.cost != null ? [p.value, p.cost] : [p.value]));
-  const lo = Math.min(...vals), hi = Math.max(...vals);
+  // Zoomed in, the y-axis fits the price alone — magnifying is the point.
+  const vals = (win.length ? win : series).flatMap((p) => (withCost && !z.zoomed && p.cost != null ? [p.value, p.cost] : [p.value]));
+  const yTarget = vals.length ? [Math.min(...vals), Math.max(...vals)] : [0, 1];
+  const yTweened = useTween(yTarget, 520);
+  const [lo, hi] = z.gliding ? yTweened : yTarget;
+  if (series.length < 2) return <div className="pf-pf-chart-empty" style={{ height }}>{t("No price history yet")}</div>;
   const span = Math.max(hi - lo, Math.abs(hi) * 0.002, 0.01);
-  const t0 = series[0].t, t1 = series[series.length - 1].t;
-  const x = (t: number) => P + ((t - t0) / Math.max(t1 - t0, 1)) * (W - 2 * P);
+  const x = (t: number) => P + ((t - v0) / Math.max(v1 - v0, 1)) * (W - 2 * P);
   const y = (v: number) => H - P - ((v - lo + span * 0.08) / (span * 1.16)) * (H - 2 * P);
-  const line = series.map((p, i) => `${i ? "L" : "M"}${x(p.t).toFixed(1)},${y(p.value).toFixed(1)}`).join(" ");
-  const area = `${line} L${x(t1).toFixed(1)},${H} L${x(t0).toFixed(1)},${H} Z`;
-  const costLine = withCost && series.some((p) => p.cost != null)
-    ? series.map((p, i) => `${i ? "L" : "M"}${x(p.t).toFixed(1)},${y(p.cost ?? p.value).toFixed(1)}`).join(" ")
+  // Draw what's in view plus one point either side, so the line runs off
+  // the edges instead of stopping short.
+  const i0 = Math.max(0, series.findIndex((p) => p.t >= v0) - 1);
+  const i1n = series.findIndex((p) => p.t > v1);
+  const shown = series.slice(i0, i1n < 0 ? series.length : i1n + 1);
+  const line = shown.map((p, i) => `${i ? "L" : "M"}${x(p.t).toFixed(1)},${y(p.value).toFixed(1)}`).join(" ");
+  const area = `${line} L${x(shown[shown.length - 1].t).toFixed(1)},${H} L${x(shown[0].t).toFixed(1)},${H} Z`;
+  const costLine = withCost && shown.some((p) => p.cost != null)
+    ? shown.map((p, i) => `${i ? "L" : "M"}${x(p.t).toFixed(1)},${y(p.cost ?? p.value).toFixed(1)}`).join(" ")
     : null;
-  // With a nominal line, the period's change is growth only — money put in
-  // during the period isn't profit.
-  const first = series[0], last = series[series.length - 1];
-  const change = first.cost != null && last.cost != null ? last.value - last.cost - (first.value - first.cost) : last.value - first.value;
-  const base = first.cost != null && last.cost != null ? last.cost : first.value;
+  const ends = win.length >= 2 ? win : series;
+  const { change, share } = growth(ends[0], ends[ends.length - 1]);
   const up = change >= 0;
   const color = up ? "#30d158" : "#ff453a";
   const id = `pf-pf-fill-${up ? "up" : "down"}`;
-  const pick = (clientX: number, el: Element) => {
-    const r = el.getBoundingClientRect();
-    const tt = t0 + ((clientX - r.left) / r.width) * (t1 - t0);
-    let best = 0;
-    for (let i = 1; i < series.length; i++) if (Math.abs(series[i].t - tt) < Math.abs(series[best].t - tt)) best = i;
-    setHover(best);
-  };
-  const h = hover != null ? series[hover] : null;
+  const h = hover != null && !z.selecting ? series[hover] : null;
+  // While dragging: the two ends and what changed between them.
+  const sel = z.selecting ? { a: series[nearest(series, z.selecting[0])], b: series[nearest(series, z.selecting[1])] } : null;
+  const selGrowth = sel ? growth(sel.a, sel.b) : null;
+  const last = series[series.length - 1];
 
   return (
     <div className="pf-pf-chart">
-      <div key={hover ?? "idle"} className="pf-readout pf-pf-readout">
-        {h ? (
-          <>
-            {timeLabel(h.t, range)} · <b>{money(h.value, currency)}</b>
-            {h.cost != null && h.cost > 0 && <span style={{ color: tone(h.value - h.cost) }}> {pct((h.value - h.cost) / h.cost)}</span>}
-          </>
-        ) : (
-          idle ?? (
+      <div className="pf-pf-readout-row">
+        {z.zoomed && !sel ? <ZoomOutChip onClick={z.reset} /> : <span />}
+        <div key={sel ? "sel" : (hover ?? (z.zoomed ? "zoom" : "idle"))} className="pf-readout pf-pf-readout">
+          {sel && selGrowth ? (
             <>
-              {t("This period")} · <b style={{ color: tone(change) }}>{money(change, currency, { signed: true })}</b>{" "}
-              <span style={{ color: tone(change) }}>{pct(base ? change / base : null)}</span>
+              {timeLabel(sel.a.t, range)} – {timeLabel(sel.b.t, range)} · <b style={{ color: tone(selGrowth.change) }}>{money(selGrowth.change, currency, { signed: true })}</b>{" "}
+              <span style={{ color: tone(selGrowth.change) }}>{pct(selGrowth.share)}</span>
             </>
-          )
-        )}
+          ) : h ? (
+            <>
+              {timeLabel(h.t, range)} · <b>{money(h.value, currency)}</b>
+              {h.cost != null && h.cost > 0 && <span style={{ color: tone(h.value - h.cost) }}> {pct((h.value - h.cost) / h.cost)}</span>}
+            </>
+          ) : z.zoomed ? (
+            <>
+              {timeLabel(ends[0].t, range)} – {timeLabel(ends[ends.length - 1].t, range)} · <b style={{ color: tone(change) }}>{money(change, currency, { signed: true })}</b>{" "}
+              <span style={{ color: tone(change) }}>{pct(share)}</span>
+            </>
+          ) : (
+            idle ?? (
+              <>
+                {t("This period")} · <b style={{ color: tone(change) }}>{money(change, currency, { signed: true })}</b>{" "}
+                <span style={{ color: tone(change) }}>{pct(share)}</span>
+              </>
+            )
+          )}
+        </div>
       </div>
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", overflow: "hidden" }}>
         <svg
           viewBox={`0 0 ${W} ${H}`}
           preserveAspectRatio="none"
           className="pf-pf-svg"
           style={{ height }}
-          onMouseMove={(e) => pick(e.clientX, e.currentTarget)}
-          onTouchMove={(e) => pick(e.touches[0].clientX, e.currentTarget)}
-          onMouseLeave={() => setHover(null)}
-          onTouchEnd={() => setHover(null)}
+          {...z.handlers}
+          onPointerMove={(e) => {
+            z.handlers.onPointerMove(e);
+            setHover(nearest(series, z.at(e.clientX, e.currentTarget)));
+          }}
+          onPointerLeave={() => setHover(null)}
         >
           <defs>
             <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
@@ -183,14 +286,17 @@ export function PriceChart({
               <stop offset="100%" stopColor={color} stopOpacity="0" />
             </linearGradient>
           </defs>
+          {sel && <rect x={x(sel.a.t)} width={Math.max(x(sel.b.t) - x(sel.a.t), 0)} y={0} height={H} className="pf-zoom-band" />}
           <path d={area} fill={`url(#${id})`} className="pf-eq-area" />
           {costLine && <path d={costLine} fill="none" stroke="var(--pf-ink-3)" strokeWidth="1.4" strokeDasharray="3 5" vectorEffect="non-scaling-stroke" />}
           <path d={line} fill="none" stroke={color} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="pf-eq-path" />
           {h && <line x1={x(h.t)} x2={x(h.t)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeWidth="1" vectorEffect="non-scaling-stroke" />}
+          {sel && [sel.a, sel.b].map((p, i) => <line key={i} x1={x(p.t)} x2={x(p.t)} y1={0} y2={H} stroke="var(--pf-ink-2)" strokeWidth="1" vectorEffect="non-scaling-stroke" />)}
         </svg>
         {/* Dots as HTML, so they stay round however the line stretches. */}
-        <span className="pf-pf-dot pf-pf-dot-live" style={{ left: `${(x(t1) / W) * 100}%`, top: `${(y(series[series.length - 1].value) / H) * 100}%`, background: color }} />
+        {last.t <= v1 + 1 && <span className="pf-pf-dot pf-pf-dot-live" style={{ left: `${(x(last.t) / W) * 100}%`, top: `${(y(last.value) / H) * 100}%`, background: color }} />}
         {h && <span className="pf-pf-dot" style={{ left: `${(x(h.t) / W) * 100}%`, top: `${(y(h.value) / H) * 100}%`, background: color }} />}
+        {sel && [sel.a, sel.b].map((p, i) => <span key={i} className="pf-pf-dot" style={{ left: `${(x(p.t) / W) * 100}%`, top: `${(y(p.value) / H) * 100}%`, background: selGrowth && selGrowth.change >= 0 ? "#30d158" : "#ff453a" }} />)}
       </div>
     </div>
   );
@@ -297,9 +403,12 @@ export function PortfolioHero({
   );
 }
 
-export function HoldingRow({ v, currency, rangeQuotes, onOpen }: { v: HoldingValue; currency: string; rangeQuotes: Quotes | null; onOpen: (e: Element) => void }) {
+export function HoldingRow({ v, currency, rangeQuotes, range, onOpen }: { v: HoldingValue; currency: string; rangeQuotes: Quotes | null; range: Range; onOpen: (e: Element) => void }) {
   const h = v.holding;
   const spark = useMemo(() => (rangeQuotes ? holdingSeries(h, rangeQuotes, currency).map((p) => p.value) : []), [h, rangeQuotes, currency]);
+  // The line's own story: how much it moved over the chosen period.
+  const moved = spark.length >= 2 && spark[0] ? spark[spark.length - 1] / spark[0] - 1 : null;
+  const label = RANGES.find((r) => r.value === range)?.label ?? "";
   return (
     <button type="button" className="pf-row pf-pf-row" onClick={(e) => onOpen(e.currentTarget)}>
       <AssetIcon symbol={h.symbol} type={h.asset_type} />
@@ -318,12 +427,19 @@ export function HoldingRow({ v, currency, rangeQuotes, onOpen }: { v: HoldingVal
           )}
         </span>
       </span>
-      <Spark values={spark} />
+      <span className="pf-pf-spark-wrap">
+        <Spark values={spark} />
+        {moved != null && (
+          <span className="pf-pf-spark-cap pf-rounded">
+            {t(label)} · <span style={{ color: tone(moved) }}>{pct(moved)}</span>
+          </span>
+        )}
+      </span>
       <span className="pf-pf-right">
         <b className="pf-rounded">{v.value != null ? money(v.value, currency) : v.cost != null ? money(v.cost, currency) : "—"}</b>
         {v.result != null ? (
           <span className="pf-rounded" style={{ color: tone(v.result) }}>
-            {money(v.result, currency, { signed: true })} · {pct(v.resultPct)}
+            {money(v.result, currency, { signed: true })} · {pct(v.resultPct)} <span className="pf-pf-total">{t("total")}</span>
           </span>
         ) : (
           <span style={{ color: "var(--pf-ink-3)" }}>{v.quote ? "" : t("No price")}</span>

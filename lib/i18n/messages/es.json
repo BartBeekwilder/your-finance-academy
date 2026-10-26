@@ -1094,5 +1094,7 @@
  "This is my payday": "Este es mi día de cobro",
  "— day {n} from now on (was day {old})": "— a partir de ahora día {n} (antes día {old})",
  "— day {n} from now on": "— a partir de ahora día {n}",
- "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "El día en que llega tu sueldo. Los nuevos sueldos empiezan en este día; un sueldo en otra fecha también puede actualizarlo."
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "El día en que llega tu sueldo. Los nuevos sueldos empiezan en este día; un sueldo en otra fecha también puede actualizarlo.",
+ "total": "total",
+ "Value per holding": "Valor por posición"
 }

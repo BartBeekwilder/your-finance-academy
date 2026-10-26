@@ -1094,5 +1094,7 @@
  "This is my payday": "Ini hari gajianku",
  "— day {n} from now on (was day {old})": "— mulai sekarang tanggal {n} (sebelumnya tanggal {old})",
  "— day {n} from now on": "— mulai sekarang tanggal {n}",
- "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "Hari gajimu masuk. Gaji baru dimulai pada hari ini; gaji di tanggal lain juga bisa memperbaruinya."
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "Hari gajimu masuk. Gaji baru dimulai pada hari ini; gaji di tanggal lain juga bisa memperbaruinya.",
+ "total": "total",
+ "Value per holding": "Nilai per posisi"
 }

@@ -1094,5 +1094,7 @@
  "This is my payday": "Это мой день зарплаты",
  "— day {n} from now on (was day {old})": "— теперь {n}-е число (было {old}-е)",
  "— day {n} from now on": "— теперь {n}-е число",
- "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "День, когда приходит зарплата. Новые записи зарплаты начинаются с этого дня; зарплата в другой день тоже может его изменить."
+ "The day your salary comes in. New salary entries start on this day; changing a salary's date can update it too.": "День, когда приходит зарплата. Новые записи зарплаты начинаются с этого дня; зарплата в другой день тоже может его изменить.",
+ "total": "всего",
+ "Value per holding": "Стоимость по позициям"
 }
