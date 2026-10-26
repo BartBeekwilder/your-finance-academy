@@ -1081,5 +1081,6 @@
  "e.g. {example}": "예: {example}",
  "Furniture": "가구",
  "Something specific": "구체적인 항목",
- "Filled in like last time": "지난번처럼 채웠어요"
+ "Filled in like last time": "지난번처럼 채웠어요",
+ "not a valid amount": "올바른 금액이 아니에요"
 }

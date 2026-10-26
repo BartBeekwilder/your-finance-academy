@@ -4175,3 +4175,17 @@ span.pf-cmp-chip { cursor: default; }
   font-size: 0.75rem;
   color: var(--pf-brand-b);
 }
+
+/* Quick Add: the result of an amount typed as a sum. */
+.pf-amount-sum {
+  justify-self: center;
+  margin-top: -8px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--pf-ink);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--pf-line);
+}
+.pf-amount-sum[data-bad] { color: var(--pf-ink-3); }

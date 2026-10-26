@@ -1081,5 +1081,6 @@
  "e.g. {example}": "z. B. {example}",
  "Furniture": "Möbel",
  "Something specific": "Etwas Bestimmtes",
- "Filled in like last time": "Wie beim letzten Mal ausgefüllt"
+ "Filled in like last time": "Wie beim letzten Mal ausgefüllt",
+ "not a valid amount": "kein gültiger Betrag"
 }

@@ -632,6 +632,7 @@
  "No transactions match.",
  "Nominal",
  "Nominal (put in)",
+ "not a valid amount",
  "Not on an account yet",
  "Not on an account yet — shows under Amounts to receive",
  "not yet",

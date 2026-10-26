@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Banknote, Check, CreditCard, Hourglass, Landmark, PiggyBank, Plus, Sparkles, Trash2, Wallet, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
+import { evalAmount } from "@/lib/finance/amountExpr";
 import { money, shortMonthYear } from "@/lib/finance/format";
 import type { Account, HouseholdMember, Transaction, TransactionType } from "@/lib/finance/types";
 import { householdOf } from "@/lib/finance/household";
@@ -228,10 +229,12 @@ function Form({
     setFresh(row.id);
   }
 
-  // Accept "12,50" as well as "12.50" — Dutch keyboards type a comma.
-  const parsed = Number(amount.replace(/\s/g, "").replace(",", "."));
+  // Accept "12,50" as well as "12.50" — Dutch keyboards type a comma — and
+  // a sum as on a receipt ("1,22+12,52+13,15").
+  const sum = evalAmount(amount);
+  const parsed = sum?.value ?? NaN;
   const valid = parsed > 0 && Number.isFinite(parsed);
-  const grossParsed = Number(gross.replace(/\s/g, "").replace(",", ".")) || 0;
+  const grossParsed = evalAmount(gross)?.value ?? 0;
   const spreading = type === "expense" && spread != null && spread >= 2;
 
   async function submit(e: FormEvent) {
@@ -291,8 +294,17 @@ function Form({
         aria-label={t("Amount")}
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        onBlur={() => {
+          // A finished sum becomes its result, so the field reads as an amount.
+          if (sum?.isSum && valid) setAmount(parsed.toFixed(2).replace(".", ","));
+        }}
         style={{ fontSize: "2rem", fontWeight: 700, textAlign: "center", color: type === "income" ? "var(--pf-green)" : "var(--pf-ink)" }}
       />
+      {sum?.isSum && (
+        <span key={parsed} className="pf-amount-sum pf-readout pf-rounded" data-bad={!valid || undefined}>
+          = {valid ? money(parsed, currency) : t("not a valid amount")}
+        </span>
+      )}
 
       {type === "income" && (
         <div className="pf-gross">

@@ -1081,5 +1081,6 @@
  "e.g. {example}": "مثلًا {example}",
  "Furniture": "أثاث",
  "Something specific": "شيء محدد",
- "Filled in like last time": "تمت التعبئة كما في المرة الماضية"
+ "Filled in like last time": "تمت التعبئة كما في المرة الماضية",
+ "not a valid amount": "مبلغ غير صالح"
 }

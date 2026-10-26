@@ -1081,5 +1081,6 @@
  "e.g. {example}": "mis. {example}",
  "Furniture": "Perabot",
  "Something specific": "Sesuatu yang spesifik",
- "Filled in like last time": "Diisi seperti terakhir kali"
+ "Filled in like last time": "Diisi seperti terakhir kali",
+ "not a valid amount": "jumlah tidak valid"
 }

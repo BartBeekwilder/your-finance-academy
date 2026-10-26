@@ -1088,5 +1088,6 @@
  "e.g. {example}": "bijv. {example}",
  "Furniture": "Meubels",
  "Something specific": "Iets specifieks",
- "Filled in like last time": "Ingevuld zoals vorige keer"
+ "Filled in like last time": "Ingevuld zoals vorige keer",
+ "not a valid amount": "geen geldig bedrag"
 }

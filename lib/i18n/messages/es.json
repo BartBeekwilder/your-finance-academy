@@ -1081,5 +1081,6 @@
  "e.g. {example}": "p. ej. {example}",
  "Furniture": "Muebles",
  "Something specific": "Algo concreto",
- "Filled in like last time": "Rellenado como la última vez"
+ "Filled in like last time": "Rellenado como la última vez",
+ "not a valid amount": "importe no válido"
 }

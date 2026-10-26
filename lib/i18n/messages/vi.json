@@ -1081,5 +1081,6 @@
  "e.g. {example}": "vd. {example}",
  "Furniture": "Nội thất",
  "Something specific": "Một thứ cụ thể",
- "Filled in like last time": "Đã điền như lần trước"
+ "Filled in like last time": "Đã điền như lần trước",
+ "not a valid amount": "số tiền không hợp lệ"
 }

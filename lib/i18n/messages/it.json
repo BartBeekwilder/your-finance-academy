@@ -1081,5 +1081,6 @@
  "e.g. {example}": "es. {example}",
  "Furniture": "Mobili",
  "Something specific": "Qualcosa di specifico",
- "Filled in like last time": "Compilato come l'ultima volta"
+ "Filled in like last time": "Compilato come l'ultima volta",
+ "not a valid amount": "importo non valido"
 }
