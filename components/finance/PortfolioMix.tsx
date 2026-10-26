@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { money } from "@/lib/finance/format";
 import { holdingSeries, type Quotes } from "@/lib/finance/quotes";
 import type { Holding } from "@/lib/finance/types";
-import { RANGES, timeLabel, useDragZoom, ZoomOutChip, type Range } from "./Portfolio";
+import { RANGES, timeLabel, type Range } from "./Portfolio";
 import Segmented from "./Segmented";
 import { WithYAxis } from "./YAxis";
 import { useTween } from "./charts";
@@ -13,8 +13,8 @@ import { useTween } from "./charts";
 // Investments › value per holding: every holding's real value over the
 // chosen period, stacked (Amount) or as shares of the whole (Share), with
 // the mix as a bar and a list on the right — at "now", or at the moment
-// pointed at. Like the Expenses chart, and like the chart above, drag across
-// it to select a stretch and zoom in. A name in the list switches that
+// pointed at. Like the Expenses chart. Pointing at a band lights that
+// holding up (in the chart and the list). A name in the list switches that
 // holding off or on; the stack reshapes smoothly (remembered per browser).
 
 // Neutral colours — no red or green, which would read as loss or gain.
@@ -57,7 +57,6 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
 
   const { times, lines } = model;
   const t0 = times[0] ?? 0, t1 = times[times.length - 1] ?? 1;
-  const z = useDragZoom(t0, t1, `${range}|${mode}`);
 
   // Holdings switched off (by id), remembered in this browser. Each line's
   // weight glides between 1 and 0, so the stack reshapes instead of jumping.
@@ -96,12 +95,11 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
     return () => ro.disconnect();
   }, []);
 
-  const inWin = times.map((x, k) => (x >= z.target[0] && x <= z.target[1] ? k : -1)).filter((k) => k >= 0);
-  const peak = Math.max(1, ...(inWin.length ? inWin : times.map((_, k) => k)).map((k) => targetTotals[k] ?? 0));
+  const peak = Math.max(1, ...targetTotals);
   const [max] = useTween([mode === "share" ? 1 : niceMax(peak)], 480);
   if (times.length < 2) return null;
 
-  const [v0, v1] = z.view;
+  const v0 = t0, v1 = t1;
   const W = 600, H = Math.max(220, sideH - 22);
   const x = (tt: number) => ((tt - v0) / Math.max(v1 - v0, 1)) * W;
   const y = (v: number) => H - (v / max) * H;
@@ -129,7 +127,6 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
   const rangeLabel = t(RANGES.find((r) => r.value === range)?.label ?? "");
   const ticks = [0, 0.5, 1].map((f) => ({ value: max * f, at: f }));
   const xLabels = Array.from({ length: 5 }, (_, i) => v0 + ((i + 0.5) / 5) * (v1 - v0));
-  const sel = z.selecting;
 
   const chart = (
     <div style={{ position: "relative", overflow: "hidden" }}>
@@ -138,21 +135,22 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
         preserveAspectRatio="none"
         className="pf-pf-svg"
         style={{ height: H }}
-        {...z.handlers}
         onPointerMove={(e) => {
-          z.handlers.onPointerMove(e);
-          const tt = z.at(e.clientX, e.currentTarget);
+          const r = e.currentTarget.getBoundingClientRect();
+          const tt = v0 + ((e.clientX - r.left) / Math.max(r.width, 1)) * (v1 - v0);
           let best = 0;
           for (let k = 1; k < times.length; k++) if (Math.abs(times[k] - tt) < Math.abs(times[best] - tt)) best = k;
           setHover(best);
         }}
-        onPointerLeave={() => setHover(null)}
+        onPointerLeave={() => {
+          setHover(null);
+          setLit(null);
+        }}
       >
         {ticks.map((tk, i) => <line key={i} x1={0} x2={W} y1={y(tk.value)} y2={y(tk.value)} className="pf-mix-grid" vectorEffect="non-scaling-stroke" />)}
-        {sel && <rect x={x(sel[0])} width={Math.max(x(sel[1]) - x(sel[0]), 0)} y={0} height={H} className="pf-zoom-band" />}
         {bands.map(({ l, area, top }) => (
-          <g key={l.id} className="pf-mix-band" data-dim={lit != null && lit !== l.id}>
-            <path d={area} fill={l.color} opacity={0.55} />
+          <g key={l.id} className="pf-mix-band" data-dim={lit != null && lit !== l.id} data-lit={lit === l.id || undefined} onPointerEnter={() => !hidden.has(l.id) && setLit(l.id)}>
+            <path d={area} fill={l.color} className="pf-mix-fill" />
             <path d={top} fill="none" stroke={l.color} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
           </g>
         ))}
@@ -174,7 +172,6 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <span style={{ fontSize: "0.9rem", color: "var(--pf-ink-2)" }}>{t("Value per holding")}</span>
           <Segmented options={[{ value: "amount", label: t("Amount") }, { value: "share", label: t("Share") }]} value={mode} onChange={setMode} label={t("Show")} />
-          {z.picked ? <ZoomOutChip zoomIn onClick={z.zoomIn} /> : z.zoomed && <ZoomOutChip onClick={z.reset} />}
         </div>
         <Segmented options={RANGES.map((r) => ({ value: r.value, label: t(r.label) }))} value={range} onChange={onRange} label={t("Period")} />
       </div>
@@ -209,6 +206,7 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
                     title={off ? t("Show {name}", { name: l.name }) : t("Hide {name}", { name: l.name })}
                     data-off={off || undefined}
                     data-dim={lit != null && lit !== l.id}
+                    data-lit={lit === l.id || undefined}
                     onClick={() => toggle(l.id)}
                     onMouseEnter={() => setLit(off ? null : l.id)}
                     onMouseLeave={() => setLit(null)}
