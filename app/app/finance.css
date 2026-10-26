@@ -4469,4 +4469,4 @@ span.pf-cmp-chip { cursor: default; }
 .pf-cal-row b { font-weight: 600; }
 .pf-cal-note { margin: 0; font-size: 0.75rem; color: var(--pf-ink-3); text-align: center; }
 .pf-cal-num { font-style: normal; color: transparent; -webkit-background-clip: text; background-clip: text; }
-.pf-cal-day[data-perfect] span { background: linear-gradient(135deg, #40c8e0, #30d158, #bf5af2); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.pf-cal-day[data-perfect] span { background: linear-gradient(135deg, #fa114f, #7ae200, #d17bff); -webkit-background-clip: text; background-clip: text; color: transparent; }

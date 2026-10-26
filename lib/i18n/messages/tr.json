@@ -1168,5 +1168,7 @@
  "Streaks and calendar": "Seriler ve takvim",
  "this month": "bu ay",
  "Updated": "Güncellendi",
- "Within budget in a row": "Art arda bütçe içinde"
+ "Within budget in a row": "Art arda bütçe içinde",
+ "Pink: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Pembe: defterlerini güncelledin. Yeşil: şimdiye kadarki harcama ortalamanın içinde (henüz bütçe yok). Mor: şimdiye kadar biriken, gelirin %20'sine göre.",
+ "Pink: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Pembe: defterlerini güncelledin. Yeşil: şimdiye kadarki harcama bütçelerinin içinde. Mor: şimdiye kadar biriken, gelirin %20'sine göre."
 }

@@ -1175,5 +1175,7 @@
  "Streaks and calendar": "Reeksen en kalender",
  "this month": "deze maand",
  "Updated": "Bijgewerkt",
- "Within budget in a row": "Binnen budget op rij"
+ "Within budget in a row": "Binnen budget op rij",
+ "Pink: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Roze: je werkte je boeken bij. Groen: uitgaven tot nu toe binnen je gemiddelde tot nu toe (nog geen budgetten). Paars: gespaard tot nu toe t.o.v. 20% van je inkomen.",
+ "Pink: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Roze: je werkte je boeken bij. Groen: uitgaven tot nu toe binnen je budgetten tot nu toe. Paars: gespaard tot nu toe t.o.v. 20% van je inkomen."
 }

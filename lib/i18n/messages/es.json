@@ -1168,5 +1168,7 @@
  "Streaks and calendar": "Rachas y calendario",
  "this month": "este mes",
  "Updated": "Actualizado",
- "Within budget in a row": "Dentro del presupuesto seguidos"
+ "Within budget in a row": "Dentro del presupuesto seguidos",
+ "Pink: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Rosa: actualizaste tus cuentas. Verde: gasto hasta ahora dentro de tu media hasta ahora (aún sin presupuestos). Morado: ahorrado hasta ahora frente al 20 % de los ingresos.",
+ "Pink: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Rosa: actualizaste tus cuentas. Verde: gasto hasta ahora dentro de tus presupuestos hasta ahora. Morado: ahorrado hasta ahora frente al 20 % de los ingresos."
 }

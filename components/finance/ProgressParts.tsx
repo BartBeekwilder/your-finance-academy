@@ -8,14 +8,16 @@ import type { Badge } from "@/lib/finance/progress";
 // The building blocks of the progress screens: the three rings (like a
 // fitness watch), the streak flame, badge tiles and a celebration overlay.
 
+// Three clearly different colours (like a watch's move / exercise / stand):
+// hot pink-red for bookkeeping, neon lime for budgets, violet for saving.
 export const RING_COLORS = {
-  tracking: ["#40c8e0", "#64d2ff"],
-  budget: ["#30d158", "#a6f05a"],
-  saving: ["#6c5ce7", "#bf5af2"],
+  tracking: ["#fa114f", "#ff6fa0"],
+  budget: ["#7ae200", "#d4ff3a"],
+  saving: ["#8e5cff", "#d17bff"],
 } as const;
 /** The second lap's lighter tint, so a ring past 100% clearly reads as
  *  going round again. */
-export const LAP_COLORS = { tracking: "#c6f4ff", budget: "#e2ffb0", saving: "#ecc2ff" } as const;
+export const LAP_COLORS = { tracking: "#ffc2d6", budget: "#f0ffb8", saving: "#ecd2ff" } as const;
 
 /** Three concentric rings that fill up (and glow when closed). Values 0…1+
  *  (saving can run past 1: the ring wraps a second lap in a lighter tint,

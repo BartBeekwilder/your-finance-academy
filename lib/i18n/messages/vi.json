@@ -1168,5 +1168,7 @@
  "Streaks and calendar": "Chuỗi và lịch",
  "this month": "tháng này",
  "Updated": "Đã cập nhật",
- "Within budget in a row": "Trong ngân sách liên tiếp"
+ "Within budget in a row": "Trong ngân sách liên tiếp",
+ "Pink: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Hồng: bạn đã cập nhật sổ. Xanh lá: chi tiêu đến nay trong mức trung bình (chưa có ngân sách). Tím: đã tiết kiệm đến nay so với 20% thu nhập.",
+ "Pink: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Hồng: bạn đã cập nhật sổ. Xanh lá: chi tiêu đến nay trong ngân sách. Tím: đã tiết kiệm đến nay so với 20% thu nhập."
 }

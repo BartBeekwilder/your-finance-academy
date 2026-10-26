@@ -1168,5 +1168,7 @@
  "Streaks and calendar": "연속 기록과 달력",
  "this month": "이번 달",
  "Updated": "업데이트함",
- "Within budget in a row": "예산 내 연속"
+ "Within budget in a row": "예산 내 연속",
+ "Pink: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "분홍: 장부를 업데이트한 날. 초록: 지금까지 지출이 평균 이내(아직 예산 없음). 보라: 지금까지 저축을 소득의 20%와 비교.",
+ "Pink: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "분홍: 장부를 업데이트한 날. 초록: 지금까지 지출이 예산 이내. 보라: 지금까지 저축을 소득의 20%와 비교."
 }

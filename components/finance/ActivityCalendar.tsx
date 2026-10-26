@@ -115,8 +115,8 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
       )}
       <p className="pf-cal-note">
         {avg
-          ? t("Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.")
-          : t("Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.")}
+          ? t("Pink: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.")
+          : t("Pink: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.")}
       </p>
     </section>
   );

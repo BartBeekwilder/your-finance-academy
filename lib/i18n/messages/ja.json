@@ -1168,5 +1168,7 @@
  "Streaks and calendar": "連続記録とカレンダー",
  "this month": "今月",
  "Updated": "更新済み",
- "Within budget in a row": "予算内の連続"
+ "Within budget in a row": "予算内の連続",
+ "Pink: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "ピンク：記録を更新した日。緑：これまでの支出が平均以内（予算はまだ）。紫：これまでの貯蓄を収入の20%と比較。",
+ "Pink: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "ピンク：記録を更新した日。緑：これまでの支出が予算以内。紫：これまでの貯蓄を収入の20%と比較。"
 }

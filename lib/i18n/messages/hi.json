@@ -1168,5 +1168,7 @@
  "Streaks and calendar": "लड़ियाँ और कैलेंडर",
  "this month": "इस महीने",
  "Updated": "अपडेट किया",
- "Within budget in a row": "लगातार बजट में"
+ "Within budget in a row": "लगातार बजट में",
+ "Pink: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "गुलाबी: आपने खाते अपडेट किए। हरा: अब तक ख़र्च आपके औसत के भीतर (अभी बजट नहीं)। बैंगनी: अब तक की बचत आय के 20% के मुक़ाबले।",
+ "Pink: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "गुलाबी: आपने खाते अपडेट किए। हरा: अब तक ख़र्च बजट के भीतर। बैंगनी: अब तक की बचत आय के 20% के मुक़ाबले।"
 }
