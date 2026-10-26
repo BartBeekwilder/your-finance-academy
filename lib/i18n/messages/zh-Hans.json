@@ -1103,5 +1103,8 @@
  "Period of the small charts": "小图表的时间段",
  "Hide the nominal line": "隐藏名义线",
  "Show the nominal line": "显示名义线",
- "Zoom in": "放大"
+ "Zoom in": "放大",
+ "Put in": "投入",
+ "{pct} to go": "还差 {pct}",
+ "{pct} above it": "高出 {pct}"
 }

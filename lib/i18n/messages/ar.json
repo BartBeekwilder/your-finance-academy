@@ -1103,5 +1103,8 @@
  "Period of the small charts": "فترة الرسوم الصغيرة",
  "Hide the nominal line": "إخفاء الخط الاسمي",
  "Show the nominal line": "إظهار الخط الاسمي",
- "Zoom in": "تكبير"
+ "Zoom in": "تكبير",
+ "Put in": "المستثمر",
+ "{pct} to go": "متبقٍ {pct}",
+ "{pct} above it": "أعلى بـ {pct}"
 }

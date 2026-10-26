@@ -1103,5 +1103,8 @@
  "Period of the small charts": "Zeitraum der kleinen Diagramme",
  "Hide the nominal line": "Nominallinie ausblenden",
  "Show the nominal line": "Nominallinie zeigen",
- "Zoom in": "Vergrößern"
+ "Zoom in": "Vergrößern",
+ "Put in": "Eingezahlt",
+ "{pct} to go": "noch {pct}",
+ "{pct} above it": "{pct} darüber"
 }

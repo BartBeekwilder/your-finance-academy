@@ -4317,3 +4317,21 @@ span.pf-cmp-chip { cursor: default; }
 .pf-pf-legend-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; transition: opacity 0.2s, color 0.2s; }
 .pf-pf-legend-toggle:hover { color: var(--pf-ink-2); }
 .pf-pf-legend-toggle[aria-pressed="false"] { opacity: 0.45; text-decoration: line-through; }
+
+/* Investments chart: what was put in, pinned to the edge when far away. */
+.pf-pf-pin {
+  position: absolute;
+  right: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  color: var(--pf-ink-2);
+  background: rgba(20, 20, 24, 0.85);
+  border: 1px dashed var(--pf-ink-3);
+  pointer-events: none;
+  white-space: nowrap;
+  animation: pf-paid-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.pf-pf-pin[data-at="top"] { top: 8px; }
+.pf-pf-pin[data-at="bottom"] { bottom: 8px; }
+.pf-pf-pin b { color: var(--pf-ink); font-weight: 600; }

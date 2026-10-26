@@ -1103,5 +1103,8 @@
  "Period of the small charts": "Periode grafik kecil",
  "Hide the nominal line": "Sembunyikan garis nominal",
  "Show the nominal line": "Tampilkan garis nominal",
- "Zoom in": "Perbesar"
+ "Zoom in": "Perbesar",
+ "Put in": "Disetor",
+ "{pct} to go": "kurang {pct}",
+ "{pct} above it": "{pct} di atasnya"
 }

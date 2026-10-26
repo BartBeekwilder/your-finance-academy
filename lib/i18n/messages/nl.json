@@ -1110,5 +1110,8 @@
  "Period of the small charts": "Periode van de kleine grafiekjes",
  "Hide the nominal line": "Nominale lijn verbergen",
  "Show the nominal line": "Nominale lijn tonen",
- "Zoom in": "Inzoomen"
+ "Zoom in": "Inzoomen",
+ "Put in": "Inleg",
+ "{pct} to go": "nog {pct}",
+ "{pct} above it": "{pct} erboven"
 }

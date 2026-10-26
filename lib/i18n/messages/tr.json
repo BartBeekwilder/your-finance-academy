@@ -1103,5 +1103,8 @@
  "Period of the small charts": "Küçük grafiklerin dönemi",
  "Hide the nominal line": "Nominal çizgiyi gizle",
  "Show the nominal line": "Nominal çizgiyi göster",
- "Zoom in": "Yakınlaştır"
+ "Zoom in": "Yakınlaştır",
+ "Put in": "Yatırılan",
+ "{pct} to go": "{pct} kaldı",
+ "{pct} above it": "{pct} üstünde"
 }

@@ -1103,5 +1103,8 @@
  "Period of the small charts": "Период маленьких графиков",
  "Hide the nominal line": "Скрыть номинальную линию",
  "Show the nominal line": "Показать номинальную линию",
- "Zoom in": "Увеличить"
+ "Zoom in": "Увеличить",
+ "Put in": "Вложено",
+ "{pct} to go": "ещё {pct}",
+ "{pct} above it": "на {pct} выше"
 }

@@ -1103,5 +1103,8 @@
  "Period of the small charts": "Khoảng thời gian của biểu đồ nhỏ",
  "Hide the nominal line": "Ẩn đường danh nghĩa",
  "Show the nominal line": "Hiện đường danh nghĩa",
- "Zoom in": "Phóng to"
+ "Zoom in": "Phóng to",
+ "Put in": "Đã bỏ vào",
+ "{pct} to go": "còn {pct}",
+ "{pct} above it": "cao hơn {pct}"
 }

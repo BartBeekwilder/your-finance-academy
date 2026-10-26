@@ -1103,5 +1103,8 @@
  "Period of the small charts": "छोटे चार्ट की अवधि",
  "Hide the nominal line": "नाममात्र रेखा छिपाएँ",
  "Show the nominal line": "नाममात्र रेखा दिखाएँ",
- "Zoom in": "ज़ूम इन"
+ "Zoom in": "ज़ूम इन",
+ "Put in": "लगाया",
+ "{pct} to go": "{pct} बाकी",
+ "{pct} above it": "{pct} ऊपर"
 }

@@ -233,9 +233,24 @@ export function PriceChart({
   const [v0, v1] = z.view;
   const win = series.filter((p) => p.t >= z.target[0] && p.t <= z.target[1]);
   const withCost = showCost;
-  // Zoomed in, the y-axis fits the price alone — magnifying is the point.
-  const vals = (win.length ? win : series).flatMap((p) => (withCost && !z.zoomed && p.cost != null ? [p.value, p.cost] : [p.value]));
-  const yTarget = vals.length ? [Math.min(...vals), Math.max(...vals)] : [0, 1];
+  // The y-axis takes in what was put in only when it's close to the price
+  // (it would squash the price line to under ~40% of the height otherwise)
+  // and never when zoomed in. Out of range, it's pinned to the edge with a
+  // label instead.
+  const inView = win.length ? win : series;
+  const prices = inView.map((p) => p.value);
+  const costs = withCost ? inView.flatMap((p) => (p.cost != null && p.cost > 0 ? [p.cost] : [])) : [];
+  const pLo = prices.length ? Math.min(...prices) : 0, pHi = prices.length ? Math.max(...prices) : 1;
+  const pSpan = Math.max(pHi - pLo, Math.abs(pHi) * 0.002, 0.01);
+  const cLo = costs.length ? Math.min(...costs) : pLo, cHi = costs.length ? Math.max(...costs) : pHi;
+  const costFits = !z.zoomed && costs.length > 0 && Math.max(pHi, cHi) - Math.min(pLo, cLo) <= pSpan * 2.5;
+  // Pinned, the label gets a strip of room on its side.
+  const room = !costFits && costs.length > 0 ? pSpan * 0.3 : 0;
+  const yTarget = prices.length
+    ? costFits
+      ? [Math.min(pLo, cLo), Math.max(pHi, cHi)]
+      : [pLo - (cHi < pLo ? room : 0), pHi + (cLo > pHi ? room : 0)]
+    : [0, 1];
   const yTweened = useTween(yTarget, 520);
   const [lo, hi] = z.gliding ? yTweened : yTarget;
   if (series.length < 2) return <div className="pf-pf-chart-empty" style={{ height }}>{t("No price history yet")}</div>;
@@ -249,9 +264,15 @@ export function PriceChart({
   const shown = series.slice(i0, i1n < 0 ? series.length : i1n + 1);
   const line = shown.map((p, i) => `${i ? "L" : "M"}${x(p.t).toFixed(1)},${y(p.value).toFixed(1)}`).join(" ");
   const area = `${line} L${x(shown[shown.length - 1].t).toFixed(1)},${H} L${x(shown[0].t).toFixed(1)},${H} Z`;
+  // Clamped to the chart: out of range it runs along the top or bottom edge.
+  const yc = (v: number) => Math.min(Math.max(y(v), 2), H - 2);
   const costLine = withCost && shown.some((p) => p.cost != null)
-    ? shown.map((p, i) => `${i ? "L" : "M"}${x(p.t).toFixed(1)},${y(p.cost ?? p.value).toFixed(1)}`).join(" ")
+    ? shown.map((p, i) => `${i ? "L" : "M"}${x(p.t).toFixed(1)},${yc(p.cost ?? p.value).toFixed(1)}`).join(" ")
     : null;
+  // Pinned: what was put in now, where it sits, and how far the value is
+  // from it.
+  const lastCost = [...series].reverse().find((p) => p.cost != null && p.cost > 0)?.cost ?? null;
+  const pinned = withCost && !costFits && lastCost != null && (y(lastCost) < 2 || y(lastCost) > H - 2) ? (y(lastCost) < 2 ? "top" : "bottom") : null;
   const ends = win.length >= 2 ? win : series;
   const { change, share } = growth(ends[0], ends[ends.length - 1]);
   const up = change >= 0;
@@ -319,6 +340,15 @@ export function PriceChart({
           {h && <line x1={x(h.t)} x2={x(h.t)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeWidth="1" vectorEffect="non-scaling-stroke" />}
           {sel && [sel.a, sel.b].map((p, i) => <line key={i} x1={x(p.t)} x2={x(p.t)} y1={0} y2={H} stroke="var(--pf-ink-2)" strokeWidth="1" vectorEffect="non-scaling-stroke" />)}
         </svg>
+        {pinned && lastCost != null && (
+          <span className="pf-pf-pin" data-at={pinned}>
+            {pinned === "top" ? "↑" : "↓"} {t("Put in")} <b className="pf-rounded">{money(lastCost, currency)}</b>
+            {" · "}
+            {pinned === "top"
+              ? t("{pct} to go", { pct: pct(lastCost / series[series.length - 1].value - 1) })
+              : t("{pct} above it", { pct: pct(series[series.length - 1].value / lastCost - 1) })}
+          </span>
+        )}
         {/* Dots as HTML, so they stay round however the line stretches. */}
         {last.t <= v1 + 1 && <span className="pf-pf-dot pf-pf-dot-live" style={{ left: `${(x(last.t) / W) * 100}%`, top: `${(y(last.value) / H) * 100}%`, background: color }} />}
         {h && <span className="pf-pf-dot" style={{ left: `${(x(h.t) / W) * 100}%`, top: `${(y(h.value) / H) * 100}%`, background: color }} />}
@@ -419,7 +449,7 @@ export function PortfolioHero({
         <PriceChart series={series} currency={currency} range={range} height={140} showCost={showNominal} />
         <div className="pf-pf-legend">
           <span>
-            <i style={{ background: tone(result) }} /> {t("Real")}
+            <i style={{ background: series.length >= 2 ? tone(growth(series[0], series[series.length - 1]).change) : tone(result) }} /> {t("Real")}
           </span>
           <button type="button" className="pf-pf-legend-toggle" aria-pressed={showNominal} onClick={() => setShowNominal(!showNominal)} title={showNominal ? t("Hide the nominal line") : t("Show the nominal line")}>
             <i className="pf-pf-legend-dash" /> {t("Nominal (put in)")}

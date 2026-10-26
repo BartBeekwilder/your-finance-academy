@@ -1103,5 +1103,8 @@
  "Period of the small charts": "작은 차트 기간",
  "Hide the nominal line": "명목 선 숨기기",
  "Show the nominal line": "명목 선 표시",
- "Zoom in": "확대"
+ "Zoom in": "확대",
+ "Put in": "투자금",
+ "{pct} to go": "{pct} 남음",
+ "{pct} above it": "{pct} 위"
 }

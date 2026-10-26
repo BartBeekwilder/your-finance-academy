@@ -1103,5 +1103,8 @@
  "Period of the small charts": "Okres małych wykresów",
  "Hide the nominal line": "Ukryj linię nominalną",
  "Show the nominal line": "Pokaż linię nominalną",
- "Zoom in": "Powiększ"
+ "Zoom in": "Powiększ",
+ "Put in": "Wpłacono",
+ "{pct} to go": "brakuje {pct}",
+ "{pct} above it": "{pct} powyżej"
 }
