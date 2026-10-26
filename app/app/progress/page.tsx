@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarCheck, Plus, Trash2, X } from "lucide-react";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { BadgeTile, Celebration, RingLegend, Rings, StreakFlame } from "@/components/finance/ProgressParts";
+import ActivityCalendar from "@/components/finance/ActivityCalendar";
 import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
 import { live, num } from "@/lib/finance/calc";
@@ -92,6 +93,12 @@ export default function ProgressPage() {
           </div>
         </section>
       </div>
+
+      {/* Streaks and every day's rings. */}
+      <section style={{ display: "grid", gap: 10 }}>
+        <h2 className="pf-section-title" style={{ margin: 0 }}>{t("Streaks and calendar")}</h2>
+        <ActivityCalendar data={data} now={now} />
+      </section>
 
       {/* Goals. */}
       <section style={{ display: "grid", gap: 10 }}>

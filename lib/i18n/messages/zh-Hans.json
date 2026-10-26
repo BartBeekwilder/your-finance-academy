@@ -1154,5 +1154,19 @@
  "of {amount} avg": "平均 {amount} 中",
  "of {amount}": "共 {amount}",
  "Not counted yet — the app wasn't in use this month": "尚未计入 — 本月还未使用应用",
- "No budgets this month — set them in step 4": "本月没有预算 — 在第 4 步设置"
+ "No budgets this month — set them in step 4": "本月没有预算 — 在第 4 步设置",
+ "{pct} over so far": "目前超出 {pct}",
+ "Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "蓝色：你更新了账本。绿色：目前支出在平均水平以内（还没有预算）。紫色：目前储蓄与收入的 20% 相比。",
+ "Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "蓝色：你更新了账本。绿色：目前支出在预算以内。紫色：目前储蓄与收入的 20% 相比。",
+ "Bookkeeping": "记账",
+ "Bookkeeping streak": "记账连续",
+ "Longest streak": "最长连续",
+ "Not updated": "未更新",
+ "On track": "进展顺利",
+ "Perfect days": "完美日",
+ "Spending vs your average": "与平均支出相比",
+ "Streaks and calendar": "连续记录与日历",
+ "this month": "本月",
+ "Updated": "已更新",
+ "Within budget in a row": "连续在预算内"
 }

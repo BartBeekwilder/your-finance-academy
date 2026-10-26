@@ -1154,5 +1154,19 @@
  "of {amount} avg": "trên TB {amount}",
  "of {amount}": "trên {amount}",
  "Not counted yet — the app wasn't in use this month": "Chưa tính — tháng này chưa dùng ứng dụng",
- "No budgets this month — set them in step 4": "Tháng này không có ngân sách — đặt ở bước 4"
+ "No budgets this month — set them in step 4": "Tháng này không có ngân sách — đặt ở bước 4",
+ "{pct} over so far": "đến nay vượt {pct}",
+ "Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Xanh dương: bạn đã cập nhật sổ. Xanh lá: chi tiêu đến nay trong mức trung bình (chưa có ngân sách). Tím: đã tiết kiệm đến nay so với 20% thu nhập.",
+ "Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Xanh dương: bạn đã cập nhật sổ. Xanh lá: chi tiêu đến nay trong ngân sách. Tím: đã tiết kiệm đến nay so với 20% thu nhập.",
+ "Bookkeeping": "Ghi chép",
+ "Bookkeeping streak": "Chuỗi ghi chép",
+ "Longest streak": "Chuỗi dài nhất",
+ "Not updated": "Chưa cập nhật",
+ "On track": "Đúng hướng",
+ "Perfect days": "Ngày hoàn hảo",
+ "Spending vs your average": "Chi tiêu so với trung bình",
+ "Streaks and calendar": "Chuỗi và lịch",
+ "this month": "tháng này",
+ "Updated": "Đã cập nhật",
+ "Within budget in a row": "Trong ngân sách liên tiếp"
 }

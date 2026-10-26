@@ -1161,5 +1161,19 @@
  "of {amount} avg": "van gem. {amount}",
  "of {amount}": "van {amount}",
  "Not counted yet — the app wasn't in use this month": "Nog niet geteld — de app was deze maand nog niet in gebruik",
- "No budgets this month — set them in step 4": "Geen budgetten deze maand — stel ze in bij stap 4"
+ "No budgets this month — set them in step 4": "Geen budgetten deze maand — stel ze in bij stap 4",
+ "{pct} over so far": "tot nu toe {pct} erover",
+ "Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Blauw: je werkte je boeken bij. Groen: uitgaven tot nu toe binnen je gemiddelde tot nu toe (nog geen budgetten). Paars: gespaard tot nu toe t.o.v. 20% van je inkomen.",
+ "Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Blauw: je werkte je boeken bij. Groen: uitgaven tot nu toe binnen je budgetten tot nu toe. Paars: gespaard tot nu toe t.o.v. 20% van je inkomen.",
+ "Bookkeeping": "Bijhouden",
+ "Bookkeeping streak": "Reeks bijhouden",
+ "Longest streak": "Langste reeks",
+ "Not updated": "Niet bijgewerkt",
+ "On track": "Op koers",
+ "Perfect days": "Perfecte dagen",
+ "Spending vs your average": "Uitgaven t.o.v. je gemiddelde",
+ "Streaks and calendar": "Reeksen en kalender",
+ "this month": "deze maand",
+ "Updated": "Bijgewerkt",
+ "Within budget in a row": "Binnen budget op rij"
 }

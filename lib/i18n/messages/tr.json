@@ -1154,5 +1154,19 @@
  "of {amount} avg": "ort. {amount} içinden",
  "of {amount}": "{amount} içinden",
  "Not counted yet — the app wasn't in use this month": "Henüz sayılmadı — uygulama bu ay kullanılmıyordu",
- "No budgets this month — set them in step 4": "Bu ay bütçe yok — 4. adımda belirle"
+ "No budgets this month — set them in step 4": "Bu ay bütçe yok — 4. adımda belirle",
+ "{pct} over so far": "şimdiye kadar {pct} fazla",
+ "Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Mavi: defterlerini güncelledin. Yeşil: şimdiye kadarki harcama ortalamanın içinde (henüz bütçe yok). Mor: şimdiye kadar biriken, gelirin %20'sine göre.",
+ "Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Mavi: defterlerini güncelledin. Yeşil: şimdiye kadarki harcama bütçelerinin içinde. Mor: şimdiye kadar biriken, gelirin %20'sine göre.",
+ "Bookkeeping": "Kayıt",
+ "Bookkeeping streak": "Kayıt serisi",
+ "Longest streak": "En uzun seri",
+ "Not updated": "Güncellenmedi",
+ "On track": "Yolunda",
+ "Perfect days": "Mükemmel günler",
+ "Spending vs your average": "Ortalamana göre harcama",
+ "Streaks and calendar": "Seriler ve takvim",
+ "this month": "bu ay",
+ "Updated": "Güncellendi",
+ "Within budget in a row": "Art arda bütçe içinde"
 }

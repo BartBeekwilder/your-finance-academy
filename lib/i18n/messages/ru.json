@@ -1154,5 +1154,19 @@
  "of {amount} avg": "из ср. {amount}",
  "of {amount}": "из {amount}",
  "Not counted yet — the app wasn't in use this month": "Ещё не учитывается — приложением в этом месяце не пользовались",
- "No budgets this month — set them in step 4": "В этом месяце нет бюджетов — задайте их на шаге 4"
+ "No budgets this month — set them in step 4": "В этом месяце нет бюджетов — задайте их на шаге 4",
+ "{pct} over so far": "пока на {pct} больше",
+ "Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Синий: вы обновили записи. Зелёный: траты пока в пределах среднего (бюджетов ещё нет). Фиолетовый: накоплено пока относительно 20% дохода.",
+ "Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Синий: вы обновили записи. Зелёный: траты пока в пределах бюджетов. Фиолетовый: накоплено пока относительно 20% дохода.",
+ "Bookkeeping": "Учёт",
+ "Bookkeeping streak": "Серия учёта",
+ "Longest streak": "Самая длинная серия",
+ "Not updated": "Не обновлено",
+ "On track": "По плану",
+ "Perfect days": "Идеальные дни",
+ "Spending vs your average": "Траты относительно среднего",
+ "Streaks and calendar": "Серии и календарь",
+ "this month": "в этом месяце",
+ "Updated": "Обновлено",
+ "Within budget in a row": "В рамках бюджета подряд"
 }

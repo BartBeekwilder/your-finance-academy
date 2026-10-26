@@ -4441,3 +4441,30 @@ span.pf-cmp-chip { cursor: default; }
 .pf-celebrate-line b, .pf-celebrate-more b { color: #ffd60a; }
 .pf-celebrate-total { display: flex; justify-content: space-between; padding: 10px 12px 0; margin-top: 4px; border-top: 1px solid rgba(255, 214, 10, 0.25); font-weight: 700; animation: pf-fade-up 0.4s ease-out both; }
 .pf-celebrate-total b { color: #ffd60a; font-size: 1.1rem; }
+
+/* Progress: streaks and the activity calendar. */
+.pf-cal { padding: 18px; display: grid; gap: 16px; }
+.pf-cal-streaks { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.pf-cal-chip { display: grid; gap: 4px; padding: 12px 14px; border-radius: 14px; background: var(--pf-card-2); }
+.pf-cal-chip span { font-size: 0.72rem; color: var(--pf-ink-2); }
+.pf-cal-chip b { display: inline-flex; align-items: center; gap: 6px; font-size: 1.5rem; font-weight: 800; }
+.pf-cal-chip small { font-size: 0.72rem; font-weight: 500; color: var(--pf-ink-3); }
+.pf-cal-head { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.pf-cal-head b { min-width: 150px; text-align: center; }
+.pf-cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; max-width: 620px; width: 100%; justify-self: center; }
+.pf-cal-wd { text-align: center; font-size: 0.7rem; color: var(--pf-ink-3); padding-bottom: 2px; }
+.pf-cal-day { display: grid; justify-items: center; gap: 2px; padding: 6px 0 4px; border: 1px solid transparent; border-radius: 12px; background: transparent; color: var(--pf-ink-2); font: inherit; font-size: 0.7rem; cursor: pointer; transition: background 0.2s, border-color 0.2s; animation: pf-cal-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--i) * 14ms); }
+@keyframes pf-cal-in { from { opacity: 0; transform: scale(0.6); } }
+.pf-cal-day:hover:not(:disabled) { background: rgba(255, 255, 255, 0.05); }
+.pf-cal-day:disabled { cursor: default; opacity: 0.3; }
+.pf-cal-day[data-today] { border-color: rgba(255, 255, 255, 0.25); color: var(--pf-ink); font-weight: 700; }
+.pf-cal-day[data-picked] { background: rgba(255, 255, 255, 0.08); border-color: var(--pf-brand-b); }
+.pf-cal-day[data-perfect] span { color: #ffd60a; font-weight: 700; }
+.pf-cal-rings { width: 100%; max-width: 46px; aspect-ratio: 1; }
+.pf-cal-arc { animation: pf-cal-draw 1s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--i) * 14ms + 0.2s); }
+@keyframes pf-cal-draw { from { stroke-dasharray: 0 200; } }
+.pf-cal-detail { display: grid; gap: 8px; max-width: 420px; width: 100%; justify-self: center; padding: 14px 16px; border-radius: 14px; background: var(--pf-card-2); animation: pf-fade-up 0.3s ease-out both; }
+.pf-cal-row { display: grid; grid-template-columns: 10px 1fr auto; gap: 10px; align-items: center; font-size: 0.85rem; }
+.pf-cal-row i { width: 10px; height: 10px; border-radius: 3px; }
+.pf-cal-row b { font-weight: 600; }
+.pf-cal-note { margin: 0; font-size: 0.75rem; color: var(--pf-ink-3); text-align: center; }

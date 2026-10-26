@@ -1154,5 +1154,19 @@
  "of {amount} avg": "من متوسط {amount}",
  "of {amount}": "من {amount}",
  "Not counted yet — the app wasn't in use this month": "لم يُحتسب بعد — لم يكن التطبيق مستخدمًا هذا الشهر",
- "No budgets this month — set them in step 4": "لا ميزانيات هذا الشهر — حددها في الخطوة 4"
+ "No budgets this month — set them in step 4": "لا ميزانيات هذا الشهر — حددها في الخطوة 4",
+ "{pct} over so far": "حتى الآن أكثر بـ {pct}",
+ "Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "الأزرق: حدّثت سجلاتك. الأخضر: الإنفاق حتى الآن ضمن متوسطك (لا ميزانيات بعد). البنفسجي: المدخر حتى الآن مقابل 20% من الدخل.",
+ "Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "الأزرق: حدّثت سجلاتك. الأخضر: الإنفاق حتى الآن ضمن ميزانياتك. البنفسجي: المدخر حتى الآن مقابل 20% من الدخل.",
+ "Bookkeeping": "التسجيل",
+ "Bookkeeping streak": "سلسلة التسجيل",
+ "Longest streak": "أطول سلسلة",
+ "Not updated": "لم يُحدَّث",
+ "On track": "على المسار",
+ "Perfect days": "أيام مثالية",
+ "Spending vs your average": "الإنفاق مقابل متوسطك",
+ "Streaks and calendar": "السلاسل والتقويم",
+ "this month": "هذا الشهر",
+ "Updated": "تم التحديث",
+ "Within budget in a row": "ضمن الميزانية متتاليًا"
 }

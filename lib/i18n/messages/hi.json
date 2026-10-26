@@ -1154,5 +1154,19 @@
  "of {amount} avg": "औसत {amount} में से",
  "of {amount}": "{amount} में से",
  "Not counted yet — the app wasn't in use this month": "अभी गिना नहीं गया — इस महीने ऐप इस्तेमाल में नहीं था",
- "No budgets this month — set them in step 4": "इस महीने कोई बजट नहीं — चरण 4 में तय करें"
+ "No budgets this month — set them in step 4": "इस महीने कोई बजट नहीं — चरण 4 में तय करें",
+ "{pct} over so far": "अब तक {pct} ज़्यादा",
+ "Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "नीला: आपने खाते अपडेट किए। हरा: अब तक ख़र्च आपके औसत के भीतर (अभी बजट नहीं)। बैंगनी: अब तक की बचत आय के 20% के मुक़ाबले।",
+ "Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "नीला: आपने खाते अपडेट किए। हरा: अब तक ख़र्च बजट के भीतर। बैंगनी: अब तक की बचत आय के 20% के मुक़ाबले।",
+ "Bookkeeping": "हिसाब रखना",
+ "Bookkeeping streak": "हिसाब की लड़ी",
+ "Longest streak": "सबसे लंबी लड़ी",
+ "Not updated": "अपडेट नहीं किया",
+ "On track": "सही राह पर",
+ "Perfect days": "परफ़ेक्ट दिन",
+ "Spending vs your average": "औसत के मुक़ाबले ख़र्च",
+ "Streaks and calendar": "लड़ियाँ और कैलेंडर",
+ "this month": "इस महीने",
+ "Updated": "अपडेट किया",
+ "Within budget in a row": "लगातार बजट में"
 }

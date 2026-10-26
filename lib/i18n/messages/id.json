@@ -1154,5 +1154,19 @@
  "of {amount} avg": "dari rata² {amount}",
  "of {amount}": "dari {amount}",
  "Not counted yet — the app wasn't in use this month": "Belum dihitung — aplikasi belum dipakai bulan ini",
- "No budgets this month — set them in step 4": "Tidak ada anggaran bulan ini — atur di langkah 4"
+ "No budgets this month — set them in step 4": "Tidak ada anggaran bulan ini — atur di langkah 4",
+ "{pct} over so far": "sejauh ini lebih {pct}",
+ "Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Biru: kamu memperbarui catatan. Hijau: pengeluaran sejauh ini dalam rata-ratamu (belum ada anggaran). Ungu: tabungan sejauh ini dibanding 20% penghasilan.",
+ "Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Biru: kamu memperbarui catatan. Hijau: pengeluaran sejauh ini dalam anggaranmu. Ungu: tabungan sejauh ini dibanding 20% penghasilan.",
+ "Bookkeeping": "Pencatatan",
+ "Bookkeeping streak": "Rentetan pencatatan",
+ "Longest streak": "Rentetan terpanjang",
+ "Not updated": "Tidak diperbarui",
+ "On track": "Sesuai jalur",
+ "Perfect days": "Hari sempurna",
+ "Spending vs your average": "Pengeluaran vs rata-rata",
+ "Streaks and calendar": "Rentetan dan kalender",
+ "this month": "bulan ini",
+ "Updated": "Diperbarui",
+ "Within budget in a row": "Dalam anggaran berturut-turut"
 }

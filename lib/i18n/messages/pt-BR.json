@@ -1154,5 +1154,19 @@
  "of {amount} avg": "de {amount} na média",
  "of {amount}": "de {amount}",
  "Not counted yet — the app wasn't in use this month": "Ainda não contado — o app não era usado neste mês",
- "No budgets this month — set them in step 4": "Sem orçamentos neste mês — defina-os no passo 4"
+ "No budgets this month — set them in step 4": "Sem orçamentos neste mês — defina-os no passo 4",
+ "{pct} over so far": "{pct} acima até agora",
+ "Blue: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "Azul: você atualizou suas contas. Verde: gastos até agora dentro da sua média até agora (ainda sem orçamentos). Roxo: guardado até agora contra 20% da renda.",
+ "Blue: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "Azul: você atualizou suas contas. Verde: gastos até agora dentro dos orçamentos até agora. Roxo: guardado até agora contra 20% da renda.",
+ "Bookkeeping": "Registro",
+ "Bookkeeping streak": "Sequência de registro",
+ "Longest streak": "Maior sequência",
+ "Not updated": "Não atualizado",
+ "On track": "No caminho",
+ "Perfect days": "Dias perfeitos",
+ "Spending vs your average": "Gastos vs sua média",
+ "Streaks and calendar": "Sequências e calendário",
+ "this month": "este mês",
+ "Updated": "Atualizado",
+ "Within budget in a row": "No orçamento seguidos"
 }
