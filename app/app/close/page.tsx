@@ -3,12 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Check, ChevronRight } from "lucide-react";
-import BudgetBar from "@/components/finance/BudgetBar";
+import MonthWrapped from "@/components/finance/MonthWrapped";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { Celebration, Rings } from "@/components/finance/ProgressParts";
 import { parseAmount } from "@/components/finance/BalanceSheet";
-import { balanceSheet, live, num, projectedNetIncome, spendByCategory } from "@/lib/finance/calc";
+import { balanceSheet, live, num, projectedNetIncome } from "@/lib/finance/calc";
 import { dayLabel, money, monthName, monthYear } from "@/lib/finance/format";
 import { budgetPlan, withGoal, type PlanRow } from "@/lib/finance/budgetPlan";
 import { BADGES, POINTS, newBadges } from "@/lib/finance/progress";
@@ -21,15 +21,18 @@ import type { Transaction } from "@/lib/finance/types";
 //   1. Income: what came in against what was expected.
 //   2. Fixed costs: this month's fixed costs, and any from last month that
 //      are missing (forgotten to enter?).
-//   3. Budgets: how each budget ended, and next month's: the ones set carry
-//      on; without one, the 3-month average is proposed. A goal per
-//      category or for all ("10% less") lowers it. Saved on closing.
-//   4. Month-end balances: your own balance-sheet posts (savings, loans…)
+//   3. Your month: Month Wrapped — story cards with the headline numbers,
+//      where it went, each category as a ring against its budget (or its
+//      average), investments, equity and a few facts.
+//   4. Budgets: next month's — the ones set carry on; without one, the
+//      3-month average is proposed. A goal per category or for all ("10%
+//      less") lowers it. Saved on closing.
+//   5. Month-end balances: your own balance-sheet posts (savings, loans…)
 //      as they stood on the last day; homes and mortgages fill themselves.
-//   5. Summary: saved, savings rate, equity, the rings — then "Close" stores
+//   6. Summary: saved, savings rate, equity, the rings — then "Close" stores
 //      the snapshot, the points and any new badges, with a celebration.
 
-const STEPS = ["Income", "Fixed costs", "Budgets", "Month-end balances", "Summary"] as const;
+const STEPS = ["Income", "Fixed costs", "Your month", "Budgets", "Month-end balances", "Summary"] as const;
 const GOALS = [0, 0.05, 0.1, 0.2];
 
 export default function ClosePage() {
@@ -70,7 +73,6 @@ export default function ClosePage() {
   const prevMonth = new Date(month.getFullYear(), month.getMonth() - 1, 1);
   const prevFixed = live(data.transactions).filter((x) => x.type === "expense" && x.is_fixed_expense && sameMonth(x.date, prevMonth));
   const missing = prevFixed.filter((p) => !fixed.some((f) => (f.recurrence_id && f.recurrence_id === p.recurrence_id) || (f.note === p.note && f.category_id === p.category_id)));
-  const budgets = spendByCategory(data, month).filter((e) => e.budget !== null);
   const sheet = balanceSheet(data, now, month);
   const own = [...sheet.assets, ...sheet.liabilities].filter((l) => l.kind === "manual");
   const category = (id: string | null) => data.categories.find((c) => c.id === id);
@@ -149,21 +151,10 @@ export default function ClosePage() {
           </div>
         )}
 
-        {step === 2 && (
-          <div style={{ display: "grid", gap: 14 }}>
-            <h2>{summary.allBudgetsKept ? t("Every budget kept — well done!") : t("How the budgets ended")}</h2>
-            {budgets.map((e) => (
-              <div key={e.category.id} style={{ display: "grid", gap: 6 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <CategoryIcon icon={e.category.icon} colorHex={e.category.color_hex} size={26} />
-                  <span style={{ flex: 1 }}>{e.category.name}</span>
-                  <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-3)" }}>{money(e.budget ?? 0, currency)}</span>
-                </div>
-                <BudgetBar spent={e.spent} budget={e.budget ?? 0} color={`#${e.category.color_hex}`} currency={currency} />
-              </div>
-            ))}
-            {budgets.length === 0 && <p style={{ color: "var(--pf-ink-2)" }}>{t("No budgets set for this month.")}</p>}
+        {step === 2 && <MonthWrapped data={data} month={month} now={now} currency={currency} />}
 
+        {step === 3 && (
+          <div style={{ display: "grid", gap: 14 }}>
             {planRows.length > 0 && (
               <div className="pf-plan">
                 <div className="pf-plan-head">
@@ -233,7 +224,7 @@ export default function ClosePage() {
           </div>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <div style={{ display: "grid", gap: 12 }}>
             <h2>{t("Balances on the last day of {month}", { month: monthYear(month) })}</h2>
             <p style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>{t("Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.")}</p>
@@ -247,7 +238,7 @@ export default function ClosePage() {
           </div>
         )}
 
-        {step === 4 && (
+        {step === 5 && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20, alignItems: "center" }}>
             <div style={{ display: "grid", gap: 14 }}>
               <h2>{t("{month} in short", { month: monthYear(month) })}</h2>

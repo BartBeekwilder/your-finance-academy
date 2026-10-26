@@ -4,7 +4,7 @@ Read this first on any computer. It says where the project stands, how to
 run it, and what's next. Keep it up to date at the end of every session
 (Claude: update this file and commit it before finishing).
 
-Last updated: 2026-10-26.
+Last updated: 2026-10-26 (evening).
 
 ## The product
 
@@ -278,6 +278,8 @@ other countries' rules later (to do: DE, BE, UK, US, …).
 23. BART'S DATA FILLED IN (2026-10-25/26, local only): accounts in his bank's order, investments (live quotes, logos), 2017–2025 history, mortgage from the bank offer (two annuity parts), home, rent vs buy prefilled from the home (purchase price, loan parts, weighted rate) and property.comparable_rent.
 
 Next (web): see whether Bart likes the ⓘ tips before adding more; category vs category compare; compare inside the category sheet; payslips into the encrypted vault (document vault, 12); Supabase tables for the local-only fields above; onboarding review; Finance Wrapped (10). Then port everything to iOS/Mac/Android when Bart says the web is done — the port list is Bart's Apple Note "port list" (Mac only; on Windows ask him or read this file).
+
+24. MONTH WRAPPED (2026-10-26): the month close is now 6 steps — Income, Fixed costs, Your month, Budgets, Month-end balances, Summary. "Your month" = story cards (components/finance/MonthWrapped.tsx, data lib/finance/wrapped.ts): saved/in/out/savings rate vs last month; where it went (top variable categories + biggest single expense); a watch-style ring per variable category against its budget (or, without one, the 3-month average) with a red second lap when over; investments' month (start/end, best/weakest, from data.market); equity change; facts (expenses entered, days without spending, most expensive day, fixed costs). Tap right/left or arrows, segments on top. "Budgets" = next month's plan (lib/finance/budgetPlan.ts: budgets carry on until changed via budgetIn; proposal = 3-month average; goals = / −5 / −10 / −20% per category or for all; saved on closing). Item 10 (Finance Wrapped) is thereby started inside the close.
 
 Open questions for Bart:
 - Dashboard balance card default: Compact or Full?
