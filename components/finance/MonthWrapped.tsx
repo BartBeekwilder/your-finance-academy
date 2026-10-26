@@ -165,6 +165,8 @@ function CategoryRing({ r, currency, delay }: { r: RingRow; currency: string; de
   const R = 34, len = 2 * Math.PI * R;
   const color = `#${r.category.color_hex}`;
   const over = v > 1;
+  const lap = Math.min(v - 1, 0.999);
+  const gid = `pf-wr-lap-${r.category.id}`;
   return (
     <div className="pf-wr-ring" title={`${r.category.name}: ${money(r.spent, currency)} / ${money(r.target, currency)}`}>
       <svg viewBox="0 0 84 84" width={84} height={84}>
@@ -172,9 +174,32 @@ function CategoryRing({ r, currency, delay }: { r: RingRow; currency: string; de
           <circle cx="42" cy="42" r={R} fill="none" stroke={color} strokeOpacity="0.18" strokeWidth="9" />
           <circle cx="42" cy="42" r={R} fill="none" stroke={color} strokeWidth="9" strokeLinecap="round" strokeDasharray={`${len * Math.min(v, 1) * (shown ? 1 : 0)} ${len}`} style={{ transition: `stroke-dasharray 1.2s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s` }} />
           {over && (
-            <circle cx="42" cy="42" r={R} fill="none" stroke="#ff453a" strokeWidth="9" strokeLinecap="round" strokeDasharray={`${len * Math.min(v - 1, 1) * (shown ? 1 : 0)} ${len}`} style={{ transition: `stroke-dasharray 1s cubic-bezier(0.22, 1, 0.36, 1) ${delay + 1.1}s`, filter: "drop-shadow(0 0 5px rgba(255,69,58,0.7))" }} />
+            <>
+              {/* The second lap: a dark shadow under it so the overlap shows,
+                  then the lap itself in red fading to light pink. */}
+              <circle cx="42" cy="42" r={R} fill="none" stroke="#000" strokeOpacity="0.55" strokeWidth="11" strokeLinecap="round" strokeDasharray={`${len * lap * (shown ? 1 : 0)} ${len}`} style={{ transition: `stroke-dasharray 1s cubic-bezier(0.22, 1, 0.36, 1) ${delay + 1.1}s`, filter: "blur(1.5px)" }} />
+              <circle cx="42" cy="42" r={R} fill="none" stroke={`url(#${gid})`} strokeWidth="9" strokeLinecap="round" strokeDasharray={`${len * lap * (shown ? 1 : 0)} ${len}`} style={{ transition: `stroke-dasharray 1s cubic-bezier(0.22, 1, 0.36, 1) ${delay + 1.1}s` }} />
+            </>
           )}
         </g>
+        <defs>
+          <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#ff2d55" />
+            <stop offset="100%" stopColor="#ffc2cc" />
+          </linearGradient>
+        </defs>
+        {/* Its head, a round cap with a shadow lying on the first lap. */}
+        {over && (
+          <circle
+            className="pf-wr-ring-cap"
+            cx={42 + R * Math.sin(2 * Math.PI * lap)}
+            cy={42 - R * Math.cos(2 * Math.PI * lap)}
+            r={4.5}
+            fill="#ffe3e8"
+            data-shown={shown}
+            style={{ transitionDelay: `${delay + 2}s` }}
+          />
+        )}
       </svg>
       <span className="pf-wr-ring-icon">
         <CategoryIcon icon={r.category.icon} colorHex={r.category.color_hex} size={26} />
@@ -183,6 +208,7 @@ function CategoryRing({ r, currency, delay }: { r: RingRow; currency: string; de
       <span className="pf-wr-ring-pct pf-rounded" style={{ color: over ? "#ff8a80" : "#7dffa5" }}>
         {r.target > 0 ? `${Math.round(v * 100)}%` : money(r.spent, currency)}
       </span>
+      {over && r.target > 0 && <span className="pf-wr-ring-over pf-rounded">{t("{amount} over", { amount: money(r.spent - r.target, currency) })}</span>}
     </div>
   );
 }

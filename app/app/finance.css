@@ -4426,3 +4426,7 @@ span.pf-cmp-chip { cursor: default; }
 .pf-wr-nav button:hover { background: rgba(255, 255, 255, 0.2); }
 .pf-wr-nav button:disabled { opacity: 0.3; cursor: default; }
 @media (max-width: 560px) { .pf-wr-card { padding: 24px 18px 64px; } .pf-wr-bar { grid-template-columns: 18px 26px minmax(0, 1fr) auto; } .pf-wr-bar > .pf-wr-dim { display: none; } }
+
+.pf-wr-ring-cap { filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9)); opacity: 0; transition: opacity 0.3s; }
+.pf-wr-ring-cap[data-shown="true"] { opacity: 1; }
+.pf-wr-ring-over { font-size: 0.68rem; color: rgba(255, 194, 204, 0.85); margin-top: -2px; }
