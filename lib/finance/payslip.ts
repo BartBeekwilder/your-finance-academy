@@ -38,12 +38,15 @@ const MONTHS: Record<string, number> = {
   january: 0, february: 1, march: 2, may: 4, june: 5, july: 6, august: 7, october: 9,
 };
 
-function find(lines: string[], labels: RegExp[], pick: "first" | "last" = "first") {
+function find(lines: string[], labels: RegExp[], pick: "first" | "last" = "first", negative = false) {
   for (const re of labels) {
     const hits = lines.filter((l) => re.test(l.toLowerCase()));
     for (const l of pick === "last" ? [...hits].reverse() : hits) {
       const after = l.toLowerCase().replace(re, "§").split("§")[1] ?? l;
-      const n = amountsIn(after)[0] ?? amountsIn(l)[0];
+      const all = amountsIn(after);
+      // A deduction line ("Loonheffing  7.298,18  -2.484,27") lists its
+      // basis first: the withheld amount is the negative one.
+      const n = (negative ? all.find((x) => x < 0) : undefined) ?? all[0] ?? amountsIn(l)[0];
       if (n != null && n !== 0) return Math.abs(n);
     }
   }
@@ -53,9 +56,18 @@ function find(lines: string[], labels: RegExp[], pick: "first" | "last" = "first
 export function readPayslip(lines: string[]): PayslipFigures {
   const clean = lines.map((l) => l.replace(/\s+/g, " ").trim()).filter(Boolean);
   // The net paid is usually near the bottom: take the last match.
-  const net = find(clean, NET, "last");
-  const gross = find(clean, GROSS);
-  const tax = find(clean, TAX);
+  let net = find(clean, NET, "last");
+  let gross = find(clean, GROSS);
+  let tax = find(clean, TAX, "first", true);
+  // A totals row "Totaal periode  gross  -tax  net" (columns Bruto /
+  // Loonheff. / Netto) says it all at once.
+  const total = clean.find((l) => /^totaal\s*periode\b/i.test(l));
+  const cols = total ? amountsIn(total) : [];
+  if (cols.length >= 3 && cols[1] < 0) {
+    gross = Math.abs(cols[0]);
+    tax = Math.abs(cols[1]);
+    net = Math.abs(cols[cols.length - 1]);
+  }
   let period: PayslipFigures["period"] = null;
   for (const l of clean) {
     const m = l.toLowerCase().match(/\b(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december|january|february|march|may|june|july|august|october)\s+(20\d{2})\b/);
