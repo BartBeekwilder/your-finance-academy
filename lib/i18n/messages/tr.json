@@ -1106,5 +1106,15 @@
  "Zoom in": "Yakınlaştır",
  "Put in": "Yatırılan",
  "{pct} to go": "{pct} kaldı",
- "{pct} above it": "{pct} üstünde"
+ "{pct} above it": "{pct} üstünde",
+ "Budgets for {month}": "{month} bütçeleri",
+ "Your budgets carry on. Set a goal to spend less, or change one.": "Bütçelerin devam ediyor. Daha az harcamak için hedef koy ya da birini değiştir.",
+ "Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.": "Öneri: son üç ayda ortalama harcadığın tutar. Takip etmek istediklerini aç.",
+ "Use the proposal": "Öneriyi kullan",
+ "All {pct} less": "Hepsi {pct} daha az",
+ "All as they are": "Hepsi olduğu gibi",
+ "avg {amount}": "ort. {amount}",
+ "Budget for {name}": "{name} bütçesi",
+ "Saved when you close the month. Fixed costs aren't budgeted here.": "Ayı kapattığında kaydedilir. Sabit giderlere burada bütçe verilmez.",
+ "Compared with your average": "Ortalamana göre"
 }

@@ -1113,5 +1113,15 @@
  "Zoom in": "Inzoomen",
  "Put in": "Inleg",
  "{pct} to go": "nog {pct}",
- "{pct} above it": "{pct} erboven"
+ "{pct} above it": "{pct} erboven",
+ "Budgets for {month}": "Budgetten voor {month}",
+ "Your budgets carry on. Set a goal to spend less, or change one.": "Je budgetten lopen door. Stel een doel om minder uit te geven, of pas er een aan.",
+ "Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.": "Voorstel: wat je de afgelopen drie maanden gemiddeld uitgaf. Zet aan wat je in de gaten wilt houden.",
+ "Use the proposal": "Voorstel overnemen",
+ "All {pct} less": "Alles {pct} minder",
+ "All as they are": "Alles zoals het is",
+ "avg {amount}": "gem. {amount}",
+ "Budget for {name}": "Budget voor {name}",
+ "Saved when you close the month. Fixed costs aren't budgeted here.": "Wordt opgeslagen als je de maand afsluit. Vaste lasten krijgen hier geen budget.",
+ "Compared with your average": "Vergeleken met je gemiddelde"
 }

@@ -1106,5 +1106,15 @@
  "Zoom in": "ज़ूम इन",
  "Put in": "लगाया",
  "{pct} to go": "{pct} बाकी",
- "{pct} above it": "{pct} ऊपर"
+ "{pct} above it": "{pct} ऊपर",
+ "Budgets for {month}": "{month} के बजट",
+ "Your budgets carry on. Set a goal to spend less, or change one.": "आपके बजट जारी रहते हैं। कम ख़र्च का लक्ष्य रखें या कोई बदलें।",
+ "Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.": "सुझाव: पिछले तीन महीनों का औसत ख़र्च। जिस पर नज़र रखनी है उसे चालू करें।",
+ "Use the proposal": "सुझाव अपनाएँ",
+ "All {pct} less": "सब {pct} कम",
+ "All as they are": "सब जैसा है",
+ "avg {amount}": "औसत {amount}",
+ "Budget for {name}": "{name} का बजट",
+ "Saved when you close the month. Fixed costs aren't budgeted here.": "महीना बंद करने पर सहेजा जाता है। निश्चित ख़र्चों का यहाँ बजट नहीं बनता।",
+ "Compared with your average": "आपके औसत की तुलना में"
 }

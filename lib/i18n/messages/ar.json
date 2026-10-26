@@ -1106,5 +1106,15 @@
  "Zoom in": "تكبير",
  "Put in": "المستثمر",
  "{pct} to go": "متبقٍ {pct}",
- "{pct} above it": "أعلى بـ {pct}"
+ "{pct} above it": "أعلى بـ {pct}",
+ "Budgets for {month}": "ميزانيات {month}",
+ "Your budgets carry on. Set a goal to spend less, or change one.": "ميزانياتك مستمرة. ضع هدفًا لتنفق أقل، أو غيّر إحداها.",
+ "Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.": "اقتراح: متوسط ما أنفقته في الأشهر الثلاثة الأخيرة. فعّل ما تريد متابعته.",
+ "Use the proposal": "استخدم الاقتراح",
+ "All {pct} less": "الكل أقل بـ {pct}",
+ "All as they are": "الكل كما هو",
+ "avg {amount}": "متوسط {amount}",
+ "Budget for {name}": "ميزانية {name}",
+ "Saved when you close the month. Fixed costs aren't budgeted here.": "تُحفظ عند إغلاق الشهر. لا توضع هنا ميزانية للتكاليف الثابتة.",
+ "Compared with your average": "مقارنةً بمتوسطك"
 }

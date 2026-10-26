@@ -1106,5 +1106,15 @@
  "Zoom in": "Phóng to",
  "Put in": "Đã bỏ vào",
  "{pct} to go": "còn {pct}",
- "{pct} above it": "cao hơn {pct}"
+ "{pct} above it": "cao hơn {pct}",
+ "Budgets for {month}": "Ngân sách cho {month}",
+ "Your budgets carry on. Set a goal to spend less, or change one.": "Ngân sách của bạn tiếp tục áp dụng. Đặt mục tiêu chi ít hơn hoặc thay đổi một mục.",
+ "Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.": "Đề xuất: mức bạn chi trung bình trong ba tháng qua. Bật những gì bạn muốn theo dõi.",
+ "Use the proposal": "Dùng đề xuất",
+ "All {pct} less": "Tất cả giảm {pct}",
+ "All as they are": "Giữ nguyên tất cả",
+ "avg {amount}": "TB {amount}",
+ "Budget for {name}": "Ngân sách cho {name}",
+ "Saved when you close the month. Fixed costs aren't budgeted here.": "Được lưu khi bạn chốt tháng. Chi phí cố định không lập ngân sách ở đây.",
+ "Compared with your average": "So với mức trung bình của bạn"
 }

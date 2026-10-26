@@ -1106,5 +1106,15 @@
  "Zoom in": "Ingrandisci",
  "Put in": "Investito",
  "{pct} to go": "mancano {pct}",
- "{pct} above it": "{pct} sopra"
+ "{pct} above it": "{pct} sopra",
+ "Budgets for {month}": "Budget per {month}",
+ "Your budgets carry on. Set a goal to spend less, or change one.": "I tuoi budget continuano. Fissa un obiettivo per spendere meno, o modificane uno.",
+ "Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.": "Proposta: quanto hai speso in media negli ultimi tre mesi. Attiva ciò che vuoi tenere d'occhio.",
+ "Use the proposal": "Usa la proposta",
+ "All {pct} less": "Tutto {pct} in meno",
+ "All as they are": "Tutto com'è",
+ "avg {amount}": "media {amount}",
+ "Budget for {name}": "Budget per {name}",
+ "Saved when you close the month. Fixed costs aren't budgeted here.": "Salvato quando chiudi il mese. Le spese fisse qui non hanno budget.",
+ "Compared with your average": "Rispetto alla tua media"
 }

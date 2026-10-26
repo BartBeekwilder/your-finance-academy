@@ -1106,5 +1106,15 @@
  "Zoom in": "Увеличить",
  "Put in": "Вложено",
  "{pct} to go": "ещё {pct}",
- "{pct} above it": "на {pct} выше"
+ "{pct} above it": "на {pct} выше",
+ "Budgets for {month}": "Бюджеты на {month}",
+ "Your budgets carry on. Set a goal to spend less, or change one.": "Ваши бюджеты продолжают действовать. Поставьте цель тратить меньше или измените бюджет.",
+ "Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.": "Предложение: сколько вы в среднем тратили за последние три месяца. Включите то, за чем хотите следить.",
+ "Use the proposal": "Принять предложение",
+ "All {pct} less": "Всё на {pct} меньше",
+ "All as they are": "Всё как есть",
+ "avg {amount}": "ср. {amount}",
+ "Budget for {name}": "Бюджет на {name}",
+ "Saved when you close the month. Fixed costs aren't budgeted here.": "Сохраняется при закрытии месяца. Постоянные расходы здесь не бюджетируются.",
+ "Compared with your average": "По сравнению с вашим средним"
 }

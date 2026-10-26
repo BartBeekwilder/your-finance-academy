@@ -1106,5 +1106,15 @@
  "Zoom in": "확대",
  "Put in": "투자금",
  "{pct} to go": "{pct} 남음",
- "{pct} above it": "{pct} 위"
+ "{pct} above it": "{pct} 위",
+ "Budgets for {month}": "{month} 예산",
+ "Your budgets carry on. Set a goal to spend less, or change one.": "예산은 그대로 이어져요. 덜 쓰는 목표를 세우거나 바꿔 보세요.",
+ "Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.": "제안: 지난 3개월 평균 지출이에요. 관리하고 싶은 항목을 켜세요.",
+ "Use the proposal": "제안 사용",
+ "All {pct} less": "모두 {pct} 줄이기",
+ "All as they are": "모두 그대로",
+ "avg {amount}": "평균 {amount}",
+ "Budget for {name}": "{name} 예산",
+ "Saved when you close the month. Fixed costs aren't budgeted here.": "월 마감 시 저장돼요. 고정비는 여기서 예산을 잡지 않아요.",
+ "Compared with your average": "평균 대비"
 }

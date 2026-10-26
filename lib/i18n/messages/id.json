@@ -1106,5 +1106,15 @@
  "Zoom in": "Perbesar",
  "Put in": "Disetor",
  "{pct} to go": "kurang {pct}",
- "{pct} above it": "{pct} di atasnya"
+ "{pct} above it": "{pct} di atasnya",
+ "Budgets for {month}": "Anggaran untuk {month}",
+ "Your budgets carry on. Set a goal to spend less, or change one.": "Anggaranmu tetap berlaku. Tetapkan target untuk berhemat, atau ubah salah satunya.",
+ "Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.": "Usulan: rata-rata pengeluaranmu tiga bulan terakhir. Aktifkan yang ingin kamu pantau.",
+ "Use the proposal": "Pakai usulan",
+ "All {pct} less": "Semua {pct} lebih sedikit",
+ "All as they are": "Semua seperti adanya",
+ "avg {amount}": "rata² {amount}",
+ "Budget for {name}": "Anggaran untuk {name}",
+ "Saved when you close the month. Fixed costs aren't budgeted here.": "Disimpan saat kamu menutup bulan. Biaya tetap tidak dianggarkan di sini.",
+ "Compared with your average": "Dibanding rata-ratamu"
 }

@@ -1,4 +1,6 @@
 import { spreadBookValue } from "./spread";
+import { budgetIn } from "./budgetPlan";
+export { budgetIn };
 import { investmentsByKind, investmentsValue } from "./quotes";
 import { intlLocale, t } from "@/lib/i18n";
 import { summarize as summarizePart } from "./mortgage";
@@ -62,7 +64,7 @@ export type CategorySpend = {
 export function spendByCategory(data: FinanceData, month: Date): CategorySpend[] {
   const categories = live(data.categories);
   const tx = live(data.transactions).filter((t) => t.type === "expense" && inMonth(t, month));
-  const budgets = live(data.budgets).filter((b) => b.month.slice(0, 7) === monthKey(month));
+  const budgets = live(data.budgets);
 
   return categories
     .filter((c) => !c.is_income_category && c.parent_id === null)
@@ -71,8 +73,7 @@ export function spendByCategory(data: FinanceData, month: Date): CategorySpend[]
       const own = tx.filter((t) => t.category_id && ids.has(t.category_id));
       const spent = own.reduce((s, t) => s + num(t.amount), 0);
       const fixed = own.filter((t) => t.is_fixed_expense).reduce((s, t) => s + num(t.amount), 0);
-      const b: Budget | undefined = budgets.find((x) => x.category_id === category.id);
-      const budget = b ? num(b.amount) : null;
+      const budget = budgetIn(budgets, category.id, month);
       return { category, spent, fixed, budget, isOverBudget: budget !== null && spent > budget };
     })
     .filter((e) => e.spent > 0)

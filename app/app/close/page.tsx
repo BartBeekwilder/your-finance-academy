@@ -9,7 +9,8 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import { Celebration, Rings } from "@/components/finance/ProgressParts";
 import { parseAmount } from "@/components/finance/BalanceSheet";
 import { balanceSheet, live, num, projectedNetIncome, spendByCategory } from "@/lib/finance/calc";
-import { dayLabel, money, monthYear } from "@/lib/finance/format";
+import { dayLabel, money, monthName, monthYear } from "@/lib/finance/format";
+import { budgetPlan, withGoal, type PlanRow } from "@/lib/finance/budgetPlan";
 import { BADGES, POINTS, newBadges } from "@/lib/finance/progress";
 import { monthRings, monthSummary, progressModel } from "@/lib/finance/progressModel";
 import { t } from "@/lib/i18n";
@@ -20,17 +21,20 @@ import type { Transaction } from "@/lib/finance/types";
 //   1. Income: what came in against what was expected.
 //   2. Fixed costs: this month's fixed costs, and any from last month that
 //      are missing (forgotten to enter?).
-//   3. Budgets: how each budget ended.
+//   3. Budgets: how each budget ended, and next month's: the ones set carry
+//      on; without one, the 3-month average is proposed. A goal per
+//      category or for all ("10% less") lowers it. Saved on closing.
 //   4. Month-end balances: your own balance-sheet posts (savings, loans…)
 //      as they stood on the last day; homes and mortgages fill themselves.
 //   5. Summary: saved, savings rate, equity, the rings — then "Close" stores
 //      the snapshot, the points and any new badges, with a celebration.
 
 const STEPS = ["Income", "Fixed costs", "Budgets", "Month-end balances", "Summary"] as const;
+const GOALS = [0, 0.05, 0.1, 0.2];
 
 export default function ClosePage() {
   const router = useRouter();
-  const { data, now, closeMonth, setBalanceValue } = useFinance();
+  const { data, now, closeMonth, setBalanceValue, setBudget } = useFinance();
   const currency = data.profile.currency_code;
   const model = useMemo(() => progressModel(data, now), [data, now]);
   // Pinned while closing: once stored, the model moves on to the next month
@@ -42,6 +46,9 @@ export default function ClosePage() {
   const [values, setValues] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<{ points: number; badges: typeof BADGES } | null>(null);
+  // Next month's budgets: per category on/off and amount (unset = proposal).
+  const [plan, setPlan] = useState<Record<string, { on: boolean; amount: string }>>({});
+  const planRows = useMemo(() => (closing ?? model.closable ? budgetPlan(data, (closing ?? model.closable)!) : []), [data, closing, model.closable]);
 
   if (!month) {
     return (
@@ -67,6 +74,10 @@ export default function ClosePage() {
   const own = [...sheet.assets, ...sheet.liabilities].filter((l) => l.kind === "manual");
   const category = (id: string | null) => data.categories.find((c) => c.id === id);
   const points = POINTS.monthClose + POINTS.ring * summary.rings;
+  const rowPlan = (r: PlanRow) => plan[r.category.id] ?? { on: r.current != null, amount: String(r.suggested) };
+  const setRow = (r: PlanRow, patch: Partial<{ on: boolean; amount: string }>) => setPlan((p) => ({ ...p, [r.category.id]: { ...rowPlan(r), ...patch } }));
+  const anyBudget = planRows.some((r) => r.current != null);
+  const nextMonth = new Date(month.getFullYear(), month.getMonth() + 1, 1);
   const go = (d: 1 | -1) => {
     setDir(d);
     setStep((s) => Math.min(Math.max(s + d, 0), STEPS.length - 1));
@@ -80,6 +91,13 @@ export default function ClosePage() {
     for (const [id, text] of Object.entries(values)) {
       const v = parseAmount(text);
       if (v !== null) await setBalanceValue(id, month, v);
+    }
+    // Next month's budgets: changed ones from next month on; switched off = ended.
+    const next = new Date(month.getFullYear(), month.getMonth() + 1, 1);
+    for (const r of planRows) {
+      const p = rowPlan(r);
+      const amount = p.on ? parseAmount(p.amount) ?? 0 : 0;
+      if (Math.abs(amount - (r.current ?? 0)) > 0.004) await setBudget(r.category.id, next, amount);
     }
     const ctx = { ...model.context, closes: model.context.closes + 1, closed: [...model.context.closed, { saved: summary.saved, savingsRate: summary.savingsRate, allBudgetsKept: summary.allBudgetsKept }] };
     const badges = newBadges(ctx, model.have);
@@ -144,6 +162,73 @@ export default function ClosePage() {
               </div>
             ))}
             {budgets.length === 0 && <p style={{ color: "var(--pf-ink-2)" }}>{t("No budgets set for this month.")}</p>}
+
+            {planRows.length > 0 && (
+              <div className="pf-plan">
+                <div className="pf-plan-head">
+                  <div>
+                    <h3>{t("Budgets for {month}", { month: monthName(nextMonth) })}</h3>
+                    <p>
+                      {anyBudget
+                        ? t("Your budgets carry on. Set a goal to spend less, or change one.")
+                        : t("Proposal: what you spent on average over the last three months. Switch on what you want to keep an eye on.")}
+                    </p>
+                  </div>
+                  <div className="pf-plan-goals">
+                    {!anyBudget && (
+                      <button type="button" className="pf-chip" onClick={() => setPlan(Object.fromEntries(planRows.map((r) => [r.category.id, { ...rowPlan(r), on: true }])))}>
+                        {t("Use the proposal")}
+                      </button>
+                    )}
+                    {GOALS.map((g) => (
+                      <button
+                        key={g}
+                        type="button"
+                        className="pf-chip pf-chip-sm"
+                        onClick={() => setPlan(Object.fromEntries(planRows.map((r) => [r.category.id, { ...rowPlan(r), amount: String(withGoal(r.current ?? r.suggested, g)) }])))}
+                      >
+                        {g ? t("All {pct} less", { pct: `${g * 100}%` }) : t("All as they are")}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {planRows.map((r) => {
+                  const p = rowPlan(r);
+                  const base = r.current ?? r.suggested;
+                  const amount = parseAmount(p.amount) ?? 0;
+                  const vs = r.average > 0 ? amount / r.average - 1 : null;
+                  return (
+                    <div key={r.category.id} className="pf-plan-row" data-off={!p.on || undefined}>
+                      <button type="button" className="pf-plan-switch" role="switch" aria-checked={p.on} aria-label={r.category.name} onClick={() => setRow(r, { on: !p.on })}>
+                        <i />
+                      </button>
+                      <CategoryIcon icon={r.category.icon} colorHex={r.category.color_hex} size={26} />
+                      <span className="pf-plan-name">
+                        {r.category.name}
+                        <small>
+                          {t("avg {amount}", { amount: money(r.average, currency) })} · {monthName(month)} {money(r.spent, currency)}
+                        </small>
+                      </span>
+                      <span className="pf-plan-chips">
+                        {GOALS.map((g) => {
+                          const v = withGoal(base, g);
+                          return (
+                            <button key={g} type="button" disabled={!p.on} aria-pressed={p.on && amount === v} onClick={() => setRow(r, { amount: String(v) })}>
+                              {g ? `−${g * 100}%` : "="}
+                            </button>
+                          );
+                        })}
+                      </span>
+                      <input className="pf-input pf-rounded pf-plan-input" inputMode="decimal" disabled={!p.on} aria-label={t("Budget for {name}", { name: r.category.name })} value={p.amount} onChange={(e) => setRow(r, { amount: e.target.value })} />
+                      <span className="pf-plan-vs pf-rounded" title={t("Compared with your average")} style={{ color: vs == null || !p.on ? "var(--pf-ink-3)" : Math.round(vs * 100) < 0 ? "var(--pf-green)" : "var(--pf-ink-2)" }}>
+                        {p.on && vs != null ? (Math.round(vs * 100) === 0 ? "0%" : `${vs > 0 ? "+" : "−"}${Math.abs(Math.round(vs * 100))}%`) : ""}
+                      </span>
+                    </div>
+                  );
+                })}
+                <p className="pf-plan-foot">{t("Saved when you close the month. Fixed costs aren't budgeted here.")}</p>
+              </div>
+            )}
           </div>
         )}
 
