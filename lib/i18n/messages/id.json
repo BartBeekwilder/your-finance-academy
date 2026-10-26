@@ -1098,5 +1098,9 @@
  "total": "total",
  "Value per holding": "Nilai per posisi",
  "Show {name}": "Tampilkan {name}",
- "Hide {name}": "Sembunyikan {name}"
+ "Hide {name}": "Sembunyikan {name}",
+ "Since purchase": "Sejak pembelian",
+ "Period of the small charts": "Periode grafik kecil",
+ "Hide the nominal line": "Sembunyikan garis nominal",
+ "Show the nominal line": "Tampilkan garis nominal"
 }

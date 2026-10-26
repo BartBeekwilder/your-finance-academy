@@ -1105,5 +1105,9 @@
  "total": "totaal",
  "Value per holding": "Waarde per positie",
  "Show {name}": "{name} tonen",
- "Hide {name}": "{name} verbergen"
+ "Hide {name}": "{name} verbergen",
+ "Since purchase": "Sinds aankoop",
+ "Period of the small charts": "Periode van de kleine grafiekjes",
+ "Hide the nominal line": "Nominale lijn verbergen",
+ "Show the nominal line": "Nominale lijn tonen"
 }

@@ -1098,5 +1098,9 @@
  "total": "tổng",
  "Value per holding": "Giá trị theo vị thế",
  "Show {name}": "Hiện {name}",
- "Hide {name}": "Ẩn {name}"
+ "Hide {name}": "Ẩn {name}",
+ "Since purchase": "Từ khi mua",
+ "Period of the small charts": "Khoảng thời gian của biểu đồ nhỏ",
+ "Hide the nominal line": "Ẩn đường danh nghĩa",
+ "Show the nominal line": "Hiện đường danh nghĩa"
 }

@@ -4308,3 +4308,9 @@ span.pf-cmp-chip { cursor: default; }
 .pf-close-chev { color: var(--pf-ink-3); flex: none; transition: transform 0.2s, color 0.2s; }
 .pf-close-line:hover .pf-close-chev { color: var(--pf-ink-2); transform: translateX(2px); }
 .pf-close-pending { color: #66d4cf; }
+
+/* Investments: the list's own sparkline period; nominal line on/off. */
+.pf-pf-list-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin: 0 0 8px 16px; }
+.pf-pf-legend-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; transition: opacity 0.2s, color 0.2s; }
+.pf-pf-legend-toggle:hover { color: var(--pf-ink-2); }
+.pf-pf-legend-toggle[aria-pressed="false"] { opacity: 0.45; text-decoration: line-through; }

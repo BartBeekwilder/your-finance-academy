@@ -1098,5 +1098,9 @@
  "total": "合計",
  "Value per holding": "銘柄別の評価額",
  "Show {name}": "{name}を表示",
- "Hide {name}": "{name}を非表示"
+ "Hide {name}": "{name}を非表示",
+ "Since purchase": "購入以来",
+ "Period of the small charts": "小さなグラフの期間",
+ "Hide the nominal line": "名目ラインを隠す",
+ "Show the nominal line": "名目ラインを表示"
 }

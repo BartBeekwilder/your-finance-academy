@@ -1098,5 +1098,9 @@
  "total": "всего",
  "Value per holding": "Стоимость по позициям",
  "Show {name}": "Показать {name}",
- "Hide {name}": "Скрыть {name}"
+ "Hide {name}": "Скрыть {name}",
+ "Since purchase": "С покупки",
+ "Period of the small charts": "Период маленьких графиков",
+ "Hide the nominal line": "Скрыть номинальную линию",
+ "Show the nominal line": "Показать номинальную линию"
 }

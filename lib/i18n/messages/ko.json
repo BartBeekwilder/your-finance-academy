@@ -1098,5 +1098,9 @@
  "total": "전체",
  "Value per holding": "종목별 가치",
  "Show {name}": "{name} 표시",
- "Hide {name}": "{name} 숨기기"
+ "Hide {name}": "{name} 숨기기",
+ "Since purchase": "매수 이후",
+ "Period of the small charts": "작은 차트 기간",
+ "Hide the nominal line": "명목 선 숨기기",
+ "Show the nominal line": "명목 선 표시"
 }

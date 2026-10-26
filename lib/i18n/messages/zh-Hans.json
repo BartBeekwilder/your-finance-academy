@@ -1098,5 +1098,9 @@
  "total": "总计",
  "Value per holding": "各持仓价值",
  "Show {name}": "显示{name}",
- "Hide {name}": "隐藏{name}"
+ "Hide {name}": "隐藏{name}",
+ "Since purchase": "自购买以来",
+ "Period of the small charts": "小图表的时间段",
+ "Hide the nominal line": "隐藏名义线",
+ "Show the nominal line": "显示名义线"
 }

@@ -1098,5 +1098,9 @@
  "total": "łącznie",
  "Value per holding": "Wartość na pozycję",
  "Show {name}": "Pokaż {name}",
- "Hide {name}": "Ukryj {name}"
+ "Hide {name}": "Ukryj {name}",
+ "Since purchase": "Od zakupu",
+ "Period of the small charts": "Okres małych wykresów",
+ "Hide the nominal line": "Ukryj linię nominalną",
+ "Show the nominal line": "Pokaż linię nominalną"
 }

@@ -4,7 +4,8 @@ import { t as tr } from "@/lib/i18n";
 import { X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useFinance } from "@/components/finance/FinanceProvider";
-import { HoldingDetail, HoldingRow, PortfolioHero, useQuotes, type Range } from "@/components/finance/Portfolio";
+import { HoldingDetail, HoldingRow, PortfolioHero, ROW_RANGES, usePref, useQuotes, type Range, type RowRange } from "@/components/finance/Portfolio";
+import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
 import PortfolioMix from "@/components/finance/PortfolioMix";
 import { live } from "@/lib/finance/calc";
@@ -31,6 +32,11 @@ export default function InvestmentsPage() {
   const today = useQuotes(symbols, "1d", 30_000) ?? first;
   const period = useQuotes(symbols, range, range === "1d" ? 0 : 300_000);
   const rangeQuotes = range === "1d" ? (today?.quotes ?? null) : (period?.quotes ?? null);
+  // The list's sparklines have their own period, kept as a preference.
+  const [rowRange, setRowRange] = usePref<RowRange>("pf-row-range", "1d");
+  const rowQ = rowRange === "all" ? "5y" : rowRange;
+  const rowPeriod = useQuotes(symbols, rowQ, rowQ === "1d" ? 0 : 300_000);
+  const rowQuotes = rowQ === "1d" ? (today?.quotes ?? null) : rowQ === range ? rangeQuotes : (rowPeriod?.quotes ?? null);
 
   const values = useMemo(() => holdings.map((h) => holdingValue(h, today?.quotes ?? {}, currency)), [holdings, today, currency]);
   // Biggest real value first.
@@ -54,10 +60,13 @@ export default function InvestmentsPage() {
       <PortfolioHero values={values} series={series} currency={currency} range={range} onRange={setRange} open={anyOpen} at={today?.at ?? null} />
 
       <section>
-        <h2 className="pf-section-title">{tr("Holdings")}</h2>
+        <div className="pf-pf-list-head">
+          <h2 className="pf-section-title" style={{ margin: 0 }}>{tr("Holdings")}</h2>
+          <Segmented size="sm" options={ROW_RANGES.map((r) => ({ value: r.value, label: tr(r.label) }))} value={rowRange} onChange={setRowRange} label={tr("Period of the small charts")} />
+        </div>
         <div className="pf-card">
           {sorted.map((v) => (
-            <HoldingRow key={v.holding.id} v={v} currency={currency} rangeQuotes={rangeQuotes} range={range} onOpen={(from) => setOpen({ id: v.holding.id, show: true, from })} />
+            <HoldingRow key={v.holding.id} v={v} currency={currency} rangeQuotes={rowQuotes} range={rowRange} onOpen={(from) => setOpen({ id: v.holding.id, show: true, from })} />
           ))}
         </div>
       </section>

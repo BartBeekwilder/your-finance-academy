@@ -1098,5 +1098,9 @@
  "total": "إجمالي",
  "Value per holding": "القيمة لكل مركز",
  "Show {name}": "إظهار {name}",
- "Hide {name}": "إخفاء {name}"
+ "Hide {name}": "إخفاء {name}",
+ "Since purchase": "منذ الشراء",
+ "Period of the small charts": "فترة الرسوم الصغيرة",
+ "Hide the nominal line": "إخفاء الخط الاسمي",
+ "Show the nominal line": "إظهار الخط الاسمي"
 }

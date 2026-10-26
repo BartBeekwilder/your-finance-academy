@@ -1098,5 +1098,9 @@
  "total": "कुल",
  "Value per holding": "प्रति होल्डिंग मूल्य",
  "Show {name}": "{name} दिखाएँ",
- "Hide {name}": "{name} छिपाएँ"
+ "Hide {name}": "{name} छिपाएँ",
+ "Since purchase": "ख़रीद के बाद से",
+ "Period of the small charts": "छोटे चार्ट की अवधि",
+ "Hide the nominal line": "नाममात्र रेखा छिपाएँ",
+ "Show the nominal line": "नाममात्र रेखा दिखाएँ"
 }

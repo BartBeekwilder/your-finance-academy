@@ -1098,5 +1098,9 @@
  "total": "toplam",
  "Value per holding": "Pozisyon başına değer",
  "Show {name}": "{name} göster",
- "Hide {name}": "{name} gizle"
+ "Hide {name}": "{name} gizle",
+ "Since purchase": "Alıştan beri",
+ "Period of the small charts": "Küçük grafiklerin dönemi",
+ "Hide the nominal line": "Nominal çizgiyi gizle",
+ "Show the nominal line": "Nominal çizgiyi göster"
 }

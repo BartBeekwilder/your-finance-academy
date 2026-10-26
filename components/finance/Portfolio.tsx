@@ -99,6 +99,24 @@ export const timeLabel = (ms: number, range: Range) =>
     range === "1d" ? { hour: "2-digit", minute: "2-digit" } : range === "5d" ? { weekday: "short", hour: "2-digit", minute: "2-digit" } : { day: "numeric", month: "short", year: range === "5y" ? "numeric" : undefined },
   );
 
+/** A small preference kept in this browser (falls back to `initial`). */
+export function usePref<T>(key: string, initial: T) {
+  const [value, setValue] = useState<T>(initial);
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw != null) setValue(JSON.parse(raw) as T);
+    } catch {}
+  }, [key]);
+  const set = (v: T) => {
+    setValue(v);
+    try {
+      localStorage.setItem(key, JSON.stringify(v));
+    } catch {}
+  };
+  return [value, set] as const;
+}
+
 /** Click-and-drag across a chart to select a stretch of time — it shows the
  *  change between the two ends while dragging and zooms into it on release
  *  (like the Stocks app). Double-click or "Zoom out" goes back. The visible
@@ -188,11 +206,15 @@ export function PriceChart({
   range,
   height = 150,
   idle,
+  showCost = true,
 }: {
   series: { t: number; value: number; cost?: number }[];
   currency: string;
   range: Range;
   height?: number;
+  /** Draw what was put in (nominal) as a dashed line — under it means
+   *  under water. */
+  showCost?: boolean;
   /** Readout when not scrubbing. */
   idle?: string;
 }) {
@@ -204,9 +226,7 @@ export function PriceChart({
   // y-range and colour follow the destination so they don't flicker.
   const [v0, v1] = z.view;
   const win = series.filter((p) => p.t >= z.target[0] && p.t <= z.target[1]);
-  // Nominal only over longer periods: within a day or a week it sits far
-  // from the price and would flatten the line that matters.
-  const withCost = range !== "1d" && range !== "5d";
+  const withCost = showCost;
   // Zoomed in, the y-axis fits the price alone — magnifying is the point.
   const vals = (win.length ? win : series).flatMap((p) => (withCost && !z.zoomed && p.cost != null ? [p.value, p.cost] : [p.value]));
   const yTarget = vals.length ? [Math.min(...vals), Math.max(...vals)] : [0, 1];
@@ -353,6 +373,7 @@ export function PortfolioHero({
   const result = real - nominal;
   const [shown] = useTween([real], 900);
   const loaded = values.some((v) => v.quote);
+  const [showNominal, setShowNominal] = usePref("pf-show-nominal", true);
 
   const chip = (d: number, p: number | null, text: string) => (
     <span className="pf-eq-chip" data-up={d >= 0}>
@@ -389,26 +410,37 @@ export function PortfolioHero({
         <div style={{ justifySelf: "end" }}>
           <Segmented options={RANGES.map((r) => ({ value: r.value, label: t(r.label) }))} value={range} onChange={onRange} label={t("Period")} />
         </div>
-        <PriceChart series={series} currency={currency} range={range} height={140} />
+        <PriceChart series={series} currency={currency} range={range} height={140} showCost={showNominal} />
         <div className="pf-pf-legend">
           <span>
             <i style={{ background: tone(result) }} /> {t("Real")}
           </span>
-          <span>
+          <button type="button" className="pf-pf-legend-toggle" aria-pressed={showNominal} onClick={() => setShowNominal(!showNominal)} title={showNominal ? t("Hide the nominal line") : t("Show the nominal line")}>
             <i className="pf-pf-legend-dash" /> {t("Nominal (put in)")}
-          </span>
+          </button>
         </div>
       </div>
     </section>
   );
 }
 
-export function HoldingRow({ v, currency, rangeQuotes, range, onOpen }: { v: HoldingValue; currency: string; rangeQuotes: Quotes | null; range: Range; onOpen: (e: Element) => void }) {
+/** The holdings list's own period for its sparklines (a preference). */
+export type RowRange = Range | "all";
+export const ROW_RANGES: { value: RowRange; label: string }[] = [...RANGES, { value: "all", label: "Since purchase" }];
+
+export function HoldingRow({ v, currency, rangeQuotes, range, onOpen }: { v: HoldingValue; currency: string; rangeQuotes: Quotes | null; range: RowRange; onOpen: (e: Element) => void }) {
   const h = v.holding;
-  const spark = useMemo(() => (rangeQuotes ? holdingSeries(h, rangeQuotes, currency).map((p) => p.value) : []), [h, rangeQuotes, currency]);
+  const spark = useMemo(() => {
+    if (!rangeQuotes) return [];
+    const all = holdingSeries(h, rangeQuotes, currency);
+    // Since purchase: from the day it was bought (5 years of history at most).
+    const from = range === "all" ? Date.parse(h.date_added) || 0 : range === "1d" && all.length ? all[all.length - 1].t - 86_400_000 : 0;
+    const kept = all.filter((p) => p.t >= from);
+    return (kept.length >= 2 ? kept : all).map((p) => p.value);
+  }, [h, rangeQuotes, currency, range]);
   // The line's own story: how much it moved over the chosen period.
   const moved = spark.length >= 2 && spark[0] ? spark[spark.length - 1] / spark[0] - 1 : null;
-  const label = RANGES.find((r) => r.value === range)?.label ?? "";
+  const label = ROW_RANGES.find((r) => r.value === range)?.label ?? "";
   return (
     <button type="button" className="pf-row pf-pf-row" onClick={(e) => onOpen(e.currentTarget)}>
       <AssetIcon symbol={h.symbol} type={h.asset_type} />
