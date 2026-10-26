@@ -4434,3 +4434,10 @@ span.pf-cmp-chip { cursor: default; }
 .pf-wr-ring-cap { filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9)); opacity: 0; transition: opacity 0.3s; }
 .pf-wr-ring-cap[data-shown="true"] { opacity: 1; }
 .pf-wr-ring-over { font-size: 0.68rem; color: rgba(255, 194, 204, 0.85); margin-top: -2px; }
+
+.pf-celebrate-more { width: 100%; border: 0; color: inherit; font: inherit; font-size: 0.9rem; cursor: pointer; transition: background 0.2s; }
+.pf-celebrate-more:hover { background: rgba(255, 214, 10, 0.1); }
+.pf-celebrate-more svg { color: #ffd60a; }
+.pf-celebrate-line b, .pf-celebrate-more b { color: #ffd60a; }
+.pf-celebrate-total { display: flex; justify-content: space-between; padding: 10px 12px 0; margin-top: 4px; border-top: 1px solid rgba(255, 214, 10, 0.25); font-weight: 700; animation: pf-fade-up 0.4s ease-out both; }
+.pf-celebrate-total b { color: #ffd60a; font-size: 1.1rem; }

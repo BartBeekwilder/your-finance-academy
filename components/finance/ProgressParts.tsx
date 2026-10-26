@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarCheck, CalendarRange, Flag, Flame, Gem, House, HousePlus, Landmark, Lock, Medal, PartyPopper, Percent, PiggyBank, Scale, ShieldCheck, Sprout, Target, TrendingUp, Trophy, FileText, FolderCheck, History, type LucideIcon } from "lucide-react";
+import { CalendarCheck, ChevronDown, CalendarRange, Flag, Flame, Gem, House, HousePlus, Landmark, Lock, Medal, PartyPopper, Percent, PiggyBank, Scale, ShieldCheck, Sprout, Target, TrendingUp, Trophy, FileText, FolderCheck, History, type LucideIcon } from "lucide-react";
 import { useEffect, useId, useState } from "react";
 import { t } from "@/lib/i18n";
 import type { Badge } from "@/lib/finance/progress";
@@ -164,6 +164,10 @@ export function BadgeTile({ badge, earnedAt, locale }: { badge: Badge; earnedAt?
 
 /** Full-screen moment for new badges or a closed month. */
 export function Celebration({ title, lines, onClose }: { title: string; lines: { icon?: string; text: string; points?: number }[]; onClose: () => void }) {
+  // The first five straight away; the rest unfold from "+N more".
+  const [all, setAll] = useState(false);
+  const shown = all ? lines : lines.slice(0, 5);
+  const total = lines.reduce((s, l) => s + (l.points ?? 0), 0);
   return (
     <div className="pf-celebrate" role="dialog" aria-label={title} onClick={onClose}>
       <div className="pf-celebrate-burst" />
@@ -171,21 +175,27 @@ export function Celebration({ title, lines, onClose }: { title: string; lines: {
         <PartyPopper size={36} color="#ffd60a" />
         <h2>{title}</h2>
         <div style={{ display: "grid", gap: 8, width: "100%" }}>
-          {lines.slice(0, 5).map((l, i) => {
+          {shown.map((l, i) => {
             const Icon = (l.icon && ICONS[l.icon]) || Sparkle;
             return (
-              <div key={i} className="pf-celebrate-line" style={{ animationDelay: `${0.25 + i * 0.12}s` }}>
+              <div key={i} className="pf-celebrate-line" style={{ animationDelay: `${i < 5 ? 0.25 + i * 0.12 : (i - 5) * 0.09}s` }}>
                 <Icon size={18} />
                 <span>{l.text}</span>
                 {l.points !== undefined && <b className="pf-rounded">+{l.points}</b>}
               </div>
             );
           })}
-          {lines.length > 5 && (
-            <div className="pf-celebrate-line" style={{ animationDelay: "0.9s", gridTemplateColumns: "20px 1fr auto" }}>
-              <span />
+          {lines.length > 5 && !all && (
+            <button type="button" className="pf-celebrate-line pf-celebrate-more" style={{ animationDelay: "0.9s" }} onClick={() => setAll(true)}>
+              <ChevronDown size={18} />
               <span>{t("+{n} more", { n: lines.length - 5 })}</span>
               <b className="pf-rounded">+{lines.slice(5).reduce((s, l) => s + (l.points ?? 0), 0)}</b>
+            </button>
+          )}
+          {lines.length > 1 && (
+            <div className="pf-celebrate-total" style={{ animationDelay: all ? `${(lines.length - 5) * 0.09 + 0.1}s` : "1s" }}>
+              <span>{t("Total")}</span>
+              <b className="pf-rounded">+{total}</b>
             </div>
           )}
         </div>
