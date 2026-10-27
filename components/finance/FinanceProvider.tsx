@@ -2,6 +2,7 @@
 
 import { t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
+import { trackChanges } from "@/lib/finance/vaultMerge";
 import { useMarket } from "@/lib/finance/useMarket";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
@@ -241,8 +242,10 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     return () => sub.subscription.unsubscribe();
   }, [supabase, startDemo, startLocal]);
 
+  // Local data also remembers what was deleted and when the profile changed,
+  // so syncing the encrypted copy with other devices can merge (vaultMerge).
   const update = useCallback((fn: (d: FinanceData) => FinanceData) => {
-    setPhase((p) => (p.kind === "ready" ? { ...p, data: fn(p.data) } : p));
+    setPhase((p) => (p.kind === "ready" ? { ...p, data: p.source === "local" ? trackChanges(p.data, fn(p.data)) : fn(p.data) } : p));
   }, []);
 
   const source = phase.kind === "ready" ? phase.source : "demo";

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSupabase } from "@/lib/supabase";
 import { MIN_PASSPHRASE, open, seal } from "@/lib/finance/vault";
+import { liveOnly, mergeData } from "@/lib/finance/vaultMerge";
 import type { FinanceData } from "@/lib/finance/types";
 import { useFinance } from "./FinanceProvider";
 import Sheet from "./Sheet";
@@ -65,7 +66,22 @@ export default function VaultSection() {
     setBusy(true);
     setMsg(null);
     try {
-      const sealed = await seal(storedData(), pass);
+      // Merge with the copy that's there first (other devices may have
+      // changed things since), so an upload never loses their changes.
+      let merged = storedData();
+      const { data: existing, error: readError } = await supabase.from("encrypted_vaults").select("ciphertext, iv, salt, kdf").maybeSingle();
+      if (readError) throw readError;
+      if (existing) {
+        let remote: FinanceData;
+        try {
+          remote = await open<FinanceData>(existing, pass);
+        } catch {
+          throw new Error(t("Use the same passphrase as your existing copy — it couldn't be opened with this one."));
+        }
+        merged = liveOnly(mergeData(merged, remote));
+        restoreLocal(merged);
+      }
+      const sealed = await seal(merged, pass);
       const { data, error } = await supabase
         .from("encrypted_vaults")
         .upsert({ user_id: session.user.id, ...sealed, updated_at: new Date().toISOString() })
@@ -73,7 +89,7 @@ export default function VaultSection() {
         .single();
       if (error) throw error;
       setInfo(data as Info);
-      setMsg({ kind: "ok", text: t("Encrypted and uploaded. Only your passphrase can open it.") });
+      setMsg({ kind: "ok", text: existing ? t("Synced with your other devices, encrypted and uploaded.") : t("Encrypted and uploaded. Only your passphrase can open it.") });
       reset();
     } catch (e) {
       setMsg({ kind: "error", text: (e as Error).message });

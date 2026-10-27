@@ -1171,5 +1171,7 @@
  "Within budget in a row": "予算内の連続",
  "Pink: you updated your books. Green: spending so far within your average so far (no budgets yet). Purple: saved so far against 20% of income.": "ピンク：記録を更新した日。緑：これまでの支出が平均以内（予算はまだ）。紫：これまでの貯蓄を収入の20%と比較。",
  "Pink: you updated your books. Green: spending so far within your budgets so far. Purple: saved so far against 20% of income.": "ピンク：記録を更新した日。緑：これまでの支出が予算以内。紫：これまでの貯蓄を収入の20%と比較。",
- "Six short steps: check the month, see how it went, plan next month's budgets, collect your points.": "6つの短いステップ：月を確認し、振り返り、来月の予算を計画して、ポイントを獲得。"
+ "Six short steps: check the month, see how it went, plan next month's budgets, collect your points.": "6つの短いステップ：月を確認し、振り返り、来月の予算を計画して、ポイントを獲得。",
+ "Use the same passphrase as your existing copy — it couldn't be opened with this one.": "既存のコピーと同じパスフレーズを使ってください。このパスフレーズでは開けませんでした。",
+ "Synced with your other devices, encrypted and uploaded.": "他のデバイスと同期し、暗号化してアップロードしました。"
 }
