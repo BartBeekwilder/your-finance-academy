@@ -267,6 +267,9 @@ function Form({
   const valid = parsed > 0 && Number.isFinite(parsed);
   const grossParsed = evalAmount(gross)?.value ?? 0;
   const advancing = type === "expense" && advance;
+  // An advance is paid from the current account or a credit card (else any).
+  const cardOrCurrent = payable.filter((a) => a.type === "checking" || a.type === "credit");
+  const shownAccounts = advancing && cardOrCurrent.length ? cardOrCurrent : payable;
   const spreading = type === "expense" && !advancing && spread != null && spread >= 2;
   // Something to receive (an advance, or income not on an account yet) needs
   // a label, so the balance sheet says what it is.
@@ -346,7 +349,20 @@ function Form({
       )}
 
       {type === "expense" && (
-        <button type="button" className="pf-advance-toggle" aria-pressed={advance} onClick={() => setAdvance((a) => !a)}>
+        <button
+          type="button"
+          className="pf-advance-toggle"
+          aria-pressed={advance}
+          onClick={() => {
+            const on = !advance;
+            setAdvance(on);
+            // Paid from the current account unless a card is picked already.
+            if (on && cardOrCurrent.length && !cardOrCurrent.some((a) => a.id === accountId)) {
+              setAccountId((cardOrCurrent.find((a) => a.type === "checking") ?? cardOrCurrent[0]).id);
+              setTouched((x) => ({ ...x, account: true }));
+            }
+          }}
+        >
           <span className="pf-acct-icon"><HandCoins size={13} strokeWidth={2.4} /></span>
           <span>
             <b>{t("Advanced — I get it back")}</b>
@@ -561,10 +577,10 @@ function Form({
                 {t("Still to receive")}
               </button>
             )}
-            {payable.map((a) => {
+            {shownAccounts.map((a) => {
               const Icon = ACCOUNT_ICON[a.type] ?? Wallet;
               return (
-                <button key={a.id} type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === a.id} onClick={() => { setAccountId(type === "income" || accountId !== a.id ? a.id : null); setTouched((x) => ({ ...x, account: true })); }}>
+                <button key={a.id} type="button" className="pf-chip pf-acct-chip" aria-pressed={accountId === a.id} onClick={() => { setAccountId(type === "income" || advancing || accountId !== a.id ? a.id : null); setTouched((x) => ({ ...x, account: true })); }}>
                   <span className="pf-acct-icon" data-type={a.type}>
                     <Icon size={13} strokeWidth={2.4} />
                   </span>
