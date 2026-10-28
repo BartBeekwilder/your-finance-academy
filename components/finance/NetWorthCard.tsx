@@ -13,6 +13,8 @@ import LiveAmount from "./LiveAmount";
 // The iOS NetWorthTicker: a live figure that creeps forward at the user's
 // recent monthly pace (income − expenses), plus This Day / Month / Year
 // deltas. The small trailing digits are the real fractions of a cent.
+// Each delta splits into work (income − expenses) and investments (what the
+// holdings did on the market by themselves), when there are live quotes.
 //
 // Behind it, quietly: equity over the years (imported year-end stands, this
 // year live from the balance sheet) as a faint area with tiny year marks;
@@ -25,6 +27,7 @@ export default function NetWorthCard({
   monthlyPace,
   monthDelta,
   yearDelta,
+  invest,
   currency,
   history = [],
 }: {
@@ -32,6 +35,8 @@ export default function NetWorthCard({
   monthlyPace: number;
   monthDelta: number;
   yearDelta: number;
+  /** Market change of the investments per period (absent without live quotes). */
+  invest?: { day: number; month: number; year: number };
   currency: string;
   /** Equity per year, oldest first (the background chart). */
   history?: EquityYear[];
@@ -69,9 +74,9 @@ export default function NetWorthCard({
           <ArrowDownRight size={16} strokeWidth={3} color="var(--pf-orange)" style={{ marginTop: 8 }} />
         )}
         <div style={{ marginLeft: "auto", display: "grid", gap: 3, textAlign: "right", fontSize: "0.72rem", paddingTop: 4 }}>
-          <Stat label={t("This Day")} value={dayDelta} currency={currency} />
-          <Stat label={t("This Month")} value={monthDelta} currency={currency} />
-          <Stat label={t("This Year")} value={yearDelta} currency={currency} />
+          <Stat label={t("This Day")} work={dayDelta} invest={invest?.day} currency={currency} />
+          <Stat label={t("This Month")} work={monthDelta} invest={invest?.month} currency={currency} />
+          <Stat label={t("This Year")} work={yearDelta} invest={invest?.year} currency={currency} />
         </div>
       </div>
       <p style={{ position: "relative", margin: "6px 0 0", fontSize: "0.68rem", color: "var(--pf-ink-3)", pointerEvents: "none" }}>
@@ -95,13 +100,22 @@ export default function NetWorthCard({
   );
 }
 
-function Stat({ label, value, currency }: { label: string; value: number; currency: string }) {
+function Stat({ label, work, invest, currency }: { label: string; work: number; invest?: number; currency: string }) {
+  const value = work + (invest ?? 0);
+  const tone = (v: number) => (v >= 0 ? "var(--pf-green)" : "var(--pf-orange)");
   return (
     <div>
       <span style={{ color: "var(--pf-ink-2)" }}>{label} </span>
-      <span className="pf-rounded" style={{ fontWeight: 600, color: value >= 0 ? "var(--pf-green)" : "var(--pf-orange)" }}>
+      <span className="pf-rounded" style={{ fontWeight: 600, color: tone(value) }}>
         {money(value, currency, { signed: true })}
       </span>
+      {invest !== undefined && (
+        <div className="pf-nwc-split">
+          {t("Work")} <span className="pf-rounded" style={{ color: tone(work) }}>{money(work, currency, { signed: true })}</span>
+          {" · "}
+          {t("Investments")} <span className="pf-rounded" style={{ color: tone(invest) }}>{money(invest, currency, { signed: true })}</span>
+        </div>
+      )}
     </div>
   );
 }

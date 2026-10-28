@@ -27,6 +27,7 @@ import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
 import YearLines from "@/components/finance/YearLines";
 import { yearForecast, last12Months, monthProgress, netWorthFigures, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
+import { investmentsValue } from "@/lib/finance/quotes";
 
 export default function DashboardPage() {
   const { data, now } = useFinance();
@@ -58,6 +59,16 @@ export default function DashboardPage() {
     .filter((p) => p.month.getFullYear() === now.getFullYear())
     .reduce((t, p) => t + p.income - p.expense, 0);
 
+  // What the investments did by themselves: market value now against the
+  // last close before today / this month / this year (live quotes only).
+  const invest = useMemo(() => {
+    if (!data.market) return undefined;
+    const v = (at: Date) => investmentsValue(data, at).total;
+    const nowV = v(now), y = now.getFullYear(), m = now.getMonth();
+    const before = (d: Date) => nowV - v(new Date(d.getTime() - 1));
+    return { day: before(new Date(y, m, now.getDate())), month: before(new Date(y, m, 1)), year: before(new Date(y, 0, 1)) };
+  }, [data, now]);
+
   // Equity over the years behind the net worth card: imported year-end
   // stands, then this year live from the balance sheet.
   const equityYears = useMemo(() => {
@@ -83,7 +94,7 @@ export default function DashboardPage() {
 
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">
-        <NetWorthCard base={netWorthFigures(data, now).base} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} currency={currency} history={equityYears} />
+        <NetWorthCard base={netWorthFigures(data, now).base} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} invest={invest} currency={currency} history={equityYears} />
         <ProgressStrip />
       </section>
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}

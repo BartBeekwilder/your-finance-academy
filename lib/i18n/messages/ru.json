@@ -1175,5 +1175,6 @@
  "Use the same passphrase as your existing copy — it couldn't be opened with this one.": "Используйте ту же парольную фразу, что и для существующей копии, — эта её не открывает.",
  "Synced with your other devices, encrypted and uploaded.": "Синхронизировано с другими устройствами, зашифровано и загружено.",
  "New subcategory in {category}": "Новая подкатегория в «{category}»",
- "Type the name here, then ✓ or Enter.": "Введите название здесь, затем ✓ или Enter."
+ "Type the name here, then ✓ or Enter.": "Введите название здесь, затем ✓ или Enter.",
+ "Work": "Труд"
 }

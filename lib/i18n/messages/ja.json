@@ -1175,5 +1175,6 @@
  "Use the same passphrase as your existing copy — it couldn't be opened with this one.": "既存のコピーと同じパスフレーズを使ってください。このパスフレーズでは開けませんでした。",
  "Synced with your other devices, encrypted and uploaded.": "他のデバイスと同期し、暗号化してアップロードしました。",
  "New subcategory in {category}": "{category} の新しいサブカテゴリ",
- "Type the name here, then ✓ or Enter.": "ここに名前を入力し、✓ か Enter を押します。"
+ "Type the name here, then ✓ or Enter.": "ここに名前を入力し、✓ か Enter を押します。",
+ "Work": "労働"
 }

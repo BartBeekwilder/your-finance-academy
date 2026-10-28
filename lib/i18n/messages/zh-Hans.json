@@ -1175,5 +1175,6 @@
  "Use the same passphrase as your existing copy — it couldn't be opened with this one.": "请使用与现有副本相同的密码短语 — 用这个无法打开。",
  "Synced with your other devices, encrypted and uploaded.": "已与其他设备同步、加密并上传。",
  "New subcategory in {category}": "{category} 中的新子类别",
- "Type the name here, then ✓ or Enter.": "在此输入名称，然后按 ✓ 或回车。"
+ "Type the name here, then ✓ or Enter.": "在此输入名称，然后按 ✓ 或回车。",
+ "Work": "劳动"
 }

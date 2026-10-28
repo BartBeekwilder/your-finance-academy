@@ -4096,6 +4096,7 @@ span.pf-cmp-chip { cursor: default; }
 .pf-nwc-hits { position: absolute; inset: 0 22px; }
 .pf-nwc-hit { position: absolute; top: 0; bottom: 0; }
 .pf-nwc-caption { position: relative; margin: 2px 0 0; text-align: right; font-size: 0.66rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; pointer-events: none; }
+.pf-nwc-split { margin-top: 1px; font-size: 0.62rem; color: var(--pf-ink-3); white-space: nowrap; }
 @media (prefers-reduced-motion: reduce) { .pf-nwc-line { animation: none; stroke-dashoffset: 0; } .pf-nwc-area { animation: none; } }
 
 /* Income — payslips */
