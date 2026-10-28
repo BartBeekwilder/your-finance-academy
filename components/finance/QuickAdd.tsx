@@ -392,7 +392,10 @@ function Form({
         </div>
         {selected && !creating && (
           <div key={parentId} className="pf-subchips">
-            <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("Subcategory (optional)")}</span>
+            {/* While a new one is being typed, the label says what the field is for. */}
+            <span style={{ fontSize: "0.72rem", color: newSub === null ? "var(--pf-ink-3)" : "var(--pf-ink)" }}>
+              {newSub === null ? t("Subcategory (optional)") : t("New subcategory in {category}", { category: parent?.name ?? "" })}
+            </span>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
               {subs.map((c) => (
                 <button
@@ -424,6 +427,7 @@ function Form({
                 // A new subcategory takes its parent's icon and colour; the
                 // categories page can change those later.
                 <span className="pf-chip pf-chip-sm pf-subnew">
+                  {parent && <CategoryIcon icon={parent.icon} colorHex={parent.color_hex} size={16} />}
                   <input
                     autoFocus
                     aria-label={t("New subcategory")}
@@ -439,9 +443,13 @@ function Form({
                   <button type="button" className="pf-subnew-ok" disabled={!newSub.trim()} onMouseDown={(e) => e.preventDefault()} onClick={() => void saveSub()} aria-label={t("Add")}>
                     <Check size={13} strokeWidth={3} />
                   </button>
+                  <button type="button" className="pf-subnew-cancel" onMouseDown={(e) => e.preventDefault()} onClick={() => setNewSub(null)} aria-label={t("Cancel")}>
+                    <X size={13} strokeWidth={3} />
+                  </button>
                 </span>
               )}
             </div>
+            {newSub !== null && <span style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{t("Type the name here, then ✓ or Enter.")}</span>}
           </div>
         )}
         {creating && (

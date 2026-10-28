@@ -3669,6 +3669,8 @@ html[data-pf-motion="light"] .pf-roll-d { animation: none !important; }
   transition: opacity 0.2s, transform 0.2s;
 }
 .pf-subnew-ok:disabled { opacity: 0.35; cursor: default; }
+.pf-subnew-cancel { display: inline-grid; place-items: center; width: 22px; height: 22px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.08); color: var(--pf-ink-2); cursor: pointer; }
+.pf-subnew-cancel:hover { background: rgba(255, 255, 255, 0.14); color: var(--pf-ink); }
 .pf-subnew-ok:not(:disabled):active { transform: scale(0.9); }
 
 /* Categories page: each category opens to its subcategories. */
