@@ -1176,5 +1176,16 @@
  "Synced with your other devices, encrypted and uploaded.": "Синхронизировано с другими устройствами, зашифровано и загружено.",
  "New subcategory in {category}": "Новая подкатегория в «{category}»",
  "Type the name here, then ✓ or Enter.": "Введите название здесь, затем ✓ или Enter.",
- "Work": "Труд"
+ "Work": "Труд",
+ "Advanced — I get it back": "Выплачено за другого — мне вернут",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "Не расход: отображается в балансе в разделе «Суммы к получению», пока не вернут",
+ "Paid for someone else or for work": "Оплачено за другого человека или по работе",
+ "For whom / what?": "За кого / за что?",
+ "What is it? (label)": "Что это? (метка)",
+ "Add advance": "Добавить аванс",
+ "Edit advance": "Изменить аванс",
+ "Income not yet received on an account, and money you advanced": "Доход, ещё не поступивший на счёт, и деньги, которые вы выплатили за других",
+ "Advanced": "Выплачено за других",
+ "Paid back — the money is on the account again": "Возвращено — деньги снова на счёте",
+ "Paid back": "Возвращено"
 }

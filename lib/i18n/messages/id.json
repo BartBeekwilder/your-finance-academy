@@ -1176,5 +1176,16 @@
  "Synced with your other devices, encrypted and uploaded.": "Disinkronkan dengan perangkat lain, dienkripsi, dan diunggah.",
  "New subcategory in {category}": "Subkategori baru di {category}",
  "Type the name here, then ✓ or Enter.": "Ketik nama di sini, lalu ✓ atau Enter.",
- "Work": "Kerja"
+ "Work": "Kerja",
+ "Advanced — I get it back": "Ditalangi — akan diganti",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "Bukan pengeluaran: tampil di neraca di bawah Jumlah yang akan diterima sampai diganti",
+ "Paid for someone else or for work": "Dibayar untuk orang lain atau untuk pekerjaan",
+ "For whom / what?": "Untuk siapa / untuk apa?",
+ "What is it? (label)": "Apa ini? (label)",
+ "Add advance": "Tambah talangan",
+ "Edit advance": "Edit talangan",
+ "Income not yet received on an account, and money you advanced": "Pemasukan yang belum masuk ke rekening, dan uang yang kamu talangi",
+ "Advanced": "Ditalangi",
+ "Paid back — the money is on the account again": "Sudah diganti — uangnya kembali di rekening",
+ "Paid back": "Sudah diganti"
 }

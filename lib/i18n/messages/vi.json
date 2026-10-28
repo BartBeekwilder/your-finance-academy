@@ -1176,5 +1176,16 @@
  "Synced with your other devices, encrypted and uploaded.": "Đã đồng bộ với các thiết bị khác, mã hóa và tải lên.",
  "New subcategory in {category}": "Danh mục con mới trong {category}",
  "Type the name here, then ✓ or Enter.": "Nhập tên ở đây, rồi ✓ hoặc Enter.",
- "Work": "Lao động"
+ "Work": "Lao động",
+ "Advanced — I get it back": "Ứng trước — sẽ được trả lại",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "Không phải chi tiêu: hiển thị trên bảng cân đối ở mục Khoản sẽ nhận cho đến khi được trả lại",
+ "Paid for someone else or for work": "Trả thay người khác hoặc cho công việc",
+ "For whom / what?": "Cho ai / để làm gì?",
+ "What is it? (label)": "Đây là gì? (nhãn)",
+ "Add advance": "Thêm khoản ứng",
+ "Edit advance": "Sửa khoản ứng",
+ "Income not yet received on an account, and money you advanced": "Thu nhập chưa vào tài khoản và tiền bạn đã ứng trước",
+ "Advanced": "Đã ứng",
+ "Paid back — the money is on the account again": "Đã trả lại — tiền đã về tài khoản",
+ "Paid back": "Đã nhận lại"
 }

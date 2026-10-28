@@ -1176,5 +1176,16 @@
  "Synced with your other devices, encrypted and uploaded.": "Sincronizado con tus otros dispositivos, cifrado y subido.",
  "New subcategory in {category}": "Nueva subcategoría en {category}",
  "Type the name here, then ✓ or Enter.": "Escribe aquí el nombre y luego ✓ o Intro.",
- "Work": "Trabajo"
+ "Work": "Trabajo",
+ "Advanced — I get it back": "Adelantado — me lo devuelven",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "No es un gasto: aparece en el balance en Importes por cobrar hasta que te lo devuelvan",
+ "Paid for someone else or for work": "Pagado por otra persona o por trabajo",
+ "For whom / what?": "¿Para quién / para qué?",
+ "What is it? (label)": "¿Qué es? (etiqueta)",
+ "Add advance": "Añadir adelanto",
+ "Edit advance": "Editar adelanto",
+ "Income not yet received on an account, and money you advanced": "Ingresos aún no recibidos en una cuenta y dinero que has adelantado",
+ "Advanced": "Adelantado",
+ "Paid back — the money is on the account again": "Devuelto — el dinero vuelve a estar en la cuenta",
+ "Paid back": "Devuelto"
 }

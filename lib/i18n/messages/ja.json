@@ -1176,5 +1176,16 @@
  "Synced with your other devices, encrypted and uploaded.": "他のデバイスと同期し、暗号化してアップロードしました。",
  "New subcategory in {category}": "{category} の新しいサブカテゴリ",
  "Type the name here, then ✓ or Enter.": "ここに名前を入力し、✓ か Enter を押します。",
- "Work": "労働"
+ "Work": "労働",
+ "Advanced — I get it back": "立て替え — 返してもらう",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "支出ではありません：返金されるまで貸借対照表の「受取予定額」に表示されます",
+ "Paid for someone else or for work": "他の人や仕事のために支払った",
+ "For whom / what?": "誰のため / 何のため？",
+ "What is it? (label)": "これは何？（ラベル）",
+ "Add advance": "立て替えを追加",
+ "Edit advance": "立て替えを編集",
+ "Income not yet received on an account, and money you advanced": "まだ口座に入っていない収入と、立て替えたお金",
+ "Advanced": "立て替え",
+ "Paid back — the money is on the account again": "返金済み — お金は口座に戻りました",
+ "Paid back": "返金済み"
 }

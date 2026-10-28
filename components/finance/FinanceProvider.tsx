@@ -6,6 +6,7 @@ import { trackChanges } from "@/lib/finance/vaultMerge";
 import { useMarket } from "@/lib/finance/useMarket";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
+import { withAdvances } from "@/lib/finance/advances";
 import { buildDemoData } from "@/lib/finance/demo";
 import type { FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
@@ -252,12 +253,19 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   // gross_amount is only sent when set, so saving keeps working on a database
   // without migration 0007 as long as no gross is entered.
-  // …same for spread_months (0008) and person_id (0010). Runtime-only spread
-  // fields never go out.
+  // …same for spread_months (0008), person_id (0010) and advances (0011).
+  // Runtime-only spread fields never go out.
   const withoutEmptyGross = (t: NewTransaction) => {
-    const { gross_amount, spread_months, person_id, spread_of: _o, spread_index: _i, spread_total: _n, ...rest } = t;
+    const { gross_amount, spread_months, person_id, advance, repaid_at, spread_of: _o, spread_index: _i, spread_total: _n, ...rest } = t;
     void _o; void _i; void _n;
-    return { ...rest, ...(gross_amount != null ? { gross_amount } : {}), ...(spread_months != null ? { spread_months } : {}), ...(person_id != null ? { person_id } : {}) };
+    return {
+      ...rest,
+      ...(gross_amount != null ? { gross_amount } : {}),
+      ...(spread_months != null ? { spread_months } : {}),
+      ...(person_id != null ? { person_id } : {}),
+      ...(advance ? { advance } : {}),
+      ...(repaid_at != null ? { repaid_at } : {}),
+    };
   };
 
   const addTransaction = useCallback(
@@ -283,6 +291,10 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         if (had) out.gross_amount = t.gross_amount ?? null;
         if (before?.spread_months != null) out.spread_months = t.spread_months ?? null;
         if (before?.person_id != null) out.person_id = t.person_id ?? null;
+        if (before?.advance) {
+          out.advance = !!t.advance;
+          out.repaid_at = t.repaid_at ?? null;
+        }
         const { error } = await supabase.from("transactions").update(out).eq("id", id);
         if (error) throw error;
       }
@@ -324,10 +336,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     }, 600);
     return () => clearTimeout(id);
   }, [localData, stale]);
-  // What every screen sees: spread expenses as their monthly parts.
-  // …and investments with their live market value (for the balance sheet).
+  // What every screen sees: spread expenses as their monthly parts, advances
+  // apart from the spending (data.advances), and investments with their live
+  // market value (for the balance sheet).
   const market = useMarket(current);
-  const shown = useMemo(() => (current ? { ...withSpread(current), market } : null), [current, market]);
+  const shown = useMemo(() => (current ? { ...withSpread(withAdvances(current)), market } : null), [current, market]);
 
   const addCategory = useCallback(
     async (c: NewCategory) => {

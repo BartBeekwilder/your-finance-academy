@@ -1183,5 +1183,16 @@
  "Synced with your other devices, encrypted and uploaded.": "Gesynchroniseerd met je andere apparaten, versleuteld en geüpload.",
  "New subcategory in {category}": "Nieuwe subcategorie in {category}",
  "Type the name here, then ✓ or Enter.": "Typ hier de naam, dan ✓ of Enter.",
- "Work": "Arbeid"
+ "Work": "Arbeid",
+ "Advanced — I get it back": "Voorgeschoten — krijg ik terug",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "Geen uitgave: staat op de balans onder Nog te ontvangen bedragen tot je het terugkrijgt",
+ "Paid for someone else or for work": "Betaald voor iemand anders of voor je werk",
+ "For whom / what?": "Voor wie / waarvoor?",
+ "What is it? (label)": "Wat is het? (label)",
+ "Add advance": "Voorschot toevoegen",
+ "Edit advance": "Voorschot bewerken",
+ "Income not yet received on an account, and money you advanced": "Inkomen nog niet op een rekening ontvangen, en geld dat je hebt voorgeschoten",
+ "Advanced": "Voorgeschoten",
+ "Paid back — the money is on the account again": "Terugbetaald — het geld staat weer op de rekening",
+ "Paid back": "Terug ontvangen"
 }

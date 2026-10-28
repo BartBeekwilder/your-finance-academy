@@ -1176,5 +1176,16 @@
  "Synced with your other devices, encrypted and uploaded.": "Diğer cihazlarınızla eşitlendi, şifrelendi ve yüklendi.",
  "New subcategory in {category}": "{category} içinde yeni alt kategori",
  "Type the name here, then ✓ or Enter.": "Adı buraya yazın, sonra ✓ veya Enter.",
- "Work": "Emek"
+ "Work": "Emek",
+ "Advanced — I get it back": "Avans verdim — geri alacağım",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "Harcama değil: geri ödenene kadar bilançoda Alınacak tutarlar altında görünür",
+ "Paid for someone else or for work": "Başkası için veya iş için ödendi",
+ "For whom / what?": "Kimin için / ne için?",
+ "What is it? (label)": "Bu nedir? (etiket)",
+ "Add advance": "Avans ekle",
+ "Edit advance": "Avansı düzenle",
+ "Income not yet received on an account, and money you advanced": "Henüz bir hesaba gelmemiş gelir ve avans olarak verdiğin para",
+ "Advanced": "Avans",
+ "Paid back — the money is on the account again": "Geri ödendi — para yeniden hesapta",
+ "Paid back": "Geri alındı"
 }

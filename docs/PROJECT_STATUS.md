@@ -135,6 +135,12 @@ zh-Hans. Every new UI text must be translatable and translated:
   animations played by Core Animation (Extensions/LoopLayer.swift), neon
   background as keyframed CAShapeLayers instead of a 24 fps Canvas per
   screen. Android not done yet.
+- Advances ("Voorgeschoten — krijg ik terug"): Quick Add expense toggle
+  with a required label; not spending (lib/finance/advances.ts takes them
+  out of data.transactions into data.advances); the balance sheet moves
+  open ones from Accounts to Amounts to receive (group "Voorgeschoten") with
+  a "Paid back" button. Migration `0011_advances.sql` NOT yet applied on
+  Supabase (local mode works without it). iOS + Android: on the port list.
 
 ## Done recently (2026-10-22/23)
 

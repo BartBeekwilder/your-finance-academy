@@ -1,3 +1,4 @@
+import { advancesByAccount, openAdvances } from "./advances";
 import { spreadBookValue } from "./spread";
 import { budgetIn } from "./budgetPlan";
 export { budgetIn };
@@ -317,6 +318,8 @@ export type BalanceLine = {
     href?: string;
     /** A heading the part sits under (accounts: by kind, like a bank app). */
     group?: string;
+    /** An open advance (its transaction id = `id`): can be marked paid back. */
+    advance?: boolean;
   }[];
 };
 
@@ -398,27 +401,45 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
   // Investments per kind.
   const at = isCurrent ? now : new Date(month.getFullYear(), month.getMonth() + 1, 0, 23, 59, 59);
   const acc = assets.find((l) => l.id === "accounts");
-  // Income without an account: its own line, out of Accounts.
+  // Amounts to receive, out of Accounts: income without an account (it was
+  // counted in Accounts), and open advances (they left an account, but are
+  // owed to you — not spending, so Accounts never counted them out).
   const pending = pendingIncome(data, at);
   const pendingTotal = pending.reduce((s2, x) => s2 + num(x.amount), 0);
-  if (acc && pendingTotal > 0.005) {
-    acc.value -= pendingTotal;
+  const advances = openAdvances(data, at);
+  const advanceTotal = advances.reduce((s2, x) => s2 + num(x.amount), 0);
+  if (acc && pendingTotal + advanceTotal > 0.005) {
+    acc.value -= pendingTotal + advanceTotal;
     const cats = new Map(data.categories.map((c) => [c.id, c.name]));
+    const day = (d: string) => new Date(d).toLocaleDateString(intlLocale(), { day: "numeric", month: "short" });
     assets.splice(assets.indexOf(acc) + 1, 0, {
       id: "pending",
       name: t("Amounts to receive"),
-      value: pendingTotal,
+      value: pendingTotal + advanceTotal,
       kind: "auto",
-      hint: t("Income entered, not yet received on an account"),
-      parts: pending.map((x) => ({
-        id: x.id,
-        name: `${x.note || (x.category_id ? cats.get(x.category_id) : "") || t("Income")} · ${new Date(x.date).toLocaleDateString(intlLocale(), { day: "numeric", month: "short" })}`,
-        value: num(x.amount),
-      })),
+      hint: t("Income not yet received on an account, and money you advanced"),
+      parts: [
+        ...pending.map((x) => ({
+          id: x.id,
+          name: `${x.note || (x.category_id ? cats.get(x.category_id) : "") || t("Income")} · ${day(x.date)}`,
+          value: num(x.amount),
+          ...(advances.length ? { group: t("Income") } : {}),
+        })),
+        ...advances.map((x) => ({
+          id: x.id,
+          name: `${x.note || t("Advanced")} · ${day(x.date)}`,
+          value: num(x.amount),
+          group: t("Advanced"),
+          advance: true,
+        })),
+      ],
     });
   }
   if (acc) {
     const flows = accountFlows(data, at);
+    // Open advances are off their account too.
+    const fallback = live(data.accounts).find((a) => a.is_default)?.id ?? null;
+    for (const [id, v] of advancesByAccount(data, at, fallback)) flows.set(id, (flows.get(id) ?? 0) - v);
     // Grouped by kind in a bank's order (current, savings, credit, cash),
     // each group in the order the accounts were added — so it reads like
     // the bank's own overview.

@@ -12,6 +12,7 @@ import EquityWaterfall from "@/components/finance/EquityWaterfall";
 import SortableTiles from "@/components/finance/SortableTiles";
 import StepSlider from "@/components/finance/StepSlider";
 import { balanceSheet, netWorthFigures } from "@/lib/finance/calc";
+import { openTransactionEditor } from "@/lib/finance/editTransaction";
 
 // Balance sheet — the finances as a company's books: what you own (your own
 // posts like a home, plus accounts, investments, prepaid costs and income
@@ -24,7 +25,7 @@ import { balanceSheet, netWorthFigures } from "@/lib/finance/calc";
 // stand of its own carries the latest earlier one forward.
 
 export default function BalancePage() {
-  const { data, now, setBalanceValue, renameBalanceItem, deleteBalanceItem, addBalanceItem, saveAccount } = useFinance();
+  const { data, now, setBalanceValue, renameBalanceItem, deleteBalanceItem, addBalanceItem, saveAccount, updateTransaction } = useFinance();
   const currency = data.profile.currency_code;
   const [sel, setSel] = useState(now.getMonth());
   const month = new Date(now.getFullYear(), sel, 1);
@@ -158,6 +159,17 @@ export default function BalancePage() {
                     onAccount: (id, opening) => {
                       const a = data.accounts.find((x) => x.id === id);
                       if (a) run(saveAccount({ id, name: a.name, type: a.type, balance: opening }));
+                    },
+                    onAdvance: (id, action, origin) => {
+                      const a = data.advances?.find((x) => x.id === id);
+                      if (!a) return;
+                      if (action === "open") return openTransactionEditor(a, origin);
+                      // Paid back today (on the same account): off Amounts to receive.
+                      // The start of the day, so the sheet's "now" is already past it.
+                      const { id: _id, updated_at: _u, deleted_at: _d, ...rest } = a;
+                      void _id; void _u; void _d;
+                      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                      run(updateTransaction(id, { ...rest, repaid_at: (today < new Date(a.date) ? new Date(a.date) : today).toISOString() }));
                     },
                   }}
                 />

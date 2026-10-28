@@ -1176,5 +1176,16 @@
  "Synced with your other devices, encrypted and uploaded.": "आपके दूसरे डिवाइसों से सिंक, एन्क्रिप्ट और अपलोड किया गया।",
  "New subcategory in {category}": "{category} में नई उपश्रेणी",
  "Type the name here, then ✓ or Enter.": "यहाँ नाम लिखें, फिर ✓ या Enter.",
- "Work": "काम"
+ "Work": "काम",
+ "Advanced — I get it back": "अग्रिम दिया — वापस मिलेगा",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "खर्च नहीं: वापस मिलने तक बैलेंस शीट में प्राप्य राशियों के अंतर्गत दिखता है",
+ "Paid for someone else or for work": "किसी और के लिए या काम के लिए भुगतान किया",
+ "For whom / what?": "किसके लिए / किसलिए?",
+ "What is it? (label)": "यह क्या है? (लेबल)",
+ "Add advance": "अग्रिम जोड़ें",
+ "Edit advance": "अग्रिम संपादित करें",
+ "Income not yet received on an account, and money you advanced": "आय जो अभी खाते में नहीं आई, और वह पैसा जो आपने अग्रिम दिया",
+ "Advanced": "अग्रिम दिया",
+ "Paid back — the money is on the account again": "वापस मिला — पैसा फिर से खाते में है",
+ "Paid back": "वापस मिला"
 }

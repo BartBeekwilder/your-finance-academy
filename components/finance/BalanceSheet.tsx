@@ -268,6 +268,8 @@ type Edit = {
   /** An account's balance at this sheet's moment was typed; `opening` is
    *  the 1 January balance that gives it. */
   onAccount?: (accountId: string, opening: number) => void;
+  /** An open advance: open it in the editor, or mark it paid back. */
+  onAdvance?: (id: string, action: "open" | "repaid", origin: Element | null) => void;
 };
 
 type Order = "own" | "desc" | "asc";
@@ -431,10 +433,23 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
             const body = (
               <>
                 <span className="pf-bal-part-name">
-                  {p.name}
+                  {p.advance && edit?.onAdvance ? (
+                    <button type="button" className="pf-bal-advance-name" tabIndex={open ? 0 : -1} onClick={(e) => edit.onAdvance!(p.id, "open", e.currentTarget)}>
+                      {p.name}
+                    </button>
+                  ) : (
+                    p.name
+                  )}
                   {p.hint && <span className="pf-bal-part-hint">{p.hint}</span>}
                 </span>
-                {p.flow != null && edit?.onAccount ? (
+                {p.advance && edit?.onAdvance ? (
+                  <span className="pf-bal-advance">
+                    <span className="pf-rounded">{money(p.value, currency)}</span>
+                    <button type="button" className="pf-bal-repaid" tabIndex={open ? 0 : -1} title={t("Paid back — the money is on the account again")} onClick={(e) => edit.onAdvance!(p.id, "repaid", e.currentTarget)}>
+                      <Check size={12} strokeWidth={3} /> {t("Paid back")}
+                    </button>
+                  </span>
+                ) : p.flow != null && edit?.onAccount ? (
                   <AmountField value={p.value} currency={currency} onCommit={(v) => Math.abs(v - p.value) >= 0.005 && edit.onAccount!(p.id, v - p.flow!)} />
                 ) : (
                   <span className="pf-rounded" style={{ color: p.value < 0 ? "var(--pf-red)" : undefined }}>

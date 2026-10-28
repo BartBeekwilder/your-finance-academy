@@ -1176,5 +1176,16 @@
  "Synced with your other devices, encrypted and uploaded.": "已与其他设备同步、加密并上传。",
  "New subcategory in {category}": "{category} 中的新子类别",
  "Type the name here, then ✓ or Enter.": "在此输入名称，然后按 ✓ 或回车。",
- "Work": "劳动"
+ "Work": "劳动",
+ "Advanced — I get it back": "垫付 — 会还给我",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "不是支出：在还款前显示在资产负债表的“待收款项”下",
+ "Paid for someone else or for work": "替别人或为工作支付",
+ "For whom / what?": "为谁 / 用于什么？",
+ "What is it? (label)": "这是什么？（标签）",
+ "Add advance": "添加垫付",
+ "Edit advance": "编辑垫付",
+ "Income not yet received on an account, and money you advanced": "尚未到账的收入，以及你垫付的钱",
+ "Advanced": "垫付",
+ "Paid back — the money is on the account again": "已还 — 钱已回到账户",
+ "Paid back": "已收回"
 }

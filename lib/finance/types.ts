@@ -75,6 +75,12 @@ export type Transaction = Synced & {
   person_id?: string | null;
   /** Expense spread over this many months (migration 0008); null = one-off. */
   spread_months?: number | null;
+  /** Expense only (migration 0011): paid on someone else's behalf, to be
+   *  paid back ("voorgeschoten"). Not spending: it left the account, and the
+   *  balance sheet shows it under Amounts to receive until `repaid_at`. */
+  advance?: boolean | null;
+  /** An advance: when it came back (on the same account); null = still open. */
+  repaid_at?: string | null;
   /** Runtime only (never stored): a monthly part of a spread expense — the
    *  original purchase, and which part of how many this is. */
   spread_of?: Transaction;
@@ -204,6 +210,9 @@ export type FinanceData = {
   achievements: Achievement[];
   activityDays: ActivityDay[];
   insurancePolicies: InsurancePolicy[];
+  /** Runtime only (never stored): the advances, taken out of `transactions`
+   *  so no screen counts them as spending (lib/finance/advances.ts). */
+  advances?: Transaction[];
   /** Year-end stands from before the app (imported history): assets and
    *  liabilities per year — the dashboard draws equity over the years from
    *  them. Local data only for now (no Supabase table yet). */

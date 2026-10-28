@@ -2,7 +2,7 @@
 
 import { t } from "@/lib/i18n";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { Banknote, Check, CreditCard, Hourglass, Landmark, PiggyBank, Plus, Sparkles, Trash2, Wallet, X } from "lucide-react";
+import { Banknote, Check, CreditCard, HandCoins, Hourglass, Landmark, PiggyBank, Plus, Sparkles, Trash2, Wallet, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
 import { live } from "@/lib/finance/calc";
 import { evalAmount } from "@/lib/finance/amountExpr";
@@ -149,6 +149,9 @@ function Form({
   const [fixed, setFixed] = useState(initial?.is_fixed_expense ?? false);
   // Expense: spread a big purchase over N months (null = book it at once).
   const [spread, setSpread] = useState<number | null>(initial?.spread_months ?? null);
+  // Expense: advanced for someone else, to be paid back — not spending; the
+  // balance sheet shows it under Amounts to receive until it's back.
+  const [advance, setAdvance] = useState(initial?.advance ?? false);
   // Which account it comes off (or goes to): the transaction's own, else the
   // one used last in this browser, else the default account.
   const payable = accounts.filter((a) => a.type !== "investment");
@@ -263,11 +266,16 @@ function Form({
   const parsed = sum?.value ?? NaN;
   const valid = parsed > 0 && Number.isFinite(parsed);
   const grossParsed = evalAmount(gross)?.value ?? 0;
-  const spreading = type === "expense" && spread != null && spread >= 2;
+  const advancing = type === "expense" && advance;
+  const spreading = type === "expense" && !advancing && spread != null && spread >= 2;
+  // Something to receive (an advance, or income not on an account yet) needs
+  // a label, so the balance sheet says what it is.
+  const toReceive = advancing || (type === "income" && accountId === null && payable.length > 0);
+  const labelled = !advancing || note.trim().length > 0;
 
   async function submit(e: FormEvent) {
     e.preventDefault();
-    if (!valid) return;
+    if (!valid || !labelled) return;
     setSaving(true);
     setError("");
     try {
@@ -280,10 +288,12 @@ function Form({
         note: note.trim() || null,
         is_auto_income: initial?.is_auto_income ?? false,
         gross_amount: type === "income" && grossParsed > 0 ? grossParsed.toFixed(2) : null,
-        is_fixed_expense: type === "expense" && fixed,
+        is_fixed_expense: type === "expense" && !advancing && fixed,
         spread_months: spreading ? spread : null,
+        advance: advancing,
+        repaid_at: advancing ? (initial?.repaid_at ?? null) : null,
         recurrence_id: initial?.recurrence_id ?? null,
-        category_id: categoryId,
+        category_id: advancing ? null : categoryId,
         account_id: accountId,
         person_id: household.length ? (type === "income" ? (personId ?? household[0].id) : personId) : (initial?.person_id ?? null),
       });
@@ -304,7 +314,7 @@ function Form({
   return (
     <form onSubmit={submit} style={{ display: "grid", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 600 }}>{initial ? type === "expense" ? t("Edit expense") : t("Edit income") : t("Quick Add")}</h2>
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 600 }}>{initial ? advancing ? t("Edit advance") : type === "expense" ? t("Edit expense") : t("Edit income") : t("Quick Add")}</h2>
         <button type="button" className="pf-icon-button" aria-label={t("Close")} onClick={onDone}><X size={18} /></button>
       </div>
 
@@ -333,6 +343,16 @@ function Form({
         <span key={parsed} className="pf-amount-sum pf-readout pf-rounded" data-bad={!valid || undefined}>
           = {valid ? money(parsed, currency) : t("not a valid amount")}
         </span>
+      )}
+
+      {type === "expense" && (
+        <button type="button" className="pf-advance-toggle" aria-pressed={advance} onClick={() => setAdvance((a) => !a)}>
+          <span className="pf-acct-icon"><HandCoins size={13} strokeWidth={2.4} /></span>
+          <span>
+            <b>{t("Advanced — I get it back")}</b>
+            <small>{advance ? t("Not spending: shows on the balance sheet under Amounts to receive until it's paid back") : t("Paid for someone else or for work")}</small>
+          </span>
+        </button>
       )}
 
       {type === "income" && (
@@ -366,6 +386,7 @@ function Form({
         </div>
       )}
 
+      {!advancing && (
       <div>
         <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 8 }}>{t("Category")}</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -467,13 +488,15 @@ function Form({
           />
         )}
       </div>
+      )}
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
         <input className="pf-input" type="date" aria-label={t("Date")} value={date} onChange={(e) => { setDate(e.target.value); setDateTouched(true); }} required />
         <input
           className="pf-input"
-          placeholder={t("Note")}
-          aria-label={t("Note")}
+          placeholder={advancing ? t("For whom / what?") : toReceive ? t("What is it? (label)") : t("Note")}
+          aria-label={advancing ? t("For whom / what?") : t("Note")}
+          data-needed={(advancing && !note.trim()) || undefined}
           list={initial ? undefined : "pf-note-memory"}
           value={note}
           onChange={(e) => {
@@ -553,21 +576,21 @@ function Form({
         </div>
       )}
 
-      {type === "expense" && !spreading && (
+      {type === "expense" && !spreading && !advancing && (
         <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.9rem" }}>
           <input type="checkbox" checked={fixed} onChange={(e) => setFixed(e.target.checked)} />
           {t("Fixed expense")} <span style={{ color: "var(--pf-ink-3)" }}>{t("— same amount every month")}</span>
         </label>
       )}
 
-      {type === "expense" && (
+      {type === "expense" && !advancing && (
         <SpreadPicker months={spread} onChange={setSpread} amount={valid ? parsed : 0} date={date} currency={currency} />
       )}
 
       {error && <p style={{ margin: 0, color: "var(--pf-red)", fontSize: "0.85rem" }}>{error}</p>}
 
-      <button className="pf-button" disabled={!valid || saving}>
-        {saving ? t("Saving…") : initial ? t("Save changes") : type === "expense" ? t("Add expense") : t("Add income")}
+      <button className="pf-button" disabled={!valid || !labelled || saving}>
+        {saving ? t("Saving…") : initial ? t("Save changes") : advancing ? t("Add advance") : type === "expense" ? t("Add expense") : t("Add income")}
       </button>
 
       {onDelete && (

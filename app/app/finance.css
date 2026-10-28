@@ -4504,3 +4504,71 @@ span.pf-cmp-chip { cursor: default; }
 .pf-cal-note { margin: 0; font-size: 0.75rem; color: var(--pf-ink-3); text-align: center; }
 .pf-cal-num { font-style: normal; color: transparent; -webkit-background-clip: text; background-clip: text; }
 .pf-cal-day[data-perfect] span { background: linear-gradient(135deg, #fa114f, #7ae200, #d17bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Quick Add: "Advanced — I get it back". A wide switch-like card; on, it
+   lights up in the receivable teal and the form drops category, fixed and
+   spread (an advance isn't spending). */
+.pf-advance-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px 8px 8px;
+  border: 1px solid var(--pf-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--pf-ink-2);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, color 0.25s, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pf-advance-toggle:active { transform: scale(0.98); }
+.pf-advance-toggle > span:last-child { display: grid; gap: 1px; }
+.pf-advance-toggle b { font-size: 0.85rem; font-weight: 600; }
+.pf-advance-toggle small { font-size: 0.72rem; color: var(--pf-ink-3); }
+.pf-advance-toggle .pf-acct-icon { background: rgba(102, 212, 207, 0.25); transition: background 0.25s; }
+.pf-advance-toggle[aria-pressed="true"] {
+  border-color: #66d4cf;
+  background: rgba(102, 212, 207, 0.1);
+  color: var(--pf-ink);
+}
+.pf-advance-toggle[aria-pressed="true"] .pf-acct-icon {
+  background: #66d4cf;
+  animation: pf-chip-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pf-advance-toggle[aria-pressed="true"] small { color: #66d4cf; }
+/* The label an advance needs, until it's typed. */
+.pf-input[data-needed] { border-color: rgba(102, 212, 207, 0.6); }
+
+/* Balance table: an open advance — its name opens it, "Paid back" settles it. */
+.pf-bal-advance-name {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline dotted rgba(255, 255, 255, 0.25);
+  text-underline-offset: 3px;
+}
+.pf-bal-advance { display: inline-flex; align-items: center; gap: 8px; }
+.pf-bal-repaid {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid rgba(102, 212, 207, 0.45);
+  border-radius: 999px;
+  background: rgba(102, 212, 207, 0.1);
+  color: #66d4cf;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pf-bal-repaid:hover { background: rgba(102, 212, 207, 0.2); }
+.pf-bal-repaid:active { transform: scale(0.94); }

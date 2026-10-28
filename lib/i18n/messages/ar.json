@@ -1176,5 +1176,16 @@
  "Synced with your other devices, encrypted and uploaded.": "تمت المزامنة مع أجهزتك الأخرى والتشفير والرفع.",
  "New subcategory in {category}": "فئة فرعية جديدة في {category}",
  "Type the name here, then ✓ or Enter.": "اكتب الاسم هنا، ثم ✓ أو Enter.",
- "Work": "العمل"
+ "Work": "العمل",
+ "Advanced — I get it back": "دفعته مقدمًا — سأستردّه",
+ "Not spending: shows on the balance sheet under Amounts to receive until it's paid back": "ليس إنفاقًا: يظهر في الميزانية تحت المبالغ المستحقة حتى يُردّ",
+ "Paid for someone else or for work": "دُفع عن شخص آخر أو للعمل",
+ "For whom / what?": "لمن / لماذا؟",
+ "What is it? (label)": "ما هو؟ (تسمية)",
+ "Add advance": "إضافة سلفة",
+ "Edit advance": "تعديل السلفة",
+ "Income not yet received on an account, and money you advanced": "دخل لم يصل بعد إلى حساب، وأموال دفعتها مقدمًا",
+ "Advanced": "مدفوع مقدمًا",
+ "Paid back — the money is on the account again": "تم الرد — المال عاد إلى الحساب",
+ "Paid back": "تم الاسترداد"
 }
