@@ -126,6 +126,16 @@ zh-Hans. Every new UI text must be translatable and translated:
   spills out of the bar; the balance sheet ("completely in awe").
 - Web and iOS stay at parity: what's built on the web gets ported to iOS.
 
+## Done 2026-10-28 — smoother motion (web + iOS)
+
+- Web: no backdrop blur on cards, neon canvas drawn at low resolution
+  instead of a full-screen CSS blur, every looping animation (dot pulses,
+  stripes, heat sheen, equity glow) now transform/opacity only.
+- iOS (branch `motion-perf-oct28`, from `ios-port-oct26`): looping
+  animations played by Core Animation (Extensions/LoopLayer.swift), neon
+  background as keyframed CAShapeLayers instead of a 24 fps Canvas per
+  screen. Android not done yet.
+
 ## Done recently (2026-10-22/23)
 
 - Balance sheet (web + iOS): own posts with month-end values, calculated

@@ -44,7 +44,7 @@ function makeSeeds(count: number): Seed[] {
 export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?: number; opacity?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
   // Off (or the background switch off): one still frame. Light: a low frame
-  // rate, device pixels capped at 1× and without the widest glow stroke.
+  // rate, a coarser canvas and without the widest glow stroke.
   // Full: capped at 30 fps — the lines drift slowly, more frames only cost
   // CPU without looking smoother.
   const mode = useMotionMode();
@@ -64,8 +64,12 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
     const interval = 1000 / (light ? 12 : 30);
     const strokes = light ? ([[6, 0.75], [1.6, 1.2]] as const) : ([[14, 0.28], [6, 0.62], [1.6, 1.2]] as const);
 
+    // Drawn at a fraction of a CSS pixel and scaled up by the browser: the
+    // upscale is the soft glow (it used to be a CSS blur over the whole
+    // screen, re-filtered every frame — the main lag on iPhone/iPad), and
+    // there are 10–25× fewer pixels to draw.
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, light ? 1 : 2);
+      const dpr = light ? 0.3 : 0.4;
       canvas.width = canvas.clientWidth * dpr;
       canvas.height = canvas.clientHeight * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
