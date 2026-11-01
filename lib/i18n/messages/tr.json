@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "{monthName} ayında girilen",
  "Received in {monthName}": "{monthName} ayında alınan",
  "Expected net in {monthName}": "{monthName} ayında beklenen net",
- "Gross in {monthName}": "{monthName} ayında brüt"
+ "Gross in {monthName}": "{monthName} ayında brüt",
+ "{pct}% of the month": "ayın %{pct}",
+ "{pct}% of the day": "günün %{pct}"
 }

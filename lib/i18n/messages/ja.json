@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "{monthName}の入力",
  "Received in {monthName}": "{monthName}の受取額",
  "Expected net in {monthName}": "{monthName}の予想手取り",
- "Gross in {monthName}": "{monthName}の総支給額"
+ "Gross in {monthName}": "{monthName}の総支給額",
+ "{pct}% of the month": "月の{pct}%",
+ "{pct}% of the day": "日の{pct}%"
 }

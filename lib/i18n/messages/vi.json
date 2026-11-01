@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "Đã nhập trong {monthName}",
  "Received in {monthName}": "Đã nhận trong {monthName}",
  "Expected net in {monthName}": "Thực nhận dự kiến trong {monthName}",
- "Gross in {monthName}": "Tổng trong {monthName}"
+ "Gross in {monthName}": "Tổng trong {monthName}",
+ "{pct}% of the month": "{pct}% của tháng",
+ "{pct}% of the day": "{pct}% của ngày"
 }

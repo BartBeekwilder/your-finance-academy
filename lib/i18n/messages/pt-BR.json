@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "Registrado em {monthName}",
  "Received in {monthName}": "Recebido em {monthName}",
  "Expected net in {monthName}": "Líquido previsto em {monthName}",
- "Gross in {monthName}": "Bruto em {monthName}"
+ "Gross in {monthName}": "Bruto em {monthName}",
+ "{pct}% of the month": "{pct}% do mês",
+ "{pct}% of the day": "{pct}% do dia"
 }

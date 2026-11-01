@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "Saisi en {monthName}",
  "Received in {monthName}": "Reçu en {monthName}",
  "Expected net in {monthName}": "Net attendu en {monthName}",
- "Gross in {monthName}": "Brut en {monthName}"
+ "Gross in {monthName}": "Brut en {monthName}",
+ "{pct}% of the month": "{pct} % du mois",
+ "{pct}% of the day": "{pct} % de la journée"
 }

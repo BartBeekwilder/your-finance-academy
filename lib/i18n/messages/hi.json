@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "{monthName} में दर्ज",
  "Received in {monthName}": "{monthName} में प्राप्त",
  "Expected net in {monthName}": "{monthName} में अपेक्षित शुद्ध",
- "Gross in {monthName}": "{monthName} में सकल"
+ "Gross in {monthName}": "{monthName} में सकल",
+ "{pct}% of the month": "महीने का {pct}%",
+ "{pct}% of the day": "दिन का {pct}%"
 }

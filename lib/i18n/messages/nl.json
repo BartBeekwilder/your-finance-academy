@@ -1206,5 +1206,7 @@
  "Entered in {monthName}": "Ingevoerd in {monthName}",
  "Received in {monthName}": "Ontvangen in {monthName}",
  "Expected net in {monthName}": "Verwacht netto in {monthName}",
- "Gross in {monthName}": "Bruto in {monthName}"
+ "Gross in {monthName}": "Bruto in {monthName}",
+ "{pct}% of the month": "{pct}% van de maand",
+ "{pct}% of the day": "{pct}% van de dag"
 }

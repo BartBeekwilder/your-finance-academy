@@ -166,7 +166,7 @@ export default function CategoryBars({
         <span key={hover ? `${hover.month}-${hover.id}` : `${focus}-${ghost}`} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
           {ghost !== null && months[ghost] ? (
             <>
-              {months[ghost].long} · expected <b style={{ color: "var(--pf-ink)" }}>{money(months[ghost].expected ?? 0, currency)}</b>
+              {months[ghost].long} · {t("expected")} <b style={{ color: "var(--pf-ink)" }}>{money(months[ghost].expected ?? 0, currency)}</b>
               <span style={{ color: "var(--pf-ink-3)" }}>
                 {` · ${kind === "expense" ? t("average of the finished months") : mode === "month" ? t("payday") : t("expected net income")}`}
               </span>
@@ -176,7 +176,9 @@ export default function CategoryBars({
               <span className="pf-cbar-swatch" style={{ background: shownGroup.color }} />
               {shownGroup.name} · {shown.long} ·{" "}
               <b style={{ color: "var(--pf-ink)" }}>{money(shownValue, currency)}</b>{" "}
-              <span style={{ color: "var(--pf-ink-3)" }}>({shown.total ? Math.round((shownValue / shown.total) * 100) : 0}% of the {mode === "year" ? "month" : "day"})</span>
+              <span style={{ color: "var(--pf-ink-3)" }}>({mode === "year"
+                  ? t("{pct}% of the month", { pct: shown.total ? Math.round((shownValue / shown.total) * 100) : 0 })
+                  : t("{pct}% of the day", { pct: shown.total ? Math.round((shownValue / shown.total) * 100) : 0 })})</span>
               {hasBudget && budgetLine?.[hover.month] != null && (
                 <span style={{ color: shownValue > budgetLine[hover.month]! ? "#ff6961" : "var(--pf-ink-3)" }}>
                   {" · "}{t("budget {amount}", { amount: money(budgetLine[hover.month]!, currency) })}

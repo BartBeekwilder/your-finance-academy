@@ -58,6 +58,8 @@
  "{pct}% of {budget} budget",
  "{pct}% of income",
  "{pct}% of spending",
+ "{pct}% of the day",
+ "{pct}% of the month",
  "{pct}% of your home is yours",
  "{pct}% on top of the loan",
  "{pct}% repaid of {amount}",

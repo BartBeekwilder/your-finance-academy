@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "Dicatat di {monthName}",
  "Received in {monthName}": "Diterima di {monthName}",
  "Expected net in {monthName}": "Perkiraan bersih di {monthName}",
- "Gross in {monthName}": "Bruto di {monthName}"
+ "Gross in {monthName}": "Bruto di {monthName}",
+ "{pct}% of the month": "{pct}% dari bulan",
+ "{pct}% of the day": "{pct}% dari hari"
 }

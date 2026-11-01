@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "{monthName}已录入",
  "Received in {monthName}": "{monthName}已收到",
  "Expected net in {monthName}": "{monthName}预计净收入",
- "Gross in {monthName}": "{monthName}税前"
+ "Gross in {monthName}": "{monthName}税前",
+ "{pct}% of the month": "占当月 {pct}%",
+ "{pct}% of the day": "占当天 {pct}%"
 }

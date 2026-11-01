@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "Wprowadzono w {monthName}",
  "Received in {monthName}": "Otrzymano w {monthName}",
  "Expected net in {monthName}": "Oczekiwane netto w {monthName}",
- "Gross in {monthName}": "Brutto w {monthName}"
+ "Gross in {monthName}": "Brutto w {monthName}",
+ "{pct}% of the month": "{pct}% miesiąca",
+ "{pct}% of the day": "{pct}% dnia"
 }

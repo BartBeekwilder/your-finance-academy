@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "Внесено в {monthName}",
  "Received in {monthName}": "Получено в {monthName}",
  "Expected net in {monthName}": "Ожидаемый чистый доход в {monthName}",
- "Gross in {monthName}": "Брутто в {monthName}"
+ "Gross in {monthName}": "Брутто в {monthName}",
+ "{pct}% of the month": "{pct}% месяца",
+ "{pct}% of the day": "{pct}% дня"
 }

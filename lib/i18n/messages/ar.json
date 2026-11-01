@@ -1199,5 +1199,7 @@
  "Entered in {monthName}": "المُدخل في {monthName}",
  "Received in {monthName}": "المستلم في {monthName}",
  "Expected net in {monthName}": "الصافي المتوقع في {monthName}",
- "Gross in {monthName}": "الإجمالي في {monthName}"
+ "Gross in {monthName}": "الإجمالي في {monthName}",
+ "{pct}% of the month": "{pct}% من الشهر",
+ "{pct}% of the day": "{pct}% من اليوم"
 }
