@@ -139,8 +139,21 @@ zh-Hans. Every new UI text must be translatable and translated:
   with a required label; not spending (lib/finance/advances.ts takes them
   out of data.transactions into data.advances); the balance sheet moves
   open ones from Accounts to Amounts to receive (group "Voorgeschoten") with
-  a "Paid back" button. Migration `0011_advances.sql` NOT yet applied on
-  Supabase (local mode works without it). iOS + Android: on the port list.
+  a "Paid back" button; paid with the current account or a credit card
+  (current account preselected). Migration `0011_advances.sql` applied on
+  Supabase (1 Nov, by Bart). iOS + Android: on the port list.
+
+## Done 2026-11-01
+
+- Category chart (Uitgaven/Inkomen per dag/maand): pointing at a category
+  moves it to the bottom of the summary bar with a dashed budget tick (month:
+  that month's budget; year: January up to now) and "x of y budget" above.
+  A lift-to-zero + dotted line in the main chart was tried and removed
+  (Bart didn't like it). Readout '% of the day/month' now translated.
+- Uitgaven and Inkomen: month picker (components/finance/MonthPicker.tsx)
+  in Month view; tiles, figures, live tile (LiveTiles/TileSparkline `at`),
+  per-day chart (CategoryBars `past`) and transactions follow the picked
+  month; a finished month shows no forecast or payday countdown.
 
 ## Done recently (2026-10-22/23)
 
