@@ -1196,5 +1196,8 @@
  "Back to {month}": "Quay lại {month}",
  "{amount} on average": "trung bình {amount}",
  "Variable costs": "Chi phí biến đổi",
- "Entered in {monthName}": "Đã nhập trong {monthName}"
+ "Entered in {monthName}": "Đã nhập trong {monthName}",
+ "Received in {monthName}": "Đã nhận trong {monthName}",
+ "Expected net in {monthName}": "Thực nhận dự kiến trong {monthName}",
+ "Gross in {monthName}": "Tổng trong {monthName}"
 }

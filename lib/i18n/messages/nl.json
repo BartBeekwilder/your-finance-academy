@@ -1203,5 +1203,8 @@
  "Back to {month}": "Terug naar {month}",
  "{amount} on average": "{amount} gemiddeld",
  "Variable costs": "Variabele kosten",
- "Entered in {monthName}": "Ingevoerd in {monthName}"
+ "Entered in {monthName}": "Ingevoerd in {monthName}",
+ "Received in {monthName}": "Ontvangen in {monthName}",
+ "Expected net in {monthName}": "Verwacht netto in {monthName}",
+ "Gross in {monthName}": "Bruto in {monthName}"
 }

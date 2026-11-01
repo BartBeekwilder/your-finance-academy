@@ -1196,5 +1196,8 @@
  "Back to {month}": "{month}に戻る",
  "{amount} on average": "平均 {amount}",
  "Variable costs": "変動費",
- "Entered in {monthName}": "{monthName}の入力"
+ "Entered in {monthName}": "{monthName}の入力",
+ "Received in {monthName}": "{monthName}の受取額",
+ "Expected net in {monthName}": "{monthName}の予想手取り",
+ "Gross in {monthName}": "{monthName}の総支給額"
 }

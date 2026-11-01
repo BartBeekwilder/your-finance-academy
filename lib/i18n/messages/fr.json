@@ -1196,5 +1196,8 @@
  "Back to {month}": "Retour à {month}",
  "{amount} on average": "{amount} en moyenne",
  "Variable costs": "Coûts variables",
- "Entered in {monthName}": "Saisi en {monthName}"
+ "Entered in {monthName}": "Saisi en {monthName}",
+ "Received in {monthName}": "Reçu en {monthName}",
+ "Expected net in {monthName}": "Net attendu en {monthName}",
+ "Gross in {monthName}": "Brut en {monthName}"
 }

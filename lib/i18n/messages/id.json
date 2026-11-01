@@ -1196,5 +1196,8 @@
  "Back to {month}": "Kembali ke {month}",
  "{amount} on average": "rata-rata {amount}",
  "Variable costs": "Biaya variabel",
- "Entered in {monthName}": "Dicatat di {monthName}"
+ "Entered in {monthName}": "Dicatat di {monthName}",
+ "Received in {monthName}": "Diterima di {monthName}",
+ "Expected net in {monthName}": "Perkiraan bersih di {monthName}",
+ "Gross in {monthName}": "Bruto di {monthName}"
 }

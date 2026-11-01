@@ -194,7 +194,9 @@ export default function CategoryBars({
             <>
               {past ? monthYear(now) : t("{period} so far", { period: monthYear(now) })} <b style={{ color: accent }}>{money(mode === "year" ? (months.find((m) => m.isNow)?.total ?? 0) : periodTotal, currency)}</b>
               <span style={{ color: "var(--pf-ink-3)" }}>
-                {(mode === "year" || kind === "income") && !past ? ` · ${t("expected {amount}", { amount: money(monthExpected, currency) })}` : ` · ${t("fixed costs spread over the days")}`}
+                {past
+                  ? kind === "expense" ? ` · ${t("fixed costs spread over the days")}` : ""
+                  : mode === "year" || kind === "income" ? ` · ${t("expected {amount}", { amount: money(monthExpected, currency) })}` : ` · ${t("fixed costs spread over the days")}`}
               </span>
             </>
           )}

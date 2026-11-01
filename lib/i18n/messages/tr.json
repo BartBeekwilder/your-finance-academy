@@ -1196,5 +1196,8 @@
  "Back to {month}": "{month} ayına dön",
  "{amount} on average": "ortalama {amount}",
  "Variable costs": "Değişken giderler",
- "Entered in {monthName}": "{monthName} ayında girilen"
+ "Entered in {monthName}": "{monthName} ayında girilen",
+ "Received in {monthName}": "{monthName} ayında alınan",
+ "Expected net in {monthName}": "{monthName} ayında beklenen net",
+ "Gross in {monthName}": "{monthName} ayında brüt"
 }

@@ -1196,5 +1196,8 @@
  "Back to {month}": "العودة إلى {month}",
  "{amount} on average": "{amount} في المتوسط",
  "Variable costs": "التكاليف المتغيرة",
- "Entered in {monthName}": "المُدخل في {monthName}"
+ "Entered in {monthName}": "المُدخل في {monthName}",
+ "Received in {monthName}": "المستلم في {monthName}",
+ "Expected net in {monthName}": "الصافي المتوقع في {monthName}",
+ "Gross in {monthName}": "الإجمالي في {monthName}"
 }

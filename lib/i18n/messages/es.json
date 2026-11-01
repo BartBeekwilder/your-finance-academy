@@ -1196,5 +1196,8 @@
  "Back to {month}": "Volver a {month}",
  "{amount} on average": "{amount} de media",
  "Variable costs": "Costes variables",
- "Entered in {monthName}": "Registrado en {monthName}"
+ "Entered in {monthName}": "Registrado en {monthName}",
+ "Received in {monthName}": "Recibido en {monthName}",
+ "Expected net in {monthName}": "Neto previsto en {monthName}",
+ "Gross in {monthName}": "Bruto en {monthName}"
 }

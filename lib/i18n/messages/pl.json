@@ -1196,5 +1196,8 @@
  "Back to {month}": "Wróć do {month}",
  "{amount} on average": "średnio {amount}",
  "Variable costs": "Koszty zmienne",
- "Entered in {monthName}": "Wprowadzono w {monthName}"
+ "Entered in {monthName}": "Wprowadzono w {monthName}",
+ "Received in {monthName}": "Otrzymano w {monthName}",
+ "Expected net in {monthName}": "Oczekiwane netto w {monthName}",
+ "Gross in {monthName}": "Brutto w {monthName}"
 }

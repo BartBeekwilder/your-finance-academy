@@ -1196,5 +1196,8 @@
  "Back to {month}": "{month}(으)로 돌아가기",
  "{amount} on average": "평균 {amount}",
  "Variable costs": "변동비",
- "Entered in {monthName}": "{monthName} 입력분"
+ "Entered in {monthName}": "{monthName} 입력분",
+ "Received in {monthName}": "{monthName} 수령액",
+ "Expected net in {monthName}": "{monthName} 예상 실수령액",
+ "Gross in {monthName}": "{monthName} 총액"
 }

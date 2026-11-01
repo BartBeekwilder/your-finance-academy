@@ -1196,5 +1196,8 @@
  "Back to {month}": "Вернуться к {month}",
  "{amount} on average": "в среднем {amount}",
  "Variable costs": "Переменные расходы",
- "Entered in {monthName}": "Внесено в {monthName}"
+ "Entered in {monthName}": "Внесено в {monthName}",
+ "Received in {monthName}": "Получено в {monthName}",
+ "Expected net in {monthName}": "Ожидаемый чистый доход в {monthName}",
+ "Gross in {monthName}": "Брутто в {monthName}"
 }
