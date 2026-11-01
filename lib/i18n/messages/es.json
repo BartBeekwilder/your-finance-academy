@@ -1187,5 +1187,9 @@
  "Income not yet received on an account, and money you advanced": "Ingresos aún no recibidos en una cuenta y dinero que has adelantado",
  "Advanced": "Adelantado",
  "Paid back — the money is on the account again": "Devuelto — el dinero vuelve a estar en la cuenta",
- "Paid back": "Devuelto"
+ "Paid back": "Devuelto",
+ "Budget {amount} / month": "Presupuesto {amount} / mes",
+ "Budget {amount} / day": "Presupuesto {amount} / día",
+ "budget {amount}": "presupuesto {amount}",
+ "of {amount} budget": "de {amount} de presupuesto"
 }

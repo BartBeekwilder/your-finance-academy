@@ -4572,3 +4572,43 @@ span.pf-cmp-chip { cursor: default; }
 }
 .pf-bal-repaid:hover { background: rgba(102, 212, 207, 0.2); }
 .pf-bal-repaid:active { transform: scale(0.94); }
+
+/* Category chart: the picked category's budget, a faint red dotted line. */
+.pf-carea-budget { animation: pf-fade-in 0.35s ease-out 0.15s both; }
+.pf-cbar-budget {
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  height: 0;
+  border-top: 1.3px dotted rgba(255, 69, 58, 0.7);
+  pointer-events: none;
+  z-index: 2;
+  animation: pf-fade-in 0.35s ease-out both;
+  transition: bottom 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* The summary bar: where the period's budget for the picked category ends. */
+.pf-cbar-budget-tick {
+  position: absolute;
+  left: -5px;
+  right: -5px;
+  height: 0;
+  border-top: 1.5px dashed rgba(255, 69, 58, 0.9);
+  pointer-events: none;
+  z-index: 2;
+  animation: pf-fade-in 0.35s ease-out both;
+  transition: bottom 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pf-cbar-budget-tick em {
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  translate: -50% 0;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background: rgba(20, 20, 22, 0.9);
+  color: #ff6961;
+  font-size: 0.6rem;
+  font-style: normal;
+  font-weight: 600;
+  white-space: nowrap;
+}

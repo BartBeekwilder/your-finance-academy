@@ -1,6 +1,7 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useMotionMode } from "@/lib/motion";
 
 // The category chart drawn as stacked areas (like App Store Connect's "Top
 // Apps"): each group a band on top of the ones below, its top edge a line in
@@ -8,6 +9,11 @@ import { useLayoutEffect, useRef, useState } from "react";
 // bars: invisible columns at each day / month keep the x positions in step
 // with the labels, and pointing picks the band under the pointer. Buckets
 // ahead (future) show the expected total as a dashed line.
+//
+// Pointing at a band lifts it out of the stack: it glides down onto the
+// zero line, so its height is its own amount — and its budget (per day in
+// the month view, per month in the year view) shows as a faint red dotted
+// line to measure it against.
 
 type Bucket = { key: string; by: Map<string, number>; total: number; future: boolean; expected?: number };
 type Group = { id: string; color: string };
@@ -22,6 +28,8 @@ export default function CategoryAreas({
   hoverIndex,
   onHover,
   onPick,
+  budget = null,
+  budgetLabel,
 }: {
   buckets: Bucket[];
   stack: Group[];
@@ -32,6 +40,9 @@ export default function CategoryAreas({
   hoverIndex: number | null;
   onHover: (h: { month: number; id: string } | null) => void;
   onPick: (id: string, el: Element) => void;
+  /** The lit group's budget per bucket (null: none). */
+  budget?: (number | null)[] | null;
+  budgetLabel?: string;
 }) {
   const plot = useRef<HTMLDivElement>(null);
   const [xs, setXs] = useState<number[]>([]);
@@ -52,6 +63,39 @@ export default function CategoryAreas({
     return () => ro.disconnect();
   }, [buckets.length]);
 
+  // The lifted band and how far it has glided down (0 in the stack, 1 on
+  // the zero line), eased over 0.42 s; letting go glides it back up.
+  const motion = useMotionMode();
+  const [liftId, setLiftId] = useState<string | null>(null);
+  const [k, setK] = useState(0);
+  const kRef = useRef(0);
+  useEffect(() => {
+    if (lit && lit !== liftId) {
+      kRef.current = 0;
+      setLiftId(lit);
+    }
+    const target = lit ? 1 : 0;
+    if (motion === "off") {
+      kRef.current = target;
+      setK(target);
+      if (!lit) setLiftId(null);
+      return;
+    }
+    const from = kRef.current;
+    const t0 = performance.now();
+    let raf = 0;
+    const step = (ms: number) => {
+      const p = Math.min(1, (ms - t0) / 420);
+      kRef.current = from + (target - from) * (1 - (1 - p) ** 3);
+      setK(kRef.current);
+      if (p < 1) raf = requestAnimationFrame(step);
+      else if (!lit) setLiftId(null);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lit, motion]);
+
   const y = (v: number) => height - (v / max) * height;
   const done = buckets.map((b, i) => ({ b, i })).filter(({ b }) => !b.future);
   const ready = xs.length === buckets.length;
@@ -62,6 +106,16 @@ export default function CategoryAreas({
     const upper = done.map(({ b }, k) => lower[k] + (b.by.get(g.id) ?? 0));
     return { g, lower, upper };
   });
+  // The lifted band slides down by k of its base, and is drawn last (on top).
+  const lifted = bands.findIndex(({ g }) => g.id === liftId);
+  if (lifted >= 0) {
+    const b = bands[lifted];
+    const lower = b.lower.map((v) => v * (1 - k));
+    bands.splice(lifted, 1);
+    bands.push({ g: b.g, lower, upper: lower.map((v, j) => v + (b.upper[j] - b.lower[j])) });
+  }
+  const budgetPts = budget && lit && ready ? budget.map((v, i) => (v != null && xs[i] !== undefined ? { x: xs[i], y: Math.max(4, y(v)) } : null)) : null;
+  const budgetShown = budgetPts?.filter((p): p is { x: number; y: number } => p !== null) ?? [];
   const pts = (vals: number[]) => done.map(({ i }, k) => `${xs[i]?.toFixed(1)},${y(vals[k]).toFixed(1)}`);
   const ahead = buckets.map((b, i) => ({ b, i })).filter(({ b }) => b.future && b.expected);
   const lastDone = done[done.length - 1];
@@ -114,6 +168,22 @@ export default function CategoryAreas({
               strokeDasharray="4 5"
             />
           )}
+          {budgetShown.length > 0 && (() => {
+            // One budget for every day: a level line across the whole chart.
+            const level = budgetShown.every((p) => p.y === budgetShown[0].y);
+            const line = level ? [{ x: 0, y: budgetShown[0].y }, { x: w, y: budgetShown[0].y }] : budgetShown;
+            const end = line[line.length - 1];
+            return (
+              <g key={lit ?? ""} className="pf-carea-budget">
+                <path d={`M${line.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" L")}`} fill="none" stroke="rgba(255, 69, 58, 0.6)" strokeWidth={1.3} strokeDasharray="2 4" strokeLinecap="round" />
+                {budgetLabel && (
+                  <text x={end.x - 4} y={end.y - 6} textAnchor="end" fontSize={10} fill="rgba(255, 105, 97, 0.85)">
+                    {budgetLabel}
+                  </text>
+                )}
+              </g>
+            );
+          })()}
           {hoverIndex !== null && xs[hoverIndex] !== undefined && !buckets[hoverIndex].future && (
             <g>
               <line x1={xs[hoverIndex]} x2={xs[hoverIndex]} y1={0} y2={height} stroke="rgba(255,255,255,0.25)" strokeDasharray="2 3" />

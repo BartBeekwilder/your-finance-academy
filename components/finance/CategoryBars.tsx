@@ -5,7 +5,7 @@ import { setCategoryAreas, useCategoryAreas, useShowAxes } from "@/lib/prefs";
 import { ChartArea, ChartColumnStacked } from "lucide-react";
 import CategoryAreas from "./CategoryAreas";
 import { useState } from "react";
-import { live, num, projectedNetIncome, yearForecast } from "@/lib/finance/calc";
+import { categoryYear, live, num, projectedNetIncome, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear, shortMonth, monthName } from "@/lib/finance/format";
 import type { FinanceData, Transaction } from "@/lib/finance/types";
 import type { Mode } from "./LiveTiles";
@@ -33,6 +33,11 @@ import Segmented from "./Segmented";
 // switches. Pointing at a block — or a row of the breakdown — lights that
 // group up in every bar and dims the rest; the readout above says what it
 // is. Clicking a category opens its sheet.
+//
+// Pointing at a category (spending) lifts it to the bottom of every bar and
+// shows its budget: a faint red dotted line in the chart (per day in the
+// month view, per month in the year view) and a dashed tick on the summary
+// bar where the period's budget ends.
 //
 // To the right, one tall bar sums up the whole period — this month so far
 // (Month) or the year so far (Year) — stacked the same way, with the
@@ -110,6 +115,23 @@ export default function CategoryBars({
   const periodTop = Math.max(periodTotal, periodExpected, 1);
   const open = (g: Group, el: Element) => g.category && openCategory(g.id, el);
 
+  // The picked category's budget (same months as its dashboard card).
+  const litCat = kind === "expense" && lit ? live(data.categories).find((c) => c.id === lit && c.parent_id === null) : undefined;
+  const litYear = litCat ? categoryYear(data, litCat, now).months : null;
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const monthBudget = litYear?.[now.getMonth()]?.budget ?? null;
+  const budgetLine = litYear
+    ? months.map((_, i) => (mode === "year" ? (litYear[i]?.budget ?? null) : monthBudget != null ? monthBudget / daysInMonth : null))
+    : null;
+  const hasBudget = !!budgetLine?.some((v) => v != null);
+  const periodBudget = !litYear ? null : mode === "year" ? litYear.slice(0, now.getMonth() + 1).reduce((s, m) => s + (m.budget ?? 0), 0) || null : monthBudget;
+  const budgetLabel =
+    mode === "year"
+      ? monthBudget != null ? t("Budget {amount} / month", { amount: money(monthBudget, currency) }) : undefined
+      : monthBudget != null ? t("Budget {amount} / day", { amount: money(monthBudget / daysInMonth, currency) }) : undefined;
+  // The picked group first = at the bottom of every bar.
+  const ordered = lit ? [...stack.filter((s) => s.id === lit), ...stack.filter((s) => s.id !== lit)] : stack;
+
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 10, ["--pf-cbar-accent" as string]: kind === "expense" ? "255, 69, 58" : "48, 209, 88" }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "baseline" }}>
@@ -156,6 +178,18 @@ export default function CategoryBars({
               {shownGroup.name} · {shown.long} ·{" "}
               <b style={{ color: "var(--pf-ink)" }}>{money(shownValue, currency)}</b>{" "}
               <span style={{ color: "var(--pf-ink-3)" }}>({shown.total ? Math.round((shownValue / shown.total) * 100) : 0}% of the {mode === "year" ? "month" : "day"})</span>
+              {hasBudget && budgetLine?.[hover.month] != null && (
+                <span style={{ color: shownValue > budgetLine[hover.month]! ? "#ff6961" : "var(--pf-ink-3)" }}>
+                  {" · "}{t("budget {amount}", { amount: money(budgetLine[hover.month]!, currency) })}
+                </span>
+              )}
+            </>
+          ) : focus && litCat && periodBudget ? (
+            <>
+              <span className="pf-cbar-swatch" style={{ background: stack.find((s) => s.id === focus)?.color }} />
+              {litCat.name} ·{" "}
+              <b style={{ color: (periodBy.get(focus) ?? 0) > periodBudget ? "#ff6961" : "var(--pf-ink)" }}>{money(periodBy.get(focus) ?? 0, currency)}</b>{" "}
+              <span style={{ color: "var(--pf-ink-3)" }}>{t("of {amount} budget", { amount: money(periodBudget, currency) })}</span>
             </>
           ) : (
             <>
@@ -196,6 +230,8 @@ export default function CategoryBars({
                   const g = stack.find((s) => s.id === id);
                   if (g) open(g, el);
                 }}
+                budget={hasBudget ? budgetLine : null}
+                budgetLabel={budgetLabel}
               />
             ) : (
             <div key={mode} className="pf-cbar-plot" data-mode={mode} style={{ height: H }} onMouseLeave={() => setHover(null)}>
@@ -217,8 +253,11 @@ export default function CategoryBars({
                       style={{ height: `${(m.expected / max) * 100}%`, animationDelay: `${0.8 + i * 0.045}s` }}
                     />
                   )}
+                  {hasBudget && budgetLine?.[i] != null && (
+                    <span className="pf-cbar-budget" style={{ bottom: `${Math.min(budgetLine[i]! / max, 1) * 100}%` }} />
+                  )}
                   <div className="pf-cbar" style={{ height: `${(m.total / max) * 100}%`, animationDelay: `${i * (mode === "year" ? 45 : 18)}ms` }}>
-                    {stack.map((s) => {
+                    {ordered.map((s) => {
                       const v = m.by.get(s.id);
                       if (!v) return null;
                       return (
@@ -262,8 +301,13 @@ export default function CategoryBars({
           <div style={{ display: "flex", gap: 12, alignItems: "stretch", minHeight: 0 }}>
             <div key={`s${mode}`} className="pf-cbar-total" style={{ height: H }}>
               {periodExpected > periodTotal && <span className="pf-cbar-expected" style={{ height: "100%", animationDelay: "0.9s" }} />}
+              {periodBudget != null && (
+                <span key={lit} className="pf-cbar-budget-tick" style={{ bottom: `${Math.min(periodBudget / periodTop, 1) * 100}%` }}>
+                  <em>{t("budget {amount}", { amount: money(periodBudget, currency, { compact: periodBudget >= 1000 }) })}</em>
+                </span>
+              )}
               <div className="pf-cbar" style={{ height: `${(periodTotal / periodTop) * 100}%`, animationDelay: "0.25s" }}>
-                {stack.map((s) => {
+                {ordered.map((s) => {
                   const v = periodBy.get(s.id);
                   if (!v) return null;
                   return (

@@ -1187,5 +1187,9 @@
  "Income not yet received on an account, and money you advanced": "Dochód jeszcze nieotrzymany na koncie i pieniądze, które wyłożyłeś",
  "Advanced": "Wyłożone",
  "Paid back — the money is on the account again": "Zwrócone — pieniądze są znów na koncie",
- "Paid back": "Zwrócone"
+ "Paid back": "Zwrócone",
+ "Budget {amount} / month": "Budżet {amount} / mies.",
+ "Budget {amount} / day": "Budżet {amount} / dzień",
+ "budget {amount}": "budżet {amount}",
+ "of {amount} budget": "z budżetu {amount}"
 }

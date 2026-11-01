@@ -1194,5 +1194,9 @@
  "Income not yet received on an account, and money you advanced": "Inkomen nog niet op een rekening ontvangen, en geld dat je hebt voorgeschoten",
  "Advanced": "Voorgeschoten",
  "Paid back — the money is on the account again": "Terugbetaald — het geld staat weer op de rekening",
- "Paid back": "Terug ontvangen"
+ "Paid back": "Terug ontvangen",
+ "Budget {amount} / month": "Budget {amount} / maand",
+ "Budget {amount} / day": "Budget {amount} / dag",
+ "budget {amount}": "budget {amount}",
+ "of {amount} budget": "van {amount} budget"
 }
