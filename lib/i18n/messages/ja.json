@@ -1188,8 +1188,6 @@
  "Advanced": "立て替え",
  "Paid back — the money is on the account again": "返金済み — お金は口座に戻りました",
  "Paid back": "返金済み",
- "Budget {amount} / month": "予算 {amount} / 月",
- "Budget {amount} / day": "予算 {amount} / 日",
  "budget {amount}": "予算 {amount}",
  "of {amount} budget": "予算 {amount} のうち"
 }

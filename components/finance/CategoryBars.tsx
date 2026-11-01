@@ -34,10 +34,8 @@ import Segmented from "./Segmented";
 // group up in every bar and dims the rest; the readout above says what it
 // is. Clicking a category opens its sheet.
 //
-// Pointing at a category (spending) lifts it to the bottom of every bar and
-// shows its budget: a faint red dotted line in the chart (per day in the
-// month view, per month in the year view) and a dashed tick on the summary
-// bar where the period's budget ends.
+// Pointing at a category (spending) moves it to the bottom of the summary
+// bar, with a dashed tick where the period's budget ends.
 //
 // To the right, one tall bar sums up the whole period — this month so far
 // (Month) or the year so far (Year) — stacked the same way, with the
@@ -120,16 +118,13 @@ export default function CategoryBars({
   const litYear = litCat ? categoryYear(data, litCat, now).months : null;
   const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
   const monthBudget = litYear?.[now.getMonth()]?.budget ?? null;
+  // Per bar, for the readout: that month's budget, or this month's per day.
   const budgetLine = litYear
     ? months.map((_, i) => (mode === "year" ? (litYear[i]?.budget ?? null) : monthBudget != null ? monthBudget / daysInMonth : null))
     : null;
   const hasBudget = !!budgetLine?.some((v) => v != null);
   const periodBudget = !litYear ? null : mode === "year" ? litYear.slice(0, now.getMonth() + 1).reduce((s, m) => s + (m.budget ?? 0), 0) || null : monthBudget;
-  const budgetLabel =
-    mode === "year"
-      ? monthBudget != null ? t("Budget {amount} / month", { amount: money(monthBudget, currency) }) : undefined
-      : monthBudget != null ? t("Budget {amount} / day", { amount: money(monthBudget / daysInMonth, currency) }) : undefined;
-  // The picked group first = at the bottom of every bar.
+  // The summary bar: the picked group first = at the bottom.
   const ordered = lit ? [...stack.filter((s) => s.id === lit), ...stack.filter((s) => s.id !== lit)] : stack;
 
   return (
@@ -230,8 +225,6 @@ export default function CategoryBars({
                   const g = stack.find((s) => s.id === id);
                   if (g) open(g, el);
                 }}
-                budget={hasBudget ? budgetLine : null}
-                budgetLabel={budgetLabel}
               />
             ) : (
             <div key={mode} className="pf-cbar-plot" data-mode={mode} style={{ height: H }} onMouseLeave={() => setHover(null)}>
@@ -253,11 +246,8 @@ export default function CategoryBars({
                       style={{ height: `${(m.expected / max) * 100}%`, animationDelay: `${0.8 + i * 0.045}s` }}
                     />
                   )}
-                  {hasBudget && budgetLine?.[i] != null && (
-                    <span className="pf-cbar-budget" style={{ bottom: `${Math.min(budgetLine[i]! / max, 1) * 100}%` }} />
-                  )}
                   <div className="pf-cbar" style={{ height: `${(m.total / max) * 100}%`, animationDelay: `${i * (mode === "year" ? 45 : 18)}ms` }}>
-                    {ordered.map((s) => {
+                    {stack.map((s) => {
                       const v = m.by.get(s.id);
                       if (!v) return null;
                       return (

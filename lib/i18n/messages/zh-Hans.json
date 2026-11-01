@@ -1188,8 +1188,6 @@
  "Advanced": "垫付",
  "Paid back — the money is on the account again": "已还 — 钱已回到账户",
  "Paid back": "已收回",
- "Budget {amount} / month": "预算 {amount} / 月",
- "Budget {amount} / day": "预算 {amount} / 天",
  "budget {amount}": "预算 {amount}",
  "of {amount} budget": "预算 {amount} 中"
 }

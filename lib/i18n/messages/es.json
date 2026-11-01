@@ -1188,8 +1188,6 @@
  "Advanced": "Adelantado",
  "Paid back — the money is on the account again": "Devuelto — el dinero vuelve a estar en la cuenta",
  "Paid back": "Devuelto",
- "Budget {amount} / month": "Presupuesto {amount} / mes",
- "Budget {amount} / day": "Presupuesto {amount} / día",
  "budget {amount}": "presupuesto {amount}",
  "of {amount} budget": "de {amount} de presupuesto"
 }

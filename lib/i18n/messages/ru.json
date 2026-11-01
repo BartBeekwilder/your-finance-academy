@@ -1188,8 +1188,6 @@
  "Advanced": "Выплачено за других",
  "Paid back — the money is on the account again": "Возвращено — деньги снова на счёте",
  "Paid back": "Возвращено",
- "Budget {amount} / month": "Бюджет {amount} / мес.",
- "Budget {amount} / day": "Бюджет {amount} / день",
  "budget {amount}": "бюджет {amount}",
  "of {amount} budget": "из бюджета {amount}"
 }
