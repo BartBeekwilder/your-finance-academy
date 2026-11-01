@@ -1189,5 +1189,12 @@
  "Paid back — the money is on the account again": "返金済み — お金は口座に戻りました",
  "Paid back": "返金済み",
  "budget {amount}": "予算 {amount}",
- "of {amount} budget": "予算 {amount} のうち"
+ "of {amount} budget": "予算 {amount} のうち",
+ "Choose a month": "月を選択",
+ "Previous year": "前の年",
+ "Next year": "次の年",
+ "Back to {month}": "{month}に戻る",
+ "{amount} on average": "平均 {amount}",
+ "Variable costs": "変動費",
+ "Entered in {monthName}": "{monthName}の入力"
 }

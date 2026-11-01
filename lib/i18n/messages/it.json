@@ -1189,5 +1189,12 @@
  "Paid back — the money is on the account again": "Restituito — il denaro è di nuovo sul conto",
  "Paid back": "Restituito",
  "budget {amount}": "budget {amount}",
- "of {amount} budget": "su {amount} di budget"
+ "of {amount} budget": "su {amount} di budget",
+ "Choose a month": "Scegli un mese",
+ "Previous year": "Anno precedente",
+ "Next year": "Anno successivo",
+ "Back to {month}": "Torna a {month}",
+ "{amount} on average": "{amount} in media",
+ "Variable costs": "Costi variabili",
+ "Entered in {monthName}": "Inserito a {monthName}"
 }

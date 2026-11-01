@@ -1189,5 +1189,12 @@
  "Paid back — the money is on the account again": "تم الرد — المال عاد إلى الحساب",
  "Paid back": "تم الاسترداد",
  "budget {amount}": "الميزانية {amount}",
- "of {amount} budget": "من ميزانية {amount}"
+ "of {amount} budget": "من ميزانية {amount}",
+ "Choose a month": "اختر شهرًا",
+ "Previous year": "السنة السابقة",
+ "Next year": "السنة التالية",
+ "Back to {month}": "العودة إلى {month}",
+ "{amount} on average": "{amount} في المتوسط",
+ "Variable costs": "التكاليف المتغيرة",
+ "Entered in {monthName}": "المُدخل في {monthName}"
 }

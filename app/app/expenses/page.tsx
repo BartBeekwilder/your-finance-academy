@@ -14,14 +14,17 @@ import { householdOf } from "@/lib/finance/household";
 import { scopeToCategory } from "@/lib/finance/scope";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
+import MonthPicker from "@/components/finance/MonthPicker";
 import Stat, { ExpectedBar } from "@/components/finance/Stat";
 import { projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 
 // The Income page's counterpart for spending: the dashboard's live Spent
 // tile (Month / Year, zoom and scrub), a few headline figures, and the last
-// twelve months with their fixed / variable split — or, in Month view, this
-// month's expenses day by day.
+// twelve months with their fixed / variable split — or, in Month view, the
+// month's expenses day by day. In Month view a month picker looks back at an
+// earlier month: the tiles, figures, chart and list follow it (a finished
+// month is shown as it ended, without a forecast).
 
 export default function ExpensesPage() {
   const { data: all, now } = useFinance();
@@ -34,17 +37,27 @@ export default function ExpensesPage() {
   const hasSubs = !!scope && all.categories.some((c) => c.parent_id === scope && !c.deleted_at);
   const accent = scopeCat ? `#${scopeCat.color_hex}` : "var(--pf-red)";
   const currency = data.profile.currency_code;
-  const month = new Date(now.getFullYear(), now.getMonth(), 1);
-  const s = summarize(data.transactions, month);
   // The stats follow the tile's Month / Year toggle.
   const [mode, setMode] = useState<Mode>("month");
+  // Month view: the month looked at — this one, or an earlier one picked.
+  const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const [picked, setPicked] = useState(thisMonth);
+  const past = mode === "month" && picked < thisMonth;
+  // A finished month is seen from its last moment.
+  const at = past ? new Date(picked.getFullYear(), picked.getMonth() + 1, 0, 23, 59, 59) : now;
+  const month = past ? picked : thisMonth;
+  const s = summarize(data.transactions, month);
+  // Pickable: from the first month with spending up to this one.
+  const firstSpend = all.transactions.reduce((m, x) => (x.type === "expense" && x.date < m ? x.date : m), thisMonth.toISOString());
+  const firstMonth = new Date(new Date(firstSpend).getFullYear(), new Date(firstSpend).getMonth(), 1);
+  const spentMonths = new Set(all.transactions.filter((x) => x.type === "expense").map((x) => x.date.slice(0, 7)));
   const together = householdOf(all.profile).length > 0;
   const [view, setView] = useState<"together" | "people">("together");
   const thisYear = Array.from({ length: now.getMonth() + 1 }, (_, m) => summarize(data.transactions, new Date(now.getFullYear(), m, 1)));
   const yearSpent = thisYear.reduce((t, m) => t + m.spent, 0);
   const yearFixed = thisYear.reduce((t, m) => t + m.fixed, 0);
   // Finished months as entered, plus the forecast for this month and the rest.
-  const forecast = yearForecast(data, now);
+  const forecast = yearForecast(data, at);
   const expectedYear = thisYear.slice(0, -1).reduce((t, m) => t + m.spent, 0) + forecast.reduce((t, f) => t + f.spent, 0);
   const monthName = monthLabel(month);
 
@@ -62,11 +75,20 @@ export default function ExpensesPage() {
         <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Expenses")}</h1>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           {together && <Segmented label={t("People")} value={view} onChange={setView} options={[{ value: "together", label: t("Together") }, { value: "people", label: t("Who paid") }]} />}
+          {mode === "month" && (
+            <MonthPicker
+              value={month}
+              onChange={setPicked}
+              min={firstMonth}
+              max={thisMonth}
+              marked={(d) => spentMonths.has(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`)}
+            />
+          )}
           <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
         </div>
       </header>
 
-      <CategoryTiles data={all} now={now} mode={mode} currency={currency} selected={scope} onSelect={setScope} />
+      <CategoryTiles data={all} now={at} mode={mode} currency={currency} selected={scope} onSelect={setScope} />
 
       <div
         key={scope ?? "all"}
@@ -99,17 +121,27 @@ export default function ExpensesPage() {
         variable={s.variable}
         currency={currency}
         mode={mode}
+        at={past ? at : undefined}
       />
 
-      <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+      <div key={`${mode}${month.getMonth()}`} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
         {mode === "month" ? (
           <>
-            <Stat
-              label={t("Entered this month")}
-              value={money(s.spent, currency)}
-              color="var(--pf-red)"
-              progress={forecast[0].spent ? { share: s.spent / forecast[0].spent, of: t("{amount} expected", { amount: money(forecast[0].spent, currency) }) } : undefined}
-            />
+            {past ? (
+              <Stat
+                label={t("Spent in {monthName}", { monthName })}
+                value={money(s.spent, currency)}
+                color="var(--pf-red)"
+                progress={average ? { share: s.spent / average, of: t("{amount} on average", { amount: money(average, currency) }) } : undefined}
+              />
+            ) : (
+              <Stat
+                label={t("Entered this month")}
+                value={money(s.spent, currency)}
+                color="var(--pf-red)"
+                progress={forecast[0].spent ? { share: s.spent / forecast[0].spent, of: t("{amount} expected", { amount: money(forecast[0].spent, currency) }) } : undefined}
+              />
+            )}
             <Stat label={t("Fixed costs / month")} value={money(s.fixed, currency)} />
           </>
         ) : (
@@ -123,7 +155,9 @@ export default function ExpensesPage() {
             <Stat label={t("Fixed costs this year")} value={money(yearFixed, currency)} />
           </>
         )}
-        {mode === "month" ? (
+        {past ? (
+          <Stat label={t("Variable costs")} value={money(s.variable, currency)} />
+        ) : mode === "month" ? (
           <Stat label={t("Expected this month")} value={money(forecast[0].spent, currency)} hint={t("Forecast to the end of {monthName}", { monthName })} side={<ExpectedBar done={s.spent} expected={forecast[0].spent} color={accent} />} />
         ) : (
           <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} side={<ExpectedBar done={yearSpent} expected={expectedYear} color={accent} />} />
@@ -134,9 +168,9 @@ export default function ExpensesPage() {
       {/* Narrowed to a category without subcategories, the per-day chart
           only repeats the tile above — leave it out. */}
       {together && view === "people" ? (
-        <PeopleSplit data={data} now={now} currency={currency} kind="expense" mode={mode} />
+        <PeopleSplit data={data} now={at} currency={currency} kind="expense" mode={mode} />
       ) : (
-        !(scopeCat && !hasSubs) && <CategoryBars data={data} now={now} currency={currency} mode={mode} scopeName={scopeName} />
+        !(scopeCat && !hasSubs) && <CategoryBars key={month.getTime()} data={data} now={at} currency={currency} mode={mode} scopeName={scopeName} past={past} />
       )}
 
       <section style={{ display: "grid", gap: 12 }}>

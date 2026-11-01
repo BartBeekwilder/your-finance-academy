@@ -1189,5 +1189,12 @@
  "Paid back — the money is on the account again": "Sudah diganti — uangnya kembali di rekening",
  "Paid back": "Sudah diganti",
  "budget {amount}": "anggaran {amount}",
- "of {amount} budget": "dari anggaran {amount}"
+ "of {amount} budget": "dari anggaran {amount}",
+ "Choose a month": "Pilih bulan",
+ "Previous year": "Tahun sebelumnya",
+ "Next year": "Tahun berikutnya",
+ "Back to {month}": "Kembali ke {month}",
+ "{amount} on average": "rata-rata {amount}",
+ "Variable costs": "Biaya variabel",
+ "Entered in {monthName}": "Dicatat di {monthName}"
 }

@@ -1189,5 +1189,12 @@
  "Paid back — the money is on the account again": "已还 — 钱已回到账户",
  "Paid back": "已收回",
  "budget {amount}": "预算 {amount}",
- "of {amount} budget": "预算 {amount} 中"
+ "of {amount} budget": "预算 {amount} 中",
+ "Choose a month": "选择月份",
+ "Previous year": "上一年",
+ "Next year": "下一年",
+ "Back to {month}": "返回 {month}",
+ "{amount} on average": "平均 {amount}",
+ "Variable costs": "可变支出",
+ "Entered in {monthName}": "{monthName}已录入"
 }

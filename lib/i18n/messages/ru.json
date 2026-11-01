@@ -1189,5 +1189,12 @@
  "Paid back — the money is on the account again": "Возвращено — деньги снова на счёте",
  "Paid back": "Возвращено",
  "budget {amount}": "бюджет {amount}",
- "of {amount} budget": "из бюджета {amount}"
+ "of {amount} budget": "из бюджета {amount}",
+ "Choose a month": "Выбрать месяц",
+ "Previous year": "Предыдущий год",
+ "Next year": "Следующий год",
+ "Back to {month}": "Вернуться к {month}",
+ "{amount} on average": "в среднем {amount}",
+ "Variable costs": "Переменные расходы",
+ "Entered in {monthName}": "Внесено в {monthName}"
 }

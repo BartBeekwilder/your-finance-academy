@@ -54,6 +54,7 @@ export default memo(function TileSparkline({
   currency,
   offset = 0,
   absolute = false,
+  at,
 }: {
   data: FinanceData;
   series: Series;
@@ -65,9 +66,13 @@ export default memo(function TileSparkline({
   offset?: number;
   /** Amount per day / month (bars) instead of the running total. */
   absolute?: boolean;
+  /** A moment in the past to draw instead of now (an earlier month picked:
+   *  its last moment), standing still. */
+  at?: number;
 }) {
   const [sel, setSel] = useState<number | null>(null);
-  const tick = useNow(1000);
+  const ticking = useNow(1000, at === undefined);
+  const tick = at ?? ticking;
 
   const live = new Date(tick);
   const year = live.getFullYear();
@@ -102,7 +107,7 @@ export default memo(function TileSparkline({
   for (const p of monthToDate(data, live).points) {
     const t = p.day === live.getDate() ? current + fraction : current + p.day / days;
     const label =
-      p.day === live.getDate()
+      p.day === live.getDate() && at === undefined
         ? tr("Today · live")
         : new Date(year, current, p.day).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" });
     pts.push({ t, v: before + pick(p.income, p.spent), fx: fxBefore + thisMonth.fixed * (t - current), label, day: true });

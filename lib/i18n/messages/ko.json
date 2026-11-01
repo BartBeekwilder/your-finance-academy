@@ -1189,5 +1189,12 @@
  "Paid back — the money is on the account again": "돌려받음 — 돈이 다시 계좌에 있습니다",
  "Paid back": "돌려받음",
  "budget {amount}": "예산 {amount}",
- "of {amount} budget": "예산 {amount} 중"
+ "of {amount} budget": "예산 {amount} 중",
+ "Choose a month": "월 선택",
+ "Previous year": "이전 연도",
+ "Next year": "다음 연도",
+ "Back to {month}": "{month}(으)로 돌아가기",
+ "{amount} on average": "평균 {amount}",
+ "Variable costs": "변동비",
+ "Entered in {monthName}": "{monthName} 입력분"
 }

@@ -41,6 +41,7 @@ export default function LiveTiles({
   onModeChange,
   mode,
   scopeName,
+  at,
 }: {
   data: FinanceData;
   monthStart: Date;
@@ -57,10 +58,13 @@ export default function LiveTiles({
   mode?: Mode;
   /** The category the page is narrowed to, shown in the Spent title. */
   scopeName?: string;
+  /** An earlier month picked: its last moment — the tiles stand still there. */
+  at?: Date;
 }) {
   // As often as the live decimals need (80 ms at five, so the sub-cent
-  // digits visibly stream; Settings › Animations).
-  const now = useTickerNow();
+  // digits visibly stream; Settings › Animations). Still for a past month.
+  const ticking = useTickerNow(!at);
+  const now = at ? at.getTime() : ticking;
 
   const start = monthStart.getTime();
   const days = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0).getDate();
@@ -92,12 +96,12 @@ export default function LiveTiles({
         before={before.income}
         color={() => GREEN}
         currency={currency}
-        chart={(z, _v, abs) => <TileSparkline data={data} series="income" color="#30d158" z={z} currency={currency} absolute={abs} />}
+        chart={(z, _v, abs) => <TileSparkline data={data} series="income" color="#30d158" z={z} currency={currency} absolute={abs} at={at?.getTime()} />}
       >
         {(mode) =>
           mode === "month" ? (
             <>
-              <Sub label={t("Entered so far")} value={enteredIncome} color={GREEN} currency={currency} />
+              <Sub label={(at ? t("Entered in {monthName}", { monthName: month }) : t("Entered so far"))} value={enteredIncome} color={GREEN} currency={currency} />
               <Sub label="≈" value={monthlyIncome / days} suffix={t("/ day net")} color={GREEN} currency={currency} />
               <Bar label={t("{v1}% of month elapsed", { v1: Math.round(fraction * 100) })} parts={elapsed(fraction, GREEN, "rgba(48,209,88,.25)")} />
             </>
@@ -120,7 +124,7 @@ export default function LiveTiles({
         before={before.spent}
         color={() => RED}
         currency={currency}
-        chart={(z, _v, abs) => <TileSparkline data={data} series="spent" color="#ff453a" z={z} currency={currency} absolute={abs} />}
+        chart={(z, _v, abs) => <TileSparkline data={data} series="spent" color="#ff453a" z={z} currency={currency} absolute={abs} at={at?.getTime()} />}
       >
         {(mode) => {
           const total = mode === "month" ? spentTotal : before.spent + spentTotal;
@@ -128,7 +132,7 @@ export default function LiveTiles({
           const vary = mode === "month" ? variable : before.variable + variable;
           return (
             <>
-              <Sub label={mode === "month" ? t("Entered so far") : t("Entered this year")} value={total} color={RED} currency={currency} />
+              <Sub label={mode === "month" ? (at ? t("Entered in {monthName}", { monthName: month }) : t("Entered so far")) : t("Entered this year")} value={total} color={RED} currency={currency} />
               {mode === "month" ? (
                 <Sub label="≈" value={spentTotal / dayOfMonth} suffix={t("/ day")} color={RED} currency={currency} />
               ) : (
@@ -155,7 +159,7 @@ export default function LiveTiles({
         color={(v) => (v >= 0 ? BLUE : RED)}
         currency={currency}
         last
-        chart={(z, v, abs) => <TileSparkline data={data} series="balance" color={v >= 0 ? "#0a84ff" : "#ff453a"} z={z} currency={currency} absolute={abs} />}
+        chart={(z, v, abs) => <TileSparkline data={data} series="balance" color={v >= 0 ? "#0a84ff" : "#ff453a"} z={z} currency={currency} absolute={abs} at={at?.getTime()} />}
       >
         {(mode) => {
           const inc = mode === "month" ? liveIncome : ytd.income;

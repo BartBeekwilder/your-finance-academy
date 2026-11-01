@@ -1189,5 +1189,12 @@
  "Paid back — the money is on the account again": "Đã trả lại — tiền đã về tài khoản",
  "Paid back": "Đã nhận lại",
  "budget {amount}": "ngân sách {amount}",
- "of {amount} budget": "trên ngân sách {amount}"
+ "of {amount} budget": "trên ngân sách {amount}",
+ "Choose a month": "Chọn tháng",
+ "Previous year": "Năm trước",
+ "Next year": "Năm sau",
+ "Back to {month}": "Quay lại {month}",
+ "{amount} on average": "trung bình {amount}",
+ "Variable costs": "Chi phí biến đổi",
+ "Entered in {monthName}": "Đã nhập trong {monthName}"
 }

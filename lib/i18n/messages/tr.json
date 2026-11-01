@@ -1189,5 +1189,12 @@
  "Paid back — the money is on the account again": "Geri ödendi — para yeniden hesapta",
  "Paid back": "Geri alındı",
  "budget {amount}": "bütçe {amount}",
- "of {amount} budget": "{amount} bütçenin"
+ "of {amount} budget": "{amount} bütçenin",
+ "Choose a month": "Bir ay seç",
+ "Previous year": "Önceki yıl",
+ "Next year": "Sonraki yıl",
+ "Back to {month}": "{month} ayına dön",
+ "{amount} on average": "ortalama {amount}",
+ "Variable costs": "Değişken giderler",
+ "Entered in {monthName}": "{monthName} ayında girilen"
 }

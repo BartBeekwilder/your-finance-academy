@@ -67,6 +67,7 @@ export default function CategoryBars({
   mode,
   kind = "expense",
   scopeName,
+  past = false,
 }: {
   data: FinanceData;
   now: Date;
@@ -75,6 +76,9 @@ export default function CategoryBars({
   kind?: Kind;
   /** Narrowed to one category: its subcategories are the groups. */
   scopeName?: string;
+  /** A finished month (picked on the page; `now` is its last moment): its
+   *  totals as they are — no "so far", no forecast. */
+  past?: boolean;
 }) {
   const showAxes = useShowAxes();
   const areas = useCategoryAreas();
@@ -109,7 +113,7 @@ export default function CategoryBars({
   for (const m of months) for (const [id, v] of m.by) periodBy.set(id, (periodBy.get(id) ?? 0) + v);
   const periodTotal = [...periodBy.values()].reduce((a, b) => a + b, 0);
   const monthExpected = forecastOf(now.getMonth()) ?? 0;
-  const periodExpected = mode === "year" ? months.reduce((t, m) => t + Math.max(m.total, m.expected ?? 0), 0) : monthExpected;
+  const periodExpected = mode === "year" ? months.reduce((t, m) => t + Math.max(m.total, m.expected ?? 0), 0) : past ? periodTotal : monthExpected;
   const periodTop = Math.max(periodTotal, periodExpected, 1);
   const open = (g: Group, el: Element) => g.category && openCategory(g.id, el);
 
@@ -188,9 +192,9 @@ export default function CategoryBars({
             </>
           ) : (
             <>
-              {t("{period} so far", { period: monthYear(now) })} <b style={{ color: accent }}>{money(mode === "year" ? (months.find((m) => m.isNow)?.total ?? 0) : periodTotal, currency)}</b>
+              {past ? monthYear(now) : t("{period} so far", { period: monthYear(now) })} <b style={{ color: accent }}>{money(mode === "year" ? (months.find((m) => m.isNow)?.total ?? 0) : periodTotal, currency)}</b>
               <span style={{ color: "var(--pf-ink-3)" }}>
-                {mode === "year" || kind === "income" ? ` · ${t("expected {amount}", { amount: money(monthExpected, currency) })}` : ` · ${t("fixed costs spread over the days")}`}
+                {(mode === "year" || kind === "income") && !past ? ` · ${t("expected {amount}", { amount: money(monthExpected, currency) })}` : ` · ${t("fixed costs spread over the days")}`}
               </span>
             </>
           )}
@@ -284,9 +288,9 @@ export default function CategoryBars({
         {/* The whole period in one bar, with its breakdown beside it. */}
         <div className="pf-cbar-summary">
           <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>
-            {mode === "month" ? t("{v1} so far", { v1: monthName(now) }) : t("{v1} so far", { v1: now.getFullYear() })}
+            {mode === "month" ? (past ? monthName(now) : t("{v1} so far", { v1: monthName(now) })) : t("{v1} so far", { v1: now.getFullYear() })}
             <div className="pf-rounded" style={{ fontSize: "1.05rem", fontWeight: 700, color: accent }}>{money(periodTotal, currency)}</div>
-            <div>{t("expected {amount}", { amount: money(periodExpected, currency) })}</div>
+            {!past && <div>{t("expected {amount}", { amount: money(periodExpected, currency) })}</div>}
           </div>
           <div style={{ display: "flex", gap: 12, alignItems: "stretch", minHeight: 0 }}>
             <div key={`s${mode}`} className="pf-cbar-total" style={{ height: H }}>

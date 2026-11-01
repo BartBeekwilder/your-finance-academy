@@ -1196,5 +1196,12 @@
  "Paid back — the money is on the account again": "Terugbetaald — het geld staat weer op de rekening",
  "Paid back": "Terug ontvangen",
  "budget {amount}": "budget {amount}",
- "of {amount} budget": "van {amount} budget"
+ "of {amount} budget": "van {amount} budget",
+ "Choose a month": "Kies een maand",
+ "Previous year": "Vorig jaar",
+ "Next year": "Volgend jaar",
+ "Back to {month}": "Terug naar {month}",
+ "{amount} on average": "{amount} gemiddeld",
+ "Variable costs": "Variabele kosten",
+ "Entered in {monthName}": "Ingevoerd in {monthName}"
 }
