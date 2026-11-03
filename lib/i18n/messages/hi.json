@@ -1201,5 +1201,18 @@
  "Expected net in {monthName}": "{monthName} में अपेक्षित शुद्ध",
  "Gross in {monthName}": "{monthName} में सकल",
  "{pct}% of the month": "महीने का {pct}%",
- "{pct}% of the day": "दिन का {pct}%"
+ "{pct}% of the day": "दिन का {pct}%",
+ "No years with income or spending yet.": "अभी तक आय या खर्च वाला कोई वर्ष नहीं।",
+ "expected for the whole year, {amount} saved so far": "पूरे वर्ष के लिए अपेक्षित, अब तक {amount} बचाए",
+ "Click a year to compare it with the one selected before.": "किसी वर्ष पर क्लिक करें ताकि उसकी तुलना पहले चुने गए वर्ष से हो।",
+ "Compare years": "वर्षों की तुलना",
+ "First year": "पहला वर्ष",
+ "Second year": "दूसरा वर्ष",
+ "vs": "बनाम",
+ "vs year before": "पिछले वर्ष की तुलना में",
+ "today's stand": "आज की स्थिति",
+ "on 31 December": "31 दिसंबर को",
+ "Debts": "कर्ज़",
+ "No year-end stands yet.": "अभी तक वर्षांत की कोई स्थिति नहीं।",
+ "{month} closed": "{month} बंद किया गया"
 }

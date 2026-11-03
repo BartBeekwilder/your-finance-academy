@@ -1201,5 +1201,18 @@
  "Expected net in {monthName}": "Thực nhận dự kiến trong {monthName}",
  "Gross in {monthName}": "Tổng trong {monthName}",
  "{pct}% of the month": "{pct}% của tháng",
- "{pct}% of the day": "{pct}% của ngày"
+ "{pct}% of the day": "{pct}% của ngày",
+ "No years with income or spending yet.": "Chưa có năm nào có thu nhập hoặc chi tiêu.",
+ "expected for the whole year, {amount} saved so far": "dự kiến cả năm, đã tiết kiệm {amount} đến nay",
+ "Click a year to compare it with the one selected before.": "Nhấp vào một năm để so sánh với năm đã chọn trước đó.",
+ "Compare years": "So sánh các năm",
+ "First year": "Năm thứ nhất",
+ "Second year": "Năm thứ hai",
+ "vs": "so với",
+ "vs year before": "so với năm trước",
+ "today's stand": "số liệu hôm nay",
+ "on 31 December": "vào ngày 31 tháng 12",
+ "Debts": "Nợ",
+ "No year-end stands yet.": "Chưa có số liệu cuối năm.",
+ "{month} closed": "Đã chốt {month}"
 }

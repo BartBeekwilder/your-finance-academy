@@ -1201,5 +1201,18 @@
  "Expected net in {monthName}": "{monthName} ayında beklenen net",
  "Gross in {monthName}": "{monthName} ayında brüt",
  "{pct}% of the month": "ayın %{pct}",
- "{pct}% of the day": "günün %{pct}"
+ "{pct}% of the day": "günün %{pct}",
+ "No years with income or spending yet.": "Henüz gelir veya harcama içeren yıl yok.",
+ "expected for the whole year, {amount} saved so far": "tüm yıl için beklenen, şimdiye kadar {amount} biriktirildi",
+ "Click a year to compare it with the one selected before.": "Bir yılı, önceden seçilenle karşılaştırmak için tıklayın.",
+ "Compare years": "Yılları karşılaştır",
+ "First year": "Birinci yıl",
+ "Second year": "İkinci yıl",
+ "vs": "ile",
+ "vs year before": "önceki yıla göre",
+ "today's stand": "bugünkü durum",
+ "on 31 December": "31 Aralık itibarıyla",
+ "Debts": "Borçlar",
+ "No year-end stands yet.": "Henüz yıl sonu durumu yok.",
+ "{month} closed": "{month} kapatıldı"
 }

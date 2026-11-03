@@ -1208,5 +1208,18 @@
  "Expected net in {monthName}": "Verwacht netto in {monthName}",
  "Gross in {monthName}": "Bruto in {monthName}",
  "{pct}% of the month": "{pct}% van de maand",
- "{pct}% of the day": "{pct}% van de dag"
+ "{pct}% of the day": "{pct}% van de dag",
+ "No years with income or spending yet.": "Nog geen jaren met inkomsten of uitgaven.",
+ "expected for the whole year, {amount} saved so far": "verwacht voor het hele jaar, tot nu toe {amount} gespaard",
+ "Click a year to compare it with the one selected before.": "Klik op een jaar om het te vergelijken met het eerder gekozen jaar.",
+ "Compare years": "Jaren vergelijken",
+ "First year": "Eerste jaar",
+ "Second year": "Tweede jaar",
+ "vs": "vs",
+ "vs year before": "t.o.v. jaar ervoor",
+ "today's stand": "stand van vandaag",
+ "on 31 December": "op 31 december",
+ "Debts": "Schulden",
+ "No year-end stands yet.": "Nog geen jaarstanden.",
+ "{month} closed": "{month} afgesloten"
 }

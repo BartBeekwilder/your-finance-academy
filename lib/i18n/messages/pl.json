@@ -1201,5 +1201,18 @@
  "Expected net in {monthName}": "Oczekiwane netto w {monthName}",
  "Gross in {monthName}": "Brutto w {monthName}",
  "{pct}% of the month": "{pct}% miesiąca",
- "{pct}% of the day": "{pct}% dnia"
+ "{pct}% of the day": "{pct}% dnia",
+ "No years with income or spending yet.": "Brak jeszcze lat z dochodami lub wydatkami.",
+ "expected for the whole year, {amount} saved so far": "prognoza na cały rok, dotąd zaoszczędzono {amount}",
+ "Click a year to compare it with the one selected before.": "Kliknij rok, aby porównać go z wybranym wcześniej.",
+ "Compare years": "Porównaj lata",
+ "First year": "Pierwszy rok",
+ "Second year": "Drugi rok",
+ "vs": "vs",
+ "vs year before": "vs rok wcześniej",
+ "today's stand": "stan na dziś",
+ "on 31 December": "na 31 grudnia",
+ "Debts": "Długi",
+ "No year-end stands yet.": "Brak jeszcze stanów na koniec roku.",
+ "{month} closed": "{month} zamknięty"
 }

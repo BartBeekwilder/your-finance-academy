@@ -1201,5 +1201,18 @@
  "Expected net in {monthName}": "{monthName} 예상 실수령액",
  "Gross in {monthName}": "{monthName} 총액",
  "{pct}% of the month": "월의 {pct}%",
- "{pct}% of the day": "일의 {pct}%"
+ "{pct}% of the day": "일의 {pct}%",
+ "No years with income or spending yet.": "아직 수입이나 지출이 있는 연도가 없습니다.",
+ "expected for the whole year, {amount} saved so far": "연간 예상치, 지금까지 {amount} 저축",
+ "Click a year to compare it with the one selected before.": "연도를 클릭하면 앞서 선택한 연도와 비교합니다.",
+ "Compare years": "연도 비교",
+ "First year": "첫 번째 연도",
+ "Second year": "두 번째 연도",
+ "vs": "대",
+ "vs year before": "전년 대비",
+ "today's stand": "오늘 기준",
+ "on 31 December": "12월 31일 기준",
+ "Debts": "부채",
+ "No year-end stands yet.": "아직 연말 기준 데이터가 없습니다.",
+ "{month} closed": "{month} 마감 완료"
 }

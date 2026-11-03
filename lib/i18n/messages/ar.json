@@ -1201,5 +1201,18 @@
  "Expected net in {monthName}": "الصافي المتوقع في {monthName}",
  "Gross in {monthName}": "الإجمالي في {monthName}",
  "{pct}% of the month": "{pct}% من الشهر",
- "{pct}% of the day": "{pct}% من اليوم"
+ "{pct}% of the day": "{pct}% من اليوم",
+ "No years with income or spending yet.": "لا توجد سنوات بها دخل أو إنفاق بعد.",
+ "expected for the whole year, {amount} saved so far": "متوقع للسنة كاملة، تم ادخار {amount} حتى الآن",
+ "Click a year to compare it with the one selected before.": "انقر على سنة لمقارنتها بالسنة المختارة سابقًا.",
+ "Compare years": "مقارنة السنوات",
+ "First year": "السنة الأولى",
+ "Second year": "السنة الثانية",
+ "vs": "مقابل",
+ "vs year before": "مقابل السنة السابقة",
+ "today's stand": "وضع اليوم",
+ "on 31 December": "في 31 ديسمبر",
+ "Debts": "الديون",
+ "No year-end stands yet.": "لا توجد أوضاع نهاية سنة بعد.",
+ "{month} closed": "تم إغلاق {month}"
 }

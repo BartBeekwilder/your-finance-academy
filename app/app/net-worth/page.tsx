@@ -4,14 +4,16 @@ import InfoTip from "@/components/finance/InfoTip";
 
 import { intlLocale, t } from "@/lib/i18n";
 import Segmented from "@/components/finance/Segmented";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import type { Mode } from "@/components/finance/LiveTiles";
 import NetWorthTile from "@/components/finance/NetWorthTile";
 import NetWorthWaterfall from "@/components/finance/NetWorthWaterfall";
 import AssetMixChart from "@/components/finance/AssetMixChart";
 import Stat from "@/components/finance/Stat";
-import { accountFlows, live, netWorthFigures, num, pendingIncome } from "@/lib/finance/calc";
+import YearsCompare from "@/components/finance/YearsCompare";
+import { historyBack, yearTotals } from "@/lib/finance/compare";
+import { accountFlows, live, netWorthFigures, num, pendingIncome, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear, monthName } from "@/lib/finance/format";
 import { useNow } from "@/lib/motion";
 
@@ -28,7 +30,25 @@ export default function NetWorthPage() {
   const [editing, setEditing] = useState<{ id: string; text: string } | null>(null);
   const [lit, setLit] = useState<string | null>(null);
   const currency = data.profile.currency_code;
-  const [mode, setMode] = useState<Mode>("month");
+  const [view, setView] = useState<Mode | "years">("month");
+  const mode: Mode = view === "years" ? "year" : view;
+  // Years: income, spending and what was saved per calendar year (imported
+  // year totals where there are no transactions); this year as expected.
+  const years = useMemo(() => {
+    const rows = yearTotals(data, now, yearForecast(data, now), { back: historyBack(data, now, 0), sample: false });
+    return rows
+      .filter((y) => y.income || y.spent || y.incomeAhead || y.spentAhead)
+      .map((y) => {
+        const income = y.income + y.incomeAhead, spent = y.spent + y.spentAhead, saved = income - spent;
+        const live = y.year === now.getFullYear();
+        return {
+          year: y.year,
+          values: [income, spent, saved, income > 0 ? saved / income : 0],
+          live,
+          note: live ? t("expected for the whole year, {amount} saved so far", { amount: money(y.income - y.spent, currency) }) : y.incomeMissing ? t("no income data") : y.yearly ? t("year total") : undefined,
+        };
+      });
+  }, [data, now, currency]);
   const nw = netWorthFigures(data, now);
   const tick = useNow(1000);
   const nowValue = nw.base + nw.liveChange(tick);
@@ -98,9 +118,24 @@ export default function NetWorthPage() {
     <div style={{ display: "grid", gap: 24 }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
         <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Liquidity")} <InfoTip id="liquidity" /></h1>
-        <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+        <Segmented label={t("Period")} value={view} onChange={setView} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }, { value: "years", label: t("Years") }]} />
       </header>
 
+      {view === "years" ? (
+        <YearsCompare
+          years={years}
+          metrics={[
+            { label: t("Income"), color: "#30d158", better: "up" },
+            { label: t("Spent"), color: "#ff453a", better: "down" },
+            { label: t("Saved"), color: "#40c8e0", better: "up" },
+            { label: t("Savings rate"), color: "#bf5af2", better: "up", pct: true },
+          ]}
+          bars={[0, 1]}
+          line={2}
+          currency={currency}
+          empty={t("No years with income or spending yet.")}
+        />
+      ) : (<>
       <NetWorthTile data={data} currency={currency} mode={mode} />
 
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
@@ -208,7 +243,7 @@ export default function NetWorthPage() {
         </div>
       </section>
 
-      {mode === "year" && (
+      {view === "year" && (
         <section key="by-month" className="pf-readout">
           <h2 className="pf-section-title">{t("By month")}</h2>
           <div className="pf-card">
@@ -224,6 +259,7 @@ export default function NetWorthPage() {
           </div>
         </section>
       )}
+      </>)}
     </div>
   );
 }

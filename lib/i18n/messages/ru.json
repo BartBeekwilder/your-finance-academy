@@ -1201,5 +1201,18 @@
  "Expected net in {monthName}": "Ожидаемый чистый доход в {monthName}",
  "Gross in {monthName}": "Брутто в {monthName}",
  "{pct}% of the month": "{pct}% месяца",
- "{pct}% of the day": "{pct}% дня"
+ "{pct}% of the day": "{pct}% дня",
+ "No years with income or spending yet.": "Пока нет лет с доходами или расходами.",
+ "expected for the whole year, {amount} saved so far": "ожидается за весь год, пока сбережено {amount}",
+ "Click a year to compare it with the one selected before.": "Нажмите на год, чтобы сравнить его с выбранным ранее.",
+ "Compare years": "Сравнить годы",
+ "First year": "Первый год",
+ "Second year": "Второй год",
+ "vs": "vs",
+ "vs year before": "к прошлому году",
+ "today's stand": "на сегодня",
+ "on 31 December": "на 31 декабря",
+ "Debts": "Долги",
+ "No year-end stands yet.": "Пока нет данных на конец года.",
+ "{month} closed": "{month} закрыт"
 }

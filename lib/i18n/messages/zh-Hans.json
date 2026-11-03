@@ -1201,5 +1201,18 @@
  "Expected net in {monthName}": "{monthName}预计净收入",
  "Gross in {monthName}": "{monthName}税前",
  "{pct}% of the month": "占当月 {pct}%",
- "{pct}% of the day": "占当天 {pct}%"
+ "{pct}% of the day": "占当天 {pct}%",
+ "No years with income or spending yet.": "还没有包含收入或支出的年份。",
+ "expected for the whole year, {amount} saved so far": "全年预计，目前已存 {amount}",
+ "Click a year to compare it with the one selected before.": "点击某一年，与之前选中的年份比较。",
+ "Compare years": "比较年份",
+ "First year": "第一年",
+ "Second year": "第二年",
+ "vs": "对比",
+ "vs year before": "较上一年",
+ "today's stand": "今日状况",
+ "on 31 December": "截至12月31日",
+ "Debts": "负债",
+ "No year-end stands yet.": "还没有年末数据。",
+ "{month} closed": "{month} 已结账"
 }

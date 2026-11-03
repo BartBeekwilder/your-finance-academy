@@ -215,6 +215,13 @@ zh-Hans. Every new UI text must be translatable and translated:
   liveChange), not the raw entries — fixed costs booked on the 1st made
   Work read −€1.4K before payday. Close-month nudge: only the last finished
   month (progressModel `closable`), older open months don't nag. To port.
+- Liquidity › Years and Balance sheet › Years (YearsCompare): bars per
+  year with the headline as a line (Saved / Equity), two years compared
+  metric by metric (€ and %), table with change vs the year before.
+  Liquidity: income, spent, saved, savings rate (yearTotals, this year as
+  expected). Balance: yearSnapshots (last year from the books if missing)
+  + today. Dashboard Progress tile: a bar per ring + way to next level,
+  and "<month> closed" once last month is closed. To port.
 - Budgets total (Month and Year): compares like with like — categories
   with a budget, plus fixed costs without one (Bart's Hypotheek) at their
   own amount as budget (months ahead at the latest month's amount); in the

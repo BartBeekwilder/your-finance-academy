@@ -11,6 +11,7 @@ import EquityHero from "@/components/finance/EquityHero";
 import EquityWaterfall from "@/components/finance/EquityWaterfall";
 import SortableTiles from "@/components/finance/SortableTiles";
 import StepSlider from "@/components/finance/StepSlider";
+import YearsCompare from "@/components/finance/YearsCompare";
 import { balanceSheet, netWorthFigures } from "@/lib/finance/calc";
 import { openTransactionEditor } from "@/lib/finance/editTransaction";
 
@@ -28,6 +29,7 @@ export default function BalancePage() {
   const { data, now, setBalanceValue, renameBalanceItem, deleteBalanceItem, addBalanceItem, saveAccount, updateTransaction } = useFinance();
   const currency = data.profile.currency_code;
   const [sel, setSel] = useState(now.getMonth());
+  const [view, setView] = useState<"months" | "years">("months");
   const month = new Date(now.getFullYear(), sel, 1);
   const sheet = balanceSheet(data, now, month);
   const prev = balanceSheet(data, now, new Date(now.getFullYear(), sel - 1, 1));
@@ -69,6 +71,22 @@ export default function BalancePage() {
       .map((y) => ({ year: y.year, equity: Number(y.assets) - Number(y.liabilities) }));
     return past.length ? [...past, { year: now.getFullYear(), equity: balanceSheet(data, now, new Date(now.getFullYear(), now.getMonth(), 1)).equity, live: true }] : [];
   }, [data, now]);
+  // Years: each year-end stand (imported snapshots; last year from the books
+  // when it has none) and today's for this year.
+  const years = useMemo(() => {
+    const y0 = now.getFullYear();
+    const byYear = new Map<number, { assets: number; debt: number }>();
+    for (const y of data.yearSnapshots ?? []) if (y.year < y0) byYear.set(y.year, { assets: Number(y.assets), debt: Number(y.liabilities) });
+    if (!byYear.has(y0 - 1)) {
+      const s = balanceSheet(data, now, new Date(y0 - 1, 11, 1));
+      if (s.totalAssets || s.totalDebt) byYear.set(y0 - 1, { assets: s.totalAssets, debt: s.totalDebt });
+    }
+    const today = balanceSheet(data, now, new Date(y0, now.getMonth(), 1));
+    byYear.set(y0, { assets: today.totalAssets, debt: today.totalDebt });
+    return [...byYear.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([year, v]) => ({ year, values: [v.assets, v.debt, v.assets - v.debt], live: year === y0, note: year === y0 ? t("today's stand") : t("on 31 December") }));
+  }, [data, now]);
   const yearStart = useMemo(() => balanceSheet(data, now, new Date(now.getFullYear() - 1, 11, 1)).equity, [data, now]);
   // 2D view: each post through the year, one side at a time. Clicking a
   // segment in the bars picks it (and switches to its side).
@@ -107,11 +125,30 @@ export default function BalancePage() {
     <div style={{ display: "grid", gap: 24 }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
         <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{t("Balance sheet")}</h1>
-        <span style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>
-          {name} {now.getFullYear()} · {sheet.isCurrent ? t("current stand") : t("month-end stand")}
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          {view === "months" && (
+            <span style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>
+              {name} {now.getFullYear()} · {sheet.isCurrent ? t("current stand") : t("month-end stand")}
+            </span>
+          )}
+          <Segmented label={t("Period")} value={view} onChange={setView} options={[{ value: "months", label: t("Months") }, { value: "years", label: t("Years") }]} />
+        </div>
       </header>
 
+      {view === "years" ? (
+        <YearsCompare
+          years={years}
+          metrics={[
+            { label: t("Assets"), color: "#30d158", better: "up" },
+            { label: t("Debts"), color: "#ff9f0a", better: "down" },
+            { label: t("Equity"), color: "#40c8e0", better: "up" },
+          ]}
+          bars={[0, 1]}
+          line={2}
+          currency={currency}
+          empty={t("No year-end stands yet.")}
+        />
+      ) : (
       <SortableTiles
         storageKey="pf-balance-tiles"
         tiles={[
@@ -221,6 +258,7 @@ export default function BalancePage() {
           },
         ]}
       />
+      )}
 
       <p style={{ fontSize: "0.75rem", color: "var(--pf-ink-3)", lineHeight: 1.5, maxWidth: 720 }}>
         {t("Posts marked auto follow from your accounts, transactions and holdings. Accounts: balances on 1 January plus what each month added. Investments: at market value. In the current month, Prepaid is the part of this month's fixed costs that covers the days ahead, and Receivable the income earned so far that hasn't come in yet. Your own posts: this month's value is the current stand; earlier months keep their own month-end value.")}

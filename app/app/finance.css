@@ -4750,3 +4750,73 @@ span.pf-cmp-chip { cursor: default; }
   cursor: pointer;
 }
 .pf-mpick-back:hover { background: rgba(0, 194, 168, 0.18); }
+
+/* ---- Years compare (Liquidity / Balance sheet › Years) ------------------- */
+.pf-yc-key { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: -1px; }
+.pf-yc-key-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12); }
+.pf-yc-chart { position: relative; display: flex; align-items: stretch; }
+.pf-yc-line { position: absolute; left: 0; right: 0; top: 0; width: 100%; pointer-events: none; z-index: 1; }
+.pf-yc-col {
+  flex: 1 1 0; min-width: 0; display: grid; grid-template-rows: auto 22px; padding: 0 4px;
+  background: none; border: 0; color: inherit; cursor: pointer; border-radius: 10px;
+  transition: opacity 0.25s ease, background 0.25s ease;
+}
+.pf-yc-col:hover, .pf-yc-col:focus-visible { background: rgba(255, 255, 255, 0.04); outline: none; }
+.pf-yc-col[data-dim="true"] { opacity: 0.45; }
+.pf-yc-bars { position: relative; display: block; margin: 0 14%; }
+.pf-yc-bar {
+  position: absolute; border-radius: 4px 4px 2px 2px; opacity: 0.55;
+  transform-origin: bottom; animation: pf-yc-grow 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.15) both;
+  transition: top 0.5s cubic-bezier(0.2, 0.9, 0.25, 1), height 0.5s cubic-bezier(0.2, 0.9, 0.25, 1), opacity 0.25s ease;
+}
+.pf-yc-bar[data-live="true"] { background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.18) 0 4px, transparent 4px 8px); }
+.pf-yc-col[data-on="true"] .pf-yc-bar, .pf-yc-col:hover .pf-yc-bar { opacity: 0.95; }
+.pf-yc-dot {
+  position: absolute; left: 50%; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 50%; z-index: 2;
+  box-shadow: 0 0 0 2px var(--pf-bg); transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1), top 0.5s ease;
+}
+.pf-yc-col[data-on="true"] .pf-yc-dot, .pf-yc-col:hover .pf-yc-dot { transform: scale(1.45); }
+.pf-yc-year { align-self: end; text-align: center; font-size: 0.66rem; color: var(--pf-ink-3); transition: color 0.2s ease; }
+.pf-yc-col[data-on="true"] .pf-yc-year { color: var(--pf-ink); font-weight: 600; }
+@keyframes pf-yc-grow { from { transform: scaleY(0); opacity: 0; } }
+
+.pf-yc-cmp { display: grid; grid-template-columns: minmax(120px, 1.4fr) repeat(3, minmax(90px, 1fr)); font-size: 0.85rem; }
+.pf-yc-cmprow { display: contents; }
+.pf-yc-cmp > span, .pf-yc-cmprow > span { padding: 9px 6px; }
+.pf-yc-cmprow > span { border-top: 1px solid var(--pf-line); }
+.pf-yc-cmprow > span:not(:first-child), .pf-yc-h { text-align: right; }
+.pf-yc-h { font-size: 0.7rem; color: var(--pf-ink-2); font-weight: 600; }
+.pf-yc-cmprow em { font-style: normal; font-size: 0.72rem; opacity: 0.75; }
+
+.pf-yc-table { overflow-x: auto; }
+.pf-yc-trow {
+  display: grid; grid-template-columns: 64px repeat(var(--cols), minmax(96px, 1fr)) minmax(100px, 1fr);
+  width: 100%; background: none; border: 0; color: inherit; font: inherit; font-size: 0.85rem; text-align: right; cursor: pointer;
+  transition: background 0.2s ease;
+}
+.pf-yc-trow > span:first-child { text-align: left; }
+.pf-yc-trow:hover { background: rgba(255, 255, 255, 0.03); }
+.pf-yc-trow[data-on="true"] { background: rgba(10, 132, 255, 0.08); }
+.pf-yc-thead { cursor: default; font-size: 0.7rem; color: var(--pf-ink-2); font-weight: 600; }
+.pf-yc-thead:hover { background: none; }
+@media (max-width: 640px) {
+  .pf-yc-cmp { font-size: 0.78rem; grid-template-columns: minmax(90px, 1.2fr) repeat(3, minmax(70px, 1fr)); }
+  .pf-yc-year { font-size: 0.58rem; }
+}
+
+/* Dashboard progress tile: a bar per ring and the way to the next level. */
+.pf-progress-bars { display: grid; gap: 9px; padding: 2px 6px; color: inherit; text-decoration: none; }
+.pf-progress-bar { display: grid; grid-template-columns: 92px 1fr 40px; align-items: center; gap: 10px; font-size: 0.72rem; color: var(--pf-ink-2); }
+.pf-progress-bar i { position: relative; height: 7px; border-radius: 99px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
+.pf-progress-bar b {
+  position: absolute; inset: 0; border-radius: inherit; transform-origin: left;
+  background: linear-gradient(90deg, var(--c0), var(--c1)); box-shadow: 0 0 10px color-mix(in srgb, var(--c0) 55%, transparent);
+  transform: scaleX(var(--v)); animation: pf-pbar-grow 1s cubic-bezier(0.2, 0.9, 0.25, 1.1) both; animation-delay: inherit;
+  transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+.pf-progress-bar em { font-style: normal; text-align: right; color: var(--pf-ink); font-weight: 600; }
+.pf-progress-level { padding-top: 7px; border-top: 1px solid var(--pf-line); }
+.pf-progress-level span::before { content: "→ "; color: var(--pf-ink-3); }
+@keyframes pf-pbar-grow { from { transform: scaleX(0); } }
+.pf-close-done { display: flex; align-items: center; gap: 8px; padding: 8px 10px; font-size: 0.78rem; color: var(--pf-ink-3); }
+.pf-close-done svg { color: var(--pf-green); }

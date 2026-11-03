@@ -1201,5 +1201,18 @@
  "Expected net in {monthName}": "Perkiraan bersih di {monthName}",
  "Gross in {monthName}": "Bruto di {monthName}",
  "{pct}% of the month": "{pct}% dari bulan",
- "{pct}% of the day": "{pct}% dari hari"
+ "{pct}% of the day": "{pct}% dari hari",
+ "No years with income or spending yet.": "Belum ada tahun dengan pemasukan atau pengeluaran.",
+ "expected for the whole year, {amount} saved so far": "perkiraan untuk setahun penuh, {amount} ditabung sejauh ini",
+ "Click a year to compare it with the one selected before.": "Klik sebuah tahun untuk membandingkannya dengan yang dipilih sebelumnya.",
+ "Compare years": "Bandingkan tahun",
+ "First year": "Tahun pertama",
+ "Second year": "Tahun kedua",
+ "vs": "vs",
+ "vs year before": "vs tahun sebelumnya",
+ "today's stand": "posisi hari ini",
+ "on 31 December": "per 31 Desember",
+ "Debts": "Utang",
+ "No year-end stands yet.": "Belum ada posisi akhir tahun.",
+ "{month} closed": "{month} ditutup"
 }
