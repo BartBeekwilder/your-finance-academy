@@ -96,7 +96,7 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
   const visible = order.map((c, i) => ({ c, i, v: values[i] })).filter((x) => x.v > 0.005 || valuesFor(mode)[x.i] > 0);
 
   return (
-    <div className={`pf-card${control?.forecast && mode === "month" ? " pf-donut-forecast" : ""}`} style={{ padding: 16, display: "grid", gap: 12 }}>
+    <div className={`pf-card${control?.forecast && mode === "month" ? " pf-donut-forecast" : ""}`} style={{ padding: 16, display: "grid", gap: 12, gridTemplateRows: "auto 1fr auto" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
         <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{control?.forecast && mode === "month" ? t("Expected spending by category") : t("Spending by category")}</span>
         {headerRight}
@@ -110,8 +110,10 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
         )}
       </div>
 
-      <div style={{ display: "flex", gap: 20, alignItems: "center", justifyContent: "space-around", flexWrap: "wrap" }}>
-        <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 2, fontSize: "0.74rem", flex: "1 1 150px", maxWidth: 240 }}>
+      {/* Stretched next to taller tiles, the donut grows into the height
+          (200–300 px). It sits out of flow, so it never grows the card. */}
+      <div style={{ display: "flex", gap: 20, alignItems: "stretch", justifyContent: "center", flexWrap: "wrap" }}>
+        <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 2, fontSize: "0.74rem", flex: "1 1 150px", maxWidth: 260, alignSelf: "center" }}>
           {visible.slice(0, 8).map(({ c, i, v }) => (
             <li key={c.id}>
               <button
@@ -131,8 +133,9 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
           ))}
         </ul>
 
-        <div style={{ position: "relative", width: 200, height: 200, flex: "none" }}>
-          <svg viewBox="0 0 200 200" width={200} height={200} role="img" aria-label={t("Spending by category, {v1}", { v1: mode === "month" ? "this month" : "this year" })} style={{ overflow: "visible" }} onMouseLeave={() => setActive(null)}>
+        <div style={{ position: "relative", flex: "1 1 200px", minHeight: 200 }}>
+        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", height: "100%", maxHeight: 300, maxWidth: "100%", aspectRatio: "1" }}>
+          <svg viewBox="0 0 200 200" width="100%" height="100%" role="img" aria-label={t("Spending by category, {v1}", { v1: mode === "month" ? "this month" : "this year" })} style={{ overflow: "visible" }} onMouseLeave={() => setActive(null)}>
             {arcs.map((a) =>
               a.d ? (
                 <g key={order[a.i].id} className="pf-slice-in" style={{ animationDelay: `${a.i * 60}ms` }}>
@@ -179,6 +182,7 @@ export function CategoryDonut({ months, years, currency, now, control, headerRig
                   : t("{n} categories", { n: visible.length })}
             </span>
           </div>
+        </div>
         </div>
       </div>
 
