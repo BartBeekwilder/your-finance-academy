@@ -196,6 +196,11 @@ zh-Hans. Every new UI text must be translatable and translated:
   stretches to them), so a taller chart grows the dashboard — Bart: leave
   the dashboard as it is.
   Scan of all pages at 1400 px: every other chart is already 180–220 px.
+- Tile charts (Income / Spent / Balance / Liquidity, dashboard and pages):
+  in Month view every day still to come can be pointed at — a point on the
+  dotted forecast line from now to the month's forecast end, labelled
+  "<date> · forecast" (TileSparkline `ahead`). The bar view's forecast
+  labels now use the translated "· forecast" too.
 
 ## Done recently (2026-10-22/23)
 

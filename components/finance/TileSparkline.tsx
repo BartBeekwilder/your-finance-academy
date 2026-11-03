@@ -125,7 +125,19 @@ export default memo(function TileSparkline({
     spentCum += f.spent;
     forecast.push({ t: f.month + 1, v: offset + pick(incCum, spentCum), fx: 0, label: tr("End of {month} · forecast", { month: monthName(f.month) }), forecast: true });
   }
-  const all = [...pts, ...forecast];
+  // Month view: each day still to come, on the dotted line from now to the
+  // month's forecast end, so pointing at it reads the expected figure.
+  const ahead: Pt[] = [];
+  const end = forecast[0];
+  if (end && end.t === current + 1 && at === undefined) {
+    for (let d = live.getDate() + 1; d < days; d++) {
+      const t = current + d / days;
+      const k = (t - now.t) / (end.t - now.t);
+      const date = new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" });
+      ahead.push({ t, v: now.v + (end.v - now.v) * k, fx: 0, label: `${date} ${tr("· forecast")}`, day: true, forecast: true });
+    }
+  }
+  const all = [...pts, ...ahead, ...forecast];
 
   // ---- Absolute: the amount per month and per day -------------------------------
   type BarPt = { t0: number; t1: number; v: number; label: string; forecast?: boolean; day?: boolean };
@@ -139,7 +151,7 @@ export default memo(function TileSparkline({
     const monthLive = now.v - before;
     bars.push({ t0: current, t1: current + 1, v: monthLive, label: tr("{v1} · so far", { v1: monthName(current) }) });
     const fc = yearForecast(data, live);
-    for (const f of fc.slice(1)) bars.push({ t0: f.month, t1: f.month + 1, v: pick(f.income, f.spent), label: `${monthName(f.month)} · forecast`, forecast: true });
+    for (const f of fc.slice(1)) bars.push({ t0: f.month, t1: f.month + 1, v: pick(f.income, f.spent), label: `${monthName(f.month)} ${tr("· forecast")}`, forecast: true });
     // Days: income accrues evenly, fixed costs spread, variable on its day.
     const variableByDay = new Array(days + 1).fill(0);
     const incomeByDay = new Array(days + 1).fill(0);
@@ -158,7 +170,7 @@ export default memo(function TileSparkline({
     }
     const rest = (pick(fc[0]?.income ?? 0, fc[0]?.spent ?? 0) - monthLive) / Math.max(days - today, 1);
     for (let d = today + 1; d <= days; d++) {
-      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: rest, label: `${new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" })} · forecast`, forecast: true, day: true });
+      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: rest, label: `${new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" })} ${tr("· forecast")}`, forecast: true, day: true });
     }
   }
 
@@ -204,14 +216,15 @@ export default memo(function TileSparkline({
   const id = `pf-tsl-${series}`;
 
   // ---- Scrub -----------------------------------------------------------------
-  // Month view: every day this month. Year view: each month's end, plus now.
+  // Month view: every day this month, the days ahead at their forecast.
+  // Year view: each month's end, plus now, then the forecast month-ends.
   const inMonth = z > 0.5;
   const settled = z === 0 || z === 1;
   const candidates = all
     .map((p, i) => i)
     .filter((i) => {
       const p = all[i];
-      if (p.forecast) return !inMonth || p.t === current + 1;
+      if (p.forecast) return inMonth ? p.day || p.t === current + 1 : !p.day;
       return inMonth ? p.day : i > 0 && (!p.day || i === pts.length - 1);
     });
   const barCandidates = bars.map((b, i) => i).filter((i) => !!bars[i].day === inMonth);
