@@ -193,7 +193,8 @@ zh-Hans. Every new UI text must be translatable and translated:
   right at 118 px tall (TileSparkline `height`, default 54); stacks below
   760 px. Liquidity page's tile (NetWorthTile) too. Dashboard's three
   stacked tiles unchanged: they set that row's height (the card beside
-  stretches to them), so a taller chart grows the dashboard — asked Bart.
+  stretches to them), so a taller chart grows the dashboard — Bart: leave
+  the dashboard as it is.
   Scan of all pages at 1400 px: every other chart is already 180–220 px.
 
 ## Done recently (2026-10-22/23)
