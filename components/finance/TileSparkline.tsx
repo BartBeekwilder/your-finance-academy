@@ -139,16 +139,18 @@ export default memo(function TileSparkline({
   const all = [...pts, ...ahead, ...forecast];
 
   // ---- Absolute: the amount per month and per day -------------------------------
-  type BarPt = { t0: number; t1: number; v: number; label: string; forecast?: boolean; day?: boolean };
+  // fx: Spent's fixed-cost part of the bar (drawn solid at its foot).
+  type BarPt = { t0: number; t1: number; v: number; label: string; forecast?: boolean; day?: boolean; fx?: number };
+  const spentFx = (v: number) => (series === "spent" ? v : undefined);
   const bars: BarPt[] = [];
   if (absolute) {
     let prev = offset;
     for (let m = 1; m < pts.length && !pts[m].day; m++) {
-      bars.push({ t0: m - 1, t1: m, v: pts[m].v - prev, label: pts[m].label });
+      bars.push({ t0: m - 1, t1: m, v: pts[m].v - prev, label: pts[m].label, fx: spentFx(pts[m].fx - pts[m - 1].fx) });
       prev = pts[m].v;
     }
     const monthLive = now.v - before;
-    bars.push({ t0: current, t1: current + 1, v: monthLive, label: tr("{v1} · so far", { v1: monthName(current) }) });
+    bars.push({ t0: current, t1: current + 1, v: monthLive, label: tr("{v1} · so far", { v1: monthName(current) }), fx: spentFx(thisMonth.fixed * fraction) });
     const fc = yearForecast(data, live);
     for (const f of fc.slice(1)) bars.push({ t0: f.month, t1: f.month + 1, v: pick(f.income, f.spent), label: `${monthName(f.month)} ${tr("· forecast")}`, forecast: true });
     // Days: the salary accrues evenly, other income (a side income) on its
@@ -167,7 +169,7 @@ export default memo(function TileSparkline({
     const dayOf = (d: number, share: number) => pick(projected * share + otherIncomeByDay[d], thisMonth.fixed * share + variableByDay[d]);
     for (let d = 1; d <= today; d++) {
       const share = d < today ? 1 / days : fraction - (today - 1) / days;
-      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: dayOf(d, share), label: d === today ? tr("Today · live") : new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }), day: true });
+      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: dayOf(d, share), label: d === today ? tr("Today · live") : new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }), day: true, fx: spentFx(thisMonth.fixed * share) });
     }
     const rest = (pick(fc[0]?.income ?? 0, fc[0]?.spent ?? 0) - monthLive) / Math.max(days - today, 1);
     for (let d = today + 1; d <= days; d++) {
@@ -299,9 +301,13 @@ export default memo(function TileSparkline({
               const pad = Math.min(w * 0.18, 1.2);
               const top = Math.min(y(b.v), zeroY), hgt = Math.max(Math.abs(y(b.v) - zeroY), 0.6);
               const neg = b.v < 0;
+              const op = (b.day ? dayBarOpacity : monthBarOpacity) * (sel === i || sel === null ? 1 : 0.55) * (b.forecast ? 0.7 : 1);
+              // Spent: variable spending lighter on top, fixed costs solid below.
+              const split = !b.forecast && b.fx !== undefined && b.fx > 0.005 && b.v > 0;
+              const fxTop = split ? Math.min(y(Math.min(b.fx!, b.v)), zeroY) : 0;
               return (
+                <g key={i}>
                 <rect
-                  key={i}
                   x={x0 + pad}
                   y={top}
                   width={Math.max(w - pad * 2, 0.2)}
@@ -311,8 +317,10 @@ export default memo(function TileSparkline({
                   stroke={b.forecast ? color : "none"}
                   strokeDasharray={b.forecast ? "2 2" : undefined}
                   vectorEffect="non-scaling-stroke"
-                  opacity={(b.day ? dayBarOpacity : monthBarOpacity) * (sel === i || sel === null ? 1 : 0.55) * (b.forecast ? 0.7 : 1)}
+                  opacity={split ? op * 0.45 : op}
                 />
+                {split && <rect x={x0 + pad} y={fxTop} width={Math.max(w - pad * 2, 0.2)} height={Math.max(zeroY - fxTop, 0.4)} rx={0.6} fill={color} vectorEffect="non-scaling-stroke" opacity={op} />}
+                </g>
               );
             })}
           </g>
@@ -361,6 +369,9 @@ export default memo(function TileSparkline({
           >
             <span style={{ color: "var(--pf-ink-2)" }}>{pickedBar.label}</span>{" "}
             <b style={{ color }}>{money(pickedBar.v, currency, { signed: series === "balance" || stock })}</b>
+            {pickedBar.fx !== undefined && !pickedBar.forecast && (
+              <span style={{ color: "var(--pf-ink-3)" }}> · {tr("Fixed {fixed} · Variable {variable}", { fixed: money(pickedBar.fx, currency), variable: money(Math.max(pickedBar.v - pickedBar.fx, 0), currency) })}</span>
+            )}
           </span>
         </>
       )}

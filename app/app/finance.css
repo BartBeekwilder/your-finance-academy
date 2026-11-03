@@ -4859,3 +4859,9 @@ span.pf-cmp-chip { cursor: default; }
 .pf-checkin-done span span { display: block; font-size: 0.74rem; color: var(--pf-ink-3); }
 .pf-checkin-streak { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 99px; background: rgba(255, 159, 10, 0.12); color: var(--pf-orange); font-weight: 600; font-size: 0.8rem; }
 .pf-checkin-mini { width: 100%; font: inherit; font-size: 0.85rem; color: inherit; cursor: pointer; text-align: left; }
+
+/* Closed months: which rings closed, in their colours (hollow = not closed). */
+.pf-closes-head { font-size: 0.68rem; font-weight: 600; color: var(--pf-ink-3); padding-block: 8px; }
+.pf-close-rings { width: 70px; display: inline-flex; justify-content: flex-end; gap: 5px; }
+.pf-close-rings i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--c); opacity: 0.45; }
+.pf-close-rings i[data-on="true"] { background: var(--c); opacity: 1; box-shadow: 0 0 6px var(--c); }

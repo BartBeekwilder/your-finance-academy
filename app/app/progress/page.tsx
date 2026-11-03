@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarCheck, Plus, Trash2, X } from "lucide-react";
 import { useFinance } from "@/components/finance/FinanceProvider";
-import { BadgeTile, Celebration, RingLegend, Rings, StreakFlame } from "@/components/finance/ProgressParts";
+import { BadgeTile, Celebration, RING_COLORS, RingLegend, Rings, StreakFlame } from "@/components/finance/ProgressParts";
 import CheckinCard from "@/components/finance/CheckinCard";
 import InfoTip from "@/components/finance/InfoTip";
 import ActivityCalendar from "@/components/finance/ActivityCalendar";
@@ -13,7 +13,7 @@ import Sheet from "@/components/finance/Sheet";
 import { live, num } from "@/lib/finance/calc";
 import { money, monthYear, shortMonthYear } from "@/lib/finance/format";
 import { BADGES, LEVELS } from "@/lib/finance/progress";
-import { progressModel, type GoalState } from "@/lib/finance/progressModel";
+import { monthRings, progressModel, type GoalState } from "@/lib/finance/progressModel";
 import type { Goal } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
 
@@ -135,15 +135,33 @@ export default function ProgressPage() {
         <section style={{ display: "grid", gap: 10 }}>
           <h2 className="pf-section-title" style={{ margin: 0 }}>{t("Closed months")}</h2>
           <div className="pf-card">
-            {[...m.closes].reverse().map((c) => (
+            <div className="pf-row pf-closes-head" style={{ gap: 14 }}>
+              <span style={{ flex: 1 }}>{t("Month")}</span>
+              <span>{t("Saved")}</span>
+              <span style={{ width: 70, textAlign: "right" }}>{t("Savings rate")}</span>
+              <span style={{ width: 70, textAlign: "right" }}>{t("Rings")} <InfoTip id="rings" /></span>
+              <span style={{ width: 56, textAlign: "right" }}>{t("Points")}</span>
+            </div>
+            {[...m.closes].reverse().map((c) => {
+              // Which of the month's rings closed: Tracking, Budget, Saving.
+              const r = monthRings(data, new Date(c.month));
+              const rings = [
+                { on: r.tracking >= 0.999, c: RING_COLORS.tracking[0], name: t("Tracking") },
+                { on: r.budget >= 0.999, c: RING_COLORS.budget[0], name: t("Budget") },
+                { on: r.saving >= 0.999, c: RING_COLORS.saving[0], name: t("Saving") },
+              ];
+              return (
               <div key={c.id} className="pf-row" style={{ gap: 14 }}>
                 <span style={{ flex: 1 }}>{monthYear(new Date(c.month))}</span>
                 <span style={{ fontSize: "0.8rem", color: c.summary.saved >= 0 ? "var(--pf-green)" : "var(--pf-red)" }} className="pf-rounded">{money(c.summary.saved, currency, { signed: true })}</span>
                 <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-3)", width: 70, textAlign: "right" }}>{Math.round(c.summary.savingsRate * 100)}%</span>
-                <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", width: 70, textAlign: "right" }}>{"●".repeat(c.summary.rings)}{"○".repeat(3 - c.summary.rings)}</span>
+                <span className="pf-close-rings" title={rings.map((x) => `${x.name} ${x.on ? "✓" : "—"}`).join(" · ")}>
+                  {rings.map((x) => <i key={x.name} data-on={x.on} style={{ ["--c" as string]: x.c }} />)}
+                </span>
                 <b className="pf-rounded" style={{ width: 56, textAlign: "right" }}>+{c.points}</b>
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       )}
