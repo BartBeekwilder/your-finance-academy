@@ -10,6 +10,7 @@ import { dayLabel, money, monthYear, shortMonth } from "@/lib/finance/format";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
 import Sheet from "./Sheet";
+import { viewedMonthEnd } from "@/lib/finance/viewedMonth";
 
 // Web version of the iOS CategoryExpensesSheet: tap any category card, donut
 // slice or budget row to see that category's month total and budget status,
@@ -27,22 +28,26 @@ export const useCategoryDetail = () => useContext(Ctx);
 export function CategoryDetailProvider({ children }: { children: ReactNode }) {
   // The category stays set after closing so the sheet keeps its content
   // while it shrinks back into the element it came from.
-  const [state, setState] = useState<{ id: string | null; open: boolean; from: Element | null }>({ id: null, open: false, from: null });
-  const open = useCallback<Open>((id, from = null) => setState({ id, open: true, from }), []);
+  // `at`: the moment it looks from — the month being viewed when it opened
+  // (Expenses / Income month picker), or null for now.
+  const [state, setState] = useState<{ id: string | null; open: boolean; from: Element | null; at: Date | null }>({ id: null, open: false, from: null, at: null });
+  const open = useCallback<Open>((id, from = null) => setState({ id, open: true, from, at: viewedMonthEnd() }), []);
   const close = useCallback(() => setState((s) => ({ ...s, open: false })), []);
 
   return (
     <Ctx.Provider value={open}>
       {children}
       <Sheet open={state.open} onClose={close} origin={state.from} label={t("Category details")}>
-        {state.id && <Detail key={state.id} categoryId={state.id} onClose={close} />}
+        {state.id && <Detail key={state.id} categoryId={state.id} at={state.at} onClose={close} />}
       </Sheet>
     </Ctx.Provider>
   );
 }
 
-function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => void }) {
-  const { data, now } = useFinance();
+function Detail({ categoryId, at, onClose }: { categoryId: string; at: Date | null; onClose: () => void }) {
+  const { data, now: today } = useFinance();
+  // An earlier month being viewed is seen from its last moment.
+  const now = at ?? today;
   const openCategory = useCategoryDetail();
   const currency = data.profile.currency_code;
   const categories = live(data.categories);
@@ -106,7 +111,7 @@ function Detail({ categoryId, onClose }: { categoryId: string; onClose: () => vo
           <>
             <section>
               <h3 className="pf-section-title" style={{ marginLeft: 0 }}>{t("Per day")} — {monthYear(now)}</h3>
-              <DayBars now={now} currency={currency} series={series.filter((x) => x.total > 0)} txs={view.thisMonth.map((x) => ({ day: new Date(x.date).getDate(), id: seriesOf(x.category_id), amount: num(x.amount) }))} />
+              <DayBars now={now} done={!!at} currency={currency} series={series.filter((x) => x.total > 0)} txs={view.thisMonth.map((x) => ({ day: new Date(x.date).getDate(), id: seriesOf(x.category_id), amount: num(x.amount) }))} />
             </section>
             {subs.length > 0 && (
               <section>
@@ -376,8 +381,10 @@ function shade(hex: string, i: number) {
 /** This month day by day, each day's bar stacked by series (the category
  *  and its subcategories). Days ahead are faint; today is marked. Point at a
  *  day to read it. */
-function DayBars({ now, currency, series, txs }: {
+function DayBars({ now, done, currency, series, txs }: {
   now: Date;
+  /** A finished month (not "so far"). */
+  done?: boolean;
   currency: string;
   series: { id: string; name: string; color: string }[];
   txs: { day: number; id: string; amount: number }[];
@@ -398,7 +405,9 @@ function DayBars({ now, currency, series, txs }: {
     <div>
       <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
         {shown === null ? (
-          t("{amount} this month so far", { amount: money(totals.reduce((a, b) => a + b, 0), currency) })
+          done
+            ? t("{amount} spent", { amount: money(totals.reduce((a, b) => a + b, 0), currency) })
+            : t("{amount} this month so far", { amount: money(totals.reduce((a, b) => a + b, 0), currency) })
         ) : (
           <>
             {dayLabel(new Date(now.getFullYear(), now.getMonth(), shown + 1, 12).toISOString())} · <b style={{ color: "var(--pf-ink)" }}>{money(totals[shown], currency)}</b>

@@ -181,6 +181,8 @@ zh-Hans. Every new UI text must be translatable and translated:
   on Expenses / Income (lib/finance/viewedMonth.ts, set by those pages),
   a new transaction's date starts on the same day in that month (last day
   if shorter), so the date picker opens there; salary's payday too.
+  The category sheet (CategoryDetail) opened there shows that month too
+  (seen from its last moment: total, budget, per day, transactions).
 
 ## Done recently (2026-10-22/23)
 
