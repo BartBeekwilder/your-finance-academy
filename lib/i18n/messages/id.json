@@ -1215,5 +1215,5 @@
  "Debts": "Utang",
  "No year-end stands yet.": "Belum ada posisi akhir tahun.",
  "{month} closed": "{month} ditutup",
- "{rate}% of {goal}%": "{rate}% dari {goal}%"
+ "{rate}% of your income saved · goal {goal}%": "{rate}% penghasilan ditabung · target {goal}%"
 }

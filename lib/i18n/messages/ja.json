@@ -1215,5 +1215,5 @@
  "Debts": "負債",
  "No year-end stands yet.": "年末時点のデータはまだありません。",
  "{month} closed": "{month}を締めました",
- "{rate}% of {goal}%": "{goal}%中{rate}%"
+ "{rate}% of your income saved · goal {goal}%": "収入の{rate}%を貯蓄・目標{goal}%"
 }

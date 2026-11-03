@@ -32,18 +32,29 @@ export default function ProgressStrip() {
         {([
           ["tracking", t("Tracking"), m.rings.tracking],
           ["budget", t("Budget"), m.rings.budget],
-          ["saving", t("Saving"), m.rings.saving],
-        ] as const).map(([key, label, v], i) => (
-          <span key={key} className="pf-progress-bar" style={{ ["--c0" as string]: RING_COLORS[key][0], ["--c1" as string]: RING_COLORS[key][1], ["--v" as string]: Math.min(v, 1), animationDelay: `${i * 90}ms` }}>
-            <span>{label}</span>
-            <i><b /></i>
-            {/* Saving: the ring is saved ÷ the 20% target, so show the rate
-                itself against the target (37% / 20%), not 184%. */}
-            <em className="pf-rounded">
-              {key === "saving" ? t("{rate}% of {goal}%", { rate: Math.round(v * SAVINGS_SHARE * 100), goal: Math.round(SAVINGS_SHARE * 100) }) : `${Math.round(v * 100)}%`}
-            </em>
-          </span>
-        ))}
+          ["saving", t("Saved"), m.rings.saving],
+        ] as const).map(([key, label, v], i) => {
+          // Saving: the share of income saved, on a bar running to twice the
+          // goal with the goal (20%) ticked in the middle — past the tick is
+          // past the goal.
+          const saving = key === "saving";
+          const rate = v * SAVINGS_SHARE;
+          return (
+            <span
+              key={key}
+              className="pf-progress-bar"
+              title={saving ? t("{rate}% of your income saved · goal {goal}%", { rate: Math.round(rate * 100), goal: Math.round(SAVINGS_SHARE * 100) }) : undefined}
+              style={{ ["--c0" as string]: RING_COLORS[key][0], ["--c1" as string]: RING_COLORS[key][1], ["--v" as string]: Math.min(saving ? v / 2 : v, 1), animationDelay: `${i * 90}ms` }}
+            >
+              <span>{label}</span>
+              <i>
+                <b />
+                {saving && <s className="pf-progress-goal" />}
+              </i>
+              <em className="pf-rounded">{Math.round((saving ? rate : v) * 100)}%</em>
+            </span>
+          );
+        })}
         {m.level.next && (
           <span className="pf-progress-bar pf-progress-level" style={{ ["--c0" as string]: "#6c5ce7", ["--c1" as string]: "#00c2a8", ["--v" as string]: m.level.progress, animationDelay: "270ms" }}>
             <span>{t(m.level.next)}</span>

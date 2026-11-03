@@ -1215,5 +1215,5 @@
  "Debts": "Долги",
  "No year-end stands yet.": "Пока нет данных на конец года.",
  "{month} closed": "{month} закрыт",
- "{rate}% of {goal}%": "{rate}% из {goal}%"
+ "{rate}% of your income saved · goal {goal}%": "Сбережено {rate}% дохода · цель {goal}%"
 }

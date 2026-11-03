@@ -1215,5 +1215,5 @@
  "Debts": "Debiti",
  "No year-end stands yet.": "Ancora nessuna situazione di fine anno.",
  "{month} closed": "{month} chiuso",
- "{rate}% of {goal}%": "{rate}% su {goal}%"
+ "{rate}% of your income saved · goal {goal}%": "{rate}% del reddito risparmiato · obiettivo {goal}%"
 }

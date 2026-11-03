@@ -1215,5 +1215,5 @@
  "Debts": "الديون",
  "No year-end stands yet.": "لا توجد أوضاع نهاية سنة بعد.",
  "{month} closed": "تم إغلاق {month}",
- "{rate}% of {goal}%": "{rate}% من {goal}%"
+ "{rate}% of your income saved · goal {goal}%": "تم ادخار {rate}% من دخلك · الهدف {goal}%"
 }

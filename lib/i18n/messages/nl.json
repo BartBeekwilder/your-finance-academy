@@ -1222,5 +1222,5 @@
  "Debts": "Schulden",
  "No year-end stands yet.": "Nog geen jaarstanden.",
  "{month} closed": "{month} afgesloten",
- "{rate}% of {goal}%": "{rate}% van {goal}%"
+ "{rate}% of your income saved · goal {goal}%": "{rate}% van je inkomen gespaard · doel {goal}%"
 }
