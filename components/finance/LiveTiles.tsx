@@ -134,7 +134,8 @@ export default function LiveTiles({
             <>
               <Sub label={mode === "month" ? (at ? t("Entered in {monthName}", { monthName: month }) : t("Entered so far")) : t("Entered this year")} value={total} color={RED} currency={currency} />
               {mode === "month" ? (
-                <Sub label="≈" value={spentTotal / dayOfMonth} suffix={t("/ day")} color={RED} currency={currency} />
+                // Fixed costs over the whole month, variable over the days so far.
+                <Sub label="≈" value={fixed / days + variable / dayOfMonth} suffix={t("/ day")} color={RED} currency={currency} />
               ) : (
                 <Sub label="≈" value={ytd.spent / Math.max(monthsElapsed, 1)} suffix={t("/ month")} color={RED} currency={currency} />
               )}
