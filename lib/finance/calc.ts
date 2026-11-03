@@ -6,6 +6,7 @@ import { investmentsByKind, investmentsValue } from "./quotes";
 import { intlLocale, t } from "@/lib/i18n";
 import { summarize as summarizePart } from "./mortgage";
 import { homes } from "./realEstate";
+import { isSalaryName } from "./salary";
 import type { Account, Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
 
 // Same rules as the iOS app's BudgetCalculator / DashboardView, so a given
@@ -161,6 +162,28 @@ export function projectedNetIncome(data: FinanceData, month: Date) {
   return summarize(data.transactions, month).income;
 }
 
+/** Income that counts as salary: a salary-like category, or at least half
+ *  the expected net pay. Everything else is other income (a side income). */
+export function salaryTest(data: FinanceData) {
+  const names = new Map(data.categories.map((c) => [c.id, c.name]));
+  const expected = num(data.profile.expected_net_monthly);
+  return (t: Transaction) => isSalaryName(names.get(t.category_id ?? "") ?? "") || (expected > 0 && num(t.amount) >= expected * 0.5);
+}
+
+/** `month`'s other income (not salary), entered up to `at` (ms). The live
+ *  figures accrue the salary evenly and add this on the day it came in. */
+export function otherIncome(data: FinanceData, month: Date, at = Infinity) {
+  const salaryLike = salaryTest(data);
+  let total = 0;
+  for (const t of live(data.transactions)) {
+    if (t.type !== "income" || salaryLike(t)) continue;
+    const d = new Date(t.date);
+    if (d.getFullYear() !== month.getFullYear() || d.getMonth() !== month.getMonth() || d.getTime() > at) continue;
+    total += num(t.amount);
+  }
+  return total;
+}
+
 export type CategoryMonth = { month: Date; total: number; budget: number | null; future: boolean };
 
 /** Jan–Dec of `now`'s year for one category (subcategories included): spend
@@ -241,7 +264,7 @@ export function monthToDate(data: FinanceData, now: Date) {
     // End of each finished day; "now" for today.
     const at = day === now.getDate() ? now.getTime() : start + day * 86_400_000;
     const f = Math.min(1, (at - start) / monthMs);
-    points.push({ day, income: income * f, spent: s.fixed * f + variable });
+    points.push({ day, income: income * f + otherIncome(data, now, start + day * 86_400_000 - 1), spent: s.fixed * f + variable });
   }
   return { points, days };
 }
@@ -260,7 +283,7 @@ export function yearForecast(data: FinanceData, now: Date) {
     const m = current + i;
     return {
       month: m,
-      income: projectedNetIncome(data, new Date(year, m, 1)),
+      income: projectedNetIncome(data, new Date(year, m, 1)) + (i === 0 ? otherIncome(data, new Date(year, m, 1)) : 0),
       spent: i === 0 ? Math.max(thisMonth.spent, avgSpent) : avgSpent,
     };
   });
@@ -292,7 +315,7 @@ export function netWorthFigures(data: FinanceData, now: Date) {
   /** This month's live change at time `at` (ms) — the Balance tile. */
   const liveChange = (at: number) => {
     const f = Math.min(Math.max((at - monthStart) / (days * 86_400_000), 0), 1);
-    return projected * f - (thisMonth.fixed * f + thisMonth.variable);
+    return projected * f + otherIncome(data, new Date(monthStart), at) - (thisMonth.fixed * f + thisMonth.variable);
   };
   const forecast = yearForecast(data, now).map((f) => ({ month: f.month, change: f.income - f.spent }));
   return { accountsTotal, holdingsTotal, base, startOfYear, finished, liveChange, forecast, thisMonth, projected, days };

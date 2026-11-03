@@ -207,6 +207,10 @@ zh-Hans. Every new UI text must be translatable and translated:
   (CategoryBars dayBuckets `past`).
 - Income tile, Per day bars: same rule — the salary accrues evenly, other
   income (not salary-like) shows on its own day (TileSparkline `salaryTest`).
+- Live income counts other income too: salary × fraction of the month plus
+  other income entered so far (calc `otherIncome` / `salaryTest`) — in the
+  Income tile, Balance/Liquidity, monthToDate, netWorthFigures.liveChange
+  and this month's yearForecast. To port to iOS/Android.
 - Budgets total (Month and Year): compares like with like — categories
   with a budget, plus fixed costs without one (Bart's Hypotheek) at their
   own amount as budget (months ahead at the latest month's amount); in the

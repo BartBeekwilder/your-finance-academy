@@ -5,10 +5,9 @@ import { WithYAxis } from "./YAxis";
 import { useNow } from "@/lib/motion";
 import { memo, useMemo, useState } from "react";
 import { Check } from "lucide-react";
-import { live as alive, monthToDate, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
+import { live as alive, monthToDate, num, projectedNetIncome, salaryTest, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthName as monthLabel, shortMonth } from "@/lib/finance/format";
-import type { FinanceData, Transaction } from "@/lib/finance/types";
-import { isSalaryName } from "@/lib/finance/salary";
+import type { FinanceData } from "@/lib/finance/types";
 
 // Small live chart under each dashboard tile. It is one curve — the running
 // total for the year so far — seen through a camera:
@@ -459,14 +458,6 @@ function salaryPayments(data: FinanceData, year: number) {
     if (!had || had.amount < amount) best.set(d.getMonth(), { id: t.id, month: d.getMonth(), day: d.getDate(), amount, received: t.account_id != null, name: name || tr("Salary") });
   }
   return [...best.values()];
-}
-
-/** Income that counts as salary: a salary-like category, or at least half
- *  the expected net pay. */
-function salaryTest(data: FinanceData) {
-  const names = new Map(data.categories.map((c) => [c.id, c.name]));
-  const expected = num(data.profile.expected_net_monthly);
-  return (t: Transaction) => isSalaryName(names.get(t.category_id ?? "") ?? "") || (expected > 0 && num(t.amount) >= expected * 0.5);
 }
 
 const lerp = (a: number, b: number, k: number) => a + (b - a) * k;

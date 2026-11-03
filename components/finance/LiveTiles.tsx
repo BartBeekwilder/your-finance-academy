@@ -2,7 +2,7 @@
 
 import { intlLocale, t } from "@/lib/i18n";
 import { useState } from "react";
-import { summarize } from "@/lib/finance/calc";
+import { otherIncome, summarize } from "@/lib/finance/calc";
 import { useTickerNow } from "@/lib/motion";
 import { money, monthName } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
@@ -71,7 +71,8 @@ export default function LiveTiles({
   const fraction = Math.min(Math.max((now - start) / (days * 86_400_000), 0), 1);
   const dayOfMonth = Math.max(1, Math.ceil(fraction * days));
 
-  const liveIncome = monthlyIncome * fraction;
+  // The salary accrues evenly; other income (a side income) counts from its day.
+  const liveIncome = monthlyIncome * fraction + otherIncome(data, monthStart, now);
   const liveSpent = fixed * fraction + variable;
   const liveBalance = liveIncome - liveSpent;
   const spentTotal = fixed + variable;
