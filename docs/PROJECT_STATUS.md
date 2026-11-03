@@ -164,7 +164,8 @@ zh-Hans. Every new UI text must be translatable and translated:
 - Category chart summary bar: pointing at a segment in the bar itself only
   lights it (no move to the bottom) — moving it put another segment under
   the pointer and the bar flickered. Pointing at the legend or the day/month
-  bars still moves the category to the bottom with its budget tick.
+  bars still moves the category to the bottom with its budget tick. The
+  budget tick is measured from the lit segment's base, wherever it sits.
 
 ## Done recently (2026-10-22/23)
 

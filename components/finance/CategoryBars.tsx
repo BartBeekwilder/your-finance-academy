@@ -134,6 +134,9 @@ export default function CategoryBars({
   // The summary bar: the picked group first = at the bottom.
   const picked = hover?.id ?? focus;
   const ordered = picked ? [...stack.filter((s) => s.id === picked), ...stack.filter((s) => s.id !== picked)] : stack;
+  // The budget tick is measured from the lit segment's base, wherever it sits.
+  const litIndex = ordered.findIndex((s) => s.id === lit);
+  const litBase = ordered.slice(0, Math.max(litIndex, 0)).reduce((sum, s) => sum + (periodBy.get(s.id) ?? 0), 0);
 
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 10, ["--pf-cbar-accent" as string]: kind === "expense" ? "255, 69, 58" : "48, 209, 88" }}>
@@ -304,7 +307,7 @@ export default function CategoryBars({
             <div key={`s${mode}`} className="pf-cbar-total" style={{ height: H }}>
               {periodExpected > periodTotal && <span className="pf-cbar-expected" style={{ height: "100%", animationDelay: "0.9s" }} />}
               {periodBudget != null && (
-                <span key={lit} className="pf-cbar-budget-tick" style={{ bottom: `${Math.min(periodBudget / periodTop, 1) * 100}%` }}>
+                <span key={lit} className="pf-cbar-budget-tick" style={{ bottom: `${Math.min((litBase + periodBudget) / periodTop, 1) * 100}%` }}>
                   <em>{t("budget {amount}", { amount: money(periodBudget, currency, { compact: periodBudget >= 1000 }) })}</em>
                 </span>
               )}
