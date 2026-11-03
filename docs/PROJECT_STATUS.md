@@ -4,7 +4,7 @@ Read this first on any computer. It says where the project stands, how to
 run it, and what's next. Keep it up to date at the end of every session
 (Claude: update this file and commit it before finishing).
 
-Last updated: 2026-10-26 (evening).
+Last updated: 2026-11-03.
 
 ## The product
 
@@ -14,7 +14,7 @@ backend:
 | Part | Where | Branch |
 |---|---|---|
 | Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (not merged to `main`; `main` = live site) |
-| iOS / iPadOS app | repo `Personal Finance` (SwiftUI) | `ios-web-parity-oct21` |
+| iOS / iPadOS / Mac app | repo `Personal Finance` (SwiftUI) | `motion-perf-oct28` (latest; from `ios-port-oct26`) |
 | Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
 | Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0006 all applied (0005 + 0006 on 2026-10-23) | — |
 
@@ -32,7 +32,7 @@ Decisions:
 - Website: github.com/BartBeekwilder/your-finance-academy (public) — work
   on branch `web-app`; `main` is the live site (push to `main` = deploy).
 - iOS: github.com/BartBeekwilder/personal-finance-ios (private) — branch
-  `ios-web-parity-oct21`.
+  `motion-perf-oct28` (latest).
 - Android: github.com/BartBeekwilder/personal-finance-android (private) —
   branch `main`. Open in Android Studio; `./gradlew testDebugUnitTest
   assembleDebug`. Translations come from this repo's `lib/i18n/messages`
