@@ -5,12 +5,16 @@ import { useFinance } from "./FinanceProvider";
 import { cap, shortMonth } from "@/lib/finance/format";
 import { useNow } from "@/lib/motion";
 import type { FinanceData } from "@/lib/finance/types";
+import { useCheckin } from "./CheckinCard";
 
 // "Last updated" pill under the dashboard title: when you last entered or
 // changed anything (the newest updated_at over your own rows — Supabase sets
 // it on every insert and edit), so you know from which day to catch up. It
 // moves by itself after every session. Today: green; earlier: amber, with
 // the days to fill in. Click to open Quick Add.
+// Once the user checks in (lib/finance/checkin), the pill shows the check-in
+// instead — "Up to date through 3 Nov", green while this period is done —
+// and opens the checklist (the dashboard's Progress tile listens).
 
 const TABLES: (keyof FinanceData)[] = [
   "transactions", "incomeRecords", "budgets", "accounts", "holdings", "balanceItems", "balanceValues",
@@ -39,7 +43,28 @@ const dayStart = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate(
 export default function LastUpdated() {
   const { data, source } = useFinance();
   const now = new Date(useNow(60_000));
+  const checkin = useCheckin();
   const last = lastUpdate(data, source === "demo", now);
+  const loc0 = intlLocale();
+  if (checkin.last) {
+    const d = checkin.last;
+    const date = `${cap(d.toLocaleDateString(loc0, { weekday: "short" }))} ${d.getDate()} ${shortMonth(d)}`;
+    return (
+      <button
+        type="button"
+        className="pf-updated"
+        data-fresh={checkin.done}
+        onClick={() => window.dispatchEvent(new Event("pf-checkin"))}
+        title={t("Bring your books up to date")}
+      >
+        <span className="pf-updated-dot" />
+        <span>
+          {t("Up to date through {date}", { date })}
+          {!checkin.done && <span className="pf-updated-gap"> · {t("time to check in")}</span>}
+        </span>
+      </button>
+    );
+  }
   if (!last) return null;
 
   const days = Math.round((dayStart(now).getTime() - dayStart(last).getTime()) / 86_400_000);

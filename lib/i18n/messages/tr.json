@@ -1244,5 +1244,7 @@
  "Twice a week": "Haftada 2",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "Haftada 2: bir kez pazartesi–çarşamba, bir kez perşembe–pazar.",
  "Up to date through {date} · +{n} points": "{date} itibarıyla güncel · +{n} puan",
- "Weekly": "Haftalık"
+ "Weekly": "Haftalık",
+ "Up to date through {date}": "{date} itibarıyla güncel",
+ "time to check in": "kontrol zamanı"
 }

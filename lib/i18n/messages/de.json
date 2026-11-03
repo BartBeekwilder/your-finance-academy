@@ -1244,5 +1244,7 @@
  "Twice a week": "2× pro Woche",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "2× pro Woche: einmal Montag–Mittwoch und einmal Donnerstag–Sonntag.",
  "Up to date through {date} · +{n} points": "Aktuell bis {date} · +{n} Punkte",
- "Weekly": "Wöchentlich"
+ "Weekly": "Wöchentlich",
+ "Up to date through {date}": "Aktuell bis {date}",
+ "time to check in": "Zeit für den Check-in"
 }

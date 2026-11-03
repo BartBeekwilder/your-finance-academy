@@ -1244,5 +1244,7 @@
  "Twice a week": "週2回",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "週2回：月〜水に1回、木〜日に1回。",
  "Up to date through {date} · +{n} points": "{date}まで最新・+{n}ポイント",
- "Weekly": "毎週"
+ "Weekly": "毎週",
+ "Up to date through {date}": "{date}まで最新",
+ "time to check in": "チェックインの時間です"
 }

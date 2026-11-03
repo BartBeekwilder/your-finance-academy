@@ -1244,5 +1244,7 @@
  "Twice a week": "2 lần/tuần",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "2 lần/tuần: một lần thứ Hai–thứ Tư và một lần thứ Năm–Chủ nhật.",
  "Up to date through {date} · +{n} points": "Đã cập nhật đến {date} · +{n} điểm",
- "Weekly": "Hằng tuần"
+ "Weekly": "Hằng tuần",
+ "Up to date through {date}": "Đã cập nhật đến {date}",
+ "time to check in": "đến lúc kiểm tra"
 }

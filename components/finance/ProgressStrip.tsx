@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { CalendarCheck, CircleCheck } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Sheet from "@/components/finance/Sheet";
 import CheckinCard, { useCheckin } from "@/components/finance/CheckinCard";
 import { ListChecks } from "lucide-react";
@@ -21,6 +21,12 @@ export default function ProgressStrip() {
   const checkin = useCheckin();
   const [sheet, setSheet] = useState<Element | null>(null);
   const [open, setOpen] = useState(false);
+  // The dashboard's "Up to date through" pill opens the checklist here.
+  useEffect(() => {
+    const show = () => { setSheet(null); setOpen(true); };
+    window.addEventListener("pf-checkin", show);
+    return () => window.removeEventListener("pf-checkin", show);
+  }, []);
   return (
     <section className="pf-card pf-progress-mini">
       <Link href="/app/progress" className="pf-progress-strip">

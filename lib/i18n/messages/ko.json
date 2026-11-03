@@ -1244,5 +1244,7 @@
  "Twice a week": "주 2회",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "주 2회: 월~수 한 번, 목~일 한 번.",
  "Up to date through {date} · +{n} points": "{date}까지 최신 · +{n}점",
- "Weekly": "매주"
+ "Weekly": "매주",
+ "Up to date through {date}": "{date}까지 최신",
+ "time to check in": "체크인할 시간"
 }

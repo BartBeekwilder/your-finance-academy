@@ -1251,5 +1251,7 @@
  "Twice a week": "2x per week",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "2x per week: één keer maandag–woensdag en één keer donderdag–zondag.",
  "Up to date through {date} · +{n} points": "Bijgewerkt t/m {date} · +{n} punten",
- "Weekly": "Wekelijks"
+ "Weekly": "Wekelijks",
+ "Up to date through {date}": "Bijgewerkt t/m {date}",
+ "time to check in": "tijd om bij te werken"
 }

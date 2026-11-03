@@ -1244,5 +1244,7 @@
  "Twice a week": "2× w tygodniu",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "2× w tygodniu: raz od poniedziałku do środy i raz od czwartku do niedzieli.",
  "Up to date through {date} · +{n} points": "Aktualne do {date} · +{n} pkt",
- "Weekly": "Co tydzień"
+ "Weekly": "Co tydzień",
+ "Up to date through {date}": "Aktualne do {date}",
+ "time to check in": "czas na przegląd"
 }

@@ -1244,5 +1244,7 @@
  "Twice a week": "2x seminggu",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "2x seminggu: sekali Senin–Rabu dan sekali Kamis–Minggu.",
  "Up to date through {date} · +{n} points": "Terkini hingga {date} · +{n} poin",
- "Weekly": "Mingguan"
+ "Weekly": "Mingguan",
+ "Up to date through {date}": "Terkini hingga {date}",
+ "time to check in": "saatnya check-in"
 }

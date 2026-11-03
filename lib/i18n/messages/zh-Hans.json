@@ -1244,5 +1244,7 @@
  "Twice a week": "每周两次",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "每周两次：周一至周三一次，周四至周日一次。",
  "Up to date through {date} · +{n} points": "已更新至 {date} · +{n} 分",
- "Weekly": "每周"
+ "Weekly": "每周",
+ "Up to date through {date}": "已更新至 {date}",
+ "time to check in": "该打卡了"
 }

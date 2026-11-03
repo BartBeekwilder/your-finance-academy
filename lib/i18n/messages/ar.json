@@ -1244,5 +1244,7 @@
  "Twice a week": "مرتين أسبوعيًا",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "مرتين أسبوعيًا: مرة من الاثنين إلى الأربعاء ومرة من الخميس إلى الأحد.",
  "Up to date through {date} · +{n} points": "محدّث حتى {date} · +{n} نقطة",
- "Weekly": "أسبوعيًا"
+ "Weekly": "أسبوعيًا",
+ "Up to date through {date}": "محدّث حتى {date}",
+ "time to check in": "حان وقت المراجعة"
 }

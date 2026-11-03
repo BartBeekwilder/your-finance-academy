@@ -1244,5 +1244,7 @@
  "Twice a week": "सप्ताह में 2 बार",
  "Twice a week: once Monday–Wednesday and once Thursday–Sunday.": "सप्ताह में 2 बार: एक बार सोमवार–बुधवार और एक बार गुरुवार–रविवार।",
  "Up to date through {date} · +{n} points": "{date} तक अद्यतन · +{n} अंक",
- "Weekly": "साप्ताहिक"
+ "Weekly": "साप्ताहिक",
+ "Up to date through {date}": "{date} तक अद्यतन",
+ "time to check in": "चेक-इन का समय"
 }
