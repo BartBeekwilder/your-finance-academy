@@ -55,10 +55,25 @@ const BUDGETS: (Omit<Line, "amount" | "on"> & { share: number })[] = [
   { key: "Health", name: "Health", icon: "cross.case.fill", color: "E63946", share: 0.015 },
 ];
 
-const num = (s: string) => {
+const one = (s: string) => {
   const v = Number(s.replace(/\s/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", "."));
   return Number.isFinite(v) ? v : 0;
 };
+/** An amount as typed; several added up with "+" (40 + 24 → 64), so one
+ *  category can hold more than one bill. */
+const num = (s: string) => s.split("+").reduce((t, part) => t + one(part), 0);
+
+/** An amount field that shows the total under it when several amounts are
+ *  added up ("40+24" → "= € 64,00"). */
+function AmountField({ value, onChange, label, currency, autoFocus }: { value: string; onChange: (v: string) => void; label: string; currency: string; autoFocus?: boolean }) {
+  const sum = value.includes("+") ? num(value) : null;
+  return (
+    <span className="pf-ob-amountwrap">
+      <input className="pf-input pf-ob-amount" inputMode="decimal" autoFocus={autoFocus} placeholder={money(0, currency)} value={value} aria-label={label} onChange={(e) => onChange(e.target.value)} />
+      {sum !== null && <span key={sum} className="pf-ob-sum pf-rounded">= {money(sum, currency)}</span>}
+    </span>
+  );
+}
 
 export default function Onboarding({ preview, onClose }: { preview: boolean; onClose: () => void }) {
   const { data, now, updateProfile, saveAccount, setBudget, addCategory, addTransaction, addBalanceItem, source } = useFinance();
@@ -264,7 +279,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                   {accounts.map((a, i) => (
                     <div key={a.key} className="pf-ob-line">
                       <input className="pf-ob-name" value={a.name} aria-label={t("Account name")} onChange={(e) => setAccounts(accounts.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} />
-                      <input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={a.amount} aria-label={t("{name} balance", { name: a.name })} onChange={(e) => setAccounts(accounts.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))} />
+                      <AmountField currency={currency} value={a.amount} label={t("{name} balance", { name: a.name })} onChange={(v) => setAccounts(accounts.map((x, j) => (j === i ? { ...x, amount: v } : x)))} />
                     </div>
                   ))}
                   <button className="pf-bal-add" onClick={() => setAccounts([...accounts, { key: crypto.randomUUID(), name: t("Another account"), type: "savings", amount: "" }])}>
@@ -275,7 +290,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
             )}
 
             {id === "fixed" && (
-              <Screen title={t("Your fixed costs")} hint={t("The same every month. Tap what you have and fill in the amount — they become this month's fixed costs and budgets.")}>
+              <Screen title={t("Your fixed costs")} hint={`${t("The same every month. Tap what you have and fill in the amount — they become this month's fixed costs and budgets.")} ${t("Several bills in one? Add them up with +, like 40+24.")}`}>
                 <div className="pf-ob-list">
                   {fixed.map((f, i) => (
                     <div key={f.key} className="pf-ob-line" data-on={f.on}>
@@ -285,7 +300,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                         {f.on && <Check size={14} className="pf-ob-check" />}
                       </button>
                       {f.on && (
-                        <input className="pf-input pf-ob-amount" inputMode="decimal" autoFocus placeholder={money(0, currency)} value={f.amount} aria-label={t("{name} per month", { name: t(f.name) })} onChange={(e) => setFixed(fixed.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))} />
+                        <AmountField autoFocus currency={currency} value={f.amount} label={t("{name} per month", { name: t(f.name) })} onChange={(v) => setFixed(fixed.map((x, j) => (j === i ? { ...x, amount: v } : x)))} />
                       )}
                     </div>
                   ))}
@@ -303,7 +318,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                         <span>{t(b.name)}</span>
                       </button>
                       {b.on && (
-                        <input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={b.amount} aria-label={t("{name} budget", { name: t(b.name) })} onChange={(e) => setBudgets(budgetLines.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))} />
+                        <AmountField currency={currency} value={b.amount} label={t("{name} budget", { name: t(b.name) })} onChange={(v) => setBudgets(budgetLines.map((x, j) => (j === i ? { ...x, amount: v } : x)))} />
                       )}
                     </div>
                   ))}

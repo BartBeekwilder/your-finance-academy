@@ -1258,5 +1258,6 @@
  "The share of your budgets expected to hold at month end. For each budget: what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before). Example: €265 for groceries, €33 spent by the 3rd, usually €240 a month → about €33 + €216 = €249, within budget. In the calendar, a day's green ring shows whether spending up to that day stayed within the budget's share for those days.": "月末まで守れる見込みの予算の割合。各予算について：これまでの支出＋月の残りでいつも使う額（前3か月の平均）。例：食料品に265€、3日までに33€、普段は月240€ → 約33€＋216€＝249€で予算内。カレンダーでは、各日の緑のリングが、その日までの支出がその日数分の予算内だったかを示します。",
  "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "今月、収入の20%を貯蓄できそうか：月末の予測（見込み収入−見込み支出）を見込み収入に対する割合で。20%で閉じます。カレンダーでは、給与と固定費を月全体に配分して、その日までの貯蓄を日ごとに表示します。",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "帳簿が最新であることの確認：すべての支出と収入を入力し、口座残高が銀行と一致。期間ごとに1回（設定 › チェックイン）、ボーナス15ポイント。前回のチェックイン以降の日も記録済みとして数えます。",
- "Points": "ポイント"
+ "Points": "ポイント",
+ "Several bills in one? Add them up with +, like 40+24.": "複数の請求をまとめる？ 40+24 のように + で足せます。"
 }

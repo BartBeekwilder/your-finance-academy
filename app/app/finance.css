@@ -4865,3 +4865,10 @@ span.pf-cmp-chip { cursor: default; }
 .pf-close-rings { width: 70px; display: inline-flex; justify-content: flex-end; gap: 5px; }
 .pf-close-rings i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--c); opacity: 0.45; }
 .pf-close-rings i[data-on="true"] { background: var(--c); opacity: 1; box-shadow: 0 0 6px var(--c); }
+
+/* Onboarding: several amounts added up in one field ("40+24 = € 64,00"). */
+.pf-ob-amountwrap { position: relative; flex: none; display: inline-block; }
+.pf-ob-sum {
+  position: absolute; right: 12px; bottom: -15px; font-size: 0.66rem; color: var(--pf-brand-b); white-space: nowrap;
+  animation: pf-fade-up 0.25s ease-out both; pointer-events: none;
+}

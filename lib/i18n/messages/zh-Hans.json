@@ -1258,5 +1258,6 @@
  "The share of your budgets expected to hold at month end. For each budget: what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before). Example: €265 for groceries, €33 spent by the 3rd, usually €240 a month → about €33 + €216 = €249, within budget. In the calendar, a day's green ring shows whether spending up to that day stayed within the budget's share for those days.": "预计到月底能守住的预算占比。每项预算：目前已花的加上本月剩余时间通常会花的（前三个月的平均）。例：买菜预算 €265，到 3 号已花 €33，通常每月 €240 → 约 €33 + €216 = €249，在预算内。日历中，每天的绿色环表示截至当天的支出是否在这些天对应的预算份额内。",
  "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "本月是否有望存下收入的 20%：月底预测（预计收入减预计支出）占预计收入的比例。达到 20% 时闭合。日历中，每天显示截至当时的储蓄，工资和固定支出平摊到整个月。",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "确认账目已更新：所有支出和收入已记录，账户余额与银行一致。每个周期一次（设置 › 打卡），奖励 15 分；还会把上次打卡以来的日子计为已记账。",
- "Points": "积分"
+ "Points": "积分",
+ "Several bills in one? Add them up with +, like 40+24.": "多笔账单合在一起？用 + 相加，例如 40+24。"
 }
