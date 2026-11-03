@@ -1215,5 +1215,6 @@
  "Debts": "Borçlar",
  "No year-end stands yet.": "Henüz yıl sonu durumu yok.",
  "{month} closed": "{month} kapatıldı",
- "{rate}% of your income saved · goal {goal}%": "Gelirinin %{rate} kadarı biriktirildi · hedef %{goal}"
+ "Saving (forecast)": "Birikim (tahmin)",
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "Ay sonunda gelirinin %{rate} kadarı biriktirilmiş olacak (tahmin) · hedef %{goal}"
 }

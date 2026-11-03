@@ -1215,5 +1215,6 @@
  "Debts": "Długi",
  "No year-end stands yet.": "Brak jeszcze stanów na koniec roku.",
  "{month} closed": "{month} zamknięty",
- "{rate}% of your income saved · goal {goal}%": "Zaoszczędzono {rate}% dochodu · cel {goal}%"
+ "Saving (forecast)": "Oszczędzanie (prognoza)",
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% dochodu zaoszczędzone na koniec miesiąca (prognoza) · cel {goal}%"
 }

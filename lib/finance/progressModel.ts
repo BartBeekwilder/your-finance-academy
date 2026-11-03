@@ -1,4 +1,4 @@
-import { balanceSheet, budgetIn, live, monthProgress, netWorthFigures, num, projectedNetIncome, spendByCategory, summarize } from "./calc";
+import { balanceSheet, budgetIn, live, monthProgress, netWorthFigures, num, projectedNetIncome, spendByCategory, summarize, yearForecast } from "./calc";
 import { ownership, summarize as summarizePart } from "./mortgage";
 import { BADGES, POINTS, goalProgress, level, rings, ringsClosed, streak, type BadgeContext } from "./progress";
 import { homes } from "./realEstate";
@@ -59,14 +59,18 @@ export function progressModel(data: FinanceData, now: Date) {
   const fraction = monthProgress(now);
   const nw = netWorthFigures(data, now);
 
-  // This month's rings, live.
+  // This month's rings, live. Saving is a month goal: what the forecast
+  // expects to be saved by the end of the month against 20% of the month's
+  // expected income (not today's pace, which swings early in the month).
+  const fc = yearForecast(data, now)[0];
   const ringNow = rings({
     daysElapsed: now.getDate(),
     activeDaysInMonth: activity.filter((d) => d.slice(0, 7) === iso(month).slice(0, 7)).length,
     budgets: budgetRows(data, month),
     fraction,
-    saved: nw.liveChange(now.getTime()),
-    savingsTarget: projectedNetIncome(data, month) * SAVINGS_SHARE,
+    saved: fc ? fc.income - fc.spent : nw.liveChange(now.getTime()),
+    savingsTarget: (fc ? fc.income : projectedNetIncome(data, month)) * SAVINGS_SHARE,
+    savedIsForecast: !!fc,
   });
 
   const days = streak(activity, now);

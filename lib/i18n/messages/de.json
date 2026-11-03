@@ -1215,5 +1215,6 @@
  "Debts": "Schulden",
  "No year-end stands yet.": "Noch keine Jahresendstände.",
  "{month} closed": "{month} abgeschlossen",
- "{rate}% of your income saved · goal {goal}%": "{rate} % deines Einkommens gespart · Ziel {goal} %"
+ "Saving (forecast)": "Sparen (Prognose)",
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate} % deines Einkommens gespart zum Monatsende (Prognose) · Ziel {goal} %"
 }

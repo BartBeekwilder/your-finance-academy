@@ -32,18 +32,18 @@ export default function ProgressStrip() {
         {([
           ["tracking", t("Tracking"), m.rings.tracking],
           ["budget", t("Budget"), m.rings.budget],
-          ["saving", t("Saved"), m.rings.saving],
+          ["saving", t("Saving (forecast)"), m.rings.saving],
         ] as const).map(([key, label, v], i) => {
-          // Saving: the share of income saved, on a bar running to twice the
-          // goal with the goal (20%) ticked in the middle — past the tick is
-          // past the goal.
+          // Saving: the share of income the forecast expects to be saved by
+          // month end, on a bar running to twice the goal with the goal (20%)
+          // ticked in the middle — past the tick is past the goal.
           const saving = key === "saving";
           const rate = v * SAVINGS_SHARE;
           return (
             <span
               key={key}
               className="pf-progress-bar"
-              title={saving ? t("{rate}% of your income saved · goal {goal}%", { rate: Math.round(rate * 100), goal: Math.round(SAVINGS_SHARE * 100) }) : undefined}
+              title={saving ? t("{rate}% of your income saved by month end (forecast) · goal {goal}%", { rate: Math.round(rate * 100), goal: Math.round(SAVINGS_SHARE * 100) }) : undefined}
               style={{ ["--c0" as string]: RING_COLORS[key][0], ["--c1" as string]: RING_COLORS[key][1], ["--v" as string]: Math.min(saving ? v / 2 : v, 1), animationDelay: `${i * 90}ms` }}
             >
               <span>{label}</span>

@@ -73,6 +73,8 @@ export type RingInput = {
   saved: number;
   /** The month's savings target (full month). */
   savingsTarget: number;
+  /** `saved` is the month-end forecast, so the target isn't prorated. */
+  savedIsForecast?: boolean;
 };
 
 /** The three rings, each 0…1 (can exceed 1 for saving). */
@@ -88,7 +90,7 @@ export function rings(r: RingInput) {
   });
   // No budgets, no ring: it closes by keeping budgets, not by having none.
   const budget = r.budgets.length ? onTrack.length / r.budgets.length : 0;
-  const target = r.savingsTarget * r.fraction;
+  const target = r.savingsTarget * (r.savedIsForecast ? 1 : r.fraction);
   const saving = target > 0 ? Math.max(r.saved / target, 0) : r.saved > 0 ? 1 : 0;
   return { tracking, budget, saving };
 }

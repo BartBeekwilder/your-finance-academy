@@ -1215,5 +1215,6 @@
  "Debts": "负债",
  "No year-end stands yet.": "还没有年末数据。",
  "{month} closed": "{month} 已结账",
- "{rate}% of your income saved · goal {goal}%": "已存下收入的 {rate}% · 目标 {goal}%"
+ "Saving (forecast)": "储蓄（预测）",
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "月底预计存下收入的 {rate}%（预测）· 目标 {goal}%"
 }

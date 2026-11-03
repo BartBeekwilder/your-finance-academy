@@ -1215,5 +1215,6 @@
  "Debts": "Долги",
  "No year-end stands yet.": "Пока нет данных на конец года.",
  "{month} closed": "{month} закрыт",
- "{rate}% of your income saved · goal {goal}%": "Сбережено {rate}% дохода · цель {goal}%"
+ "Saving (forecast)": "Сбережения (прогноз)",
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% дохода сбережено к концу месяца (прогноз) · цель {goal}%"
 }
