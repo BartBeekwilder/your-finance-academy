@@ -201,6 +201,10 @@ zh-Hans. Every new UI text must be translatable and translated:
   dotted forecast line from now to the month's forecast end, labelled
   "<date> · forecast" (TileSparkline `ahead`). The bar view's forecast
   labels now use the translated "· forecast" too.
+- Income per day, Spread: only the main income (largest this year) is
+  spread over the days; other income (e.g. a side income) stays on its own
+  day. A finished month spreads what came in, not the expected net
+  (CategoryBars dayBuckets `past`).
 
 ## Done recently (2026-10-22/23)
 

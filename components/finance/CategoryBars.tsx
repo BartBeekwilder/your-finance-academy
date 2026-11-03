@@ -102,7 +102,7 @@ export default function CategoryBars({
     for (const t of live(data.transactions)) if (t.type === "income" && new Date(t.date).getFullYear() === now.getFullYear()) add(totals, groupOf(t), num(t.amount));
     return [...totals.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? groups[0]?.id ?? OTHER;
   })();
-  const months = mode === "year" ? yearBuckets(data, now, kind, groupOf, forecastOf) : dayBuckets(data, now, kind, groupOf, mainIncome, spread);
+  const months = mode === "year" ? yearBuckets(data, now, kind, groupOf, forecastOf) : dayBuckets(data, now, kind, groupOf, mainIncome, spread, past);
   const max = niceMax(Math.max(1, ...months.map((m) => Math.max(m.total, m.expected ?? 0))));
   const stack = groups.filter((g) => months.some((m) => m.by.has(g.id)));
 
@@ -428,30 +428,33 @@ function yearBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Tran
 /** Every day of this month. Spending: variable on its day, fixed costs spread
  *  evenly over the days so far. Income: on its day, with the expected payday
  *  outlined until the money is in. */
-function dayBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Transaction) => string, mainIncome: string, spread: boolean): Bucket[] {
+function dayBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Transaction) => string, mainIncome: string, spread: boolean, past = false): Bucket[] {
   const year = now.getFullYear(), month = now.getMonth(), today = now.getDate();
   const days = new Date(year, month + 1, 0).getDate();
   const byDay = Array.from({ length: days + 1 }, () => new Map<string, number>());
   const fixed = new Map<string, number>();
-  let received = 0;
+  const smear = kind === "income" && spread;
+  let received = 0, mainReceived = 0;
   for (const t of live(data.transactions)) {
     const d = new Date(t.date);
     if (t.type !== kind || d.getFullYear() !== year || d.getMonth() !== month) continue;
-    if (kind === "expense" && t.is_fixed_expense) add(fixed, groupOf(t), num(t.amount));
-    else add(byDay[d.getDate()], groupOf(t), num(t.amount));
     received += num(t.amount);
+    if (kind === "expense" && t.is_fixed_expense) add(fixed, groupOf(t), num(t.amount));
+    // Spread: the main income is smeared below; other income stays on its day.
+    else if (smear && groupOf(t) === mainIncome) mainReceived += num(t.amount);
+    else add(byDay[d.getDate()], groupOf(t), num(t.amount));
   }
   const payday = data.profile.payday_day;
-  const smear = kind === "income" && spread;
-  // Spread: the month's expected net evenly — today only the part of the
-  // day that has passed. On payday: what's still to come, dashed on payday.
-  const perDay = smear ? projectedNetIncome(data, new Date(year, month, 1)) / days : 0;
+  // Spread: the main income evenly — this month at its expected net, today
+  // only the part of the day that has passed; a finished month at what came
+  // in. On payday: what's still to come, dashed on payday.
+  const perDay = smear ? (past ? mainReceived : projectedNetIncome(data, new Date(year, month, 1))) / days : 0;
   const stillExpected = kind === "income" && !spread && payday && payday > today ? Math.max(0, projectedNetIncome(data, new Date(year, month, 1)) - received) : 0;
   const todayShare = (now.getTime() - new Date(year, month, today).getTime()) / 86_400_000;
 
   return Array.from({ length: days }, (_, i) => {
     const day = i + 1;
-    const by = smear ? new Map<string, number>() : new Map(byDay[day]);
+    const by = new Map(byDay[day]);
     if (day <= today) for (const [id, v] of fixed) add(by, id, v / days);
     if (smear && day <= today) add(by, mainIncome, day < today ? perDay : perDay * Math.min(Math.max(todayShare, 0), 1));
     const d = new Date(year, month, day);
