@@ -7,7 +7,7 @@ import { memo, useMemo, useState } from "react";
 import { Check } from "lucide-react";
 import { live as alive, monthToDate, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthName as monthLabel, shortMonth } from "@/lib/finance/format";
-import type { FinanceData } from "@/lib/finance/types";
+import type { FinanceData, Transaction } from "@/lib/finance/types";
 import { isSalaryName } from "@/lib/finance/salary";
 
 // Small live chart under each dashboard tile. It is one curve — the running
@@ -152,18 +152,20 @@ export default memo(function TileSparkline({
     bars.push({ t0: current, t1: current + 1, v: monthLive, label: tr("{v1} · so far", { v1: monthName(current) }) });
     const fc = yearForecast(data, live);
     for (const f of fc.slice(1)) bars.push({ t0: f.month, t1: f.month + 1, v: pick(f.income, f.spent), label: `${monthName(f.month)} ${tr("· forecast")}`, forecast: true });
-    // Days: income accrues evenly, fixed costs spread, variable on its day.
+    // Days: the salary accrues evenly, other income (a side income) on its
+    // day; fixed costs spread, variable on its day.
     const variableByDay = new Array(days + 1).fill(0);
-    const incomeByDay = new Array(days + 1).fill(0);
+    const otherIncomeByDay = new Array(days + 1).fill(0);
+    const salaryLike = salaryTest(data);
     for (const t of alive(data.transactions)) {
       const d = new Date(t.date);
       if (d.getFullYear() !== year || d.getMonth() !== current) continue;
       if (t.type === "expense" && !t.is_fixed_expense) variableByDay[d.getDate()] += num(t.amount);
-      if (t.type === "income") incomeByDay[d.getDate()] += num(t.amount);
+      if (t.type === "income" && !salaryLike(t)) otherIncomeByDay[d.getDate()] += num(t.amount);
     }
     const projected = projectedNetIncome(data, new Date(year, current, 1));
     const today = live.getDate();
-    const dayOf = (d: number, share: number) => pick(projected * share, thisMonth.fixed * share + variableByDay[d]);
+    const dayOf = (d: number, share: number) => pick(projected * share + otherIncomeByDay[d], thisMonth.fixed * share + variableByDay[d]);
     for (let d = 1; d <= today; d++) {
       const share = d < today ? 1 / days : fraction - (today - 1) / days;
       bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: dayOf(d, share), label: d === today ? tr("Today · live") : new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }), day: true });
@@ -444,7 +446,7 @@ export default memo(function TileSparkline({
  *  least half the expected net pay. One per month (the largest). */
 function salaryPayments(data: FinanceData, year: number) {
   const names = new Map(data.categories.map((c) => [c.id, c.name]));
-  const expected = num(data.profile.expected_net_monthly);
+  const salaryLike = salaryTest(data);
   const best = new Map<number, { id: string; month: number; day: number; amount: number; received: boolean; name: string }>();
   for (const t of alive(data.transactions)) {
     if (t.type !== "income") continue;
@@ -452,11 +454,19 @@ function salaryPayments(data: FinanceData, year: number) {
     if (d.getFullYear() !== year) continue;
     const name = names.get(t.category_id ?? "") ?? "";
     const amount = num(t.amount);
-    if (!isSalaryName(name) && !(expected > 0 && amount >= expected * 0.5)) continue;
+    if (!salaryLike(t)) continue;
     const had = best.get(d.getMonth());
     if (!had || had.amount < amount) best.set(d.getMonth(), { id: t.id, month: d.getMonth(), day: d.getDate(), amount, received: t.account_id != null, name: name || tr("Salary") });
   }
   return [...best.values()];
+}
+
+/** Income that counts as salary: a salary-like category, or at least half
+ *  the expected net pay. */
+function salaryTest(data: FinanceData) {
+  const names = new Map(data.categories.map((c) => [c.id, c.name]));
+  const expected = num(data.profile.expected_net_monthly);
+  return (t: Transaction) => isSalaryName(names.get(t.category_id ?? "") ?? "") || (expected > 0 && num(t.amount) >= expected * 0.5);
 }
 
 const lerp = (a: number, b: number, k: number) => a + (b - a) * k;

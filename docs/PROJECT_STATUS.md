@@ -205,6 +205,8 @@ zh-Hans. Every new UI text must be translatable and translated:
   spread over the days; other income (e.g. a side income) stays on its own
   day. A finished month spreads what came in, not the expected net
   (CategoryBars dayBuckets `past`).
+- Income tile, Per day bars: same rule — the salary accrues evenly, other
+  income (not salary-like) shows on its own day (TileSparkline `salaryTest`).
 - Budgets total (Month and Year): compares like with like — categories
   with a budget, plus fixed costs without one (Bart's Hypotheek) at their
   own amount as budget (months ahead at the latest month's amount); in the
