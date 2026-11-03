@@ -211,6 +211,10 @@ zh-Hans. Every new UI text must be translatable and translated:
   other income entered so far (calc `otherIncome` / `salaryTest`) — in the
   Income tile, Balance/Liquidity, monthToDate, netWorthFigures.liveChange
   and this month's yearForecast. To port to iOS/Android.
+- Liquidity card This Month / This Year: on the live model (netWorthFigures
+  liveChange), not the raw entries — fixed costs booked on the 1st made
+  Work read −€1.4K before payday. Close-month nudge: only the last finished
+  month (progressModel `closable`), older open months don't nag. To port.
 - Budgets total (Month and Year): compares like with like — categories
   with a budget, plus fixed costs without one (Bart's Hypotheek) at their
   own amount as budget (months ahead at the latest month's amount); in the

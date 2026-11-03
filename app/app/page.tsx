@@ -55,9 +55,12 @@ export default function DashboardPage() {
   // savings (netWorthFigures — the Net worth page's model, same as iOS).
   const complete = history.slice(0, -1).filter((p) => p.income || p.expense);
   const pace = complete.length ? complete.reduce((t, p) => t + p.income - p.expense, 0) / complete.length : 0;
-  const yearDelta = history
-    .filter((p) => p.month.getFullYear() === now.getFullYear())
-    .reduce((t, p) => t + p.income - p.expense, 0);
+  // This month on the live model (salary and fixed costs pro rata, other
+  // income and variable spending as entered), not the raw entries: fixed
+  // costs book on their day long before the salary comes in.
+  const nw = netWorthFigures(data, now);
+  const monthDelta = nw.liveChange(now.getTime());
+  const yearDelta = nw.finished.reduce((t, v) => t + v, 0) + monthDelta;
 
   // What the investments did by themselves: market value now against the
   // last close before today / this month / this year (live quotes only).
@@ -94,7 +97,7 @@ export default function DashboardPage() {
 
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">
-        <NetWorthCard base={netWorthFigures(data, now).base} monthlyPace={pace} monthDelta={s.balance} yearDelta={yearDelta} invest={invest} currency={currency} history={equityYears} />
+        <NetWorthCard base={nw.base} monthlyPace={pace} monthDelta={monthDelta} yearDelta={yearDelta} invest={invest} currency={currency} history={equityYears} />
         <ProgressStrip />
       </section>
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}

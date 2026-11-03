@@ -63,16 +63,11 @@ export function progressModel(data: FinanceData, now: Date) {
   const days = streak(activity, now);
   const points = closes.reduce((t, c) => t + c.points, 0) + achievements.reduce((t, a) => t + a.points, 0) + activity.length * POINTS.activeDay;
 
-  // The month to close: the latest finished month of this year not closed yet.
+  // The month to close: only the last finished month (December in January),
+  // while it isn't closed yet — older months don't nag.
   const closed = new Set(closes.map((c) => c.month.slice(0, 7)));
-  let closable: Date | null = null;
-  for (let m = now.getMonth() - 1; m >= 0; m--) {
-    const d = new Date(now.getFullYear(), m, 1);
-    if (!closed.has(iso(d).slice(0, 7))) {
-      closable = d;
-      break;
-    }
-  }
+  const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const closable: Date | null = closed.has(iso(lastMonth).slice(0, 7)) ? null : lastMonth;
 
   // Balance and real estate, for goals and badges.
   const sheet = balanceSheet(data, now, month);
