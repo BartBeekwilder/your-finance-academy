@@ -155,6 +155,17 @@ zh-Hans. Every new UI text must be translatable and translated:
   per-day chart (CategoryBars `past`) and transactions follow the picked
   month; a finished month shows no forecast or payday countdown.
 
+## Done 2026-11-03
+
+- Windows work computer set up (repos side by side in
+  `C:\Users\nlbbeek\PycharmProjects`, signed in to GitHub via Git Credential
+  Manager in the browser — no admin rights there, so no `gh`). PowerShell
+  blocks `npx.ps1`: start the dev server with `npx.cmd next dev -p 3000 -H localhost`.
+- Category chart summary bar: pointing at a segment in the bar itself only
+  lights it (no move to the bottom) — moving it put another segment under
+  the pointer and the bar flickered. Pointing at the legend or the day/month
+  bars still moves the category to the bottom with its budget tick.
+
 ## Done recently (2026-10-22/23)
 
 - Balance sheet (web + iOS): own posts with month-end values, calculated

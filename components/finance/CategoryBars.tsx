@@ -86,6 +86,9 @@ export default function CategoryBars({
   const [hover, setHover] = useState<{ month: number; id: string } | null>(null);
   const [ghost, setGhost] = useState<number | null>(null);
   const [focus, setFocus] = useState<string | null>(null);
+  // Pointing at the summary bar itself lights a segment but keeps the order:
+  // moving it to the bottom would put another segment under the pointer.
+  const [barFocus, setBarFocus] = useState<string | null>(null);
   // Income per day: spread evenly (default) or as it arrives (on payday).
   const [spread, setSpread] = useState(true);
 
@@ -103,7 +106,7 @@ export default function CategoryBars({
   const max = niceMax(Math.max(1, ...months.map((m) => Math.max(m.total, m.expected ?? 0))));
   const stack = groups.filter((g) => months.some((m) => m.by.has(g.id)));
 
-  const lit = hover?.id ?? focus;
+  const lit = hover?.id ?? focus ?? barFocus;
   const shown = hover ? months[hover.month] : null;
   const shownGroup = hover ? stack.find((s) => s.id === hover.id) : null;
   const shownValue = hover && shown ? (shown.by.get(hover.id) ?? 0) : 0;
@@ -129,7 +132,8 @@ export default function CategoryBars({
   const hasBudget = !!budgetLine?.some((v) => v != null);
   const periodBudget = !litYear ? null : mode === "year" ? litYear.slice(0, now.getMonth() + 1).reduce((s, m) => s + (m.budget ?? 0), 0) || null : monthBudget;
   // The summary bar: the picked group first = at the bottom.
-  const ordered = lit ? [...stack.filter((s) => s.id === lit), ...stack.filter((s) => s.id !== lit)] : stack;
+  const picked = hover?.id ?? focus;
+  const ordered = picked ? [...stack.filter((s) => s.id === picked), ...stack.filter((s) => s.id !== picked)] : stack;
 
   return (
     <div className="pf-card" style={{ padding: 16, display: "grid", gap: 10, ["--pf-cbar-accent" as string]: kind === "expense" ? "255, 69, 58" : "48, 209, 88" }}>
@@ -317,8 +321,8 @@ export default function CategoryBars({
                       data-dim={lit !== null && lit !== s.id}
                       data-lit={lit === s.id}
                       style={{ height: `${(v / periodTotal) * 100}%`, background: s.color }}
-                      onMouseEnter={() => setFocus(s.id)}
-                      onMouseLeave={() => setFocus(null)}
+                      onMouseEnter={() => setBarFocus(s.id)}
+                      onMouseLeave={() => setBarFocus(null)}
                       onClick={(e) => open(s, e.currentTarget)}
                     />
                   );
