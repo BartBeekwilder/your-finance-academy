@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarCheck, Plus, Trash2, X } from "lucide-react";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { BadgeTile, Celebration, RingLegend, Rings, StreakFlame } from "@/components/finance/ProgressParts";
+import CheckinCard from "@/components/finance/CheckinCard";
 import ActivityCalendar from "@/components/finance/ActivityCalendar";
 import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
@@ -64,6 +65,10 @@ export default function ProgressPage() {
           <em>→</em>
         </Link>
       )}
+
+      <section className="pf-card" style={{ padding: 18 }}>
+        <CheckinCard />
+      </section>
 
       {/* Level, points, streak, and this month's rings. */}
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}>

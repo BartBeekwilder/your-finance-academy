@@ -4823,3 +4823,39 @@ span.pf-cmp-chip { cursor: default; }
 /* The savings goal: a tick halfway along the Saved bar. */
 .pf-progress-bar i:has(.pf-progress-goal) { overflow: visible; }
 .pf-progress-goal { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; border-radius: 1px; background: rgba(255, 255, 255, 0.75); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35); }
+
+/* ---- Check-in: "my books are up to date" ------------------------------- */
+.pf-checkin { display: grid; gap: 12px; }
+.pf-checkin-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 6px; border-radius: 12px;
+  animation: pf-fade-up 0.45s cubic-bezier(0.2, 0.9, 0.25, 1) both; transition: background 0.25s ease;
+}
+.pf-checkin-item + .pf-checkin-item { border-top: 1px solid var(--pf-line); }
+.pf-checkin-item:hover { background: rgba(255, 255, 255, 0.03); }
+.pf-checkin-box {
+  flex: none; width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center; cursor: pointer;
+  border: 1.5px solid rgba(255, 255, 255, 0.25); background: transparent; color: transparent;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.2s ease, transform 0.35s cubic-bezier(0.3, 1.8, 0.5, 1);
+}
+.pf-checkin-item[data-on="true"] .pf-checkin-box { background: var(--pf-green); border-color: var(--pf-green); color: #000; transform: scale(1.08); box-shadow: 0 0 12px rgba(48, 209, 88, 0.45); }
+.pf-checkin-box:active { transform: scale(0.88); }
+.pf-checkin-title { display: block; font-size: 0.88rem; font-weight: 600; transition: color 0.25s ease; }
+.pf-checkin-item[data-on="true"] .pf-checkin-title { color: var(--pf-ink-2); }
+.pf-checkin-hint { display: block; font-size: 0.72rem; color: var(--pf-ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pf-checkin .pf-chip { flex: none; text-decoration: none; }
+.pf-checkin-go {
+  justify-self: stretch; padding: 12px 16px; border-radius: 14px; border: 0; cursor: pointer; font: inherit; font-weight: 600; font-size: 0.88rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: #fff;
+  background: linear-gradient(120deg, var(--pf-brand-a), var(--pf-brand-b));
+  box-shadow: 0 6px 22px rgba(0, 194, 168, 0.25);
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1), filter 0.3s ease;
+}
+.pf-checkin-go:not(:disabled):hover { transform: translateY(-1px); filter: brightness(1.08); }
+.pf-checkin-go:disabled { opacity: 0.35; cursor: default; box-shadow: none; }
+.pf-checkin[data-done="true"] .pf-checkin-go { opacity: 1; background: var(--pf-green); color: #000; animation: pf-chip-pop 0.5s cubic-bezier(0.3, 1.8, 0.5, 1); }
+.pf-checkin-done { display: flex; align-items: center; gap: 12px; }
+.pf-checkin-done > svg { color: var(--pf-green); flex: none; }
+.pf-checkin-done b { display: block; font-size: 0.92rem; }
+.pf-checkin-done span span { display: block; font-size: 0.74rem; color: var(--pf-ink-3); }
+.pf-checkin-streak { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 99px; background: rgba(255, 159, 10, 0.12); color: var(--pf-orange); font-weight: 600; font-size: 0.8rem; }
+.pf-checkin-mini { width: 100%; font: inherit; font-size: 0.85rem; color: inherit; cursor: pointer; text-align: left; }

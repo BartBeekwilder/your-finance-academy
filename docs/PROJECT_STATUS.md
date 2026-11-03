@@ -222,6 +222,14 @@ zh-Hans. Every new UI text must be translatable and translated:
   expected). Balance: yearSnapshots (last year from the books if missing)
   + today. Dashboard Progress tile: a bar per ring + way to next level,
   and "<month> closed" once last month is closed. To port.
+- Check-in ("Bring your books up to date"): checklist — all expenses, all
+  income, account balances match the bank — each with Add / Check. Once
+  per period (Settings › Check-in: daily / twice a week Mon–Wed + Thu–Sun /
+  weekly; profile.checkin_interval, migration 0012 — run it on Supabase).
+  Confirming stores an achievement `checkin:YYYY-MM-DD` worth 15 points (on
+  top of the 5 for opening the app). Logic: lib/finance/checkin.ts (+tests).
+  Progress page card on top; dashboard Progress tile nudge opens it in a
+  sheet. Saving ring now the month-end forecast (yearForecast). To port.
 - Budgets total (Month and Year): compares like with like — categories
   with a budget, plus fixed costs without one (Bart's Hypotheek) at their
   own amount as budget (months ahead at the latest month's amount); in the

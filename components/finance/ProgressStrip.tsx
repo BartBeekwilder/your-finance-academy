@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { CalendarCheck, CircleCheck } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import Sheet from "@/components/finance/Sheet";
+import CheckinCard, { useCheckin } from "@/components/finance/CheckinCard";
+import { ListChecks } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { RING_COLORS, Rings, StreakFlame } from "@/components/finance/ProgressParts";
@@ -15,6 +18,9 @@ import { SAVINGS_SHARE, progressModel } from "@/lib/finance/progressModel";
 export default function ProgressStrip() {
   const { data, now } = useFinance();
   const m = useMemo(() => progressModel(data, now), [data, now]);
+  const checkin = useCheckin();
+  const [sheet, setSheet] = useState<Element | null>(null);
+  const [open, setOpen] = useState(false);
   return (
     <section className="pf-card pf-progress-mini">
       <Link href="/app/progress" className="pf-progress-strip">
@@ -69,12 +75,21 @@ export default function ProgressStrip() {
           <span>{t("Close {month}", { month: monthYear(m.closable) })}</span>
           <em>→</em>
         </Link>
+      ) : !checkin.done ? (
+        <button type="button" className="pf-close-mini pf-checkin-mini" onClick={(e) => { setSheet(e.currentTarget); setOpen(true); }}>
+          <ListChecks size={16} />
+          <span>{t("Bring your books up to date")}</span>
+          <em>→</em>
+        </button>
       ) : (
         <span className="pf-close-done">
           <CircleCheck size={15} />
-          {t("{month} closed", { month: monthYear(new Date(now.getFullYear(), now.getMonth() - 1, 1)) })}
+          {t("Books up to date")} · {t("{month} closed", { month: monthYear(new Date(now.getFullYear(), now.getMonth() - 1, 1)) })}
         </span>
       )}
+      <Sheet open={open} onClose={() => setOpen(false)} origin={sheet} label={t("Bring your books up to date")}>
+        <CheckinCard key={String(open)} onDone={() => setOpen(false)} />
+      </Sheet>
     </section>
   );
 }

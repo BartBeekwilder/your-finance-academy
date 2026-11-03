@@ -30,6 +30,8 @@ export type Profile = {
   expected_net_monthly: Money | null;
   payday_day: number | null;
   income_reminders: boolean;
+  /** How often the books check-in comes round (lib/finance/checkin). */
+  checkin_interval?: "daily" | "twice-weekly" | "weekly";
 };
 
 export type Account = Synced & {

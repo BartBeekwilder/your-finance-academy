@@ -13,6 +13,7 @@ import Segmented from "@/components/finance/Segmented";
 import VaultSection from "@/components/finance/VaultSection";
 import HouseholdSection from "@/components/finance/HouseholdSection";
 import { resetNavOrder } from "@/components/finance/AppNav";
+import { CHECKIN_POINTS } from "@/lib/finance/checkin";
 
 // Settings, grouped in sections so new ones slot in as the app grows.
 // Currency is saved to the profile (shared with iOS); it changes how amounts
@@ -75,6 +76,21 @@ export default function SettingsPage() {
       </Section>
 
       <ChartsSection />
+
+      <Section title={t("Check-in")} hint={t("How often you're asked whether your books are up to date. Each check-in earns {n} bonus points.", { n: CHECKIN_POINTS })}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+          <div>
+            <div style={{ fontWeight: 600 }}>{t("Check-in interval")}</div>
+            <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>{t("Twice a week: once Monday–Wednesday and once Thursday–Sunday.")}</div>
+          </div>
+          <Segmented
+            label={t("Check-in interval")}
+            value={data.profile.checkin_interval ?? "daily"}
+            onChange={(v) => void updateProfile({ checkin_interval: v }).catch((e: Error) => setStatus({ kind: "error", text: e.message }))}
+            options={[{ value: "daily", label: t("Daily") }, { value: "twice-weekly", label: t("Twice a week") }, { value: "weekly", label: t("Weekly") }]}
+          />
+        </div>
+      </Section>
 
       <Section title={t("Menu")}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
