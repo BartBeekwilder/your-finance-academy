@@ -232,7 +232,11 @@ zh-Hans. Every new UI text must be translatable and translated:
   sheet. A check-in also counts the days it covers as kept up (back to the
   previous check-in, the first time to the 1st; max 31 days): Tracking ring,
   streaks, calendar and day points (checkin.ts coveredDays / progressModel
-  activeDays). Saving ring now the month-end forecast (yearForecast). To port.
+  activeDays). Saving ring now the month-end forecast (yearForecast); Budget
+  ring too: per budget spent + usual rest of month (avg of 3 months before,
+  else the budget pace) ≤ budget. Calendar day rings keep the pace view;
+  saving there spreads salary + fixed costs (dayRings `accrue`). Glossary:
+  rings, ring-tracking/budget/saving, checkin (ⓘ on Progress). To port.
 - Budgets total (Month and Year): compares like with like — categories
   with a budget, plus fixed costs without one (Bart's Hypotheek) at their
   own amount as budget (months ahead at the latest month's amount); in the

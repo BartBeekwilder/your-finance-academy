@@ -5,6 +5,7 @@ import { useEffect, useId, useState } from "react";
 import { t } from "@/lib/i18n";
 import type { Badge } from "@/lib/finance/progress";
 import { SAVINGS_SHARE } from "@/lib/finance/progressModel";
+import InfoTip from "@/components/finance/InfoTip";
 
 // The building blocks of the progress screens: the three rings (like a
 // fitness watch), the streak flame, badge tiles and a celebration overlay.
@@ -117,9 +118,10 @@ export function RingLegend({ tracking, budget, saving, notes = {}, forecast = fa
   // (184%); the ring itself fills at the goal.
   const rate = Math.round(saving * SAVINGS_SHARE * 100), goal = Math.round(SAVINGS_SHARE * 100);
   const rows = [
-    { label: t("Tracking"), hint: notes.tracking ?? t("Days you updated your books"), v: tracking, c: RING_COLORS.tracking[0], na: !!notes.tracking },
-    { label: t("Budget"), hint: notes.budget ?? t("Budgets on track"), v: budget, c: RING_COLORS.budget[0], na: !!notes.budget },
+    { tip: "ring-tracking", label: t("Tracking"), hint: notes.tracking ?? t("Days you updated your books"), v: tracking, c: RING_COLORS.tracking[0], na: !!notes.tracking },
+    { tip: "ring-budget", label: forecast ? t("Budget (forecast)") : t("Budget"), hint: notes.budget ?? (forecast ? t("Budgets expected to hold at month end") : t("Budgets on track")), v: budget, c: RING_COLORS.budget[0], na: !!notes.budget },
     {
+      tip: "ring-saving",
       label: forecast ? t("Saving (forecast)") : t("Saving"),
       hint: forecast ? t("Expected at month end · goal {goal}%", { goal }) : t("Saved against 20% of income"),
       v: saving, c: RING_COLORS.saving[0], na: false, shown: `${rate}%`,
@@ -131,7 +133,7 @@ export function RingLegend({ tracking, budget, saving, notes = {}, forecast = fa
         <div key={r.label} style={{ display: "grid", gridTemplateColumns: "10px 1fr auto", gap: 10, alignItems: "center" }}>
           <span style={{ width: 10, height: 10, borderRadius: 3, background: r.c, boxShadow: r.v >= 1 ? `0 0 8px ${r.c}` : undefined }} />
           <span>
-            <b style={{ fontSize: "0.9rem" }}>{r.label}</b>
+            <b style={{ fontSize: "0.9rem" }}>{r.label}</b> <InfoTip id={r.tip} />
             <span style={{ display: "block", fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{r.hint}</span>
           </span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>

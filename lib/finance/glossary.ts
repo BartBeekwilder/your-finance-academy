@@ -21,6 +21,11 @@ export const GLOSSARY: Term[] = [
   { id: "saved", term: "Saved this year", text: "This year's income minus this year's spending." },
   { id: "forecast", term: "Forecast", text: "An estimate for the rest of the period, based on your average so far. Shown dashed." },
   { id: "yeartotal", term: "Year total", text: "Imported history: a year's total, spread evenly over the months that have no transactions." },
+  { id: "rings", term: "Progress rings", text: "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day." },
+  { id: "ring-tracking", term: "Tracking ring", text: "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before." },
+  { id: "ring-budget", term: "Budget ring", text: "The share of your budgets expected to hold at month end. For each budget: what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before). Example: €265 for groceries, €33 spent by the 3rd, usually €240 a month → about €33 + €216 = €249, within budget. In the calendar, a day's green ring shows whether spending up to that day stayed within the budget's share for those days." },
+  { id: "ring-saving", term: "Saving ring", text: "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month." },
+  { id: "checkin", term: "Check-in", text: "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up." },
   { id: "correction", term: "Correction", text: "The difference between your account balances and your bookings. If it shows up, something doesn't add up yet." },
 ];
 

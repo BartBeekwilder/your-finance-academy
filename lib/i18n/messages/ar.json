@@ -1246,5 +1246,16 @@
  "Up to date through {date} · +{n} points": "محدّث حتى {date} · +{n} نقطة",
  "Weekly": "أسبوعيًا",
  "Up to date through {date}": "محدّث حتى {date}",
- "time to check in": "حان وقت المراجعة"
+ "time to check in": "حان وقت المراجعة",
+ "Budget (forecast)": "الميزانية (توقع)",
+ "Budget ring": "حلقة الميزانية",
+ "Budgets expected to hold at month end": "الميزانيات المتوقع صمودها بنهاية الشهر",
+ "Progress rings": "حلقات التقدم",
+ "Saving ring": "حلقة الادخار",
+ "Tracking ring": "حلقة المتابعة",
+ "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "ثلاث حلقات للشهر، مثل حلقات النشاط في الساعة: المتابعة (وردي) والميزانية (أخضر) والادخار (بنفسجي). تكتمل الحلقة عند بلوغ هدفها؛ وبعده تبدأ دورة ثانية. يعرضها التقويم يومًا بيوم.",
+ "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "نسبة أيام هذا الشهر التي تابعت فيها دفاترك. يُحتسب اليوم عند فتح التطبيق أو عندما تغطيه مراجعة: تحتسب المراجعة كل يوم حتى المراجعة السابقة.",
+ "The share of your budgets expected to hold at month end. For each budget: what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before). Example: €265 for groceries, €33 spent by the 3rd, usually €240 a month → about €33 + €216 = €249, within budget. In the calendar, a day's green ring shows whether spending up to that day stayed within the budget's share for those days.": "نسبة ميزانياتك المتوقع صمودها بنهاية الشهر. لكل ميزانية: ما أنفقته حتى الآن مضافًا إليه ما تنفقه عادةً في بقية الشهر (متوسط الأشهر الثلاثة السابقة). مثال: 265 € للبقالة، 33 € أُنفقت حتى يوم 3، عادةً 240 € شهريًا ← نحو 33 € + 216 € = 249 €، ضمن الميزانية. في التقويم، تبيّن الحلقة الخضراء لكل يوم إن بقي الإنفاق حتى ذلك اليوم ضمن حصة الميزانية لتلك الأيام.",
+ "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "هل أنت في طريقك لادخار 20% من دخلك هذا الشهر: توقع نهاية الشهر (الدخل المتوقع ناقص الإنفاق المتوقع) كنسبة من الدخل المتوقع. تكتمل عند 20%. في التقويم، يعرض كل يوم ما تم ادخاره حتى حينه، مع توزيع الراتب والتكاليف الثابتة على الشهر.",
+ "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "تأكيد أن دفاترك محدّثة: كل النفقات والدخل مُدخلة وأرصدة الحسابات تطابق البنك. مرة لكل فترة (الإعدادات › المراجعة)، مقابل 15 نقطة إضافية؛ وتحتسب أيضًا الأيام منذ المراجعة السابقة كأيام متابعة."
 }

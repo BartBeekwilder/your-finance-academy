@@ -15,14 +15,30 @@ export const SAVINGS_SHARE = 0.2;
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
 
 /** Every category with a budget in `month`, with what was spent (none yet
- *  counts too: an untouched budget is on track). */
-function budgetRows(data: FinanceData, month: Date) {
+ *  counts too: an untouched budget is on track). With `fraction` (this
+ *  month, the share gone by) also the month-end forecast: fixed costs as
+ *  booked, variable spending so far plus the rest of the month at the
+ *  category's usual pace (its average over the three months before; with no
+ *  history, the budget's own pace). */
+function budgetRows(data: FinanceData, month: Date, fraction?: number) {
   const spent = new Map(spendByCategory(data, month).map((e) => [e.category.id, e]));
+  const before = fraction === undefined ? [] : [1, 2, 3].map((k) => spendByCategory(data, new Date(month.getFullYear(), month.getMonth() - k, 1))).filter((m) => m.length > 0);
+  const usual = (id: string) => {
+    if (!before.length) return null;
+    const v = before.map((m) => { const e = m.find((x) => x.category.id === id); return e ? e.spent - e.fixed : 0; });
+    return v.reduce((a, b) => a + b, 0) / v.length;
+  };
   return live(data.categories)
     .filter((c) => !c.is_income_category && c.parent_id === null)
     .map((c) => ({ c, budget: budgetIn(live(data.budgets), c.id, month), e: spent.get(c.id) }))
     .filter((x) => x.budget !== null)
-    .map(({ c, budget, e }) => ({ spent: e?.spent ?? 0, budget: budget ?? 0, fixed: c.is_fixed_expense, fixedSpent: e?.fixed ?? 0 }));
+    .map(({ c, budget, e }) => {
+      const s = e?.spent ?? 0, fx = e?.fixed ?? 0, b = budget ?? 0;
+      const row = { spent: s, budget: b, fixed: c.is_fixed_expense, fixedSpent: fx };
+      if (fraction === undefined || c.is_fixed_expense) return row;
+      const pace = usual(c.id) ?? Math.max(b - fx, 0);
+      return { ...row, forecast: s + pace * Math.max(1 - fraction, 0) };
+    });
 }
 
 /** Days kept up: app used, or covered by a check-in (lib/finance/checkin). */
@@ -72,7 +88,7 @@ export function progressModel(data: FinanceData, now: Date) {
   const ringNow = rings({
     daysElapsed: now.getDate(),
     activeDaysInMonth: activity.filter((d) => d.slice(0, 7) === iso(month).slice(0, 7)).length,
-    budgets: budgetRows(data, month),
+    budgets: budgetRows(data, month, fraction),
     fraction,
     saved: fc ? fc.income - fc.spent : nw.liveChange(now.getTime()),
     savingsTarget: (fc ? fc.income : projectedNetIncome(data, month)) * SAVINGS_SHARE,

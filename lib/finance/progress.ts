@@ -65,8 +65,9 @@ export type RingInput = {
   activeDaysInMonth: number;
   /** Budgeted categories: spent so far and the budget for the month.
    *  `fixedSpent`: the part of `spent` that is fixed costs (booked in full
-   *  on their day), which isn't held to the month's pace. */
-  budgets: { spent: number; budget: number; fixed: boolean; fixedSpent?: number }[];
+   *  on their day), which isn't held to the month's pace. `forecast`: the
+   *  month-end spending expected (this month), used instead of the pace. */
+  budgets: { spent: number; budget: number; fixed: boolean; fixedSpent?: number; forecast?: number }[];
   /** Share of the month elapsed (1 for a finished month). */
   fraction: number;
   /** Saved so far this month (income − spending, live). */
@@ -83,7 +84,10 @@ export function rings(r: RingInput) {
   // Fixed costs are on track while within the budget; variable spending
   // while within the rest of the budget's share for the part of the month
   // gone by.
+  // With a `forecast` (this month): on track while the month-end forecast
+  // stays within the budget.
   const onTrack = r.budgets.filter((b) => {
+    if (b.forecast !== undefined) return b.forecast <= b.budget + 0.005;
     if (b.fixed) return b.spent <= b.budget + 0.005;
     const fx = b.fixedSpent ?? 0;
     return fx <= b.budget + 0.005 && b.spent - fx <= (b.budget - fx) * r.fraction + 0.005;

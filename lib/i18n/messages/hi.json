@@ -1246,5 +1246,16 @@
  "Up to date through {date} · +{n} points": "{date} तक अद्यतन · +{n} अंक",
  "Weekly": "साप्ताहिक",
  "Up to date through {date}": "{date} तक अद्यतन",
- "time to check in": "चेक-इन का समय"
+ "time to check in": "चेक-इन का समय",
+ "Budget (forecast)": "बजट (अनुमान)",
+ "Budget ring": "बजट रिंग",
+ "Budgets expected to hold at month end": "वे बजट जो महीने के अंत तक टिकने की उम्मीद है",
+ "Progress rings": "प्रगति रिंग",
+ "Saving ring": "बचत रिंग",
+ "Tracking ring": "ट्रैकिंग रिंग",
+ "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "महीने के लिए तीन रिंग, घड़ी की गतिविधि रिंग की तरह: ट्रैकिंग (गुलाबी), बजट (हरा) और बचत (बैंगनी)। लक्ष्य पूरा होने पर रिंग बंद होती है; उसके बाद दूसरा चक्कर शुरू होता है। कैलेंडर इन्हें दिन-ब-दिन दिखाता है।",
+ "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "इस महीने के उन दिनों का हिस्सा जब आपने हिसाब रखा। दिन तब गिना जाता है जब आप ऐप खोलते हैं, या कोई चेक-इन उसे कवर करता है: चेक-इन पिछले चेक-इन तक हर दिन गिनता है।",
+ "The share of your budgets expected to hold at month end. For each budget: what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before). Example: €265 for groceries, €33 spent by the 3rd, usually €240 a month → about €33 + €216 = €249, within budget. In the calendar, a day's green ring shows whether spending up to that day stayed within the budget's share for those days.": "आपके बजट का वह हिस्सा जो महीने के अंत तक टिकने की उम्मीद है। हर बजट के लिए: अब तक का खर्च और महीने के बाकी हिस्से में आपका सामान्य खर्च (पिछले तीन महीनों का औसत)। उदाहरण: किराने के लिए €265, 3 तारीख तक €33 खर्च, सामान्यतः €240 प्रति माह → लगभग €33 + €216 = €249, बजट के भीतर। कैलेंडर में हर दिन की हरी रिंग दिखाती है कि उस दिन तक का खर्च उन दिनों के बजट हिस्से के भीतर रहा या नहीं।",
+ "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "क्या आप इस महीने आय का 20% बचाने की राह पर हैं: महीने के अंत का अनुमान (अपेक्षित आय घटा अपेक्षित खर्च) अपेक्षित आय के हिस्से के रूप में। 20% पर बंद होती है। कैलेंडर में हर दिन तब तक की बचत दिखाता है, वेतन और स्थायी खर्च महीने भर में बाँटकर।",
+ "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "पुष्टि करना कि आपका हिसाब अद्यतन है: सभी खर्च और आय दर्ज, और खाते की शेष राशि बैंक से मेल खाती है। हर अवधि में एक बार (सेटिंग्स › चेक-इन), 15 बोनस अंकों के लिए; यह पिछले चेक-इन के बाद के दिनों को भी ट्रैक किए गए गिनता है।"
 }

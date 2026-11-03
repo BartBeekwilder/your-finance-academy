@@ -8,6 +8,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import { accountFlows, live, num } from "@/lib/finance/calc";
 import { CHECKIN_POINTS, CHECKIN_PREFIX, checkinDays, checkinState, dayKey, sinceLast, type CheckinInterval } from "@/lib/finance/checkin";
 import { money } from "@/lib/finance/format";
+import InfoTip from "@/components/finance/InfoTip";
 
 // "Are my books up to date?" — a short checklist once per period (Settings ›
 // Check-in): expenses, income and account balances, each with a way to fix
@@ -87,7 +88,7 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
   return (
     <div className="pf-checkin" data-done={justDone}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-        <b style={{ fontSize: "1rem" }}>{t("Bring your books up to date")}</b>
+        <b style={{ fontSize: "1rem" }}>{t("Bring your books up to date")} <InfoTip id="checkin" /></b>
         <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>
           {state.last ? t("Last check-in {date}", { date: shortDate(state.last) }) : t("No check-in yet")}
           {state.streak > 0 && ` · ${t("{n} in a row", { n: state.streak })}`}

@@ -6,6 +6,7 @@ import { CalendarCheck, Plus, Trash2, X } from "lucide-react";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { BadgeTile, Celebration, RingLegend, Rings, StreakFlame } from "@/components/finance/ProgressParts";
 import CheckinCard from "@/components/finance/CheckinCard";
+import InfoTip from "@/components/finance/InfoTip";
 import ActivityCalendar from "@/components/finance/ActivityCalendar";
 import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
@@ -93,7 +94,7 @@ export default function ProgressPage() {
         <section className="pf-card" style={{ padding: 18, display: "grid", gridTemplateColumns: "auto 1fr", gap: 18, alignItems: "center" }}>
           <Rings {...m.rings} size={150} />
           <div style={{ display: "grid", gap: 10 }}>
-            <span className="pf-eq-label">{t("This month").toUpperCase()}</span>
+            <span className="pf-eq-label">{t("This month").toUpperCase()} <InfoTip id="rings" /></span>
             <RingLegend {...m.rings} forecast />
           </div>
         </section>

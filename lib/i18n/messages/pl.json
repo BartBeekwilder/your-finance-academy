@@ -1246,5 +1246,16 @@
  "Up to date through {date} · +{n} points": "Aktualne do {date} · +{n} pkt",
  "Weekly": "Co tydzień",
  "Up to date through {date}": "Aktualne do {date}",
- "time to check in": "czas na przegląd"
+ "time to check in": "czas na przegląd",
+ "Budget (forecast)": "Budżet (prognoza)",
+ "Budget ring": "Pierścień budżetu",
+ "Budgets expected to hold at month end": "Budżety, które powinny wytrzymać do końca miesiąca",
+ "Progress rings": "Pierścienie postępu",
+ "Saving ring": "Pierścień oszczędzania",
+ "Tracking ring": "Pierścień prowadzenia",
+ "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Trzy pierścienie na miesiąc, jak pierścienie aktywności w zegarku: Prowadzenie (różowy), Budżet (zielony) i Oszczędzanie (fioletowy). Pierścień zamyka się po osiągnięciu celu; powyżej zaczyna drugie okrążenie. Kalendarz pokazuje je dzień po dniu.",
+ "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "Odsetek dni tego miesiąca, w które prowadziłeś księgi. Dzień liczy się, gdy otworzysz aplikację lub obejmie go przegląd: przegląd liczy każdy dzień wstecz do poprzedniego.",
+ "The share of your budgets expected to hold at month end. For each budget: what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before). Example: €265 for groceries, €33 spent by the 3rd, usually €240 a month → about €33 + €216 = €249, within budget. In the calendar, a day's green ring shows whether spending up to that day stayed within the budget's share for those days.": "Odsetek budżetów, które powinny wytrzymać do końca miesiąca. Dla każdego budżetu: wydane dotąd plus to, co zwykle wydajesz w reszcie miesiąca (średnia z trzech poprzednich miesięcy). Przykład: 265 € na zakupy, 33 € wydane do 3., zwykle 240 € miesięcznie → ok. 33 € + 216 € = 249 €, w budżecie. W kalendarzu zielony pierścień dnia pokazuje, czy wydatki do tego dnia mieściły się w części budżetu na te dni.",
+ "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "Czy jesteś na dobrej drodze, by zaoszczędzić 20% dochodu w tym miesiącu: prognoza na koniec miesiąca (oczekiwany dochód minus oczekiwane wydatki) jako część oczekiwanego dochodu. Zamyka się przy 20%. W kalendarzu każdy dzień pokazuje, ile zaoszczędzono do tej pory, z pensją i kosztami stałymi rozłożonymi na miesiąc.",
+ "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Potwierdzenie, że księgi są aktualne: wszystkie wydatki i dochody wpisane, a salda zgadzają się z bankiem. Raz na okres (Ustawienia › Przegląd), za 15 pkt bonusu; liczy też dni od poprzedniego przeglądu jako prowadzone."
 }
