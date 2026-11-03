@@ -2,6 +2,7 @@
 
 import { t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
+import { dueFixedCosts } from "@/lib/finance/recurring";
 import { trackChanges } from "@/lib/finance/vaultMerge";
 import { useMarket } from "@/lib/finance/useMarket";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -316,6 +317,36 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   );
 
   const current = phase.kind === "ready" ? phase.data : null;
+
+  // Fixed costs book themselves on their day (lib/finance/recurring.ts):
+  // checked on every change and once an hour, for a tab left open overnight.
+  const [hour, setHour] = useState(0);
+  useEffect(() => {
+    const timer = setInterval(() => setHour((h) => h + 1), 3_600_000);
+    return () => clearInterval(timer);
+  }, []);
+  useEffect(() => {
+    if (!current) return;
+    const due = dueFixedCosts(current, new Date());
+    if (!due.length) return;
+    void (async () => {
+      const booked: Transaction[] = [];
+      for (const row of due) {
+        if (source === "supabase" && supabase) {
+          const { id, updated_at: _u, deleted_at: _d, ...fields } = row;
+          void _u; void _d;
+          const { error } = await supabase.from("transactions").insert({ ...withoutEmptyGross(fields), id });
+          // 23505: this copy exists already (deleted by hand) — leave it.
+          if (error) {
+            if (error.code !== "23505") console.error("Booking a fixed cost failed", error);
+            continue;
+          }
+        }
+        booked.push(row);
+      }
+      if (booked.length) update((d) => ({ ...d, transactions: [...booked.filter((b) => !d.transactions.some((t) => t.id === b.id)), ...d.transactions].sort((a, b) => b.date.localeCompare(a.date)) }));
+    })();
+  }, [current, source, supabase, update, hour]);
 
   // Local mode: every change is written back to the private file (debounced;
   // the stored data never contains the runtime spread parts).

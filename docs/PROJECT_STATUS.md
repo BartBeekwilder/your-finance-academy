@@ -166,6 +166,17 @@ zh-Hans. Every new UI text must be translatable and translated:
   the pointer and the bar flickered. Pointing at the legend or the day/month
   bars still moves the category to the bottom with its budget tick. The
   budget tick is measured from the lit segment's base, wherever it sits.
+- FIXED COSTS BOOK THEMSELVES (Bart: wants the mortgage in Spent from the
+  1st, ticking): lib/finance/recurring.ts `dueFixedCosts` (+tests) — last
+  month's fixed cost is copied into this month on the same day once that
+  day has come, if it's monthly (has a recurrence_id, or the same category
+  + description was there the month before too) and not already there (same
+  recurrence_id, or same category + description entered by hand). Copy id =
+  stableId(recurrence, month), so a deleted copy never comes back (local
+  deletions / Supabase duplicate key). Only the current month — earlier
+  months are history. FinanceProvider runs it on every change and hourly.
+  No new column (uses recurrence_id). Live tiles already count fixed costs ×
+  fraction of the month, so they tick from the 1st. To port: iOS + Android.
 
 ## Done recently (2026-10-22/23)
 
