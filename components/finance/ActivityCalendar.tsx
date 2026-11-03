@@ -7,7 +7,7 @@ import { budgetIn } from "@/lib/finance/budgetPlan";
 import { live, projectedNetIncome, summarize } from "@/lib/finance/calc";
 import { dayRings, longestStreak, ringStreak, type DayRing } from "@/lib/finance/dayRings";
 import { monthYear } from "@/lib/finance/format";
-import { SAVINGS_SHARE } from "@/lib/finance/progressModel";
+import { SAVINGS_SHARE, activeDays } from "@/lib/finance/progressModel";
 import { streak } from "@/lib/finance/progress";
 import type { FinanceData } from "@/lib/finance/types";
 import { LAP_COLORS, RING_COLORS } from "./ProgressParts";
@@ -21,7 +21,8 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
   const [offset, setOffset] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const month = new Date(now.getFullYear(), now.getMonth() + offset, 1);
-  const active = useMemo(() => live(data.activityDays ?? []).map((a) => a.day.slice(0, 10)), [data.activityDays]);
+  // Days kept up: app used, or covered by a check-in.
+  const active = useMemo(() => activeDays(data), [data]);
 
   const { rings, avg } = useMemo(() => {
     // The month's allowance for variable spending: its budgets, or — without

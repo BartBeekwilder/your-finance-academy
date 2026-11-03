@@ -229,7 +229,10 @@ zh-Hans. Every new UI text must be translatable and translated:
   Confirming stores an achievement `checkin:YYYY-MM-DD` worth 15 points (on
   top of the 5 for opening the app). Logic: lib/finance/checkin.ts (+tests).
   Progress page card on top; dashboard Progress tile nudge opens it in a
-  sheet. Saving ring now the month-end forecast (yearForecast). To port.
+  sheet. A check-in also counts the days it covers as kept up (back to the
+  previous check-in, the first time to the 1st; max 31 days): Tracking ring,
+  streaks, calendar and day points (checkin.ts coveredDays / progressModel
+  activeDays). Saving ring now the month-end forecast (yearForecast). To port.
 - Budgets total (Month and Year): compares like with like — categories
   with a budget, plus fixed costs without one (Bart's Hypotheek) at their
   own amount as budget (months ahead at the latest month's amount); in the

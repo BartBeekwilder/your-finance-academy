@@ -2,6 +2,7 @@ import { balanceSheet, budgetIn, live, monthProgress, netWorthFigures, num, proj
 import { ownership, summarize as summarizePart } from "./mortgage";
 import { BADGES, POINTS, goalProgress, level, rings, ringsClosed, streak, type BadgeContext } from "./progress";
 import { homes } from "./realEstate";
+import { checkinDays, trackedDays } from "./checkin";
 import type { FinanceData, Goal, MonthClose } from "./types";
 
 // Everything the progress screens need, from the data: this month's rings,
@@ -24,10 +25,15 @@ function budgetRows(data: FinanceData, month: Date) {
     .map(({ c, budget, e }) => ({ spent: e?.spent ?? 0, budget: budget ?? 0, fixed: c.is_fixed_expense, fixedSpent: e?.fixed ?? 0 }));
 }
 
+/** Days kept up: app used, or covered by a check-in (lib/finance/checkin). */
+export function activeDays(data: FinanceData) {
+  return trackedDays(live(data.activityDays ?? []).map((a) => a.day), checkinDays(live(data.achievements ?? [])));
+}
+
 /** A finished month's rings (in full). */
 export function monthRings(data: FinanceData, month: Date) {
   const s = summarize(data.transactions, month);
-  const activity = live(data.activityDays ?? []).filter((a) => a.day.slice(0, 7) === iso(month).slice(0, 7)).length;
+  const activity = activeDays(data).filter((d) => d.slice(0, 7) === iso(month).slice(0, 7)).length;
   const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
   return rings({
     daysElapsed: days,
@@ -52,7 +58,7 @@ export function monthSummary(data: FinanceData, month: Date, now: Date): MonthCl
 
 
 export function progressModel(data: FinanceData, now: Date) {
-  const activity = live(data.activityDays ?? []).map((a) => a.day.slice(0, 10));
+  const activity = activeDays(data);
   const closes = live(data.monthCloses ?? []).sort((a, b) => a.month.localeCompare(b.month));
   const achievements = live(data.achievements ?? []);
   const month = new Date(now.getFullYear(), now.getMonth(), 1);

@@ -1,7 +1,10 @@
 // Check-ins: "my books are up to date through today". The user ticks a short
 // checklist (expenses, income, account balances) once per period — daily,
 // twice a week (Mon–Wed, Thu–Sun) or weekly (Mon–Sun), their choice — and
-// earns bonus points on top of the daily visit. A check-in is stored as an
+// earns bonus points on top of the daily visit. A check-in also counts every
+// day it covers as kept up (the Tracking ring, streaks, the calendar and the
+// daily points): back to the day after the check-in before, or — the first
+// time — to the 1st of that month. A check-in is stored as an
 // achievement with code `checkin:YYYY-MM-DD` (its points with it), so it
 // syncs and counts towards the level like any badge, with no table of its own.
 // Pure (no imports), so it's tested with plain node and ported to the apps.
@@ -66,4 +69,25 @@ export function sinceLast(
     else if (t.type === "income") income++;
   }
   return { expenses, income };
+}
+
+/** Every day the check-ins cover (see the top): `checkinDays` → day keys. */
+export function coveredDays(days: string[]) {
+  const out: string[] = [];
+  let prev: Date | null = null;
+  for (const key of days) {
+    const end = parse(key);
+    let d: Date = prev ? addDays(prev, 1) : new Date(end.getFullYear(), end.getMonth(), 1);
+    // Never more than a month back, however long the gap.
+    const floor = addDays(end, -30);
+    if (d < floor) d = floor;
+    for (; d <= end; d = addDays(d, 1)) out.push(dayKey(d));
+    prev = end;
+  }
+  return out;
+}
+
+/** Days kept up: the days the app was used plus those check-ins cover. */
+export function trackedDays(activity: string[], checkins: string[]) {
+  return [...new Set([...activity.map((d) => d.slice(0, 10)), ...coveredDays(checkins)])].sort();
 }
