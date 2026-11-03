@@ -89,7 +89,7 @@ export default function ProgressPage() {
           <Rings {...m.rings} size={150} />
           <div style={{ display: "grid", gap: 10 }}>
             <span className="pf-eq-label">{t("This month").toUpperCase()}</span>
-            <RingLegend {...m.rings} />
+            <RingLegend {...m.rings} forecast />
           </div>
         </section>
       </div>

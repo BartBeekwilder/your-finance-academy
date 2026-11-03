@@ -4,6 +4,7 @@ import { CalendarCheck, ChevronDown, CalendarRange, Flag, Flame, Gem, House, Hou
 import { useEffect, useId, useState } from "react";
 import { t } from "@/lib/i18n";
 import type { Badge } from "@/lib/finance/progress";
+import { SAVINGS_SHARE } from "@/lib/finance/progressModel";
 
 // The building blocks of the progress screens: the three rings (like a
 // fitness watch), the streak flame, badge tiles and a celebration overlay.
@@ -105,11 +106,24 @@ export function Rings({ tracking, budget, saving, size = 180 }: { tracking: numb
   );
 }
 
-export function RingLegend({ tracking, budget, saving, notes = {} }: { tracking: number; budget: number; saving: number; /** Why a ring can't fill (shown instead of its %). */ notes?: { tracking?: string; budget?: string } }) {
+export function RingLegend({ tracking, budget, saving, notes = {}, forecast = false }: {
+  tracking: number; budget: number; saving: number;
+  /** Why a ring can't fill (shown instead of its %). */
+  notes?: { tracking?: string; budget?: string };
+  /** This month: saving is the month-end forecast. */
+  forecast?: boolean;
+}) {
+  // Saving reads as the share of income saved (37%), not against the goal
+  // (184%); the ring itself fills at the goal.
+  const rate = Math.round(saving * SAVINGS_SHARE * 100), goal = Math.round(SAVINGS_SHARE * 100);
   const rows = [
     { label: t("Tracking"), hint: notes.tracking ?? t("Days you updated your books"), v: tracking, c: RING_COLORS.tracking[0], na: !!notes.tracking },
     { label: t("Budget"), hint: notes.budget ?? t("Budgets on track"), v: budget, c: RING_COLORS.budget[0], na: !!notes.budget },
-    { label: t("Saving"), hint: t("Saved against 20% of income"), v: saving, c: RING_COLORS.saving[0], na: false },
+    {
+      label: forecast ? t("Saving (forecast)") : t("Saving"),
+      hint: forecast ? t("Expected at month end · goal {goal}%", { goal }) : t("Saved against 20% of income"),
+      v: saving, c: RING_COLORS.saving[0], na: false, shown: `${rate}%`,
+    },
   ];
   return (
     <div style={{ display: "grid", gap: 10 }}>
@@ -126,7 +140,7 @@ export function RingLegend({ tracking, budget, saving, notes = {} }: { tracking:
                 {t("2nd lap")}
               </span>
             )}
-            <b className="pf-rounded" style={{ color: r.na ? "var(--pf-ink-3)" : r.c }}>{r.na ? "—" : `${Math.round(r.v * 100)}%`}</b>
+            <b className="pf-rounded" style={{ color: r.na ? "var(--pf-ink-3)" : r.c }}>{r.na ? "—" : "shown" in r ? r.shown : `${Math.round(r.v * 100)}%`}</b>
           </span>
         </div>
       ))}

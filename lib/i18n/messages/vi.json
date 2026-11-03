@@ -1216,5 +1216,6 @@
  "No year-end stands yet.": "Chưa có số liệu cuối năm.",
  "{month} closed": "Đã chốt {month}",
  "Saving (forecast)": "Tiết kiệm (dự báo)",
- "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% thu nhập tiết kiệm được vào cuối tháng (dự báo) · mục tiêu {goal}%"
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% thu nhập tiết kiệm được vào cuối tháng (dự báo) · mục tiêu {goal}%",
+ "Expected at month end · goal {goal}%": "Dự kiến cuối tháng · mục tiêu {goal}%"
 }

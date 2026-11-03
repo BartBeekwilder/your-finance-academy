@@ -417,6 +417,7 @@
  "Expected",
  "expected {amount}",
  "Expected at month end",
+ "Expected at month end · goal {goal}%",
  "Expected at the end of {month}",
  "Expected at year end",
  "expected for the whole year, {amount} saved so far",

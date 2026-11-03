@@ -1216,5 +1216,6 @@
  "No year-end stands yet.": "Brak jeszcze stanów na koniec roku.",
  "{month} closed": "{month} zamknięty",
  "Saving (forecast)": "Oszczędzanie (prognoza)",
- "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% dochodu zaoszczędzone na koniec miesiąca (prognoza) · cel {goal}%"
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% dochodu zaoszczędzone na koniec miesiąca (prognoza) · cel {goal}%",
+ "Expected at month end · goal {goal}%": "Prognoza na koniec miesiąca · cel {goal}%"
 }

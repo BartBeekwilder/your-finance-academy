@@ -1216,5 +1216,6 @@
  "No year-end stands yet.": "لا توجد أوضاع نهاية سنة بعد.",
  "{month} closed": "تم إغلاق {month}",
  "Saving (forecast)": "الادخار (توقع)",
- "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% من دخلك مدخر بنهاية الشهر (توقع) · الهدف {goal}%"
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% من دخلك مدخر بنهاية الشهر (توقع) · الهدف {goal}%",
+ "Expected at month end · goal {goal}%": "المتوقع بنهاية الشهر · الهدف {goal}%"
 }

@@ -1216,5 +1216,6 @@
  "No year-end stands yet.": "Belum ada posisi akhir tahun.",
  "{month} closed": "{month} ditutup",
  "Saving (forecast)": "Menabung (perkiraan)",
- "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% penghasilan ditabung di akhir bulan (perkiraan) · target {goal}%"
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% penghasilan ditabung di akhir bulan (perkiraan) · target {goal}%",
+ "Expected at month end · goal {goal}%": "Perkiraan akhir bulan · target {goal}%"
 }

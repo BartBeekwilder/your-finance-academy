@@ -1216,5 +1216,6 @@
  "No year-end stands yet.": "अभी तक वर्षांत की कोई स्थिति नहीं।",
  "{month} closed": "{month} बंद किया गया",
  "Saving (forecast)": "बचत (अनुमान)",
- "{rate}% of your income saved by month end (forecast) · goal {goal}%": "महीने के अंत तक आय का {rate}% बचत (अनुमान) · लक्ष्य {goal}%"
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "महीने के अंत तक आय का {rate}% बचत (अनुमान) · लक्ष्य {goal}%",
+ "Expected at month end · goal {goal}%": "महीने के अंत तक अपेक्षित · लक्ष्य {goal}%"
 }

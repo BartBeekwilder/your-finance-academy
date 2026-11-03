@@ -1216,5 +1216,6 @@
  "No year-end stands yet.": "Pas encore de situations de fin d’année.",
  "{month} closed": "{month} clôturé",
  "Saving (forecast)": "Épargne (prévision)",
- "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate} % de vos revenus épargnés en fin de mois (prévision) · objectif {goal} %"
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate} % de vos revenus épargnés en fin de mois (prévision) · objectif {goal} %",
+ "Expected at month end · goal {goal}%": "Prévu en fin de mois · objectif {goal} %"
 }

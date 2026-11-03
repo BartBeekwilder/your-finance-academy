@@ -1216,5 +1216,6 @@
  "No year-end stands yet.": "Henüz yıl sonu durumu yok.",
  "{month} closed": "{month} kapatıldı",
  "Saving (forecast)": "Birikim (tahmin)",
- "{rate}% of your income saved by month end (forecast) · goal {goal}%": "Ay sonunda gelirinin %{rate} kadarı biriktirilmiş olacak (tahmin) · hedef %{goal}"
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "Ay sonunda gelirinin %{rate} kadarı biriktirilmiş olacak (tahmin) · hedef %{goal}",
+ "Expected at month end · goal {goal}%": "Ay sonu beklentisi · hedef %{goal}"
 }

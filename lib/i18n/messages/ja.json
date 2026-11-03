@@ -1216,5 +1216,6 @@
  "No year-end stands yet.": "年末時点のデータはまだありません。",
  "{month} closed": "{month}を締めました",
  "Saving (forecast)": "貯蓄（予測）",
- "{rate}% of your income saved by month end (forecast) · goal {goal}%": "月末までに収入の{rate}%を貯蓄（予測）・目標{goal}%"
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "月末までに収入の{rate}%を貯蓄（予測）・目標{goal}%",
+ "Expected at month end · goal {goal}%": "月末の見込み・目標{goal}%"
 }

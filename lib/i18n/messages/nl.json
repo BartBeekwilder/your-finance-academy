@@ -1223,5 +1223,6 @@
  "No year-end stands yet.": "Nog geen jaarstanden.",
  "{month} closed": "{month} afgesloten",
  "Saving (forecast)": "Sparen (prognose)",
- "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% van je inkomen gespaard aan het eind van de maand (prognose) · doel {goal}%"
+ "{rate}% of your income saved by month end (forecast) · goal {goal}%": "{rate}% van je inkomen gespaard aan het eind van de maand (prognose) · doel {goal}%",
+ "Expected at month end · goal {goal}%": "Verwacht aan het eind van de maand · doel {goal}%"
 }
