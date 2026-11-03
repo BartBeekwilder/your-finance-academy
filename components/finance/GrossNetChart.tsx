@@ -47,7 +47,7 @@ function ratios(data: FinanceData, year: number) {
 
 /** Gross and net income per month, Jan … `upTo` (0-based), plus — when
  *  `through` is later — the forecast months after `current`. */
-export function grossNetByMonth(data: FinanceData, year: number, upTo: number, opts: { current?: number; through?: number } = {}): GrossNetMonth[] {
+export function grossNetByMonth(data: FinanceData, year: number, upTo: number, opts: { current?: number; through?: number; expectCurrent?: boolean } = {}): GrossNetMonth[] {
   const last = Math.max(upTo, opts.through ?? upTo);
   const months: GrossNetMonth[] = Array.from({ length: last + 1 }, () => ({ gross: 0, net: 0, estimated: false, forecast: false }));
   const r = ratios(data, year);
@@ -66,6 +66,12 @@ export function grossNetByMonth(data: FinanceData, year: number, upTo: number, o
     }
   }
   const current = opts.current ?? upTo;
+  // The chart: this month, until its income is in, follows what's expected
+  // (as a forecast) instead of dipping to what has arrived so far.
+  if (opts.expectCurrent && current <= last) {
+    const net = projectedNetIncome(data, new Date(year, current, 1));
+    if (months[current].net < net) months[current] = { net, gross: net * r.overall, estimated: true, forecast: true };
+  }
   for (let i = current + 1; i <= last; i++) {
     const net = projectedNetIncome(data, new Date(year, i, 1));
     months[i] = { net, gross: net * r.overall, estimated: true, forecast: true };
@@ -76,7 +82,11 @@ export function grossNetByMonth(data: FinanceData, year: number, upTo: number, o
 export default function GrossNetChart({ data, now, currency, mode = "month" }: { data: FinanceData; now: Date; currency: string; mode?: "month" | "year" }) {
   const [hover, setHover] = useState<number | null>(null);
   const year = now.getFullYear(), current = now.getMonth();
-  const months = grossNetByMonth(data, year, current, { current, through: mode === "year" ? 11 : current });
+  // Only a month still running gets its expected income; a finished one
+  // (an earlier month picked) shows what came in.
+  const today = new Date();
+  const running = year === today.getFullYear() && current === today.getMonth();
+  const months = grossNetByMonth(data, year, current, { current, through: mode === "year" ? 11 : current, expectCurrent: running });
   const max = niceTop(Math.max(1, ...months.map((m) => m.gross)));
   const H = 180, W = 1000;
   const n = months.length;

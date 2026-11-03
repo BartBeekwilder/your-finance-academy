@@ -183,6 +183,11 @@ zh-Hans. Every new UI text must be translatable and translated:
   if shorter), so the date picker opens there; salary's payday too.
   The category sheet (CategoryDetail) opened there shows that month too
   (seen from its last moment: total, budget, per day, transactions).
+- Income › Gross and net per month: the current month, until its income is
+  in, is drawn at the expected net (projectedNetIncome, gross at this year's
+  ratio) as a dotted forecast instead of dipping to €0 (grossNetByMonth
+  `expectCurrent`, chart only; the stats still use what came in). A finished
+  month picked keeps its real figures.
 
 ## Done recently (2026-10-22/23)
 
