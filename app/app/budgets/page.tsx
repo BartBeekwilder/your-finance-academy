@@ -110,7 +110,7 @@ export default function BudgetsPage() {
   }, 0);
   const [mode, setMode] = useState<"month" | "year">("month");
   const compare = useBudgetCompare();
-  const maxBudget = Math.max(1, ...rows.map((r) => r.budget ?? 0));
+  const maxBudget = Math.max(1, ...rows.map((r) => r.budget ?? fixedByMonth.get(r.c.id)![sel]));
   const largestFirst = useBudgetLargestFirst();
   const limitsRef = useRef<HTMLDivElement>(null);
   useFlip(limitsRef, largestFirst);
@@ -219,7 +219,12 @@ export default function BudgetsPage() {
         <h2 className="pf-section-title">{t("Monthly limits")} — {monthYear(month)}{isFuture && ` · ${t("forecast")}`}</h2>
         <div className="pf-card" ref={limitsRef}>
           <BudgetScaleSwitch />
-          {(largestFirst ? [...rows].sort((a, b) => (b.budget ?? 0) - (a.budget ?? 0)) : rows).map(({ c, spent, budget }) => {
+          {(largestFirst ? [...rows].sort((a, b) => (b.budget ?? fixedByMonth.get(b.c.id)![sel]) - (a.budget ?? fixedByMonth.get(a.c.id)![sel])) : rows).map(({ c, spent, budget: own }) => {
+            // A fixed cost without a budget (the mortgage): its own amount is
+            // its budget, so it gets a bar that fills up as the month is used.
+            const fixedAmount = fixedByMonth.get(c.id)![sel];
+            const asFixed = own === null && fixedAmount > 0;
+            const budget = own ?? (asFixed ? fixedAmount : null);
             return (
               <Fragment key={c.id}>
               <button data-flip-key={c.id} className="pf-row pf-tap" onClick={(ev) => openCategory(c.id, ev.currentTarget)} style={{ width: "100%" }}>
@@ -228,11 +233,11 @@ export default function BudgetsPage() {
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span>{c.name}</span>
                     <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>
-                      {budget === null ? t("No budget") : `${money(budget, currency)} budget`}
+                      {budget === null ? t("No budget") : asFixed ? `${t("Fixed")} · ${money(budget, currency)}` : `${money(budget, currency)} budget`}
                     </span>
                   </div>
                   {budget !== null ? (
-                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={isFuture ? undefined : monthPace} fixedMonthStart={c.is_fixed_expense && !isFuture ? month : undefined} forecast={isFuture} scaleMax={compare ? maxBudget : undefined} />
+                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={isFuture ? undefined : monthPace} fixedMonthStart={(c.is_fixed_expense || asFixed) && !isFuture ? month : undefined} forecast={isFuture} scaleMax={compare ? maxBudget : undefined} />
                   ) : (
                     <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(spent, currency)} spent</span>
                   )}

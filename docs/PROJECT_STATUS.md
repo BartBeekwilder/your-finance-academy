@@ -210,7 +210,10 @@ zh-Hans. Every new UI text must be translatable and translated:
   own amount as budget (months ahead at the latest month's amount); in the
   running month fixed costs count as used up to today (live), as in their
   bars. Before, all spending was added against only the set budgets, so
-  the mortgage made the total look over budget on the 1st. Still English-
+  the mortgage made the total look over budget on the 1st. In the Monthly
+  limits list such a fixed cost now gets a bar too ("Fixed · €…", its own
+  amount as budget, the BudgetBar fixed mode: used up to today live + paid,
+  not yet used); Compare / Largest first count that amount. Still English-
   only on that page: "Budget up to today", "over", "under" (to translate).
 
 ## Done recently (2026-10-22/23)
