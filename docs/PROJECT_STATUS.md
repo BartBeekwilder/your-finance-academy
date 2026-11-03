@@ -188,6 +188,10 @@ zh-Hans. Every new UI text must be translatable and translated:
   ratio) as a dotted forecast instead of dipping to €0 (grossNetByMonth
   `expectCurrent`, chart only; the stats still use what came in). A finished
   month picked keeps its real figures.
+- Live tile alone on a page (Expenses' Spent, Income's Income — LiveTiles
+  `only`): wide layout (Tile `wide`, .pf-tile-wide) — figures left, chart
+  right at 118 px tall (TileSparkline `height`, default 54); stacks below
+  760 px. Dashboard's three stacked tiles unchanged.
 
 ## Done recently (2026-10-22/23)
 

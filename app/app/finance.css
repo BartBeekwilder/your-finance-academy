@@ -1003,6 +1003,23 @@
   /* A whisper of the tile's colour from the left edge. */
   background: radial-gradient(120% 90% at 0% 50%, color-mix(in srgb, var(--tile) 9%, transparent), transparent 60%);
 }
+/* A tile alone across a page: the figures on the left, the chart beside
+   them using the tile's full height. Narrow screens stack as usual. */
+.pf-tile-wide {
+  grid-template-columns: minmax(230px, 1fr) 2.6fr;
+  grid-template-areas: "head head" "figures chart";
+  column-gap: 28px;
+  align-items: center;
+}
+.pf-tile-wide > .pf-tile-head { grid-area: head; }
+.pf-tile-wide > .pf-tile-figures { grid-area: figures; display: grid; gap: 10px; align-content: center; }
+.pf-tile-wide > .pf-tile-chart { grid-area: chart; min-width: 0; }
+@media (max-width: 760px) {
+  .pf-tile-wide {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "figures" "chart";
+  }
+}
 @keyframes pf-tsl-reveal {
   from { clip-path: inset(-10px 100% -10px 0); }
   to { clip-path: inset(-10px 0 -10px 0); }

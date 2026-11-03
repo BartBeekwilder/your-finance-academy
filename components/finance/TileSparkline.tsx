@@ -41,7 +41,7 @@ import { isSalaryName } from "@/lib/finance/salary";
 // the amount per period — bars per month (Year) or per day (Month), on the
 // same camera, the periods ahead dashed at their forecast.
 
-const H = 54;
+const HEIGHT = 54;
 type Series = "income" | "spent" | "balance" | "networth";
 
 // Memoised: the tile around it re-renders every 80 ms for its number; the
@@ -55,6 +55,7 @@ export default memo(function TileSparkline({
   offset = 0,
   absolute = false,
   at,
+  height: H = HEIGHT,
 }: {
   data: FinanceData;
   series: Series;
@@ -69,6 +70,8 @@ export default memo(function TileSparkline({
   /** A moment in the past to draw instead of now (an earlier month picked:
    *  its last moment), standing still. */
   at?: number;
+  /** The plot's height in px (a wide tile gives it more room). */
+  height?: number;
 }) {
   const [sel, setSel] = useState<number | null>(null);
   const ticking = useNow(1000, at === undefined);

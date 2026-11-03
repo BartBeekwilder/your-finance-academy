@@ -84,19 +84,23 @@ export default function LiveTiles({
   const before = { income: sum((s) => s.income), spent: sum((s) => s.spent), fixed: sum((s) => s.fixed), variable: sum((s) => s.variable) };
   const monthsElapsed = monthStart.getMonth() + fraction;
   const ytd = { income: before.income + liveIncome, spent: before.spent + liveSpent };
+  // Alone on a page, a tile is wide: the chart beside the figures, as tall
+  // as they are.
+  const chartHeight = only ? 118 : undefined;
 
   return (
     <div className="pf-card" style={{ overflow: "hidden", display: "grid", gridTemplateRows: only ? undefined : "repeat(3, 1fr)" }}>
       {(!only || only === "income") && <Tile
         title={() => t("Income")}
         last={only === "income"}
+        wide={!!only}
         onModeChange={onModeChange}
         mode={mode}
         value={liveIncome}
         before={before.income}
         color={() => GREEN}
         currency={currency}
-        chart={(z, _v, abs) => <TileSparkline data={data} series="income" color="#30d158" z={z} currency={currency} absolute={abs} at={at?.getTime()} />}
+        chart={(z, _v, abs) => <TileSparkline data={data} series="income" color="#30d158" z={z} currency={currency} absolute={abs} at={at?.getTime()} height={chartHeight} />}
       >
         {(mode) =>
           mode === "month" ? (
@@ -118,13 +122,14 @@ export default function LiveTiles({
       {(!only || only === "spent") && <Tile
         title={() => (scopeName ? `${t("Spent")} · ${scopeName}` : t("Spent"))}
         last={only === "spent"}
+        wide={!!only}
         onModeChange={onModeChange}
         mode={mode}
         value={liveSpent}
         before={before.spent}
         color={() => RED}
         currency={currency}
-        chart={(z, _v, abs) => <TileSparkline data={data} series="spent" color="#ff453a" z={z} currency={currency} absolute={abs} at={at?.getTime()} />}
+        chart={(z, _v, abs) => <TileSparkline data={data} series="spent" color="#ff453a" z={z} currency={currency} absolute={abs} at={at?.getTime()} height={chartHeight} />}
       >
         {(mode) => {
           const total = mode === "month" ? spentTotal : before.spent + spentTotal;
@@ -160,7 +165,7 @@ export default function LiveTiles({
         color={(v) => (v >= 0 ? BLUE : RED)}
         currency={currency}
         last
-        chart={(z, v, abs) => <TileSparkline data={data} series="balance" color={v >= 0 ? "#0a84ff" : "#ff453a"} z={z} currency={currency} absolute={abs} at={at?.getTime()} />}
+        chart={(z, v, abs) => <TileSparkline data={data} series="balance" color={v >= 0 ? "#0a84ff" : "#ff453a"} z={z} currency={currency} absolute={abs} at={at?.getTime()} height={chartHeight} />}
       >
         {(mode) => {
           const inc = mode === "month" ? liveIncome : ytd.income;
@@ -205,13 +210,15 @@ const elapsed = (f: number, on: string, off: string) => [
 /** One tile. `value` is this month's live figure; `before` is the finished
  *  months of the year, which Year mode adds on — eased with the zoom, so the
  *  number counts along while the sparkline zooms out. */
-export function Tile({ title, value, before, color, currency, last, chart, children, onModeChange, mode: controlled }: {
+export function Tile({ title, value, before, color, currency, last, wide, chart, children, onModeChange, mode: controlled }: {
   title: (mode: Mode) => string;
   value: number;
   before: number;
   color: (shown: number) => string;
   currency: string;
   last?: boolean;
+  /** Full width on its own: figures on the left, the chart beside them. */
+  wide?: boolean;
   chart: (z: number, shown: number, absolute: boolean) => React.ReactNode;
   children: (mode: Mode) => React.ReactNode;
   onModeChange?: (mode: Mode) => void;
@@ -232,29 +239,49 @@ export function Tile({ title, value, before, color, currency, last, chart, child
       <button type="button" aria-pressed={absolute} title={mode === "month" ? t("Per day") : t("Per month")} onClick={() => setAbsolute(true)}>▮</button>
     </span>
   );
-  return (
-    <div className="pf-tile" style={{ borderBottom: last ? 0 : "1px solid var(--pf-line)", ["--tile" as string]: c }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-        <div key={title(mode)} className="pf-readout" style={{ display: "flex", alignItems: "center", gap: 7, fontSize: "0.78rem", color: "var(--pf-ink-2)" }}>
-          <span className="pf-pulse" style={{ background: c, ["--pf-pulse-color" as string]: c }} />
-          {title(mode)}
+  const head = (
+    <div className="pf-tile-head" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+      <div key={title(mode)} className="pf-readout" style={{ display: "flex", alignItems: "center", gap: 7, fontSize: "0.78rem", color: "var(--pf-ink-2)" }}>
+        <span className="pf-pulse" style={{ background: c, ["--pf-pulse-color" as string]: c }} />
+        {title(mode)}
+      </div>
+      {/* With the page's own Month / Year switch, ∑ / ▮ takes the top-right spot. */}
+      {controlled && valuesSwitch}
+      {!controlled && <Segmented
+        label={`${title("month").split(" ")[0]} period`}
+        value={mode}
+        onChange={(m) => { setMode(m); onModeChange?.(m); }}
+        options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]}
+      />}
+    </div>
+  );
+  // The number, with the chart's ∑ / ▮ switch on the same row.
+  const number = (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+      <LiveAmount value={shown} currency={currency} size="2rem" color={c} />
+      {!controlled && valuesSwitch}
+    </div>
+  );
+  const lines = <div key={mode} className="pf-readout" style={{ display: "grid", gap: 4 }}>{children(mode)}</div>;
+  const style = { borderBottom: last ? 0 : "1px solid var(--pf-line)", ["--tile" as string]: c };
+  if (wide) {
+    return (
+      <div className="pf-tile pf-tile-wide" style={style}>
+        {head}
+        <div className="pf-tile-figures">
+          {number}
+          {lines}
         </div>
-        {/* With the page's own Month / Year switch, ∑ / ▮ takes the top-right spot. */}
-        {controlled && valuesSwitch}
-        {!controlled && <Segmented
-          label={`${title("month").split(" ")[0]} period`}
-          value={mode}
-          onChange={(m) => { setMode(m); onModeChange?.(m); }}
-          options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]}
-        />}
+        <div className="pf-tile-chart">{chart(z, shown, absolute)}</div>
       </div>
-      {/* The number, with the chart's ∑ / ▮ switch on the same row. */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-        <LiveAmount value={shown} currency={currency} size="2rem" color={c} />
-        {!controlled && valuesSwitch}
-      </div>
+    );
+  }
+  return (
+    <div className="pf-tile" style={style}>
+      {head}
+      {number}
       {chart(z, shown, absolute)}
-      <div key={mode} className="pf-readout" style={{ display: "grid", gap: 4 }}>{children(mode)}</div>
+      {lines}
     </div>
   );
 }
