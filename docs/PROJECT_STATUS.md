@@ -14,7 +14,7 @@ backend:
 | Part | Where | Branch |
 |---|---|---|
 | Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (not merged to `main`; `main` = live site) |
-| iOS / iPadOS / Mac app | repo `Personal Finance` (SwiftUI) | `ios-port-nov03` (latest; from `ios-port-oct26`) |
+| iOS / iPadOS / Mac app | repo `Personal Finance` (SwiftUI) | `ios-port-nov03` (latest; from `motion-perf-oct28`) |
 | Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
 | Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0006 all applied (0005 + 0006 on 2026-10-23) | — |
 
