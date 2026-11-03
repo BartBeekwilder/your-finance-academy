@@ -1214,5 +1214,6 @@
  "on 31 December": "vào ngày 31 tháng 12",
  "Debts": "Nợ",
  "No year-end stands yet.": "Chưa có số liệu cuối năm.",
- "{month} closed": "Đã chốt {month}"
+ "{month} closed": "Đã chốt {month}",
+ "{rate}% of {goal}%": "{rate}% / {goal}%"
 }

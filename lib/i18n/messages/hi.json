@@ -1214,5 +1214,6 @@
  "on 31 December": "31 दिसंबर को",
  "Debts": "कर्ज़",
  "No year-end stands yet.": "अभी तक वर्षांत की कोई स्थिति नहीं।",
- "{month} closed": "{month} बंद किया गया"
+ "{month} closed": "{month} बंद किया गया",
+ "{rate}% of {goal}%": "{goal}% में से {rate}%"
 }

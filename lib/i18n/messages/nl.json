@@ -1221,5 +1221,6 @@
  "on 31 December": "op 31 december",
  "Debts": "Schulden",
  "No year-end stands yet.": "Nog geen jaarstanden.",
- "{month} closed": "{month} afgesloten"
+ "{month} closed": "{month} afgesloten",
+ "{rate}% of {goal}%": "{rate}% van {goal}%"
 }

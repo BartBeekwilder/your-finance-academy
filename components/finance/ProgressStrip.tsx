@@ -7,7 +7,7 @@ import { t } from "@/lib/i18n";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { RING_COLORS, Rings, StreakFlame } from "@/components/finance/ProgressParts";
 import { monthYear } from "@/lib/finance/format";
-import { progressModel } from "@/lib/finance/progressModel";
+import { SAVINGS_SHARE, progressModel } from "@/lib/finance/progressModel";
 
 /** Dashboard glance at progress: this month's rings (with a bar per ring),
  *  streak and level with the way to the next one, and a nudge when last
@@ -37,7 +37,11 @@ export default function ProgressStrip() {
           <span key={key} className="pf-progress-bar" style={{ ["--c0" as string]: RING_COLORS[key][0], ["--c1" as string]: RING_COLORS[key][1], ["--v" as string]: Math.min(v, 1), animationDelay: `${i * 90}ms` }}>
             <span>{label}</span>
             <i><b /></i>
-            <em className="pf-rounded">{Math.round(v * 100)}%</em>
+            {/* Saving: the ring is saved ÷ the 20% target, so show the rate
+                itself against the target (37% / 20%), not 184%. */}
+            <em className="pf-rounded">
+              {key === "saving" ? t("{rate}% of {goal}%", { rate: Math.round(v * SAVINGS_SHARE * 100), goal: Math.round(SAVINGS_SHARE * 100) }) : `${Math.round(v * 100)}%`}
+            </em>
           </span>
         ))}
         {m.level.next && (

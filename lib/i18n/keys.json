@@ -66,6 +66,7 @@
  "{pct}% repaid of {amount}",
  "{period} so far",
  "{points} points to {level}",
+ "{rate}% of {goal}%",
  "{retained}% of income retained",
  "{step} of {total}",
  "{used} of {budget} budget",

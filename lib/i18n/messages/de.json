@@ -1214,5 +1214,6 @@
  "on 31 December": "am 31. Dezember",
  "Debts": "Schulden",
  "No year-end stands yet.": "Noch keine Jahresendstände.",
- "{month} closed": "{month} abgeschlossen"
+ "{month} closed": "{month} abgeschlossen",
+ "{rate}% of {goal}%": "{rate} % von {goal} %"
 }

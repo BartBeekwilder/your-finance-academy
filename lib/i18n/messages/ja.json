@@ -1214,5 +1214,6 @@
  "on 31 December": "12月31日時点",
  "Debts": "負債",
  "No year-end stands yet.": "年末時点のデータはまだありません。",
- "{month} closed": "{month}を締めました"
+ "{month} closed": "{month}を締めました",
+ "{rate}% of {goal}%": "{goal}%中{rate}%"
 }

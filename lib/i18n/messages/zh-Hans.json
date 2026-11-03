@@ -1214,5 +1214,6 @@
  "on 31 December": "截至12月31日",
  "Debts": "负债",
  "No year-end stands yet.": "还没有年末数据。",
- "{month} closed": "{month} 已结账"
+ "{month} closed": "{month} 已结账",
+ "{rate}% of {goal}%": "{rate}% / {goal}%"
 }

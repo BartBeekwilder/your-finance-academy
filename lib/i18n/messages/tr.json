@@ -1214,5 +1214,6 @@
  "on 31 December": "31 Aralık itibarıyla",
  "Debts": "Borçlar",
  "No year-end stands yet.": "Henüz yıl sonu durumu yok.",
- "{month} closed": "{month} kapatıldı"
+ "{month} closed": "{month} kapatıldı",
+ "{rate}% of {goal}%": "%{goal} hedefin %{rate}"
 }

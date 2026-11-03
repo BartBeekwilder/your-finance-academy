@@ -1214,5 +1214,6 @@
  "on 31 December": "на 31 декабря",
  "Debts": "Долги",
  "No year-end stands yet.": "Пока нет данных на конец года.",
- "{month} closed": "{month} закрыт"
+ "{month} closed": "{month} закрыт",
+ "{rate}% of {goal}%": "{rate}% из {goal}%"
 }

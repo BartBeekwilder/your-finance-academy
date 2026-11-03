@@ -1214,5 +1214,6 @@
  "on 31 December": "في 31 ديسمبر",
  "Debts": "الديون",
  "No year-end stands yet.": "لا توجد أوضاع نهاية سنة بعد.",
- "{month} closed": "تم إغلاق {month}"
+ "{month} closed": "تم إغلاق {month}",
+ "{rate}% of {goal}%": "{rate}% من {goal}%"
 }

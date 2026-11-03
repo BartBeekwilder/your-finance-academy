@@ -1214,5 +1214,6 @@
  "on 31 December": "na 31 grudnia",
  "Debts": "Długi",
  "No year-end stands yet.": "Brak jeszcze stanów na koniec roku.",
- "{month} closed": "{month} zamknięty"
+ "{month} closed": "{month} zamknięty",
+ "{rate}% of {goal}%": "{rate}% z {goal}%"
 }

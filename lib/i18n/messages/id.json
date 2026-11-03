@@ -1214,5 +1214,6 @@
  "on 31 December": "per 31 Desember",
  "Debts": "Utang",
  "No year-end stands yet.": "Belum ada posisi akhir tahun.",
- "{month} closed": "{month} ditutup"
+ "{month} closed": "{month} ditutup",
+ "{rate}% of {goal}%": "{rate}% dari {goal}%"
 }

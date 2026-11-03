@@ -1214,5 +1214,6 @@
  "on 31 December": "a 31 de diciembre",
  "Debts": "Deudas",
  "No year-end stands yet.": "Aún no hay saldos de fin de año.",
- "{month} closed": "{month} cerrado"
+ "{month} closed": "{month} cerrado",
+ "{rate}% of {goal}%": "{rate} % de {goal} %"
 }

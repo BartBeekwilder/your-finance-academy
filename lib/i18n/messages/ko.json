@@ -1214,5 +1214,6 @@
  "on 31 December": "12월 31일 기준",
  "Debts": "부채",
  "No year-end stands yet.": "아직 연말 기준 데이터가 없습니다.",
- "{month} closed": "{month} 마감 완료"
+ "{month} closed": "{month} 마감 완료",
+ "{rate}% of {goal}%": "{goal}% 중 {rate}%"
 }
