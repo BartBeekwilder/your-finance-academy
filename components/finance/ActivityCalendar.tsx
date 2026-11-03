@@ -4,7 +4,7 @@ import { intlLocale, t } from "@/lib/i18n";
 import { useId, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Flame } from "lucide-react";
 import { budgetIn } from "@/lib/finance/budgetPlan";
-import { live, projectedNetIncome, summarize } from "@/lib/finance/calc";
+import { live, projectedNetIncome, salaryTest, summarize } from "@/lib/finance/calc";
 import { dayRings, longestStreak, ringStreak, type DayRing } from "@/lib/finance/dayRings";
 import { monthYear } from "@/lib/finance/format";
 import { SAVINGS_SHARE, activeDays } from "@/lib/finance/progressModel";
@@ -31,6 +31,11 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
     const budgeted = vars.reduce((s, c) => s + (budgetIn(live(data.budgets), c.id, month) ?? 0), 0);
     const before = [1, 2, 3].map((k) => summarize(data.transactions, new Date(month.getFullYear(), month.getMonth() - k, 1)).variable);
     const average = before.reduce((a, b) => a + b, 0) / 3;
+    const salaryLike = salaryTest(data);
+    const isPast = month < new Date(now.getFullYear(), now.getMonth(), 1);
+    const salaryIn = live(data.transactions)
+      .filter((t) => t.type === "income" && salaryLike(t) && new Date(t.date).getFullYear() === month.getFullYear() && new Date(t.date).getMonth() === month.getMonth())
+      .reduce((a, t) => a + Number(t.amount), 0);
     return {
       avg: budgeted <= 0,
       rings: dayRings({
@@ -40,6 +45,9 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
         today: now,
         allowance: budgeted > 0 ? budgeted : average,
         savingsTarget: projectedNetIncome(data, month) * SAVINGS_SHARE,
+        // Day by day on the live model: the salary accrues (this month at its
+        // expected net, a finished month at what came in), as on the tiles.
+        accrue: { salary: isPast ? salaryIn : projectedNetIncome(data, month), isSalary: salaryLike },
       }),
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

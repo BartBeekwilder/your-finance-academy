@@ -4,7 +4,11 @@
 //   budget   — spending so far this month within the allowance so far
 //              (full while on track; less full the further over);
 //   saving   — saved so far against the savings target so far (a second
-//              lap past it).
+//              lap past it). With `accrue`, on the live tiles' model: the
+//              salary and fixed costs spread evenly over the month (they
+//              land on one day — payday, the 1st — so day by day the cash
+//              alone reads empty until payday), other income and variable
+//              spending on their day.
 // And the streaks around them. Pure (types only), so it's tested with plain
 // node and ported to the apps.
 
@@ -14,15 +18,18 @@ export type DayRing = { day: number; date: Date; tracking: number; budget: numbe
 
 const key = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
-export function dayRings({
+type DayTx = Pick<Transaction, "type" | "amount" | "date" | "is_fixed_expense" | "deleted_at">;
+
+export function dayRings<T extends DayTx>({
   transactions,
   activeDays,
   month,
   today,
   allowance,
   savingsTarget,
+  accrue,
 }: {
-  transactions: Pick<Transaction, "type" | "amount" | "date" | "is_fixed_expense" | "deleted_at">[];
+  transactions: T[];
   activeDays: string[];
   month: Date;
   today: Date;
@@ -30,28 +37,35 @@ export function dayRings({
   allowance: number;
   /** What the month should save (0 = no saving ring). */
   savingsTarget: number;
+  /** Spread the month's salary (and the fixed costs) evenly over its days. */
+  accrue?: { salary: number; isSalary: (t: T) => boolean };
 }): DayRing[] {
   const y = month.getFullYear(), m = month.getMonth();
   const days = new Date(y, m + 1, 0).getDate();
   const active = new Set(activeDays.map((d) => d.slice(0, 10)));
   const spent = Array.from({ length: days }, () => 0), saved = Array.from({ length: days }, () => 0);
+  let fixedTotal = 0;
   for (const t of transactions) {
     if (t.deleted_at) continue;
     const d = new Date(t.date);
     if (d.getFullYear() !== y || d.getMonth() !== m) continue;
     const a = Number(t.amount), i = d.getDate() - 1;
-    if (t.type === "income") saved[i] += a;
-    else {
-      saved[i] -= a;
+    if (t.type === "income") {
+      if (!accrue?.isSalary(t)) saved[i] += a;
+    } else {
+      if (accrue && t.is_fixed_expense) fixedTotal += a;
+      else saved[i] -= a;
       if (!t.is_fixed_expense) spent[i] += a;
     }
   }
+  // Salary in and fixed costs out, a day's worth each day.
+  const perDay = accrue ? (accrue.salary - fixedTotal) / days : 0;
   const todayKey = key(today);
   let cumSpent = 0, cumSaved = 0;
   return Array.from({ length: days }, (_, i) => {
     const date = new Date(y, m, i + 1);
     cumSpent += spent[i];
-    cumSaved += saved[i];
+    cumSaved += saved[i] + perDay;
     const future = key(date) > todayKey;
     const share = (i + 1) / days;
     const tracking = active.has(key(date)) ? 1 : 0;
