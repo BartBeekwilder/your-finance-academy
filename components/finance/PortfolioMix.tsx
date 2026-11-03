@@ -171,7 +171,7 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <span style={{ fontSize: "0.9rem", color: "var(--pf-ink-2)" }}>{t("Value per holding")}</span>
-          <Segmented options={[{ value: "amount", label: t("Amount") }, { value: "share", label: t("Share") }]} value={mode} onChange={setMode} label={t("Show")} />
+          <Segmented options={[{ value: "amount", label: t("Amount") }, { value: "share", label: t("Share %") }]} value={mode} onChange={setMode} label={t("Show")} />
         </div>
         <Segmented options={RANGES.map((r) => ({ value: r.value, label: t(r.label) }))} value={range} onChange={onRange} label={t("Period")} />
       </div>

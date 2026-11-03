@@ -1259,5 +1259,6 @@
  "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "Czy jesteś na dobrej drodze, by zaoszczędzić 20% dochodu w tym miesiącu: prognoza na koniec miesiąca (oczekiwany dochód minus oczekiwane wydatki) jako część oczekiwanego dochodu. Zamyka się przy 20%. W kalendarzu każdy dzień pokazuje, ile zaoszczędzono do tej pory, z pensją i kosztami stałymi rozłożonymi na miesiąc.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Potwierdzenie, że księgi są aktualne: wszystkie wydatki i dochody wpisane, a salda zgadzają się z bankiem. Raz na okres (Ustawienia › Przegląd), za 15 pkt bonusu; liczy też dni od poprzedniego przeglądu jako prowadzone.",
  "Points": "Punkty",
- "Several bills in one? Add them up with +, like 40+24.": "Kilka rachunków w jednym? Dodaj je przez +, np. 40+24."
+ "Several bills in one? Add them up with +, like 40+24.": "Kilka rachunków w jednym? Dodaj je przez +, np. 40+24.",
+ "Share %": "Udział %"
 }

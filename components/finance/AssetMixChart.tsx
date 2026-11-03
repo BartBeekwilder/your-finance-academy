@@ -160,7 +160,7 @@ export function StackedMix({
           value={mode}
           onChange={setMode}
           options={[
-            { value: "share", label: t("Share") },
+            { value: "share", label: t("Share %") },
             { value: "amount", label: t("Amount") },
           ]}
         />
