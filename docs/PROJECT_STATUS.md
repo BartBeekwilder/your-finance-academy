@@ -191,7 +191,10 @@ zh-Hans. Every new UI text must be translatable and translated:
 - Live tile alone on a page (Expenses' Spent, Income's Income — LiveTiles
   `only`): wide layout (Tile `wide`, .pf-tile-wide) — figures left, chart
   right at 118 px tall (TileSparkline `height`, default 54); stacks below
-  760 px. Dashboard's three stacked tiles unchanged.
+  760 px. Liquidity page's tile (NetWorthTile) too. Dashboard's three
+  stacked tiles unchanged: they set that row's height (the card beside
+  stretches to them), so a taller chart grows the dashboard — asked Bart.
+  Scan of all pages at 1400 px: every other chart is already 180–220 px.
 
 ## Done recently (2026-10-22/23)
 

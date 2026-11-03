@@ -36,9 +36,10 @@ export default function NetWorthTile({ data, currency, onModeChange, mode }: { d
         color={() => TEAL}
         currency={currency}
         last
+        wide
         onModeChange={onModeChange}
         mode={mode}
-        chart={(z, _v, abs) => <TileSparkline data={data} series="networth" color={TEAL} z={z} currency={currency} offset={nw.startOfYear} absolute={abs} />}
+        chart={(z, _v, abs) => <TileSparkline data={data} series="networth" color={TEAL} z={z} currency={currency} offset={nw.startOfYear} absolute={abs} height={118} />}
       >
         {(mode) =>
           mode === "month" ? (
