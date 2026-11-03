@@ -4,7 +4,8 @@ import { intlLocale, t } from "@/lib/i18n";
 import Segmented from "@/components/finance/Segmented";
 import CategoryBars from "@/components/finance/CategoryBars";
 import { useFinance } from "@/components/finance/FinanceProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { setViewedMonth } from "@/lib/finance/viewedMonth";
 import { X } from "lucide-react";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import CategoryTiles from "@/components/finance/CategoryTiles";
@@ -43,6 +44,11 @@ export default function ExpensesPage() {
   const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const [picked, setPicked] = useState(thisMonth);
   const past = mode === "month" && picked < thisMonth;
+  // Quick Add starts its date in the month looked at.
+  useEffect(() => {
+    setViewedMonth(past ? picked : null);
+    return () => setViewedMonth(null);
+  }, [past, picked]);
   // A finished month is seen from its last moment.
   const at = past ? new Date(picked.getFullYear(), picked.getMonth() + 1, 0, 23, 59, 59) : now;
   const month = past ? picked : thisMonth;

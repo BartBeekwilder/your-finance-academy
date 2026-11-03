@@ -15,6 +15,7 @@ import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
 import Segmented from "./Segmented";
 import Sheet from "./Sheet";
+import { startDate } from "@/lib/finance/viewedMonth";
 
 // Web counterpart of the iOS QuickAddButton + AddEditTransactionView: the
 // gradient "+" opens a sheet to log an expense or income. Category choice
@@ -22,8 +23,9 @@ import Sheet from "./Sheet";
 // "New category", opens a small editor in place (name, colour, icon); the
 // new category is saved for the current type and selected straight away.
 
+/** Today — or, looking at an earlier month, the same day in that month. */
 function todayLocal() {
-  const d = new Date();
+  const d = startDate();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
@@ -221,7 +223,7 @@ function Form({
   const salaryPicked = type === "income" && !!picked && (isSalaryName(picked.name) || isSalaryName(pickedTop?.name) || pickedTop?.id === salaryCategory);
   useEffect(() => {
     if (!salaryPicked || dateTouched || !payday) return;
-    const d = nearestPayday(payday, new Date());
+    const d = nearestPayday(payday, startDate());
     setDate(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
   }, [salaryPicked, dateTouched, payday]);
   const pickedDay = Number(date.slice(8, 10));

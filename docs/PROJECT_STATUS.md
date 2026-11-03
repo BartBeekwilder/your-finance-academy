@@ -177,6 +177,10 @@ zh-Hans. Every new UI text must be translatable and translated:
   months are history. FinanceProvider runs it on every change and hourly.
   No new column (uses recurrence_id). Live tiles already count fixed costs ×
   fraction of the month, so they tick from the 1st. To port: iOS + Android.
+- Quick Add starts in the month being viewed: with an earlier month picked
+  on Expenses / Income (lib/finance/viewedMonth.ts, set by those pages),
+  a new transaction's date starts on the same day in that month (last day
+  if shorter), so the date picker opens there; salary's payday too.
 
 ## Done recently (2026-10-22/23)
 
