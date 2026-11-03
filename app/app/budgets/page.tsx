@@ -83,8 +83,31 @@ export default function BudgetsPage() {
     />
   );
 
-  const totalBudget = rows.reduce((s, r) => s + (r.budget ?? 0), 0);
-  const totalSpent = rows.reduce((s, r) => s + r.spent, 0);
+  // The total compares like with like: categories with a budget, plus fixed
+  // costs without one (the mortgage) — their own amount is their budget.
+  // In the running month fixed costs count as used up to today, as in their
+  // bars, so the mortgage ticks along instead of landing at once.
+  const year = now.getFullYear();
+  const fixedIn = (ids: Set<string>, m: number) =>
+    live(data.transactions)
+      .filter((t) => t.type === "expense" && t.is_fixed_expense && t.category_id && ids.has(t.category_id) && inMonth(t, new Date(year, m, 1)))
+      .reduce((s, t) => s + num(t.amount), 0);
+  // Per category: fixed costs per month this year; months ahead at the latest one.
+  const fixedByMonth = new Map(
+    rows.map((r) => {
+      const ids = selfAndChildren(r.c, categories);
+      const known = Array.from({ length: now.getMonth() + 1 }, (_, m) => fixedIn(ids, m));
+      const latest = [...known].reverse().find((v) => v > 0) ?? 0;
+      return [r.c.id, Array.from({ length: 12 }, (_, m) => (m <= now.getMonth() ? known[m] : latest))] as const;
+    }),
+  );
+  const pace = (m: number) => (m < now.getMonth() ? 1 : m === now.getMonth() ? monthProgress(now) : 0);
+  const counted = rows.filter((r) => r.budget !== null || fixedByMonth.get(r.c.id)![sel] > 0);
+  const totalBudget = counted.reduce((s, r) => s + (r.budget ?? fixedByMonth.get(r.c.id)![sel]), 0);
+  const totalSpent = counted.reduce((s, r) => {
+    const fixed = isFuture ? 0 : fixedByMonth.get(r.c.id)![sel];
+    return s + r.spent - fixed * (1 - pace(sel));
+  }, 0);
   const [mode, setMode] = useState<"month" | "year">("month");
   const compare = useBudgetCompare();
   const maxBudget = Math.max(1, ...rows.map((r) => r.budget ?? 0));
@@ -99,13 +122,15 @@ export default function BudgetsPage() {
     const budget = months.some((m) => m.budget !== null) ? months.reduce((t, m) => t + (m.budget ?? 0), 0) : null;
     return { ...r, months, spent, budget };
   });
-  const yearBudget = yearRows.reduce((t, r) => t + (r.budget ?? 0), 0);
-  const yearSpent = yearRows.reduce((t, r) => t + r.spent, 0);
+  // The year's total the same way: budgeted categories, plus fixed costs
+  // without a budget at their own amounts (months ahead at the latest one);
+  // this month's fixed costs used up to today.
+  const yearCounted = yearRows.filter((r) => r.budget !== null || fixedByMonth.get(r.c.id)!.some((v) => v > 0));
+  const monthBudget = (r: (typeof yearRows)[number], i: number) => (r.budget !== null ? (r.months[i].budget ?? 0) : fixedByMonth.get(r.c.id)![i]);
+  const yearBudget = yearCounted.reduce((t, r) => t + r.months.reduce((u, _, i) => u + monthBudget(r, i), 0), 0);
+  const yearSpent = yearCounted.reduce((t, r) => t + r.spent - fixedByMonth.get(r.c.id)![now.getMonth()] * (1 - monthProgress(now)), 0);
   // Budget used up to today: finished months in full, this month pro rata.
-  const toDate = yearRows.reduce(
-    (t, r) => t + r.months.reduce((u, m, i) => u + (m.budget ?? 0) * (i < now.getMonth() ? 1 : i === now.getMonth() ? monthProgress(now) : 0), 0),
-    0,
-  );
+  const toDate = yearCounted.reduce((t, r) => t + r.months.reduce((u, _, i) => u + monthBudget(r, i) * pace(i), 0), 0);
   const overMonths = yearRows.reduce((t, r) => t + r.months.filter((m) => !m.future && m.budget !== null && m.total > m.budget).length, 0);
   const yearFraction = (now.getMonth() + monthProgress(now)) / 12;
 

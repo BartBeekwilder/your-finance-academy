@@ -205,6 +205,13 @@ zh-Hans. Every new UI text must be translatable and translated:
   spread over the days; other income (e.g. a side income) stays on its own
   day. A finished month spreads what came in, not the expected net
   (CategoryBars dayBuckets `past`).
+- Budgets total (Month and Year): compares like with like — categories
+  with a budget, plus fixed costs without one (Bart's Hypotheek) at their
+  own amount as budget (months ahead at the latest month's amount); in the
+  running month fixed costs count as used up to today (live), as in their
+  bars. Before, all spending was added against only the set budgets, so
+  the mortgage made the total look over budget on the 1st. Still English-
+  only on that page: "Budget up to today", "over", "under" (to translate).
 
 ## Done recently (2026-10-22/23)
 
