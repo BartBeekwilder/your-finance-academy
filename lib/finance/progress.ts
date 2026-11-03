@@ -63,8 +63,10 @@ export function streak(activeDays: string[], today: Date) {
 export type RingInput = {
   daysElapsed: number;
   activeDaysInMonth: number;
-  /** Budgeted categories: spent so far and the budget for the month. */
-  budgets: { spent: number; budget: number; fixed: boolean }[];
+  /** Budgeted categories: spent so far and the budget for the month.
+   *  `fixedSpent`: the part of `spent` that is fixed costs (booked in full
+   *  on their day), which isn't held to the month's pace. */
+  budgets: { spent: number; budget: number; fixed: boolean; fixedSpent?: number }[];
   /** Share of the month elapsed (1 for a finished month). */
   fraction: number;
   /** Saved so far this month (income − spending, live). */
@@ -77,8 +79,13 @@ export type RingInput = {
 export function rings(r: RingInput) {
   const tracking = r.daysElapsed > 0 ? Math.min(r.activeDaysInMonth / r.daysElapsed, 1) : 0;
   // Fixed costs are on track while within the budget; variable spending
-  // while within the budget's share for the part of the month gone by.
-  const onTrack = r.budgets.filter((b) => b.spent <= (b.fixed ? b.budget : b.budget * r.fraction) + 0.005);
+  // while within the rest of the budget's share for the part of the month
+  // gone by.
+  const onTrack = r.budgets.filter((b) => {
+    if (b.fixed) return b.spent <= b.budget + 0.005;
+    const fx = b.fixedSpent ?? 0;
+    return fx <= b.budget + 0.005 && b.spent - fx <= (b.budget - fx) * r.fraction + 0.005;
+  });
   // No budgets, no ring: it closes by keeping budgets, not by having none.
   const budget = r.budgets.length ? onTrack.length / r.budgets.length : 0;
   const target = r.savingsTarget * r.fraction;

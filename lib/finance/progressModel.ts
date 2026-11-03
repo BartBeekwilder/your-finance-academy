@@ -1,4 +1,4 @@
-import { balanceSheet, live, monthProgress, netWorthFigures, num, projectedNetIncome, spendByCategory, summarize } from "./calc";
+import { balanceSheet, budgetIn, live, monthProgress, netWorthFigures, num, projectedNetIncome, spendByCategory, summarize } from "./calc";
 import { ownership, summarize as summarizePart } from "./mortgage";
 import { BADGES, POINTS, goalProgress, level, rings, ringsClosed, streak, type BadgeContext } from "./progress";
 import { homes } from "./realEstate";
@@ -13,16 +13,26 @@ export const SAVINGS_SHARE = 0.2;
 
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
 
+/** Every category with a budget in `month`, with what was spent (none yet
+ *  counts too: an untouched budget is on track). */
+function budgetRows(data: FinanceData, month: Date) {
+  const spent = new Map(spendByCategory(data, month).map((e) => [e.category.id, e]));
+  return live(data.categories)
+    .filter((c) => !c.is_income_category && c.parent_id === null)
+    .map((c) => ({ c, budget: budgetIn(live(data.budgets), c.id, month), e: spent.get(c.id) }))
+    .filter((x) => x.budget !== null)
+    .map(({ c, budget, e }) => ({ spent: e?.spent ?? 0, budget: budget ?? 0, fixed: c.is_fixed_expense, fixedSpent: e?.fixed ?? 0 }));
+}
+
 /** A finished month's rings (in full). */
 export function monthRings(data: FinanceData, month: Date) {
   const s = summarize(data.transactions, month);
-  const budgets = spendByCategory(data, month).filter((e) => e.budget !== null);
   const activity = live(data.activityDays ?? []).filter((a) => a.day.slice(0, 7) === iso(month).slice(0, 7)).length;
   const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
   return rings({
     daysElapsed: days,
     activeDaysInMonth: activity,
-    budgets: budgets.map((e) => ({ spent: e.spent, budget: e.budget ?? 0, fixed: e.category.is_fixed_expense })),
+    budgets: budgetRows(data, month),
     fraction: 1,
     saved: s.income - s.spent,
     savingsTarget: projectedNetIncome(data, month) * SAVINGS_SHARE,
@@ -50,11 +60,10 @@ export function progressModel(data: FinanceData, now: Date) {
   const nw = netWorthFigures(data, now);
 
   // This month's rings, live.
-  const budgets = spendByCategory(data, month).filter((e) => e.budget !== null);
   const ringNow = rings({
     daysElapsed: now.getDate(),
     activeDaysInMonth: activity.filter((d) => d.slice(0, 7) === iso(month).slice(0, 7)).length,
-    budgets: budgets.map((e) => ({ spent: e.spent, budget: e.budget ?? 0, fixed: e.category.is_fixed_expense })),
+    budgets: budgetRows(data, month),
     fraction,
     saved: nw.liveChange(now.getTime()),
     savingsTarget: projectedNetIncome(data, month) * SAVINGS_SHARE,
