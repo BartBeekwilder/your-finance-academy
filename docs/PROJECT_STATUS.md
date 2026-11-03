@@ -14,7 +14,7 @@ backend:
 | Part | Where | Branch |
 |---|---|---|
 | Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (not merged to `main`; `main` = live site) |
-| iOS / iPadOS / Mac app | repo `Personal Finance` (SwiftUI) | `motion-perf-oct28` (latest; from `ios-port-oct26`) |
+| iOS / iPadOS / Mac app | repo `Personal Finance` (SwiftUI) | `ios-port-nov03` (latest; from `ios-port-oct26`) |
 | Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
 | Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0006 all applied (0005 + 0006 on 2026-10-23) | — |
 
@@ -32,7 +32,7 @@ Decisions:
 - Website: github.com/BartBeekwilder/your-finance-academy (public) — work
   on branch `web-app`; `main` is the live site (push to `main` = deploy).
 - iOS: github.com/BartBeekwilder/personal-finance-ios (private) — branch
-  `motion-perf-oct28` (latest).
+  `ios-port-nov03` (latest).
 - Android: github.com/BartBeekwilder/personal-finance-android (private) —
   branch `main`. Open in Android Studio; `./gradlew testDebugUnitTest
   assembleDebug`. Translations come from this repo's `lib/i18n/messages`
@@ -131,7 +131,7 @@ zh-Hans. Every new UI text must be translatable and translated:
 - Web: no backdrop blur on cards, neon canvas drawn at low resolution
   instead of a full-screen CSS blur, every looping animation (dot pulses,
   stripes, heat sheen, equity glow) now transform/opacity only.
-- iOS (branch `motion-perf-oct28`, from `ios-port-oct26`): looping
+- iOS (branch `ios-port-nov03`, from `ios-port-oct26`): looping
   animations played by Core Animation (Extensions/LoopLayer.swift), neon
   background as keyframed CAShapeLayers instead of a 24 fps Canvas per
   screen. Android not done yet.
@@ -247,6 +247,22 @@ zh-Hans. Every new UI text must be translatable and translated:
   amount as budget, the BudgetBar fixed mode: used up to today live + paid,
   not yet used); Compare / Largest first count that amount. Still English-
   only on that page: "Budget up to today", "over", "under" (to translate).
+
+## iOS port 2026-11-03 (branch `ios-port-nov03`, pushed; builds, rule tests pass; not yet seen on a device)
+Ported: side income in live income; ring forecasts (budget + saving), check-in
+(card, sheet, Settings, pill, covered days, synced `checkin_interval`),
+calendar saving spread, last-month-only close; Progress block bars, forecast
+legend, ring colours on closed months, glossary terms; Liquidity card on the
+live model with Work · Investments; tile bars fixed/variable + side income;
+Years view on Liquidity and Balance; advances (model + sync + Quick Add +
+balance sheet; kept out of spending); Income per day keeps side income on its
+day; "Share %"; translations (16 languages).
+Still open on iOS: month picker on Expenses/Income (+ Quick Add / category
+sheet in the viewed month), category-chart budget tick on the summary bar,
+budgets: fixed costs without a budget get a live bar + total like with like,
+gross/net chart this month at expected, Quick Add new-subcategory label,
+wide Liquidity tile / tile-alone layout, pointing at forecast days, donut
+growing into its tile. Android: everything since 27 Oct.
 
 ## Done recently (2026-10-22/23)
 
