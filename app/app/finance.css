@@ -3022,15 +3022,27 @@ html[data-pf-motion="light"] *::after {
   color: var(--pf-ink-2);
   font-size: 0.8rem;
 }
-.pf-streak[data-hot="true"] {
-  color: #ff9f0a;
-  background: rgba(255, 159, 10, 0.12);
-  box-shadow: 0 0 14px rgba(255, 159, 10, 0.3);
+.pf-streak svg { transform-origin: 50% 90%; }
+.pf-streak[data-heat="1"], .pf-streak[data-heat="2"] { color: #ff9f0a; background: rgba(255, 159, 10, 0.12); }
+.pf-streak[data-heat="1"] svg, .pf-streak[data-heat="2"] svg {
+  color: #ff8a00;
+  fill: #ffd60a;
+  fill-opacity: 0.55;
+  filter: drop-shadow(0 0 4px rgba(255, 140, 0, 0.7));
+  animation: pf-flame 1.9s ease-in-out infinite;
 }
-.pf-streak[data-hot="true"] svg { animation: pf-flame 1.6s ease-in-out infinite; }
+.pf-streak[data-heat="2"] { box-shadow: 0 0 14px rgba(255, 159, 10, 0.3); }
+.pf-streak[data-heat="2"] svg { fill-opacity: 0.8; filter: drop-shadow(0 0 7px rgba(255, 120, 0, 0.9)); animation-duration: 1.3s; }
+/* An uneven flicker: it leans, stretches and dips like a real flame. */
 @keyframes pf-flame {
-  50% { transform: scale(1.15) rotate(-4deg); filter: drop-shadow(0 0 6px #ff9f0a); }
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  18% { transform: scale(0.96, 1.08) skewX(-4deg); }
+  37% { transform: scale(1.03, 0.95) skewX(3deg); }
+  55% { transform: scale(0.97, 1.12) skewX(-2deg); fill-opacity: 0.85; }
+  74% { transform: scale(1.02, 0.97) skewX(4deg); }
+  88% { transform: scale(0.99, 1.05) skewX(-1deg); }
 }
+@media (prefers-reduced-motion: reduce) { .pf-streak svg { animation: none !important; } }
 .pf-badges {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));

@@ -160,7 +160,9 @@ export function RingLegend({ tracking, budget, saving, notes = {}, forecast = fa
 
 export function StreakFlame({ days }: { days: number }) {
   return (
-    <span className="pf-streak" data-hot={days >= 7}>
+    // Alive from the first day: it flickers whenever the streak runs, and
+    // burns hotter from a week on. Grey only with no streak.
+    <span className="pf-streak" data-heat={days >= 7 ? 2 : days > 0 ? 1 : 0}>
       <Flame size={18} />
       <b className="pf-rounded">{days}</b>
       <span>{days === 1 ? t("day") : t("days")}</span>
