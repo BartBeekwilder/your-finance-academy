@@ -174,7 +174,7 @@ export default function DashboardPage() {
                 {e.budget !== null ? (
                   <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={e.category.is_fixed_expense ? month : undefined} scaleMax={compareBudgets ? maxBudget : undefined} />
                 ) : (
-                  <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(e.spent, currency)} spent · no budget</span>
+                  <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{t("{amount} spent · no budget", { amount: money(e.spent, currency) })}</span>
                 )}
               </div>
             </button>

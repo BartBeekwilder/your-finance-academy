@@ -1264,5 +1264,9 @@
  "A month goal for all your budgets together: on schedule — the spending expected by month end fits your total budget — the ring fills a little every day and closes on the last day of the month. Expected = what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before), with fixed costs for the whole month. One category over is fine if another makes up for it. Behind schedule it grows slower: 10% over → about 90% of the pace. In the calendar, a day's green ring is full when that day you were still on course on average — one big day is fine.": "すべての予算を合わせた月の目標：予定どおり（月末の見込み支出が予算総額に収まる）なら、リングは毎日少しずつ伸び、月の最終日に閉じます。見込み＝これまでの支出＋月の残りでいつも使う額（前3か月の平均）、固定費は月全体分。あるカテゴリが超えても、他で埋め合わせれば問題ありません。遅れていると伸びが遅くなります：10%超過→ペースの約90%。カレンダーでは、その日平均してまだ順調ならその日の緑のリングが満杯になります。大きな出費の日が1日あっても大丈夫。",
  "all spending, budgets {expected} of {budget}": "すべての支出・予算分 {budget}中{expected}",
  "Received — choose the account": "受け取り済み — 口座を選択",
- "Other…": "その他…"
+ "Other…": "その他…",
+ "Pace for today": "今日のペース",
+ "ahead of it": "先行中",
+ "{amount} spent · no budget": "{amount}使用・予算なし",
+ "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "予算バーの小さな点線：予算を月全体に均等に配分した場合、今日までに使っていた額 — 4日に約13%、15日に半分。オレンジ：これまでにそれより多く使っています。それ自体は問題ありません — 数日控えめにすればペースに戻ります。固定費には表示されません：一度に支払うためです。"
 }

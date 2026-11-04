@@ -3,6 +3,7 @@
 import { t } from "@/lib/i18n";
 import { setBudgetCompare, setBudgetLargestFirst, useBudgetCompare, useBudgetLargestFirst } from "@/lib/prefs";
 import Segmented from "./Segmented";
+import InfoTip from "./InfoTip";
 
 /** The budget lists' toolbar. Order: the user's own (as on Categories) or
  *  largest budget first. Monthly limits: "Compare" sizes every bar against the largest budget so
@@ -15,8 +16,14 @@ export default function BudgetScaleSwitch() {
   // and the switch.
   return (
     <div className="pf-card-toolbar">
-      <span key={String(compare)} className="pf-readout">
-        {compare ? t("Bar lengths compare the budgets with each other") : t("Each bar is measured against its own budget")}
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+        <span key={String(compare)} className="pf-readout">
+          {compare ? t("Bar lengths compare the budgets with each other") : t("Each bar is measured against its own budget")}
+        </span>
+        {/* What the little dashed line in a bar means. */}
+        <span className="pf-pace-key">
+          <i aria-hidden /> {t("Pace for today")} · <i data-ahead aria-hidden /> {t("ahead of it")} <InfoTip id="pace" />
+        </span>
       </span>
     <span style={{ display: "inline-flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
     <Segmented

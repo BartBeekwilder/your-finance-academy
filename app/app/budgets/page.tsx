@@ -238,7 +238,7 @@ export default function BudgetsPage() {
                   {budget !== null ? (
                     <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={isFuture ? undefined : monthPace} fixedMonthStart={(c.is_fixed_expense || asFixed) && !isFuture ? month : undefined} forecast={isFuture} scaleMax={compare ? maxBudget : undefined} />
                   ) : (
-                    <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(spent, currency)} spent</span>
+                    <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{t("{amount} spent", { amount: money(spent, currency) })}</span>
                   )}
                 </div>
               </button>
@@ -311,7 +311,7 @@ function YearList({
               {budget !== null ? (
                 <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={yearFraction} scaleMax={compare ? maxBudget : undefined} />
               ) : (
-                <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{money(spent, currency)} spent</span>
+                <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{t("{amount} spent", { amount: money(spent, currency) })}</span>
               )}
               <div className="pf-month-blocks">
                 {months.map((m, i) => {

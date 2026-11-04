@@ -1264,5 +1264,9 @@
  "A month goal for all your budgets together: on schedule — the spending expected by month end fits your total budget — the ring fills a little every day and closes on the last day of the month. Expected = what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before), with fixed costs for the whole month. One category over is fine if another makes up for it. Behind schedule it grows slower: 10% over → about 90% of the pace. In the calendar, a day's green ring is full when that day you were still on course on average — one big day is fine.": "आपके सभी बजट के लिए एक मासिक लक्ष्य: समय पर — महीने के अंत तक अपेक्षित खर्च कुल बजट में फिट है — रिंग हर दिन थोड़ी बढ़ती है और महीने के आखिरी दिन बंद होती है। अपेक्षित = अब तक का खर्च और महीने के बाकी हिस्से का सामान्य खर्च (पिछले तीन महीनों का औसत), पूरे महीने के स्थायी खर्च सहित। एक श्रेणी ज़्यादा हो तो ठीक है अगर दूसरी भरपाई कर दे। पीछे हों तो धीमे बढ़ती है: 10% ऊपर → गति का लगभग 90%। कैलेंडर में किसी दिन की हरी रिंग भरी होती है अगर उस दिन आप औसतन सही राह पर थे — एक बड़ा दिन चलता है।",
  "all spending, budgets {expected} of {budget}": "सभी खर्च; बजट वाले {budget} में से {expected}",
  "Received — choose the account": "मिल गया — खाता चुनें",
- "Other…": "अन्य…"
+ "Other…": "अन्य…",
+ "Pace for today": "आज की गति",
+ "ahead of it": "आप आगे हैं",
+ "{amount} spent · no budget": "{amount} खर्च · कोई बजट नहीं",
+ "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "बजट बार में छोटी डैश वाली रेखा: अगर आप बजट को महीने भर में बराबर बाँटें तो आज तक कितना खर्च किया होता — 4 तारीख को लगभग 13%, 15 को आधा। नारंगी: अब तक आपने ज़्यादा खर्च किया। अपने आप में कोई समस्या नहीं — कुछ शांत दिन और आप फिर गति पर। स्थायी खर्चों में यह नहीं होती: वे एक बार में चुकते हैं।"
 }

@@ -1264,5 +1264,9 @@
  "A month goal for all your budgets together: on schedule — the spending expected by month end fits your total budget — the ring fills a little every day and closes on the last day of the month. Expected = what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before), with fixed costs for the whole month. One category over is fine if another makes up for it. Behind schedule it grows slower: 10% over → about 90% of the pace. In the calendar, a day's green ring is full when that day you were still on course on average — one big day is fine.": "Một mục tiêu tháng cho tất cả ngân sách cộng lại: đúng tiến độ — chi tiêu dự kiến cuối tháng nằm trong tổng ngân sách — vòng lớn thêm một chút mỗi ngày và khép lại vào ngày cuối tháng. Dự kiến = số đã chi cộng số bạn thường chi trong phần còn lại của tháng (trung bình ba tháng trước), với chi phí cố định cả tháng. Một danh mục vượt cũng không sao nếu danh mục khác bù lại. Chậm tiến độ thì vòng lớn chậm hơn: vượt 10% → khoảng 90% tốc độ. Trên lịch, vòng xanh của một ngày đầy nếu hôm đó bạn trung bình vẫn đúng hướng — một ngày chi nhiều không sao.",
  "all spending, budgets {expected} of {budget}": "mọi chi tiêu; có ngân sách {expected} / {budget}",
  "Received — choose the account": "Đã nhận — chọn tài khoản",
- "Other…": "Khác…"
+ "Other…": "Khác…",
+ "Pace for today": "Nhịp hôm nay",
+ "ahead of it": "bạn đang vượt",
+ "{amount} spent · no budget": "Đã chi {amount} · không có ngân sách",
+ "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Vạch nét đứt nhỏ trong thanh ngân sách: bạn lẽ ra đã chi bao nhiêu ngân sách đến hôm nay nếu chia đều cho cả tháng — khoảng 13% vào ngày 4, một nửa vào ngày 15. Màu cam: đến nay bạn đã chi nhiều hơn. Bản thân không phải vấn đề — vài ngày chi ít hơn là bạn trở lại nhịp. Chi phí cố định không có: trả một lần."
 }

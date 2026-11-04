@@ -4894,3 +4894,8 @@ span.pf-cmp-chip { cursor: default; }
 .pf-bal-tickname { transition: opacity 0.3s ease, text-decoration-color 0.3s ease; }
 .pf-bal-tickname[data-on="true"] { opacity: 0.55; text-decoration: line-through; text-decoration-color: rgba(102, 212, 207, 0.6); }
 .pf-bal-receive { flex-basis: 100%; padding-left: 26px; }
+
+/* Budget toolbar: what the pace tick means. */
+.pf-pace-key { display: inline-flex; align-items: center; gap: 5px; font-size: 0.7rem; color: var(--pf-ink-3); }
+.pf-pace-key i { width: 0; height: 12px; border-left: 2px dashed rgba(255, 255, 255, 0.7); }
+.pf-pace-key i[data-ahead] { border-left-color: var(--pf-orange); }
