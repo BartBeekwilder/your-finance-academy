@@ -1273,5 +1273,9 @@
  "Stack order": "쌓는 순서",
  "Largest at the bottom": "큰 항목을 아래로",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "이번 달 수입의 20% 저축, 월간 목표로: 계획대로라면(월말 예상 = 예상 수입 − 예상 지출이 예상 수입의 20%에 도달) 링이 매일 조금씩 차고 마지막 날에 닫힙니다. 더 저축하면 더 빨리 차서 두 번째 바퀴까지, 덜 저축하면 더 천천히. 캘린더에서는 급여와 고정비를 한 달에 나눠 그날까지 저축한 금액을 날마다 보여 줍니다.",
- "Expected {rate}% of income at month end · goal {goal}%": "월말 예상 수입의 {rate}% · 목표 {goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "월말 예상 수입의 {rate}% · 목표 {goal}%",
+ "Other assets": "기타 자산",
+ "Other debts": "기타 부채",
+ "31 December {year}": "{year}년 12월 31일",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "연도: 주택은 매입가와 현재 가치 사이(추정), 대출은 상환 일정대로, 투자는 시가 또는 원가; 각 연도의 가져온 총액 중 나머지는 기타에 있습니다."
 }

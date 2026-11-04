@@ -290,6 +290,10 @@ Fixed costs still to come this month (recurring copies not yet due, recurring
 `upcomingFixedCosts`) count in the live figures from the 1st (calc `liveFixed`:
 tiles, monthToDate, liveChange, tile charts); 'Entered' stays booked only.
 Tile readouts show fixed / variable with %.
+Balance over time › Years (calc `balanceYears`): year-ends from yearSnapshots + today;
+homes interpolated purchase→today's value (estimate), mortgage parts on schedule,
+investments at market (within price history) or cost of what was held; the rest
+of each imported total = Other assets / Other debts; equity = assets − debts.
 
 ## Done recently (2026-10-22/23)
 

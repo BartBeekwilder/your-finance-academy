@@ -1273,5 +1273,9 @@
  "Stack order": "堆叠顺序",
  "Largest at the bottom": "最大的在底部",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "本月存下收入的 20%，作为月度目标：按计划进行（月底预测 = 预计收入减预计支出，达到预计收入的 20%）时，环每天长一点，并在最后一天闭合。存得更多会更快填满，直到第二圈；存得少则更慢。日历中，每天显示截至当时的储蓄，工资和固定支出平摊到整个月。",
- "Expected {rate}% of income at month end · goal {goal}%": "月底预计收入的 {rate}% · 目标 {goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "月底预计收入的 {rate}% · 目标 {goal}%",
+ "Other assets": "其他资产",
+ "Other debts": "其他负债",
+ "31 December {year}": "{year}年12月31日",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "年份：房产按购买价与当前价值之间估算，房贷按还款计划，投资按市值或成本；每年导入总额的其余部分归入“其他”。"
 }

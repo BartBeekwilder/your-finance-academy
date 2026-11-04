@@ -1273,5 +1273,9 @@
  "Stack order": "Ordre de l’empilement",
  "Largest at the bottom": "Le plus grand en bas",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "Épargner 20 % de vos revenus ce mois-ci, comme objectif mensuel : en bonne voie — la prévision de fin de mois (revenus attendus moins dépenses attendues) atteint 20 % des revenus attendus — l’anneau grandit un peu chaque jour et se ferme le dernier jour. Épargner plus le remplit plus vite, jusqu’à un second tour ; moins, plus lentement. Dans le calendrier, chaque jour montre ce qui était épargné jusque-là, salaire et charges fixes répartis sur le mois.",
- "Expected {rate}% of income at month end · goal {goal}%": "Prévu {rate} % des revenus en fin de mois · objectif {goal} %"
+ "Expected {rate}% of income at month end · goal {goal}%": "Prévu {rate} % des revenus en fin de mois · objectif {goal} %",
+ "Other assets": "Autres actifs",
+ "Other debts": "Autres dettes",
+ "31 December {year}": "31 décembre {year}",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Années : logements entre l’achat et la valeur actuelle (estimation), prêts selon leur échéancier, placements à la valeur de marché ou au coût ; le reste du total importé de chaque année est sous Autres."
 }

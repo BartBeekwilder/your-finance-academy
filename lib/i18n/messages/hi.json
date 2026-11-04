@@ -1273,5 +1273,9 @@
  "Stack order": "स्टैक का क्रम",
  "Largest at the bottom": "सबसे बड़ा नीचे",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "इस महीने अपनी आय का 20% बचाना, मासिक लक्ष्य के रूप में: सही राह पर — महीने के अंत का अनुमान (अपेक्षित आय घटा अपेक्षित खर्च) अपेक्षित आय के 20% तक पहुँचता है — रिंग हर दिन थोड़ी बढ़ती है और आखिरी दिन बंद होती है। ज़्यादा बचाने पर तेज़ी से भरती है, दूसरे चक्कर तक; कम बचाने पर धीरे। कैलेंडर में हर दिन तब तक की बचत दिखाता है, वेतन और स्थायी खर्च महीने भर में बाँटकर।",
- "Expected {rate}% of income at month end · goal {goal}%": "महीने के अंत तक आय का {rate}% अपेक्षित · लक्ष्य {goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "महीने के अंत तक आय का {rate}% अपेक्षित · लक्ष्य {goal}%",
+ "Other assets": "अन्य संपत्ति",
+ "Other debts": "अन्य कर्ज़",
+ "31 December {year}": "31 दिसंबर {year}",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "वर्ष: घर ख़रीद और आज के मूल्य के बीच (अनुमान), गिरवी अपनी अनुसूची के अनुसार, निवेश बाज़ार मूल्य या लागत पर; हर वर्ष के आयातित कुल का बाकी हिस्सा अन्य में।"
 }

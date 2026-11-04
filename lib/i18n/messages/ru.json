@@ -1273,5 +1273,9 @@
  "Stack order": "Порядок слоёв",
  "Largest at the bottom": "Крупнейшие внизу",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "Сберечь 20% дохода в этом месяце, как цель на месяц: по курсу — прогноз на конец месяца (ожидаемый доход минус ожидаемые расходы) достигает 20% ожидаемого дохода — кольцо каждый день немного растёт и замыкается в последний день. Сберегая больше, оно заполняется быстрее, до второго круга; меньше — медленнее. В календаре каждый день показывает, сколько сбережено к тому моменту, с зарплатой и постоянными расходами, распределёнными по месяцу.",
- "Expected {rate}% of income at month end · goal {goal}%": "Ожидается {rate}% дохода к концу месяца · цель {goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "Ожидается {rate}% дохода к концу месяца · цель {goal}%",
+ "Other assets": "Прочие активы",
+ "Other debts": "Прочие долги",
+ "31 December {year}": "31 декабря {year}",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Годы: жильё между покупкой и сегодняшней стоимостью (оценка), ипотека по графику, инвестиции по рыночной стоимости или по цене покупки; остаток импортированного итога за год — в «Прочее»."
 }

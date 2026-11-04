@@ -554,3 +554,70 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
   const equity = totalAssets - totalDebt;
   return { assets, liabilities, totalAssets, totalDebt, equity, isCurrent };
 }
+
+export type BalanceYearSeries = { id: string; name: string; values: number[]; estimate?: boolean };
+
+/** The balance per year-end, post by post as far as it can be worked out —
+ *  for Balance over time › Years. Years: every imported year-end stand
+ *  (yearSnapshots) and today. Worked out per year:
+ *    homes — between the purchase (price, date) and today's value, linearly
+ *      (an estimate; 0 before the purchase; without a purchase date, today's
+ *      value is used only for this year);
+ *    mortgage parts — the remaining debt on their schedule;
+ *    investments — at market value where prices reach back, else at cost
+ *      for what was held by then;
+ *  and the rest of each year's imported total as "Other assets" / "Other
+ *  debts" (this year: the remaining posts of today's sheet). Equity = assets
+ *  − debts. Generic: works with any mix of snapshots, homes and holdings. */
+export function balanceYears(data: FinanceData, now: Date) {
+  const y0 = now.getFullYear();
+  const snaps = new Map((data.yearSnapshots ?? []).filter((s) => s.year < y0).map((s) => [s.year, s]));
+  const years = [...[...snaps.keys()].sort((a, b) => a - b), y0];
+  const today = balanceSheet(data, now, new Date(y0, now.getMonth(), 1));
+  const yearEnd = (y: number) => (y === y0 ? now : new Date(y, 11, 31, 23, 59));
+  const firstPrice = Math.min(...Object.values(data.market ?? {}).map((p) => (p.length ? p[0][0] : Infinity)), Infinity);
+  const investAt = (y: number) => {
+    if (y === y0) return investmentsValue(data, now).total;
+    const at = yearEnd(y);
+    if (at.getTime() >= firstPrice) return investmentsValue(data, at).total;
+    return live(data.holdings).filter((h) => Date.parse(h.date_added) <= at.getTime()).reduce((s, h) => s + num(h.cost_basis), 0);
+  };
+  const assets: BalanceYearSeries[] = [];
+  const funding: BalanceYearSeries[] = [];
+  for (const { property, parts } of homes(data)) {
+    const pd = property.purchase_date ? new Date(property.purchase_date) : null;
+    const price = num(property.purchase_price ?? property.value);
+    const valueAt = property.value_date ? new Date(property.value_date) : now;
+    assets.push({
+      id: `property-${property.id}`,
+      name: property.name || t("Home"),
+      estimate: true,
+      values: years.map((y) => {
+        if (y === y0) return num(property.value);
+        if (!pd) return 0;
+        const at = yearEnd(y);
+        if (at < pd) return 0;
+        const k = valueAt > pd ? Math.min((at.getTime() - pd.getTime()) / (valueAt.getTime() - pd.getTime()), 1) : 1;
+        return price + (num(property.value) - price) * k;
+      }),
+    });
+    for (const part of parts) {
+      funding.push({
+        id: `mortgage-${part.id}`,
+        name: part.name || t("Mortgage"),
+        values: years.map((y) => (yearEnd(y) < part.start ? 0 : summarizePart(part, yearEnd(y)).balance)),
+      });
+    }
+  }
+  const inv = years.map(investAt);
+  if (inv.some((v) => v > 0.005)) assets.push({ id: "investments", name: t("Investments"), values: inv });
+  const totalA = years.map((y) => (y === y0 ? today.totalAssets : num(snaps.get(y)!.assets)));
+  const totalD = years.map((y) => (y === y0 ? today.totalDebt : num(snaps.get(y)!.liabilities)));
+  const knownA = years.map((_, i) => assets.reduce((s, a) => s + a.values[i], 0));
+  const knownD = years.map((_, i) => funding.reduce((s, a) => s + a.values[i], 0));
+  assets.push({ id: "other-assets", name: t("Other assets"), values: years.map((_, i) => Math.max(totalA[i] - knownA[i], 0)) });
+  funding.push({ id: "other-debts", name: t("Other debts"), values: years.map((_, i) => Math.max(totalD[i] - knownD[i], 0)) });
+  funding.unshift({ id: "equity", name: t("Equity"), values: years.map((_, i) => Math.max(totalA[i] - totalD[i], 0)) });
+  const keep = (s: BalanceYearSeries[]) => s.filter((x) => x.values.some((v) => v > 0.005));
+  return { years, assets: keep(assets), funding: keep(funding) };
+}

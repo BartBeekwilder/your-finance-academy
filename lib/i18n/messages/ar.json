@@ -1273,5 +1273,9 @@
  "Stack order": "ترتيب التكديس",
  "Largest at the bottom": "الأكبر في الأسفل",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "ادخار 20% من دخلك هذا الشهر، كهدف شهري: إن كنت على المسار — توقع نهاية الشهر (الدخل المتوقع ناقص الإنفاق المتوقع) يبلغ 20% من الدخل المتوقع — تكبر الحلقة قليلًا كل يوم وتكتمل في اليوم الأخير. ادخار المزيد يملؤها أسرع حتى دورة ثانية؛ والأقل أبطأ. في التقويم، يعرض كل يوم ما تم ادخاره حتى حينه، مع توزيع الراتب والتكاليف الثابتة على الشهر.",
- "Expected {rate}% of income at month end · goal {goal}%": "المتوقع {rate}% من الدخل بنهاية الشهر · الهدف {goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "المتوقع {rate}% من الدخل بنهاية الشهر · الهدف {goal}%",
+ "Other assets": "أصول أخرى",
+ "Other debts": "ديون أخرى",
+ "31 December {year}": "31 ديسمبر {year}",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "السنوات: المنازل بين الشراء وقيمة اليوم (تقدير)، الرهون حسب جدولها، الاستثمارات بالقيمة السوقية أو بالتكلفة؛ وبقية الإجمالي المستورد لكل سنة تحت «أخرى»."
 }

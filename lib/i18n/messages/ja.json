@@ -1273,5 +1273,9 @@
  "Stack order": "積み上げ順",
  "Largest at the bottom": "大きい順に下から",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "今月、収入の20%を貯蓄する月の目標：順調なら（月末の見込み＝見込み収入−見込み支出が見込み収入の20%に届く）、リングは毎日少しずつ伸び、最終日に閉じます。多く貯めればより速く満ちて2周目まで、少なければゆっくり。カレンダーでは、給与と固定費を月全体に配分して、その日までの貯蓄を日ごとに表示します。",
- "Expected {rate}% of income at month end · goal {goal}%": "月末の見込み：収入の{rate}%・目標{goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "月末の見込み：収入の{rate}%・目標{goal}%",
+ "Other assets": "その他の資産",
+ "Other debts": "その他の負債",
+ "31 December {year}": "{year}年12月31日",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "年：住宅は購入時から現在価値の間（推定）、住宅ローンは返済計画どおり、投資は時価または取得価格。各年の取り込み総額の残りは「その他」に。"
 }

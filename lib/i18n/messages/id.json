@@ -1273,5 +1273,9 @@
  "Stack order": "Urutan tumpukan",
  "Largest at the bottom": "Terbesar di bawah",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "Menabung 20% penghasilan bulan ini, sebagai target bulanan: di jalur — perkiraan akhir bulan (penghasilan yang diharapkan dikurangi pengeluaran yang diharapkan) mencapai 20% penghasilan yang diharapkan — cincin bertambah sedikit setiap hari dan tertutup di hari terakhir. Menabung lebih banyak mengisinya lebih cepat, hingga putaran kedua; lebih sedikit, lebih lambat. Di kalender, tiap hari menunjukkan tabungan sampai saat itu, dengan gaji dan biaya tetap dibagi sepanjang bulan.",
- "Expected {rate}% of income at month end · goal {goal}%": "Perkiraan {rate}% penghasilan di akhir bulan · target {goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "Perkiraan {rate}% penghasilan di akhir bulan · target {goal}%",
+ "Other assets": "Aset lainnya",
+ "Other debts": "Utang lainnya",
+ "31 December {year}": "31 Desember {year}",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Tahun: rumah antara pembelian dan nilai sekarang (perkiraan), KPR menurut jadwalnya, investasi pada nilai pasar atau biaya; sisa total impor tiap tahun ada di Lainnya."
 }

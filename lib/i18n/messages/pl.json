@@ -1273,5 +1273,9 @@
  "Stack order": "Kolejność stosu",
  "Largest at the bottom": "Największe na dole",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "Zaoszczędzić 20% dochodu w tym miesiącu, jako cel miesięczny: na kursie — prognoza na koniec miesiąca (oczekiwany dochód minus oczekiwane wydatki) sięga 20% oczekiwanego dochodu — pierścień rośnie każdego dnia i zamyka się ostatniego dnia. Oszczędzając więcej, napełnia się szybciej, aż do drugiego okrążenia; mniej — wolniej. W kalendarzu każdy dzień pokazuje, ile zaoszczędzono do tej pory, z pensją i kosztami stałymi rozłożonymi na miesiąc.",
- "Expected {rate}% of income at month end · goal {goal}%": "Prognoza {rate}% dochodu na koniec miesiąca · cel {goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "Prognoza {rate}% dochodu na koniec miesiąca · cel {goal}%",
+ "Other assets": "Pozostałe aktywa",
+ "Other debts": "Pozostałe długi",
+ "31 December {year}": "31 grudnia {year}",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Lata: nieruchomości między zakupem a dzisiejszą wartością (szacunek), kredyty według harmonogramu, inwestycje po wartości rynkowej lub koszcie; reszta zaimportowanej sumy roku jest w Pozostałe."
 }

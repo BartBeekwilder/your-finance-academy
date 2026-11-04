@@ -13,7 +13,7 @@ import EquityWaterfall from "@/components/finance/EquityWaterfall";
 import SortableTiles from "@/components/finance/SortableTiles";
 import StepSlider from "@/components/finance/StepSlider";
 import YearsCompare from "@/components/finance/YearsCompare";
-import { balanceSheet, netWorthFigures } from "@/lib/finance/calc";
+import { balanceSheet, balanceYears, netWorthFigures } from "@/lib/finance/calc";
 import { openTransactionEditor } from "@/lib/finance/editTransaction";
 
 // Balance sheet — the finances as a company's books: what you own (your own
@@ -112,6 +112,17 @@ export default function BalancePage() {
   }, [data, now, side]);
   const spare = ["#8e8e93", "#66d4cf", "#ffd60a", "#ff9f0a", "#bf5af2", "#64d2ff"];
   const mixSeries = mix.map((s, i) => ({ ...s, color: colors.get(s.id) ?? spare[i % spare.length] }));
+  // Balance over time › Years: each year-end, post by post as far as it can
+  // be worked out (calc balanceYears), the rest of the imported totals as
+  // "Other".
+  const [overYears, setOverYears] = useState(false);
+  const yearsModel = useMemo(() => balanceYears(data, now), [data, now]);
+  const yearSeries = (side === "assets" ? yearsModel.assets : yearsModel.funding).map((s, i) => ({
+    ...s,
+    color: colors.get(s.id) ?? (s.id === "other-assets" || s.id === "other-debts" ? "#8e8e93" : spare[(i + 1) % spare.length]),
+  }));
+  const canYears = yearsModel.years.length > 1;
+  const showYears = overYears && canYears;
   const pick = (id: string, s: "assets" | "funding") => {
     setSide(s);
     setPicked((p) => (p === id ? null : id));
@@ -247,27 +258,42 @@ export default function BalancePage() {
               <section style={{ display: "grid", gap: 8 }}>
                 <h2 className="pf-section-title">{t("Balance over time")}</h2>
                 <MixChart
-                  key={side}
+                  key={`${side}-${showYears}`}
                   title=""
                   right={
-                    <Segmented
-                      size="sm"
-                      label={t("Side")}
-                      value={side}
-                      onChange={(v) => { setSide(v); setPicked(null); }}
-                      options={[{ value: "assets", label: t("Assets") }, { value: "funding", label: t("Debt + equity") }]}
-                    />
+                    <span style={{ display: "inline-flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
+                      {canYears && (
+                        <Segmented
+                          size="sm"
+                          label={t("Period")}
+                          value={showYears ? "years" : "months"}
+                          onChange={(v) => { setOverYears(v === "years"); setPicked(null); }}
+                          options={[{ value: "months", label: t("Months") }, { value: "years", label: t("Years") }]}
+                        />
+                      )}
+                      <Segmented
+                        size="sm"
+                        label={t("Side")}
+                        value={side}
+                        onChange={(v) => { setSide(v); setPicked(null); }}
+                        options={[{ value: "assets", label: t("Assets") }, { value: "funding", label: t("Debt + equity") }]}
+                      />
+                    </span>
                   }
-                  times={mixSeries[0]?.values.map((_, m) => m) ?? []}
-                  lines={mixSeries}
+                  times={showYears ? yearsModel.years.map((_, i) => i) : mixSeries[0]?.values.map((_, m) => m) ?? []}
+                  lines={showYears ? yearSeries : mixSeries}
                   currency={currency}
-                  labelAt={(m) => (m === now.getMonth() ? t("Today") : t("End of {n}", { n: monthName(new Date(now.getFullYear(), m, 1)) }))}
+                  labelAt={(m) =>
+                    showYears
+                      ? yearsModel.years[m] === now.getFullYear() ? t("Today") : t("31 December {year}", { year: yearsModel.years[m] })
+                      : m === now.getMonth() ? t("Today") : t("End of {n}", { n: monthName(new Date(now.getFullYear(), m, 1)) })
+                  }
                   nowLabel={t("Today")}
-                  xTicks={(mixSeries[0]?.values ?? []).map((_, m) => ({ t: m, label: shortMonth(new Date(now.getFullYear(), m, 1)) }))}
-                  storageKey={`pf-balance-mix-hidden-${side}`}
+                  xTicks={showYears ? yearsModel.years.map((y, i) => ({ t: i, label: String(y) })) : (mixSeries[0]?.values ?? []).map((_, m) => ({ t: m, label: shortMonth(new Date(now.getFullYear(), m, 1)) }))}
+                  storageKey={`pf-balance-mix-hidden-${showYears ? "years-" : ""}${side}`}
                   lit={picked}
                   onPick={(id) => setPicked((p) => (p === id ? null : id))}
-                  note={t("Click a bar above or a band here to follow one post through the year.")}
+                  note={showYears ? t("Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.") : t("Click a bar above or a band here to follow one post through the year.")}
                 />
               </section>
             ),

@@ -1280,5 +1280,9 @@
  "Stack order": "Volgorde van de stapel",
  "Largest at the bottom": "Grootste onderaan",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "20% van je inkomen sparen, als maanddoel: zit je op koers — de prognose voor het eind van de maand (verwacht inkomen min verwachte uitgaven) haalt 20% van je verwachte inkomen — dan groeit de ring elke dag een stukje en sluit hij op de laatste dag. Spaar je meer, dan groeit hij sneller, tot een tweede ronde; minder, dan langzamer. In de kalender laat elke dag zien wat er tot dan gespaard was, met salaris en vaste lasten verdeeld over de maand.",
- "Expected {rate}% of income at month end · goal {goal}%": "Verwacht {rate}% van je inkomen aan het eind van de maand · doel {goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "Verwacht {rate}% van je inkomen aan het eind van de maand · doel {goal}%",
+ "Other assets": "Overige bezittingen",
+ "Other debts": "Overige schulden",
+ "31 December {year}": "31 december {year}",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Jaren: woningen tussen aankoop en de waarde van nu (schatting), hypotheken volgens hun schema, beleggingen tegen marktwaarde of inleg; de rest van het geïmporteerde jaartotaal staat onder Overig."
 }

@@ -1273,5 +1273,9 @@
  "Stack order": "Yığın sırası",
  "Largest at the bottom": "En büyük altta",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "Bu ay gelirinin %20'sini biriktirmek, aylık hedef olarak: rotadaysan — ay sonu tahmini (beklenen gelir eksi beklenen harcama) beklenen gelirin %20'sine ulaşıyorsa — halka her gün biraz büyür ve son gün kapanır. Daha fazla biriktirirsen daha hızlı dolar, ikinci tura kadar; daha az biriktirirsen daha yavaş. Takvimde her gün, maaş ve sabit giderler aya yayılarak o güne kadar biriktirileni gösterir.",
- "Expected {rate}% of income at month end · goal {goal}%": "Ay sonunda gelirin %{rate} kadarı bekleniyor · hedef %{goal}"
+ "Expected {rate}% of income at month end · goal {goal}%": "Ay sonunda gelirin %{rate} kadarı bekleniyor · hedef %{goal}",
+ "Other assets": "Diğer varlıklar",
+ "Other debts": "Diğer borçlar",
+ "31 December {year}": "31 Aralık {year}",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Yıllar: konutlar alım ile bugünkü değer arasında (tahmin), krediler planına göre, yatırımlar piyasa değeri ya da maliyetle; her yılın içe aktarılan toplamının geri kalanı Diğer altında."
 }

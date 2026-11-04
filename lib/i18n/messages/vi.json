@@ -1273,5 +1273,9 @@
  "Stack order": "Thứ tự xếp chồng",
  "Largest at the bottom": "Lớn nhất ở dưới",
  "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "Tiết kiệm 20% thu nhập tháng này, như một mục tiêu tháng: đúng hướng — dự báo cuối tháng (thu nhập dự kiến trừ chi tiêu dự kiến) đạt 20% thu nhập dự kiến — vòng lớn thêm một chút mỗi ngày và khép lại vào ngày cuối. Tiết kiệm nhiều hơn thì đầy nhanh hơn, đến vòng thứ hai; ít hơn thì chậm hơn. Trên lịch, mỗi ngày cho thấy số đã tiết kiệm đến lúc đó, với lương và chi phí cố định chia đều trong tháng.",
- "Expected {rate}% of income at month end · goal {goal}%": "Dự kiến {rate}% thu nhập vào cuối tháng · mục tiêu {goal}%"
+ "Expected {rate}% of income at month end · goal {goal}%": "Dự kiến {rate}% thu nhập vào cuối tháng · mục tiêu {goal}%",
+ "Other assets": "Tài sản khác",
+ "Other debts": "Nợ khác",
+ "31 December {year}": "31 tháng 12 năm {year}",
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Các năm: nhà ở giữa lúc mua và giá trị hiện tại (ước tính), khoản vay theo lịch trả, đầu tư theo giá thị trường hoặc giá vốn; phần còn lại của tổng đã nhập mỗi năm nằm trong Khác."
 }
