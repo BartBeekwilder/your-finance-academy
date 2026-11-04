@@ -4917,10 +4917,10 @@ span.pf-cmp-chip { cursor: default; }
 /* Expenses: the tiles with a ring on the right — share of income spent. */
 .pf-cattiles-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: stretch; }
 @media (max-width: 700px) { .pf-cattiles-row { grid-template-columns: minmax(0, 1fr); } }
-.pf-incomerings { display: flex; flex-direction: column; gap: 10px; width: 290px; }
-.pf-incomerings > * { min-width: 0; }
+.pf-incomerings { display: flex; gap: 10px; align-items: flex-start; }
+.pf-incomerings > .pf-incomering { width: 172px; min-width: 0; flex-direction: column; align-items: flex-start; padding: 14px; }
 .pf-incomerings:empty { display: none; }
-@media (max-width: 700px) { .pf-incomerings { width: auto; flex-direction: row; flex-wrap: wrap; } .pf-incomerings > * { flex: 1 1 250px; } }
+@media (max-width: 700px) { .pf-incomerings > .pf-incomering { flex: 1 1 0; width: auto; } }
 .pf-incomering { cursor: default; display: flex; align-items: center; gap: 12px; padding: 10px 16px 10px 10px; min-width: 250px; }
 .pf-incomering[data-over] { box-shadow: 0 0 0 1px rgba(255, 69, 58, 0.45) inset; }
 .pf-incomering-seg { transition: stroke-dasharray 0.7s cubic-bezier(0.2, 0.9, 0.25, 1), stroke-dashoffset 0.7s cubic-bezier(0.2, 0.9, 0.25, 1); animation: pf-ring-draw 0.9s cubic-bezier(0.2, 0.9, 0.25, 1) both; }
