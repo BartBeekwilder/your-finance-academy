@@ -7,7 +7,7 @@ import { budgetIn } from "@/lib/finance/budgetPlan";
 import { live, projectedNetIncome, salaryTest, summarize } from "@/lib/finance/calc";
 import { dayRings, longestStreak, ringStreak, type DayRing } from "@/lib/finance/dayRings";
 import { monthYear } from "@/lib/finance/format";
-import { SAVINGS_SHARE, activeDays } from "@/lib/finance/progressModel";
+import { SAVINGS_SHARE, activeDays, budgetTotals } from "@/lib/finance/progressModel";
 import { streak } from "@/lib/finance/progress";
 import type { FinanceData } from "@/lib/finance/types";
 import { LAP_COLORS, RING_COLORS } from "./ProgressParts";
@@ -48,6 +48,12 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
         // Day by day on the live model: the salary accrues (this month at its
         // expected net, a finished month at what came in), as on the tiles.
         accrue: { salary: isPast ? salaryIn : projectedNetIncome(data, month), isSalary: salaryLike },
+        // Budget: all budgets together — each day's forecast for the month
+        // within the total budget (a finished month's fixed costs as booked).
+        budgetPlan: (() => {
+          const t = budgetTotals(data, month, isPast ? undefined : 0);
+          return { budget: t.budget, usualVar: t.usualVar, fixedExpected: t.fixedExpected, inBudget: (tx: (typeof data.transactions)[number]) => !!tx.category_id && t.ids.has(tx.category_id) };
+        })(),
       }),
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

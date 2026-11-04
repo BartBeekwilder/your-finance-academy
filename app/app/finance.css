@@ -4822,7 +4822,7 @@ span.pf-cmp-chip { cursor: default; }
 .pf-close-done svg { color: var(--pf-green); }
 /* The savings goal: a tick halfway along the Saved bar. */
 .pf-progress-bar i:has(.pf-progress-goal) { overflow: visible; }
-.pf-progress-goal { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; border-radius: 1px; background: rgba(255, 255, 255, 0.75); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35); }
+.pf-progress-goal { position: absolute; left: 50%; transition: left 0.6s cubic-bezier(0.2, 0.9, 0.25, 1); top: -3px; bottom: -3px; width: 2px; margin-left: -1px; border-radius: 1px; background: rgba(255, 255, 255, 0.75); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35); }
 
 /* ---- Check-in: "my books are up to date" ------------------------------- */
 .pf-checkin { display: grid; gap: 12px; min-width: 0; }
@@ -4875,3 +4875,4 @@ span.pf-cmp-chip { cursor: default; }
   position: absolute; right: 12px; bottom: -15px; font-size: 0.66rem; color: var(--pf-brand-b); white-space: nowrap;
   animation: pf-fade-up 0.25s ease-out both; pointer-events: none;
 }
+.pf-progress-bar-wide { grid-template-columns: 112px 1fr auto; }

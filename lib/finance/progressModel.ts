@@ -41,6 +41,38 @@ function budgetRows(data: FinanceData, month: Date, fraction?: number) {
     });
 }
 
+/** All budgets together for `month` (the budget ring's month goal): the
+ *  total budget of every budgeted category, and the month-end spending
+ *  expected in them. With `fraction` (this month, the share gone by):
+ *  variable spending so far + the rest of the month at the usual pace
+ *  (average of the three months before; with no history, the budget's own
+ *  pace), and fixed costs at least what they usually are. Without it (a
+ *  finished month): what was spent. Also the parts the calendar needs. */
+export function budgetTotals(data: FinanceData, month: Date, fraction?: number) {
+  const spent = new Map(spendByCategory(data, month).map((e) => [e.category.id, e]));
+  const before = [1, 2, 3].map((k) => spendByCategory(data, new Date(month.getFullYear(), month.getMonth() - k, 1))).filter((m) => m.length > 0);
+  const ids = new Set<string>();
+  let budget = 0, forecast = 0, spentTotal = 0, usualVar = 0, fixedExpected = 0;
+  for (const c of live(data.categories).filter((c) => !c.is_income_category && c.parent_id === null)) {
+    const b = budgetIn(live(data.budgets), c.id, month);
+    if (b === null) continue;
+    for (const id of [c.id, ...live(data.categories).filter((x) => x.parent_id === c.id).map((x) => x.id)]) ids.add(id);
+    const e = spent.get(c.id);
+    const s = e?.spent ?? 0, fx = e?.fixed ?? 0, v = s - fx;
+    const avg = (pick: (x: { spent: number; fixed: number }) => number) =>
+      before.length ? before.map((m) => { const x = m.find((y) => y.category.id === c.id); return x ? pick(x) : 0; }).reduce((a, n) => a + n, 0) / before.length : null;
+    const uVar = avg((x) => x.spent - x.fixed) ?? Math.max(b - fx, 0);
+    const uFix = avg((x) => x.fixed) ?? fx;
+    const fxExp = fraction === undefined ? fx : Math.max(fx, uFix);
+    budget += b;
+    spentTotal += s;
+    usualVar += uVar;
+    fixedExpected += fxExp;
+    forecast += fraction === undefined ? s : v + uVar * Math.max(1 - fraction, 0) + fxExp;
+  }
+  return { budget, forecast, spent: spentTotal, usualVar, fixedExpected, ids };
+}
+
 /** Days kept up: app used, or covered by a check-in (lib/finance/checkin). */
 export function activeDays(data: FinanceData) {
   return trackedDays(live(data.activityDays ?? []).map((a) => a.day), checkinDays(live(data.achievements ?? [])));
@@ -57,6 +89,7 @@ export function monthRings(data: FinanceData, month: Date) {
     budgets: budgetRows(data, month),
     fraction: 1,
     saved: s.income - s.spent,
+    budgetTotal: (() => { const t = budgetTotals(data, month); return { forecast: t.forecast, budget: t.budget }; })(),
     savingsTarget: projectedNetIncome(data, month) * SAVINGS_SHARE,
   });
 }
@@ -85,10 +118,13 @@ export function progressModel(data: FinanceData, now: Date) {
   // expects to be saved by the end of the month against 20% of the month's
   // expected income (not today's pace, which swings early in the month).
   const fc = yearForecast(data, now)[0];
+  const budgetNow = budgetTotals(data, month, fraction);
   const ringNow = rings({
     daysElapsed: now.getDate(),
     activeDaysInMonth: activity.filter((d) => d.slice(0, 7) === iso(month).slice(0, 7)).length,
     budgets: budgetRows(data, month, fraction),
+    // A month goal for all budgets together: the month-end forecast.
+    budgetTotal: { forecast: budgetNow.forecast, budget: budgetNow.budget },
     fraction,
     saved: fc ? fc.income - fc.spent : nw.liveChange(now.getTime()),
     savingsTarget: (fc ? fc.income : projectedNetIncome(data, month)) * SAVINGS_SHARE,
@@ -130,7 +166,7 @@ export function progressModel(data: FinanceData, now: Date) {
   const have = new Set(achievements.map((a) => a.code));
   const earnable = BADGES.filter((b) => !have.has(b.code) && b.earned(context));
 
-  return { rings: ringNow, streak: days, points, level: level(points), closable, closes, achievements, have, earnable, goals, context, activeToday: activity.includes(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`) };
+  return { rings: ringNow, budgetTotal: budgetNow, streak: days, points, level: level(points), closable, closes, achievements, have, earnable, goals, context, activeToday: activity.includes(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`) };
 }
 
 export type GoalState = ReturnType<typeof goalState>;

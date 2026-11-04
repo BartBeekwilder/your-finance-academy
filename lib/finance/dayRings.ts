@@ -1,7 +1,10 @@
 // Daily rings for the activity calendar — the month's three rings, day by
 // day, like a watch's activity history:
 //   tracking — the books were updated that day (full or empty);
-//   budget   — spending so far this month within the allowance so far
+//   budget   — spending so far this month within the allowance so far;
+//              with `budgetPlan`, all budgets together: that day's forecast
+//              for the month (variable spending so far + the usual rest +
+//              the month's fixed costs) within the total budget
 //              (full while on track; less full the further over);
 //   saving   — saved so far against the savings target so far (a second
 //              lap past it). With `accrue`, on the live tiles' model: the
@@ -13,6 +16,9 @@
 // node and ported to the apps.
 
 import type { Transaction } from "./types";
+
+// Same as progress.ts budgetTotalRing (kept here so this file stays pure).
+const budgetTotalRing = (t: { forecast: number; budget: number }) => (!(t.budget > 0) ? 0 : t.forecast <= t.budget + 0.005 ? 1 : t.budget / t.forecast);
 
 export type DayRing = { day: number; date: Date; tracking: number; budget: number | null; saving: number | null; future: boolean; perfect: boolean };
 
@@ -28,6 +34,7 @@ export function dayRings<T extends DayTx>({
   allowance,
   savingsTarget,
   accrue,
+  budgetPlan,
 }: {
   transactions: T[];
   activeDays: string[];
@@ -37,6 +44,10 @@ export function dayRings<T extends DayTx>({
   allowance: number;
   /** What the month should save (0 = no saving ring). */
   savingsTarget: number;
+  /** All budgets together (see the top): total budget, the usual variable
+   *  spending for a month, the month's fixed costs, and which transactions
+   *  are in a budgeted category. */
+  budgetPlan?: { budget: number; usualVar: number; fixedExpected: number; inBudget: (t: T) => boolean };
   /** Spread the month's salary (and the fixed costs) evenly over its days. */
   accrue?: { salary: number; isSalary: (t: T) => boolean };
 }): DayRing[] {
@@ -55,7 +66,7 @@ export function dayRings<T extends DayTx>({
     } else {
       if (accrue && t.is_fixed_expense) fixedTotal += a;
       else saved[i] -= a;
-      if (!t.is_fixed_expense) spent[i] += a;
+      if (!t.is_fixed_expense && (!budgetPlan || budgetPlan.inBudget(t))) spent[i] += a;
     }
   }
   // Salary in and fixed costs out, a day's worth each day.
@@ -70,7 +81,9 @@ export function dayRings<T extends DayTx>({
     const share = (i + 1) / days;
     const tracking = active.has(key(date)) ? 1 : 0;
     const allowed = allowance * share;
-    const budget = allowance > 0 ? (cumSpent <= allowed + 0.005 ? 1 : allowed / cumSpent) : null;
+    const budget = budgetPlan
+      ? budgetPlan.budget > 0 ? budgetTotalRing({ forecast: cumSpent + budgetPlan.usualVar * (1 - share) + budgetPlan.fixedExpected, budget: budgetPlan.budget }) : null
+      : allowance > 0 ? (cumSpent <= allowed + 0.005 ? 1 : allowed / cumSpent) : null;
     const goal = savingsTarget * share;
     const saving = savingsTarget > 0 ? Math.min(Math.max(cumSaved / goal, 0), 2) : null;
     const perfect = !future && tracking >= 1 && (budget == null || budget >= 1) && (saving == null || saving >= 1);

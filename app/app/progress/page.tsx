@@ -67,10 +67,6 @@ export default function ProgressPage() {
         </Link>
       )}
 
-      <section className="pf-card" style={{ padding: 18 }}>
-        <CheckinCard />
-      </section>
-
       {/* Level, points, streak, and this month's rings. */}
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}>
         <section className="pf-card pf-level">
@@ -95,10 +91,14 @@ export default function ProgressPage() {
           <Rings {...m.rings} size={150} />
           <div style={{ display: "grid", gap: 10 }}>
             <span className="pf-eq-label">{t("This month").toUpperCase()} <InfoTip id="rings" /></span>
-            <RingLegend {...m.rings} forecast />
+            <RingLegend {...m.rings} forecast budgetTotal={m.budgetTotal} currency={currency} />
           </div>
         </section>
       </div>
+
+      <section className="pf-card" style={{ padding: 18 }}>
+        <CheckinCard />
+      </section>
 
       {/* Streaks and every day's rings. */}
       <section style={{ display: "grid", gap: 10 }}>

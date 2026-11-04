@@ -1255,10 +1255,11 @@
  "Tracking ring": "记账环",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "本月的三个环，就像手表的活动环：记账（粉色）、预算（绿色）和储蓄（紫色）。达到目标时环闭合；超过后开始第二圈。日历按天显示。",
  "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "本月记账天数的占比。打开应用或被打卡覆盖的日子都算：一次打卡会计入到上一次打卡之间的每一天。",
- "The share of your budgets expected to hold at month end. For each budget: what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before). Example: €265 for groceries, €33 spent by the 3rd, usually €240 a month → about €33 + €216 = €249, within budget. In the calendar, a day's green ring shows whether spending up to that day stayed within the budget's share for those days.": "预计到月底能守住的预算占比。每项预算：目前已花的加上本月剩余时间通常会花的（前三个月的平均）。例：买菜预算 €265，到 3 号已花 €33，通常每月 €240 → 约 €33 + €216 = €249，在预算内。日历中，每天的绿色环表示截至当天的支出是否在这些天对应的预算份额内。",
  "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "本月是否有望存下收入的 20%：月底预测（预计收入减预计支出）占预计收入的比例。达到 20% 时闭合。日历中，每天显示截至当时的储蓄，工资和固定支出平摊到整个月。",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "确认账目已更新：所有支出和收入已记录，账户余额与银行一致。每个周期一次（设置 › 打卡），奖励 15 分；还会把上次打卡以来的日子计为已记账。",
  "Points": "积分",
  "Several bills in one? Add them up with +, like 40+24.": "多笔账单合在一起？用 + 相加，例如 40+24。",
- "Share %": "占比 %"
+ "Share %": "占比 %",
+ "Expected {forecast} of {budget} budget at month end": "月底预计 {forecast}，预算 {budget}",
+ "A month goal for all your budgets together: the ring is full while the spending expected by month end fits your total budget. Expected = what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before), with fixed costs for the whole month. One category over is fine if another makes up for it. Over the total, the ring shrinks: 10% over → about 90%. In the calendar, a day's green ring shows whether that day's forecast was still within the total budget.": "所有预算合起来的月度目标：只要月底预计支出不超过总预算，环就是满的。预计 = 目前已花的加上本月剩余时间通常会花的（前三个月的平均），固定支出按整月计。某个类别超了没关系，只要别的类别能补回来。超过总额，环会缩小：超 10% → 约 90%。日历中，每天的绿色环表示当天的预测是否仍在总预算内。"
 }

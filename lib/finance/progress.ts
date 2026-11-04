@@ -76,7 +76,18 @@ export type RingInput = {
   savingsTarget: number;
   /** `saved` is the month-end forecast, so the target isn't prorated. */
   savedIsForecast?: boolean;
+  /** All budgets together (a month goal): the month-end spending expected
+   *  (a finished month: what was spent) against the total budget. When
+   *  given, the budget ring is this instead of the share of budgets. */
+  budgetTotal?: { forecast: number; budget: number };
 };
+
+/** All budgets together: full while the forecast fits the total budget,
+ *  less full the further over (budget ÷ forecast); 0 without budgets. */
+export function budgetTotalRing(t: { forecast: number; budget: number }) {
+  if (!(t.budget > 0)) return 0;
+  return t.forecast <= t.budget + 0.005 ? 1 : t.budget / t.forecast;
+}
 
 /** The three rings, each 0…1 (can exceed 1 for saving). */
 export function rings(r: RingInput) {
@@ -93,7 +104,7 @@ export function rings(r: RingInput) {
     return fx <= b.budget + 0.005 && b.spent - fx <= (b.budget - fx) * r.fraction + 0.005;
   });
   // No budgets, no ring: it closes by keeping budgets, not by having none.
-  const budget = r.budgets.length ? onTrack.length / r.budgets.length : 0;
+  const budget = r.budgetTotal ? budgetTotalRing(r.budgetTotal) : r.budgets.length ? onTrack.length / r.budgets.length : 0;
   const target = r.savingsTarget * (r.savedIsForecast ? 1 : r.fraction);
   const saving = target > 0 ? Math.max(r.saved / target, 0) : r.saved > 0 ? 1 : 0;
   return { tracking, budget, saving };
