@@ -73,15 +73,23 @@ export default function NetWorthCard({
         ) : (
           <ArrowDownRight size={16} strokeWidth={3} color="var(--pf-orange)" style={{ marginTop: 8 }} />
         )}
-        <div style={{ marginLeft: "auto", display: "grid", gap: 3, textAlign: "right", fontSize: "0.72rem", paddingTop: 4 }}>
+        {/* Day / month / year as a small table: the total, and (with live
+            quotes) split into work and investments, each in its own column
+            so the amounts line up. */}
+        <div className="pf-nwc-stats" data-split={invest !== undefined || undefined}>
+          {invest !== undefined && (
+            <>
+              <span />
+              <span>{t("Total")}</span>
+              <span>{t("Work")}</span>
+              <span>{t("Investments")}</span>
+            </>
+          )}
           <Stat label={t("This Day")} work={dayDelta} invest={invest?.day} currency={currency} />
           <Stat label={t("This Month")} work={monthDelta} invest={invest?.month} currency={currency} />
           <Stat label={t("This Year")} work={yearDelta} invest={invest?.year} currency={currency} />
         </div>
       </div>
-      <p style={{ position: "relative", margin: "6px 0 0", fontSize: "0.68rem", color: "var(--pf-ink-3)", pointerEvents: "none" }}>
-        {t("Estimated live pace, based on your recent months")}
-      </p>
       {history.length >= 2 && (
         <p key={hover ?? "all"} className="pf-readout pf-nwc-caption">
           {hover === null
@@ -104,19 +112,16 @@ function Stat({ label, work, invest, currency }: { label: string; work: number; 
   const value = work + (invest ?? 0);
   const tone = (v: number) => (v >= 0 ? "var(--pf-green)" : "var(--pf-orange)");
   return (
-    <div>
-      <span style={{ color: "var(--pf-ink-2)" }}>{label} </span>
-      <span className="pf-rounded" style={{ fontWeight: 600, color: tone(value) }}>
-        {money(value, currency, { signed: true })}
-      </span>
+    <>
+      <span className="pf-nwc-stat-label">{label}</span>
+      <b className="pf-rounded" style={{ color: tone(value) }}>{money(value, currency, { signed: true })}</b>
       {invest !== undefined && (
-        <div className="pf-nwc-split">
-          {t("Work")} <span className="pf-rounded" style={{ color: tone(work) }}>{money(work, currency, { signed: true })}</span>
-          {" · "}
-          {t("Investments")} <span className="pf-rounded" style={{ color: tone(invest) }}>{money(invest, currency, { signed: true })}</span>
-        </div>
+        <>
+          <span className="pf-rounded pf-nwc-split" style={{ color: tone(work) }}>{money(work, currency, { signed: true })}</span>
+          <span className="pf-rounded pf-nwc-split" style={{ color: tone(invest) }}>{money(invest, currency, { signed: true })}</span>
+        </>
       )}
-    </div>
+    </>
   );
 }
 

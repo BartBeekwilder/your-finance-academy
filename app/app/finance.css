@@ -4144,7 +4144,13 @@ span.pf-cmp-chip { cursor: default; }
 .pf-nwc-hits { position: absolute; inset: 0 22px; }
 .pf-nwc-hit { position: absolute; top: 0; bottom: 0; }
 .pf-nwc-caption { position: relative; margin: 2px 0 0; text-align: right; font-size: 0.66rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; pointer-events: none; }
-.pf-nwc-split { margin-top: 1px; font-size: 0.62rem; color: var(--pf-ink-3); white-space: nowrap; }
+.pf-nwc-stats { margin-left: auto; padding-top: 4px; display: grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 4px; align-items: baseline; justify-items: end; font-size: 0.72rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pf-nwc-stats[data-split] { grid-template-columns: auto auto auto auto; }
+.pf-nwc-stats > span:not([class]) { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--pf-ink-3); }
+.pf-nwc-stat-label { color: var(--pf-ink-2); justify-self: start; }
+.pf-nwc-stats b { font-weight: 600; }
+.pf-nwc-split { font-size: 0.68rem; opacity: 0.8; }
+@media (max-width: 560px) { .pf-nwc-stats { margin-left: 0; width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .pf-nwc-line { animation: none; stroke-dashoffset: 0; } .pf-nwc-area { animation: none; } }
 
 /* Income — payslips */
