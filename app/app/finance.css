@@ -4910,3 +4910,6 @@ span.pf-cmp-chip { cursor: default; }
 .pf-bbar-parts span { height: 100%; transition: flex-grow 0.6s cubic-bezier(0.2, 0.9, 0.25, 1); }
 .pf-bbar-parts span + span { box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.35); }
 .pf-part-dot { width: 8px; height: 8px; border-radius: 3px; flex: none; }
+.pf-wf-zero { position: absolute; left: 0; right: 0; height: 0; border-top: 1px solid rgba(255, 255, 255, 0.28); pointer-events: none; }
+/* A negative equity total: red, like any amount below zero. */
+.pf-wf-bar[data-kind="total"][data-neg] { background: linear-gradient(180deg, #ff453a, rgba(255, 69, 58, 0.45)); box-shadow: 0 0 14px rgba(255, 69, 58, 0.35); }

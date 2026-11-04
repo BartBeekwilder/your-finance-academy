@@ -80,7 +80,7 @@ export default function EquityWaterfall({
         {shown ? (
           shown.kind === "total" ? (
             <>
-              {shown.long} · <b style={{ color: "#40c8e0" }}>{money(shown.to, currency)}</b>
+              {shown.long} · <b style={{ color: shown.to < 0 ? "var(--pf-red)" : "#40c8e0" }}>{money(shown.to, currency)}</b>
             </>
           ) : (
             <>
@@ -89,7 +89,7 @@ export default function EquityWaterfall({
           )
         ) : (
           <>
-            {first.long} {money(first.to, currency)} → <b style={{ color: "#40c8e0" }}>{money(last.to, currency)}</b>{" "}
+            {first.long} <span style={{ color: first.to < 0 ? "var(--pf-red)" : undefined }}>{money(first.to, currency)}</span> → <b style={{ color: last.to < 0 ? "var(--pf-red)" : "#40c8e0" }}>{money(last.to, currency)}</b>{" "}
             <span style={{ color: last.to >= first.to ? "var(--pf-green)" : "var(--pf-red)" }}>({money(last.to - first.to, currency, { signed: true })})</span>
           </>
         )}
@@ -110,9 +110,14 @@ export default function EquityWaterfall({
             {[0, 0.5, 1].map((f) => (
               <span key={`g${f}`} className="pf-cbar-grid" style={{ bottom: f * H }} />
             ))}
+            {/* The zero line, when it's in view and not the axis bottom. */}
+            {lo < 0 && hi > 0 && <span className="pf-wf-zero" style={{ bottom: `${y(0)}%` }} aria-hidden />}
             {steps.map((s, i) => {
               const total = s.kind === "total";
-              const a = total ? lo : Math.min(s.from, s.to), b = total ? s.to : Math.max(s.from, s.to);
+              // A total stands on zero when zero is in view (so −€ 12K is a
+              // short bar below the line); on a zoomed axis, on its bottom.
+              const base = lo <= 0 && hi >= 0 ? 0 : lo;
+              const a = total ? Math.min(base, s.to) : Math.min(s.from, s.to), b = total ? Math.max(base, s.to) : Math.max(s.from, s.to);
               const up = s.to >= s.from;
               return (
                 <div key={s.key} className="pf-wf-slot" data-lit={hover === i} onMouseEnter={() => setHover(i)}>
@@ -120,7 +125,8 @@ export default function EquityWaterfall({
                     className="pf-wf-bar"
                     data-kind={s.kind}
                     data-up={up}
-                    style={{ bottom: `${y(a)}%`, height: `max(${y(b) - y(a)}%, 2px)`, transformOrigin: total || up ? "bottom" : "top", animationDelay: `${i * 55}ms` }}
+                    data-neg={total && s.to < 0 ? true : undefined}
+                    style={{ bottom: `${y(a)}%`, height: `max(${y(b) - y(a)}%, 2px)`, transformOrigin: total ? (s.to >= base ? "bottom" : "top") : up ? "bottom" : "top", animationDelay: `${i * 55}ms` }}
                   />
                   {i < steps.length - 1 && <span className="pf-wf-link" style={{ bottom: `${y(s.to)}%` }} />}
                 </div>
