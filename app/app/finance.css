@@ -4329,11 +4329,12 @@ span.pf-cmp-chip { cursor: default; }
 .pf-pf-total { font-size: 0.66rem; color: var(--pf-ink-3); }
 
 /* Investments: value per holding (stacked), mix on the right. */
-.pf-mix-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
+/* The list on the right takes the room its names need (up to ~430px); the chart gives way. */
+.pf-mix-layout { display: grid; grid-template-columns: minmax(0, 1fr) clamp(300px, 34%, 430px); gap: 20px; align-items: start; }
 @media (max-width: 860px) { .pf-mix-layout { grid-template-columns: minmax(0, 1fr); } }
 .pf-mix-side { display: grid; gap: 6px; padding-left: 20px; border-left: 1px solid var(--pf-line); min-width: 0; }
 @media (max-width: 860px) { .pf-mix-side { padding-left: 0; border-left: 0; } }
-.pf-mix-body { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; margin-top: 8px; align-items: stretch; }
+.pf-mix-body { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px; margin-top: 8px; align-items: stretch; }
 .pf-mix-bar { display: flex; flex-direction: column; min-height: 200px; border-radius: 10px; overflow: hidden; gap: 1px; }
 .pf-mix-bar span { flex-basis: 0; min-height: 0; transition: flex-grow 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s; }
 .pf-mix-list { display: grid; gap: 6px; min-width: 0; }
