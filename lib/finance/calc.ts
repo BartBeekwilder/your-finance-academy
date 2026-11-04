@@ -388,6 +388,8 @@ export type BalanceLine = {
     group?: string;
     /** An open advance (its transaction id = `id`): can be marked paid back. */
     advance?: boolean;
+    /** Income still to receive: can be marked received onto an account. */
+    receive?: boolean;
   }[];
 };
 
@@ -493,6 +495,7 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
           id: x.id,
           name: `${x.note || (x.category_id ? cats.get(x.category_id) : "") || t("Income")} · ${day(x.date)}`,
           value: num(x.amount),
+          receive: true,
           ...(advances.length ? { group: t("Income") } : {}),
         })),
         ...advances.map((x) => ({

@@ -1262,5 +1262,7 @@
  "Share %": "占比 %",
  "Expected {forecast} of {budget} budget at month end": "月底预计 {forecast}，预算 {budget}",
  "A month goal for all your budgets together: on schedule — the spending expected by month end fits your total budget — the ring fills a little every day and closes on the last day of the month. Expected = what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before), with fixed costs for the whole month. One category over is fine if another makes up for it. Behind schedule it grows slower: 10% over → about 90% of the pace. In the calendar, a day's green ring is full when that day you were still on course on average — one big day is fine.": "所有预算合起来的月度目标：按计划进行（月底预计支出不超过总预算）时，环每天长一点，并在当月最后一天闭合。预计 = 目前已花的加上本月剩余时间通常会花的（前三个月的平均），固定支出按整月计。某个类别超了没关系，只要别的类别能补回来。落后时增长更慢：超 10% → 约为节奏的 90%。日历中，如果当天平均仍在正轨上，当天的绿色环就是满的——某一天花得多也没关系。",
- "all spending, budgets {expected} of {budget}": "全部支出；有预算的 {expected} / {budget}"
+ "all spending, budgets {expected} of {budget}": "全部支出；有预算的 {expected} / {budget}",
+ "Received — choose the account": "已收到 — 选择账户",
+ "Other…": "其他…"
 }

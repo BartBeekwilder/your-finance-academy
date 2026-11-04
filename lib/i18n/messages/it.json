@@ -1262,5 +1262,7 @@
  "Share %": "Quota %",
  "Expected {forecast} of {budget} budget at month end": "Previsti {forecast} su {budget} di budget a fine mese",
  "A month goal for all your budgets together: on schedule — the spending expected by month end fits your total budget — the ring fills a little every day and closes on the last day of the month. Expected = what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before), with fixed costs for the whole month. One category over is fine if another makes up for it. Behind schedule it grows slower: 10% over → about 90% of the pace. In the calendar, a day's green ring is full when that day you were still on course on average — one big day is fine.": "Un obiettivo mensile per tutti i budget insieme: in linea — la spesa prevista a fine mese rientra nel budget totale — l’anello cresce un po’ ogni giorno e si chiude l’ultimo giorno del mese. Previsto = quanto speso finora più quanto spendi di solito nel resto del mese (media dei tre mesi prima), con i costi fissi dell’intero mese. Una categoria oltre va bene se un’altra compensa. In ritardo cresce più lentamente: 10% oltre → circa il 90% del ritmo. Nel calendario, l’anello verde di un giorno è pieno se quel giorno eri ancora in media sulla buona strada — un giorno di spese grosse va bene.",
- "all spending, budgets {expected} of {budget}": "tutte le spese; con budget {expected} su {budget}"
+ "all spending, budgets {expected} of {budget}": "tutte le spese; con budget {expected} su {budget}",
+ "Received — choose the account": "Ricevuto — scegli il conto",
+ "Other…": "Altro…"
 }

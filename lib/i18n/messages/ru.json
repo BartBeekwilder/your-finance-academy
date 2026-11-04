@@ -1262,5 +1262,7 @@
  "Share %": "Доля %",
  "Expected {forecast} of {budget} budget at month end": "Ожидается {forecast} из {budget} бюджета к концу месяца",
  "A month goal for all your budgets together: on schedule — the spending expected by month end fits your total budget — the ring fills a little every day and closes on the last day of the month. Expected = what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before), with fixed costs for the whole month. One category over is fine if another makes up for it. Behind schedule it grows slower: 10% over → about 90% of the pace. In the calendar, a day's green ring is full when that day you were still on course on average — one big day is fine.": "Одна цель на месяц для всех бюджетов вместе: по графику — ожидаемые к концу месяца расходы укладываются в общий бюджет — кольцо каждый день немного растёт и замыкается в последний день месяца. Ожидаемое = потрачено на сегодня плюс то, что вы обычно тратите в остаток месяца (среднее за три предыдущих месяца), с постоянными расходами за весь месяц. Перерасход в одной категории не страшен, если другая его покрывает. С отставанием растёт медленнее: на 10% больше → около 90% темпа. В календаре зелёное кольцо дня полное, если в тот день вы в среднем шли по плану — один крупный день не страшен.",
- "all spending, budgets {expected} of {budget}": "все расходы; с бюджетом {expected} из {budget}"
+ "all spending, budgets {expected} of {budget}": "все расходы; с бюджетом {expected} из {budget}",
+ "Received — choose the account": "Получено — выберите счёт",
+ "Other…": "Другой…"
 }

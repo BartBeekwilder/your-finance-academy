@@ -1262,5 +1262,7 @@
  "Share %": "비중 %",
  "Expected {forecast} of {budget} budget at month end": "월말 예상: 예산 {budget} 중 {forecast}",
  "A month goal for all your budgets together: on schedule — the spending expected by month end fits your total budget — the ring fills a little every day and closes on the last day of the month. Expected = what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before), with fixed costs for the whole month. One category over is fine if another makes up for it. Behind schedule it grows slower: 10% over → about 90% of the pace. In the calendar, a day's green ring is full when that day you were still on course on average — one big day is fine.": "모든 예산을 합친 월간 목표: 계획대로라면(월말 예상 지출이 총예산 안) 링이 매일 조금씩 차고 그달 마지막 날에 닫힙니다. 예상 = 지금까지 쓴 금액 + 남은 기간에 보통 쓰는 금액(이전 3개월 평균), 고정비는 한 달 전체. 한 카테고리가 넘어도 다른 카테고리가 메우면 괜찮습니다. 뒤처지면 더 천천히 찹니다: 10% 초과 → 속도의 약 90%. 캘린더에서 그날 평균적으로 아직 계획대로였다면 그날의 초록 링이 가득 찹니다. 크게 쓴 날 하루는 괜찮습니다.",
- "all spending, budgets {expected} of {budget}": "전체 지출 · 예산 항목 {budget} 중 {expected}"
+ "all spending, budgets {expected} of {budget}": "전체 지출 · 예산 항목 {budget} 중 {expected}",
+ "Received — choose the account": "받음 — 계좌 선택",
+ "Other…": "기타…"
 }

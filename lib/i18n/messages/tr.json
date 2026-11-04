@@ -1262,5 +1262,7 @@
  "Share %": "Pay %",
  "Expected {forecast} of {budget} budget at month end": "Ay sonunda {budget} bütçenin {forecast} kadarı bekleniyor",
  "A month goal for all your budgets together: on schedule — the spending expected by month end fits your total budget — the ring fills a little every day and closes on the last day of the month. Expected = what you've spent so far plus what you usually spend in the rest of the month (your average of the three months before), with fixed costs for the whole month. One category over is fine if another makes up for it. Behind schedule it grows slower: 10% over → about 90% of the pace. In the calendar, a day's green ring is full when that day you were still on course on average — one big day is fine.": "Tüm bütçelerin birlikte aylık hedefi: planda — ay sonu beklenen harcama toplam bütçeye sığıyor — halka her gün biraz büyür ve ayın son günü kapanır. Beklenen = şimdiye kadar harcanan artı ayın geri kalanında genelde harcadığın (önceki üç ayın ortalaması), tüm ayın sabit giderleriyle. Bir kategori aşarsa başkası telafi ederse sorun değil. Geride kalırsan daha yavaş büyür: %10 fazla → temponun yaklaşık %90'ı. Takvimde günün yeşil halkası, o gün ortalamada hâlâ rotadaysan doludur — tek bir büyük gün sorun değil.",
- "all spending, budgets {expected} of {budget}": "tüm harcamalar; bütçeli olanlar {budget} içinde {expected}"
+ "all spending, budgets {expected} of {budget}": "tüm harcamalar; bütçeli olanlar {budget} içinde {expected}",
+ "Received — choose the account": "Alındı — hesabı seç",
+ "Other…": "Diğer…"
 }

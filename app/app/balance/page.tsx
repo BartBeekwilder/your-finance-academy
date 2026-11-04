@@ -197,6 +197,17 @@ export default function BalancePage() {
                       const a = data.accounts.find((x) => x.id === id);
                       if (a) run(saveAccount({ id, name: a.name, type: a.type, balance: opening }));
                     },
+                    accounts: data.accounts.filter((a) => !a.deleted_at),
+                    // Income still to receive came in: on that account (dated
+                    // today if it was entered for later).
+                    onReceive: (id, accountId) => {
+                      const tx = data.transactions.find((x) => x.id === id);
+                      if (!tx) return;
+                      const { id: _id, updated_at: _u, deleted_at: _d, ...rest } = tx;
+                      void _id; void _u; void _d;
+                      const later = new Date(tx.date) > now;
+                      run(updateTransaction(id, { ...rest, account_id: accountId, ...(later ? { date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12).toISOString() } : {}) }));
+                    },
                     onAdvance: (id, action, origin) => {
                       const a = data.advances?.find((x) => x.id === id);
                       if (!a) return;

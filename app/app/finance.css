@@ -4876,3 +4876,21 @@ span.pf-cmp-chip { cursor: default; }
   animation: pf-fade-up 0.25s ease-out both; pointer-events: none;
 }
 .pf-progress-bar-wide { grid-template-columns: 112px 1fr auto; }
+
+/* Amounts to receive: a round tick that fills with a check, then (income)
+   which account it came in on. */
+.pf-bal-tickwrap { display: inline-flex; align-items: center; gap: 8px; margin-right: 8px; flex-wrap: wrap; }
+.pf-bal-tick {
+  width: 18px; height: 18px; flex: none; border-radius: 50%; padding: 0; cursor: pointer; display: grid; place-items: center;
+  border: 1.5px solid rgba(102, 212, 207, 0.55); background: transparent; color: transparent;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.2s ease, transform 0.35s cubic-bezier(0.3, 1.8, 0.5, 1), box-shadow 0.3s ease;
+}
+.pf-bal-tick:hover { border-color: #66d4cf; box-shadow: 0 0 0 3px rgba(102, 212, 207, 0.12); }
+.pf-bal-tick[data-on="true"] { background: #66d4cf; border-color: #66d4cf; color: #04201f; transform: scale(1.12); box-shadow: 0 0 10px rgba(102, 212, 207, 0.55); }
+.pf-bal-receive { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--pf-ink-3); animation: pf-fade-up 0.3s ease-out both; }
+.pf-bal-receive .pf-chip { font-size: 0.72rem; padding: 3px 9px; }
+.pf-bal-receive-other { width: auto !important; padding: 3px 8px !important; font-size: 0.72rem !important; border-radius: 999px !important; }
+.pf-bal-tickwrap { margin-right: 0; justify-content: flex-start; text-align: left; }
+.pf-bal-tickname { transition: opacity 0.3s ease, text-decoration-color 0.3s ease; }
+.pf-bal-tickname[data-on="true"] { opacity: 0.55; text-decoration: line-through; text-decoration-color: rgba(102, 212, 207, 0.6); }
+.pf-bal-receive { flex-basis: 100%; padding-left: 26px; }

@@ -270,6 +270,10 @@ type Edit = {
   onAccount?: (accountId: string, opening: number) => void;
   /** An open advance: open it in the editor, or mark it paid back. */
   onAdvance?: (id: string, action: "open" | "repaid", origin: Element | null) => void;
+  /** Income still to receive: it came in on this account. */
+  onReceive?: (id: string, accountId: string) => void;
+  /** Accounts to receive onto: the current account first. */
+  accounts?: { id: string; name: string; type: string; is_default: boolean }[];
 };
 
 type Order = "own" | "desc" | "asc";
@@ -430,26 +434,30 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
                   <span className="pf-rounded">{money(parts.filter((x) => x.group === p.group).reduce((s, x) => s + x.value, 0), currency)}</span>
                 </div>
               ) : null;
+            const canTick = (p.advance && !!edit?.onAdvance) || (p.receive && !!edit?.onReceive);
             const body = (
               <>
                 <span className="pf-bal-part-name">
-                  {p.advance && edit?.onAdvance ? (
-                    <button type="button" className="pf-bal-advance-name" tabIndex={open ? 0 : -1} onClick={(e) => edit.onAdvance!(p.id, "open", e.currentTarget)}>
-                      {p.name}
-                    </button>
-                  ) : (
-                    p.name
+                  {canTick && (
+                    <ReceiveTick
+                      advance={!!p.advance}
+                      accounts={edit?.accounts ?? []}
+                      tabbable={open}
+                      onDone={(accountId) => (p.advance ? edit!.onAdvance!(p.id, "repaid", null) : accountId && edit!.onReceive!(p.id, accountId))}
+                    >
+                      {p.advance && edit?.onAdvance ? (
+                        <button type="button" className="pf-bal-advance-name" tabIndex={open ? 0 : -1} onClick={(e) => edit.onAdvance!(p.id, "open", e.currentTarget)}>
+                          {p.name}
+                        </button>
+                      ) : (
+                        p.name
+                      )}
+                    </ReceiveTick>
                   )}
+                  {!canTick && p.name}
                   {p.hint && <span className="pf-bal-part-hint">{p.hint}</span>}
                 </span>
-                {p.advance && edit?.onAdvance ? (
-                  <span className="pf-bal-advance">
-                    <span className="pf-rounded">{money(p.value, currency)}</span>
-                    <button type="button" className="pf-bal-repaid" tabIndex={open ? 0 : -1} title={t("Paid back — the money is on the account again")} onClick={(e) => edit.onAdvance!(p.id, "repaid", e.currentTarget)}>
-                      <Check size={12} strokeWidth={3} /> {t("Paid back")}
-                    </button>
-                  </span>
-                ) : p.flow != null && edit?.onAccount ? (
+                {p.flow != null && edit?.onAccount ? (
                   <AmountField value={p.value} currency={currency} onCommit={(v) => Math.abs(v - p.value) >= 0.005 && edit.onAccount!(p.id, v - p.flow!)} />
                 ) : (
                   <span className="pf-rounded" style={{ color: p.value < 0 ? "var(--pf-red)" : undefined }}>
@@ -540,4 +548,48 @@ export function parseAmount(text: string): number | null {
   else if (/^-?\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
   const v = Number(s);
   return Number.isFinite(v) ? v : null;
+}
+
+/** A round tick before an amount still to receive: tap it and it fills with
+ *  a check. Income then asks which account it came in on (the current
+ *  account first, the credit card, or another one) and leaves the list; an
+ *  advance is paid back onto the account it left. */
+function ReceiveTick({ advance, accounts, tabbable, onDone, children }: { advance: boolean; accounts: { id: string; name: string; type: string; is_default: boolean }[]; tabbable: boolean; onDone: (accountId: string | null) => void; children: React.ReactNode }) {
+  const [on, setOn] = useState(false);
+  const current = accounts.find((a) => a.is_default) ?? accounts.find((a) => a.type === "checking");
+  const card = accounts.find((a) => a.type === "credit");
+  const others = accounts.filter((a) => a.id !== current?.id && a.id !== card?.id);
+  const finish = (id: string | null) => setTimeout(() => onDone(id), 380);
+  return (
+    <span className="pf-bal-tickwrap" onClick={(e) => e.stopPropagation()}>
+      <button
+        type="button"
+        className="pf-bal-tick"
+        data-on={on}
+        tabIndex={tabbable ? 0 : -1}
+        aria-pressed={on}
+        title={advance ? t("Paid back — the money is on the account again") : t("Received — choose the account")}
+        onClick={() => {
+          if (advance) { setOn(true); finish(null); return; }
+          setOn((v) => !v);
+        }}
+      >
+        <Check size={11} strokeWidth={3.2} />
+      </button>
+      <span className="pf-bal-tickname" data-on={on}>{children}</span>
+      {on && !advance && (
+        <span className="pf-bal-receive">
+          <span>{t("Received on")}</span>
+          {current && <button type="button" className="pf-chip" onClick={() => finish(current.id)}>{current.name}</button>}
+          {card && <button type="button" className="pf-chip" onClick={() => finish(card.id)}>{card.name}</button>}
+          {others.length > 0 && (
+            <select className="pf-input pf-bal-receive-other" defaultValue="" aria-label={t("Another account")} onChange={(e) => e.target.value && finish(e.target.value)}>
+              <option value="" disabled>{t("Other…")}</option>
+              {others.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
+            </select>
+          )}
+        </span>
+      )}
+    </span>
+  );
 }
