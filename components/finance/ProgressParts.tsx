@@ -108,7 +108,7 @@ export function Rings({ tracking, budget, saving, size = 180 }: { tracking: numb
   );
 }
 
-export function RingLegend({ tracking, budget, saving, notes = {}, forecast = false, budgetTotal, currency = "EUR" }: {
+export function RingLegend({ tracking, budget, saving, notes = {}, forecast = false, budgetTotal, savingRate, currency = "EUR" }: {
   tracking: number; budget: number; saving: number;
   /** Why a ring can't fill (shown instead of its %). */
   notes?: { tracking?: string; budget?: string };
@@ -116,6 +116,8 @@ export function RingLegend({ tracking, budget, saving, notes = {}, forecast = fa
   forecast?: boolean;
   /** All budgets together: the month-end forecast against the total budget. */
   budgetTotal?: { forecast: number; budget: number };
+  /** This month: the share of income the forecast expects to be saved. */
+  savingRate?: number;
   currency?: string;
 }) {
   // Saving reads as the share of income saved (37%), not against the goal
@@ -127,8 +129,10 @@ export function RingLegend({ tracking, budget, saving, notes = {}, forecast = fa
     {
       tip: "ring-saving",
       label: forecast ? t("Saving (forecast)") : t("Saving"),
-      hint: forecast ? t("Expected at month end · goal {goal}%", { goal }) : t("Saved against 20% of income"),
-      v: saving, c: RING_COLORS.saving[0], na: false, shown: `${rate}%`,
+      hint: forecast ? t("Expected {rate}% of income at month end · goal {goal}%", { rate: Math.round((savingRate ?? 0) * 100), goal }) : t("Saved against 20% of income"),
+      // This month the ring itself (it fills with the month); a finished
+      // month its saving rate.
+      v: saving, c: RING_COLORS.saving[0], na: false, shown: forecast ? `${Math.round(saving * 100)}%` : `${rate}%`,
     },
   ];
   return (

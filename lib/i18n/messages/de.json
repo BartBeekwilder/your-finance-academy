@@ -1255,7 +1255,6 @@
  "Tracking ring": "Erfassungsring",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Drei Ringe für den Monat, wie die Aktivitätsringe einer Uhr: Erfassen (pink), Budget (grün) und Sparen (lila). Ein Ring schließt sich, wenn du das Ziel erreichst; darüber beginnt eine zweite Runde. Der Kalender zeigt sie Tag für Tag.",
  "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "Der Anteil der Tage dieses Monats, an denen du deine Bücher geführt hast. Ein Tag zählt, wenn du die App öffnest oder ein Check-in ihn abdeckt: Ein Check-in zählt jeden Tag zurück bis zum vorherigen.",
- "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "Ob du auf Kurs bist, diesen Monat 20 % deines Einkommens zu sparen: die Prognose zum Monatsende (erwartetes Einkommen minus erwartete Ausgaben) als Anteil am erwarteten Einkommen. Der Ring schließt sich bei 20 %. Im Kalender zeigt jeder Tag, was bis dahin gespart war, mit Gehalt und Fixkosten über den Monat verteilt.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Bestätigen, dass deine Bücher aktuell sind: alle Ausgaben und Einnahmen erfasst und die Kontostände stimmen mit der Bank. Einmal pro Zeitraum (Einstellungen › Check-in), für 15 Bonuspunkte; er zählt auch die Tage seit dem letzten Check-in als erfasst.",
  "Points": "Punkte",
  "Several bills in one? Add them up with +, like 40+24.": "Mehrere Rechnungen in einem? Addiere sie mit +, etwa 40+24.",
@@ -1272,5 +1271,7 @@
  "{amount} budget": "{amount} Budget",
  "Budget up to today {amount}": "Budget bis heute {amount}",
  "Stack order": "Stapelreihenfolge",
- "Largest at the bottom": "Größte unten"
+ "Largest at the bottom": "Größte unten",
+ "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "20 % deines Einkommens sparen, als Monatsziel: Auf Kurs — die Prognose zum Monatsende (erwartetes Einkommen minus erwartete Ausgaben) erreicht 20 % des erwarteten Einkommens — wächst der Ring jeden Tag ein Stück und schließt sich am letzten Tag. Sparst du mehr, wächst er schneller, bis zu einer zweiten Runde; weniger, langsamer. Im Kalender zeigt jeder Tag, was bis dahin gespart war, mit Gehalt und Fixkosten über den Monat verteilt.",
+ "Expected {rate}% of income at month end · goal {goal}%": "Erwartet {rate} % des Einkommens zum Monatsende · Ziel {goal} %"
 }

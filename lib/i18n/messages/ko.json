@@ -1255,7 +1255,6 @@
  "Tracking ring": "기록 링",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "한 달을 위한 세 개의 링, 시계의 활동 링처럼: 기록(분홍), 예산(초록), 저축(보라). 목표에 도달하면 링이 닫히고, 그 이상이면 두 번째 바퀴가 시작됩니다. 캘린더에서 날마다 보여 줍니다.",
  "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "이번 달 중 장부를 기록한 날의 비율. 앱을 연 날, 또는 체크인이 포함하는 날이 계산됩니다. 체크인은 이전 체크인까지의 모든 날을 계산합니다.",
- "Whether you're on course to save 20% of your income this month: the month-end forecast (expected income minus expected spending) as a share of expected income. It closes at 20%. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "이번 달 수입의 20%를 저축할 수 있을지: 월말 예상(예상 수입 − 예상 지출)을 예상 수입 대비 비율로. 20%에서 닫힙니다. 캘린더에서는 급여와 고정비를 한 달에 나눠 그날까지 저축한 금액을 날마다 보여 줍니다.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "장부가 최신임을 확인: 모든 지출과 수입을 입력했고 계좌 잔액이 은행과 일치. 기간마다 한 번(설정 › 체크인), 보너스 15점; 이전 체크인 이후의 날도 기록한 날로 계산합니다.",
  "Points": "점수",
  "Several bills in one? Add them up with +, like 40+24.": "여러 청구서를 하나로? 40+24처럼 +로 더하세요.",
@@ -1272,5 +1271,7 @@
  "{amount} budget": "예산 {amount}",
  "Budget up to today {amount}": "오늘까지 예산 {amount}",
  "Stack order": "쌓는 순서",
- "Largest at the bottom": "큰 항목을 아래로"
+ "Largest at the bottom": "큰 항목을 아래로",
+ "Saving 20% of your income this month, as a month goal: on course — the month-end forecast (expected income minus expected spending) reaches 20% of expected income — the ring fills a little every day and closes on the last day. Saving more fills it faster, up to a second lap; less, slower. In the calendar, each day shows what was saved up to then, with salary and fixed costs spread over the month.": "이번 달 수입의 20% 저축, 월간 목표로: 계획대로라면(월말 예상 = 예상 수입 − 예상 지출이 예상 수입의 20%에 도달) 링이 매일 조금씩 차고 마지막 날에 닫힙니다. 더 저축하면 더 빨리 차서 두 번째 바퀴까지, 덜 저축하면 더 천천히. 캘린더에서는 급여와 고정비를 한 달에 나눠 그날까지 저축한 금액을 날마다 보여 줍니다.",
+ "Expected {rate}% of income at month end · goal {goal}%": "월말 예상 수입의 {rate}% · 목표 {goal}%"
 }

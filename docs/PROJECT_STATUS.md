@@ -283,6 +283,9 @@ Lopende rekening / Creditcard / Other… sets account_id (date → today if late
 advance: tap → paid back (repaid_at, same account).
 Balance over time = the Investments layout (PortfolioMix `MixChart`, shared): chart +
 total/bar/list on the right, names switch posts on/off (per side, remembered).
+Saving ring fills with the month too: (forecast ÷ 20% goal) × month fraction —
+on course it closes on the last day, saving more = faster, up to a 2nd lap
+(progress savedIsForecast); tile bar shows the ring, tooltip the expected rate.
 
 ## Done recently (2026-10-22/23)
 

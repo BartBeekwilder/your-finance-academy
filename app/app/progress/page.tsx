@@ -91,7 +91,7 @@ export default function ProgressPage() {
           <Rings {...m.rings} size={150} />
           <div style={{ display: "grid", gap: 10 }}>
             <span className="pf-eq-label">{t("This month").toUpperCase()} <InfoTip id="rings" /></span>
-            <RingLegend {...m.rings} forecast budgetTotal={m.budgetTotal} currency={currency} />
+            <RingLegend {...m.rings} forecast budgetTotal={m.budgetTotal} savingRate={m.savingRate} currency={currency} />
           </div>
         </section>
       </div>

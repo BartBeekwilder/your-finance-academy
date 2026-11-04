@@ -74,7 +74,9 @@ export type RingInput = {
   saved: number;
   /** The month's savings target (full month). */
   savingsTarget: number;
-  /** `saved` is the month-end forecast, so the target isn't prorated. */
+  /** `saved` is the month-end forecast: the ring fills with the month — on
+   *  course for the goal it's the share of the month gone by (closing on the
+   *  last day), saving more fills it faster (a second lap). */
   savedIsForecast?: boolean;
   /** All budgets together (a month goal): the month-end spending expected
    *  (a finished month: what was spent) against the total budget. When
@@ -108,7 +110,8 @@ export function rings(r: RingInput) {
   // No budgets, no ring: it closes by keeping budgets, not by having none.
   const budget = r.budgetTotal ? budgetTotalRing(r.budgetTotal) * r.fraction : r.budgets.length ? onTrack.length / r.budgets.length : 0;
   const target = r.savingsTarget * (r.savedIsForecast ? 1 : r.fraction);
-  const saving = target > 0 ? Math.max(r.saved / target, 0) : r.saved > 0 ? 1 : 0;
+  const onCourse = target > 0 ? Math.max(r.saved / target, 0) : r.saved > 0 ? 1 : 0;
+  const saving = r.savedIsForecast ? onCourse * r.fraction : onCourse;
   return { tracking, budget, saving };
 }
 

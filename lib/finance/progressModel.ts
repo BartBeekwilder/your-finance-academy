@@ -158,7 +158,7 @@ export function progressModel(data: FinanceData, now: Date) {
   const have = new Set(achievements.map((a) => a.code));
   const earnable = BADGES.filter((b) => !have.has(b.code) && b.earned(context));
 
-  return { rings: ringNow, budgetTotal: budgetNow, streak: days, points, level: level(points), closable, closes, achievements, have, earnable, goals, context, activeToday: activity.includes(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`) };
+  return { rings: ringNow, budgetTotal: budgetNow, savingRate: fc && fc.income > 0 ? (fc.income - fc.spent) / fc.income : 0, streak: days, points, level: level(points), closable, closes, achievements, have, earnable, goals, context, activeToday: activity.includes(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`) };
 }
 
 export type GoalState = ReturnType<typeof goalState>;

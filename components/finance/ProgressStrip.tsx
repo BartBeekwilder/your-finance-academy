@@ -53,15 +53,17 @@ export default function ProgressStrip() {
           // month end, on a bar running to twice the goal with the goal (20%)
           // ticked in the middle — past the tick is past the goal.
           const saving = key === "saving";
-          const rate = v * SAVINGS_SHARE;
+          // Saving: the ring (it fills with the month on course for the
+          // goal); the expected share of income is in the tooltip.
+          const rate = m.savingRate;
           // Budget: all budgets together — the month-end forecast against
           // the total budget (ticked), on a bar with room past it; red once
           // the forecast goes over.
           const bt = key === "budget" ? m.budgetTotal : null;
           const scale = bt ? Math.max(bt.budget * 1.25, bt.forecast, 1) : 1;
           const over = !!bt && bt.forecast > bt.budget + 0.005;
-          const fill = bt ? bt.forecast / scale : Math.min(saving ? v / 2 : v, 1);
-          const tick = bt ? bt.budget / scale : saving ? 0.5 : null;
+          const fill = bt ? bt.forecast / scale : Math.min(v, 1);
+          const tick = bt ? bt.budget / scale : null;
           return (
             <span
               key={key}
@@ -74,7 +76,7 @@ export default function ProgressStrip() {
                 <b />
                 {tick !== null && <s className="pf-progress-goal" style={{ left: `${tick * 100}%` }} />}
               </i>
-              <em className="pf-rounded">{bt ? `${whole(bt.forecast)} / ${whole(bt.budget)}` : `${Math.round((saving ? rate : v) * 100)}%`}</em>
+              <em className="pf-rounded">{bt ? `${whole(bt.forecast)} / ${whole(bt.budget)}` : `${Math.round(v * 100)}%`}</em>
             </span>
           );
         })}
