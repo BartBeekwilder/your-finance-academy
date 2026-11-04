@@ -1287,5 +1287,9 @@
  "Salary earned so far": "अब तक कमाया वेतन",
  "{net} net × {day} of {days} days": "{net} शुद्ध × {days} में से {day} दिन",
  "Salary already received": "पहले से मिला वेतन",
- "1 Jan {start} · nothing booked on it this year": "1 जन {start} · इस साल कुछ दर्ज नहीं"
+ "1 Jan {start} · nothing booked on it this year": "1 जन {start} · इस साल कुछ दर्ज नहीं",
+ "{spent} of {income} income": "{income} आय में से {spent}",
+ "of this year's income spent": "इस साल की आय खर्च",
+ "of your income spent": "आपकी आय खर्च",
+ "{spent} of {income}": "{income} में से {spent}"
 }

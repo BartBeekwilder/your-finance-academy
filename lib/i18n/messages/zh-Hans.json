@@ -1287,5 +1287,9 @@
  "Salary earned so far": "目前已挣工资",
  "{net} net × {day} of {days} days": "净额 {net} × {days} 天中的 {day} 天",
  "Salary already received": "已收到工资",
- "1 Jan {start} · nothing booked on it this year": "1月1日 {start} · 今年无记账"
+ "1 Jan {start} · nothing booked on it this year": "1月1日 {start} · 今年无记账",
+ "{spent} of {income} income": "收入 {income} 中的 {spent}",
+ "of this year's income spent": "今年收入已花",
+ "of your income spent": "收入已花",
+ "{spent} of {income}": "{spent} / {income}"
 }

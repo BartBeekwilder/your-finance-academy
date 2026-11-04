@@ -1287,5 +1287,9 @@
  "Salary earned so far": "الراتب المكتسب حتى الآن",
  "{net} net × {day} of {days} days": "{net} صافٍ × {day} من {days} يومًا",
  "Salary already received": "الراتب المستلم بالفعل",
- "1 Jan {start} · nothing booked on it this year": "1 يناير {start} · لا قيود هذا العام"
+ "1 Jan {start} · nothing booked on it this year": "1 يناير {start} · لا قيود هذا العام",
+ "{spent} of {income} income": "{spent} من دخل {income}",
+ "of this year's income spent": "من دخل هذا العام أُنفق",
+ "of your income spent": "من دخلك أُنفق",
+ "{spent} of {income}": "{spent} من {income}"
 }

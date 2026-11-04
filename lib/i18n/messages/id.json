@@ -1287,5 +1287,9 @@
  "Salary earned so far": "Gaji yang diperoleh sejauh ini",
  "{net} net × {day} of {days} days": "{net} bersih × {day} dari {days} hari",
  "Salary already received": "Gaji yang sudah diterima",
- "1 Jan {start} · nothing booked on it this year": "1 Jan {start} · tidak ada catatan tahun ini"
+ "1 Jan {start} · nothing booked on it this year": "1 Jan {start} · tidak ada catatan tahun ini",
+ "{spent} of {income} income": "{spent} dari penghasilan {income}",
+ "of this year's income spent": "dari penghasilan tahun ini terpakai",
+ "of your income spent": "dari penghasilanmu terpakai",
+ "{spent} of {income}": "{spent} dari {income}"
 }

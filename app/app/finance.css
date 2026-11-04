@@ -4913,3 +4913,15 @@ span.pf-cmp-chip { cursor: default; }
 .pf-wf-zero { position: absolute; left: 0; right: 0; height: 0; border-top: 1px solid rgba(255, 255, 255, 0.28); pointer-events: none; }
 /* A negative equity total: red, like any amount below zero. */
 .pf-wf-bar[data-kind="total"][data-neg] { background: linear-gradient(180deg, #ff453a, rgba(255, 69, 58, 0.45)); box-shadow: 0 0 14px rgba(255, 69, 58, 0.35); }
+
+/* Expenses: the tiles with a ring on the right — share of income spent. */
+.pf-cattiles-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: stretch; }
+@media (max-width: 700px) { .pf-cattiles-row { grid-template-columns: minmax(0, 1fr); } }
+.pf-incomering { cursor: default; display: flex; align-items: center; gap: 12px; padding: 10px 16px 10px 10px; min-width: 250px; }
+.pf-incomering[data-over] { box-shadow: 0 0 0 1px rgba(255, 69, 58, 0.45) inset; }
+.pf-incomering-seg { transition: stroke-dasharray 0.7s cubic-bezier(0.2, 0.9, 0.25, 1), stroke-dashoffset 0.7s cubic-bezier(0.2, 0.9, 0.25, 1); animation: pf-ring-draw 0.9s cubic-bezier(0.2, 0.9, 0.25, 1) both; }
+@keyframes pf-ring-draw { from { stroke-dasharray: 0 999; } }
+.pf-incomering-text { display: grid; gap: 2px; }
+.pf-incomering-text b { font-size: 1.6rem; line-height: 1; }
+.pf-incomering-text span { font-size: 0.72rem; color: var(--pf-ink-2); }
+.pf-incomering-text em { font-style: normal; font-size: 0.72rem; color: var(--pf-ink-3); }

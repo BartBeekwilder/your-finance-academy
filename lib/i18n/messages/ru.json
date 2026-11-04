@@ -1287,5 +1287,9 @@
  "Salary earned so far": "Заработано на сегодня",
  "{net} net × {day} of {days} days": "{net} нетто × {day} из {days} дн.",
  "Salary already received": "Уже получено",
- "1 Jan {start} · nothing booked on it this year": "1 янв {start} · в этом году без операций"
+ "1 Jan {start} · nothing booked on it this year": "1 янв {start} · в этом году без операций",
+ "{spent} of {income} income": "{spent} из {income} дохода",
+ "of this year's income spent": "дохода за год потрачено",
+ "of your income spent": "дохода потрачено",
+ "{spent} of {income}": "{spent} из {income}"
 }

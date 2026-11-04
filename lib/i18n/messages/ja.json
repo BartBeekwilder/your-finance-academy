@@ -1287,5 +1287,9 @@
  "Salary earned so far": "これまでに得た給与",
  "{net} net × {day} of {days} days": "手取り{net} × {days}日中{day}日",
  "Salary already received": "受け取り済みの給与",
- "1 Jan {start} · nothing booked on it this year": "1月1日 {start}・今年の記帳なし"
+ "1 Jan {start} · nothing booked on it this year": "1月1日 {start}・今年の記帳なし",
+ "{spent} of {income} income": "収入{income}のうち{spent}",
+ "of this year's income spent": "今年の収入を使用",
+ "of your income spent": "収入を使用",
+ "{spent} of {income}": "{income}中{spent}"
 }

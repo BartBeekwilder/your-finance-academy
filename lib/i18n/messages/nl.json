@@ -1294,5 +1294,9 @@
  "Salary earned so far": "Tot nu toe verdiend salaris",
  "{net} net × {day} of {days} days": "{net} netto × {day} van {days} dagen",
  "Salary already received": "Al ontvangen salaris",
- "1 Jan {start} · nothing booked on it this year": "1 jan {start} · dit jaar niets op geboekt"
+ "1 Jan {start} · nothing booked on it this year": "1 jan {start} · dit jaar niets op geboekt",
+ "{spent} of {income} income": "{spent} van {income} inkomen",
+ "of this year's income spent": "van je inkomen dit jaar uitgegeven",
+ "of your income spent": "van je inkomen uitgegeven",
+ "{spent} of {income}": "{spent} van {income}"
 }

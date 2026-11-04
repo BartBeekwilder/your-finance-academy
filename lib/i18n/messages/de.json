@@ -1287,5 +1287,9 @@
  "Salary earned so far": "Bisher verdientes Gehalt",
  "{net} net × {day} of {days} days": "{net} netto × {day} von {days} Tagen",
  "Salary already received": "Bereits erhaltenes Gehalt",
- "1 Jan {start} · nothing booked on it this year": "1. Jan. {start} · dieses Jahr nichts gebucht"
+ "1 Jan {start} · nothing booked on it this year": "1. Jan. {start} · dieses Jahr nichts gebucht",
+ "{spent} of {income} income": "{spent} von {income} Einkommen",
+ "of this year's income spent": "des diesjährigen Einkommens ausgegeben",
+ "of your income spent": "deines Einkommens ausgegeben",
+ "{spent} of {income}": "{spent} von {income}"
 }

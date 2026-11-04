@@ -1287,5 +1287,9 @@
  "Salary earned so far": "Şimdiye kadar kazanılan maaş",
  "{net} net × {day} of {days} days": "{net} net × {days} günün {day}'i",
  "Salary already received": "Zaten alınan maaş",
- "1 Jan {start} · nothing booked on it this year": "1 Oca {start} · bu yıl işlem yok"
+ "1 Jan {start} · nothing booked on it this year": "1 Oca {start} · bu yıl işlem yok",
+ "{spent} of {income} income": "{income} gelirin {spent} kadarı",
+ "of this year's income spent": "bu yılın gelirinden harcandı",
+ "of your income spent": "gelirinden harcandı",
+ "{spent} of {income}": "{income} içinde {spent}"
 }

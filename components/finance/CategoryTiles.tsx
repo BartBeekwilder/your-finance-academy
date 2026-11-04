@@ -41,6 +41,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
   const ofIncome = (v: number) => (income > 0 ? t("{pct}% of income", { pct: Math.round((v / income) * 100) }) : null);
   const cats = live(data.categories);
   return (
+    <div className="pf-cattiles-row">
     <div className="pf-cattiles" role="tablist" aria-label={t("Categories")}>
       <button type="button" role="tab" aria-selected={selected === null} className="pf-cattile" data-on={selected === null} style={{ ["--c" as string]: "#ff453a" }} onClick={() => onSelect(null)}>
         <span className="pf-cattile-head">
@@ -78,6 +79,44 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
           </button>
         );
       })}
+    </div>
+    {income > 0 && <IncomeRing rows={rows} income={income} currency={currency} year={mode === "year"} />}
+    </div>
+  );
+}
+
+/** How much of your income you've spent so far, at a glance: a ring in the
+ *  categories' colours (each its share of income), the empty rest is what's
+ *  left; over 100% the ring turns red. */
+function IncomeRing({ rows, income, currency, year }: { rows: { category: { id: string; color_hex: string; name: string }; spent: number }[]; income: number; currency: string; year: boolean }) {
+  const total = rows.reduce((s, r) => s + r.spent, 0);
+  const share = total / income;
+  const R = 42, C = 2 * Math.PI * R;
+  let at = 0;
+  const segs = rows.map((r) => {
+    const len = Math.min(r.spent / income, 1) * C;
+    const seg = { id: r.category.id, color: `#${r.category.color_hex}`, len, start: at };
+    at += len;
+    return seg;
+  }).filter((x) => x.len > 0.5 && x.start < C);
+  const over = share > 1;
+  return (
+    <div className="pf-cattile pf-incomering" data-over={over || undefined} title={t("{spent} of {income} income", { spent: money(total, currency), income: money(income, currency) })}>
+      <svg viewBox="0 0 100 100" width={104} height={104} aria-hidden>
+        <circle cx={50} cy={50} r={R} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={9} />
+        <g transform="rotate(-90 50 50)">
+          {segs.map((g, i) => (
+            <circle key={g.id} cx={50} cy={50} r={R} fill="none" stroke={over ? "#ff453a" : g.color} strokeWidth={9}
+              strokeDasharray={`${Math.max(Math.min(g.len, C - g.start) - 1.2, 0.3)} ${C}`} strokeDashoffset={-g.start}
+              className="pf-incomering-seg" style={{ animationDelay: `${i * 70}ms` }} />
+          ))}
+        </g>
+      </svg>
+      <span className="pf-incomering-text">
+        <b className="pf-rounded" style={{ color: over ? "var(--pf-red)" : undefined }}>{Math.round(share * 100)}%</b>
+        <span>{year ? t("of this year's income spent") : t("of your income spent")}</span>
+        <em className="pf-rounded">{t("{spent} of {income}", { spent: money(total, currency), income: money(income, currency) })}</em>
+      </span>
     </div>
   );
 }

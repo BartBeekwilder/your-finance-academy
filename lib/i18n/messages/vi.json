@@ -1287,5 +1287,9 @@
  "Salary earned so far": "Lương đã kiếm được đến nay",
  "{net} net × {day} of {days} days": "{net} ròng × {day}/{days} ngày",
  "Salary already received": "Lương đã nhận",
- "1 Jan {start} · nothing booked on it this year": "1/1 {start} · năm nay chưa có giao dịch"
+ "1 Jan {start} · nothing booked on it this year": "1/1 {start} · năm nay chưa có giao dịch",
+ "{spent} of {income} income": "{spent} trên thu nhập {income}",
+ "of this year's income spent": "thu nhập năm nay đã chi",
+ "of your income spent": "thu nhập đã chi",
+ "{spent} of {income}": "{spent} / {income}"
 }

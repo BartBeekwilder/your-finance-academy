@@ -1287,5 +1287,9 @@
  "Salary earned so far": "Stipendio maturato finora",
  "{net} net × {day} of {days} days": "{net} netti × {day} su {days} giorni",
  "Salary already received": "Stipendio già ricevuto",
- "1 Jan {start} · nothing booked on it this year": "1 gen {start} · niente registrato quest’anno"
+ "1 Jan {start} · nothing booked on it this year": "1 gen {start} · niente registrato quest’anno",
+ "{spent} of {income} income": "{spent} su {income} di reddito",
+ "of this year's income spent": "del reddito dell’anno speso",
+ "of your income spent": "del tuo reddito speso",
+ "{spent} of {income}": "{spent} su {income}"
 }

@@ -1287,5 +1287,9 @@
  "Salary earned so far": "지금까지 번 급여",
  "{net} net × {day} of {days} days": "순 {net} × {days}일 중 {day}일",
  "Salary already received": "이미 받은 급여",
- "1 Jan {start} · nothing booked on it this year": "1월 1일 {start} · 올해 기록 없음"
+ "1 Jan {start} · nothing booked on it this year": "1월 1일 {start} · 올해 기록 없음",
+ "{spent} of {income} income": "수입 {income} 중 {spent}",
+ "of this year's income spent": "올해 수입 지출",
+ "of your income spent": "수입 지출",
+ "{spent} of {income}": "{income} 중 {spent}"
 }
