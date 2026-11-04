@@ -4847,6 +4847,9 @@ span.pf-cmp-chip { cursor: default; }
 .pf-checkin-item[data-on="true"] .pf-checkin-title { color: var(--pf-ink-2); }
 .pf-checkin-hint { display: block; font-size: 0.72rem; color: var(--pf-ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pf-checkin .pf-chip { flex: none; text-decoration: none; }
+.pf-checkin-fix { display: flex; gap: 6px; flex: none; animation: pf-chip-pop 0.35s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.pf-checkin-fix input { width: 110px; font: inherit; font-size: 0.85rem; font-variant-numeric: tabular-nums; text-align: right; color: inherit; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--pf-line); border-radius: 10px; padding: 5px 10px; }
+.pf-checkin-fix input:focus { outline: none; border-color: var(--pf-green); box-shadow: 0 0 0 3px rgba(48, 209, 88, 0.18); }
 .pf-checkin-go {
   justify-self: stretch; padding: 12px 16px; border-radius: 14px; border: 0; cursor: pointer; font: inherit; font-weight: 600; font-size: 0.88rem;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: #fff;

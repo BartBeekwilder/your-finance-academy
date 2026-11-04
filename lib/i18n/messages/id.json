@@ -1292,5 +1292,10 @@
  "of this year's income spent": "dari penghasilan tahun ini terpakai",
  "of your income spent": "dari penghasilanmu terpakai",
  "{spent} of {income}": "{spent} dari {income}",
- "of the income earned so far spent": "dari pendapatan yang diperoleh sejauh ini dibelanjakan"
+ "of the income earned so far spent": "dari pendapatan yang diperoleh sejauh ini dibelanjakan",
+ "{name} in the app: {amount}": "{name} di aplikasi: {amount}",
+ "Balance at the bank": "Saldo di bank",
+ "Correct": "Koreksi",
+ "Current account balance still right?": "Apakah saldo rekening giro masih benar?",
+ "Other balances match the bank": "Saldo lainnya cocok dengan bank"
 }

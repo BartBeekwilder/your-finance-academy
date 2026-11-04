@@ -1292,5 +1292,10 @@
  "of this year's income spent": "今年收入已花",
  "of your income spent": "收入已花",
  "{spent} of {income}": "{spent} / {income}",
- "of the income earned so far spent": "目前已赚收入中已花费"
+ "of the income earned so far spent": "目前已赚收入中已花费",
+ "{name} in the app: {amount}": "应用中的{name}：{amount}",
+ "Balance at the bank": "银行余额",
+ "Correct": "更正",
+ "Current account balance still right?": "活期账户余额还对吗？",
+ "Other balances match the bank": "其他余额与银行一致"
 }

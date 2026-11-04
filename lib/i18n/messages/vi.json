@@ -1292,5 +1292,10 @@
  "of this year's income spent": "thu nhập năm nay đã chi",
  "of your income spent": "thu nhập đã chi",
  "{spent} of {income}": "{spent} / {income}",
- "of the income earned so far spent": "thu nhập kiếm được đến nay đã chi"
+ "of the income earned so far spent": "thu nhập kiếm được đến nay đã chi",
+ "{name} in the app: {amount}": "{name} trong ứng dụng: {amount}",
+ "Balance at the bank": "Số dư tại ngân hàng",
+ "Correct": "Sửa",
+ "Current account balance still right?": "Số dư tài khoản thanh toán còn đúng không?",
+ "Other balances match the bank": "Các số dư khác khớp với ngân hàng"
 }

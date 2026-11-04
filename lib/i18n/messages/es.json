@@ -1292,5 +1292,10 @@
  "of this year's income spent": "de los ingresos del año gastado",
  "of your income spent": "de tus ingresos gastado",
  "{spent} of {income}": "{spent} de {income}",
- "of the income earned so far spent": "de los ingresos ganados hasta ahora, gastado"
+ "of the income earned so far spent": "de los ingresos ganados hasta ahora, gastado",
+ "{name} in the app: {amount}": "{name} según la app: {amount}",
+ "Balance at the bank": "Saldo en el banco",
+ "Correct": "Corregir",
+ "Current account balance still right?": "¿Sigue siendo correcto el saldo de tu cuenta corriente?",
+ "Other balances match the bank": "Los demás saldos coinciden con el banco"
 }

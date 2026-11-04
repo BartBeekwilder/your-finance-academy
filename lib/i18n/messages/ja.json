@@ -1292,5 +1292,10 @@
  "of this year's income spent": "今年の収入を使用",
  "of your income spent": "収入を使用",
  "{spent} of {income}": "{income}中{spent}",
- "of the income earned so far spent": "これまでに稼いだ収入のうち支出"
+ "of the income earned so far spent": "これまでに稼いだ収入のうち支出",
+ "{name} in the app: {amount}": "アプリ上の{name}：{amount}",
+ "Balance at the bank": "銀行の残高",
+ "Correct": "修正",
+ "Current account balance still right?": "普通預金の残高は合っていますか？",
+ "Other balances match the bank": "その他の残高は銀行と一致"
 }

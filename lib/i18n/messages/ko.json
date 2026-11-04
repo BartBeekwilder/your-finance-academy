@@ -1292,5 +1292,10 @@
  "of this year's income spent": "올해 수입 지출",
  "of your income spent": "수입 지출",
  "{spent} of {income}": "{income} 중 {spent}",
- "of the income earned so far spent": "지금까지 번 소득 중 지출"
+ "of the income earned so far spent": "지금까지 번 소득 중 지출",
+ "{name} in the app: {amount}": "앱의 {name}: {amount}",
+ "Balance at the bank": "은행 잔액",
+ "Correct": "수정",
+ "Current account balance still right?": "입출금 계좌 잔액이 아직 맞나요?",
+ "Other balances match the bank": "다른 잔액이 은행과 일치"
 }

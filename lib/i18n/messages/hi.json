@@ -1292,5 +1292,10 @@
  "of this year's income spent": "इस साल की आय खर्च",
  "of your income spent": "आपकी आय खर्च",
  "{spent} of {income}": "{income} में से {spent}",
- "of the income earned so far spent": "अब तक कमाई गई आय में से खर्च"
+ "of the income earned so far spent": "अब तक कमाई गई आय में से खर्च",
+ "{name} in the app: {amount}": "ऐप में {name}: {amount}",
+ "Balance at the bank": "बैंक में बैलेंस",
+ "Correct": "सुधारें",
+ "Current account balance still right?": "क्या चालू खाते का बैलेंस अभी भी सही है?",
+ "Other balances match the bank": "बाकी बैलेंस बैंक से मेल खाते हैं"
 }

@@ -1299,5 +1299,10 @@
  "of this year's income spent": "van je inkomen dit jaar uitgegeven",
  "of your income spent": "van je inkomen uitgegeven",
  "{spent} of {income}": "{spent} van {income}",
- "of the income earned so far spent": "van je tot nu toe verdiende inkomen uitgegeven"
+ "of the income earned so far spent": "van je tot nu toe verdiende inkomen uitgegeven",
+ "{name} in the app: {amount}": "{name} volgens de app: {amount}",
+ "Balance at the bank": "Saldo bij de bank",
+ "Correct": "Aanpassen",
+ "Current account balance still right?": "Klopt de stand van je lopende rekening nog?",
+ "Other balances match the bank": "Overige saldi kloppen met de bank"
 }

@@ -8,11 +8,13 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import { accountFlows, live, num } from "@/lib/finance/calc";
 import { CHECKIN_POINTS, CHECKIN_PREFIX, checkinDays, checkinState, dayKey, sinceLast, type CheckinInterval } from "@/lib/finance/checkin";
 import { money } from "@/lib/finance/format";
+import { parseNumber } from "@/lib/finance/amountExpr";
 import InfoTip from "@/components/finance/InfoTip";
 
 // "Are my books up to date?" — a short checklist once per period (Settings ›
 // Check-in): expenses, income and account balances, each with a way to fix
-// it right there. Ticking all three and confirming records a check-in
+// it right there — and the current account's balance on its own, with the
+// bank's figure typed in on the spot when it's off. Ticking them all and confirming records a check-in
 // (lib/finance/checkin) and earns bonus points on top of the daily visit.
 
 export function useCheckin() {
@@ -25,7 +27,7 @@ export function useCheckin() {
 const shortDate = (d: Date) => d.toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" });
 
 export default function CheckinCard({ onDone }: { onDone?: () => void }) {
-  const { data, now, awardBadges } = useFinance();
+  const { data, now, awardBadges, saveAccount } = useFinance();
   const state = useCheckin();
   const [ticked, setTicked] = useState<Record<string, boolean>>({});
   const [saving, setSaving] = useState(false);
@@ -35,6 +37,22 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
   const sinceText = state.last ? t("since {date}", { date: shortDate(state.last) }) : t("so far");
   const flows = accountFlows(data, now);
   const accounts = live(data.accounts).map((a) => ({ id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0) }));
+  // The current account: the default checking account, else the first one.
+  const checkingAcct = live(data.accounts).filter((a) => a.type === "checking").sort((a, b) => Number(b.is_default) - Number(a.is_default))[0];
+  const checking = checkingAcct && accounts.find((a) => a.id === checkingAcct.id);
+  const others = accounts.filter((a) => a.id !== checking?.id);
+  const [fixing, setFixing] = useState<string | null>(null);
+  const fixBalance = async () => {
+    if (!checkingAcct || fixing === null) return;
+    const raw = fixing.trim().replace(/\s|€/g, "");
+    const n = parseNumber(raw.replace(/^[-−]/, ""));
+    if (n === null) return;
+    const v = /^[-−]/.test(raw) ? -n : n;
+    setFixing(null);
+    // The typed amount is today's balance: store its 1 January value.
+    await saveAccount({ id: checkingAcct.id, name: checkingAcct.name, type: checkingAcct.type, balance: v - (flows.get(checkingAcct.id) ?? 0) }).catch((e: Error) => alert(e.message));
+    setTicked((s) => ({ ...s, checking: true }));
+  };
   const quickAdd = () => window.dispatchEvent(new Event("pf-quick-add"));
 
   const items = [
@@ -50,12 +68,30 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
       hint: since.income === 1 ? t("1 income entered {since}", { since: sinceText }) : t("{n} incomes entered {since}", { n: since.income, since: sinceText }),
       action: <button type="button" className="pf-chip" onClick={quickAdd}>{t("Add income")}</button>,
     },
-    {
+    ...(checking ? [{
+      id: "checking",
+      title: t("Current account balance still right?"),
+      hint: t("{name} in the app: {amount}", { name: checking.name, amount: money(checking.value, currency) }),
+      action: fixing === null
+        ? <button type="button" className="pf-chip" onClick={() => setFixing(checking.value.toFixed(2).replace(".", ","))}>{t("Correct")}</button>
+        : (
+          <form className="pf-checkin-fix" onSubmit={(e) => { e.preventDefault(); fixBalance(); }}>
+            <input autoFocus inputMode="decimal" aria-label={t("Balance at the bank")} value={fixing} onChange={(e) => setFixing(e.target.value)} onKeyDown={(e) => { if (e.key === "Escape") setFixing(null); }} />
+            <button type="submit" className="pf-chip">{t("Save")}</button>
+          </form>
+        ),
+    }] : []),
+    ...(others.length ? [{
+      id: "accounts",
+      title: checking ? t("Other balances match the bank") : t("Account balances match the bank"),
+      hint: others.slice(0, 3).map((a) => `${a.name} ${money(a.value, currency)}`).join(" · ") + (others.length > 3 ? " …" : ""),
+      action: <Link href="/app/net-worth" className="pf-chip" onClick={onDone}>{t("Check balances")}</Link>,
+    }] : checking ? [] : [{
       id: "accounts",
       title: t("Account balances match the bank"),
-      hint: accounts.length ? accounts.slice(0, 3).map((a) => `${a.name} ${money(a.value, currency)}`).join(" · ") + (accounts.length > 3 ? " …" : "") : t("No accounts yet"),
+      hint: t("No accounts yet"),
       action: <Link href="/app/net-worth" className="pf-chip" onClick={onDone}>{t("Check balances")}</Link>,
-    },
+    }]),
   ];
   const all = items.every((i) => ticked[i.id]);
   const confirm = async () => {
