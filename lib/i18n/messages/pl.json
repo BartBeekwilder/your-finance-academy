@@ -1308,5 +1308,7 @@
  "{n} days last month": "{n} dni w zeszłym miesiącu",
  "+{n} points for {days} days kept up": "+{n} pkt za {days} uzupełnionych dni",
  "Days kept up": "Uzupełnione dni",
- "Up to date through which day?": "Aktualne do którego dnia?"
+ "Up to date through which day?": "Aktualne do którego dnia?",
+ "tap the tick to do it again": "dotknij znacznika, aby zrobić ponownie",
+ "Untick to do it again": "Odznacz, aby zrobić ponownie"
 }

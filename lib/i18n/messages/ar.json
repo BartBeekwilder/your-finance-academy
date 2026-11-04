@@ -1308,5 +1308,7 @@
  "{n} days last month": "{n} أيام في الشهر الماضي",
  "+{n} points for {days} days kept up": "+{n} نقطة عن {days} أيام محدّثة",
  "Days kept up": "الأيام المحدّثة",
- "Up to date through which day?": "محدَّث حتى أي يوم؟"
+ "Up to date through which day?": "محدَّث حتى أي يوم؟",
+ "tap the tick to do it again": "اضغط على العلامة لإعادتها",
+ "Untick to do it again": "ألغِ التحديد لإعادتها"
 }

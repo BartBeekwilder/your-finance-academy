@@ -1308,5 +1308,7 @@
  "{n} days last month": "पिछले महीने के {n} दिन",
  "+{n} points for {days} days kept up": "{days} अपडेट दिनों के लिए +{n} अंक",
  "Days kept up": "अपडेट किए गए दिन",
- "Up to date through which day?": "किस दिन तक अपडेट?"
+ "Up to date through which day?": "किस दिन तक अपडेट?",
+ "tap the tick to do it again": "दोबारा करने के लिए टिक पर टैप करें",
+ "Untick to do it again": "दोबारा करने के लिए टिक हटाएँ"
 }

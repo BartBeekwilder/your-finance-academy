@@ -4819,7 +4819,8 @@ span.pf-cmp-chip { cursor: default; }
 .pf-progress-level { padding-top: 7px; border-top: 1px solid var(--pf-line); }
 .pf-progress-level span::before { content: "→ "; color: var(--pf-ink-3); }
 @keyframes pf-pbar-grow { from { transform: scaleX(0); } }
-.pf-close-done { display: flex; align-items: center; gap: 8px; padding: 8px 10px; font-size: 0.78rem; color: var(--pf-ink-3); }
+.pf-close-done { display: flex; align-items: center; gap: 8px; padding: 8px 10px; font: inherit; font-size: 0.78rem; color: var(--pf-ink-3); background: none; border: 0; border-radius: 10px; cursor: pointer; text-align: left; transition: background 0.2s, color 0.2s; }
+.pf-close-done:hover { background: rgba(255, 255, 255, 0.05); color: var(--pf-ink-2); }
 .pf-close-done svg { color: var(--pf-green); }
 /* The savings goal: a tick halfway along the Saved bar. */
 .pf-progress-bar i:has(.pf-progress-goal) { overflow: visible; }
@@ -4983,3 +4984,6 @@ button.pf-ck-day:hover { transform: translateY(-2px); }
 button.pf-ck-day:active { transform: scale(0.92); }
 .pf-checkin-done .pf-ck-day { background: rgba(255, 255, 255, 0.04); color: var(--pf-ink-3); }
 .pf-checkin-done .pf-ck-day[data-state="done"] { background: rgba(48, 209, 88, 0.16); color: var(--pf-green); }
+.pf-checkin-undo { display: grid; place-items: center; width: 24px; height: 24px; flex: none; padding: 0; border-radius: 50%; border: 1.5px solid var(--pf-green); background: var(--pf-green); color: #000; cursor: pointer; box-shadow: 0 0 12px rgba(48, 209, 88, 0.45); transition: transform 0.3s cubic-bezier(0.3, 1.8, 0.5, 1), background 0.2s, color 0.2s, box-shadow 0.2s; }
+.pf-checkin-undo:hover { background: transparent; color: var(--pf-green); box-shadow: none; }
+.pf-checkin-undo:active { transform: scale(0.85); }

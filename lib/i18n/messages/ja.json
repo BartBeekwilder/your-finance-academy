@@ -1308,5 +1308,7 @@
  "{n} days last month": "先月の {n} 日",
  "+{n} points for {days} days kept up": "{days} 日分で +{n} ポイント",
  "Days kept up": "記録済みの日",
- "Up to date through which day?": "何日まで更新しましたか？"
+ "Up to date through which day?": "何日まで更新しましたか？",
+ "tap the tick to do it again": "チェックをタップしてやり直す",
+ "Untick to do it again": "チェックを外してやり直す"
 }

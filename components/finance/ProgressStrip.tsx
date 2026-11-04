@@ -101,10 +101,11 @@ export default function ProgressStrip() {
           <em>→</em>
         </button>
       ) : (
-        <span className="pf-close-done">
+        // Tapping it opens the check-in, where the tick can be taken back.
+        <button type="button" className="pf-close-done" title={t("Untick to do it again")} onClick={(e) => { setSheet(e.currentTarget); setOpen(true); }}>
           <CircleCheck size={15} />
           {t("Books up to date")} · {t("{month} closed", { month: monthYear(new Date(now.getFullYear(), now.getMonth() - 1, 1)) })}
-        </span>
+        </button>
       )}
       <Sheet open={open} onClose={() => setOpen(false)} origin={sheet} label={t("Bring your books up to date")}>
         <CheckinCard key={String(open)} onDone={() => setOpen(false)} />

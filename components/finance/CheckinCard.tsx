@@ -38,7 +38,7 @@ const shortDate = (d: Date) => d.toLocaleDateString(intlLocale(), { weekday: "sh
 type Item = { id: string; kicker: string; title: string; big: ReactNode; hint: string; bg: string; action: ReactNode };
 
 export default function CheckinCard({ onDone }: { onDone?: () => void }) {
-  const { data, now, awardBadges, saveAccount } = useFinance();
+  const { data, now, awardBadges, undoCheckin, saveAccount } = useFinance();
   const state = useCheckin();
   const [ticked, setTicked] = useState<Record<string, boolean>>({});
   const [at, setAt] = useState(0);
@@ -149,10 +149,14 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
   if (state.done && !justDone) {
     return (
       <div className="pf-checkin pf-checkin-done">
-        <CircleCheck size={20} />
+        {/* The tick unticks: take the check-in back to do it again (an
+            expense turned up after all). */}
+        <button type="button" className="pf-checkin-undo" title={t("Untick to do it again")} aria-label={t("Untick to do it again")} onClick={() => state.last && undoCheckin(`${CHECKIN_PREFIX}${dayKey(state.last)}`).catch((e: Error) => alert(e.message))}>
+          <Check size={13} strokeWidth={3.4} />
+        </button>
         <span style={{ flex: 1 }}>
           <b>{t("Books up to date")}</b>
-          <span>{t("Checked in {period} · through {date}", { period: periodName, date: shortDate(state.last ?? now) })}</span>
+          <span>{t("Checked in {period} · through {date}", { period: periodName, date: shortDate(state.last ?? now) })} · {t("tap the tick to do it again")}</span>
         </span>
         {state.streak > 1 && <span className="pf-checkin-streak"><Flame size={14} /> {state.streak}</span>}
         <DayStrip now={now} covered={new Set(coveredDays(ckDays))} open={[]} upTo={null} />

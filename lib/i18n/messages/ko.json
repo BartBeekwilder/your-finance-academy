@@ -1308,5 +1308,7 @@
  "{n} days last month": "지난달 {n}일",
  "+{n} points for {days} days kept up": "{days}일 기록으로 +{n}점",
  "Days kept up": "기록한 날",
- "Up to date through which day?": "며칠까지 정리했나요?"
+ "Up to date through which day?": "며칠까지 정리했나요?",
+ "tap the tick to do it again": "체크를 눌러 다시 하기",
+ "Untick to do it again": "체크 해제하고 다시 하기"
 }

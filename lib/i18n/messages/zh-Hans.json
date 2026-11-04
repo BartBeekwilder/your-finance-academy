@@ -1308,5 +1308,7 @@
  "{n} days last month": "上月 {n} 天",
  "+{n} points for {days} days kept up": "已记录 {days} 天，+{n} 分",
  "Days kept up": "已记录的天数",
- "Up to date through which day?": "更新到哪一天？"
+ "Up to date through which day?": "更新到哪一天？",
+ "tap the tick to do it again": "点按勾号可重新进行",
+ "Untick to do it again": "取消勾选以重新进行"
 }

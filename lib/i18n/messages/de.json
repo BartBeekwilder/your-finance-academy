@@ -1308,5 +1308,7 @@
  "{n} days last month": "{n} Tage im Vormonat",
  "+{n} points for {days} days kept up": "+{n} Punkte für {days} gepflegte Tage",
  "Days kept up": "Gepflegte Tage",
- "Up to date through which day?": "Aktuell bis zu welchem Tag?"
+ "Up to date through which day?": "Aktuell bis zu welchem Tag?",
+ "tap the tick to do it again": "tippe auf den Haken, um es neu zu machen",
+ "Untick to do it again": "Abhaken rückgängig machen, um es neu zu machen"
 }

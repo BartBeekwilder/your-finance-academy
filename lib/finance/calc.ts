@@ -122,6 +122,11 @@ export function investedIn(holdings: Holding[], currency: string) {
 export function accountFlows(data: FinanceData, now: Date) {
   const out = new Map<string, number>();
   for (const [id, v] of accountInOut(data, now)) out.set(id, v.in - v.out);
+  // Money advanced for someone and not paid back yet is off its account too
+  // (the balance sheet lists it as Advanced), so every account balance —
+  // Liquidity, the balance sheet, the check-in — matches the bank.
+  const fallback = live(data.accounts).find((a) => a.is_default)?.id ?? null;
+  for (const [id, v] of advancesByAccount(data, now, fallback)) out.set(id, (out.get(id) ?? 0) - v);
   return out;
 }
 
@@ -548,9 +553,6 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
   if (acc) {
     const flows = accountFlows(data, at);
     const inOut = accountInOut(data, at);
-    // Open advances are off their account too.
-    const fallback = live(data.accounts).find((a) => a.is_default)?.id ?? null;
-    for (const [id, v] of advancesByAccount(data, at, fallback)) flows.set(id, (flows.get(id) ?? 0) - v);
     // Grouped by kind in a bank's order (current, savings, credit, cash),
     // each group in the order the accounts were added — so it reads like
     // the bank's own overview.

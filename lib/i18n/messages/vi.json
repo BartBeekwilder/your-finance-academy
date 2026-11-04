@@ -1308,5 +1308,7 @@
  "{n} days last month": "{n} ngày tháng trước",
  "+{n} points for {days} days kept up": "+{n} điểm cho {days} ngày đã cập nhật",
  "Days kept up": "Ngày đã cập nhật",
- "Up to date through which day?": "Cập nhật đến ngày nào?"
+ "Up to date through which day?": "Cập nhật đến ngày nào?",
+ "tap the tick to do it again": "chạm dấu tích để làm lại",
+ "Untick to do it again": "Bỏ tích để làm lại"
 }

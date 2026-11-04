@@ -1308,5 +1308,7 @@
  "{n} days last month": "{n} дн. в прошлом месяце",
  "+{n} points for {days} days kept up": "+{n} очков за {days} дн. учёта",
  "Days kept up": "Дни учёта",
- "Up to date through which day?": "Актуально по какой день?"
+ "Up to date through which day?": "Актуально по какой день?",
+ "tap the tick to do it again": "нажмите на галочку, чтобы сделать заново",
+ "Untick to do it again": "Снять отметку, чтобы сделать заново"
 }

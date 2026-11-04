@@ -51,6 +51,8 @@ type FinanceState = {
   closeMonth: (month: Date, summary: MonthClose["summary"], points: number, badges: { code: string; points: number }[]) => Promise<void>;
   /** Stores badges earned outside a month close (e.g. adding a home). */
   awardBadges: (badges: { code: string; points: number }[]) => Promise<void>;
+  /** Takes a check-in back (its `checkin:` achievement), to do it again. */
+  undoCheckin: (code: string) => Promise<void>;
   saveGoal: (g: Omit<Goal, "updated_at" | "deleted_at" | "id"> & { id?: string }) => Promise<void>;
   deleteGoal: (id: string) => Promise<void>;
   /** Insurance: create or update a policy (no id = new). */
@@ -562,7 +564,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     [current, source, supabase, update],
   );
   const softDelete = useCallback(
-    async (key: "properties" | "mortgageParts" | "goals" | "insurancePolicies", table: string, id: string) => {
+    async (key: "properties" | "mortgageParts" | "goals" | "insurancePolicies" | "achievements", table: string, id: string) => {
       if (source === "supabase" && supabase) {
         const { error } = await supabase.from(table).update({ deleted_at: new Date().toISOString() }).eq("id", id);
         if (error) throw error;
@@ -581,6 +583,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const deleteMortgagePart = useCallback((id: string) => softDelete("mortgageParts", "mortgage_parts", id), [softDelete]);
   const saveGoal = useCallback(async (g: Parameters<FinanceState["saveGoal"]>[0]) => { await upsertRow("goals", "goals", g); }, [upsertRow]);
   const deleteGoal = useCallback((id: string) => softDelete("goals", "goals", id), [softDelete]);
+  const undoCheckin = useCallback(async (code: string) => {
+    if (!code.startsWith("checkin:")) return; // badges stay earned
+    const row = (current?.achievements ?? []).find((a) => a.code === code && !a.deleted_at);
+    if (row) await softDelete("achievements", "achievements", row.id);
+  }, [current, softDelete]);
   const savePolicy = useCallback(async (x: Parameters<FinanceState["savePolicy"]>[0]) => { await upsertRow("insurancePolicies", "insurance_policies", x); }, [upsertRow]);
   const deletePolicy = useCallback((id: string) => softDelete("insurancePolicies", "insurance_policies", id), [softDelete]);
 
@@ -710,7 +717,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
       {stale && (
