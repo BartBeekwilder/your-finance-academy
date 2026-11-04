@@ -281,6 +281,8 @@ up to now); Receivable = salary earned − salary entered (other income excluded
 Amounts to receive: every line has a round tick — income: tap → check + 'Received on'
 Lopende rekening / Creditcard / Other… sets account_id (date → today if later);
 advance: tap → paid back (repaid_at, same account).
+Balance over time = the Investments layout (PortfolioMix `MixChart`, shared): chart +
+total/bar/list on the right, names switch posts on/off (per side, remembered).
 
 ## Done recently (2026-10-22/23)
 

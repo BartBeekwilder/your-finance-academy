@@ -4,7 +4,8 @@ import { monthName, shortMonth } from "@/lib/finance/format";
 import { intlLocale, t } from "@/lib/i18n";
 import { useMemo, useState } from "react";
 import { BalanceBars, BalanceTable, balanceColors } from "@/components/finance/BalanceSheet";
-import { StackedMix, type Series } from "@/components/finance/AssetMixChart";
+import { type Series } from "@/components/finance/AssetMixChart";
+import { MixChart } from "@/components/finance/PortfolioMix";
 import Segmented from "@/components/finance/Segmented";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import EquityHero from "@/components/finance/EquityHero";
@@ -245,15 +246,10 @@ export default function BalancePage() {
             node: (
               <section style={{ display: "grid", gap: 8 }}>
                 <h2 className="pf-section-title">{t("Balance over time")}</h2>
-                <StackedMix
+                <MixChart
                   key={side}
-                  series={mixSeries}
-                  now={now}
-                  currency={currency}
-                  lit={picked}
-                  onLit={setPicked}
-                  lowerIsBetter={(id) => side === "funding" && id !== "equity"}
-                  extra={
+                  title=""
+                  right={
                     <Segmented
                       size="sm"
                       label={t("Side")}
@@ -262,6 +258,15 @@ export default function BalancePage() {
                       options={[{ value: "assets", label: t("Assets") }, { value: "funding", label: t("Debt + equity") }]}
                     />
                   }
+                  times={mixSeries[0]?.values.map((_, m) => m) ?? []}
+                  lines={mixSeries}
+                  currency={currency}
+                  labelAt={(m) => (m === now.getMonth() ? t("Today") : t("End of {n}", { n: monthName(new Date(now.getFullYear(), m, 1)) }))}
+                  nowLabel={t("Today")}
+                  xTicks={(mixSeries[0]?.values ?? []).map((_, m) => ({ t: m, label: shortMonth(new Date(now.getFullYear(), m, 1)) }))}
+                  storageKey={`pf-balance-mix-hidden-${side}`}
+                  lit={picked}
+                  onPick={(id) => setPicked((p) => (p === id ? null : id))}
                   note={t("Click a bar above or a band here to follow one post through the year.")}
                 />
               </section>

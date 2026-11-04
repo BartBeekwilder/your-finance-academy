@@ -23,9 +23,6 @@ const PALETTE = ["#0a84ff", "#bf5af2", "#64d2ff", "#5e5ce6", "#66d4cf", "#da8fff
 const MAX_POINTS = 240;
 
 export default function PortfolioMix({ holdings, quotes, currency, range, onRange }: { holdings: Holding[]; quotes: Quotes; currency: string; range: Range; onRange: (r: Range) => void }) {
-  const [mode, setMode] = useState<"amount" | "share">("amount");
-  const [hover, setHover] = useState<number | null>(null);
-  const [lit, setLit] = useState<string | null>(null);
 
   // One shared timeline: every moment any price moved (24 h for 1D, thinned
   // out to a few hundred), each holding at its last price by then — nothing
@@ -56,22 +53,68 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
   }, [holdings, quotes, currency, range]);
 
   const { times, lines } = model;
+  return (
+    <MixChart
+      title={t("Value per holding")}
+      right={<Segmented options={RANGES.map((r) => ({ value: r.value, label: t(r.label) }))} value={range} onChange={onRange} label={t("Period")} />}
+      times={times}
+      lines={lines}
+      currency={currency}
+      labelAt={(k) => timeLabel(times[k], range)}
+      nowLabel={t("Now")}
+      nowPrefix={t(RANGES.find((r) => r.value === range)?.label ?? "")}
+      storageKey="pf-mix-hidden"
+    />
+  );
+}
+
+export type MixLine = { id: string; name: string; color: string; values: number[] };
+
+/** The stacked "value per …" chart with the mix on the right — shared by
+ *  Investments › Value per holding and Balance sheet › Balance over time:
+ *  Amount (stacked) or Share %, a bar + list on the right at "now" or the
+ *  moment pointed at, pointing at a band lights it up, a name in the list
+ *  switches it off or on (the stack reshapes smoothly; remembered per
+ *  browser under `storageKey`). `lines` bottom up. */
+export function MixChart({
+  title, right, times, lines, currency, labelAt, nowLabel, nowPrefix, xTicks, storageKey, lit: litProp, onPick, note,
+}: {
+  title: string;
+  right?: React.ReactNode;
+  times: number[];
+  lines: MixLine[];
+  currency: string;
+  labelAt: (k: number) => string;
+  nowLabel: string;
+  nowPrefix?: string;
+  xTicks?: { t: number; label: string }[];
+  storageKey: string;
+  /** Lit from outside (e.g. a picked post). */
+  lit?: string | null;
+  /** A band was clicked. */
+  onPick?: (id: string) => void;
+  note?: string;
+}) {
+  const [mode, setMode] = useState<"amount" | "share">("amount");
+  const [hover, setHover] = useState<number | null>(null);
+  const [litOwn, setLit] = useState<string | null>(null);
+  const lit = litOwn ?? litProp ?? null;
   const t0 = times[0] ?? 0, t1 = times[times.length - 1] ?? 1;
 
   // Holdings switched off (by id), remembered in this browser. Each line's
   // weight glides between 1 and 0, so the stack reshapes instead of jumping.
   const [hidden, setHidden] = useState<Set<string>>(() => {
     try {
-      return new Set(JSON.parse(localStorage.getItem("pf-mix-hidden") ?? "[]") as string[]);
+      return new Set(JSON.parse(localStorage.getItem(storageKey) ?? "[]") as string[]);
     } catch {
       return new Set();
     }
   });
   useEffect(() => {
     try {
-      localStorage.setItem("pf-mix-hidden", JSON.stringify([...hidden]));
+      localStorage.setItem(storageKey, JSON.stringify([...hidden]));
     } catch {}
-  }, [hidden]);
+  }, [hidden, storageKey]);
   const toggle = (id: string) => setHidden((h) => {
     const next = new Set(h);
     if (next.has(id)) next.delete(id);
@@ -123,10 +166,9 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
 
   const at = hover ?? times.length - 1;
   const total = totals[at];
-  const label = hover != null ? timeLabel(times[hover], range) : t("Now");
-  const rangeLabel = t(RANGES.find((r) => r.value === range)?.label ?? "");
+  const label = hover != null ? labelAt(hover) : nowLabel;
   const ticks = [0, 0.5, 1].map((f) => ({ value: max * f, at: f }));
-  const xLabels = Array.from({ length: 5 }, (_, i) => v0 + ((i + 0.5) / 5) * (v1 - v0));
+  const xLabels = xTicks ?? Array.from({ length: 5 }, (_, i) => { const tt = v0 + ((i + 0.5) / 5) * (v1 - v0); return { t: tt, label: labelAt(times.reduce((b, x0, k) => (Math.abs(x0 - tt) < Math.abs(times[b] - tt) ? k : b), 0)) }; });
 
   const chart = (
     <div style={{ position: "relative", overflow: "hidden" }}>
@@ -146,6 +188,7 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
           setHover(null);
           setLit(null);
         }}
+        onClick={() => lit && onPick?.(lit)}
       >
         {ticks.map((tk, i) => <line key={i} x1={0} x2={W} y1={y(tk.value)} y2={y(tk.value)} className="pf-mix-grid" vectorEffect="non-scaling-stroke" />)}
         {bands.map(({ l, area, top }) => (
@@ -157,9 +200,9 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
         {hover != null && <line x1={x(times[hover])} x2={x(times[hover])} y1={0} y2={H} stroke="var(--pf-ink-2)" strokeWidth="1" vectorEffect="non-scaling-stroke" />}
       </svg>
       <div className="pf-mix-x" aria-hidden>
-        {xLabels.map((tt, i) => (
-          <span key={i} style={{ left: `${(i + 0.5) * 20}%` }}>
-            {timeLabel(tt, range)}
+        {xLabels.map((xl, i) => (
+          <span key={i} style={{ left: `${(x(xl.t) / W) * 100}%`, ...(x(xl.t) < W * 0.03 ? { translate: "0 0" } : x(xl.t) > W * 0.97 ? { translate: "-100% 0" } : {}) }}>
+            {xl.label}
           </span>
         ))}
       </div>
@@ -170,10 +213,10 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
     <section className="pf-card pf-mix" style={{ padding: 18, display: "grid", gap: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-          <span style={{ fontSize: "0.9rem", color: "var(--pf-ink-2)" }}>{t("Value per holding")}</span>
+          <span style={{ fontSize: "0.9rem", color: "var(--pf-ink-2)" }}>{title}</span>
           <Segmented options={[{ value: "amount", label: t("Amount") }, { value: "share", label: t("Share %") }]} value={mode} onChange={setMode} label={t("Show")} />
         </div>
-        <Segmented options={RANGES.map((r) => ({ value: r.value, label: t(r.label) }))} value={range} onChange={onRange} label={t("Period")} />
+        {right}
       </div>
       <div className="pf-mix-layout">
         {mode === "amount" ? (
@@ -185,7 +228,7 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
         )}
         <div className="pf-mix-side" ref={side}>
           <div key={label} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
-            {hover == null ? `${rangeLabel} · ${label}` : label}
+            {hover == null && nowPrefix ? `${nowPrefix} · ${label}` : label}
           </div>
           <b className="pf-rounded" style={{ fontSize: "1.5rem" }}>{money(total, currency)}</b>
           <div className="pf-mix-body">
@@ -227,6 +270,7 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
           </div>
         </div>
       </div>
+      {note && <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{note}</div>}
     </section>
   );
 }
