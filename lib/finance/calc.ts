@@ -144,10 +144,13 @@ export function accountFlows(data: FinanceData, now: Date) {
 /** Income entered this year without an account: money that's yours but
  *  hasn't landed on an account yet ("still to receive"). Choosing "Received
  *  on" for it moves it to that account. */
-export function pendingIncome(data: FinanceData, at: Date) {
+export function pendingIncome(data: FinanceData, at: Date, laterThisMonth = true) {
   const year = at.getFullYear();
+  // Also income entered for later this month (e.g. a refund you know is
+  // coming on the 25th): it's owed to you already, and the month counts it.
+  const sameMonth = (d: Date) => laterThisMonth && d.getFullYear() === year && d.getMonth() === at.getMonth();
   return live(data.transactions)
-    .filter((t) => t.type === "income" && !t.account_id && new Date(t.date).getFullYear() === year && new Date(t.date) <= at)
+    .filter((t) => t.type === "income" && !t.account_id && new Date(t.date).getFullYear() === year && (new Date(t.date) <= at || sameMonth(new Date(t.date))))
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
@@ -444,7 +447,9 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
     const f = Math.min(Math.max((now.getTime() - new Date(year, current, 1).getTime()) / (nw.days * 86_400_000), 0), 1);
     cash = nw.base - nw.holdingsTotal + s.income - s.spent;
     const prepaid = s.fixed * (1 - f);
-    const earned = nw.projected * f - s.income;
+    // Receivable: the salary earned so far minus the salary entered (other
+    // income isn't earned day by day — it's in Accounts or Amounts to receive).
+    const earned = nw.projected * f - (s.income - otherIncome(data, new Date(year, current, 1)));
     const book = spreadBookValue(data, now);
     assets.push({ id: "accounts", name: t("Accounts"), value: cash - book.total, kind: "auto", hint: t("Start of the year + what each month added") });
     assets.push({ id: "investments", name: t("Investments"), value: inv.total, kind: "auto", hint: inv.real ? t("Market value") : t("Holdings at cost") });

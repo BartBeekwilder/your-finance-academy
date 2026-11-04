@@ -275,6 +275,9 @@ usual variable × rest of month + fixed costs for the whole month (≥ usual); u
 average of this year's finished months (January: the 3 months before). Used by
 yearForecast (this month), the Budgets page and the budget ring; Expenses' hint
 shows the budgeted part.
+Balance: income without an account dated later THIS month counts under Amounts to
+receive now (pendingIncome laterThisMonth; Liquidity's 'Where it sits' keeps only
+up to now); Receivable = salary earned − salary entered (other income excluded).
 
 ## Done recently (2026-10-22/23)
 

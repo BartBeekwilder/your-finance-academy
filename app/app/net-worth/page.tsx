@@ -81,7 +81,7 @@ export default function NetWorthPage() {
   // year; what wasn't booked on an account stays under "Saved this year".
   const flows = accountFlows(data, new Date(tick));
   const tagged = [...flows.values()].reduce((a, b) => a + b, 0);
-  const pendingTotal = pendingIncome(data, new Date(tick)).reduce((a, x) => a + num(x.amount), 0);
+  const pendingTotal = pendingIncome(data, new Date(tick), false).reduce((a, x) => a + num(x.amount), 0);
   const parts = [
     { id: "saved", name: t("Saved this year"), kind: t("Cash flow"), value: nowValue - nw.startOfYear - tagged - pendingTotal, color: "#30d158" },
     ...(pendingTotal > 0.005 ? [{ id: "pending", name: t("Amounts to receive"), kind: t("Not on an account yet"), value: pendingTotal, color: "#66d4cf" }] : []),
