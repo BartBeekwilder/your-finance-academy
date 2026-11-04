@@ -85,9 +85,9 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
   );
 }
 
-/** How much of your income you've spent so far, at a glance: a ring in the
- *  categories' colours (each its share of income), the empty rest is what's
- *  left; over 100% the ring turns red. */
+/** How much of your income you've spent so far, at a glance: income is the
+ *  green ring, spending eats into it in shades of red (a shade per
+ *  category, each its share of income); over 100% it's all red. */
 function IncomeRing({ rows, income, currency, year }: { rows: { category: { id: string; color_hex: string; name: string }; spent: number }[]; income: number; currency: string; year: boolean }) {
   const total = rows.reduce((s, r) => s + r.spent, 0);
   const share = total / income;
@@ -103,10 +103,10 @@ function IncomeRing({ rows, income, currency, year }: { rows: { category: { id: 
   return (
     <div className="pf-cattile pf-incomering" data-over={over || undefined} title={t("{spent} of {income} income", { spent: money(total, currency), income: money(income, currency) })}>
       <svg viewBox="0 0 100 100" width={104} height={104} aria-hidden>
-        <circle cx={50} cy={50} r={R} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={9} />
+        <circle cx={50} cy={50} r={R} fill="none" stroke="rgba(48,209,88,0.55)" strokeWidth={9} />
         <g transform="rotate(-90 50 50)">
           {segs.map((g, i) => (
-            <circle key={g.id} cx={50} cy={50} r={R} fill="none" stroke={over ? "#ff453a" : g.color} strokeWidth={9}
+            <circle key={g.id} cx={50} cy={50} r={R} fill="none" stroke={over ? "#ff453a" : `hsl(${4 + (i % 4) * 7}, ${88 - (i % 3) * 10}%, ${58 - (i % 5) * 6}%)`} strokeWidth={9}
               strokeDasharray={`${Math.max(Math.min(g.len, C - g.start) - 1.2, 0.3)} ${C}`} strokeDashoffset={-g.start}
               className="pf-incomering-seg" style={{ animationDelay: `${i * 70}ms` }} />
           ))}
