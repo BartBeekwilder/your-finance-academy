@@ -18,6 +18,7 @@ import MonthTransactions from "@/components/finance/MonthTransactions";
 import MonthPicker from "@/components/finance/MonthPicker";
 import Stat, { ExpectedBar } from "@/components/finance/Stat";
 import { projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
+import { budgetTotals } from "@/lib/finance/progressModel";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 
 // The Income page's counterpart for spending: the dashboard's live Spent
@@ -64,6 +65,8 @@ export default function ExpensesPage() {
   const yearFixed = thisYear.reduce((t, m) => t + m.fixed, 0);
   // Finished months as entered, plus the forecast for this month and the rest.
   const forecast = yearForecast(data, at);
+  // The budgeted part of the forecast (same rule as Budgets and the budget ring).
+  const budgetNow = budgetTotals(data, new Date(at.getFullYear(), at.getMonth(), 1), at);
   const expectedYear = thisYear.slice(0, -1).reduce((t, m) => t + m.spent, 0) + forecast.reduce((t, f) => t + f.spent, 0);
   const monthName = monthLabel(month);
 
@@ -164,7 +167,7 @@ export default function ExpensesPage() {
         {past ? (
           <Stat label={t("Variable costs")} value={money(s.variable, currency)} />
         ) : mode === "month" ? (
-          <Stat label={t("Expected this month")} value={money(forecast[0].spent, currency)} hint={t("Forecast to the end of {monthName}", { monthName })} side={<ExpectedBar done={s.spent} expected={forecast[0].spent} color={accent} />} />
+          <Stat label={t("Expected this month")} value={money(forecast[0].spent, currency)} hint={`${t("Forecast to the end of {monthName}", { monthName })} · ${t("all spending, budgets {expected} of {budget}", { expected: money(budgetNow.forecast, currency), budget: money(budgetNow.budget, currency) })}`} side={<ExpectedBar done={s.spent} expected={forecast[0].spent} color={accent} />} />
         ) : (
           <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} side={<ExpectedBar done={yearSpent} expected={expectedYear} color={accent} />} />
         )}

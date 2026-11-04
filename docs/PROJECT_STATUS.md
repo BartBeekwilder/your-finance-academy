@@ -270,6 +270,11 @@ fills day by day (closes on the last day); calendar day ring = that
 day's forecast vs the total, dayRings `budgetPlan`); Progress tile bar shows
 '€ forecast / € budget' with a tick at the budget, red when over; Progress page:
 level + rings on top, check-in card below.
+ONE 'expected' rule (calc `expectedByCategory`): this month = variable spent so far +
+usual variable × rest of month + fixed costs for the whole month (≥ usual); usual =
+average of this year's finished months (January: the 3 months before). Used by
+yearForecast (this month), the Budgets page and the budget ring; Expenses' hint
+shows the budgeted part.
 
 ## Done recently (2026-10-22/23)
 

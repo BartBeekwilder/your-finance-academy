@@ -1,4 +1,4 @@
-import { balanceSheet, budgetIn, live, monthProgress, netWorthFigures, num, projectedNetIncome, spendByCategory, summarize, yearForecast } from "./calc";
+import { balanceSheet, budgetIn, expectedByCategory, live, monthProgress, netWorthFigures, num, projectedNetIncome, spendByCategory, summarize, yearForecast } from "./calc";
 import { ownership, summarize as summarizePart } from "./mortgage";
 import { BADGES, POINTS, goalProgress, level, rings, ringsClosed, streak, type BadgeContext } from "./progress";
 import { homes } from "./realEstate";
@@ -42,33 +42,25 @@ function budgetRows(data: FinanceData, month: Date, fraction?: number) {
 }
 
 /** All budgets together for `month` (the budget ring's month goal): the
- *  total budget of every budgeted category, and the month-end spending
- *  expected in them. With `fraction` (this month, the share gone by):
- *  variable spending so far + the rest of the month at the usual pace
- *  (average of the three months before; with no history, the budget's own
- *  pace), and fixed costs at least what they usually are. Without it (a
- *  finished month): what was spent. Also the parts the calendar needs. */
-export function budgetTotals(data: FinanceData, month: Date, fraction?: number) {
-  const spent = new Map(spendByCategory(data, month).map((e) => [e.category.id, e]));
-  const before = [1, 2, 3].map((k) => spendByCategory(data, new Date(month.getFullYear(), month.getMonth() - k, 1))).filter((m) => m.length > 0);
+ *  total budget of every budgeted category and what they're expected to end
+ *  the month at — the shared rule (calc expectedByCategory), so the ring,
+ *  the Budgets page and Expenses agree. Also the parts the calendar needs:
+ *  the usual variable spending and the month's fixed costs. */
+export function budgetTotals(data: FinanceData, month: Date, now: Date) {
+  const exp = expectedByCategory(data, month, now);
+  const isCurrent = month.getFullYear() === now.getFullYear() && month.getMonth() === now.getMonth();
   const ids = new Set<string>();
   let budget = 0, forecast = 0, spentTotal = 0, usualVar = 0, fixedExpected = 0;
   for (const c of live(data.categories).filter((c) => !c.is_income_category && c.parent_id === null)) {
     const b = budgetIn(live(data.budgets), c.id, month);
     if (b === null) continue;
     for (const id of [c.id, ...live(data.categories).filter((x) => x.parent_id === c.id).map((x) => x.id)]) ids.add(id);
-    const e = spent.get(c.id);
-    const s = e?.spent ?? 0, fx = e?.fixed ?? 0, v = s - fx;
-    const avg = (pick: (x: { spent: number; fixed: number }) => number) =>
-      before.length ? before.map((m) => { const x = m.find((y) => y.category.id === c.id); return x ? pick(x) : 0; }).reduce((a, n) => a + n, 0) / before.length : null;
-    const uVar = avg((x) => x.spent - x.fixed) ?? Math.max(b - fx, 0);
-    const uFix = avg((x) => x.fixed) ?? fx;
-    const fxExp = fraction === undefined ? fx : Math.max(fx, uFix);
+    const e = exp.get(c.id) ?? { spent: 0, fixed: 0, usualVar: 0, usualFix: 0, expected: 0 };
     budget += b;
-    spentTotal += s;
-    usualVar += uVar;
-    fixedExpected += fxExp;
-    forecast += fraction === undefined ? s : v + uVar * Math.max(1 - fraction, 0) + fxExp;
+    spentTotal += e.spent;
+    forecast += e.expected;
+    usualVar += e.usualVar;
+    fixedExpected += isCurrent ? Math.max(e.fixed, e.usualFix) : e.fixed;
   }
   return { budget, forecast, spent: spentTotal, usualVar, fixedExpected, ids };
 }
@@ -89,7 +81,7 @@ export function monthRings(data: FinanceData, month: Date) {
     budgets: budgetRows(data, month),
     fraction: 1,
     saved: s.income - s.spent,
-    budgetTotal: (() => { const t = budgetTotals(data, month); return { forecast: t.forecast, budget: t.budget }; })(),
+    budgetTotal: (() => { const t = budgetTotals(data, month, new Date(month.getFullYear(), month.getMonth() + 1, 1)); return { forecast: t.forecast, budget: t.budget }; })(),
     savingsTarget: projectedNetIncome(data, month) * SAVINGS_SHARE,
   });
 }
@@ -118,7 +110,7 @@ export function progressModel(data: FinanceData, now: Date) {
   // expects to be saved by the end of the month against 20% of the month's
   // expected income (not today's pace, which swings early in the month).
   const fc = yearForecast(data, now)[0];
-  const budgetNow = budgetTotals(data, month, fraction);
+  const budgetNow = budgetTotals(data, month, now);
   const ringNow = rings({
     daysElapsed: now.getDate(),
     activeDaysInMonth: activity.filter((d) => d.slice(0, 7) === iso(month).slice(0, 7)).length,

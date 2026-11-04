@@ -51,7 +51,7 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
         // Budget: all budgets together — each day's forecast for the month
         // within the total budget (a finished month's fixed costs as booked).
         budgetPlan: (() => {
-          const t = budgetTotals(data, month, isPast ? undefined : 0);
+          const t = budgetTotals(data, month, isPast ? new Date(month.getFullYear(), month.getMonth() + 1, 1) : now);
           return { budget: t.budget, usualVar: t.usualVar, fixedExpected: t.fixedExpected, inBudget: (tx: (typeof data.transactions)[number]) => !!tx.category_id && t.ids.has(tx.category_id) };
         })(),
       }),

@@ -274,17 +274,59 @@ export function monthToDate(data: FinanceData, now: Date) {
  *  the average of the year's finished months — this month never less than
  *  what is already entered. Used by the tile sparklines' dotted line and the
  *  Expenses page, so they agree. */
+/** What each expense category is expected to end `month` at — ONE rule for
+ *  the Expenses forecast, the Budgets page and the budget ring:
+ *    this month: variable spending so far + the usual variable spending for
+ *      the rest of the month, and the fixed costs for the whole month (at
+ *      least what they usually are);
+ *    a month ahead: the usual (variable + fixed);
+ *    a finished month: what was spent.
+ *  "Usual" = the average of this year's finished months with spending (as
+ *  Expenses' "Average / month"); in January, the three months before.
+ *  Keyed by top-level category id; `""` holds uncategorised spending. */
+export function expectedByCategory(data: FinanceData, month: Date, now: Date) {
+  const y = now.getFullYear(), cur = now.getMonth();
+  const isCurrent = month.getFullYear() === y && month.getMonth() === cur;
+  const isFuture = month.getTime() > new Date(y, cur, 1).getTime();
+  const f = isCurrent ? monthProgress(now) : isFuture ? 0 : 1;
+  const finished = Array.from({ length: cur }, (_, m) => new Date(y, m, 1)).filter((d) => summarize(data.transactions, d).spent > 0);
+  const base = finished.length ? finished : [1, 2, 3].map((k) => new Date(y, cur - k, 1));
+  const per = (d: Date) => {
+    const out = new Map<string, { spent: number; fixed: number }>();
+    const s = summarize(data.transactions, d);
+    let counted = 0, countedFixed = 0;
+    for (const e of spendByCategory(data, d)) { out.set(e.category.id, { spent: e.spent, fixed: e.fixed }); counted += e.spent; countedFixed += e.fixed; }
+    out.set("", { spent: Math.max(s.spent - counted, 0), fixed: Math.max(s.fixed - countedFixed, 0) });
+    return out;
+  };
+  const history = base.map(per);
+  const now_ = per(month);
+  const ids = new Set<string>([...now_.keys(), ...history.flatMap((h) => [...h.keys()])]);
+  const out = new Map<string, { spent: number; fixed: number; usualVar: number; usualFix: number; expected: number }>();
+  for (const id of ids) {
+    const n = now_.get(id) ?? { spent: 0, fixed: 0 };
+    const avg = (pick: (x: { spent: number; fixed: number }) => number) => (history.length ? history.reduce((t, h) => t + pick(h.get(id) ?? { spent: 0, fixed: 0 }), 0) / history.length : 0);
+    const usualVar = avg((x) => x.spent - x.fixed), usualFix = avg((x) => x.fixed);
+    const expected = isFuture ? usualVar + usualFix : !isCurrent ? n.spent : n.spent - n.fixed + usualVar * Math.max(1 - f, 0) + Math.max(n.fixed, usualFix);
+    out.set(id, { spent: n.spent, fixed: n.fixed, usualVar, usualFix, expected });
+  }
+  return out;
+}
+
 export function yearForecast(data: FinanceData, now: Date) {
   const year = now.getFullYear(), current = now.getMonth();
   const finished = Array.from({ length: current }, (_, m) => summarize(data.transactions, new Date(year, m, 1)).spent).filter((v) => v > 0);
   const thisMonth = summarize(data.transactions, new Date(year, current, 1));
   const avgSpent = finished.length ? finished.reduce((a, b) => a + b, 0) / finished.length : thisMonth.spent;
+  const thisMonthExpected = Math.max([...expectedByCategory(data, new Date(year, current, 1), now).values()].reduce((t, e) => t + e.expected, 0), thisMonth.spent);
   return Array.from({ length: 12 - current }, (_, i) => {
     const m = current + i;
     return {
       month: m,
       income: projectedNetIncome(data, new Date(year, m, 1)) + (i === 0 ? otherIncome(data, new Date(year, m, 1)) : 0),
-      spent: i === 0 ? Math.max(thisMonth.spent, avgSpent) : avgSpent,
+      // This month: every category's expected month end (expectedByCategory),
+      // so Expenses, Budgets and the budget ring agree.
+      spent: i === 0 ? thisMonthExpected : avgSpent,
     };
   });
 }

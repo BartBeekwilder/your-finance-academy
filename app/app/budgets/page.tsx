@@ -13,7 +13,7 @@ import Segmented from "@/components/finance/Segmented";
 import StepSlider from "@/components/finance/StepSlider";
 import { CategoryDonut } from "@/components/finance/charts";
 import BudgetDonut from "@/components/finance/BudgetDonut";
-import { categoryYear, inMonth, live, monthProgress, num, selfAndChildren, spendByCategory, spendByCategoryYear, yearsWithData } from "@/lib/finance/calc";
+import { categoryYear, expectedByCategory, inMonth, live, monthProgress, num, selfAndChildren, spendByCategory, spendByCategoryYear, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear, monthName, shortMonth } from "@/lib/finance/format";
 
 // Budgets for the month or the year:
@@ -42,6 +42,7 @@ export default function BudgetsPage() {
   const categories = live(data.categories);
   const expenses = live(data.transactions).filter((t) => t.type === "expense" && inMonth(t, month));
 
+  const expectedNow = expectedByCategory(data, month, now);
   const rows = categories
     .filter((c) => !c.is_income_category && c.parent_id === null)
     .sort((a, b) => a.sort_order - b.sort_order)
@@ -49,13 +50,11 @@ export default function BudgetsPage() {
       const ids = selfAndChildren(c, categories);
       const spent = expenses.filter((t) => t.category_id && ids.has(t.category_id)).reduce((s, t) => s + num(t.amount), 0);
       const cy = categoryYear(data, c, now).months;
-      const done = cy.slice(0, now.getMonth()).map((m) => m.total);
-      const expected = done.length ? done.reduce((a, b) => a + b, 0) / done.length : cy[now.getMonth()].total;
-      // What the month is expected to end at: as spent (finished months),
-      // spent or the usual average, whichever is higher (this month), or the
-      // average (months ahead).
-      const monthEnd = isFuture ? expected : isCurrent ? Math.max(spent, expected) : spent;
-      return { c, spent: isFuture ? expected : spent, budget: cy[sel].budget, expected: monthEnd };
+      // What the month is expected to end at — the shared rule
+      // (expectedByCategory): spent so far + the usual rest, fixed costs for
+      // the whole month; months ahead the usual; finished months as spent.
+      const monthEnd = expectedNow.get(c.id)?.expected ?? spent;
+      return { c, spent: isFuture ? monthEnd : spent, budget: cy[sel].budget, expected: monthEnd };
     });
   const monthPace = isCurrent ? monthProgress(now) : 1;
   // Subcategories under their category: shown when they have a budget or
