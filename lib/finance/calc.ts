@@ -611,6 +611,19 @@ export function balanceYears(data: FinanceData, now: Date) {
   }
   const inv = years.map(investAt);
   if (inv.some((v) => v > 0.005)) assets.push({ id: "investments", name: t("Investments"), values: inv });
+  // Your own posts (a loan from family, a student loan, a car…): today their
+  // current value; an earlier year-end the latest stand entered up to then.
+  // Before a post's first stand it's unknown, so it stays under Other.
+  const stands = live(data.balanceValues ?? []);
+  for (const item of live(data.balanceItems ?? []).sort((a, b) => a.sort_order - b.sort_order)) {
+    const rows = stands.filter((v) => v.item_id === item.id).sort((a, b) => b.month.localeCompare(a.month));
+    const values = years.map((y) => {
+      if (y === y0) return num(item.current_value);
+      const at = rows.find((v) => v.month.slice(0, 7) <= `${y}-12`);
+      return at ? num(at.value) : 0;
+    });
+    (item.side === "asset" ? assets : funding).push({ id: item.id, name: item.name || t("Untitled"), values });
+  }
   const totalA = years.map((y) => (y === y0 ? today.totalAssets : num(snaps.get(y)!.assets)));
   const totalD = years.map((y) => (y === y0 ? today.totalDebt : num(snaps.get(y)!.liabilities)));
   const knownA = years.map((_, i) => assets.reduce((s, a) => s + a.values[i], 0));
