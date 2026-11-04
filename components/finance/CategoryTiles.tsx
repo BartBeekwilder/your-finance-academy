@@ -1,7 +1,7 @@
 "use client";
 
 import { t } from "@/lib/i18n";
-import { live, spendByCategory, spendByCategoryYear, summarize } from "@/lib/finance/calc";
+import { live, spendByCategory, spendByCategoryYear, summarize, yearForecast } from "@/lib/finance/calc";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import CategoryIcon from "./CategoryIcon";
@@ -24,10 +24,20 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const rows = (mode === "month" ? spendByCategory(data, month) : spendByCategoryYear(data, now)).map((r) => ({ category: r.category, spent: r.spent }));
   const total = rows.reduce((s, r) => s + r.spent, 0);
+  // "% of income": against the month's income — this month the expected
+  // income (salary + side income), since the salary may not be in yet; a
+  // finished month what came in. The year: finished months + this month.
+  const today = new Date();
+  const isThisMonth = month.getFullYear() === today.getFullYear() && month.getMonth() === today.getMonth();
+  const monthIncome = (m: Date) => {
+    const entered = summarize(data.transactions, m).income;
+    const current = m.getFullYear() === today.getFullYear() && m.getMonth() === today.getMonth();
+    return current ? Math.max(entered, yearForecast(data, today)[0]?.income ?? entered) : entered;
+  };
   const income =
     mode === "month"
-      ? summarize(data.transactions, month).income
-      : Array.from({ length: now.getMonth() + 1 }, (_, m) => summarize(data.transactions, new Date(now.getFullYear(), m, 1)).income).reduce((a, b) => a + b, 0);
+      ? isThisMonth ? monthIncome(month) : summarize(data.transactions, month).income
+      : Array.from({ length: now.getMonth() + 1 }, (_, m) => monthIncome(new Date(now.getFullYear(), m, 1))).reduce((a, b) => a + b, 0);
   const ofIncome = (v: number) => (income > 0 ? t("{pct}% of income", { pct: Math.round((v / income) * 100) }) : null);
   const cats = live(data.categories);
   return (
