@@ -4825,7 +4825,10 @@ span.pf-cmp-chip { cursor: default; }
 .pf-progress-goal { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; border-radius: 1px; background: rgba(255, 255, 255, 0.75); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35); }
 
 /* ---- Check-in: "my books are up to date" ------------------------------- */
-.pf-checkin { display: grid; gap: 12px; }
+.pf-checkin { display: grid; gap: 12px; min-width: 0; }
+/* Grid rows may shrink below their content: the one-line hints ellipsize
+   instead of pushing the card wider than its sheet. */
+.pf-checkin > *, .pf-checkin-item, .pf-checkin-item > span { min-width: 0; }
 .pf-checkin-item {
   display: flex; align-items: center; gap: 12px; padding: 10px 6px; border-radius: 12px;
   animation: pf-fade-up 0.45s cubic-bezier(0.2, 0.9, 0.25, 1) both; transition: background 0.25s ease;
