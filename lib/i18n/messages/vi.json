@@ -1293,9 +1293,16 @@
  "of your income spent": "thu nhập đã chi",
  "{spent} of {income}": "{spent} / {income}",
  "of the income earned so far spent": "thu nhập kiếm được đến nay đã chi",
- "{name} in the app: {amount}": "{name} trong ứng dụng: {amount}",
  "Balance at the bank": "Số dư tại ngân hàng",
  "Correct": "Sửa",
  "Current account balance still right?": "Số dư tài khoản thanh toán còn đúng không?",
- "Other balances match the bank": "Các số dư khác khớp với ngân hàng"
+ "Other balances match the bank": "Các số dư khác khớp với ngân hàng",
+ "{n} more on Liquidity": "Thêm {n} trong Thanh khoản",
+ "{n} of {total}": "{n} / {total}",
+ "All set.": "Tất cả đã xong.",
+ "Almost there.": "Sắp xong.",
+ "Up to date": "Đã cập nhật",
+ "Yes, that's right": "Đúng rồi",
+ "In the app. Does your bank say the same?": "Theo ứng dụng. Ngân hàng có hiển thị giống vậy không?",
+ "Type the balance your bank shows.": "Nhập số dư ngân hàng hiển thị."
 }

@@ -1293,9 +1293,16 @@
  "of your income spent": "आपकी आय खर्च",
  "{spent} of {income}": "{income} में से {spent}",
  "of the income earned so far spent": "अब तक कमाई गई आय में से खर्च",
- "{name} in the app: {amount}": "ऐप में {name}: {amount}",
  "Balance at the bank": "बैंक में बैलेंस",
  "Correct": "सुधारें",
  "Current account balance still right?": "क्या चालू खाते का बैलेंस अभी भी सही है?",
- "Other balances match the bank": "बाकी बैलेंस बैंक से मेल खाते हैं"
+ "Other balances match the bank": "बाकी बैलेंस बैंक से मेल खाते हैं",
+ "{n} more on Liquidity": "तरलता में {n} और",
+ "{n} of {total}": "{total} में से {n}",
+ "All set.": "सब ठीक है।",
+ "Almost there.": "लगभग हो गया।",
+ "Up to date": "अपडेट",
+ "Yes, that's right": "हाँ, सही है",
+ "In the app. Does your bank say the same?": "ऐप के अनुसार। क्या आपका बैंक भी यही दिखाता है?",
+ "Type the balance your bank shows.": "वह बैलेंस लिखें जो आपका बैंक दिखाता है।"
 }

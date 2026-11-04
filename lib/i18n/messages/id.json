@@ -1293,9 +1293,16 @@
  "of your income spent": "dari penghasilanmu terpakai",
  "{spent} of {income}": "{spent} dari {income}",
  "of the income earned so far spent": "dari pendapatan yang diperoleh sejauh ini dibelanjakan",
- "{name} in the app: {amount}": "{name} di aplikasi: {amount}",
  "Balance at the bank": "Saldo di bank",
  "Correct": "Koreksi",
  "Current account balance still right?": "Apakah saldo rekening giro masih benar?",
- "Other balances match the bank": "Saldo lainnya cocok dengan bank"
+ "Other balances match the bank": "Saldo lainnya cocok dengan bank",
+ "{n} more on Liquidity": "{n} lagi di Likuiditas",
+ "{n} of {total}": "{n} dari {total}",
+ "All set.": "Semua beres.",
+ "Almost there.": "Hampir selesai.",
+ "Up to date": "Terbaru",
+ "Yes, that's right": "Ya, benar",
+ "In the app. Does your bank say the same?": "Menurut aplikasi. Apakah bank menunjukkan hal yang sama?",
+ "Type the balance your bank shows.": "Ketik saldo yang ditunjukkan bank."
 }

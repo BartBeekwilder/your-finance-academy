@@ -1293,9 +1293,16 @@
  "of your income spent": "수입 지출",
  "{spent} of {income}": "{income} 중 {spent}",
  "of the income earned so far spent": "지금까지 번 소득 중 지출",
- "{name} in the app: {amount}": "앱의 {name}: {amount}",
  "Balance at the bank": "은행 잔액",
  "Correct": "수정",
  "Current account balance still right?": "입출금 계좌 잔액이 아직 맞나요?",
- "Other balances match the bank": "다른 잔액이 은행과 일치"
+ "Other balances match the bank": "다른 잔액이 은행과 일치",
+ "{n} more on Liquidity": "유동성에 {n}개 더",
+ "{n} of {total}": "{n} / {total}",
+ "All set.": "모두 완료.",
+ "Almost there.": "거의 다 됐어요.",
+ "Up to date": "최신",
+ "Yes, that's right": "네, 맞아요",
+ "In the app. Does your bank say the same?": "앱 기준입니다. 은행도 같은가요?",
+ "Type the balance your bank shows.": "은행에 표시된 잔액을 입력하세요."
 }

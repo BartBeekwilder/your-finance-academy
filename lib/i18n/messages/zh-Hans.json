@@ -1293,9 +1293,16 @@
  "of your income spent": "收入已花",
  "{spent} of {income}": "{spent} / {income}",
  "of the income earned so far spent": "目前已赚收入中已花费",
- "{name} in the app: {amount}": "应用中的{name}：{amount}",
  "Balance at the bank": "银行余额",
  "Correct": "更正",
  "Current account balance still right?": "活期账户余额还对吗？",
- "Other balances match the bank": "其他余额与银行一致"
+ "Other balances match the bank": "其他余额与银行一致",
+ "{n} more on Liquidity": "流动性中还有 {n} 个",
+ "{n} of {total}": "第 {n} / {total}",
+ "All set.": "全部就绪。",
+ "Almost there.": "快好了。",
+ "Up to date": "已更新",
+ "Yes, that's right": "对，没错",
+ "In the app. Does your bank say the same?": "应用中的金额。银行显示的一样吗？",
+ "Type the balance your bank shows.": "输入银行显示的余额。"
 }

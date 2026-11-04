@@ -1293,9 +1293,16 @@
  "of your income spent": "収入を使用",
  "{spent} of {income}": "{income}中{spent}",
  "of the income earned so far spent": "これまでに稼いだ収入のうち支出",
- "{name} in the app: {amount}": "アプリ上の{name}：{amount}",
  "Balance at the bank": "銀行の残高",
  "Correct": "修正",
  "Current account balance still right?": "普通預金の残高は合っていますか？",
- "Other balances match the bank": "その他の残高は銀行と一致"
+ "Other balances match the bank": "その他の残高は銀行と一致",
+ "{n} more on Liquidity": "流動性にあと {n} 件",
+ "{n} of {total}": "{n} / {total}",
+ "All set.": "すべて完了。",
+ "Almost there.": "もう少し。",
+ "Up to date": "最新",
+ "Yes, that's right": "はい、合っています",
+ "In the app. Does your bank say the same?": "アプリ上の金額です。銀行と同じですか？",
+ "Type the balance your bank shows.": "銀行に表示されている残高を入力してください。"
 }

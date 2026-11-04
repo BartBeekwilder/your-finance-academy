@@ -1293,9 +1293,16 @@
  "of your income spent": "من دخلك أُنفق",
  "{spent} of {income}": "{spent} من {income}",
  "of the income earned so far spent": "من الدخل المكتسب حتى الآن أُنفق",
- "{name} in the app: {amount}": "{name} في التطبيق: {amount}",
  "Balance at the bank": "الرصيد في البنك",
  "Correct": "تصحيح",
  "Current account balance still right?": "هل رصيد حسابك الجاري لا يزال صحيحًا؟",
- "Other balances match the bank": "الأرصدة الأخرى تطابق البنك"
+ "Other balances match the bank": "الأرصدة الأخرى تطابق البنك",
+ "{n} more on Liquidity": "{n} أخرى في السيولة",
+ "{n} of {total}": "{n} من {total}",
+ "All set.": "كل شيء جاهز.",
+ "Almost there.": "اقتربت.",
+ "Up to date": "محدَّث",
+ "Yes, that's right": "نعم، صحيح",
+ "In the app. Does your bank say the same?": "حسب التطبيق. هل يقول بنكك الشيء نفسه؟",
+ "Type the balance your bank shows.": "اكتب الرصيد الذي يعرضه بنكك."
 }

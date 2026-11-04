@@ -1293,9 +1293,16 @@
  "of your income spent": "дохода потрачено",
  "{spent} of {income}": "{spent} из {income}",
  "of the income earned so far spent": "заработанного на сегодня дохода потрачено",
- "{name} in the app: {amount}": "{name} в приложении: {amount}",
  "Balance at the bank": "Остаток в банке",
  "Correct": "Исправить",
  "Current account balance still right?": "Остаток на текущем счёте всё ещё верный?",
- "Other balances match the bank": "Остальные остатки совпадают с банком"
+ "Other balances match the bank": "Остальные остатки совпадают с банком",
+ "{n} more on Liquidity": "Ещё {n} в Ликвидности",
+ "{n} of {total}": "{n} из {total}",
+ "All set.": "Всё сходится.",
+ "Almost there.": "Почти готово.",
+ "Up to date": "Актуально",
+ "Yes, that's right": "Да, верно",
+ "In the app. Does your bank say the same?": "По данным приложения. В банке так же?",
+ "Type the balance your bank shows.": "Введите остаток, который показывает банк."
 }

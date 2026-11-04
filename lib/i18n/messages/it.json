@@ -1293,9 +1293,16 @@
  "of your income spent": "del tuo reddito speso",
  "{spent} of {income}": "{spent} su {income}",
  "of the income earned so far spent": "del reddito guadagnato finora, speso",
- "{name} in the app: {amount}": "{name} secondo l'app: {amount}",
  "Balance at the bank": "Saldo in banca",
  "Correct": "Correggi",
  "Current account balance still right?": "Il saldo del conto corrente è ancora giusto?",
- "Other balances match the bank": "Gli altri saldi corrispondono alla banca"
+ "Other balances match the bank": "Gli altri saldi corrispondono alla banca",
+ "{n} more on Liquidity": "Altri {n} in Liquidità",
+ "{n} of {total}": "{n} di {total}",
+ "All set.": "Tutto a posto.",
+ "Almost there.": "Quasi fatto.",
+ "Up to date": "Aggiornato",
+ "Yes, that's right": "Sì, è giusto",
+ "In the app. Does your bank say the same?": "Secondo l'app. La tua banca dice lo stesso?",
+ "Type the balance your bank shows.": "Scrivi il saldo che mostra la tua banca."
 }

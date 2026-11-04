@@ -1300,9 +1300,16 @@
  "of your income spent": "van je inkomen uitgegeven",
  "{spent} of {income}": "{spent} van {income}",
  "of the income earned so far spent": "van je tot nu toe verdiende inkomen uitgegeven",
- "{name} in the app: {amount}": "{name} volgens de app: {amount}",
  "Balance at the bank": "Saldo bij de bank",
  "Correct": "Aanpassen",
  "Current account balance still right?": "Klopt de stand van je lopende rekening nog?",
- "Other balances match the bank": "Overige saldi kloppen met de bank"
+ "Other balances match the bank": "Overige saldi kloppen met de bank",
+ "{n} more on Liquidity": "Nog {n} bij Liquiditeit",
+ "{n} of {total}": "{n} van {total}",
+ "All set.": "Alles klopt.",
+ "Almost there.": "Bijna klaar.",
+ "Up to date": "Bijgewerkt",
+ "Yes, that's right": "Ja, klopt",
+ "In the app. Does your bank say the same?": "Volgens de app. Zegt je bank hetzelfde?",
+ "Type the balance your bank shows.": "Typ het saldo dat je bank laat zien."
 }

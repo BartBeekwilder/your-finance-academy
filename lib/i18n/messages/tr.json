@@ -1293,9 +1293,16 @@
  "of your income spent": "gelirinden harcandı",
  "{spent} of {income}": "{income} içinde {spent}",
  "of the income earned so far spent": "şimdiye kadar kazanılan gelirden harcanan",
- "{name} in the app: {amount}": "Uygulamada {name}: {amount}",
  "Balance at the bank": "Bankadaki bakiye",
  "Correct": "Düzelt",
  "Current account balance still right?": "Vadesiz hesap bakiyen hâlâ doğru mu?",
- "Other balances match the bank": "Diğer bakiyeler bankayla uyuşuyor"
+ "Other balances match the bank": "Diğer bakiyeler bankayla uyuşuyor",
+ "{n} more on Liquidity": "Likiditede {n} tane daha",
+ "{n} of {total}": "{n} / {total}",
+ "All set.": "Her şey tamam.",
+ "Almost there.": "Neredeyse bitti.",
+ "Up to date": "Güncel",
+ "Yes, that's right": "Evet, doğru",
+ "In the app. Does your bank say the same?": "Uygulamaya göre. Bankan da aynısını mı gösteriyor?",
+ "Type the balance your bank shows.": "Bankanın gösterdiği bakiyeyi yaz."
 }

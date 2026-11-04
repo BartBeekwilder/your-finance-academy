@@ -4932,3 +4932,37 @@ span.pf-cmp-chip { cursor: default; }
 .pf-incomering-text b { font-size: 1.6rem; line-height: 1; }
 .pf-incomering-text span { font-size: 0.72rem; color: var(--pf-ink-2); }
 .pf-incomering-text em { font-style: normal; font-size: 0.72rem; color: var(--pf-ink-3); }
+
+/* Check-in as story cards (CheckinCard), in the Month Wrapped style. */
+.pf-ck { display: grid; gap: 10px; min-width: 0; }
+.pf-ck-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.pf-ck-head b { font-size: 1rem; }
+.pf-ck-head > span { font-size: 0.72rem; color: var(--pf-ink-3); }
+.pf-ck-card { min-height: 330px; padding: 26px 24px 22px; cursor: default; display: grid; grid-template-rows: 1fr auto; gap: 18px; }
+.pf-ck-card .pf-wr-title { font-size: clamp(1.3rem, 2.6vw, 1.7rem); }
+.pf-ck-big { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+.pf-ck-accts { display: grid; gap: 8px; font-size: 1rem; letter-spacing: 0; }
+.pf-ck-accts > span { display: flex; justify-content: space-between; gap: 16px; padding: 10px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.07); font-weight: 600; }
+.pf-ck-accts > span > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(255, 255, 255, 0.8); }
+.pf-ck-actions { position: relative; display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+.pf-ck-actions .pf-checkin-go { flex: 1; }
+.pf-ck-yes, .pf-ck-alt { display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 18px; border-radius: 999px; font: inherit; font-weight: 700; font-size: 0.9rem; cursor: pointer; text-decoration: none; transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1), background 0.2s, box-shadow 0.2s; }
+.pf-ck-yes { border: 0; background: #fff; color: #0d0d14; box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35); }
+.pf-ck-yes[data-on="true"] { background: var(--pf-green); }
+.pf-ck-alt { border: 1px solid rgba(255, 255, 255, 0.28); background: rgba(255, 255, 255, 0.08); color: #fff; }
+.pf-ck-yes:hover, .pf-ck-alt:hover { transform: translateY(-1px); }
+.pf-ck-yes:active, .pf-ck-alt:active { transform: scale(0.95); }
+.pf-ck-alt:hover { background: rgba(255, 255, 255, 0.16); }
+.pf-ck-back { margin-right: auto; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, 0.1); color: #fff; cursor: pointer; transition: background 0.2s; }
+.pf-ck-back:hover { background: rgba(255, 255, 255, 0.2); }
+.pf-ck-fix { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.pf-ck-fix input { width: min(260px, 100%); font: inherit; font-size: 0.8em; font-weight: 800; font-variant-numeric: tabular-nums; color: #fff; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 16px; padding: 6px 14px; }
+.pf-ck-fix input:focus { outline: none; border-color: #fff; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15); }
+.pf-ck-list { display: grid; gap: 8px; }
+.pf-ck-list button { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 14px; border: 0; background: rgba(255, 255, 255, 0.07); color: rgba(255, 255, 255, 0.6); font: inherit; font-weight: 600; text-align: left; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.pf-ck-list button[data-on="true"] { color: #fff; }
+.pf-ck-list button:hover { background: rgba(255, 255, 255, 0.12); }
+.pf-ck-dot { display: grid; place-items: center; width: 22px; height: 22px; flex: none; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.35); color: transparent; transition: background 0.3s, border-color 0.3s, transform 0.3s cubic-bezier(0.3, 1.8, 0.5, 1); }
+.pf-ck-list button[data-on="true"] .pf-ck-dot { background: var(--pf-green); border-color: var(--pf-green); color: #000; transform: scale(1.08); box-shadow: 0 0 12px rgba(48, 209, 88, 0.5); }
+.pf-ck-card[data-done="true"] .pf-checkin-go { opacity: 1; background: var(--pf-green); color: #000; animation: pf-chip-pop 0.5s cubic-bezier(0.3, 1.8, 0.5, 1); }
+@media (max-width: 560px) { .pf-ck-card { padding: 22px 18px 18px; min-height: 300px; } .pf-ck-yes, .pf-ck-alt { padding: 0 14px; } }
