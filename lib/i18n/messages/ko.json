@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "며칠까지 정리했나요?",
  "tap the tick to do it again": "체크를 눌러 다시 하기",
  "Untick to do it again": "체크 해제하고 다시 하기",
- "Points so far": "지금까지 포인트"
+ "Points so far": "지금까지 포인트",
+ "Back to sign in": "로그인으로 돌아가기",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "암호 문구를 정하세요. 저장 전에 모든 것이 브라우저에서 이것으로 암호화되며, 서버는 읽을 수 없는 데이터만 봅니다. 아무도 복구할 수 없으니 비밀번호 관리자에 보관하세요.",
+ "Encrypt and start": "암호화하고 시작",
+ "Encrypted and saved": "암호화되어 저장됨",
+ "Encrypting…": "암호화 중…",
+ "Lock now": "지금 잠그기",
+ "Not saved — check your connection": "저장되지 않음 — 연결을 확인하세요",
+ "Protect your data": "데이터 보호",
+ "Signed in · end-to-end encrypted, synced with your other devices": "로그인됨 · 종단 간 암호화, 다른 기기와 동기화",
+ "That passphrase doesn't open your vault.": "그 암호 문구로는 금고가 열리지 않습니다.",
+ "Unlock": "잠금 해제",
+ "Unlock your data": "데이터 잠금 해제",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "데이터는 종단 간 암호화되어 있습니다. 암호 문구는 이 브라우저에서 데이터를 열며, 전송되거나 저장되지 않습니다."
 }

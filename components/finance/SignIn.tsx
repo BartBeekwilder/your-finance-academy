@@ -25,6 +25,9 @@ type Step =
 /** Set while a password reset is in progress (read by FinanceProvider). */
 export const RECOVERY_KEY = "pf-recovery";
 
+const APPLE_ON = process.env.NEXT_PUBLIC_PF_APPLE === "on";
+const SIGNUPS_OPEN = process.env.NEXT_PUBLIC_PF_SIGNUPS === "open" || process.env.NODE_ENV === "development";
+
 export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: no demo link (e.g. signing in from Settings). */ onDemo?: () => void; /** Dev only: open the private data file on this computer. */ onLocal?: () => void; /** Dev only, no file yet: start one (to restore an encrypted copy). */ onLocalNew?: () => void }) {
   const [step, setStep] = useState<Step>({ kind: "signin" });
   const [email, setEmail] = useState("");
@@ -134,7 +137,9 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
           <p style={{ margin: "4px 0 0", color: "var(--pf-ink-2)" }}>{subtitle}</p>
         </div>
 
-        {step.kind === "signin" && (
+        {/* Sign in with Apple needs the Apple Developer setup in Supabase
+            first; until then it's hidden (NEXT_PUBLIC_PF_APPLE=on shows it). */}
+        {step.kind === "signin" && APPLE_ON && (
           <>
             <button type="button" className="pf-apple" onClick={apple} disabled={busy}>
               <svg width="16" height="18" viewBox="0 0 814 1000" aria-hidden fill="currentColor">
@@ -196,11 +201,13 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 8 }}>
           {step.kind === "signin" ? (
             <>
-              <button type="button" className="pf-link" onClick={() => go({ kind: "signup" })}>{t("Create account")}</button>
+              {/* New accounts only while sign-ups are open (the real gate is
+                  Supabase › Auth › "Allow new users to sign up"). */}
+              {SIGNUPS_OPEN ? <button type="button" className="pf-link" onClick={() => go({ kind: "signup" })}>{t("Create account")}</button> : <span />}
               <button type="button" className="pf-link" onClick={() => go({ kind: "forgot" })}>{t("Forgot password?")}</button>
             </>
           ) : (
-            <button type="button" className="pf-link" onClick={() => go({ kind: "signin" })}>← Back to sign in</button>
+            <button type="button" className="pf-link" onClick={() => go({ kind: "signin" })}>← {t("Back to sign in")}</button>
           )}
         </div>
 

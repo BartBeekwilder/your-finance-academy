@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "Terbaru sampai hari apa?",
  "tap the tick to do it again": "ketuk centang untuk mengulang",
  "Untick to do it again": "Hapus centang untuk mengulang",
- "Points so far": "Poin sejauh ini"
+ "Points so far": "Poin sejauh ini",
+ "Back to sign in": "Kembali ke masuk",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "Pilih frasa sandi. Semuanya dienkripsi dengannya di browser sebelum disimpan; server hanya melihat data yang tidak terbaca. Tidak ada yang bisa memulihkannya — simpan di pengelola kata sandi.",
+ "Encrypt and start": "Enkripsi dan mulai",
+ "Encrypted and saved": "Terenkripsi dan tersimpan",
+ "Encrypting…": "Mengenkripsi…",
+ "Lock now": "Kunci sekarang",
+ "Not saved — check your connection": "Tidak tersimpan — periksa koneksi",
+ "Protect your data": "Lindungi datamu",
+ "Signed in · end-to-end encrypted, synced with your other devices": "Masuk · terenkripsi end-to-end, tersinkron dengan perangkat lain",
+ "That passphrase doesn't open your vault.": "Frasa sandi itu tidak membuka brankasmu.",
+ "Unlock": "Buka kunci",
+ "Unlock your data": "Buka kunci datamu",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Datamu terenkripsi end-to-end. Frasa sandi membukanya di sini, di browser ini — tidak pernah dikirim atau disimpan."
 }

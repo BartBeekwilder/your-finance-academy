@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "Hangi güne kadar güncel?",
  "tap the tick to do it again": "yeniden yapmak için işarete dokun",
  "Untick to do it again": "Yeniden yapmak için işareti kaldır",
- "Points so far": "Şimdiye kadarki puanlar"
+ "Points so far": "Şimdiye kadarki puanlar",
+ "Back to sign in": "Girişe dön",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "Bir parola cümlesi seç. Her şey kaydedilmeden önce tarayıcında onunla şifrelenir; sunucu yalnızca okunamaz veri görür. Kimse onu kurtaramaz — parola yöneticinde sakla.",
+ "Encrypt and start": "Şifrele ve başla",
+ "Encrypted and saved": "Şifrelendi ve kaydedildi",
+ "Encrypting…": "Şifreleniyor…",
+ "Lock now": "Şimdi kilitle",
+ "Not saved — check your connection": "Kaydedilmedi — bağlantını kontrol et",
+ "Protect your data": "Verilerini koru",
+ "Signed in · end-to-end encrypted, synced with your other devices": "Giriş yapıldı · uçtan uca şifreli, diğer cihazlarınla eşitlendi",
+ "That passphrase doesn't open your vault.": "Bu parola cümlesi kasanı açmıyor.",
+ "Unlock": "Kilidi aç",
+ "Unlock your data": "Verilerinin kilidini aç",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Verilerin uçtan uca şifreli. Parola cümlen onları burada, bu tarayıcıda açar — asla gönderilmez veya saklanmaz."
 }

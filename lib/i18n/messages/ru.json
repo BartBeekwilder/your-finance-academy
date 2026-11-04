@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "Актуально по какой день?",
  "tap the tick to do it again": "нажмите на галочку, чтобы сделать заново",
  "Untick to do it again": "Снять отметку, чтобы сделать заново",
- "Points so far": "Очки на сегодня"
+ "Points so far": "Очки на сегодня",
+ "Back to sign in": "Назад ко входу",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "Выберите парольную фразу. Всё шифруется ею в браузере перед сохранением; сервер видит только нечитаемые данные. Восстановить её нельзя — храните её в менеджере паролей.",
+ "Encrypt and start": "Зашифровать и начать",
+ "Encrypted and saved": "Зашифровано и сохранено",
+ "Encrypting…": "Шифрование…",
+ "Lock now": "Заблокировать сейчас",
+ "Not saved — check your connection": "Не сохранено — проверьте подключение",
+ "Protect your data": "Защитите свои данные",
+ "Signed in · end-to-end encrypted, synced with your other devices": "Вход выполнен · сквозное шифрование, синхронизация с другими устройствами",
+ "That passphrase doesn't open your vault.": "Эта фраза не открывает ваше хранилище.",
+ "Unlock": "Разблокировать",
+ "Unlock your data": "Разблокируйте свои данные",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Ваши данные защищены сквозным шифрованием. Фраза открывает их здесь, в этом браузере, — она никогда не отправляется и не сохраняется."
 }

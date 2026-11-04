@@ -59,3 +59,47 @@ export async function open<T = unknown>(sealed: Pick<Sealed, "ciphertext" | "iv"
   }
   return JSON.parse(new TextDecoder().decode(plain)) as T;
 }
+
+// ---- An unlocked vault --------------------------------------------------
+// The web keeps the vault unlocked while the app is open: the passphrase
+// stays in memory only (never stored), and the key for each salt is derived
+// once — PBKDF2 at 600 000 rounds takes a moment, too slow for every save.
+// Each save gets a fresh IV under the same salt; a copy another device
+// sealed with its own salt is opened with a key derived for that salt.
+
+export type Unlocked = {
+  /** Opens a sealed copy (any salt) — throws on a wrong passphrase. */
+  open<T = unknown>(sealed: Pick<Sealed, "ciphertext" | "iv" | "salt" | "kdf">): Promise<T>;
+  /** Seals a value under this session's salt. */
+  seal(value: unknown): Promise<Sealed>;
+};
+
+export async function unlock(passphrase: string, iterations: number = KDF.iterations): Promise<Unlocked> {
+  if (passphrase.length < MIN_PASSPHRASE) throw new Error(`Passphrase must be at least ${MIN_PASSPHRASE} characters.`);
+  const keys = new Map<string, Promise<CryptoKey>>();
+  const keyFor = (salt: string, rounds: number) => {
+    const k = `${salt}/${rounds}`;
+    if (!keys.has(k)) keys.set(k, deriveKey(passphrase, unb64(salt), rounds));
+    return keys.get(k)!;
+  };
+  const salt = b64(crypto.getRandomValues(new Uint8Array(16)));
+  return {
+    async open<T>(sealed: Pick<Sealed, "ciphertext" | "iv" | "salt" | "kdf">) {
+      const key = await keyFor(sealed.salt, sealed.kdf.iterations);
+      let plain: ArrayBuffer;
+      try {
+        plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: unb64(sealed.iv) as BufferSource }, key, unb64(sealed.ciphertext) as BufferSource);
+      } catch {
+        throw new Error("Wrong passphrase, or the vault was changed.");
+      }
+      return JSON.parse(new TextDecoder().decode(plain)) as T;
+    },
+    async seal(value: unknown) {
+      const key = await keyFor(salt, iterations);
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const plain = new TextEncoder().encode(JSON.stringify(value));
+      const cipher = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv as BufferSource }, key, plain as BufferSource));
+      return { ciphertext: b64(cipher), iv: b64(iv), salt, kdf: { ...KDF, iterations }, version: 1, bytes: plain.length };
+    },
+  };
+}

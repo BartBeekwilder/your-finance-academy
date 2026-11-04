@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "Cập nhật đến ngày nào?",
  "tap the tick to do it again": "chạm dấu tích để làm lại",
  "Untick to do it again": "Bỏ tích để làm lại",
- "Points so far": "Điểm đến nay"
+ "Points so far": "Điểm đến nay",
+ "Back to sign in": "Quay lại đăng nhập",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "Chọn một cụm mật khẩu. Mọi thứ được mã hóa bằng nó trong trình duyệt trước khi lưu; máy chủ chỉ thấy dữ liệu không đọc được. Không ai khôi phục được — hãy lưu nó trong trình quản lý mật khẩu.",
+ "Encrypt and start": "Mã hóa và bắt đầu",
+ "Encrypted and saved": "Đã mã hóa và lưu",
+ "Encrypting…": "Đang mã hóa…",
+ "Lock now": "Khóa ngay",
+ "Not saved — check your connection": "Chưa lưu — kiểm tra kết nối",
+ "Protect your data": "Bảo vệ dữ liệu của bạn",
+ "Signed in · end-to-end encrypted, synced with your other devices": "Đã đăng nhập · mã hóa đầu cuối, đồng bộ với các thiết bị khác",
+ "That passphrase doesn't open your vault.": "Cụm mật khẩu đó không mở được kho.",
+ "Unlock": "Mở khóa",
+ "Unlock your data": "Mở khóa dữ liệu",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Dữ liệu của bạn được mã hóa đầu cuối. Cụm mật khẩu mở nó tại đây, trong trình duyệt này — không bao giờ được gửi hay lưu."
 }

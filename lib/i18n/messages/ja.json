@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "何日まで更新しましたか？",
  "tap the tick to do it again": "チェックをタップしてやり直す",
  "Untick to do it again": "チェックを外してやり直す",
- "Points so far": "これまでのポイント"
+ "Points so far": "これまでのポイント",
+ "Back to sign in": "サインインに戻る",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "パスフレーズを選んでください。保存前にすべてがブラウザ内で暗号化され、サーバーには読めないデータしか届きません。誰も復元できないので、パスワードマネージャーに保管してください。",
+ "Encrypt and start": "暗号化して開始",
+ "Encrypted and saved": "暗号化して保存済み",
+ "Encrypting…": "暗号化中…",
+ "Lock now": "今すぐロック",
+ "Not saved — check your connection": "未保存 — 接続を確認してください",
+ "Protect your data": "データを保護",
+ "Signed in · end-to-end encrypted, synced with your other devices": "サインイン済み · エンドツーエンド暗号化、他のデバイスと同期",
+ "That passphrase doesn't open your vault.": "そのパスフレーズでは保管庫を開けません。",
+ "Unlock": "ロック解除",
+ "Unlock your data": "データのロックを解除",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "データはエンドツーエンドで暗号化されています。パスフレーズはこのブラウザ内でデータを開き、送信も保存もされません。"
 }

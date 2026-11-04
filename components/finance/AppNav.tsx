@@ -4,7 +4,7 @@ import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { BookOpen, Banknote, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
+import { BookOpen, Banknote, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, Lock, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
 import { setBackgroundMotion, setMotionPaused, useBackgroundMotion, useMotionMode } from "@/lib/motion";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
@@ -112,6 +112,7 @@ export default function AppNav() {
       </Link>
 
       <div className="pf-nav-foot">
+        <VaultChip />
         <MotionToggle />
         <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
           {source === "demo" ? t("Demo data — nothing is saved") : source === "local" ? t("Local data — only on this Mac") : email}
@@ -121,6 +122,23 @@ export default function AppNav() {
         </button>
       </div>
     </nav>
+  );
+}
+
+/** Signed in (encrypted vault): whether the last change is encrypted and
+ *  saved, and a button that locks the app right away. */
+function VaultChip() {
+  const { source, vaultStatus, lock } = useFinance();
+  if (source !== "vault") return null;
+  const text = vaultStatus === "saving" ? t("Encrypting…") : vaultStatus === "error" ? t("Not saved — check your connection") : t("Encrypted and saved");
+  return (
+    <div className="pf-vault-chip" data-status={vaultStatus ?? "saved"}>
+      <span className="pf-vault-chip-dot" />
+      <span>{text}</span>
+      <button type="button" className="pf-link" onClick={lock} title={t("Lock now")} aria-label={t("Lock now")}>
+        <Lock size={13} />
+      </button>
+    </div>
   );
 }
 

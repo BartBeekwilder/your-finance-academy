@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "محدَّث حتى أي يوم؟",
  "tap the tick to do it again": "اضغط على العلامة لإعادتها",
  "Untick to do it again": "ألغِ التحديد لإعادتها",
- "Points so far": "النقاط حتى الآن"
+ "Points so far": "النقاط حتى الآن",
+ "Back to sign in": "العودة إلى تسجيل الدخول",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "اختر عبارة مرور. يُشفَّر كل شيء بها في متصفحك قبل الحفظ؛ ولا يرى الخادم إلا بيانات غير مقروءة. لا يمكن لأحد استعادتها — احفظها في مدير كلمات المرور.",
+ "Encrypt and start": "شفِّر وابدأ",
+ "Encrypted and saved": "تم التشفير والحفظ",
+ "Encrypting…": "جارٍ التشفير…",
+ "Lock now": "اقفل الآن",
+ "Not saved — check your connection": "لم يُحفظ — تحقق من اتصالك",
+ "Protect your data": "احمِ بياناتك",
+ "Signed in · end-to-end encrypted, synced with your other devices": "تم تسجيل الدخول · تشفير تام، متزامن مع أجهزتك الأخرى",
+ "That passphrase doesn't open your vault.": "عبارة المرور هذه لا تفتح خزنتك.",
+ "Unlock": "افتح القفل",
+ "Unlock your data": "افتح بياناتك",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "بياناتك مشفرة تشفيرًا تامًا. تفتحها عبارة المرور هنا في هذا المتصفح — ولا تُرسل أو تُحفظ أبدًا."
 }

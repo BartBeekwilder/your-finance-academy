@@ -1318,5 +1318,18 @@
  "Up to date through which day?": "Bijgewerkt t/m welke dag?",
  "tap the tick to do it again": "tik op het vinkje om opnieuw te doen",
  "Untick to do it again": "Uitvinken om opnieuw te doen",
- "Points so far": "Punten tot nu toe"
+ "Points so far": "Punten tot nu toe",
+ "Back to sign in": "Terug naar inloggen",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "Kies een wachtwoordzin. Alles wordt er in je browser mee versleuteld voordat het wordt opgeslagen; de server ziet alleen onleesbare gegevens. Niemand kan hem herstellen — bewaar hem in je wachtwoordbeheerder.",
+ "Encrypt and start": "Versleutel en begin",
+ "Encrypted and saved": "Versleuteld opgeslagen",
+ "Encrypting…": "Versleutelen…",
+ "Lock now": "Nu vergrendelen",
+ "Not saved — check your connection": "Niet opgeslagen — controleer je verbinding",
+ "Protect your data": "Bescherm je gegevens",
+ "Signed in · end-to-end encrypted, synced with your other devices": "Ingelogd · end-to-end versleuteld, gesynchroniseerd met je andere apparaten",
+ "That passphrase doesn't open your vault.": "Met die wachtwoordzin gaat je kluis niet open.",
+ "Unlock": "Ontgrendelen",
+ "Unlock your data": "Ontgrendel je gegevens",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Je gegevens zijn end-to-end versleuteld. Je wachtwoordzin opent ze hier, in deze browser — hij wordt nooit verstuurd of bewaard."
 }

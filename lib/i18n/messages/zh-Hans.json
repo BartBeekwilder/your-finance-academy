@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "更新到哪一天？",
  "tap the tick to do it again": "点按勾号可重新进行",
  "Untick to do it again": "取消勾选以重新进行",
- "Points so far": "目前积分"
+ "Points so far": "目前积分",
+ "Back to sign in": "返回登录",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "选择一个密码短语。所有内容在保存前都会在你的浏览器中用它加密；服务器只能看到无法读取的数据。没有人能找回它——请保存在密码管理器中。",
+ "Encrypt and start": "加密并开始",
+ "Encrypted and saved": "已加密并保存",
+ "Encrypting…": "正在加密…",
+ "Lock now": "立即锁定",
+ "Not saved — check your connection": "未保存——请检查网络连接",
+ "Protect your data": "保护你的数据",
+ "Signed in · end-to-end encrypted, synced with your other devices": "已登录 · 端到端加密，与你的其他设备同步",
+ "That passphrase doesn't open your vault.": "该密码短语无法打开你的保险库。",
+ "Unlock": "解锁",
+ "Unlock your data": "解锁你的数据",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "你的数据经过端到端加密。密码短语在此浏览器中打开它——绝不会被发送或保存。"
 }

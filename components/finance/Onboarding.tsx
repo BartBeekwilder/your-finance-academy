@@ -369,7 +369,7 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                     : t("Each month {income} comes in; {fixed} is fixed and {budgets} budgeted — leaving {left} to save.", { income: money(netIncome, currency), fixed: money(totals.fixedTotal, currency), budgets: money(totals.budgetTotal, currency), left: money(totals.left, currency) })}
                 </p>
                 {error && <p style={{ color: "var(--pf-red)" }}>{error}</p>}
-                {source === "supabase" && !preview && !saved && <p className="pf-ob-note">{t("This saves to your account.")}</p>}
+                {(source === "supabase" || source === "vault") && !preview && !saved && <p className="pf-ob-note">{t("This saves to your account.")}</p>}
               </Screen>
             )}
           </div>

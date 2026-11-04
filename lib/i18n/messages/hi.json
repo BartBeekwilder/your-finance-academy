@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "किस दिन तक अपडेट?",
  "tap the tick to do it again": "दोबारा करने के लिए टिक पर टैप करें",
  "Untick to do it again": "दोबारा करने के लिए टिक हटाएँ",
- "Points so far": "अब तक के अंक"
+ "Points so far": "अब तक के अंक",
+ "Back to sign in": "साइन इन पर वापस",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "एक पासफ़्रेज़ चुनें। सहेजने से पहले सब कुछ आपके ब्राउज़र में इससे एन्क्रिप्ट होता है; सर्वर केवल न पढ़ा जा सकने वाला डेटा देखता है। इसे कोई वापस नहीं ला सकता — इसे पासवर्ड मैनेजर में रखें।",
+ "Encrypt and start": "एन्क्रिप्ट करें और शुरू करें",
+ "Encrypted and saved": "एन्क्रिप्ट करके सहेजा गया",
+ "Encrypting…": "एन्क्रिप्ट हो रहा है…",
+ "Lock now": "अभी लॉक करें",
+ "Not saved — check your connection": "सहेजा नहीं गया — कनेक्शन जाँचें",
+ "Protect your data": "अपना डेटा सुरक्षित करें",
+ "Signed in · end-to-end encrypted, synced with your other devices": "साइन इन · एंड-टू-एंड एन्क्रिप्टेड, आपके दूसरे डिवाइसों से सिंक",
+ "That passphrase doesn't open your vault.": "यह पासफ़्रेज़ आपका वॉल्ट नहीं खोलता।",
+ "Unlock": "अनलॉक",
+ "Unlock your data": "अपना डेटा अनलॉक करें",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "आपका डेटा एंड-टू-एंड एन्क्रिप्टेड है। आपका पासफ़्रेज़ इसे यहीं इस ब्राउज़र में खोलता है — यह कभी भेजा या सहेजा नहीं जाता।"
 }

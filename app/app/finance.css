@@ -5009,3 +5009,20 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-points-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; background: rgba(108, 92, 231, 0.16); color: #b9b0ff; font-size: 0.8rem; white-space: nowrap; }
 .pf-points-pill svg { color: #ffd60a; fill: #ffd60a; }
 .pf-points-pill > span { color: var(--pf-ink-3); }
+
+/* Vault: the unlock screen and the sidebar status. */
+.pf-unlock { width: min(420px, 100%); padding: 28px 24px; display: grid; gap: 12px; justify-items: stretch; text-align: center; animation: pf-wr-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; background: radial-gradient(120% 120% at 50% 0%, rgba(48, 209, 88, 0.12), transparent 60%), var(--pf-card); }
+.pf-unlock-icon { justify-self: center; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 16px; color: #fff; background: linear-gradient(135deg, #30d158, #0a84ff); box-shadow: 0 0 28px rgba(48, 209, 88, 0.4); }
+.pf-unlock h1 { margin: 4px 0 0; font-size: 1.4rem; }
+.pf-unlock p { margin: 0 0 6px; font-size: 0.85rem; color: var(--pf-ink-2); line-height: 1.45; }
+.pf-unlock .pf-input { text-align: left; }
+.pf-unlock-hint { font-size: 0.75rem; color: var(--pf-ink-3); }
+.pf-unlock .pf-unlock-error { color: var(--pf-red); margin: 0; }
+.pf-unlock-foot { font-size: 0.78rem; color: var(--pf-ink-3); }
+.pf-vault-chip { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; font-size: 0.74rem; color: var(--pf-ink-3); }
+.pf-vault-chip .pf-link { display: inline-grid; place-items: center; padding: 3px; margin-left: 2px; }
+.pf-vault-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--pf-green); box-shadow: 0 0 8px rgba(48, 209, 88, 0.6); transition: background 0.3s, box-shadow 0.3s; }
+.pf-vault-chip[data-status="saving"] .pf-vault-chip-dot { background: #ffd60a; box-shadow: 0 0 8px rgba(255, 214, 10, 0.6); animation: pf-pulse-dot 1s ease-in-out infinite; }
+.pf-vault-chip[data-status="error"] { color: var(--pf-red); }
+.pf-vault-chip[data-status="error"] .pf-vault-chip-dot { background: var(--pf-red); box-shadow: 0 0 8px rgba(255, 69, 58, 0.6); }
+@keyframes pf-pulse-dot { 50% { opacity: 0.4; } }

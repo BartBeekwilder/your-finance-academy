@@ -1311,5 +1311,18 @@
  "Up to date through which day?": "Em dia até qual dia?",
  "tap the tick to do it again": "toque no visto para refazer",
  "Untick to do it again": "Desmarcar para refazer",
- "Points so far": "Pontos até agora"
+ "Points so far": "Pontos até agora",
+ "Back to sign in": "Voltar para entrar",
+ "Choose a passphrase. Everything is encrypted with it in your browser before it's saved; the server only ever sees unreadable data. Nobody can recover it — keep it in your password manager.": "Escolha uma frase secreta. Tudo é criptografado com ela no seu navegador antes de ser salvo; o servidor só vê dados ilegíveis. Ninguém pode recuperá-la — guarde-a no seu gerenciador de senhas.",
+ "Encrypt and start": "Criptografar e começar",
+ "Encrypted and saved": "Criptografado e salvo",
+ "Encrypting…": "Criptografando…",
+ "Lock now": "Bloquear agora",
+ "Not saved — check your connection": "Não salvo — verifique sua conexão",
+ "Protect your data": "Proteja seus dados",
+ "Signed in · end-to-end encrypted, synced with your other devices": "Conectado · criptografia de ponta a ponta, sincronizado com seus outros dispositivos",
+ "That passphrase doesn't open your vault.": "Essa frase não abre seu cofre.",
+ "Unlock": "Desbloquear",
+ "Unlock your data": "Desbloqueie seus dados",
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Seus dados têm criptografia de ponta a ponta. Sua frase os abre aqui, neste navegador — ela nunca é enviada nem salva."
 }

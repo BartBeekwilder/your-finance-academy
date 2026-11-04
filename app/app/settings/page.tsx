@@ -108,7 +108,7 @@ export default function SettingsPage() {
           <div>
             <div style={{ fontWeight: 600 }}>{source === "demo" ? t("Demo") : source === "local" ? t("Local data") : email}</div>
             <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>
-              {source === "demo" ? t("Demo data — nothing is saved") : source === "local" ? t("Only on this Mac — not uploaded") : t("Signed in · your data syncs to your other devices")}
+              {source === "demo" ? t("Demo data — nothing is saved") : source === "local" ? t("Only on this Mac — not uploaded") : source === "vault" ? t("Signed in · end-to-end encrypted, synced with your other devices") : t("Signed in · your data syncs to your other devices")}
             </div>
           </div>
           <button className="pf-chip" onClick={signOut} style={{ padding: "8px 14px" }}>
