@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "{spent} sur {income} de revenus",
  "of this year's income spent": "des revenus de l’année dépensés",
  "of your income spent": "de vos revenus dépensés",
- "{spent} of {income}": "{spent} sur {income}"
+ "{spent} of {income}": "{spent} sur {income}",
+ "of the income earned so far spent": "du revenu gagné jusqu'ici dépensé"
 }

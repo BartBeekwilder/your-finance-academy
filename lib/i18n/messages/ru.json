@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "{spent} из {income} дохода",
  "of this year's income spent": "дохода за год потрачено",
  "of your income spent": "дохода потрачено",
- "{spent} of {income}": "{spent} из {income}"
+ "{spent} of {income}": "{spent} из {income}",
+ "of the income earned so far spent": "заработанного на сегодня дохода потрачено"
 }

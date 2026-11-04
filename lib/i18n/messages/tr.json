@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "{income} gelirin {spent} kadarı",
  "of this year's income spent": "bu yılın gelirinden harcandı",
  "of your income spent": "gelirinden harcandı",
- "{spent} of {income}": "{income} içinde {spent}"
+ "{spent} of {income}": "{income} içinde {spent}",
+ "of the income earned so far spent": "şimdiye kadar kazanılan gelirden harcanan"
 }

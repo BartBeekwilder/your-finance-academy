@@ -1,7 +1,8 @@
 "use client";
 
 import { t } from "@/lib/i18n";
-import { live, spendByCategory, spendByCategoryYear, summarize, yearForecast } from "@/lib/finance/calc";
+import { live, monthToDate, spendByCategory, spendByCategoryYear, summarize, yearForecast } from "@/lib/finance/calc";
+import { upcomingFixedCosts } from "@/lib/finance/recurring";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import CategoryIcon from "./CategoryIcon";
@@ -38,6 +39,12 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
     mode === "month"
       ? isThisMonth ? monthIncome(month) : summarize(data.transactions, month).income
       : Array.from({ length: now.getMonth() + 1 }, (_, m) => monthIncome(new Date(now.getFullYear(), m, 1))).reduce((a, b) => a + b, 0);
+  // The second ring: earned so far against spent so far, both spread over
+  // the month like the live tiles — salary and fixed costs (also those still
+  // to come) as the month passes, side income and variable spending as
+  // booked. Only while the period shown runs through today.
+  const runsToday = mode === "month" ? isThisMonth : now.getFullYear() === today.getFullYear();
+  const soFar = runsToday ? toDate(data, today, rows, mode === "year") : null;
   const ofIncome = (v: number) => (income > 0 ? t("{pct}% of income", { pct: Math.round((v / income) * 100) }) : null);
   const cats = live(data.categories);
   return (
@@ -80,7 +87,10 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
         );
       })}
     </div>
-    {income > 0 && <IncomeRing rows={rows} income={income} currency={currency} year={mode === "year"} />}
+    <div className="pf-incomerings">
+    {income > 0 && <IncomeRing rows={rows} income={income} currency={currency} label={mode === "year" ? t("of this year's income spent") : t("of your income spent")} />}
+    {soFar && soFar.income > 0 && <IncomeRing rows={soFar.rows} income={soFar.income} currency={currency} label={t("of the income earned so far spent")} />}
+    </div>
     </div>
   );
 }
@@ -88,7 +98,41 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
 /** How much of your income you've spent so far, at a glance: income is the
  *  green ring, spending eats into it in shades of red (a shade per
  *  category, each its share of income); over 100% it's all red. */
-function IncomeRing({ rows, income, currency, year }: { rows: { category: { id: string; color_hex: string; name: string }; spent: number }[]; income: number; currency: string; year: boolean }) {
+type Row = { category: { id: string; color_hex: string; name: string }; spent: number };
+
+/** Earned and spent up to `today`, per category: this month's fixed costs
+ *  (booked + still to come) × the part of the month gone, plus what's been
+ *  spent variably; a year adds its finished months as entered. */
+function toDate(data: FinanceData, today: Date, rows: Row[], year: boolean) {
+  const month = new Date(today.getFullYear(), today.getMonth(), 1);
+  const days = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+  const f = Math.min((today.getTime() - month.getTime()) / (days * 86_400_000), 1);
+  const cats = live(data.categories);
+  const root = (id: string | null) => { const c = cats.find((x) => x.id === id); return c ? c.parent_id ?? c.id : null; };
+  const upcoming = new Map<string, number>();
+  for (const u of upcomingFixedCosts(data, today)) {
+    const r = root(u.category_id);
+    if (r) upcoming.set(r, (upcoming.get(r) ?? 0) + Number(u.amount));
+  }
+  const thisMonth = new Map(spendByCategory(data, month).map((r) => [r.category.id, r]));
+  const out = rows.map((r) => {
+    const m = thisMonth.get(r.category.id);
+    const booked = m?.spent ?? 0, fixed = m?.fixed ?? 0;
+    const spread = (fixed + (upcoming.get(r.category.id) ?? 0)) * f + (booked - fixed);
+    return { category: r.category, spent: Math.max((year ? r.spent - booked : 0) + spread, 0) };
+  });
+  // Fixed costs still to come in a category with nothing booked yet.
+  for (const [id, v] of upcoming) {
+    const c = cats.find((x) => x.id === id);
+    if (c && !out.some((r) => r.category.id === id)) out.push({ category: c, spent: v * f });
+  }
+  const pts = monthToDate(data, today).points;
+  let income = pts[pts.length - 1]?.income ?? 0;
+  if (year) for (let m = 0; m < today.getMonth(); m++) income += summarize(data.transactions, new Date(today.getFullYear(), m, 1)).income;
+  return { rows: out.sort((a, b) => b.spent - a.spent), income };
+}
+
+function IncomeRing({ rows, income, currency, label }: { rows: Row[]; income: number; currency: string; label: string }) {
   const total = rows.reduce((s, r) => s + r.spent, 0);
   const share = total / income;
   const R = 42, C = 2 * Math.PI * R;
@@ -114,7 +158,7 @@ function IncomeRing({ rows, income, currency, year }: { rows: { category: { id: 
       </svg>
       <span className="pf-incomering-text">
         <b className="pf-rounded" style={{ color: over ? "var(--pf-red)" : undefined }}>{Math.round(share * 100)}%</b>
-        <span>{year ? t("of this year's income spent") : t("of your income spent")}</span>
+        <span>{label}</span>
         <em className="pf-rounded">{t("{spent} of {income}", { spent: money(total, currency), income: money(income, currency) })}</em>
       </span>
     </div>

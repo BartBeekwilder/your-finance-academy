@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "收入 {income} 中的 {spent}",
  "of this year's income spent": "今年收入已花",
  "of your income spent": "收入已花",
- "{spent} of {income}": "{spent} / {income}"
+ "{spent} of {income}": "{spent} / {income}",
+ "of the income earned so far spent": "目前已赚收入中已花费"
 }

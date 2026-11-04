@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "収入{income}のうち{spent}",
  "of this year's income spent": "今年の収入を使用",
  "of your income spent": "収入を使用",
- "{spent} of {income}": "{income}中{spent}"
+ "{spent} of {income}": "{income}中{spent}",
+ "of the income earned so far spent": "これまでに稼いだ収入のうち支出"
 }

@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "{spent} de {income} de renda",
  "of this year's income spent": "da renda do ano gasta",
  "of your income spent": "da sua renda gasta",
- "{spent} of {income}": "{spent} de {income}"
+ "{spent} of {income}": "{spent} de {income}",
+ "of the income earned so far spent": "da renda ganha até agora, gasto"
 }

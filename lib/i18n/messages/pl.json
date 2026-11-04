@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "{spent} z {income} dochodu",
  "of this year's income spent": "tegorocznego dochodu wydane",
  "of your income spent": "dochodu wydane",
- "{spent} of {income}": "{spent} z {income}"
+ "{spent} of {income}": "{spent} z {income}",
+ "of the income earned so far spent": "dotąd zarobionego dochodu wydane"
 }

@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "{spent} dari penghasilan {income}",
  "of this year's income spent": "dari penghasilan tahun ini terpakai",
  "of your income spent": "dari penghasilanmu terpakai",
- "{spent} of {income}": "{spent} dari {income}"
+ "{spent} of {income}": "{spent} dari {income}",
+ "of the income earned so far spent": "dari pendapatan yang diperoleh sejauh ini dibelanjakan"
 }

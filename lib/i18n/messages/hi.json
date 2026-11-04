@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "{income} आय में से {spent}",
  "of this year's income spent": "इस साल की आय खर्च",
  "of your income spent": "आपकी आय खर्च",
- "{spent} of {income}": "{income} में से {spent}"
+ "{spent} of {income}": "{income} में से {spent}",
+ "of the income earned so far spent": "अब तक कमाई गई आय में से खर्च"
 }

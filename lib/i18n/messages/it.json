@@ -1291,5 +1291,6 @@
  "{spent} of {income} income": "{spent} su {income} di reddito",
  "of this year's income spent": "del reddito dell’anno speso",
  "of your income spent": "del tuo reddito speso",
- "{spent} of {income}": "{spent} su {income}"
+ "{spent} of {income}": "{spent} su {income}",
+ "of the income earned so far spent": "del reddito guadagnato finora, speso"
 }
