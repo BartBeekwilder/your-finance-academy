@@ -1281,5 +1281,11 @@
  "{amount} limit": "giới hạn {amount}",
  "Cumulative spending this month against budget": "Chi tiêu lũy kế tháng này so với ngân sách",
  "Budget, spread over the month": "Ngân sách chia đều cả tháng",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Những ngày trong tháng này sổ sách được cập nhật, trên tổng số ngày của tháng — vòng lớn dần từng ngày và khép lại vào ngày cuối nếu bạn cập nhật mỗi ngày. Một ngày được tính khi một lần kiểm tra bao gồm nó (“Cập nhật sổ sách”): tính mọi ngày lùi về lần trước. Chỉ mở ứng dụng thì được điểm nhưng không làm đầy vòng."
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Những ngày trong tháng này sổ sách được cập nhật, trên tổng số ngày của tháng — vòng lớn dần từng ngày và khép lại vào ngày cuối nếu bạn cập nhật mỗi ngày. Một ngày được tính khi một lần kiểm tra bao gồm nó (“Cập nhật sổ sách”): tính mọi ngày lùi về lần trước. Chỉ mở ứng dụng thì được điểm nhưng không làm đầy vòng.",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1/1 {start} · vào {inflow} · ra {outflow}",
+ "{paid} paid · {left} days still ahead": "Đã trả {paid} · còn {left} ngày",
+ "Salary earned so far": "Lương đã kiếm được đến nay",
+ "{net} net × {day} of {days} days": "{net} ròng × {day}/{days} ngày",
+ "Salary already received": "Lương đã nhận",
+ "1 Jan {start} · nothing booked on it this year": "1/1 {start} · năm nay chưa có giao dịch"
 }

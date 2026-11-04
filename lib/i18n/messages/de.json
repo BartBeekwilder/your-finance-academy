@@ -1281,5 +1281,11 @@
  "{amount} limit": "Limit {amount}",
  "Cumulative spending this month against budget": "Kumulierte Ausgaben diesen Monat gegenüber dem Budget",
  "Budget, spread over the month": "Budget, über den Monat verteilt",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Die Tage dieses Monats, an denen deine Bücher aktuell waren, von allen Tagen — der Ring wächst Tag für Tag und schließt sich am letzten Tag, wenn du jeden Tag dranbleibst. Ein Tag zählt, wenn ein Check-in ihn abdeckt („Bücher aktualisieren“): Er zählt jeden Tag zurück bis zum vorherigen. Nur die App öffnen bringt Punkte, füllt den Ring aber nicht."
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Die Tage dieses Monats, an denen deine Bücher aktuell waren, von allen Tagen — der Ring wächst Tag für Tag und schließt sich am letzten Tag, wenn du jeden Tag dranbleibst. Ein Tag zählt, wenn ein Check-in ihn abdeckt („Bücher aktualisieren“): Er zählt jeden Tag zurück bis zum vorherigen. Nur die App öffnen bringt Punkte, füllt den Ring aber nicht.",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1. Jan. {start} · rein {inflow} · raus {outflow}",
+ "{paid} paid · {left} days still ahead": "{paid} bezahlt · noch {left} Tage",
+ "Salary earned so far": "Bisher verdientes Gehalt",
+ "{net} net × {day} of {days} days": "{net} netto × {day} von {days} Tagen",
+ "Salary already received": "Bereits erhaltenes Gehalt",
+ "1 Jan {start} · nothing booked on it this year": "1. Jan. {start} · dieses Jahr nichts gebucht"
 }

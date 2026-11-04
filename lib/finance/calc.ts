@@ -6,6 +6,7 @@ import { investmentsByKind, investmentsValue } from "./quotes";
 import { intlLocale, t } from "@/lib/i18n";
 import { summarize as summarizePart } from "./mortgage";
 import { homes } from "./realEstate";
+import { money } from "./format";
 import { isSalaryName } from "./salary";
 import { upcomingFixedCosts } from "./recurring";
 import type { Account, Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
@@ -120,6 +121,15 @@ export function investedIn(holdings: Holding[], currency: string) {
  *  anywhere yet — see pendingIncome. */
 export function accountFlows(data: FinanceData, now: Date) {
   const out = new Map<string, number>();
+  for (const [id, v] of accountInOut(data, now)) out.set(id, v.in - v.out);
+  return out;
+}
+
+/** Per account, what came in and went out this year up to `now` (the
+ *  balance sheet's context under each account). */
+export function accountInOut(data: FinanceData, now: Date) {
+  const out = new Map<string, { in: number; out: number }>();
+  const put = (id: string, v: number) => { const e = out.get(id) ?? { in: 0, out: 0 }; if (v >= 0) e.in += v; else e.out -= v; out.set(id, e); };
   const year = now.getFullYear();
   const fallback = live(data.accounts).find((a) => a.is_default)?.id ?? null;
   for (const t of live(data.transactions)) {
@@ -128,7 +138,7 @@ export function accountFlows(data: FinanceData, now: Date) {
     if (!account) continue;
     const d = new Date(t.date);
     if (d.getFullYear() !== year || d > now) continue;
-    out.set(account, (out.get(account) ?? 0) + (t.type === "income" ? 1 : -1) * num(t.amount));
+    put(account, (t.type === "income" ? 1 : -1) * num(t.amount));
   }
   // A spread purchase left the account at once, in full.
   for (const t of live(data.transactions)) {
@@ -137,7 +147,7 @@ export function accountFlows(data: FinanceData, now: Date) {
     const account = o.account_id ?? fallback;
     const d = new Date(o.date);
     if (!account || d.getFullYear() !== year || d > now) continue;
-    out.set(account, (out.get(account) ?? 0) - num(o.amount));
+    put(account, -num(o.amount));
   }
   return out;
 }
@@ -467,8 +477,24 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
     assets.push({ id: "accounts", name: t("Accounts"), value: cash - book.total, kind: "auto", hint: t("Start of the year + what each month added") });
     assets.push({ id: "investments", name: t("Investments"), value: inv.total, kind: "auto", hint: inv.real ? t("Market value") : t("Holdings at cost") });
     if (book.total > 0.005) assets.push({ id: "spread", name: t("Spread purchases"), value: book.total, kind: "auto", hint: t("Paid, not yet used up (book value)") });
-    if (prepaid > 0.005) assets.push({ id: "prepaid", name: t("Prepaid"), value: prepaid, kind: "auto", hint: t("Fixed costs paid for the rest of the month") });
-    if (earned > 0.005) assets.push({ id: "receivable", name: t("Receivable"), value: earned, kind: "auto", hint: t("Income earned so far, not yet received") });
+    // Prepaid, opened up: each fixed cost paid this month, the part of it
+    // for the days still ahead.
+    const fixedParts = new Map<string, { name: string; value: number; paid: number }>();
+    const catName = new Map(data.categories.map((c) => [c.id, c.name]));
+    for (const tx of live(data.transactions)) {
+      if (tx.type !== "expense" || !tx.is_fixed_expense || tx.advance || !inMonth(tx, new Date(year, current, 1))) continue;
+      const key = tx.category_id ?? tx.note ?? tx.id;
+      const e = fixedParts.get(key) ?? { name: (tx.category_id && catName.get(tx.category_id)) || tx.note || t("Fixed costs"), value: 0, paid: 0 };
+      e.paid += num(tx.amount);
+      e.value += num(tx.amount) * (1 - f);
+      fixedParts.set(key, e);
+    }
+    const prepaidParts = [...fixedParts.entries()].map(([id, e]) => ({ id: `prepaid-${id}`, name: e.name, value: e.value, hint: t("{paid} paid · {left} days still ahead", { paid: money(e.paid, data.profile.currency_code), left: Math.max(nw.days - now.getDate(), 0) }) })).sort((a, b) => b.value - a.value);
+    if (prepaid > 0.005) assets.push({ id: "prepaid", name: t("Prepaid"), value: prepaid, kind: "auto", hint: t("Fixed costs paid for the rest of the month"), ...(prepaidParts.length > 1 ? { parts: prepaidParts } : {}) });
+    if (earned > 0.005) assets.push({ id: "receivable", name: t("Receivable"), value: earned, kind: "auto", hint: t("Income earned so far, not yet received"), parts: [
+      { id: "receivable-earned", name: t("Salary earned so far"), value: nw.projected * f, hint: t("{net} net × {day} of {days} days", { net: money(nw.projected, data.profile.currency_code), day: (Math.round(f * nw.days * 10) / 10).toLocaleString(intlLocale()), days: nw.days }) },
+      ...(s.income - otherIncome(data, new Date(year, current, 1)) > 0.005 ? [{ id: "receivable-in", name: t("Salary already received"), value: -(s.income - otherIncome(data, new Date(year, current, 1))) }] : []),
+    ] });
     if (earned < -0.005) liabilities.push({ id: "advance", name: t("Income received in advance"), value: -earned, kind: "auto", hint: t("Received, not yet earned this month") });
   } else {
     // Spread purchases: paid at once, used up month by month — the part not
@@ -521,6 +547,7 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
   }
   if (acc) {
     const flows = accountFlows(data, at);
+    const inOut = accountInOut(data, at);
     // Open advances are off their account too.
     const fallback = live(data.accounts).find((a) => a.is_default)?.id ?? null;
     for (const [id, v] of advancesByAccount(data, at, fallback)) flows.set(id, (flows.get(id) ?? 0) - v);
@@ -532,7 +559,15 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
     const parts: NonNullable<BalanceLine["parts"]> = KINDS.flatMap((kind) =>
       live(data.accounts)
         .filter((a) => a.type === kind)
-        .map((a) => ({ id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0), flow: flows.get(a.id) ?? 0, group: GROUP[kind] }))
+        .map((a) => {
+          // Context: the 1 January balance, and what came in and went out.
+          const io = inOut.get(a.id) ?? { in: 0, out: 0 };
+          const cur = data.profile.currency_code;
+          const hint = io.in + io.out < 0.005
+            ? t("1 Jan {start} · nothing booked on it this year", { start: money(num(a.balance), cur) })
+            : t("1 Jan {start} · in {inflow} · out {outflow}", { start: money(num(a.balance), cur), inflow: money(io.in, cur), outflow: money(io.out, cur) });
+          return { id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0), flow: flows.get(a.id) ?? 0, group: GROUP[kind], hint };
+        })
         // An empty account isn't worth a line (it shows again once it isn't).
         .filter((p) => Math.abs(p.value) >= 0.005),
     );

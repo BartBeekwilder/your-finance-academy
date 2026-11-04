@@ -1281,5 +1281,11 @@
  "{amount} limit": "सीमा {amount}",
  "Cumulative spending this month against budget": "इस महीने का संचयी खर्च बनाम बजट",
  "Budget, spread over the month": "महीने भर में बँटा बजट",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "इस महीने के वे दिन जब आपका हिसाब अद्यतन था, महीने के सभी दिनों में से — यह दिन-ब-दिन बढ़ती है और हर दिन रखने पर आखिरी दिन बंद होती है। दिन तब गिना जाता है जब कोई चेक-इन उसे कवर करे (“हिसाब अद्यतन करें”): यह पिछले चेक-इन तक हर दिन गिनता है। केवल ऐप खोलने से अंक मिलते हैं, पर रिंग नहीं भरती।"
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "इस महीने के वे दिन जब आपका हिसाब अद्यतन था, महीने के सभी दिनों में से — यह दिन-ब-दिन बढ़ती है और हर दिन रखने पर आखिरी दिन बंद होती है। दिन तब गिना जाता है जब कोई चेक-इन उसे कवर करे (“हिसाब अद्यतन करें”): यह पिछले चेक-इन तक हर दिन गिनता है। केवल ऐप खोलने से अंक मिलते हैं, पर रिंग नहीं भरती।",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1 जन {start} · आया {inflow} · गया {outflow}",
+ "{paid} paid · {left} days still ahead": "{paid} चुकाया · {left} दिन बाकी",
+ "Salary earned so far": "अब तक कमाया वेतन",
+ "{net} net × {day} of {days} days": "{net} शुद्ध × {days} में से {day} दिन",
+ "Salary already received": "पहले से मिला वेतन",
+ "1 Jan {start} · nothing booked on it this year": "1 जन {start} · इस साल कुछ दर्ज नहीं"
 }

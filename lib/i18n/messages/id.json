@@ -1281,5 +1281,11 @@
  "{amount} limit": "batas {amount}",
  "Cumulative spending this month against budget": "Pengeluaran kumulatif bulan ini vs anggaran",
  "Budget, spread over the month": "Anggaran, dibagi sepanjang bulan",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Hari-hari bulan ini saat pembukuanmu terkini, dari semua harinya — bertambah setiap hari dan tertutup di hari terakhir jika kamu mencatat tiap hari. Sebuah hari dihitung saat check-in mencakupnya (“Perbarui pembukuan”): menghitung setiap hari sampai check-in sebelumnya. Hanya membuka aplikasi memberi poin, tapi tidak mengisi cincin."
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Hari-hari bulan ini saat pembukuanmu terkini, dari semua harinya — bertambah setiap hari dan tertutup di hari terakhir jika kamu mencatat tiap hari. Sebuah hari dihitung saat check-in mencakupnya (“Perbarui pembukuan”): menghitung setiap hari sampai check-in sebelumnya. Hanya membuka aplikasi memberi poin, tapi tidak mengisi cincin.",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1 Jan {start} · masuk {inflow} · keluar {outflow}",
+ "{paid} paid · {left} days still ahead": "{paid} dibayar · {left} hari lagi",
+ "Salary earned so far": "Gaji yang diperoleh sejauh ini",
+ "{net} net × {day} of {days} days": "{net} bersih × {day} dari {days} hari",
+ "Salary already received": "Gaji yang sudah diterima",
+ "1 Jan {start} · nothing booked on it this year": "1 Jan {start} · tidak ada catatan tahun ini"
 }

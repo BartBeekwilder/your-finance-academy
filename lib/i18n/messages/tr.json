@@ -1281,5 +1281,11 @@
  "{amount} limit": "limit {amount}",
  "Cumulative spending this month against budget": "Bu ayki kümülatif harcama ve bütçe",
  "Budget, spread over the month": "Aya yayılmış bütçe",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Bu ayın kayıtlarının güncel olduğu günleri, ayın tüm günlerine göre — gün gün büyür ve her gün takip edersen son gün kapanır. Bir gün, bir kontrol onu kapsadığında sayılır (“Kayıtlarını güncelle”): bir öncekine kadar her günü sayar. Sadece uygulamayı açmak puan kazandırır ama halkayı doldurmaz."
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Bu ayın kayıtlarının güncel olduğu günleri, ayın tüm günlerine göre — gün gün büyür ve her gün takip edersen son gün kapanır. Bir gün, bir kontrol onu kapsadığında sayılır (“Kayıtlarını güncelle”): bir öncekine kadar her günü sayar. Sadece uygulamayı açmak puan kazandırır ama halkayı doldurmaz.",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1 Oca {start} · giren {inflow} · çıkan {outflow}",
+ "{paid} paid · {left} days still ahead": "{paid} ödendi · {left} gün kaldı",
+ "Salary earned so far": "Şimdiye kadar kazanılan maaş",
+ "{net} net × {day} of {days} days": "{net} net × {days} günün {day}'i",
+ "Salary already received": "Zaten alınan maaş",
+ "1 Jan {start} · nothing booked on it this year": "1 Oca {start} · bu yıl işlem yok"
 }

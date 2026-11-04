@@ -1281,5 +1281,11 @@
  "{amount} limit": "上限 {amount}",
  "Cumulative spending this month against budget": "今月の累計支出と予算",
  "Budget, spread over the month": "月に均等配分した予算",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "今月のうち帳簿が最新だった日数を、月の全日数に対して — 日ごとに伸び、毎日続ければ最終日に閉じます。チェックイン（「帳簿を更新する」）でカバーされた日が数えられ、前回までのすべての日が対象です。アプリを開くだけでもポイントは入りますが、リングは満たされません。"
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "今月のうち帳簿が最新だった日数を、月の全日数に対して — 日ごとに伸び、毎日続ければ最終日に閉じます。チェックイン（「帳簿を更新する」）でカバーされた日が数えられ、前回までのすべての日が対象です。アプリを開くだけでもポイントは入りますが、リングは満たされません。",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1月1日 {start}・入金 {inflow}・出金 {outflow}",
+ "{paid} paid · {left} days still ahead": "{paid}支払い済み・残り{left}日",
+ "Salary earned so far": "これまでに得た給与",
+ "{net} net × {day} of {days} days": "手取り{net} × {days}日中{day}日",
+ "Salary already received": "受け取り済みの給与",
+ "1 Jan {start} · nothing booked on it this year": "1月1日 {start}・今年の記帳なし"
 }

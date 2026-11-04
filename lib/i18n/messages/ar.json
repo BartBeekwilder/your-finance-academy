@@ -1281,5 +1281,11 @@
  "{amount} limit": "الحد {amount}",
  "Cumulative spending this month against budget": "الإنفاق التراكمي هذا الشهر مقابل الميزانية",
  "Budget, spread over the month": "الميزانية موزعة على الشهر",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "أيام هذا الشهر التي كانت فيها دفاترك محدّثة، من كل أيامه — تكبر يومًا بعد يوم وتكتمل في اليوم الأخير إن واظبت كل يوم. يُحتسب اليوم عندما تغطيه مراجعة («حدّث دفاترك»): تحتسب كل يوم حتى المراجعة السابقة. فتح التطبيق فقط يمنح نقاطًا لكنه لا يملأ الحلقة."
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "أيام هذا الشهر التي كانت فيها دفاترك محدّثة، من كل أيامه — تكبر يومًا بعد يوم وتكتمل في اليوم الأخير إن واظبت كل يوم. يُحتسب اليوم عندما تغطيه مراجعة («حدّث دفاترك»): تحتسب كل يوم حتى المراجعة السابقة. فتح التطبيق فقط يمنح نقاطًا لكنه لا يملأ الحلقة.",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1 يناير {start} · وارد {inflow} · صادر {outflow}",
+ "{paid} paid · {left} days still ahead": "دُفع {paid} · تبقى {left} أيام",
+ "Salary earned so far": "الراتب المكتسب حتى الآن",
+ "{net} net × {day} of {days} days": "{net} صافٍ × {day} من {days} يومًا",
+ "Salary already received": "الراتب المستلم بالفعل",
+ "1 Jan {start} · nothing booked on it this year": "1 يناير {start} · لا قيود هذا العام"
 }

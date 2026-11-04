@@ -1288,5 +1288,11 @@
  "{amount} limit": "limiet {amount}",
  "Cumulative spending this month against budget": "Cumulatieve uitgaven deze maand tegenover het budget",
  "Budget, spread over the month": "Budget, verdeeld over de maand",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "De dagen van deze maand waarop je boeken bijgewerkt waren, van alle dagen van de maand — hij groeit dag voor dag en sluit op de laatste dag als je elke dag bijhoudt. Een dag telt als een checklist hem afdekt (“Boeken bijwerken”): die telt elke dag terug tot de vorige keer. Alleen de app openen levert punten op, maar vult de ring niet."
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "De dagen van deze maand waarop je boeken bijgewerkt waren, van alle dagen van de maand — hij groeit dag voor dag en sluit op de laatste dag als je elke dag bijhoudt. Een dag telt als een checklist hem afdekt (“Boeken bijwerken”): die telt elke dag terug tot de vorige keer. Alleen de app openen levert punten op, maar vult de ring niet.",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1 jan {start} · erbij {inflow} · eraf {outflow}",
+ "{paid} paid · {left} days still ahead": "{paid} betaald · nog {left} dagen te gaan",
+ "Salary earned so far": "Tot nu toe verdiend salaris",
+ "{net} net × {day} of {days} days": "{net} netto × {day} van {days} dagen",
+ "Salary already received": "Al ontvangen salaris",
+ "1 Jan {start} · nothing booked on it this year": "1 jan {start} · dit jaar niets op geboekt"
 }

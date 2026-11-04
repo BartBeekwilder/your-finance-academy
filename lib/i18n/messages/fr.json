@@ -1281,5 +1281,11 @@
  "{amount} limit": "limite {amount}",
  "Cumulative spending this month against budget": "Dépenses cumulées ce mois-ci face au budget",
  "Budget, spread over the month": "Budget, réparti sur le mois",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Les jours de ce mois où vos comptes étaient à jour, sur tous ses jours — l’anneau grandit jour après jour et se ferme le dernier jour si vous suivez chaque jour. Un jour compte quand un point le couvre (« Mettre vos comptes à jour ») : il compte chaque jour jusqu’au précédent. Ouvrir l’app rapporte des points, mais ne remplit pas l’anneau."
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Les jours de ce mois où vos comptes étaient à jour, sur tous ses jours — l’anneau grandit jour après jour et se ferme le dernier jour si vous suivez chaque jour. Un jour compte quand un point le couvre (« Mettre vos comptes à jour ») : il compte chaque jour jusqu’au précédent. Ouvrir l’app rapporte des points, mais ne remplit pas l’anneau.",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1er janv. {start} · entrées {inflow} · sorties {outflow}",
+ "{paid} paid · {left} days still ahead": "{paid} payés · encore {left} jours",
+ "Salary earned so far": "Salaire gagné jusqu’ici",
+ "{net} net × {day} of {days} days": "{net} net × {day} sur {days} jours",
+ "Salary already received": "Salaire déjà reçu",
+ "1 Jan {start} · nothing booked on it this year": "1er janv. {start} · rien de saisi cette année"
 }

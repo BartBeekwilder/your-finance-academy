@@ -1281,5 +1281,11 @@
  "{amount} limit": "límite {amount}",
  "Cumulative spending this month against budget": "Gasto acumulado este mes frente al presupuesto",
  "Budget, spread over the month": "Presupuesto, repartido en el mes",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Los días de este mes en que tus cuentas estaban al día, de todos sus días — crece día a día y se cierra el último día si las llevas cada día. Un día cuenta cuando una revisión lo cubre («Poner tus cuentas al día»): cuenta cada día hasta la anterior. Solo abrir la app da puntos, pero no llena el anillo."
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Los días de este mes en que tus cuentas estaban al día, de todos sus días — crece día a día y se cierra el último día si las llevas cada día. Un día cuenta cuando una revisión lo cubre («Poner tus cuentas al día»): cuenta cada día hasta la anterior. Solo abrir la app da puntos, pero no llena el anillo.",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1 ene {start} · entradas {inflow} · salidas {outflow}",
+ "{paid} paid · {left} days still ahead": "{paid} pagado · quedan {left} días",
+ "Salary earned so far": "Salario ganado hasta ahora",
+ "{net} net × {day} of {days} days": "{net} neto × {day} de {days} días",
+ "Salary already received": "Salario ya recibido",
+ "1 Jan {start} · nothing booked on it this year": "1 ene {start} · nada registrado este año"
 }

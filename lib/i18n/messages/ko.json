@@ -1281,5 +1281,11 @@
  "{amount} limit": "한도 {amount}",
  "Cumulative spending this month against budget": "이번 달 누적 지출 대 예산",
  "Budget, spread over the month": "한 달에 나눈 예산",
- "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "이번 달 중 장부가 최신이었던 날을 한 달 전체 일수에 대해 — 날마다 차고, 매일 기록하면 마지막 날에 닫힙니다. 체크인(“장부 업데이트”)이 포함하는 날이 계산되며, 이전 체크인까지의 모든 날을 셉니다. 앱을 열기만 해도 점수는 받지만 링은 차지 않습니다."
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "이번 달 중 장부가 최신이었던 날을 한 달 전체 일수에 대해 — 날마다 차고, 매일 기록하면 마지막 날에 닫힙니다. 체크인(“장부 업데이트”)이 포함하는 날이 계산되며, 이전 체크인까지의 모든 날을 셉니다. 앱을 열기만 해도 점수는 받지만 링은 차지 않습니다.",
+ "1 Jan {start} · in {inflow} · out {outflow}": "1월 1일 {start} · 입금 {inflow} · 출금 {outflow}",
+ "{paid} paid · {left} days still ahead": "{paid} 지불 · {left}일 남음",
+ "Salary earned so far": "지금까지 번 급여",
+ "{net} net × {day} of {days} days": "순 {net} × {days}일 중 {day}일",
+ "Salary already received": "이미 받은 급여",
+ "1 Jan {start} · nothing booked on it this year": "1월 1일 {start} · 올해 기록 없음"
 }
