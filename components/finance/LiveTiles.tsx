@@ -134,11 +134,15 @@ export default function LiveTiles({
       >
         {(mode) => {
           const total = mode === "month" ? spentTotal : before.spent + spentTotal;
+          // Entered = what's booked (fixed costs still to come this month count
+          // in the live figures, not as entered).
+          const booked = summarize(data.transactions, monthStart).spent;
+          const entered = mode === "month" ? booked : before.spent + booked;
           const fix = mode === "month" ? fixed : before.fixed + fixed;
           const vary = mode === "month" ? variable : before.variable + variable;
           return (
             <>
-              <Sub label={mode === "month" ? (at ? t("Entered in {monthName}", { monthName: month }) : t("Entered so far")) : t("Entered this year")} value={total} color={RED} currency={currency} />
+              <Sub label={mode === "month" ? (at ? t("Entered in {monthName}", { monthName: month }) : t("Entered so far")) : t("Entered this year")} value={entered} color={RED} currency={currency} />
               {mode === "month" ? (
                 // Fixed costs over the whole month, variable over the days so far.
                 <Sub label="≈" value={fixed / days + variable / dayOfMonth} suffix={t("/ day")} color={RED} currency={currency} />

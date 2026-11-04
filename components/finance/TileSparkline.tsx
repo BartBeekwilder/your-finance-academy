@@ -5,7 +5,7 @@ import { WithYAxis } from "./YAxis";
 import { useNow } from "@/lib/motion";
 import { memo, useMemo, useState } from "react";
 import { Check } from "lucide-react";
-import { live as alive, monthToDate, num, projectedNetIncome, salaryTest, summarize, yearForecast } from "@/lib/finance/calc";
+import { live as alive, liveFixed, monthToDate, num, projectedNetIncome, salaryTest, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthName as monthLabel, shortMonth } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 
@@ -105,14 +105,15 @@ export default memo(function TileSparkline({
     fxBefore += s.fixed;
     pts.push({ t: m + 1, v: before, fx: fxBefore, label: monthName(m) });
   }
-  const thisMonth = summarize(data.transactions, new Date(year, current, 1));
+  // Fixed costs incl. those still to come this month (counted from the 1st).
+  const fixedLive = liveFixed(data, live);
   for (const p of monthToDate(data, live).points) {
     const t = p.day === live.getDate() ? current + fraction : current + p.day / days;
     const label =
       p.day === live.getDate() && at === undefined
         ? tr("Today · live")
         : new Date(year, current, p.day).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" });
-    pts.push({ t, v: before + pick(p.income, p.spent), fx: fxBefore + thisMonth.fixed * (t - current), label, day: true });
+    pts.push({ t, v: before + pick(p.income, p.spent), fx: fxBefore + fixedLive * (t - current), label, day: true });
   }
   const now = pts[pts.length - 1];
 
@@ -150,7 +151,7 @@ export default memo(function TileSparkline({
       prev = pts[m].v;
     }
     const monthLive = now.v - before;
-    bars.push({ t0: current, t1: current + 1, v: monthLive, label: tr("{v1} · so far", { v1: monthName(current) }), fx: spentFx(thisMonth.fixed * fraction) });
+    bars.push({ t0: current, t1: current + 1, v: monthLive, label: tr("{v1} · so far", { v1: monthName(current) }), fx: spentFx(fixedLive * fraction) });
     const fc = yearForecast(data, live);
     for (const f of fc.slice(1)) bars.push({ t0: f.month, t1: f.month + 1, v: pick(f.income, f.spent), label: `${monthName(f.month)} ${tr("· forecast")}`, forecast: true });
     // Days: the salary accrues evenly, other income (a side income) on its
@@ -166,10 +167,10 @@ export default memo(function TileSparkline({
     }
     const projected = projectedNetIncome(data, new Date(year, current, 1));
     const today = live.getDate();
-    const dayOf = (d: number, share: number) => pick(projected * share + otherIncomeByDay[d], thisMonth.fixed * share + variableByDay[d]);
+    const dayOf = (d: number, share: number) => pick(projected * share + otherIncomeByDay[d], fixedLive * share + variableByDay[d]);
     for (let d = 1; d <= today; d++) {
       const share = d < today ? 1 / days : fraction - (today - 1) / days;
-      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: dayOf(d, share), label: d === today ? tr("Today · live") : new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }), day: true, fx: spentFx(thisMonth.fixed * share) });
+      bars.push({ t0: current + (d - 1) / days, t1: current + d / days, v: dayOf(d, share), label: d === today ? tr("Today · live") : new Date(year, current, d).toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" }), day: true, fx: spentFx(fixedLive * share) });
     }
     const rest = (pick(fc[0]?.income ?? 0, fc[0]?.spent ?? 0) - monthLive) / Math.max(days - today, 1);
     for (let d = today + 1; d <= days; d++) {
@@ -370,7 +371,7 @@ export default memo(function TileSparkline({
             <span style={{ color: "var(--pf-ink-2)" }}>{pickedBar.label}</span>{" "}
             <b style={{ color }}>{money(pickedBar.v, currency, { signed: series === "balance" || stock })}</b>
             {pickedBar.fx !== undefined && !pickedBar.forecast && (
-              <span style={{ color: "var(--pf-ink-3)" }}> · {tr("Fixed {fixed} · Variable {variable}", { fixed: money(pickedBar.fx, currency), variable: money(Math.max(pickedBar.v - pickedBar.fx, 0), currency) })}</span>
+              <span style={{ color: "var(--pf-ink-3)" }}> · {tr("Fixed {fixed} · Variable {variable}", { fixed: `${money(pickedBar.fx, currency)} (${Math.round((Math.min(pickedBar.fx, pickedBar.v) / Math.max(pickedBar.v, 0.01)) * 100)}%)`, variable: `${money(Math.max(pickedBar.v - pickedBar.fx, 0), currency)} (${Math.round((Math.max(pickedBar.v - pickedBar.fx, 0) / Math.max(pickedBar.v, 0.01)) * 100)}%)` })}</span>
             )}
           </span>
         </>
@@ -394,8 +395,12 @@ export default memo(function TileSparkline({
             <b style={{ color }}>{money(inMonth && !stock ? picked.v - before : picked.v, currency)}</b>
             {series === "spent" && !picked.forecast && picked.v > 0 && (
               <span style={{ display: "block", color: "var(--pf-ink-3)" }}>
-                {tr("Fixed")} {money(inMonth ? picked.fx - fxBefore : picked.fx, currency)} · {tr("Variable")}{" "}
-                {money(inMonth ? picked.v - before - (picked.fx - fxBefore) : picked.v - picked.fx, currency)}
+                {(() => {
+                  const total = inMonth ? picked.v - before : picked.v;
+                  const fx = inMonth ? picked.fx - fxBefore : picked.fx;
+                  const pct = (v: number) => (total > 0 ? ` (${Math.round((v / total) * 100)}%)` : "");
+                  return `${tr("Fixed")} ${money(fx, currency)}${pct(fx)} · ${tr("Variable")} ${money(total - fx, currency)}${pct(total - fx)}`;
+                })()}
               </span>
             )}
           </span>

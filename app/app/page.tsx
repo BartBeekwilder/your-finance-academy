@@ -20,7 +20,7 @@ import Link from "next/link";
 import type { Mode } from "@/components/finance/LiveTiles";
 import YearsOverview from "@/components/finance/YearsOverview";
 import { YearCompare } from "@/components/finance/Compare";
-import { balanceSheet } from "@/lib/finance/calc";
+import { balanceSheet, liveFixed } from "@/lib/finance/calc";
 import ProgressStrip from "@/components/finance/ProgressStrip";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
@@ -119,7 +119,7 @@ export default function DashboardPage() {
             monthStart={month}
             monthlyIncome={projectedNetIncome(data, month)}
             enteredIncome={s.income}
-            fixed={s.fixed}
+            fixed={liveFixed(data, now)}
             variable={s.variable}
             currency={currency}
             mode={view}

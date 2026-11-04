@@ -286,6 +286,10 @@ total/bar/list on the right, names switch posts on/off (per side, remembered).
 Saving ring fills with the month too: (forecast ÷ 20% goal) × month fraction —
 on course it closes on the last day, saving more = faster, up to a 2nd lap
 (progress savedIsForecast); tile bar shows the ring, tooltip the expected rate.
+Fixed costs still to come this month (recurring copies not yet due, recurring
+`upcomingFixedCosts`) count in the live figures from the 1st (calc `liveFixed`:
+tiles, monthToDate, liveChange, tile charts); 'Entered' stays booked only.
+Tile readouts show fixed / variable with %.
 
 ## Done recently (2026-10-22/23)
 

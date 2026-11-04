@@ -44,6 +44,17 @@ export function stableId(text: string): string {
  *  this month: earlier months are history (the month close points out a
  *  fixed cost that's missing there). */
 export function dueFixedCosts(data: Pick<FinanceData, "transactions"> & { deletions?: { id: string }[] }, now: Date): Transaction[] {
+  return copies(data, now, false);
+}
+
+/** This month's fixed costs still to come (their day hasn't come yet): the
+ *  live figures count them from the 1st, like any fixed cost, so a cost
+ *  booked on the 29th doesn't jump in on the 29th. Not stored. */
+export function upcomingFixedCosts(data: Pick<FinanceData, "transactions"> & { deletions?: { id: string }[] }, now: Date): Transaction[] {
+  return copies(data, now, true);
+}
+
+function copies(data: Pick<FinanceData, "transactions"> & { deletions?: { id: string }[] }, now: Date, upcoming: boolean): Transaction[] {
   const gone = new Set((data.deletions ?? []).map((d) => d.id));
   const ids = new Set(data.transactions.map((t) => t.id));
   const month = new Date(now.getFullYear(), now.getMonth(), 1, 12);
@@ -57,7 +68,7 @@ export function dueFixedCosts(data: Pick<FinanceData, "transactions"> & { deleti
     const chain = src.recurrence_id ?? src.id;
     if (here.some((t) => t.recurrence_id === chain || same(t, src))) continue;
     const day = Math.min(new Date(src.date).getDate(), days);
-    if (day > now.getDate()) continue; // not due yet
+    if (upcoming ? day <= now.getDate() : day > now.getDate()) continue; // due by now / still to come
     const id = stableId(`${chain}|${key(month)}`);
     if (ids.has(id) || gone.has(id)) continue;
     out.push({

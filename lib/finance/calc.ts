@@ -7,6 +7,7 @@ import { intlLocale, t } from "@/lib/i18n";
 import { summarize as summarizePart } from "./mortgage";
 import { homes } from "./realEstate";
 import { isSalaryName } from "./salary";
+import { upcomingFixedCosts } from "./recurring";
 import type { Account, Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
 
 // Same rules as the iOS app's BudgetCalculator / DashboardView, so a given
@@ -247,6 +248,14 @@ export function yearsWithData(data: FinanceData, now: Date): number[] {
  *  projected net; fixed costs are spread evenly; variable spending counts
  *  on the day it happened. Day 1..today; the last point is "now", so it
  *  matches the tiles exactly. */
+/** This month's fixed costs for the live figures: those booked, plus the
+ *  ones still to come later this month (recurring copies not yet due) — all
+ *  counted from the 1st, pro rata. */
+export function liveFixed(data: FinanceData, now: Date) {
+  const booked = summarize(data.transactions, new Date(now.getFullYear(), now.getMonth(), 1)).fixed;
+  return booked + upcomingFixedCosts(data, now).reduce((s, t) => s + num(t.amount), 0);
+}
+
 export function monthToDate(data: FinanceData, now: Date) {
   const year = now.getFullYear(), m = now.getMonth();
   const start = new Date(year, m, 1).getTime();
@@ -254,6 +263,7 @@ export function monthToDate(data: FinanceData, now: Date) {
   const monthMs = days * 86_400_000;
   const income = projectedNetIncome(data, now);
   const s = summarize(data.transactions, now);
+  const fixedNow = liveFixed(data, now);
   const variableByDay = new Array(days + 1).fill(0);
   for (const t of live(data.transactions)) {
     const d = new Date(t.date);
@@ -267,7 +277,7 @@ export function monthToDate(data: FinanceData, now: Date) {
     // End of each finished day; "now" for today.
     const at = day === now.getDate() ? now.getTime() : start + day * 86_400_000;
     const f = Math.min(1, (at - start) / monthMs);
-    points.push({ day, income: income * f + otherIncome(data, now, start + day * 86_400_000 - 1), spent: s.fixed * f + variable });
+    points.push({ day, income: income * f + otherIncome(data, now, start + day * 86_400_000 - 1), spent: fixedNow * f + variable });
   }
   return { points, days };
 }
@@ -355,12 +365,13 @@ export function netWorthFigures(data: FinanceData, now: Date) {
   const base = startOfYear + finished.reduce((a, b) => a + b, 0);
   const days = new Date(year, current + 1, 0).getDate();
   const thisMonth = summarize(data.transactions, new Date(year, current, 1));
+  const fixedNow = liveFixed(data, now);
   const projected = projectedNetIncome(data, new Date(year, current, 1));
   const monthStart = new Date(year, current, 1).getTime();
   /** This month's live change at time `at` (ms) — the Balance tile. */
   const liveChange = (at: number) => {
     const f = Math.min(Math.max((at - monthStart) / (days * 86_400_000), 0), 1);
-    return projected * f + otherIncome(data, new Date(monthStart), at) - (thisMonth.fixed * f + thisMonth.variable);
+    return projected * f + otherIncome(data, new Date(monthStart), at) - (fixedNow * f + thisMonth.variable);
   };
   const forecast = yearForecast(data, now).map((f) => ({ month: f.month, change: f.income - f.spent }));
   return { accountsTotal, holdingsTotal, base, startOfYear, finished, liveChange, forecast, thisMonth, projected, days };

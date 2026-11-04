@@ -17,7 +17,7 @@ import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
 import MonthPicker from "@/components/finance/MonthPicker";
 import Stat, { ExpectedBar } from "@/components/finance/Stat";
-import { projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
+import { liveFixed, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { budgetTotals } from "@/lib/finance/progressModel";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 
@@ -126,7 +126,7 @@ export default function ExpensesPage() {
         monthStart={month}
         monthlyIncome={projectedNetIncome(data, month)}
         enteredIncome={s.income}
-        fixed={s.fixed}
+        fixed={past ? s.fixed : liveFixed(data, now)}
         variable={s.variable}
         currency={currency}
         mode={mode}
