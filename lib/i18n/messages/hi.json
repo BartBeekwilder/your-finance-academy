@@ -1277,5 +1277,9 @@
  "Other assets": "अन्य संपत्ति",
  "Other debts": "अन्य कर्ज़",
  "31 December {year}": "31 दिसंबर {year}",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "वर्ष: घर ख़रीद और आज के मूल्य के बीच (अनुमान), गिरवी अपनी अनुसूची के अनुसार, निवेश बाज़ार मूल्य या लागत पर; हर वर्ष के आयातित कुल का बाकी हिस्सा अन्य में।"
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "वर्ष: घर ख़रीद और आज के मूल्य के बीच (अनुमान), गिरवी अपनी अनुसूची के अनुसार, निवेश बाज़ार मूल्य या लागत पर; हर वर्ष के आयातित कुल का बाकी हिस्सा अन्य में।",
+ "Cumulative": "संचयी",
+ "{amount} limit": "सीमा {amount}",
+ "Cumulative spending this month against budget": "इस महीने का संचयी खर्च बनाम बजट",
+ "Budget, spread over the month": "महीने भर में बँटा बजट"
 }

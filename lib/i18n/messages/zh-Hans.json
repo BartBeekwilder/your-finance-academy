@@ -1277,5 +1277,9 @@
  "Other assets": "其他资产",
  "Other debts": "其他负债",
  "31 December {year}": "{year}年12月31日",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "年份：房产按购买价与当前价值之间估算，房贷按还款计划，投资按市值或成本；每年导入总额的其余部分归入“其他”。"
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "年份：房产按购买价与当前价值之间估算，房贷按还款计划，投资按市值或成本；每年导入总额的其余部分归入“其他”。",
+ "Cumulative": "累计",
+ "{amount} limit": "上限 {amount}",
+ "Cumulative spending this month against budget": "本月累计支出与预算对比",
+ "Budget, spread over the month": "按月平摊的预算"
 }

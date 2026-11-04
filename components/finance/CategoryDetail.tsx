@@ -1,11 +1,11 @@
 "use client";
 
-import { t } from "@/lib/i18n";
+import { intlLocale, t } from "@/lib/i18n";
 import { editProps } from "@/lib/finance/editTransaction";
 import { WithYAxis } from "./YAxis";
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 import { ChevronRight, X } from "lucide-react";
-import { categoryYear, live, monthKey, num, type CategoryMonth } from "@/lib/finance/calc";
+import { categoryYear, expectedByCategory, live, monthKey, num, type CategoryMonth } from "@/lib/finance/calc";
 import { dayLabel, money, monthYear, shortMonth } from "@/lib/finance/format";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
@@ -90,7 +90,7 @@ function Detail({ categoryId, at, onClose }: { categoryId: string; at: Date | nu
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: -12, fontSize: "0.78rem", fontWeight: 500, color: over ? "var(--pf-red)" : "var(--pf-green)" }}>
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: "currentColor" }} />
           {over ? t("Over Budget") : t("Under Budget")}
-          <span style={{ color: "var(--pf-ink-3)", fontWeight: 400 }}>· {money(view.budget, currency)} limit</span>
+          <span style={{ color: "var(--pf-ink-3)", fontWeight: 400 }}>· {t("{amount} limit", { amount: money(view.budget, currency) })}</span>
         </div>
       )}
 
@@ -151,7 +151,20 @@ function Detail({ categoryId, at, onClose }: { categoryId: string; at: Date | nu
       })()}
 
       <section>
-        <h3 className="pf-section-title" style={{ marginLeft: 0 }}>Cumulative — {now.getFullYear()}</h3>
+        <h3 className="pf-section-title" style={{ marginLeft: 0 }}>{t("Cumulative")} — {monthYear(now)}</h3>
+        <MonthCumulative
+          now={now}
+          done={!!at}
+          txs={view.thisMonth.map((x) => ({ day: new Date(x.date).getDate(), amount: num(x.amount) }))}
+          budget={view.budget}
+          expected={category.parent_id ? null : expectedByCategory(data, new Date(now.getFullYear(), now.getMonth(), 1), now).get(category.id)?.expected ?? null}
+          color={color}
+          currency={currency}
+        />
+      </section>
+
+      <section>
+        <h3 className="pf-section-title" style={{ marginLeft: 0 }}>{t("Cumulative")} — {now.getFullYear()}</h3>
         <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{t("Year to Date")}</div>
         <div className="pf-rounded" style={{ fontSize: "1.5rem", fontWeight: 700, color }}>{money(view.ytd, currency)}</div>
         <CumulativeChart points={view.perMonth} color={color} currency={currency} />
@@ -197,10 +210,10 @@ function Legend({ color, hasBudget }: { color: string; hasBudget: boolean }) {
   return (
     <div style={{ display: "flex", gap: 14, fontSize: "0.68rem", color: "var(--pf-ink-2)", marginTop: 6 }}>
       <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-        <span style={{ width: 14, height: 2.5, borderRadius: 2, background: color }} /> Spent
+        <span style={{ width: 14, height: 2.5, borderRadius: 2, background: color }} /> {t("Spent")}
       </span>
       <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-        <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> Budget
+        <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> {t("Budget")}
       </span>
     </div>
   );
@@ -273,6 +286,69 @@ function CumulativeChart({ points, color, currency }: { points: Point[]; color: 
       </svg>
 </WithYAxis>
       <Legend color={color} hasBudget={hasBudget} />
+    </div>
+  );
+}
+
+/** The month day by day: spending running up against the budget spread
+ *  evenly over the month (dashed) — above the line = ahead of the budget's
+ *  pace; from today a dotted line to the month-end forecast (the shared
+ *  rule, calc expectedByCategory). Hover or drag to read any day. */
+function MonthCumulative({ now, done, txs, budget, expected, color, currency }: {
+  now: Date; done: boolean; txs: { day: number; amount: number }[]; budget: number | null; expected: number | null; color: string; currency: string;
+}) {
+  const [sel, setSel] = useState<number | null>(null);
+  const W = 480, H = 140;
+  const days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const today = done ? days : now.getDate();
+  const byDay = new Array(days + 1).fill(0);
+  for (const x of txs) if (x.day >= 1 && x.day <= days) byDay[x.day] += x.amount;
+  const spent: number[] = [];
+  for (let d = 1, run = 0; d <= today; d++) spent.push((run += byDay[d]));
+  const pace = (d: number) => (budget ?? 0) * (d / days);
+  const last = spent[spent.length - 1] ?? 0;
+  const end = done ? last : Math.max(expected ?? last, last);
+  const max = Math.max(1, end, budget ?? 0, ...spent);
+  const x = (d: number) => ((d - 1) / Math.max(days - 1, 1)) * W;
+  const y = (v: number) => H - (v / max) * (H - 12) - 4;
+  const line = spent.map((v, i) => `${i ? "L" : "M"}${x(i + 1)},${y(v)}`).join(" ");
+  const shown = sel !== null ? Math.min(sel, days) : today;
+  const shownSpent = shown <= today ? spent[shown - 1] ?? 0 : last + ((end - last) * (shown - today)) / Math.max(days - today, 1);
+  const diff = shownSpent - pace(shown);
+  const pick = (e: React.PointerEvent<SVGSVGElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setSel(Math.max(1, Math.min(days, Math.round(((e.clientX - r.left) / r.width) * (days - 1)) + 1)));
+  };
+  const date = new Date(now.getFullYear(), now.getMonth(), shown).toLocaleDateString(intlLocale(), { day: "numeric", month: "short" });
+  return (
+    <div>
+      <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
+        {date}{shown > today ? ` ${t("· forecast")}` : ""} · {t("{amount} spent", { amount: money(shownSpent, currency) })}
+        {budget !== null && (
+          <>
+            {" "}{t("of {budget}", { budget: money(pace(shown), currency) })} ·{" "}
+            <strong style={{ color: diff > 0 ? RED : "var(--pf-green)", fontWeight: 600 }}>
+              {diff > 0 ? t("{amount} over", { amount: money(Math.abs(diff), currency) }) : t("{amount} under", { amount: money(Math.abs(diff), currency) })}
+            </strong>
+          </>
+        )}
+      </div>
+      <WithYAxis height={H} currency={currency} ticks={[0, 0.5, 1].map((f) => ({ value: max * f, at: (4 + f * (H - 12)) / H }))}>
+        <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} preserveAspectRatio="none" style={{ touchAction: "none", cursor: "crosshair" }}
+          onPointerMove={pick} onPointerDown={pick} onPointerLeave={() => setSel(null)} role="img" aria-label={t("Cumulative spending this month against budget")}>
+          {spent.length > 0 && <path d={`${line} L${x(today)},${H} L0,${H} Z`} fill={color} opacity={0.18} />}
+          {budget !== null && <path d={`M${x(1)},${y(pace(1))} L${x(days)},${y(budget)}`} fill="none" stroke="var(--pf-ink-2)" strokeWidth={2} strokeDasharray="6 5" vectorEffect="non-scaling-stroke" />}
+          {!done && today < days && <path d={`M${x(today)},${y(last)} L${x(days)},${y(end)}`} fill="none" stroke={color} strokeWidth={2} strokeDasharray="2 5" strokeLinecap="round" opacity={0.7} vectorEffect="non-scaling-stroke" />}
+          <path d={line} fill="none" stroke={color} strokeWidth={2.5} vectorEffect="non-scaling-stroke" />
+          <line x1={x(shown)} x2={x(shown)} y1={0} y2={H} stroke="var(--pf-ink-3)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />
+          <circle cx={x(shown)} cy={y(shownSpent)} r={3.5} fill={budget !== null && diff > 0 ? RED : color} vectorEffect="non-scaling-stroke" />
+        </svg>
+      </WithYAxis>
+      <div style={{ display: "flex", gap: 14, fontSize: "0.68rem", color: "var(--pf-ink-2)", marginTop: 6 }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><span style={{ width: 14, height: 2.5, borderRadius: 2, background: color }} /> {t("Spent")}</span>
+        {budget !== null && <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> {t("Budget, spread over the month")}</span>}
+        {!done && <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><span style={{ width: 14, borderTop: `2px dotted ${color}` }} /> {t("Forecast")}</span>}
+      </div>
     </div>
   );
 }

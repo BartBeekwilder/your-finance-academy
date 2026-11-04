@@ -1277,5 +1277,9 @@
  "Other assets": "Aset lainnya",
  "Other debts": "Utang lainnya",
  "31 December {year}": "31 Desember {year}",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Tahun: rumah antara pembelian dan nilai sekarang (perkiraan), KPR menurut jadwalnya, investasi pada nilai pasar atau biaya; sisa total impor tiap tahun ada di Lainnya."
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Tahun: rumah antara pembelian dan nilai sekarang (perkiraan), KPR menurut jadwalnya, investasi pada nilai pasar atau biaya; sisa total impor tiap tahun ada di Lainnya.",
+ "Cumulative": "Kumulatif",
+ "{amount} limit": "batas {amount}",
+ "Cumulative spending this month against budget": "Pengeluaran kumulatif bulan ini vs anggaran",
+ "Budget, spread over the month": "Anggaran, dibagi sepanjang bulan"
 }

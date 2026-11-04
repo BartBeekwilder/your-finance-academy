@@ -1277,5 +1277,9 @@
  "Other assets": "Прочие активы",
  "Other debts": "Прочие долги",
  "31 December {year}": "31 декабря {year}",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Годы: жильё между покупкой и сегодняшней стоимостью (оценка), ипотека по графику, инвестиции по рыночной стоимости или по цене покупки; остаток импортированного итога за год — в «Прочее»."
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Годы: жильё между покупкой и сегодняшней стоимостью (оценка), ипотека по графику, инвестиции по рыночной стоимости или по цене покупки; остаток импортированного итога за год — в «Прочее».",
+ "Cumulative": "Нарастающим итогом",
+ "{amount} limit": "лимит {amount}",
+ "Cumulative spending this month against budget": "Расходы за месяц нарастающим итогом против бюджета",
+ "Budget, spread over the month": "Бюджет, распределённый по месяцу"
 }

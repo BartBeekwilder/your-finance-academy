@@ -1284,5 +1284,9 @@
  "Other assets": "Overige bezittingen",
  "Other debts": "Overige schulden",
  "31 December {year}": "31 december {year}",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Jaren: woningen tussen aankoop en de waarde van nu (schatting), hypotheken volgens hun schema, beleggingen tegen marktwaarde of inleg; de rest van het geïmporteerde jaartotaal staat onder Overig."
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Jaren: woningen tussen aankoop en de waarde van nu (schatting), hypotheken volgens hun schema, beleggingen tegen marktwaarde of inleg; de rest van het geïmporteerde jaartotaal staat onder Overig.",
+ "Cumulative": "Cumulatief",
+ "{amount} limit": "limiet {amount}",
+ "Cumulative spending this month against budget": "Cumulatieve uitgaven deze maand tegenover het budget",
+ "Budget, spread over the month": "Budget, verdeeld over de maand"
 }

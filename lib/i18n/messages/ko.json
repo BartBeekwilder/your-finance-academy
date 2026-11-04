@@ -1277,5 +1277,9 @@
  "Other assets": "기타 자산",
  "Other debts": "기타 부채",
  "31 December {year}": "{year}년 12월 31일",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "연도: 주택은 매입가와 현재 가치 사이(추정), 대출은 상환 일정대로, 투자는 시가 또는 원가; 각 연도의 가져온 총액 중 나머지는 기타에 있습니다."
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "연도: 주택은 매입가와 현재 가치 사이(추정), 대출은 상환 일정대로, 투자는 시가 또는 원가; 각 연도의 가져온 총액 중 나머지는 기타에 있습니다.",
+ "Cumulative": "누적",
+ "{amount} limit": "한도 {amount}",
+ "Cumulative spending this month against budget": "이번 달 누적 지출 대 예산",
+ "Budget, spread over the month": "한 달에 나눈 예산"
 }

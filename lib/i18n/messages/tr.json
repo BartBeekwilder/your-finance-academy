@@ -1277,5 +1277,9 @@
  "Other assets": "Diğer varlıklar",
  "Other debts": "Diğer borçlar",
  "31 December {year}": "31 Aralık {year}",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Yıllar: konutlar alım ile bugünkü değer arasında (tahmin), krediler planına göre, yatırımlar piyasa değeri ya da maliyetle; her yılın içe aktarılan toplamının geri kalanı Diğer altında."
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Yıllar: konutlar alım ile bugünkü değer arasında (tahmin), krediler planına göre, yatırımlar piyasa değeri ya da maliyetle; her yılın içe aktarılan toplamının geri kalanı Diğer altında.",
+ "Cumulative": "Kümülatif",
+ "{amount} limit": "limit {amount}",
+ "Cumulative spending this month against budget": "Bu ayki kümülatif harcama ve bütçe",
+ "Budget, spread over the month": "Aya yayılmış bütçe"
 }

@@ -1277,5 +1277,9 @@
  "Other assets": "Tài sản khác",
  "Other debts": "Nợ khác",
  "31 December {year}": "31 tháng 12 năm {year}",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Các năm: nhà ở giữa lúc mua và giá trị hiện tại (ước tính), khoản vay theo lịch trả, đầu tư theo giá thị trường hoặc giá vốn; phần còn lại của tổng đã nhập mỗi năm nằm trong Khác."
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Các năm: nhà ở giữa lúc mua và giá trị hiện tại (ước tính), khoản vay theo lịch trả, đầu tư theo giá thị trường hoặc giá vốn; phần còn lại của tổng đã nhập mỗi năm nằm trong Khác.",
+ "Cumulative": "Lũy kế",
+ "{amount} limit": "giới hạn {amount}",
+ "Cumulative spending this month against budget": "Chi tiêu lũy kế tháng này so với ngân sách",
+ "Budget, spread over the month": "Ngân sách chia đều cả tháng"
 }

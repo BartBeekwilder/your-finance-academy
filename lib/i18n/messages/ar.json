@@ -1277,5 +1277,9 @@
  "Other assets": "أصول أخرى",
  "Other debts": "ديون أخرى",
  "31 December {year}": "31 ديسمبر {year}",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "السنوات: المنازل بين الشراء وقيمة اليوم (تقدير)، الرهون حسب جدولها، الاستثمارات بالقيمة السوقية أو بالتكلفة؛ وبقية الإجمالي المستورد لكل سنة تحت «أخرى»."
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "السنوات: المنازل بين الشراء وقيمة اليوم (تقدير)، الرهون حسب جدولها، الاستثمارات بالقيمة السوقية أو بالتكلفة؛ وبقية الإجمالي المستورد لكل سنة تحت «أخرى».",
+ "Cumulative": "تراكمي",
+ "{amount} limit": "الحد {amount}",
+ "Cumulative spending this month against budget": "الإنفاق التراكمي هذا الشهر مقابل الميزانية",
+ "Budget, spread over the month": "الميزانية موزعة على الشهر"
 }

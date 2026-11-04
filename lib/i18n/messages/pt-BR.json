@@ -1277,5 +1277,9 @@
  "Other assets": "Outros ativos",
  "Other debts": "Outras dívidas",
  "31 December {year}": "31 de dezembro de {year}",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Anos: imóveis entre a compra e o valor atual (estimativa), financiamentos pelo cronograma, investimentos a valor de mercado ou custo; o resto do total importado de cada ano fica em Outros."
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "Anos: imóveis entre a compra e o valor atual (estimativa), financiamentos pelo cronograma, investimentos a valor de mercado ou custo; o resto do total importado de cada ano fica em Outros.",
+ "Cumulative": "Acumulado",
+ "{amount} limit": "limite {amount}",
+ "Cumulative spending this month against budget": "Gasto acumulado neste mês em relação ao orçamento",
+ "Budget, spread over the month": "Orçamento, distribuído no mês"
 }

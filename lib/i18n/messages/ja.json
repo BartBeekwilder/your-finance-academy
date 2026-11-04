@@ -1277,5 +1277,9 @@
  "Other assets": "その他の資産",
  "Other debts": "その他の負債",
  "31 December {year}": "{year}年12月31日",
- "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "年：住宅は購入時から現在価値の間（推定）、住宅ローンは返済計画どおり、投資は時価または取得価格。各年の取り込み総額の残りは「その他」に。"
+ "Years: homes between purchase and today's value (estimate), mortgages on their schedule, investments at market value or cost; the rest of each year's imported total is under Other.": "年：住宅は購入時から現在価値の間（推定）、住宅ローンは返済計画どおり、投資は時価または取得価格。各年の取り込み総額の残りは「その他」に。",
+ "Cumulative": "累計",
+ "{amount} limit": "上限 {amount}",
+ "Cumulative spending this month against budget": "今月の累計支出と予算",
+ "Budget, spread over the month": "月に均等配分した予算"
 }
