@@ -59,6 +59,8 @@ export default function VaultUnlock({ supabase, email, hasVault, start, onUnlock
   }
 
   return (
+    // Centred on the page, like the sign-in card before it.
+    <div style={{ minHeight: "70dvh", display: "grid", placeItems: "center" }}>
     <form className="pf-card pf-unlock" onSubmit={(e) => { e.preventDefault(); void go(); }}>
       <span className="pf-unlock-icon"><LockKeyhole size={22} /></span>
       <h1>{hasVault ? t("Unlock your data") : t("Protect your data")}</h1>
@@ -87,5 +89,6 @@ export default function VaultUnlock({ supabase, email, hasVault, start, onUnlock
         <button type="button" className="pf-link" onClick={onSignOut}>{t("Sign out")}</button>
       </span>
     </form>
+    </div>
   );
 }
