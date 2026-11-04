@@ -265,7 +265,8 @@ wide Liquidity tile / tile-alone layout, pointing at forecast days, donut
 growing into its tile. Android: everything since 27 Oct.
 Also on web 4 Nov, to port: Budget ring = ONE month goal for all budgets together
 (progressModel `budgetTotals`, progress `budgetTotalRing`: full while the month-end
-forecast fits the total budget, else budget ÷ forecast; calendar day ring = that
+forecast fits the total budget, else budget ÷ forecast — × the month's fraction so it
+fills day by day (closes on the last day); calendar day ring = that
 day's forecast vs the total, dayRings `budgetPlan`); Progress tile bar shows
 '€ forecast / € budget' with a tick at the budget, red when over; Progress page:
 level + rings on top, check-in card below.
