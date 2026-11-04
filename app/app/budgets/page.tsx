@@ -5,6 +5,7 @@ import { Fragment, useRef, useState } from "react";
 import { useFlip } from "@/lib/useFlip";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
 import BudgetBar, { partShade } from "@/components/finance/BudgetBar";
+import { upcomingFixedCosts } from "@/lib/finance/recurring";
 import BudgetScaleSwitch from "@/components/finance/BudgetScaleSwitch";
 import { useBudgetCompare, useBudgetLargestFirst } from "@/lib/prefs";
 import CategoryIcon from "@/components/finance/CategoryIcon";
@@ -42,13 +43,17 @@ export default function BudgetsPage() {
   const categories = live(data.categories);
   const expenses = live(data.transactions).filter((t) => t.type === "expense" && inMonth(t, month));
 
+  // Fixed costs still to come this month (recurring, not yet booked): they
+  // count from the 1st like any fixed cost, so the bar runs up all month.
+  const upcoming = isCurrent ? upcomingFixedCosts(data, now) : [];
+  const upcomingIn = (ids: Set<string>) => upcoming.filter((t) => t.category_id && ids.has(t.category_id)).reduce((s, t) => s + num(t.amount), 0);
   const expectedNow = expectedByCategory(data, month, now);
   const rows = categories
     .filter((c) => !c.is_income_category && c.parent_id === null)
     .sort((a, b) => a.sort_order - b.sort_order)
     .map((c) => {
       const ids = selfAndChildren(c, categories);
-      const spent = expenses.filter((t) => t.category_id && ids.has(t.category_id)).reduce((s, t) => s + num(t.amount), 0);
+      const spent = expenses.filter((t) => t.category_id && ids.has(t.category_id)).reduce((s, t) => s + num(t.amount), 0) + upcomingIn(ids);
       const cy = categoryYear(data, c, now).months;
       // What the month is expected to end at — the shared rule
       // (expectedByCategory): spent so far + the usual rest, fixed costs for
@@ -95,7 +100,7 @@ export default function BudgetsPage() {
   const fixedByMonth = new Map(
     rows.map((r) => {
       const ids = selfAndChildren(r.c, categories);
-      const known = Array.from({ length: now.getMonth() + 1 }, (_, m) => fixedIn(ids, m));
+      const known = Array.from({ length: now.getMonth() + 1 }, (_, m) => fixedIn(ids, m) + (m === now.getMonth() ? upcomingIn(ids) : 0));
       const latest = [...known].reverse().find((v) => v > 0) ?? 0;
       return [r.c.id, Array.from({ length: 12 }, (_, m) => (m <= now.getMonth() ? known[m] : latest))] as const;
     }),
