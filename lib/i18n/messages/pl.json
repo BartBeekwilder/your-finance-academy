@@ -1254,7 +1254,6 @@
  "Saving ring": "Pierścień oszczędzania",
  "Tracking ring": "Pierścień prowadzenia",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Trzy pierścienie na miesiąc, jak pierścienie aktywności w zegarku: Prowadzenie (różowy), Budżet (zielony) i Oszczędzanie (fioletowy). Pierścień zamyka się po osiągnięciu celu; powyżej zaczyna drugie okrążenie. Kalendarz pokazuje je dzień po dniu.",
- "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "Odsetek dni tego miesiąca, w które prowadziłeś księgi. Dzień liczy się, gdy otworzysz aplikację lub obejmie go przegląd: przegląd liczy każdy dzień wstecz do poprzedniego.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Potwierdzenie, że księgi są aktualne: wszystkie wydatki i dochody wpisane, a salda zgadzają się z bankiem. Raz na okres (Ustawienia › Przegląd), za 15 pkt bonusu; liczy też dni od poprzedniego przeglądu jako prowadzone.",
  "Points": "Punkty",
  "Several bills in one? Add them up with +, like 40+24.": "Kilka rachunków w jednym? Dodaj je przez +, np. 40+24.",
@@ -1281,5 +1280,6 @@
  "Cumulative": "Narastająco",
  "{amount} limit": "limit {amount}",
  "Cumulative spending this month against budget": "Wydatki narastająco w tym miesiącu wobec budżetu",
- "Budget, spread over the month": "Budżet rozłożony na miesiąc"
+ "Budget, spread over the month": "Budżet rozłożony na miesiąc",
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Dni tego miesiąca, w których księgi były aktualne, spośród wszystkich jego dni — rośnie dzień po dniu i zamyka się ostatniego dnia, jeśli prowadzisz codziennie. Dzień liczy się, gdy obejmuje go przegląd („Zaktualizuj księgi”): liczy każdy dzień wstecz do poprzedniego. Samo otwarcie aplikacji daje punkty, ale nie wypełnia pierścienia."
 }

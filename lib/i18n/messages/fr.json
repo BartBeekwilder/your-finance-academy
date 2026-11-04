@@ -1254,7 +1254,6 @@
  "Saving ring": "Anneau Épargne",
  "Tracking ring": "Anneau Suivi",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Trois anneaux pour le mois, comme les anneaux d’activité d’une montre : Suivi (rose), Budget (vert) et Épargne (violet). Un anneau se ferme quand vous atteignez son objectif ; au-delà, il entame un second tour. Le calendrier les montre jour par jour.",
- "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "La part des jours de ce mois où vous avez tenu vos comptes. Un jour compte quand vous ouvrez l’app, ou quand un point régulier le couvre : il compte chaque jour jusqu’au point précédent.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Confirmer que vos comptes sont à jour : toutes les dépenses et revenus saisis, et vos soldes correspondent à la banque. Une fois par période (Réglages › Point régulier), pour 15 points bonus ; cela compte aussi les jours depuis le point précédent comme suivis.",
  "Points": "Points",
  "Several bills in one? Add them up with +, like 40+24.": "Plusieurs factures en une ? Additionnez-les avec +, comme 40+24.",
@@ -1281,5 +1280,6 @@
  "Cumulative": "Cumulé",
  "{amount} limit": "limite {amount}",
  "Cumulative spending this month against budget": "Dépenses cumulées ce mois-ci face au budget",
- "Budget, spread over the month": "Budget, réparti sur le mois"
+ "Budget, spread over the month": "Budget, réparti sur le mois",
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Les jours de ce mois où vos comptes étaient à jour, sur tous ses jours — l’anneau grandit jour après jour et se ferme le dernier jour si vous suivez chaque jour. Un jour compte quand un point le couvre (« Mettre vos comptes à jour ») : il compte chaque jour jusqu’au précédent. Ouvrir l’app rapporte des points, mais ne remplit pas l’anneau."
 }

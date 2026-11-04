@@ -290,6 +290,9 @@ Fixed costs still to come this month (recurring copies not yet due, recurring
 `upcomingFixedCosts`) count in the live figures from the 1st (calc `liveFixed`:
 tiles, monthToDate, liveChange, tile charts); 'Entered' stays booked only.
 Tile readouts show fixed / variable with %.
+Tracking ring: only days a check-in covers count (visits only before the first
+check-in, for history); kept-up days ÷ days in the month, so it fills with the
+month. Opening the app still earns 5 points a day.
 Balance over time › Years (calc `balanceYears`): year-ends from yearSnapshots + today;
 homes interpolated purchase→today's value (estimate), mortgage parts on schedule,
 investments at market (within price history) or cost of what was held; the rest

@@ -1254,7 +1254,6 @@
  "Saving ring": "Anillo de ahorro",
  "Tracking ring": "Anillo de registro",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Tres anillos para el mes, como los anillos de actividad de un reloj: Registro (rosa), Presupuesto (verde) y Ahorro (morado). Un anillo se cierra al alcanzar su objetivo; pasado este, empieza una segunda vuelta. El calendario los muestra día a día.",
- "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "La parte de los días de este mes en que llevaste tus cuentas. Un día cuenta cuando abres la app o cuando una revisión lo cubre: una revisión cuenta cada día hasta la anterior.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Confirmar que tus cuentas están al día: todos los gastos e ingresos registrados y los saldos coinciden con el banco. Una vez por periodo (Ajustes › Revisión), por 15 puntos extra; también cuenta como registrados los días desde la revisión anterior.",
  "Points": "Puntos",
  "Several bills in one? Add them up with +, like 40+24.": "¿Varias facturas en una? Súmalas con +, como 40+24.",
@@ -1281,5 +1280,6 @@
  "Cumulative": "Acumulado",
  "{amount} limit": "límite {amount}",
  "Cumulative spending this month against budget": "Gasto acumulado este mes frente al presupuesto",
- "Budget, spread over the month": "Presupuesto, repartido en el mes"
+ "Budget, spread over the month": "Presupuesto, repartido en el mes",
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Los días de este mes en que tus cuentas estaban al día, de todos sus días — crece día a día y se cierra el último día si las llevas cada día. Un día cuenta cuando una revisión lo cubre («Poner tus cuentas al día»): cuenta cada día hasta la anterior. Solo abrir la app da puntos, pero no llena el anillo."
 }

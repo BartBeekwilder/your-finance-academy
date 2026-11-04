@@ -1254,7 +1254,6 @@
  "Saving ring": "Кольцо сбережений",
  "Tracking ring": "Кольцо учёта",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Три кольца на месяц, как кольца активности в часах: Учёт (розовое), Бюджет (зелёное) и Сбережения (фиолетовое). Кольцо замыкается при достижении цели; дальше начинается второй круг. Календарь показывает их по дням.",
- "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "Доля дней этого месяца, когда вы вели учёт. День засчитывается, когда вы открываете приложение или его покрывает отметка: отметка засчитывает каждый день до предыдущей.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Подтверждение, что учёт в порядке: все расходы и доходы внесены, остатки совпадают с банком. Раз за период (Настройки › Отметка), за 15 бонусных очков; также засчитывает дни с предыдущей отметки как учтённые.",
  "Points": "Очки",
  "Several bills in one? Add them up with +, like 40+24.": "Несколько счетов в одном? Сложите их через +, например 40+24.",
@@ -1281,5 +1280,6 @@
  "Cumulative": "Нарастающим итогом",
  "{amount} limit": "лимит {amount}",
  "Cumulative spending this month against budget": "Расходы за месяц нарастающим итогом против бюджета",
- "Budget, spread over the month": "Бюджет, распределённый по месяцу"
+ "Budget, spread over the month": "Бюджет, распределённый по месяцу",
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Дни этого месяца, когда учёт был в порядке, из всех его дней — кольцо растёт день за днём и замыкается в последний день, если вести учёт каждый день. День засчитывается, когда его покрывает отметка («Обновить учёт»): она засчитывает каждый день до предыдущей. Просто открыть приложение — это очки, но кольцо не заполняется."
 }

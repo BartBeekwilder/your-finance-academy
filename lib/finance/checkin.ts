@@ -87,7 +87,11 @@ export function coveredDays(days: string[]) {
   return out;
 }
 
-/** Days kept up: the days the app was used plus those check-ins cover. */
+/** Days kept up (the Tracking ring, streaks, the calendar): the days the
+ *  check-ins cover. Before the very first check-in, the days the app was
+ *  used still count, so earlier history keeps its rings. */
 export function trackedDays(activity: string[], checkins: string[]) {
-  return [...new Set([...activity.map((d) => d.slice(0, 10)), ...coveredDays(checkins)])].sort();
+  const first = checkins.length ? checkins[0] : null;
+  const before = activity.map((d) => d.slice(0, 10)).filter((d) => first === null || d < first.slice(0, 8) + "01");
+  return [...new Set([...before, ...coveredDays(checkins)])].sort();
 }

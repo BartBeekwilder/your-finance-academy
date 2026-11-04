@@ -1254,7 +1254,6 @@
  "Saving ring": "حلقة الادخار",
  "Tracking ring": "حلقة المتابعة",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "ثلاث حلقات للشهر، مثل حلقات النشاط في الساعة: المتابعة (وردي) والميزانية (أخضر) والادخار (بنفسجي). تكتمل الحلقة عند بلوغ هدفها؛ وبعده تبدأ دورة ثانية. يعرضها التقويم يومًا بيوم.",
- "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "نسبة أيام هذا الشهر التي تابعت فيها دفاترك. يُحتسب اليوم عند فتح التطبيق أو عندما تغطيه مراجعة: تحتسب المراجعة كل يوم حتى المراجعة السابقة.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "تأكيد أن دفاترك محدّثة: كل النفقات والدخل مُدخلة وأرصدة الحسابات تطابق البنك. مرة لكل فترة (الإعدادات › المراجعة)، مقابل 15 نقطة إضافية؛ وتحتسب أيضًا الأيام منذ المراجعة السابقة كأيام متابعة.",
  "Points": "النقاط",
  "Several bills in one? Add them up with +, like 40+24.": "عدة فواتير في واحدة؟ اجمعها بعلامة +، مثل 40+24.",
@@ -1281,5 +1280,6 @@
  "Cumulative": "تراكمي",
  "{amount} limit": "الحد {amount}",
  "Cumulative spending this month against budget": "الإنفاق التراكمي هذا الشهر مقابل الميزانية",
- "Budget, spread over the month": "الميزانية موزعة على الشهر"
+ "Budget, spread over the month": "الميزانية موزعة على الشهر",
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "أيام هذا الشهر التي كانت فيها دفاترك محدّثة، من كل أيامه — تكبر يومًا بعد يوم وتكتمل في اليوم الأخير إن واظبت كل يوم. يُحتسب اليوم عندما تغطيه مراجعة («حدّث دفاترك»): تحتسب كل يوم حتى المراجعة السابقة. فتح التطبيق فقط يمنح نقاطًا لكنه لا يملأ الحلقة."
 }

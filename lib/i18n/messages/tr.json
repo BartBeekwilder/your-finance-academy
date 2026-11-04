@@ -1254,7 +1254,6 @@
  "Saving ring": "Birikim halkası",
  "Tracking ring": "Kayıt halkası",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Ay için üç halka, bir saatin etkinlik halkaları gibi: Kayıt (pembe), Bütçe (yeşil) ve Birikim (mor). Hedefe ulaşınca halka kapanır; ötesinde ikinci tur başlar. Takvim bunları gün gün gösterir.",
- "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "Bu ayın kayıtlarını tuttuğun günlerin oranı. Uygulamayı açtığında veya bir kontrol onu kapsadığında gün sayılır: bir kontrol bir öncekine kadar her günü sayar.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Kayıtlarının güncel olduğunu onaylamak: tüm harcamalar ve gelirler girildi, bakiyeler bankayla uyuşuyor. Dönem başına bir kez (Ayarlar › Kontrol), 15 bonus puan için; önceki kontrolden bu yana günleri de kayıtlı sayar.",
  "Points": "Puan",
  "Several bills in one? Add them up with +, like 40+24.": "Birden çok fatura mı? + ile topla, örneğin 40+24.",
@@ -1281,5 +1280,6 @@
  "Cumulative": "Kümülatif",
  "{amount} limit": "limit {amount}",
  "Cumulative spending this month against budget": "Bu ayki kümülatif harcama ve bütçe",
- "Budget, spread over the month": "Aya yayılmış bütçe"
+ "Budget, spread over the month": "Aya yayılmış bütçe",
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Bu ayın kayıtlarının güncel olduğu günleri, ayın tüm günlerine göre — gün gün büyür ve her gün takip edersen son gün kapanır. Bir gün, bir kontrol onu kapsadığında sayılır (“Kayıtlarını güncelle”): bir öncekine kadar her günü sayar. Sadece uygulamayı açmak puan kazandırır ama halkayı doldurmaz."
 }

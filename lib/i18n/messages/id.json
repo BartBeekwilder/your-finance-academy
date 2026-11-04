@@ -1254,7 +1254,6 @@
  "Saving ring": "Cincin tabungan",
  "Tracking ring": "Cincin pencatatan",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Tiga cincin untuk bulan ini, seperti cincin aktivitas jam tangan: Pencatatan (merah muda), Anggaran (hijau) dan Tabungan (ungu). Cincin tertutup saat target tercapai; melewatinya, putaran kedua dimulai. Kalender menampilkannya per hari.",
- "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "Bagian hari bulan ini saat kamu mencatat keuangan. Sebuah hari dihitung saat kamu membuka aplikasi, atau saat check-in mencakupnya: check-in menghitung setiap hari sampai check-in sebelumnya.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Memastikan pembukuanmu terkini: semua pengeluaran dan pemasukan dicatat, dan saldo rekening sesuai bank. Sekali per periode (Pengaturan › Check-in), untuk 15 poin bonus; juga menghitung hari sejak check-in sebelumnya sebagai tercatat.",
  "Points": "Poin",
  "Several bills in one? Add them up with +, like 40+24.": "Beberapa tagihan dalam satu? Jumlahkan dengan +, misalnya 40+24.",
@@ -1281,5 +1280,6 @@
  "Cumulative": "Kumulatif",
  "{amount} limit": "batas {amount}",
  "Cumulative spending this month against budget": "Pengeluaran kumulatif bulan ini vs anggaran",
- "Budget, spread over the month": "Anggaran, dibagi sepanjang bulan"
+ "Budget, spread over the month": "Anggaran, dibagi sepanjang bulan",
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Hari-hari bulan ini saat pembukuanmu terkini, dari semua harinya — bertambah setiap hari dan tertutup di hari terakhir jika kamu mencatat tiap hari. Sebuah hari dihitung saat check-in mencakupnya (“Perbarui pembukuan”): menghitung setiap hari sampai check-in sebelumnya. Hanya membuka aplikasi memberi poin, tapi tidak mengisi cincin."
 }

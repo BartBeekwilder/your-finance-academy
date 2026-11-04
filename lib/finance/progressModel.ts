@@ -100,6 +100,9 @@ export function monthSummary(data: FinanceData, month: Date, now: Date): MonthCl
 
 export function progressModel(data: FinanceData, now: Date) {
   const activity = activeDays(data);
+  // Points: every day the app was used (5 each), and every day a check-in
+  // covers — the ring and streak count only kept-up days.
+  const visited = [...new Set([...live(data.activityDays ?? []).map((a) => a.day.slice(0, 10)), ...activity])];
   const closes = live(data.monthCloses ?? []).sort((a, b) => a.month.localeCompare(b.month));
   const achievements = live(data.achievements ?? []);
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -112,7 +115,8 @@ export function progressModel(data: FinanceData, now: Date) {
   const fc = yearForecast(data, now)[0];
   const budgetNow = budgetTotals(data, month, now);
   const ringNow = rings({
-    daysElapsed: now.getDate(),
+    // Tracking fills with the month: kept-up days out of all its days.
+    daysElapsed: new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(),
     activeDaysInMonth: activity.filter((d) => d.slice(0, 7) === iso(month).slice(0, 7)).length,
     budgets: budgetRows(data, month, fraction),
     // A month goal for all budgets together: the month-end forecast.
@@ -124,7 +128,7 @@ export function progressModel(data: FinanceData, now: Date) {
   });
 
   const days = streak(activity, now);
-  const points = closes.reduce((t, c) => t + c.points, 0) + achievements.reduce((t, a) => t + a.points, 0) + activity.length * POINTS.activeDay;
+  const points = closes.reduce((t, c) => t + c.points, 0) + achievements.reduce((t, a) => t + a.points, 0) + visited.length * POINTS.activeDay;
 
   // The month to close: only the last finished month (December in January),
   // while it isn't closed yet — older months don't nag.

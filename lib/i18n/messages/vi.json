@@ -1254,7 +1254,6 @@
  "Saving ring": "Vòng tiết kiệm",
  "Tracking ring": "Vòng ghi chép",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Ba vòng cho tháng, giống vòng hoạt động của đồng hồ: Ghi chép (hồng), Ngân sách (xanh lá) và Tiết kiệm (tím). Vòng khép lại khi đạt mục tiêu; vượt qua thì bắt đầu vòng thứ hai. Lịch hiển thị chúng theo từng ngày.",
- "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "Tỷ lệ ngày trong tháng này bạn ghi chép sổ sách. Một ngày được tính khi bạn mở ứng dụng, hoặc khi một lần kiểm tra bao gồm nó: mỗi lần kiểm tra tính mọi ngày lùi về lần trước.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Xác nhận sổ sách đã cập nhật: mọi khoản chi và thu đã nhập, số dư tài khoản khớp ngân hàng. Mỗi kỳ một lần (Cài đặt › Kiểm tra định kỳ), được 15 điểm thưởng; cũng tính các ngày kể từ lần kiểm tra trước là đã ghi chép.",
  "Points": "Điểm",
  "Several bills in one? Add them up with +, like 40+24.": "Nhiều hóa đơn trong một? Cộng chúng bằng +, ví dụ 40+24.",
@@ -1281,5 +1280,6 @@
  "Cumulative": "Lũy kế",
  "{amount} limit": "giới hạn {amount}",
  "Cumulative spending this month against budget": "Chi tiêu lũy kế tháng này so với ngân sách",
- "Budget, spread over the month": "Ngân sách chia đều cả tháng"
+ "Budget, spread over the month": "Ngân sách chia đều cả tháng",
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "Những ngày trong tháng này sổ sách được cập nhật, trên tổng số ngày của tháng — vòng lớn dần từng ngày và khép lại vào ngày cuối nếu bạn cập nhật mỗi ngày. Một ngày được tính khi một lần kiểm tra bao gồm nó (“Cập nhật sổ sách”): tính mọi ngày lùi về lần trước. Chỉ mở ứng dụng thì được điểm nhưng không làm đầy vòng."
 }

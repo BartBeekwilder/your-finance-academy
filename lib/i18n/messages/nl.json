@@ -1261,7 +1261,6 @@
  "Saving ring": "Spaarring",
  "Tracking ring": "Bijhoudring",
  "Three rings for the month, like a watch's activity rings: Tracking (pink), Budget (green) and Saving (purple). A ring closes when you reach its goal; past it, it starts a second lap. The calendar shows them day by day.": "Drie ringen voor de maand, zoals de activiteitsringen van een horloge: Bijhouden (roze), Budget (groen) en Sparen (paars). Een ring sluit als je het doel haalt; daarboven begint een tweede ronde. De kalender toont ze per dag.",
- "The share of this month's days you kept your books up. A day counts when you open the app, or when a check-in covers it: a check-in counts every day back to the one before.": "Het deel van de dagen van deze maand waarop je je boeken bijhield. Een dag telt als je de app opent, of als een bijwerk-checklist hem afdekt: die telt elke dag terug tot de vorige keer.",
  "Confirming your books are up to date: all expenses and income entered, and your account balances match the bank. Once per period (Settings › Check-in), for 15 bonus points; it also counts the days since your previous check-in as kept up.": "Bevestigen dat je boeken bijgewerkt zijn: alle uitgaven en inkomsten geboekt en je rekeningsaldi kloppen met de bank. Eén keer per periode (Instellingen › Bijwerken), voor 15 bonuspunten; het telt ook de dagen sinds de vorige keer als bijgehouden.",
  "Points": "Punten",
  "Several bills in one? Add them up with +, like 40+24.": "Meerdere bedragen voor één post? Tel ze op met +, zoals 40+24.",
@@ -1288,5 +1287,6 @@
  "Cumulative": "Cumulatief",
  "{amount} limit": "limiet {amount}",
  "Cumulative spending this month against budget": "Cumulatieve uitgaven deze maand tegenover het budget",
- "Budget, spread over the month": "Budget, verdeeld over de maand"
+ "Budget, spread over the month": "Budget, verdeeld over de maand",
+ "The days of this month your books were kept up, out of all its days — it fills day by day and closes on the last day if you keep up every day. A day counts when a check-in covers it (“Bring your books up to date”): a check-in counts every day back to the one before. Just opening the app earns points, but doesn't fill the ring.": "De dagen van deze maand waarop je boeken bijgewerkt waren, van alle dagen van de maand — hij groeit dag voor dag en sluit op de laatste dag als je elke dag bijhoudt. Een dag telt als een checklist hem afdekt (“Boeken bijwerken”): die telt elke dag terug tot de vorige keer. Alleen de app openen levert punten op, maar vult de ring niet."
 }
