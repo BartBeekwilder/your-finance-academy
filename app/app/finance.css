@@ -4993,3 +4993,7 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-checkin-undo { display: grid; place-items: center; width: 24px; height: 24px; flex: none; padding: 0; border-radius: 50%; border: 1.5px solid var(--pf-green); background: var(--pf-green); color: #000; cursor: pointer; box-shadow: 0 0 12px rgba(48, 209, 88, 0.45); transition: transform 0.3s cubic-bezier(0.3, 1.8, 0.5, 1), background 0.2s, color 0.2s, box-shadow 0.2s; }
 .pf-checkin-undo:hover { background: transparent; color: var(--pf-green); box-shadow: none; }
 .pf-checkin-undo:active { transform: scale(0.85); }
+.pf-progress-badges { display: grid; gap: 6px; justify-items: end; align-self: start; }
+.pf-points-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; background: rgba(108, 92, 231, 0.16); color: #b9b0ff; font-size: 0.8rem; white-space: nowrap; }
+.pf-points-pill svg { color: #ffd60a; fill: #ffd60a; }
+.pf-points-pill > span { color: var(--pf-ink-3); }

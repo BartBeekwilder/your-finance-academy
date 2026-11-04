@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarCheck, CircleCheck } from "lucide-react";
+import { CalendarCheck, CircleCheck, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import Sheet from "@/components/finance/Sheet";
 import CheckinCard, { useCheckin } from "@/components/finance/CheckinCard";
@@ -41,7 +41,14 @@ export default function ProgressStrip() {
             {m.level.next ? t("{points} points to {level}", { points: m.level.toNext.toLocaleString(), level: t(m.level.next) }) : t("Top level reached")}
           </span>
         </span>
-        <StreakFlame days={m.streak} />
+        <span className="pf-progress-badges">
+          <StreakFlame days={m.streak} />
+          <span className="pf-points-pill" title={t("Points so far")}>
+            <Star size={14} />
+            <b className="pf-rounded">{m.points.toLocaleString(intlLocale())}</b>
+            <span>{t("points")}</span>
+          </span>
+        </span>
       </Link>
       <Link href="/app/progress" className="pf-progress-bars">
         {([

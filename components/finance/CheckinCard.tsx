@@ -61,7 +61,12 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
   const upTo = through && open.includes(through) ? through : open[open.length - 1] ?? dayKey(now);
   const counted = new Set([...live(data.activityDays ?? []).map((a) => a.day.slice(0, 10)), ...coveredDays(ckDays)]);
   const newDays = open.filter((d) => d <= upTo && !counted.has(d)).length;
-  const earn = CHECKIN_POINTS + newDays * POINTS.activeDay;
+  // The bonus once a day: a second check-in the same day (through the 3rd,
+  // then through the 4th) brings only its day points. Taking one back and
+  // doing it again takes its points back first, so nothing is counted twice.
+  const bonusToday = (data.achievements ?? []).some((a) => !a.deleted_at && a.code.startsWith(CHECKIN_PREFIX) && dayKey(new Date(a.earned_at)) === dayKey(now));
+  const bonus = bonusToday ? 0 : CHECKIN_POINTS;
+  const earn = bonus + newDays * POINTS.activeDay;
   const upToDate = new Date(Number(upTo.slice(0, 4)), Number(upTo.slice(5, 7)) - 1, Number(upTo.slice(8, 10)));
   const quickAdd = () => window.dispatchEvent(new Event("pf-quick-add"));
 
@@ -136,7 +141,7 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
     if (!all || saving) return;
     setSaving(true);
     try {
-      await awardBadges([{ code: `${CHECKIN_PREFIX}${upTo}`, points: CHECKIN_POINTS }]);
+      await awardBadges([{ code: `${CHECKIN_PREFIX}${upTo}`, points: bonus }]);
       setJustDone(true);
       setTimeout(() => onDone?.(), 1400);
     } finally {
