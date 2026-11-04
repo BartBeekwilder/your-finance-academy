@@ -172,7 +172,6 @@
  "Chart": "Grafik",
  "Chart values": "Nilai grafik",
  "Charts": "Grafik",
- "Check your email for the 6-digit code.": "Periksa email Anda untuk kode 6 digit.",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "Cocokkan pos milikmu dengan rekening koran bank dan pinjaman. Rumah, KPR, dan rekening terisi sendiri.",
  "Choose a new password": "Pilih kata sandi baru",
  "Cinema": "Bioskop",
@@ -785,11 +784,6 @@
  "Values on chart axes": "Nilai pada sumbu grafik",
  "Variable": "Variabel",
  "Water": "Air",
- "We emailed you a 6-digit code to confirm your address.": "Kami mengirim kode 6 digit untuk mengonfirmasi alamat Anda.",
- "We emailed you a 6-digit code to reset your password.": "Kami mengirim kode 6 digit untuk mengatur ulang kata sandi Anda.",
- "We emailed you a 6-digit code.": "Kami mengirim kode 6 digit.",
- "We'll email you a 6-digit code — no password needed.": "Kami akan mengirim kode 6 digit — tanpa kata sandi.",
- "We'll email you a 6-digit code.": "Kami akan mengirim kode 6 digit.",
  "Wealth per year": "Kekayaan per tahun",
  "What comes in each month?": "Apa yang masuk setiap bulan?",
  "What each choice leaves you with in the long run.": "Apa yang dihasilkan tiap pilihan dalam jangka panjang.",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "Frasa sandi itu tidak membuka brankasmu.",
  "Unlock": "Buka kunci",
  "Unlock your data": "Buka kunci datamu",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Datamu terenkripsi end-to-end. Frasa sandi membukanya di sini, di browser ini — tidak pernah dikirim atau disimpan."
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Datamu terenkripsi end-to-end. Frasa sandi membukanya di sini, di browser ini — tidak pernah dikirim atau disimpan.",
+ "Check your email for the 8-digit code.": "Periksa email Anda untuk kode 8 digit.",
+ "We emailed you a 8-digit code to confirm your address.": "Kami mengirim kode 8 digit untuk mengonfirmasi alamat Anda.",
+ "We emailed you a 8-digit code to reset your password.": "Kami mengirim kode 8 digit untuk mengatur ulang kata sandi Anda.",
+ "We emailed you a 8-digit code.": "Kami mengirim kode 8 digit.",
+ "We'll email you a 8-digit code — no password needed.": "Kami akan mengirim kode 8 digit — tanpa kata sandi.",
+ "We'll email you a 8-digit code.": "Kami akan mengirim kode 8 digit."
 }

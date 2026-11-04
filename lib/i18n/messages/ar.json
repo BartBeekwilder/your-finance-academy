@@ -172,7 +172,6 @@
  "Chart": "الرسم البياني",
  "Chart values": "قيم المخطط",
  "Charts": "المخططات",
- "Check your email for the 6-digit code.": "تحقق من بريدك للحصول على الرمز المكوّن من 6 أرقام.",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "طابق بنودك مع كشوف البنك والقروض. المنازل والرهون والحسابات تُملأ تلقائيًا.",
  "Choose a new password": "اختر كلمة مرور جديدة",
  "Cinema": "سينما",
@@ -785,11 +784,6 @@
  "Values on chart axes": "القيم على محاور المخطط",
  "Variable": "متغير",
  "Water": "ماء",
- "We emailed you a 6-digit code to confirm your address.": "أرسلنا إليك رمزًا من 6 أرقام لتأكيد عنوانك.",
- "We emailed you a 6-digit code to reset your password.": "أرسلنا إليك رمزًا من 6 أرقام لإعادة تعيين كلمة المرور.",
- "We emailed you a 6-digit code.": "أرسلنا إليك رمزًا من 6 أرقام.",
- "We'll email you a 6-digit code — no password needed.": "سنرسل إليك رمزًا من 6 أرقام — دون كلمة مرور.",
- "We'll email you a 6-digit code.": "سنرسل إليك رمزًا من 6 أرقام.",
  "Wealth per year": "الثروة سنويًا",
  "What comes in each month?": "ما الذي يدخل كل شهر؟",
  "What each choice leaves you with in the long run.": "ما يتركه لك كل خيار على المدى الطويل.",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "عبارة المرور هذه لا تفتح خزنتك.",
  "Unlock": "افتح القفل",
  "Unlock your data": "افتح بياناتك",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "بياناتك مشفرة تشفيرًا تامًا. تفتحها عبارة المرور هنا في هذا المتصفح — ولا تُرسل أو تُحفظ أبدًا."
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "بياناتك مشفرة تشفيرًا تامًا. تفتحها عبارة المرور هنا في هذا المتصفح — ولا تُرسل أو تُحفظ أبدًا.",
+ "Check your email for the 8-digit code.": "تحقق من بريدك للحصول على الرمز المكوّن من 8 أرقام.",
+ "We emailed you a 8-digit code to confirm your address.": "أرسلنا إليك رمزًا من 8 أرقام لتأكيد عنوانك.",
+ "We emailed you a 8-digit code to reset your password.": "أرسلنا إليك رمزًا من 8 أرقام لإعادة تعيين كلمة المرور.",
+ "We emailed you a 8-digit code.": "أرسلنا إليك رمزًا من 8 أرقام.",
+ "We'll email you a 8-digit code — no password needed.": "سنرسل إليك رمزًا من 8 أرقام — دون كلمة مرور.",
+ "We'll email you a 8-digit code.": "سنرسل إليك رمزًا من 8 أرقام."
 }

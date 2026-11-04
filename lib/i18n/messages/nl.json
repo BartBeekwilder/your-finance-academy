@@ -172,7 +172,6 @@
  "Chart": "Grafiek",
  "Chart values": "Grafiekwaarden",
  "Charts": "Grafieken",
- "Check your email for the 6-digit code.": "Kijk in je e-mail voor de 6-cijferige code.",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "Controleer je eigen posten met je bank- en leningoverzichten. Huizen, hypotheken en rekeningen vullen zichzelf.",
  "Choose a new password": "Kies een nieuw wachtwoord",
  "Cinema": "Bioscoop",
@@ -786,11 +785,6 @@
  "Values on chart axes": "Waarden op grafiekassen",
  "Variable": "Variabel",
  "Water": "Water",
- "We emailed you a 6-digit code to confirm your address.": "We hebben je een 6-cijferige code gemaild om je adres te bevestigen.",
- "We emailed you a 6-digit code to reset your password.": "We hebben je een 6-cijferige code gemaild om je wachtwoord te herstellen.",
- "We emailed you a 6-digit code.": "We hebben je een 6-cijferige code gemaild.",
- "We'll email you a 6-digit code — no password needed.": "We mailen je een 6-cijferige code — geen wachtwoord nodig.",
- "We'll email you a 6-digit code.": "We mailen je een 6-cijferige code.",
  "Wealth per year": "Vermogen per jaar",
  "What comes in each month?": "Wat komt er elke maand binnen?",
  "What each choice leaves you with in the long run.": "Wat elke keuze je op de lange termijn oplevert.",
@@ -1331,5 +1325,11 @@
  "That passphrase doesn't open your vault.": "Met die wachtwoordzin gaat je kluis niet open.",
  "Unlock": "Ontgrendelen",
  "Unlock your data": "Ontgrendel je gegevens",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Je gegevens zijn end-to-end versleuteld. Je wachtwoordzin opent ze hier, in deze browser — hij wordt nooit verstuurd of bewaard."
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Je gegevens zijn end-to-end versleuteld. Je wachtwoordzin opent ze hier, in deze browser — hij wordt nooit verstuurd of bewaard.",
+ "Check your email for the 8-digit code.": "Kijk in je e-mail voor de 8-cijferige code.",
+ "We emailed you a 8-digit code to confirm your address.": "We hebben je een 8-cijferige code gemaild om je adres te bevestigen.",
+ "We emailed you a 8-digit code to reset your password.": "We hebben je een 8-cijferige code gemaild om je wachtwoord te herstellen.",
+ "We emailed you a 8-digit code.": "We hebben je een 8-cijferige code gemaild.",
+ "We'll email you a 8-digit code — no password needed.": "We mailen je een 8-cijferige code — geen wachtwoord nodig.",
+ "We'll email you a 8-digit code.": "We mailen je een 8-cijferige code."
 }

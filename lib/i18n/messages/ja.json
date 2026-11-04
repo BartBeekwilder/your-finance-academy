@@ -172,7 +172,6 @@
  "Chart": "グラフ",
  "Chart values": "グラフの値",
  "Charts": "グラフ",
- "Check your email for the 6-digit code.": "6桁のコードをメールで確認してください。",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "自分の項目を銀行やローンの明細と照合してください。住宅・住宅ローン・口座は自動で入力されます。",
  "Choose a new password": "新しいパスワードを選択",
  "Cinema": "映画館",
@@ -785,11 +784,6 @@
  "Values on chart axes": "グラフ軸の値",
  "Variable": "変動",
  "Water": "水道",
- "We emailed you a 6-digit code to confirm your address.": "アドレス確認用の6桁コードを送信しました。",
- "We emailed you a 6-digit code to reset your password.": "パスワードリセット用の6桁コードを送信しました。",
- "We emailed you a 6-digit code.": "6桁のコードを送信しました。",
- "We'll email you a 6-digit code — no password needed.": "6桁のコードを送信します — パスワードは不要です。",
- "We'll email you a 6-digit code.": "6桁のコードを送信します。",
  "Wealth per year": "年ごとの資産",
  "What comes in each month?": "毎月いくら入りますか？",
  "What each choice leaves you with in the long run.": "それぞれの選択が長期的にもたらすもの。",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "そのパスフレーズでは保管庫を開けません。",
  "Unlock": "ロック解除",
  "Unlock your data": "データのロックを解除",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "データはエンドツーエンドで暗号化されています。パスフレーズはこのブラウザ内でデータを開き、送信も保存もされません。"
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "データはエンドツーエンドで暗号化されています。パスフレーズはこのブラウザ内でデータを開き、送信も保存もされません。",
+ "Check your email for the 8-digit code.": "8桁のコードをメールで確認してください。",
+ "We emailed you a 8-digit code to confirm your address.": "アドレス確認用の8桁コードを送信しました。",
+ "We emailed you a 8-digit code to reset your password.": "パスワードリセット用の8桁コードを送信しました。",
+ "We emailed you a 8-digit code.": "8桁のコードを送信しました。",
+ "We'll email you a 8-digit code — no password needed.": "8桁のコードを送信します — パスワードは不要です。",
+ "We'll email you a 8-digit code.": "8桁のコードを送信します。"
 }

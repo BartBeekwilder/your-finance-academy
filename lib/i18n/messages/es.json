@@ -172,7 +172,6 @@
  "Chart": "Gráfico",
  "Chart values": "Valores del gráfico",
  "Charts": "Gráficos",
- "Check your email for the 6-digit code.": "Revisa tu correo para el código de 6 dígitos.",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "Comprueba tus propias partidas con tus extractos bancarios y de préstamos. Viviendas, hipotecas y cuentas se rellenan solas.",
  "Choose a new password": "Elige una nueva contraseña",
  "Cinema": "Cine",
@@ -785,11 +784,6 @@
  "Values on chart axes": "Valores en los ejes",
  "Variable": "Variable",
  "Water": "Agua",
- "We emailed you a 6-digit code to confirm your address.": "Te enviamos un código de 6 dígitos para confirmar tu dirección.",
- "We emailed you a 6-digit code to reset your password.": "Te enviamos un código de 6 dígitos para restablecer tu contraseña.",
- "We emailed you a 6-digit code.": "Te enviamos un código de 6 dígitos.",
- "We'll email you a 6-digit code — no password needed.": "Te enviaremos un código de 6 dígitos — sin contraseña.",
- "We'll email you a 6-digit code.": "Te enviaremos un código de 6 dígitos.",
  "Wealth per year": "Patrimonio por año",
  "What comes in each month?": "¿Qué entra cada mes?",
  "What each choice leaves you with in the long run.": "Lo que cada opción te deja a largo plazo.",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "Esa frase no abre tu bóveda.",
  "Unlock": "Desbloquear",
  "Unlock your data": "Desbloquea tus datos",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Tus datos están cifrados de extremo a extremo. Tu frase los abre aquí, en este navegador; nunca se envía ni se guarda."
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Tus datos están cifrados de extremo a extremo. Tu frase los abre aquí, en este navegador; nunca se envía ni se guarda.",
+ "Check your email for the 8-digit code.": "Revisa tu correo para el código de 8 dígitos.",
+ "We emailed you a 8-digit code to confirm your address.": "Te enviamos un código de 8 dígitos para confirmar tu dirección.",
+ "We emailed you a 8-digit code to reset your password.": "Te enviamos un código de 8 dígitos para restablecer tu contraseña.",
+ "We emailed you a 8-digit code.": "Te enviamos un código de 8 dígitos.",
+ "We'll email you a 8-digit code — no password needed.": "Te enviaremos un código de 8 dígitos — sin contraseña.",
+ "We'll email you a 8-digit code.": "Te enviaremos un código de 8 dígitos."
 }

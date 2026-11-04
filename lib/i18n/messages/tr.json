@@ -172,7 +172,6 @@
  "Chart": "Grafik",
  "Chart values": "Grafik değerleri",
  "Charts": "Grafikler",
- "Check your email for the 6-digit code.": "6 haneli kod için e-postanızı kontrol edin.",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "Kendi kalemlerini banka ve kredi ekstrelerinle karşılaştır. Evler, ipotekler ve hesaplar kendiliğinden dolar.",
  "Choose a new password": "Yeni bir parola seçin",
  "Cinema": "Sinema",
@@ -785,11 +784,6 @@
  "Values on chart axes": "Grafik eksenlerinde değerler",
  "Variable": "Değişken",
  "Water": "Su",
- "We emailed you a 6-digit code to confirm your address.": "Adresinizi doğrulamak için 6 haneli bir kod gönderdik.",
- "We emailed you a 6-digit code to reset your password.": "Parolanızı sıfırlamak için 6 haneli bir kod gönderdik.",
- "We emailed you a 6-digit code.": "6 haneli bir kod gönderdik.",
- "We'll email you a 6-digit code — no password needed.": "6 haneli bir kod göndereceğiz — parola gerekmez.",
- "We'll email you a 6-digit code.": "6 haneli bir kod göndereceğiz.",
  "Wealth per year": "Yıllara göre servet",
  "What comes in each month?": "Her ay ne giriyor?",
  "What each choice leaves you with in the long run.": "Her seçeneğin uzun vadede sana bıraktıkları.",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "Bu parola cümlesi kasanı açmıyor.",
  "Unlock": "Kilidi aç",
  "Unlock your data": "Verilerinin kilidini aç",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Verilerin uçtan uca şifreli. Parola cümlen onları burada, bu tarayıcıda açar — asla gönderilmez veya saklanmaz."
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Verilerin uçtan uca şifreli. Parola cümlen onları burada, bu tarayıcıda açar — asla gönderilmez veya saklanmaz.",
+ "Check your email for the 8-digit code.": "8 haneli kod için e-postanızı kontrol edin.",
+ "We emailed you a 8-digit code to confirm your address.": "Adresinizi doğrulamak için 8 haneli bir kod gönderdik.",
+ "We emailed you a 8-digit code to reset your password.": "Parolanızı sıfırlamak için 8 haneli bir kod gönderdik.",
+ "We emailed you a 8-digit code.": "8 haneli bir kod gönderdik.",
+ "We'll email you a 8-digit code — no password needed.": "8 haneli bir kod göndereceğiz — parola gerekmez.",
+ "We'll email you a 8-digit code.": "8 haneli bir kod göndereceğiz."
 }

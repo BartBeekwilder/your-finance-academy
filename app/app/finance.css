@@ -1085,7 +1085,7 @@
   border-top: 1px solid var(--pf-line);
 }
 .pf-code {
-  text-align: center;
+  text-align: left;
   font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: 0.4em;

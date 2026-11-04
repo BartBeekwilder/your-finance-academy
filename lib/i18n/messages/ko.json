@@ -172,7 +172,6 @@
  "Chart": "차트",
  "Chart values": "차트 값",
  "Charts": "차트",
- "Check your email for the 6-digit code.": "이메일에서 6자리 코드를 확인하세요.",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "내 항목을 은행 및 대출 명세서와 대조하세요. 주택, 주택담보대출, 계좌는 자동으로 채워집니다.",
  "Choose a new password": "새 비밀번호 선택",
  "Cinema": "영화관",
@@ -785,11 +784,6 @@
  "Values on chart axes": "차트 축 값",
  "Variable": "변동",
  "Water": "수도",
- "We emailed you a 6-digit code to confirm your address.": "주소 확인용 6자리 코드를 보냈어요.",
- "We emailed you a 6-digit code to reset your password.": "비밀번호 재설정용 6자리 코드를 보냈어요.",
- "We emailed you a 6-digit code.": "6자리 코드를 보냈어요.",
- "We'll email you a 6-digit code — no password needed.": "6자리 코드를 보내드릴게요 — 비밀번호 필요 없음.",
- "We'll email you a 6-digit code.": "6자리 코드를 보내드릴게요.",
  "Wealth per year": "연도별 자산",
  "What comes in each month?": "매달 얼마가 들어오나요?",
  "What each choice leaves you with in the long run.": "각 선택이 장기적으로 남기는 것.",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "그 암호 문구로는 금고가 열리지 않습니다.",
  "Unlock": "잠금 해제",
  "Unlock your data": "데이터 잠금 해제",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "데이터는 종단 간 암호화되어 있습니다. 암호 문구는 이 브라우저에서 데이터를 열며, 전송되거나 저장되지 않습니다."
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "데이터는 종단 간 암호화되어 있습니다. 암호 문구는 이 브라우저에서 데이터를 열며, 전송되거나 저장되지 않습니다.",
+ "Check your email for the 8-digit code.": "이메일에서 8자리 코드를 확인하세요.",
+ "We emailed you a 8-digit code to confirm your address.": "주소 확인용 8자리 코드를 보냈어요.",
+ "We emailed you a 8-digit code to reset your password.": "비밀번호 재설정용 8자리 코드를 보냈어요.",
+ "We emailed you a 8-digit code.": "8자리 코드를 보냈어요.",
+ "We'll email you a 8-digit code — no password needed.": "8자리 코드를 보내드릴게요 — 비밀번호 필요 없음.",
+ "We'll email you a 8-digit code.": "8자리 코드를 보내드릴게요."
 }

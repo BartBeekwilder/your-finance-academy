@@ -172,7 +172,6 @@
  "Chart": "चार्ट",
  "Chart values": "चार्ट मान",
  "Charts": "चार्ट",
- "Check your email for the 6-digit code.": "6 अंकों के कोड के लिए अपना ईमेल देखें।",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "अपनी मदों को बैंक और लोन स्टेटमेंट से मिलाएँ। घर, होम लोन और खाते अपने आप भरते हैं।",
  "Choose a new password": "नया पासवर्ड चुनें",
  "Cinema": "सिनेमा",
@@ -785,11 +784,6 @@
  "Values on chart axes": "चार्ट अक्षों पर मान",
  "Variable": "परिवर्तनशील",
  "Water": "पानी",
- "We emailed you a 6-digit code to confirm your address.": "आपका पता पुष्टि करने के लिए हमने 6 अंकों का कोड भेजा है।",
- "We emailed you a 6-digit code to reset your password.": "आपका पासवर्ड रीसेट करने के लिए हमने 6 अंकों का कोड भेजा है।",
- "We emailed you a 6-digit code.": "हमने 6 अंकों का कोड भेजा है।",
- "We'll email you a 6-digit code — no password needed.": "हम 6 अंकों का कोड भेजेंगे — पासवर्ड की ज़रूरत नहीं।",
- "We'll email you a 6-digit code.": "हम 6 अंकों का कोड भेजेंगे।",
  "Wealth per year": "सालाना संपत्ति",
  "What comes in each month?": "हर महीने क्या आता है?",
  "What each choice leaves you with in the long run.": "हर विकल्प लंबे समय में आपको क्या देता है।",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "यह पासफ़्रेज़ आपका वॉल्ट नहीं खोलता।",
  "Unlock": "अनलॉक",
  "Unlock your data": "अपना डेटा अनलॉक करें",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "आपका डेटा एंड-टू-एंड एन्क्रिप्टेड है। आपका पासफ़्रेज़ इसे यहीं इस ब्राउज़र में खोलता है — यह कभी भेजा या सहेजा नहीं जाता।"
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "आपका डेटा एंड-टू-एंड एन्क्रिप्टेड है। आपका पासफ़्रेज़ इसे यहीं इस ब्राउज़र में खोलता है — यह कभी भेजा या सहेजा नहीं जाता।",
+ "Check your email for the 8-digit code.": "8 अंकों के कोड के लिए अपना ईमेल देखें।",
+ "We emailed you a 8-digit code to confirm your address.": "आपका पता पुष्टि करने के लिए हमने 8 अंकों का कोड भेजा है।",
+ "We emailed you a 8-digit code to reset your password.": "आपका पासवर्ड रीसेट करने के लिए हमने 8 अंकों का कोड भेजा है।",
+ "We emailed you a 8-digit code.": "हमने 8 अंकों का कोड भेजा है।",
+ "We'll email you a 8-digit code — no password needed.": "हम 8 अंकों का कोड भेजेंगे — पासवर्ड की ज़रूरत नहीं।",
+ "We'll email you a 8-digit code.": "हम 8 अंकों का कोड भेजेंगे।"
 }

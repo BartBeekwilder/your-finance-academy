@@ -172,7 +172,6 @@
  "Chart": "График",
  "Chart values": "Значения диаграммы",
  "Charts": "Диаграммы",
- "Check your email for the 6-digit code.": "Проверьте почту — там 6-значный код.",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "Сверьте свои статьи с банковскими и кредитными выписками. Жильё, ипотеки и счета заполняются сами.",
  "Choose a new password": "Выберите новый пароль",
  "Cinema": "Кино",
@@ -785,11 +784,6 @@
  "Values on chart axes": "Значения на осях",
  "Variable": "Переменные",
  "Water": "Вода",
- "We emailed you a 6-digit code to confirm your address.": "Мы отправили 6-значный код для подтверждения адреса.",
- "We emailed you a 6-digit code to reset your password.": "Мы отправили 6-значный код для сброса пароля.",
- "We emailed you a 6-digit code.": "Мы отправили 6-значный код.",
- "We'll email you a 6-digit code — no password needed.": "Мы пришлём 6-значный код — пароль не нужен.",
- "We'll email you a 6-digit code.": "Мы пришлём 6-значный код.",
  "Wealth per year": "Капитал по годам",
  "What comes in each month?": "Что приходит каждый месяц?",
  "What each choice leaves you with in the long run.": "Что даёт каждый выбор в долгосрочной перспективе.",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "Эта фраза не открывает ваше хранилище.",
  "Unlock": "Разблокировать",
  "Unlock your data": "Разблокируйте свои данные",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Ваши данные защищены сквозным шифрованием. Фраза открывает их здесь, в этом браузере, — она никогда не отправляется и не сохраняется."
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Ваши данные защищены сквозным шифрованием. Фраза открывает их здесь, в этом браузере, — она никогда не отправляется и не сохраняется.",
+ "Check your email for the 8-digit code.": "Проверьте почту — там 8-значный код.",
+ "We emailed you a 8-digit code to confirm your address.": "Мы отправили 8-значный код для подтверждения адреса.",
+ "We emailed you a 8-digit code to reset your password.": "Мы отправили 8-значный код для сброса пароля.",
+ "We emailed you a 8-digit code.": "Мы отправили 8-значный код.",
+ "We'll email you a 8-digit code — no password needed.": "Мы пришлём 8-значный код — пароль не нужен.",
+ "We'll email you a 8-digit code.": "Мы пришлём 8-значный код."
 }

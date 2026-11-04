@@ -172,7 +172,6 @@
  "Chart": "Grafico",
  "Chart values": "Valori del grafico",
  "Charts": "Grafici",
- "Check your email for the 6-digit code.": "Controlla l'email per il codice a 6 cifre.",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "Controlla le tue voci con gli estratti conto bancari e dei prestiti. Case, mutui e conti si compilano da soli.",
  "Choose a new password": "Scegli una nuova password",
  "Cinema": "Cinema",
@@ -785,11 +784,6 @@
  "Values on chart axes": "Valori sugli assi",
  "Variable": "Variabile",
  "Water": "Acqua",
- "We emailed you a 6-digit code to confirm your address.": "Ti abbiamo inviato un codice a 6 cifre per confermare l'indirizzo.",
- "We emailed you a 6-digit code to reset your password.": "Ti abbiamo inviato un codice a 6 cifre per reimpostare la password.",
- "We emailed you a 6-digit code.": "Ti abbiamo inviato un codice a 6 cifre.",
- "We'll email you a 6-digit code — no password needed.": "Ti invieremo un codice a 6 cifre — senza password.",
- "We'll email you a 6-digit code.": "Ti invieremo un codice a 6 cifre.",
  "Wealth per year": "Patrimonio per anno",
  "What comes in each month?": "Cosa entra ogni mese?",
  "What each choice leaves you with in the long run.": "Cosa ti lascia ogni scelta nel lungo periodo.",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "Quella passphrase non apre la tua cassaforte.",
  "Unlock": "Sblocca",
  "Unlock your data": "Sblocca i tuoi dati",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "I tuoi dati sono cifrati end-to-end. La passphrase li apre qui, in questo browser: non viene mai inviata né salvata."
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "I tuoi dati sono cifrati end-to-end. La passphrase li apre qui, in questo browser: non viene mai inviata né salvata.",
+ "Check your email for the 8-digit code.": "Controlla l'email per il codice a 8 cifre.",
+ "We emailed you a 8-digit code to confirm your address.": "Ti abbiamo inviato un codice a 8 cifre per confermare l'indirizzo.",
+ "We emailed you a 8-digit code to reset your password.": "Ti abbiamo inviato un codice a 8 cifre per reimpostare la password.",
+ "We emailed you a 8-digit code.": "Ti abbiamo inviato un codice a 8 cifre.",
+ "We'll email you a 8-digit code — no password needed.": "Ti invieremo un codice a 8 cifre — senza password.",
+ "We'll email you a 8-digit code.": "Ti invieremo un codice a 8 cifre."
 }

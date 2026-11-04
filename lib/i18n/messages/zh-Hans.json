@@ -172,7 +172,6 @@
  "Chart": "图表",
  "Chart values": "图表数值",
  "Charts": "图表",
- "Check your email for the 6-digit code.": "请查收邮件中的 6 位验证码。",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "将你自己的项目与银行和贷款对账单核对。房产、房贷和账户会自动填写。",
  "Choose a new password": "选择新密码",
  "Cinema": "电影院",
@@ -785,11 +784,6 @@
  "Values on chart axes": "图表坐标轴数值",
  "Variable": "可变",
  "Water": "水费",
- "We emailed you a 6-digit code to confirm your address.": "我们已发送 6 位验证码以确认您的地址。",
- "We emailed you a 6-digit code to reset your password.": "我们已发送 6 位验证码以重置您的密码。",
- "We emailed you a 6-digit code.": "我们已发送 6 位验证码。",
- "We'll email you a 6-digit code — no password needed.": "我们会发送 6 位验证码——无需密码。",
- "We'll email you a 6-digit code.": "我们会发送 6 位验证码。",
  "Wealth per year": "每年财富",
  "What comes in each month?": "每月进账多少？",
  "What each choice leaves you with in the long run.": "每种选择长期能给你留下什么。",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "该密码短语无法打开你的保险库。",
  "Unlock": "解锁",
  "Unlock your data": "解锁你的数据",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "你的数据经过端到端加密。密码短语在此浏览器中打开它——绝不会被发送或保存。"
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "你的数据经过端到端加密。密码短语在此浏览器中打开它——绝不会被发送或保存。",
+ "Check your email for the 8-digit code.": "请查收邮件中的 8 位验证码。",
+ "We emailed you a 8-digit code to confirm your address.": "我们已发送 8 位验证码以确认您的地址。",
+ "We emailed you a 8-digit code to reset your password.": "我们已发送 8 位验证码以重置您的密码。",
+ "We emailed you a 8-digit code.": "我们已发送 8 位验证码。",
+ "We'll email you a 8-digit code — no password needed.": "我们会发送 8 位验证码——无需密码。",
+ "We'll email you a 8-digit code.": "我们会发送 8 位验证码。"
 }

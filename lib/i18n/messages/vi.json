@@ -172,7 +172,6 @@
  "Chart": "Biểu đồ",
  "Chart values": "Giá trị biểu đồ",
  "Charts": "Biểu đồ",
- "Check your email for the 6-digit code.": "Kiểm tra email để lấy mã 6 chữ số.",
  "Check your own posts against your bank and loan statements. Homes, mortgages and accounts fill themselves.": "Đối chiếu các mục của bạn với sao kê ngân hàng và khoản vay. Nhà, khoản vay thế chấp và tài khoản tự điền.",
  "Choose a new password": "Chọn mật khẩu mới",
  "Cinema": "Rạp chiếu phim",
@@ -785,11 +784,6 @@
  "Values on chart axes": "Giá trị trên trục biểu đồ",
  "Variable": "Biến đổi",
  "Water": "Nước",
- "We emailed you a 6-digit code to confirm your address.": "Chúng tôi đã gửi mã 6 chữ số để xác nhận địa chỉ của bạn.",
- "We emailed you a 6-digit code to reset your password.": "Chúng tôi đã gửi mã 6 chữ số để đặt lại mật khẩu.",
- "We emailed you a 6-digit code.": "Chúng tôi đã gửi mã 6 chữ số.",
- "We'll email you a 6-digit code — no password needed.": "Chúng tôi sẽ gửi mã 6 chữ số — không cần mật khẩu.",
- "We'll email you a 6-digit code.": "Chúng tôi sẽ gửi mã 6 chữ số.",
  "Wealth per year": "Tài sản theo năm",
  "What comes in each month?": "Mỗi tháng có gì vào?",
  "What each choice leaves you with in the long run.": "Mỗi lựa chọn mang lại gì cho bạn về lâu dài.",
@@ -1324,5 +1318,11 @@
  "That passphrase doesn't open your vault.": "Cụm mật khẩu đó không mở được kho.",
  "Unlock": "Mở khóa",
  "Unlock your data": "Mở khóa dữ liệu",
- "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Dữ liệu của bạn được mã hóa đầu cuối. Cụm mật khẩu mở nó tại đây, trong trình duyệt này — không bao giờ được gửi hay lưu."
+ "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Dữ liệu của bạn được mã hóa đầu cuối. Cụm mật khẩu mở nó tại đây, trong trình duyệt này — không bao giờ được gửi hay lưu.",
+ "Check your email for the 8-digit code.": "Kiểm tra email để lấy mã 8 chữ số.",
+ "We emailed you a 8-digit code to confirm your address.": "Chúng tôi đã gửi mã 8 chữ số để xác nhận địa chỉ của bạn.",
+ "We emailed you a 8-digit code to reset your password.": "Chúng tôi đã gửi mã 8 chữ số để đặt lại mật khẩu.",
+ "We emailed you a 8-digit code.": "Chúng tôi đã gửi mã 8 chữ số.",
+ "We'll email you a 8-digit code — no password needed.": "Chúng tôi sẽ gửi mã 8 chữ số — không cần mật khẩu.",
+ "We'll email you a 8-digit code.": "Chúng tôi sẽ gửi mã 8 chữ số."
 }
