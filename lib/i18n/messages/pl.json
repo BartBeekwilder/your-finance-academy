@@ -1320,9 +1320,9 @@
  "Unlock your data": "Odblokuj swoje dane",
  "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Twoje dane są szyfrowane end-to-end. Hasło otwiera je tutaj, w tej przeglądarce — nigdy nie jest wysyłane ani zapisywane.",
  "Check your email for the 8-digit code.": "Sprawdź e-mail, by znaleźć 8-cyfrowy kod.",
- "We emailed you a 8-digit code to confirm your address.": "Wysłaliśmy 8-cyfrowy kod, aby potwierdzić adres.",
- "We emailed you a 8-digit code to reset your password.": "Wysłaliśmy 8-cyfrowy kod, aby zresetować hasło.",
- "We emailed you a 8-digit code.": "Wysłaliśmy 8-cyfrowy kod.",
- "We'll email you a 8-digit code — no password needed.": "Wyślemy 8-cyfrowy kod — bez hasła.",
- "We'll email you a 8-digit code.": "Wyślemy 8-cyfrowy kod."
+ "We emailed you an 8-digit code to confirm your address.": "Wysłaliśmy 8-cyfrowy kod, aby potwierdzić adres.",
+ "We emailed you an 8-digit code to reset your password.": "Wysłaliśmy 8-cyfrowy kod, aby zresetować hasło.",
+ "We emailed you an 8-digit code.": "Wysłaliśmy 8-cyfrowy kod.",
+ "We'll email you an 8-digit code — no password needed.": "Wyślemy 8-cyfrowy kod — bez hasła.",
+ "We'll email you an 8-digit code.": "Wyślemy 8-cyfrowy kod."
 }

@@ -1320,9 +1320,9 @@
  "Unlock your data": "अपना डेटा अनलॉक करें",
  "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "आपका डेटा एंड-टू-एंड एन्क्रिप्टेड है। आपका पासफ़्रेज़ इसे यहीं इस ब्राउज़र में खोलता है — यह कभी भेजा या सहेजा नहीं जाता।",
  "Check your email for the 8-digit code.": "8 अंकों के कोड के लिए अपना ईमेल देखें।",
- "We emailed you a 8-digit code to confirm your address.": "आपका पता पुष्टि करने के लिए हमने 8 अंकों का कोड भेजा है।",
- "We emailed you a 8-digit code to reset your password.": "आपका पासवर्ड रीसेट करने के लिए हमने 8 अंकों का कोड भेजा है।",
- "We emailed you a 8-digit code.": "हमने 8 अंकों का कोड भेजा है।",
- "We'll email you a 8-digit code — no password needed.": "हम 8 अंकों का कोड भेजेंगे — पासवर्ड की ज़रूरत नहीं।",
- "We'll email you a 8-digit code.": "हम 8 अंकों का कोड भेजेंगे।"
+ "We emailed you an 8-digit code to confirm your address.": "आपका पता पुष्टि करने के लिए हमने 8 अंकों का कोड भेजा है।",
+ "We emailed you an 8-digit code to reset your password.": "आपका पासवर्ड रीसेट करने के लिए हमने 8 अंकों का कोड भेजा है।",
+ "We emailed you an 8-digit code.": "हमने 8 अंकों का कोड भेजा है।",
+ "We'll email you an 8-digit code — no password needed.": "हम 8 अंकों का कोड भेजेंगे — पासवर्ड की ज़रूरत नहीं।",
+ "We'll email you an 8-digit code.": "हम 8 अंकों का कोड भेजेंगे।"
 }

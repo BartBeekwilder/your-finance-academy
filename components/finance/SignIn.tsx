@@ -9,8 +9,8 @@ import BrandMark from "./BrandMark";
 // Sign-in for the web app — same options as iOS:
 //   • Sign in with Apple
 //   • email + password (primary), with "Create account" and "Forgot password?"
-//   • "Email me a code instead": a 8-digit code, no links
-// New accounts confirm their email with a 8-digit code; a forgotten password
+//   • "Email me a code instead": an 8-digit code, no links
+// New accounts confirm their email with an 8-digit code; a forgotten password
 // is reset with a code too. (The Supabase email templates send {{ .Token }}.)
 // "Look around with demo data" stays available without an account.
 
@@ -67,19 +67,19 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
       case "signup":
         if (await run(() => supabase.auth.signUp({ email: mail, password }))) {
           go({ kind: "verify", email: mail, type: "signup" });
-          setNote(t("We emailed you a 8-digit code to confirm your address."));
+          setNote(t("We emailed you an 8-digit code to confirm your address."));
         }
         break;
       case "code":
         if (await run(() => supabase.auth.signInWithOtp({ email: mail, options: { shouldCreateUser: false } }))) {
           go({ kind: "verify", email: mail, type: "email" });
-          setNote(t("We emailed you a 8-digit code."));
+          setNote(t("We emailed you an 8-digit code."));
         }
         break;
       case "forgot":
         if (await run(() => supabase.auth.resetPasswordForEmail(mail))) {
           go({ kind: "verify", email: mail, type: "recovery" });
-          setNote(t("We emailed you a 8-digit code to reset your password."));
+          setNote(t("We emailed you an 8-digit code to reset your password."));
         }
         break;
       case "verify": {
@@ -111,8 +111,8 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
   const titles: Record<Step["kind"], [string, string]> = {
     signin: ["Personal Finance", t("Sign in to see the same budgets and transactions as on your iPhone.")],
     signup: [t("Create your account"), t("Your data syncs between your iPhone, iPad and the web.")],
-    code: [t("Sign in with a code"), t("We'll email you a 8-digit code — no password needed.")],
-    forgot: [t("Reset your password"), t("We'll email you a 8-digit code.")],
+    code: [t("Sign in with a code"), t("We'll email you an 8-digit code — no password needed.")],
+    forgot: [t("Reset your password"), t("We'll email you an 8-digit code.")],
     verify: [t("Enter your code"), t("Check your email for the 8-digit code.")],
     newPassword: [t("Choose a new password"), t("At least 8 characters.")],
   };

@@ -1320,9 +1320,9 @@
  "Unlock your data": "데이터 잠금 해제",
  "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "데이터는 종단 간 암호화되어 있습니다. 암호 문구는 이 브라우저에서 데이터를 열며, 전송되거나 저장되지 않습니다.",
  "Check your email for the 8-digit code.": "이메일에서 8자리 코드를 확인하세요.",
- "We emailed you a 8-digit code to confirm your address.": "주소 확인용 8자리 코드를 보냈어요.",
- "We emailed you a 8-digit code to reset your password.": "비밀번호 재설정용 8자리 코드를 보냈어요.",
- "We emailed you a 8-digit code.": "8자리 코드를 보냈어요.",
- "We'll email you a 8-digit code — no password needed.": "8자리 코드를 보내드릴게요 — 비밀번호 필요 없음.",
- "We'll email you a 8-digit code.": "8자리 코드를 보내드릴게요."
+ "We emailed you an 8-digit code to confirm your address.": "주소 확인용 8자리 코드를 보냈어요.",
+ "We emailed you an 8-digit code to reset your password.": "비밀번호 재설정용 8자리 코드를 보냈어요.",
+ "We emailed you an 8-digit code.": "8자리 코드를 보냈어요.",
+ "We'll email you an 8-digit code — no password needed.": "8자리 코드를 보내드릴게요 — 비밀번호 필요 없음.",
+ "We'll email you an 8-digit code.": "8자리 코드를 보내드릴게요."
 }

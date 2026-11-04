@@ -1320,9 +1320,9 @@
  "Unlock your data": "データのロックを解除",
  "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "データはエンドツーエンドで暗号化されています。パスフレーズはこのブラウザ内でデータを開き、送信も保存もされません。",
  "Check your email for the 8-digit code.": "8桁のコードをメールで確認してください。",
- "We emailed you a 8-digit code to confirm your address.": "アドレス確認用の8桁コードを送信しました。",
- "We emailed you a 8-digit code to reset your password.": "パスワードリセット用の8桁コードを送信しました。",
- "We emailed you a 8-digit code.": "8桁のコードを送信しました。",
- "We'll email you a 8-digit code — no password needed.": "8桁のコードを送信します — パスワードは不要です。",
- "We'll email you a 8-digit code.": "8桁のコードを送信します。"
+ "We emailed you an 8-digit code to confirm your address.": "アドレス確認用の8桁コードを送信しました。",
+ "We emailed you an 8-digit code to reset your password.": "パスワードリセット用の8桁コードを送信しました。",
+ "We emailed you an 8-digit code.": "8桁のコードを送信しました。",
+ "We'll email you an 8-digit code — no password needed.": "8桁のコードを送信します — パスワードは不要です。",
+ "We'll email you an 8-digit code.": "8桁のコードを送信します。"
 }

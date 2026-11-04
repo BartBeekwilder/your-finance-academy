@@ -1320,9 +1320,9 @@
  "Unlock your data": "解锁你的数据",
  "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "你的数据经过端到端加密。密码短语在此浏览器中打开它——绝不会被发送或保存。",
  "Check your email for the 8-digit code.": "请查收邮件中的 8 位验证码。",
- "We emailed you a 8-digit code to confirm your address.": "我们已发送 8 位验证码以确认您的地址。",
- "We emailed you a 8-digit code to reset your password.": "我们已发送 8 位验证码以重置您的密码。",
- "We emailed you a 8-digit code.": "我们已发送 8 位验证码。",
- "We'll email you a 8-digit code — no password needed.": "我们会发送 8 位验证码——无需密码。",
- "We'll email you a 8-digit code.": "我们会发送 8 位验证码。"
+ "We emailed you an 8-digit code to confirm your address.": "我们已发送 8 位验证码以确认您的地址。",
+ "We emailed you an 8-digit code to reset your password.": "我们已发送 8 位验证码以重置您的密码。",
+ "We emailed you an 8-digit code.": "我们已发送 8 位验证码。",
+ "We'll email you an 8-digit code — no password needed.": "我们会发送 8 位验证码——无需密码。",
+ "We'll email you an 8-digit code.": "我们会发送 8 位验证码。"
 }

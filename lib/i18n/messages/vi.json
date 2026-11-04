@@ -1320,9 +1320,9 @@
  "Unlock your data": "Mở khóa dữ liệu",
  "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Dữ liệu của bạn được mã hóa đầu cuối. Cụm mật khẩu mở nó tại đây, trong trình duyệt này — không bao giờ được gửi hay lưu.",
  "Check your email for the 8-digit code.": "Kiểm tra email để lấy mã 8 chữ số.",
- "We emailed you a 8-digit code to confirm your address.": "Chúng tôi đã gửi mã 8 chữ số để xác nhận địa chỉ của bạn.",
- "We emailed you a 8-digit code to reset your password.": "Chúng tôi đã gửi mã 8 chữ số để đặt lại mật khẩu.",
- "We emailed you a 8-digit code.": "Chúng tôi đã gửi mã 8 chữ số.",
- "We'll email you a 8-digit code — no password needed.": "Chúng tôi sẽ gửi mã 8 chữ số — không cần mật khẩu.",
- "We'll email you a 8-digit code.": "Chúng tôi sẽ gửi mã 8 chữ số."
+ "We emailed you an 8-digit code to confirm your address.": "Chúng tôi đã gửi mã 8 chữ số để xác nhận địa chỉ của bạn.",
+ "We emailed you an 8-digit code to reset your password.": "Chúng tôi đã gửi mã 8 chữ số để đặt lại mật khẩu.",
+ "We emailed you an 8-digit code.": "Chúng tôi đã gửi mã 8 chữ số.",
+ "We'll email you an 8-digit code — no password needed.": "Chúng tôi sẽ gửi mã 8 chữ số — không cần mật khẩu.",
+ "We'll email you an 8-digit code.": "Chúng tôi sẽ gửi mã 8 chữ số."
 }

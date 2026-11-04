@@ -1327,9 +1327,9 @@
  "Unlock your data": "Ontgrendel je gegevens",
  "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Je gegevens zijn end-to-end versleuteld. Je wachtwoordzin opent ze hier, in deze browser — hij wordt nooit verstuurd of bewaard.",
  "Check your email for the 8-digit code.": "Kijk in je e-mail voor de 8-cijferige code.",
- "We emailed you a 8-digit code to confirm your address.": "We hebben je een 8-cijferige code gemaild om je adres te bevestigen.",
- "We emailed you a 8-digit code to reset your password.": "We hebben je een 8-cijferige code gemaild om je wachtwoord te herstellen.",
- "We emailed you a 8-digit code.": "We hebben je een 8-cijferige code gemaild.",
- "We'll email you a 8-digit code — no password needed.": "We mailen je een 8-cijferige code — geen wachtwoord nodig.",
- "We'll email you a 8-digit code.": "We mailen je een 8-cijferige code."
+ "We emailed you an 8-digit code to confirm your address.": "We hebben je een 8-cijferige code gemaild om je adres te bevestigen.",
+ "We emailed you an 8-digit code to reset your password.": "We hebben je een 8-cijferige code gemaild om je wachtwoord te herstellen.",
+ "We emailed you an 8-digit code.": "We hebben je een 8-cijferige code gemaild.",
+ "We'll email you an 8-digit code — no password needed.": "We mailen je een 8-cijferige code — geen wachtwoord nodig.",
+ "We'll email you an 8-digit code.": "We mailen je een 8-cijferige code."
 }

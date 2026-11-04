@@ -1320,9 +1320,9 @@
  "Unlock your data": "Verilerinin kilidini aç",
  "Your data is end-to-end encrypted. Your passphrase opens it here, in this browser — it is never sent or stored.": "Verilerin uçtan uca şifreli. Parola cümlen onları burada, bu tarayıcıda açar — asla gönderilmez veya saklanmaz.",
  "Check your email for the 8-digit code.": "8 haneli kod için e-postanızı kontrol edin.",
- "We emailed you a 8-digit code to confirm your address.": "Adresinizi doğrulamak için 8 haneli bir kod gönderdik.",
- "We emailed you a 8-digit code to reset your password.": "Parolanızı sıfırlamak için 8 haneli bir kod gönderdik.",
- "We emailed you a 8-digit code.": "8 haneli bir kod gönderdik.",
- "We'll email you a 8-digit code — no password needed.": "8 haneli bir kod göndereceğiz — parola gerekmez.",
- "We'll email you a 8-digit code.": "8 haneli bir kod göndereceğiz."
+ "We emailed you an 8-digit code to confirm your address.": "Adresinizi doğrulamak için 8 haneli bir kod gönderdik.",
+ "We emailed you an 8-digit code to reset your password.": "Parolanızı sıfırlamak için 8 haneli bir kod gönderdik.",
+ "We emailed you an 8-digit code.": "8 haneli bir kod gönderdik.",
+ "We'll email you an 8-digit code — no password needed.": "8 haneli bir kod göndereceğiz — parola gerekmez.",
+ "We'll email you an 8-digit code.": "8 haneli bir kod göndereceğiz."
 }
