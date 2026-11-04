@@ -82,6 +82,15 @@ export default function DashboardPage() {
     return past.length ? [...past, { year: now.getFullYear(), equity: balanceSheet(data, now, month).equity, live: true }] : [];
   }, [data, now, month]);
 
+  // A budget bar's parts: the category itself, then each subcategory (in
+  // their order), drawn in shades of its colour — as on the Budgets page.
+  const budgetParts = (id: string, spent: number) => {
+    const subs = data.categories.filter((c) => c.parent_id === id && !c.deleted_at).sort((a, b) => a.sort_order - b.sort_order);
+    const inMonthTx = data.transactions.filter((x) => x.type === "expense" && !x.deleted_at && new Date(x.date).getFullYear() === month.getFullYear() && new Date(x.date).getMonth() === month.getMonth());
+    const sub = subs.map((c) => inMonthTx.filter((x) => x.category_id === c.id).reduce((a, x) => a + Number(x.amount), 0));
+    return [Math.max(spent - sub.reduce((a, b) => a + b, 0), 0), ...sub];
+  };
+
   return (
     <div style={{ display: "grid", gap: 28 }}>
       <header style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
@@ -169,10 +178,10 @@ export default function DashboardPage() {
               <div style={{ display: "grid", gap: 6 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.92rem" }}>
                   <span>{e.category.name}</span>
-                  {e.budget !== null && <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{money(e.budget, currency)} budget</span>}
+                  {e.budget !== null && <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{t("{amount} budget", { amount: money(e.budget, currency) })}</span>}
                 </div>
                 {e.budget !== null ? (
-                  <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={e.category.is_fixed_expense ? month : undefined} scaleMax={compareBudgets ? maxBudget : undefined} />
+                  <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={e.category.is_fixed_expense ? month : undefined} scaleMax={compareBudgets ? maxBudget : undefined} parts={budgetParts(e.category.id, e.spent)} />
                 ) : (
                   <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{t("{amount} spent · no budget", { amount: money(e.spent, currency) })}</span>
                 )}

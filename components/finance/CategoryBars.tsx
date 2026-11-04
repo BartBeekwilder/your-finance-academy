@@ -1,8 +1,8 @@
 "use client";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { setCategoryAreas, useCategoryAreas, useShowAxes } from "@/lib/prefs";
-import { ChartArea, ChartColumnStacked } from "lucide-react";
+import { setCategoryAreas, useCategoryAreas, useShowAxes, useStackLargestFirst, setStackLargestFirst } from "@/lib/prefs";
+import { ChartArea, ChartColumnStacked, ListOrdered, ArrowDownWideNarrow } from "lucide-react";
 import CategoryAreas from "./CategoryAreas";
 import { useState } from "react";
 import { categoryYear, live, num, projectedNetIncome, yearForecast } from "@/lib/finance/calc";
@@ -104,7 +104,12 @@ export default function CategoryBars({
   })();
   const months = mode === "year" ? yearBuckets(data, now, kind, groupOf, forecastOf) : dayBuckets(data, now, kind, groupOf, mainIncome, spread, past);
   const max = niceMax(Math.max(1, ...months.map((m) => Math.max(m.total, m.expected ?? 0))));
-  const stack = groups.filter((g) => months.some((m) => m.by.has(g.id)));
+  // Largest first: the biggest over the period at the bottom of the stack
+  // (and of the legend); else fixed costs at the base, then the user's order.
+  const largestFirst = useStackLargestFirst();
+  const inView = groups.filter((g) => months.some((m) => m.by.has(g.id)));
+  const totalOf = (id: string) => months.reduce((s, m) => s + (m.by.get(id) ?? 0), 0);
+  const stack = largestFirst ? [...inView].sort((a, b) => totalOf(b.id) - totalOf(a.id)) : inView;
 
   const lit = hover?.id ?? focus ?? barFocus;
   const shown = hover ? months[hover.month] : null;
@@ -157,6 +162,15 @@ export default function CategoryBars({
             </button>
             <button type="button" aria-pressed={!areas} title={t("Bars")} onClick={() => setCategoryAreas(false)}>
               <ChartColumnStacked size={11} strokeWidth={2.4} />
+            </button>
+          </span>
+          {/* Stack order: the user's own, or largest at the bottom. */}
+          <span className="pf-tsl-mode pf-mode-inline pf-chart-style" role="group" aria-label={t("Stack order")}>
+            <button type="button" aria-pressed={!largestFirst} title={t("Your order")} onClick={() => setStackLargestFirst(false)}>
+              <ListOrdered size={11} strokeWidth={2.4} />
+            </button>
+            <button type="button" aria-pressed={largestFirst} title={t("Largest at the bottom")} onClick={() => setStackLargestFirst(true)}>
+              <ArrowDownWideNarrow size={11} strokeWidth={2.4} />
             </button>
           </span>
         </span>

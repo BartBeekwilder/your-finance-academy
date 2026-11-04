@@ -1270,5 +1270,7 @@
  "{amount} spent · no budget": "{amount} harcandı · bütçe yok",
  "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Bütçe çubuğundaki küçük kesikli çizgi: bütçeyi aya eşit dağıtsaydın bugüne kadar ne kadarını harcamış olurdun — ayın 4'ünde yaklaşık %13, 15'inde yarısı. Turuncu: şimdiye kadar daha fazla harcadın. Tek başına sorun değil — birkaç sakin gün ve yine tempodasın. Sabit giderlerde yok: bir kerede ödenir.",
  "{amount} budget": "{amount} bütçe",
- "Budget up to today {amount}": "Bugüne kadar bütçe {amount}"
+ "Budget up to today {amount}": "Bugüne kadar bütçe {amount}",
+ "Stack order": "Yığın sırası",
+ "Largest at the bottom": "En büyük altta"
 }

@@ -1270,5 +1270,7 @@
  "{amount} spent · no budget": "أُنفق {amount} · بلا ميزانية",
  "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "الخط المتقطع الصغير في شريط الميزانية: كم كنت ستنفق من الميزانية حتى اليوم لو وزعتها بالتساوي على الشهر — نحو 13% في يوم 4، والنصف في يوم 15. برتقالي: أنفقت أكثر حتى الآن. ليس مشكلة بحد ذاته — بضعة أيام أهدأ وتعود إلى الوتيرة. التكاليف الثابتة ليس لها خط: تُدفع دفعة واحدة.",
  "{amount} budget": "ميزانية {amount}",
- "Budget up to today {amount}": "الميزانية حتى اليوم {amount}"
+ "Budget up to today {amount}": "الميزانية حتى اليوم {amount}",
+ "Stack order": "ترتيب التكديس",
+ "Largest at the bottom": "الأكبر في الأسفل"
 }

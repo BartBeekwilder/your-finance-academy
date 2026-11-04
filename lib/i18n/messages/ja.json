@@ -1270,5 +1270,7 @@
  "{amount} spent · no budget": "{amount}使用・予算なし",
  "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "予算バーの小さな点線：予算を月全体に均等に配分した場合、今日までに使っていた額 — 4日に約13%、15日に半分。オレンジ：これまでにそれより多く使っています。それ自体は問題ありません — 数日控えめにすればペースに戻ります。固定費には表示されません：一度に支払うためです。",
  "{amount} budget": "予算 {amount}",
- "Budget up to today {amount}": "今日までの予算 {amount}"
+ "Budget up to today {amount}": "今日までの予算 {amount}",
+ "Stack order": "積み上げ順",
+ "Largest at the bottom": "大きい順に下から"
 }

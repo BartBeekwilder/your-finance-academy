@@ -51,6 +51,11 @@ const BUDGET_SORT = "pf-budget-largest";
 export const useBudgetLargestFirst = () => usePref(BUDGET_SORT, false);
 export const setBudgetLargestFirst = (on: boolean) => write(BUDGET_SORT, on);
 
+const STACK_SORT = "pf-stack-largest";
+/** Category charts: stack largest at the bottom (else the user's order). */
+export const useStackLargestFirst = () => usePref(STACK_SORT, false);
+export const setStackLargestFirst = (on: boolean) => write(STACK_SORT, on);
+
 const BALANCE_FULL = "pf-balance-full";
 /** Dashboard balance sheet: the full two-column table (true) or the
  *  compact bars (false). */

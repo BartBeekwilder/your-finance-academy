@@ -1270,5 +1270,7 @@
  "{amount} spent · no budget": "Đã chi {amount} · không có ngân sách",
  "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Vạch nét đứt nhỏ trong thanh ngân sách: bạn lẽ ra đã chi bao nhiêu ngân sách đến hôm nay nếu chia đều cho cả tháng — khoảng 13% vào ngày 4, một nửa vào ngày 15. Màu cam: đến nay bạn đã chi nhiều hơn. Bản thân không phải vấn đề — vài ngày chi ít hơn là bạn trở lại nhịp. Chi phí cố định không có: trả một lần.",
  "{amount} budget": "ngân sách {amount}",
- "Budget up to today {amount}": "Ngân sách đến hôm nay {amount}"
+ "Budget up to today {amount}": "Ngân sách đến hôm nay {amount}",
+ "Stack order": "Thứ tự xếp chồng",
+ "Largest at the bottom": "Lớn nhất ở dưới"
 }
