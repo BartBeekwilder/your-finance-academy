@@ -20,7 +20,7 @@ import Link from "next/link";
 import type { Mode } from "@/components/finance/LiveTiles";
 import YearsOverview from "@/components/finance/YearsOverview";
 import { YearCompare } from "@/components/finance/Compare";
-import { balanceSheet, liveFixed } from "@/lib/finance/calc";
+import { balanceSheet, budgetIn, live, liveFixed, num } from "@/lib/finance/calc";
 import ProgressStrip from "@/components/finance/ProgressStrip";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
@@ -28,6 +28,7 @@ import YearLines from "@/components/finance/YearLines";
 import { yearForecast, last12Months, monthProgress, netWorthFigures, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 import { investmentsValue } from "@/lib/finance/quotes";
+import { upcomingFixedCosts } from "@/lib/finance/recurring";
 
 export default function DashboardPage() {
   const { data, now } = useFinance();
@@ -35,7 +36,26 @@ export default function DashboardPage() {
   const currency = data.profile.currency_code;
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const s = summarize(data.transactions, month);
-  const byCategory = spendByCategory(data, month);
+  // Budget rows: spending per category this month, with fixed costs still to
+  // come this month (recurring, not yet booked) counted in too. A fixed cost
+  // without a budget (the mortgage) gets its own amount as the bar's budget,
+  // so the bar fills as the month is used — as on the Budgets page.
+  const byCategory = (() => {
+    const cats = live(data.categories);
+    const topOf = (id: string | null) => { const c = cats.find((x) => x.id === id); return c?.parent_id ?? c?.id ?? null; };
+    const upcoming = new Map<string, number>();
+    for (const tx of upcomingFixedCosts(data, now)) { const top = topOf(tx.category_id); if (top) upcoming.set(top, (upcoming.get(top) ?? 0) + num(tx.amount)); }
+    const rows = spendByCategory(data, month).map((e) => ({ ...e, spent: e.spent + (upcoming.get(e.category.id) ?? 0), fixed: e.fixed + (upcoming.get(e.category.id) ?? 0) }));
+    for (const [id, v] of upcoming) {
+      if (rows.some((r) => r.category.id === id)) continue;
+      const c = cats.find((x) => x.id === id);
+      if (c) rows.push({ category: c, spent: v, fixed: v, budget: budgetIn(live(data.budgets), c.id, month), isOverBudget: false });
+    }
+    return rows.map((e) => {
+      const asFixed = e.budget === null && e.fixed > 0.005;
+      return { ...e, asFixed, budget: e.budget ?? (asFixed ? e.fixed : null) };
+    });
+  })();
   const compareBudgets = useBudgetCompare();
   const maxBudget = Math.max(1, ...byCategory.map((e) => e.budget ?? 0));
   const largestFirst = useBudgetLargestFirst();
@@ -178,10 +198,10 @@ export default function DashboardPage() {
               <div style={{ display: "grid", gap: 6 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.92rem" }}>
                   <span>{e.category.name}</span>
-                  {e.budget !== null && <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{t("{amount} budget", { amount: money(e.budget, currency) })}</span>}
+                  {e.budget !== null && <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>{e.asFixed ? `${t("Fixed")} · ${money(e.budget, currency)}` : t("{amount} budget", { amount: money(e.budget, currency) })}</span>}
                 </div>
                 {e.budget !== null ? (
-                  <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={e.category.is_fixed_expense ? month : undefined} scaleMax={compareBudgets ? maxBudget : undefined} parts={budgetParts(e.category.id, e.spent)} />
+                  <BudgetBar spent={e.spent} budget={e.budget} color={`#${e.category.color_hex}`} currency={currency} monthFraction={monthProgress(now)} fixedMonthStart={e.category.is_fixed_expense || e.asFixed ? month : undefined} scaleMax={compareBudgets ? maxBudget : undefined} parts={budgetParts(e.category.id, e.spent)} />
                 ) : (
                   <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{t("{amount} spent · no budget", { amount: money(e.spent, currency) })}</span>
                 )}
