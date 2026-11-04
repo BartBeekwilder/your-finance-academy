@@ -45,8 +45,10 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
   const ref = useRef<HTMLCanvasElement>(null);
   // Off (or the background switch off): one still frame. Light: a low frame
   // rate, a coarser canvas and without the widest glow stroke.
-  // Full: capped at 30 fps — the lines drift slowly, more frames only cost
-  // CPU without looking smoother.
+  // Full: 15 fps, Light: 6 fps — the lines drift slowly (half the speed they
+  // used to), so more frames only cost CPU without looking smoother. Between
+  // frames the loop sleeps (a timer, not a frame callback every 1/60 s), and
+  // a hidden tab draws nothing.
   const mode = useMotionMode();
   const background = useBackgroundMotion();
   const still = mode === "off" || !background;
@@ -60,8 +62,11 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
     const seeds = makeSeeds(lineCount);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
-    let last = -Infinity;
-    const interval = 1000 / (light ? 12 : 30);
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const interval = 1000 / (light ? 6 : 15);
+    // The next frame after a sleep; the frame callback itself pauses in a
+    // hidden tab.
+    const later = () => { timer = setTimeout(() => { frame = requestAnimationFrame(draw); }, interval); };
     const strokes = light ? ([[6, 0.75], [1.6, 1.2]] as const) : ([[14, 0.28], [6, 0.62], [1.6, 1.2]] as const);
 
     // Drawn at a fraction of a CSS pixel and scaled up by the browser: the
@@ -76,12 +81,8 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
     };
 
     const draw = (ms: number) => {
-      if (!still && !reduced && ms - last < interval) {
-        frame = requestAnimationFrame(draw);
-        return;
-      }
-      last = ms;
-      const t = ms / 1000 + 1000;
+      // Half speed: the drift's clock runs at 0.5×.
+      const t = ms / 2000 + 1000;
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
       const cx = w / 2;
@@ -116,7 +117,7 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
           ctx.stroke();
         }
       }
-      if (!reduced && !still) frame = requestAnimationFrame(draw);
+      if (!reduced && !still) later();
     };
 
     // A still picture is redrawn after a resize (resizing clears the canvas).
@@ -129,6 +130,7 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
     frame = requestAnimationFrame(draw);
     return () => {
       cancelAnimationFrame(frame);
+      if (timer) clearTimeout(timer);
       window.removeEventListener("resize", onResize);
     };
   }, [lineCount, opacity, still, light]);
