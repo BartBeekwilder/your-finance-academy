@@ -85,7 +85,7 @@ export default function YearsCompare({
           </div>
           <span key={sel} className="pf-readout" style={{ fontSize: "0.78rem" }}>
             <b>{years[sel].year}</b>{" "}
-            <span className="pf-rounded" style={{ color: lm.color, fontWeight: 600 }}>{fmt(lm, years[sel].values[line])}</span>
+            <span className="pf-rounded" style={{ color: years[sel].values[line] < 0 ? "var(--pf-red)" : lm.color, fontWeight: 600 }}>{fmt(lm, years[sel].values[line])}</span>
             {years[sel].note && <span style={{ color: "var(--pf-ink-3)" }}> · {years[sel].note}</span>}
           </span>
         </div>
@@ -128,7 +128,8 @@ export default function YearsCompare({
                     />
                   );
                 })}
-                <span className="pf-yc-dot" style={{ top: yOf(y.values[line]), background: lm.color }} />
+                {/* Below zero (negative equity, a loss year): red. */}
+                <span className="pf-yc-dot" style={{ top: yOf(y.values[line]), background: y.values[line] < 0 ? "#ff453a" : lm.color }} />
               </span>
               <span className="pf-yc-year">{y.year}</span>
             </button>
@@ -186,7 +187,7 @@ export default function YearsCompare({
           return (
             <button key={y.year} type="button" className="pf-row pf-yc-trow" data-on={i === a || i === b} onClick={() => pick(i)}>
               <span style={{ fontWeight: 600 }}>{y.year}{y.live ? " *" : ""}</span>
-              {metrics.map((m, k) => <span key={k} className="pf-rounded" style={k === line ? { color: m.color, fontWeight: 600 } : undefined}>{fmt(m, y.values[k])}</span>)}
+              {metrics.map((m, k) => <span key={k} className="pf-rounded" style={k === line ? { color: y.values[k] < 0 ? "var(--pf-red)" : m.color, fontWeight: 600 } : y.values[k] < 0 ? { color: "var(--pf-red)" } : undefined}>{fmt(m, y.values[k])}</span>)}
               <span className="pf-rounded" style={{ color: d === null ? "var(--pf-ink-3)" : tone(lm, d) }}>{d === null ? "—" : fmt(lm, d, true)}</span>
             </button>
           );
