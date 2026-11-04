@@ -1268,5 +1268,7 @@
  "Pace for today": "今日节奏",
  "ahead of it": "超前了",
  "{amount} spent · no budget": "已花 {amount} · 无预算",
- "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "预算条里的小虚线：如果把预算平均分配到整个月，到今天你本该花掉多少——4 号约 13%，15 号一半。橙色：你目前花得更多。这本身不是问题——过几天省一点就能回到节奏。固定支出没有这条线：它们是一次付清的。"
+ "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "预算条里的小虚线：如果把预算平均分配到整个月，到今天你本该花掉多少——4 号约 13%，15 号一半。橙色：你目前花得更多。这本身不是问题——过几天省一点就能回到节奏。固定支出没有这条线：它们是一次付清的。",
+ "{amount} budget": "预算 {amount}",
+ "Budget up to today {amount}": "截至今天的预算 {amount}"
 }

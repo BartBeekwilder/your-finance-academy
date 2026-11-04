@@ -1268,5 +1268,7 @@
  "Pace for today": "आज की गति",
  "ahead of it": "आप आगे हैं",
  "{amount} spent · no budget": "{amount} खर्च · कोई बजट नहीं",
- "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "बजट बार में छोटी डैश वाली रेखा: अगर आप बजट को महीने भर में बराबर बाँटें तो आज तक कितना खर्च किया होता — 4 तारीख को लगभग 13%, 15 को आधा। नारंगी: अब तक आपने ज़्यादा खर्च किया। अपने आप में कोई समस्या नहीं — कुछ शांत दिन और आप फिर गति पर। स्थायी खर्चों में यह नहीं होती: वे एक बार में चुकते हैं।"
+ "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "बजट बार में छोटी डैश वाली रेखा: अगर आप बजट को महीने भर में बराबर बाँटें तो आज तक कितना खर्च किया होता — 4 तारीख को लगभग 13%, 15 को आधा। नारंगी: अब तक आपने ज़्यादा खर्च किया। अपने आप में कोई समस्या नहीं — कुछ शांत दिन और आप फिर गति पर। स्थायी खर्चों में यह नहीं होती: वे एक बार में चुकते हैं।",
+ "{amount} budget": "{amount} बजट",
+ "Budget up to today {amount}": "आज तक का बजट {amount}"
 }

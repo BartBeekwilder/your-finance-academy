@@ -1275,5 +1275,7 @@
  "Pace for today": "Tempo voor vandaag",
  "ahead of it": "je loopt voor",
  "{amount} spent · no budget": "{amount} uitgegeven · geen budget",
- "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Het kleine gestippelde streepje in een budgetbalk: hoeveel van het budget je tot vandaag zou hebben uitgegeven als je het gelijk over de maand verdeelt — ongeveer 13% op de 4e, de helft op de 15e. Oranje: je hebt tot nu toe meer uitgegeven. Op zich geen probleem — een paar rustigere dagen en je zit weer op tempo. Vaste lasten hebben er geen: die betaal je in één keer."
+ "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Het kleine gestippelde streepje in een budgetbalk: hoeveel van het budget je tot vandaag zou hebben uitgegeven als je het gelijk over de maand verdeelt — ongeveer 13% op de 4e, de helft op de 15e. Oranje: je hebt tot nu toe meer uitgegeven. Op zich geen probleem — een paar rustigere dagen en je zit weer op tempo. Vaste lasten hebben er geen: die betaal je in één keer.",
+ "{amount} budget": "{amount} budget",
+ "Budget up to today {amount}": "Budget tot vandaag {amount}"
 }

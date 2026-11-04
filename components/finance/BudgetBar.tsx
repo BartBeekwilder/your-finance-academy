@@ -29,6 +29,14 @@ import { money } from "@/lib/finance/format";
  *    its tip says how close you are to the limit; the tip glows in that
  *    colour and a soft sheen travels along it.
  *  Bars grow in from the left on first paint. Styles: .pf-bbar* in CSS. */
+/** The i-th part's shade of a bar's colour (`--c`): the category itself in
+ *  its own colour, subcategories alternately lighter and darker. */
+export function partShade(i: number) {
+  if (i === 0) return "var(--c)";
+  const step = Math.ceil(i / 2) * 22;
+  return i % 2 ? `color-mix(in srgb, var(--c) ${100 - step}%, #fff)` : `color-mix(in srgb, var(--c) ${100 - step}%, #000)`;
+}
+
 export default function BudgetBar({
   spent,
   budget,
@@ -39,6 +47,7 @@ export default function BudgetBar({
   scaleMax,
   heat,
   forecast,
+  parts,
 }: {
   spent: number;
   budget: number;
@@ -58,6 +67,9 @@ export default function BudgetBar({
   /** A month still to come: `spent` is what's expected — drawn fainter,
    *  with a dashed edge, and labelled "expected". */
   forecast?: boolean;
+  /** What the spending is made of (the category itself first, then each
+   *  subcategory), drawn as shades of the bar's colour (`partShade`). */
+  parts?: number[];
 }) {
   const fraction = useMonthFraction(fixedMonthStart);
   const fixed = fixedMonthStart !== undefined;
@@ -113,7 +125,13 @@ export default function BudgetBar({
               }
             : { width: `${fill * 100}%` }
         }
-      />
+      >
+        {parts && parts.filter((v) => v > 0.005).length > 1 && !heat && !fixed && (
+          <span className="pf-bbar-parts" aria-hidden>
+            {parts.map((v, i) => (v > 0.005 ? <span key={i} style={{ flex: v, background: partShade(i) }} /> : null))}
+          </span>
+        )}
+      </span>
       {over && <span className="pf-bbar-limit" style={{ left: `${limit * 100}%` }} title={t("Budget {amount}", { amount: money(budget, currency) })} />}
       {pace !== null && pace > 0.02 && pace < 0.98 && (
         <span className="pf-bbar-pace" data-ahead={aheadOfPace} style={{ left: `${pace * 100}%` }} title={t("Even pace for today")} />

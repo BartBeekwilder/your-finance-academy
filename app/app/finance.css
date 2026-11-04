@@ -4899,3 +4899,13 @@ span.pf-cmp-chip { cursor: default; }
 .pf-pace-key { display: inline-flex; align-items: center; gap: 5px; font-size: 0.7rem; color: var(--pf-ink-3); }
 .pf-pace-key i { width: 0; height: 12px; border-left: 2px dashed rgba(255, 255, 255, 0.7); }
 .pf-pace-key i[data-ahead] { border-left-color: var(--pf-orange); }
+/* The tick's glow and pop mustn't be clipped by the name's ellipsis box. */
+.pf-bal-part-name:has(.pf-bal-tickwrap) { overflow: visible; white-space: normal; padding-left: 3px; }
+.pf-bal-tickwrap { flex-wrap: wrap; row-gap: 6px; }
+.pf-bal-tickname { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Budget bar parts: the category and each subcategory in its own shade. */
+.pf-bbar-parts { position: absolute; inset: 0; display: flex; border-radius: inherit; overflow: hidden; }
+.pf-bbar-parts span { height: 100%; transition: flex-grow 0.6s cubic-bezier(0.2, 0.9, 0.25, 1); }
+.pf-bbar-parts span + span { box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.35); }
+.pf-part-dot { width: 8px; height: 8px; border-radius: 3px; flex: none; }

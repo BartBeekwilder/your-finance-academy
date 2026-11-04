@@ -1268,5 +1268,7 @@
  "Pace for today": "Laju hari ini",
  "ahead of it": "kamu lebih cepat",
  "{amount} spent · no budget": "{amount} terpakai · tanpa anggaran",
- "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Garis putus-putus kecil di batang anggaran: berapa banyak anggaran yang akan terpakai sampai hari ini jika dibagi rata sepanjang bulan — sekitar 13% di tanggal 4, separuh di tanggal 15. Oranye: kamu sudah belanja lebih banyak. Bukan masalah sendiri — beberapa hari lebih tenang dan kamu kembali ke laju. Biaya tetap tidak punya: dibayar sekaligus."
+ "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Garis putus-putus kecil di batang anggaran: berapa banyak anggaran yang akan terpakai sampai hari ini jika dibagi rata sepanjang bulan — sekitar 13% di tanggal 4, separuh di tanggal 15. Oranye: kamu sudah belanja lebih banyak. Bukan masalah sendiri — beberapa hari lebih tenang dan kamu kembali ke laju. Biaya tetap tidak punya: dibayar sekaligus.",
+ "{amount} budget": "anggaran {amount}",
+ "Budget up to today {amount}": "Anggaran hingga hari ini {amount}"
 }

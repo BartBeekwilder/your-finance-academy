@@ -4,7 +4,7 @@ import { intlLocale, t } from "@/lib/i18n";
 import { Fragment, useRef, useState } from "react";
 import { useFlip } from "@/lib/useFlip";
 import { useCategoryDetail } from "@/components/finance/CategoryDetail";
-import BudgetBar from "@/components/finance/BudgetBar";
+import BudgetBar, { partShade } from "@/components/finance/BudgetBar";
 import BudgetScaleSwitch from "@/components/finance/BudgetScaleSwitch";
 import { useBudgetCompare, useBudgetLargestFirst } from "@/lib/prefs";
 import CategoryIcon from "@/components/finance/CategoryIcon";
@@ -177,9 +177,9 @@ export default function BudgetsPage() {
             {/* The year's budget; the pace tick marks the budget used up to today. */}
             <BudgetBar spent={yearSpent} budget={yearBudget} color="#30d158" heat currency={currency} monthFraction={yearBudget ? toDate / yearBudget : 0} />
             <div style={{ fontSize: "0.78rem", color: "var(--pf-ink-2)" }}>
-              Budget up to today {money(toDate, currency)} ·{" "}
+              {t("Budget up to today {amount}", { amount: money(toDate, currency) })} ·{" "}
               <span style={{ color: yearSpent > toDate ? "var(--pf-red)" : "var(--pf-green)", fontWeight: 600 }}>
-                {yearSpent > toDate ? `${money(yearSpent - toDate, currency)} over` : `${money(toDate - yearSpent, currency)} under`}
+                {yearSpent > toDate ? t("{amount} over", { amount: money(yearSpent - toDate, currency) }) : t("{amount} under", { amount: money(toDate - yearSpent, currency) })}
               </span>
               {" · "}
               {overMonths === 0 ? t("no month over budget") : overMonths === 1 ? t("1 category-month over budget") : t("{n} category-months over budget", { n: overMonths })}
@@ -232,24 +232,26 @@ export default function BudgetsPage() {
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span>{c.name}</span>
                     <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>
-                      {budget === null ? t("No budget") : asFixed ? `${t("Fixed")} · ${money(budget, currency)}` : `${money(budget, currency)} budget`}
+                      {budget === null ? t("No budget") : asFixed ? `${t("Fixed")} · ${money(budget, currency)}` : t("{amount} budget", { amount: money(budget, currency) })}
                     </span>
                   </div>
                   {budget !== null ? (
-                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={isFuture ? undefined : monthPace} fixedMonthStart={(c.is_fixed_expense || asFixed) && !isFuture ? month : undefined} forecast={isFuture} scaleMax={compare ? maxBudget : undefined} />
+                    <BudgetBar spent={spent} budget={budget} color={`#${c.color_hex}`} currency={currency} monthFraction={isFuture ? undefined : monthPace} fixedMonthStart={(c.is_fixed_expense || asFixed) && !isFuture ? month : undefined} forecast={isFuture} scaleMax={compare ? maxBudget : undefined}
+                      parts={isFuture ? undefined : (() => { const subs = subRows(c); return [Math.max(spent - subs.reduce((a, r) => a + r.spent, 0), 0), ...subs.map((r) => r.spent)]; })()} />
                   ) : (
                     <span className="pf-rounded" style={{ fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{t("{amount} spent", { amount: money(spent, currency) })}</span>
                   )}
                 </div>
               </button>
-              {subRows(c).map((r) => (
-                <button key={r.s.id} className="pf-row pf-tap pf-budget-sub" onClick={(ev) => openCategory(r.s.id, ev.currentTarget)} style={{ width: "100%" }}>
+              {subRows(c).map((r, k) => (
+                <button key={r.s.id} className="pf-row pf-tap pf-budget-sub" onClick={(ev) => openCategory(r.s.id, ev.currentTarget)} style={{ width: "100%", ["--c" as string]: `#${c.color_hex}` }}>
                   <CategoryIcon icon={r.s.icon} colorHex={r.s.color_hex} size={22} />
                   <div style={{ flex: 1, display: "grid", gap: 5 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem" }}>
-                      <span>{r.s.name}</span>
+                      {/* Its shade in the parent's bar. */}
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}><i className="pf-part-dot" style={{ background: partShade(k + 1) }} />{r.s.name}</span>
                       <span className="pf-rounded" style={{ fontSize: "0.74rem", color: "var(--pf-ink-3)" }}>
-                        {r.budget === null ? money(r.spent, currency) : `${money(r.budget, currency)} budget`}
+                        {r.budget === null ? money(r.spent, currency) : t("{amount} budget", { amount: money(r.budget, currency) })}
                       </span>
                     </div>
                     {r.budget !== null && (

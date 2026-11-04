@@ -1268,5 +1268,7 @@
  "Pace for today": "Tempo na dziś",
  "ahead of it": "wyprzedzasz",
  "{amount} spent · no budget": "{amount} wydane · brak budżetu",
- "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Mała przerywana kreska w pasku budżetu: ile budżetu wydałbyś do dziś, rozkładając go równo na miesiąc — ok. 13% czwartego, połowa piętnastego. Pomarańczowa: wydałeś dotąd więcej. Samo w sobie to nie problem — kilka spokojniejszych dni i wracasz do tempa. Koszty stałe jej nie mają: płacisz je naraz."
+ "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Mała przerywana kreska w pasku budżetu: ile budżetu wydałbyś do dziś, rozkładając go równo na miesiąc — ok. 13% czwartego, połowa piętnastego. Pomarańczowa: wydałeś dotąd więcej. Samo w sobie to nie problem — kilka spokojniejszych dni i wracasz do tempa. Koszty stałe jej nie mają: płacisz je naraz.",
+ "{amount} budget": "{amount} budżetu",
+ "Budget up to today {amount}": "Budżet do dziś {amount}"
 }

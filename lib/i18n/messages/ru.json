@@ -1268,5 +1268,7 @@
  "Pace for today": "Темп на сегодня",
  "ahead of it": "вы опережаете",
  "{amount} spent · no budget": "{amount} потрачено · без бюджета",
- "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Маленькая пунктирная линия в полосе бюджета: сколько бюджета вы потратили бы к сегодняшнему дню, распределяя его равномерно по месяцу — около 13% к 4-му, половину к 15-му. Оранжевая: пока вы потратили больше. Само по себе не проблема — несколько спокойных дней, и вы снова в темпе. У постоянных расходов её нет: они оплачиваются сразу."
+ "The little dashed line in a budget bar: how much of the budget you could have spent by today if you spread it evenly over the month — about 13% on the 4th, half on the 15th. Orange: you've spent more than that so far. Not a problem by itself — a quieter few days bring you back on pace. Fixed costs don't get one: they're paid at once.": "Маленькая пунктирная линия в полосе бюджета: сколько бюджета вы потратили бы к сегодняшнему дню, распределяя его равномерно по месяцу — около 13% к 4-му, половину к 15-му. Оранжевая: пока вы потратили больше. Само по себе не проблема — несколько спокойных дней, и вы снова в темпе. У постоянных расходов её нет: они оплачиваются сразу.",
+ "{amount} budget": "бюджет {amount}",
+ "Budget up to today {amount}": "Бюджет на сегодня {amount}"
 }
