@@ -6,6 +6,7 @@ import { ChartArea, ChartColumnStacked, ListOrdered, ArrowDownWideNarrow } from 
 import CategoryAreas from "./CategoryAreas";
 import { useState } from "react";
 import { categoryYear, live, num, projectedNetIncome, yearForecast } from "@/lib/finance/calc";
+import { upcomingFixedCosts } from "@/lib/finance/recurring";
 import { money, monthYear, shortMonth, monthName } from "@/lib/finance/format";
 import type { FinanceData, Transaction } from "@/lib/finance/types";
 import type { Mode } from "./LiveTiles";
@@ -458,6 +459,9 @@ function dayBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Trans
     else if (smear && groupOf(t) === mainIncome) mainReceived += num(t.amount);
     else add(byDay[d.getDate()], groupOf(t), num(t.amount));
   }
+  // Fixed costs still to come this month (recurring, not yet booked) are
+  // spread over the days like the booked ones.
+  if (kind === "expense") for (const t of upcomingFixedCosts(data, now)) add(fixed, groupOf(t), num(t.amount));
   const payday = data.profile.payday_day;
   // Spread: the main income evenly — this month at its expected net, today
   // only the part of the day that has passed; a finished month at what came
