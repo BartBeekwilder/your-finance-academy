@@ -1304,5 +1304,9 @@
  "Up to date": "最新",
  "Yes, that's right": "はい、合っています",
  "In the app. Does your bank say the same?": "アプリ上の金額です。銀行と同じですか？",
- "Type the balance your bank shows.": "銀行に表示されている残高を入力してください。"
+ "Type the balance your bank shows.": "銀行に表示されている残高を入力してください。",
+ "{n} days last month": "先月の {n} 日",
+ "+{n} points for {days} days kept up": "{days} 日分で +{n} ポイント",
+ "Days kept up": "記録済みの日",
+ "Up to date through which day?": "何日まで更新しましたか？"
 }

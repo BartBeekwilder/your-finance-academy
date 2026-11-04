@@ -1304,5 +1304,9 @@
  "Up to date": "최신",
  "Yes, that's right": "네, 맞아요",
  "In the app. Does your bank say the same?": "앱 기준입니다. 은행도 같은가요?",
- "Type the balance your bank shows.": "은행에 표시된 잔액을 입력하세요."
+ "Type the balance your bank shows.": "은행에 표시된 잔액을 입력하세요.",
+ "{n} days last month": "지난달 {n}일",
+ "+{n} points for {days} days kept up": "{days}일 기록으로 +{n}점",
+ "Days kept up": "기록한 날",
+ "Up to date through which day?": "며칠까지 정리했나요?"
 }

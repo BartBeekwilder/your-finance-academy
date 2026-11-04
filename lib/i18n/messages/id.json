@@ -1304,5 +1304,9 @@
  "Up to date": "Terbaru",
  "Yes, that's right": "Ya, benar",
  "In the app. Does your bank say the same?": "Menurut aplikasi. Apakah bank menunjukkan hal yang sama?",
- "Type the balance your bank shows.": "Ketik saldo yang ditunjukkan bank."
+ "Type the balance your bank shows.": "Ketik saldo yang ditunjukkan bank.",
+ "{n} days last month": "{n} hari bulan lalu",
+ "+{n} points for {days} days kept up": "+{n} poin untuk {days} hari tercatat",
+ "Days kept up": "Hari tercatat",
+ "Up to date through which day?": "Terbaru sampai hari apa?"
 }

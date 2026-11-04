@@ -1304,5 +1304,9 @@
  "Up to date": "Đã cập nhật",
  "Yes, that's right": "Đúng rồi",
  "In the app. Does your bank say the same?": "Theo ứng dụng. Ngân hàng có hiển thị giống vậy không?",
- "Type the balance your bank shows.": "Nhập số dư ngân hàng hiển thị."
+ "Type the balance your bank shows.": "Nhập số dư ngân hàng hiển thị.",
+ "{n} days last month": "{n} ngày tháng trước",
+ "+{n} points for {days} days kept up": "+{n} điểm cho {days} ngày đã cập nhật",
+ "Days kept up": "Ngày đã cập nhật",
+ "Up to date through which day?": "Cập nhật đến ngày nào?"
 }

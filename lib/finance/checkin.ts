@@ -95,3 +95,17 @@ export function trackedDays(activity: string[], checkins: string[]) {
   const before = activity.map((d) => d.slice(0, 10)).filter((d) => first === null || d < first.slice(0, 8) + "01");
   return [...new Set([...before, ...coveredDays(checkins)])].sort();
 }
+
+/** The days still open on `today`: what a check-in through today would
+ *  newly cover — from the day after the last check-in (the first time: the
+ *  1st of this month), at most a month back. Oldest first. */
+export function openDays(days: string[], today: Date) {
+  const end = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const last = days.length ? parse(days[days.length - 1]) : null;
+  let d = last ? addDays(last, 1) : new Date(end.getFullYear(), end.getMonth(), 1);
+  const floor = addDays(end, -30);
+  if (d < floor) d = floor;
+  const out: string[] = [];
+  for (; d <= end; d = addDays(d, 1)) out.push(dayKey(d));
+  return out;
+}

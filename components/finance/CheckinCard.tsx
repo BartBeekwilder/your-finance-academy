@@ -6,7 +6,8 @@ import { Check, ChevronLeft, CircleCheck, Flame } from "lucide-react";
 import { intlLocale, t } from "@/lib/i18n";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { accountFlows, live, num } from "@/lib/finance/calc";
-import { CHECKIN_POINTS, CHECKIN_PREFIX, checkinDays, checkinState, dayKey, sinceLast, type CheckinInterval } from "@/lib/finance/checkin";
+import { CHECKIN_POINTS, CHECKIN_PREFIX, checkinDays, checkinState, coveredDays, dayKey, openDays, sinceLast, type CheckinInterval } from "@/lib/finance/checkin";
+import { POINTS } from "@/lib/finance/progress";
 import { money } from "@/lib/finance/format";
 import { parseNumber } from "@/lib/finance/amountExpr";
 import { useTween } from "./charts";
@@ -18,7 +19,11 @@ import InfoTip from "@/components/finance/InfoTip";
 // on, and a way to fix it right there (add an expense or income, type the
 // bank's balance for the current account, check the other balances). The
 // last card sums up; confirming records a check-in (lib/finance/checkin) and
-// earns bonus points on top of the daily visit. Segments along the top show
+// earns bonus points on top of the daily visit. On that card a strip of the
+// month's days shows which are kept up; the open ones (since the last
+// check-in) can be picked: "up to date through the 3rd" covers the open days
+// up to it, and each of them not yet counted earns its day points too.
+// Segments along the top show
 // which questions are ticked; tap one to go back to it.
 
 export function useCheckin() {
@@ -49,6 +54,15 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
   const checking = checkingAcct && accounts.find((a) => a.id === checkingAcct.id);
   const others = accounts.filter((a) => a.id !== checking?.id);
   const [fixing, setFixing] = useState<string | null>(null);
+  // The days: kept up, still open (pickable), and through which day now.
+  const ckDays = checkinDays(data.achievements ?? []);
+  const open = openDays(ckDays, now);
+  const [through, setThrough] = useState<string | null>(null);
+  const upTo = through && open.includes(through) ? through : open[open.length - 1] ?? dayKey(now);
+  const counted = new Set([...live(data.activityDays ?? []).map((a) => a.day.slice(0, 10)), ...coveredDays(ckDays)]);
+  const newDays = open.filter((d) => d <= upTo && !counted.has(d)).length;
+  const earn = CHECKIN_POINTS + newDays * POINTS.activeDay;
+  const upToDate = new Date(Number(upTo.slice(0, 4)), Number(upTo.slice(5, 7)) - 1, Number(upTo.slice(8, 10)));
   const quickAdd = () => window.dispatchEvent(new Event("pf-quick-add"));
 
   const items: Item[] = [
@@ -122,7 +136,7 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
     if (!all || saving) return;
     setSaving(true);
     try {
-      await awardBadges([{ code: `${CHECKIN_PREFIX}${dayKey(now)}`, points: CHECKIN_POINTS }]);
+      await awardBadges([{ code: `${CHECKIN_PREFIX}${upTo}`, points: CHECKIN_POINTS }]);
       setJustDone(true);
       setTimeout(() => onDone?.(), 1400);
     } finally {
@@ -141,6 +155,7 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
           <span>{t("Checked in {period} · through {date}", { period: periodName, date: shortDate(state.last ?? now) })}</span>
         </span>
         {state.streak > 1 && <span className="pf-checkin-streak"><Flame size={14} /> {state.streak}</span>}
+        <DayStrip now={now} covered={new Set(coveredDays(ckDays))} open={[]} upTo={null} />
       </div>
     );
   }
@@ -186,6 +201,11 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
           <div className="pf-wr-body">
             <span className="pf-wr-kicker">{t("Check-in")}</span>
             <h3 className="pf-wr-title">{justDone ? t("Books up to date") : all ? t("All set.") : t("Almost there.")}</h3>
+            <div className="pf-ck-days-wrap">
+              <span className="pf-wr-dim">{t("Up to date through which day?")}</span>
+              <DayStrip now={now} covered={new Set(justDone ? [...coveredDays(ckDays), ...open.filter((d) => d <= upTo)] : coveredDays(ckDays))} open={justDone ? [] : open} upTo={upTo} onPick={setThrough} />
+              {!justDone && newDays > 0 && <span className="pf-wr-dim" style={{ fontSize: "0.78rem" }}>{t("+{n} points for {days} days kept up", { n: newDays * POINTS.activeDay, days: newDays })}</span>}
+            </div>
             <div className="pf-ck-list">
               {items.map((i, k) => (
                 <button key={i.id} type="button" data-on={!!ticked[i.id]} onClick={() => go(k)}>
@@ -198,11 +218,43 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
           <div className="pf-ck-actions">
             <button type="button" className="pf-ck-back" aria-label={t("Previous")} onClick={() => go(n - 1)}><ChevronLeft size={18} /></button>
             <button type="button" className="pf-checkin-go" disabled={!all || saving || justDone} onClick={confirm}>
-              {justDone ? <><CircleCheck size={16} /> {t("+{n} points", { n: CHECKIN_POINTS })}</> : t("Up to date through {date} · +{n} points", { date: shortDate(now), n: CHECKIN_POINTS })}
+              {justDone ? <><CircleCheck size={16} /> {t("+{n} points", { n: earn })}</> : t("Up to date through {date} · +{n} points", { date: shortDate(upToDate), n: earn })}
             </button>
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/** This month's days in a row: kept up (green, ticked), still open (since
+ *  the last check-in — tap one to be up to date through it; those up to it
+ *  light up), and the days ahead (dim). Open days from last month show as
+ *  a count before the 1st. */
+function DayStrip({ now, covered, open, upTo, onPick }: { now: Date; covered: Set<string>; open: string[]; upTo: string | null; onPick?: (day: string) => void }) {
+  const y = now.getFullYear(), m = now.getMonth();
+  const n = new Date(y, m + 1, 0).getDate();
+  const today = dayKey(now);
+  const openSet = new Set(open);
+  const earlier = open.filter((d) => d < dayKey(new Date(y, m, 1)) && (!upTo || d <= upTo)).length;
+  const wd = (d: Date) => d.toLocaleDateString(intlLocale(), { weekday: "narrow" });
+  return (
+    <div className="pf-ck-days" role="group" aria-label={t("Days kept up")}>
+      {earlier > 0 && <span className="pf-ck-day" data-state="pick" title={t("{n} days last month", { n: earlier })}><i>+{earlier}</i><b>…</b></span>}
+      {Array.from({ length: n }, (_, k) => {
+        const d = new Date(y, m, k + 1), key = dayKey(d);
+        const state = covered.has(key) ? "done" : openSet.has(key) ? (upTo && key <= upTo ? "pick" : "open") : key > today ? "ahead" : "missed";
+        const label = d.toLocaleDateString(intlLocale(), { weekday: "long", day: "numeric", month: "long" });
+        return openSet.has(key) && onPick ? (
+          <button key={key} type="button" className="pf-ck-day" data-state={state} data-today={key === today || undefined} aria-label={label} aria-pressed={state === "pick"} onClick={() => onPick(key)} style={{ ["--k" as string]: k }}>
+            <i>{wd(d)}</i><b>{k + 1}</b>
+          </button>
+        ) : (
+          <span key={key} className="pf-ck-day" data-state={state} data-today={key === today || undefined} title={label} style={{ ["--k" as string]: k }}>
+            <i>{wd(d)}</i><b>{state === "done" ? <Check size={11} strokeWidth={3.4} /> : k + 1}</b>
+          </span>
+        );
+      })}
     </div>
   );
 }

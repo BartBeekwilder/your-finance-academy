@@ -1304,5 +1304,9 @@
  "Up to date": "محدَّث",
  "Yes, that's right": "نعم، صحيح",
  "In the app. Does your bank say the same?": "حسب التطبيق. هل يقول بنكك الشيء نفسه؟",
- "Type the balance your bank shows.": "اكتب الرصيد الذي يعرضه بنكك."
+ "Type the balance your bank shows.": "اكتب الرصيد الذي يعرضه بنكك.",
+ "{n} days last month": "{n} أيام في الشهر الماضي",
+ "+{n} points for {days} days kept up": "+{n} نقطة عن {days} أيام محدّثة",
+ "Days kept up": "الأيام المحدّثة",
+ "Up to date through which day?": "محدَّث حتى أي يوم؟"
 }

@@ -1304,5 +1304,9 @@
  "Up to date": "Aktualne",
  "Yes, that's right": "Tak, zgadza się",
  "In the app. Does your bank say the same?": "Według aplikacji. Czy bank pokazuje to samo?",
- "Type the balance your bank shows.": "Wpisz saldo, które pokazuje bank."
+ "Type the balance your bank shows.": "Wpisz saldo, które pokazuje bank.",
+ "{n} days last month": "{n} dni w zeszłym miesiącu",
+ "+{n} points for {days} days kept up": "+{n} pkt za {days} uzupełnionych dni",
+ "Days kept up": "Uzupełnione dni",
+ "Up to date through which day?": "Aktualne do którego dnia?"
 }

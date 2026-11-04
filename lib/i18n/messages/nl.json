@@ -1311,5 +1311,9 @@
  "Up to date": "Bijgewerkt",
  "Yes, that's right": "Ja, klopt",
  "In the app. Does your bank say the same?": "Volgens de app. Zegt je bank hetzelfde?",
- "Type the balance your bank shows.": "Typ het saldo dat je bank laat zien."
+ "Type the balance your bank shows.": "Typ het saldo dat je bank laat zien.",
+ "{n} days last month": "{n} dagen vorige maand",
+ "+{n} points for {days} days kept up": "+{n} punten voor {days} bijgehouden dagen",
+ "Days kept up": "Bijgehouden dagen",
+ "Up to date through which day?": "Bijgewerkt t/m welke dag?"
 }

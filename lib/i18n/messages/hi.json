@@ -1304,5 +1304,9 @@
  "Up to date": "अपडेट",
  "Yes, that's right": "हाँ, सही है",
  "In the app. Does your bank say the same?": "ऐप के अनुसार। क्या आपका बैंक भी यही दिखाता है?",
- "Type the balance your bank shows.": "वह बैलेंस लिखें जो आपका बैंक दिखाता है।"
+ "Type the balance your bank shows.": "वह बैलेंस लिखें जो आपका बैंक दिखाता है।",
+ "{n} days last month": "पिछले महीने के {n} दिन",
+ "+{n} points for {days} days kept up": "{days} अपडेट दिनों के लिए +{n} अंक",
+ "Days kept up": "अपडेट किए गए दिन",
+ "Up to date through which day?": "किस दिन तक अपडेट?"
 }

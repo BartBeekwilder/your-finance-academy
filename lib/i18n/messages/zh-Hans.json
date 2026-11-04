@@ -1304,5 +1304,9 @@
  "Up to date": "已更新",
  "Yes, that's right": "对，没错",
  "In the app. Does your bank say the same?": "应用中的金额。银行显示的一样吗？",
- "Type the balance your bank shows.": "输入银行显示的余额。"
+ "Type the balance your bank shows.": "输入银行显示的余额。",
+ "{n} days last month": "上月 {n} 天",
+ "+{n} points for {days} days kept up": "已记录 {days} 天，+{n} 分",
+ "Days kept up": "已记录的天数",
+ "Up to date through which day?": "更新到哪一天？"
 }

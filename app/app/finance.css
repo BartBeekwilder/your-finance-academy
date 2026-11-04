@@ -4966,3 +4966,20 @@ span.pf-cmp-chip { cursor: default; }
 .pf-ck-list button[data-on="true"] .pf-ck-dot { background: var(--pf-green); border-color: var(--pf-green); color: #000; transform: scale(1.08); box-shadow: 0 0 12px rgba(48, 209, 88, 0.5); }
 .pf-ck-card[data-done="true"] .pf-checkin-go { opacity: 1; background: var(--pf-green); color: #000; animation: pf-chip-pop 0.5s cubic-bezier(0.3, 1.8, 0.5, 1); }
 @media (max-width: 560px) { .pf-ck-card { padding: 22px 18px 18px; min-height: 300px; } .pf-ck-yes, .pf-ck-alt { padding: 0 14px; } }
+.pf-ck-days-wrap { display: grid; gap: 8px; }
+.pf-ck-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(30px, 1fr)); gap: 5px; }
+.pf-checkin-done { flex-wrap: wrap; }
+.pf-checkin-done .pf-ck-days { flex-basis: 100%; margin-top: 4px; }
+.pf-ck-day { display: grid; justify-items: center; gap: 2px; padding: 5px 0 6px; border-radius: 10px; border: 1px solid transparent; background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.55); font: inherit; animation: pf-wr-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--k, 0) * 12ms); transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.3s cubic-bezier(0.3, 1.7, 0.5, 1), box-shadow 0.25s; }
+.pf-ck-day i { font-style: normal; font-size: 0.6rem; text-transform: uppercase; opacity: 0.7; }
+.pf-ck-day b { display: grid; place-items: center; height: 14px; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.pf-ck-day[data-state="done"] { background: rgba(48, 209, 88, 0.22); color: #7dffa5; }
+.pf-ck-day[data-state="open"] { border-color: rgba(255, 255, 255, 0.35); color: #fff; cursor: pointer; }
+.pf-ck-day[data-state="pick"] { background: linear-gradient(160deg, #6c5ce7, #00c2a8); color: #fff; cursor: pointer; box-shadow: 0 0 12px rgba(0, 194, 168, 0.35); }
+.pf-ck-day[data-state="ahead"] { opacity: 0.35; }
+.pf-ck-day[data-state="missed"] { color: rgba(255, 255, 255, 0.4); }
+.pf-ck-day[data-today] { outline: 1.5px solid rgba(255, 255, 255, 0.7); outline-offset: 1px; }
+button.pf-ck-day:hover { transform: translateY(-2px); }
+button.pf-ck-day:active { transform: scale(0.92); }
+.pf-checkin-done .pf-ck-day { background: rgba(255, 255, 255, 0.04); color: var(--pf-ink-3); }
+.pf-checkin-done .pf-ck-day[data-state="done"] { background: rgba(48, 209, 88, 0.16); color: var(--pf-green); }

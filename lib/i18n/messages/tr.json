@@ -1304,5 +1304,9 @@
  "Up to date": "Güncel",
  "Yes, that's right": "Evet, doğru",
  "In the app. Does your bank say the same?": "Uygulamaya göre. Bankan da aynısını mı gösteriyor?",
- "Type the balance your bank shows.": "Bankanın gösterdiği bakiyeyi yaz."
+ "Type the balance your bank shows.": "Bankanın gösterdiği bakiyeyi yaz.",
+ "{n} days last month": "Geçen ay {n} gün",
+ "+{n} points for {days} days kept up": "{days} güncel gün için +{n} puan",
+ "Days kept up": "Güncel günler",
+ "Up to date through which day?": "Hangi güne kadar güncel?"
 }

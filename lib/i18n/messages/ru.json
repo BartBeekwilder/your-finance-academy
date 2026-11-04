@@ -1304,5 +1304,9 @@
  "Up to date": "Актуально",
  "Yes, that's right": "Да, верно",
  "In the app. Does your bank say the same?": "По данным приложения. В банке так же?",
- "Type the balance your bank shows.": "Введите остаток, который показывает банк."
+ "Type the balance your bank shows.": "Введите остаток, который показывает банк.",
+ "{n} days last month": "{n} дн. в прошлом месяце",
+ "+{n} points for {days} days kept up": "+{n} очков за {days} дн. учёта",
+ "Days kept up": "Дни учёта",
+ "Up to date through which day?": "Актуально по какой день?"
 }
