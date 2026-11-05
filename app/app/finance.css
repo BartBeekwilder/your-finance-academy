@@ -2835,6 +2835,8 @@ html[data-pf-motion="light"] *::after {
   text-transform: uppercase;
   color: var(--pf-ink-3);
 }
+/* A subscription's bubble: its brand colour with the first letter. */
+.pf-ob-sub { font-size: 0.8rem; font-weight: 800; letter-spacing: -0.02em; }
 .pf-ob-loankind {
   display: grid;
   place-items: center;

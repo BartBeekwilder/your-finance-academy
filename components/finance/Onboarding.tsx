@@ -67,6 +67,29 @@ const FIXED: Omit<Line, "amount" | "on">[] = [
   { key: "transport", name: "Car or transit pass", icon: "car.fill", color: "F3A712" },
 ];
 
+/** The complete route asks these two on their own screens (Subscriptions,
+ *  Insurance), so the fixed-costs screen leaves them out there; the quick
+ *  route keeps them as one line each. */
+const OWN_SCREEN = ["insurance", "subscriptions"];
+
+/** Subscriptions most people have; the price per month is theirs to fill
+ *  in (it differs per country and plan). Brand names stay as they are. */
+const SUBS: Omit<Line, "amount" | "on">[] = [
+  { key: "netflix", name: "Netflix", icon: "N", color: "E50914" },
+  { key: "spotify", name: "Spotify", icon: "S", color: "1DB954" },
+  { key: "disney", name: "Disney+", icon: "D", color: "113CCF" },
+  { key: "youtube", name: "YouTube Premium", icon: "Y", color: "FF0033" },
+  { key: "prime", name: "Amazon Prime", icon: "a", color: "00A8E1" },
+  { key: "max", name: "Max", icon: "M", color: "5822B4" },
+  { key: "apple", name: "iCloud+ / Apple One", icon: "i", color: "8E8E93" },
+  { key: "ai", name: "ChatGPT / AI", icon: "AI", color: "10A37F" },
+  { key: "gym", name: "Gym", icon: "G", color: "FF9F0A" },
+  { key: "news", name: "News & magazines", icon: "N", color: "6E6E73" },
+];
+const BRANDS = ["netflix", "spotify", "disney", "youtube", "prime", "max", "apple", "ai"];
+const subName = (x: Line) => (x.own || BRANDS.includes(x.key) ? x.name : t(x.name));
+const ownSub = (): Line => ({ key: crypto.randomUUID(), name: "", icon: "+", color: "8E8E93", amount: "", on: true, own: true });
+
 /** Variable budgets, suggested as a share of net income. */
 const BUDGETS: (Omit<Line, "amount" | "on"> & { share: number })[] = [
   { key: "Groceries", name: "Groceries", icon: "cart.fill", color: "2E8B57", share: 0.11 },
@@ -132,6 +155,7 @@ type Draft = {
   accounts: { key: string; name: string; type: "checking" | "savings"; amount: string }[];
   investments: InvestmentDraft[];
   fixed: Line[];
+  subs?: Line[];
   policies: { kind: InsurancePolicy["kind"]; premium: string; on: boolean; key?: string; name?: string }[];
   budgets: Line[] | null;
   goal: { name: string; amount: string; months: number };
@@ -203,6 +227,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   if (fresh && fresh !== invQuotes) setInvQuotes(fresh);
   const invValue = (x: InvestmentDraft) => draftValue(x, invQuotes, currency, num);
   const [fixed, setFixed] = useState<Line[]>(d0.fixed ?? FIXED.map((f) => ({ ...f, amount: "", on: false })));
+  const [subs, setSubs] = useState<Line[]>(d0.subs ?? SUBS.map((x) => ({ ...x, amount: "", on: false })));
   const [policies, setPolicies] = useState<Draft["policies"]>(d0.policies ?? POLICIES.map((p) => ({ kind: p.kind, premium: "", on: false })));
   const [budgets, setBudgets] = useState<Line[] | null>(d0.budgets ?? null);
   const [goal, setGoal] = useState(d0.goal ?? { name: "", amount: "", months: 12 });
@@ -225,25 +250,38 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   const index = steps.indexOf(step);
   const netIncome = num(net);
   // Budgets are suggested once income is known; edits stay.
+  // Complete route: subscriptions and insurance on their own screens, each
+  // one a fixed cost of its own (in the categories Subscriptions and
+  // Insurance) — so they're counted once, not on the fixed-costs screen too.
+  const separate = route !== "quick";
+  const fixedShown = separate ? fixed.filter((f) => !OWN_SCREEN.includes(f.key)) : fixed;
+  const subLines = subs.filter((x) => x.on && num(x.amount) > 0 && (!x.own || x.name.trim()));
+  const policyLines = policies.filter((p) => p.on && num(p.premium) > 0);
+  const policyName = (p: Draft["policies"][number]) => p.name?.trim() || t((POLICIES.find((x) => x.kind === p.kind) ?? OWN_POLICY).label);
+  const costLines: Line[] = [
+    ...fixedShown,
+    ...(separate ? subLines.map((x) => ({ ...x, key: `sub-${x.key}`, name: subName(x), own: true })) : []),
+    ...(separate ? policyLines.map((p, i) => ({ key: `ins-${p.key ?? p.kind}-${i}`, name: policyName(p), icon: "cross.case.fill", color: "E63946", amount: p.premium, on: true, own: true })) : []),
+  ];
   const budgetLines = budgets ?? BUDGETS.map((b) => ({ ...b, amount: netIncome ? String(Math.round((netIncome * b.share) / 10) * 10) : "", on: true }));
 
   const totals = useMemo(() => {
-    const fixedTotal = fixed.filter((f) => f.on).reduce((s, f) => s + num(f.amount), 0);
+    const fixedTotal = costLines.filter((f) => f.on).reduce((s, f) => s + num(f.amount), 0);
     const budgetTotal = budgetLines.filter((b) => b.on).reduce((s, b) => s + num(b.amount), 0);
     const cash = accounts.reduce((s, a) => s + num(a.amount), 0);
     const invested = investments.reduce((s, x) => s + invValue(x), 0);
     const equity = cash + invested + num(home.value) - num(home.mortgage) - loans.reduce((s, l) => s + num(l.amount), 0);
     return { fixedTotal, budgetTotal, left: netIncome - fixedTotal - budgetTotal, cash, equity };
-  }, [fixed, budgetLines, accounts, investments, home, loans, netIncome, invQuotes]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [costLines, budgetLines, accounts, investments, home, loans, netIncome, invQuotes]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Remember where the setup stands on this device.
   useEffect(() => {
     if (saved || resume) return;
-    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, policies, budgets, goal, home, loans, history, checkin, checkinDays };
+    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, home, loans, history, checkin, checkinDays };
     try {
       localStorage.setItem(DRAFT_KEY(preview), JSON.stringify(draft));
     } catch {}
-  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, policies, budgets, goal, home, loans, history, checkin, checkinDays, saved, resume, preview]);
+  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, home, loans, history, checkin, checkinDays, saved, resume, preview]);
 
   const goTo = (to: Step, d: 1 | -1) => {
     setDir(d);
@@ -359,7 +397,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         cats.find((c) => c.name.toLowerCase() === name.toLowerCase() && !c.parent_id) ??
         (await addCategory({ name, icon, color_hex: color, is_income_category: false, is_fixed_expense: isFixed }));
       if (has("fixed")) {
-        for (const f of fixed.filter((f) => f.on && num(f.amount) > 0 && (!f.own || f.name.trim()))) {
+        for (const f of fixedShown.filter((f) => f.on && num(f.amount) > 0 && (!f.own || f.name.trim()))) {
           const c = await categoryFor(f.own ? f.name.trim() : t(f.name), f.icon, f.color, true);
           await setBudget(c.id, month, num(f.amount));
           await addTransaction({
@@ -368,11 +406,27 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
           });
         }
       }
+      // One category for a group (Subscriptions, Insurance), its budget the
+      // group's total, and each item a fixed cost of its own that books
+      // itself every month.
+      const bookGroup = async (name: string, icon: string, color: string, items: { note: string; amount: number }[]) => {
+        if (!items.length) return;
+        const c = await categoryFor(name, icon, color, true);
+        await setBudget(c.id, month, items.reduce((s2, x) => s2 + x.amount, 0));
+        for (const x of items)
+          await addTransaction({
+            amount: x.amount.toFixed(2), type: "expense", date: new Date(now.getFullYear(), now.getMonth(), 1, 12).toISOString(),
+            note: x.note, is_auto_income: false, is_fixed_expense: true, recurrence_id: crypto.randomUUID(), category_id: c.id, account_id: null,
+          });
+      };
+      if (has("subscriptions") && separate) {
+        await bookGroup(t("Subscriptions"), "tv.fill", "BF5AF2", subLines.map((x) => ({ note: subName(x).trim(), amount: num(x.amount) })));
+      }
       if (has("insurance")) {
-        for (const [i, p] of policies.filter((p) => p.on && num(p.premium) > 0).entries()) {
-          const style = POLICIES.find((x) => x.kind === p.kind) ?? OWN_POLICY;
-          await savePolicy({ kind: p.kind, name: p.name?.trim() || t(style.label), insurer: "", premium: num(p.premium).toFixed(2), period: "month", deductible: "0.00", coverage: null, start_date: null, renewal_date: null, notice_months: 1, notes: "", sort_order: i });
+        for (const [i, p] of policyLines.entries()) {
+          await savePolicy({ kind: p.kind, name: policyName(p), insurer: "", premium: num(p.premium).toFixed(2), period: "month", deductible: "0.00", coverage: null, start_date: null, renewal_date: null, notice_months: 1, notes: "", sort_order: i });
         }
+        if (separate) await bookGroup(t("Insurance"), "cross.case.fill", "E63946", policyLines.map((p) => ({ note: policyName(p), amount: num(p.premium) })));
       }
       // Budgets: answered in the complete route, suggested in the quick one.
       if (has("budgets") || (route === "quick" && has("income"))) {
@@ -440,7 +494,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                   { name: t("Mortgage"), amount: num(home.mortgage) },
                   ...loans.map((l) => ({ name: l.name.trim() || t(LOAN_STYLE[l.kind].label), amount: num(l.amount) })),
                 ],
-                fixedLines: fixed.filter((x) => x.on && num(x.amount) > 0).map((x) => ({ name: x.own ? x.name : t(x.name), amount: num(x.amount) })),
+                fixedLines: costLines.filter((x) => x.on && num(x.amount) > 0).map((x) => ({ name: x.own ? x.name : t(x.name), amount: num(x.amount) })),
                 budgetLines: budgetLines.filter((x) => x.on && num(x.amount) > 0).map((x) => ({ name: x.own ? x.name : t(x.name), amount: num(x.amount) })),
                 invest: {
                   total: investments.reduce((s2, x) => s2 + invValue(x), 0),
@@ -605,9 +659,9 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             )}
 
             {step === "fixed" && (
-              <Screen title={t("Your fixed costs")} hint={`${t("The same every month. Tap what you have and fill in the amount — they become this month's fixed costs and budgets.")} ${t("Several bills in one? Add them up with +, like 40+24.")}`}>
+              <Screen title={t("Your fixed costs")} hint={`${t("The same every month. Tap what you have and fill in the amount — they become this month's fixed costs and budgets.")} ${t("Several bills in one? Add them up with +, like 40+24.")}${separate ? ` ${t("Subscriptions and insurance come next.")}` : ""}`}>
                 <div className="pf-ob-list">
-                  {fixed.map((f, i) => f.own ? (
+                  {fixed.map((f, i) => separate && OWN_SCREEN.includes(f.key) ? null : f.own ? (
                     <div key={f.key} className="pf-ob-line" data-on>
                       <CategoryIcon icon={f.icon} colorHex={f.color} size={30} />
                       <input className="pf-ob-name" autoFocus={!f.name} value={f.name} placeholder={t("Name, e.g. gym or childcare")} aria-label={t("Name")} onChange={(e) => setFixed(fixed.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} />
@@ -628,6 +682,38 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                   ))}
                   <button type="button" className="pf-bal-add" onClick={() => setFixed([...fixed, ownLine()])}>
                     <Plus size={13} /> {t("Add a fixed cost")}
+                  </button>
+                </div>
+              </Screen>
+            )}
+
+            {step === "subscriptions" && (
+              <Screen title={t("Your subscriptions")} hint={t("Tap what you pay for and fill in the price per month. Each one becomes a fixed cost under Subscriptions that books itself every month.")}>
+                <div className="pf-ob-list">
+                  {subs.map((x, i) => {
+                    const set = (patch: Partial<Line>) => setSubs(subs.map((y, j) => (j === i ? { ...y, ...patch } : y)));
+                    if (x.own)
+                      return (
+                        <div key={x.key} className="pf-ob-line" data-on>
+                          <span className="pf-ob-loankind pf-ob-sub" style={{ ["--c" as string]: `#${x.color}` }}>{(x.name.trim()[0] ?? "+").toUpperCase()}</span>
+                          <input className="pf-ob-name" autoFocus={!x.name} value={x.name} placeholder={t("Name, e.g. Videoland or a game pass")} aria-label={t("Name")} onChange={(e) => set({ name: e.target.value })} />
+                          <AmountField currency={currency} value={x.amount} label={t("Per month")} onChange={(v) => set({ amount: v })} />
+                          <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setSubs(subs.filter((_, j) => j !== i))}><X size={14} /></button>
+                        </div>
+                      );
+                    return (
+                      <div key={x.key} className="pf-ob-line" data-on={x.on}>
+                        <button className="pf-ob-toggle" aria-pressed={x.on} onClick={() => set({ on: !x.on })}>
+                          <span className="pf-ob-loankind pf-ob-sub" style={{ ["--c" as string]: x.on ? `#${x.color}` : "#636366" }}>{x.icon}</span>
+                          <span>{subName(x)}</span>
+                          {x.on && <Check size={14} className="pf-ob-check" />}
+                        </button>
+                        {x.on && <AmountField autoFocus currency={currency} value={x.amount} label={t("{name} per month", { name: subName(x) })} onChange={(v) => set({ amount: v })} />}
+                      </div>
+                    );
+                  })}
+                  <button type="button" className="pf-bal-add" onClick={() => setSubs([...subs, ownSub()])}>
+                    <Plus size={13} /> {t("Add a subscription")}
                   </button>
                 </div>
               </Screen>
@@ -869,7 +955,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
           )}
         </div>
 
-        <Preview totals={totals} netIncome={netIncome} currency={currency} step={step} fixed={fixed} budgets={budgetLines} />
+        <Preview totals={totals} netIncome={netIncome} currency={currency} step={step} fixed={costLines} budgets={budgetLines} />
       </div>
     </div>
   );
@@ -967,7 +1053,7 @@ function Preview({
           ))}
         </div>
       </div>
-      <div className="pf-ob-stat" data-lit={lit(["fixed", "insurance"])}>
+      <div className="pf-ob-stat" data-lit={lit(["fixed", "subscriptions", "insurance"])}>
         <span>{t("Fixed costs")}</span>
         <b className="pf-rounded">{money(fix, currency)}</b>
       </div>

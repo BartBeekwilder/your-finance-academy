@@ -7,7 +7,7 @@ import { CalendarClock, ChartPie, Coins, House, Landmark, Repeat, ShieldCheck, U
 
 export type Step =
   | "welcome" | "route"
-  | "currency" | "household" | "income" | "accounts" | "investments" | "fixed" | "insurance"
+  | "currency" | "household" | "income" | "accounts" | "investments" | "fixed" | "subscriptions" | "insurance"
   | "balance" | "budgets" | "goal" | "history" | "security"
   | "done";
 
@@ -29,7 +29,7 @@ export const CHAPTERS: JourneyNode[] = [
   { id: "basics", label: "Basics", icon: Users, steps: ["currency", "household"] },
   { id: "income", label: "Income", icon: Wallet, steps: ["income"] },
   { id: "money", label: "Money now", icon: Landmark, steps: ["accounts", "investments"] },
-  { id: "fixed", label: "Fixed costs and insurance", icon: Repeat, steps: ["fixed", "insurance"] },
+  { id: "fixed", label: "Fixed costs and insurance", icon: Repeat, steps: ["fixed", "subscriptions", "insurance"] },
   { id: "debts", label: "Home and debts", icon: House, steps: ["balance"] },
   { id: "budgets", label: "Budgets and goals", icon: ChartPie, steps: ["budgets", "goal"] },
   { id: "history", label: "History", icon: CalendarClock, steps: ["history"] },
