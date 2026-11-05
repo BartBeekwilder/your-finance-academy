@@ -119,7 +119,7 @@ export default function SetupUndo() {
         {minutes.map(([k, e]) => (
           <label key={k} style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: "0.82rem" }}>
             <input type="checkbox" checked={picked.includes(k)} onChange={(ev) => setPicked(ev.target.checked ? [...picked, k] : picked.filter((x) => x !== k))} />
-            <span><b>{k}</b> · {e.n} changes — {e.names.join(" · ")}{e.n > e.names.length ? " …" : ""}</span>
+            <span><b>{k}</b> · {e.n} changes — {e.names.slice(0, 4).join(" · ")}{e.n > 4 ? " …" : ""}</span>
           </label>
         ))}
       </div>
@@ -129,7 +129,7 @@ export default function SetupUndo() {
         <span style={{ fontSize: "0.8rem", color: "var(--pf-green)" }}>Backup file loaded.</span>
       )}
       {picked.length > 0 && backup && (
-        <div style={{ fontSize: "0.8rem", display: "grid", gap: 4 }}>
+        <div style={{ fontSize: "0.8rem", display: "grid", gap: 4, maxHeight: 220, overflowY: "auto", padding: 8, borderRadius: 10, background: "rgba(255,255,255,.04)" }}>
           <b>Will remove ({plan.remove.length}):</b>
           <span style={{ color: "var(--pf-ink-2)" }}>{plan.remove.join(" · ") || "—"}</span>
           <b>Will put back from the backup ({plan.restore.length}):</b>
@@ -137,13 +137,10 @@ export default function SetupUndo() {
         </div>
       )}
       {error && <p className="pf-unlock-error">{error}</p>}
-      {done ? (
-        <p style={{ margin: 0, color: "var(--pf-green)", fontSize: "0.85rem" }}>{done} Saved to your account automatically.</p>
-      ) : (
-        <button type="button" className="pf-button" style={{ justifySelf: "start", background: "#ff453a" }} disabled={!backup || !picked.length} onClick={run}>
-          Undo the setup for the picked minutes
-        </button>
-      )}
+      <button type="button" className="pf-button" style={{ justifySelf: "start", background: "#ff453a", position: "sticky", bottom: 12 }} disabled={!backup || !picked.length || (!plan.remove.length && !plan.restore.length)} onClick={run}>
+        Undo the setup for the picked minutes ({plan.remove.length} remove · {plan.restore.length} put back)
+      </button>
+      {done && <p style={{ margin: 0, color: "var(--pf-green)", fontSize: "0.85rem" }}>{done} Saved to your account automatically.</p>}
     </section>
   );
 }
