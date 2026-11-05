@@ -2465,12 +2465,12 @@ html[data-pf-motion="light"] *::after {
 .pf-ob-layout {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 560px) 280px;
+  grid-template-columns: minmax(0, 560px) 320px;
   gap: 24px;
   align-items: stretch;
-  width: min(880px, 100%);
+  width: min(904px, 100%);
 }
-@media (max-width: 900px) {
+@media (max-width: 940px) {
   .pf-ob-layout { grid-template-columns: minmax(0, 1fr); width: min(560px, 100%); }
   .pf-ob-preview { display: none; }
 }
@@ -2486,7 +2486,11 @@ html[data-pf-motion="light"] *::after {
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.55);
   overflow: hidden;
   animation: pf-ob-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: height 0.5s cubic-bezier(0.32, 0.72, 0, 1);
 }
+/* The card's content; the card's height follows it. */
+.pf-ob-inner { display: flex; flex-direction: column; min-height: calc(560px - 58px); flex: none; }
+@media (prefers-reduced-motion: reduce) { .pf-ob-card { transition: none; } }
 @keyframes pf-ob-rise {
   from { opacity: 0; transform: translateY(24px) scale(0.98); }
 }
@@ -2800,6 +2804,34 @@ html[data-pf-motion="light"] *::after {
 .pf-ob-loanrow { display: grid; gap: 6px; }
 .pf-ob-loanterms { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-inline-start: 44px; }
 .pf-ob-loanterms label { display: grid; gap: 4px; font-size: 0.72rem; color: var(--pf-ink-3); }
+/* A fixed cost split into its bills (electricity, gas, water…). */
+.pf-ob-split { display: grid; gap: 6px; padding-inline-start: 44px; }
+.pf-ob-splitrow { display: flex; align-items: center; gap: 10px; min-height: 40px; font-size: 0.88rem; color: var(--pf-ink-2); animation: pf-fade-up 0.3s ease-out both; }
+.pf-ob-splitrow > span:first-child { flex: 1; min-width: 0; }
+.pf-ob-splitsum { flex: none; min-width: 110px; text-align: end; font-weight: 700; padding-inline-end: 12px; }
+.pf-ob-note { padding-inline-start: 44px; font-size: 0.74rem; color: var(--pf-ink-3); line-height: 1.4; }
+/* Mortgage details on the Home step. */
+.pf-ob-more { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px dashed rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); color: var(--pf-ink); font: inherit; font-size: 0.88rem; text-align: start; cursor: pointer; transition: background 0.25s, border-color 0.25s; }
+.pf-ob-more:hover { background: rgba(255, 255, 255, 0.05); }
+.pf-ob-more[aria-expanded="true"] { border-style: solid; border-color: rgba(10, 132, 255, 0.4); }
+.pf-ob-more span { flex: 1; display: grid; gap: 2px; }
+.pf-ob-more small { font-size: 0.72rem; color: var(--pf-ink-3); }
+.pf-ob-more-arrow { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); color: var(--pf-ink-3); }
+.pf-ob-more[aria-expanded="true"] .pf-ob-more-arrow { transform: rotate(90deg); }
+.pf-ob-mort { display: grid; gap: 12px; animation: pf-fade-up 0.35s ease-out both; }
+.pf-ob-mortpart { display: grid; gap: 10px; padding: 12px; border-radius: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); }
+.pf-ob-mortpart .pf-ob-chips { align-items: center; }
+.pf-ob-mortpart .pf-ob-chips .pf-icon-button { margin-inline-start: auto; }
+.pf-ob-mortterms { padding-inline-start: 0; }
+.pf-ob-mortsum { display: grid; gap: 8px; padding: 14px; border-radius: 14px; background: radial-gradient(120% 120% at 0% 0%, rgba(10, 132, 255, 0.14), transparent 60%), rgba(255, 255, 255, 0.03); border: 1px solid rgba(10, 132, 255, 0.22); }
+.pf-ob-mortsum > div:first-child { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.85rem; color: var(--pf-ink-2); }
+.pf-ob-mortsum > div:first-child b { font-size: 1.3rem; color: var(--pf-ink); }
+.pf-ob-mortbar { display: flex; gap: 3px; height: 8px; }
+.pf-ob-mortbar i { display: block; border-radius: 4px; min-width: 3px; transition: flex-grow 0.6s cubic-bezier(0.34, 1.2, 0.64, 1); }
+.pf-ob-mortkey { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.75rem; color: var(--pf-ink-2); }
+.pf-ob-mortkey span { display: inline-flex; align-items: center; gap: 6px; }
+.pf-ob-mortkey i { width: 8px; height: 8px; border-radius: 50%; }
+.pf-ob-mortsum small { font-size: 0.74rem; color: var(--pf-ink-3); line-height: 1.4; }
 /* Onboarding finale: the story cards fill the card. */
 .pf-ob-reveal { flex: 1; margin-top: 4px; }
 .pf-ob-reveal .pf-wr-card { min-height: 380px; }
@@ -3148,6 +3180,10 @@ html[data-pf-motion="light"] *::after {
 .pf-ob-stat-big b {
   font-size: 1.25rem;
 }
+/* An amount never breaks over two lines: it keeps its width, the label
+   gives way (and wraps itself if it must). */
+.pf-ob-stat > :last-child { flex: none; white-space: nowrap; }
+.pf-ob-stat > span:first-child { min-width: 0; }
 .pf-ob-flow {
   display: grid;
   gap: 4px;
@@ -5656,7 +5692,9 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-tour-fixed { display: grid; gap: 6px; }
 .pf-tour-fixed > div { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; animation: pf-wr-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
 .pf-tour-fixed > div > span:not(.pf-tour-stamp) { flex: 1; min-width: 0; color: rgba(255, 255, 255, 0.85); }
-.pf-tour-stamp { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: rgba(255, 255, 255, 0.16); font-size: 0.7rem; font-weight: 700; }
+.pf-tour-stamp { flex: none; display: grid; grid-template-rows: 9px 1fr; place-items: center; width: 28px; height: 30px; border-radius: 7px; overflow: hidden; background: rgba(255, 255, 255, 0.92); color: #1c1c1e; font-size: 0.82rem; font-weight: 800; line-height: 1; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); }
+.pf-tour-stamp small { align-self: stretch; justify-self: stretch; display: grid; place-items: center; background: #ff453a; color: #fff; font-size: 0.42rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.pf-tour-stampnote { font-size: 0.78rem; color: rgba(255, 255, 255, 0.7); margin-top: -4px; }
 .pf-tour-budgets { display: grid; gap: 12px; }
 .pf-tour-budgets > div { display: grid; grid-template-columns: 1fr auto; gap: 5px; font-size: 0.85rem; animation: pf-wr-up 0.5s both; animation-delay: var(--d); }
 .pf-tour-budgets small { color: rgba(255, 255, 255, 0.65); }
@@ -5809,17 +5847,20 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-fb-sent b { font-size: 1.2rem; }
 .pf-fb-sent small { font-size: 0.85rem; color: var(--pf-ink-2); max-width: 32ch; }
 
-/* Tour: the stage — the card leaving pops away on top of the one coming in. */
+/* Tour: a carousel — the card being left slides out to the left (back: to
+   the right) while the next one slides in from the other side; the track
+   clips them, the arrows sit outside it. */
 .pf-tour-stage { position: relative; display: grid; }
-.pf-tour-stage > .pf-wr-card { grid-area: 1 / 1; }
-.pf-tour-card { animation: pf-tour-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pf-tour-track { grid-area: 1 / 1; display: grid; overflow: hidden; border-radius: 22px; touch-action: pan-y; }
+.pf-tour-track > .pf-wr-card { grid-area: 1 / 1; }
+.pf-tour-card { animation: pf-tour-in 0.55s cubic-bezier(0.32, 0.72, 0, 1) both; }
 .pf-tour-card[data-dir="-1"] { animation-name: pf-tour-in-back; }
-@keyframes pf-tour-in { from { transform: scale(0.94) translateY(8px); opacity: 0.4; filter: brightness(0.7); } }
-@keyframes pf-tour-in-back { from { transform: translateX(-24px) scale(0.98); opacity: 0; } }
-.pf-tour-leaving { position: relative; z-index: 2; pointer-events: none; animation: pf-tour-burst 0.42s cubic-bezier(0.4, 0, 0.2, 1) both; }
-.pf-tour-leaving[data-dir="-1"] { animation-name: pf-tour-away; }
-@keyframes pf-tour-burst { 0% { transform: scale(1); opacity: 1; filter: blur(0); } 35% { transform: scale(1.035); opacity: 1; } 100% { transform: scale(1.12); opacity: 0; filter: blur(6px); } }
-@keyframes pf-tour-away { to { transform: translateX(40px) rotate(1.5deg); opacity: 0; } }
+@keyframes pf-tour-in { from { transform: translateX(calc(100% + 16px)); } }
+@keyframes pf-tour-in-back { from { transform: translateX(calc(-100% - 16px)); } }
+.pf-tour-leaving { position: relative; z-index: 2; pointer-events: none; animation: pf-tour-out 0.55s cubic-bezier(0.32, 0.72, 0, 1) both; }
+.pf-tour-leaving[data-dir="-1"] { animation-name: pf-tour-out-back; }
+@keyframes pf-tour-out { to { transform: translateX(calc(-100% - 16px)); opacity: 0.5; } }
+@keyframes pf-tour-out-back { to { transform: translateX(calc(100% + 16px)); opacity: 0.5; } }
 .pf-tour-arrow { position: absolute; top: 50%; z-index: 3; display: grid; place-items: center; width: 38px; height: 38px; margin-top: -19px; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 50%; background: rgba(0, 0, 0, 0.28); color: rgba(255, 255, 255, 0.75); cursor: pointer; opacity: 0.55; backdrop-filter: blur(6px); transition: opacity 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s; }
 .pf-tour-arrow[data-side="left"] { left: -19px; }
 .pf-tour-arrow[data-side="right"] { right: -19px; }

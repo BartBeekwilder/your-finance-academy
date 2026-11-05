@@ -2,13 +2,14 @@
 
 import { newHousehold } from "@/lib/finance/household";
 import { t, intlLocale } from "@/lib/i18n";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, Car, Check, Clock, HeartPulse, House, Layers, Plane, Plus, Shield, ShieldCheck, Sofa, Sparkles, X, Zap, type LucideIcon } from "lucide-react";
 import { live, summarize } from "@/lib/finance/calc";
 import { budgetIn } from "@/lib/finance/budgetPlan";
 import { currencyName } from "@/lib/finance/currencies";
 import { money, monthYear } from "@/lib/finance/format";
 import { payoff } from "@/lib/finance/loans";
+import { schedule, type MortgageKind } from "@/lib/finance/mortgage";
 import { MIN_PASSPHRASE } from "@/lib/finance/vault";
 import BrandMark from "./BrandMark";
 import OnboardingProgress from "./OnboardingProgress";
@@ -56,16 +57,35 @@ const CURRENCIES = [
 ];
 
 /** `own`: added by the user (a name typed in, not one of the suggestions). */
-type Line = { key: string; name: string; icon: string; color: string; amount: string; on: boolean; own?: boolean };
+type Line = { key: string; name: string; icon: string; color: string; amount: string; on: boolean; own?: boolean; split?: Part[] };
+/** One bill inside a fixed cost that comes from more than one supplier
+ *  (electricity, gas, water…): saved as a subcategory with its own fixed
+ *  cost, so each can change on its own. The line's amount is their sum. */
+type Part = { key: string; name: string; amount: string; own?: boolean };
+/** A loan part of the mortgage, from today: what's left, the rate, years to go. */
+type MortPart = { key: string; kind: MortgageKind; amount: string; rate: string; years: string; extra: string };
 
 const FIXED: Omit<Line, "amount" | "on">[] = [
-  { key: "rent", name: "Rent or mortgage", icon: "house.fill", color: "2F6690" },
+  { key: "rent", name: "Rent", icon: "house.fill", color: "2F6690" },
+  { key: "mortgage", name: "Mortgage", icon: "house.fill", color: "2F6690" },
   { key: "utilities", name: "Energy & water", icon: "bolt.fill", color: "6D4C41" },
   { key: "insurance", name: "Insurance", icon: "cross.case.fill", color: "E63946" },
   { key: "internet", name: "Internet & phone", icon: "phone.fill", color: "0A84FF" },
   { key: "subscriptions", name: "Subscriptions", icon: "tv.fill", color: "BF5AF2" },
   { key: "transport", name: "Car or transit pass", icon: "car.fill", color: "F3A712" },
 ];
+
+/** Fixed costs that open into their separate bills. */
+const SPLITS: Record<string, string[]> = {
+  utilities: ["Electricity", "Gas or heating", "Water"],
+  internet: ["Internet & TV", "Mobile phone"],
+};
+const MORT_KINDS: { kind: MortgageKind; label: string }[] = [
+  { kind: "annuity", label: "Annuity" },
+  { kind: "linear", label: "Linear" },
+  { kind: "interest_only", label: "Interest-only" },
+];
+const newMortPart = (amount = ""): MortPart => ({ key: crypto.randomUUID(), kind: "annuity", amount, rate: "", years: "", extra: "" });
 
 /** The complete route asks these two on their own screens (Subscriptions,
  *  Insurance), so the fixed-costs screen leaves them out there; the quick
@@ -159,7 +179,7 @@ type Draft = {
   policies: { kind: InsurancePolicy["kind"]; premium: string; on: boolean; key?: string; name?: string }[];
   budgets: Line[] | null;
   goal: { name: string; amount: string; months: number };
-  home: { value: string; mortgage: string };
+  home: { value: string; mortgage: string; details?: boolean; parts?: MortPart[] };
   loans: { key: string; kind: LoanKind; name: string; amount: string; rate: string; monthly: string }[];
   history: "now" | "january" | "years";
   checkin: "daily" | "twice-weekly" | "weekly";
@@ -180,7 +200,7 @@ function readDraft(preview: boolean): Partial<Draft> | null {
 }
 
 export default function Onboarding({ preview, resume, onClose }: { preview: boolean; resume?: boolean; onClose: () => void }) {
-  const { data, now, source, updateProfile, saveAccount, setBudget, addCategory, addTransaction, addBalanceItem, saveLoan, addHolding, savePolicy, saveGoal, setPassphrase } = useFinance();
+  const { data, now, source, updateProfile, saveAccount, setBudget, addCategory, addTransaction, addBalanceItem, saveLoan, addHolding, savePolicy, saveGoal, setPassphrase, saveProperty, saveMortgagePart } = useFinance();
   // A quick start being finished: the complete route, from the first
   // chapter that's still open; otherwise where this device left off.
   const finished = useMemo<string[]>(() => {
@@ -231,7 +251,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   const [policies, setPolicies] = useState<Draft["policies"]>(d0.policies ?? POLICIES.map((p) => ({ kind: p.kind, premium: "", on: false })));
   const [budgets, setBudgets] = useState<Line[] | null>(d0.budgets ?? null);
   const [goal, setGoal] = useState(d0.goal ?? { name: "", amount: "", months: 12 });
-  const [home, setHome] = useState(d0.home ?? { value: "", mortgage: "" });
+  const [home, setHome] = useState<Draft["home"]>(d0.home ?? { value: "", mortgage: "" });
   // Other loans, each with its kind and a name; the complete route also asks
   // the rate and the monthly payment (then the debt goes down by itself).
   const [loans, setLoans] = useState<Draft["loans"]>(d0.loans ?? []);
@@ -254,7 +274,20 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   // one a fixed cost of its own (in the categories Subscriptions and
   // Insurance) — so they're counted once, not on the fixed-costs screen too.
   const separate = route !== "quick";
-  const fixedShown = separate ? fixed.filter((f) => !OWN_SCREEN.includes(f.key)) : fixed;
+  // Mortgage details (Home step): each part's schedule from this month, so
+  // the monthly payment — interest and repayment — is worked out, and the
+  // fixed cost "Mortgage" follows it instead of being typed twice.
+  const m0 = new Date(now.getFullYear(), now.getMonth(), 1);
+  const mortParts = home.details ? (home.parts ?? []).filter((p) => num(p.amount) > 0 && num(p.years) > 0) : [];
+  const mortRows = mortParts.map((p) => schedule({ id: p.key, name: "", kind: p.kind, principal: num(p.amount), rate: num(p.rate), start: m0, termMonths: Math.round(num(p.years) * 12), extraMonthly: num(p.extra) }));
+  const mort = {
+    interest: mortRows.reduce((s2, rows) => s2 + (rows[0]?.interest ?? 0), 0),
+    repayment: mortRows.reduce((s2, rows) => s2 + (rows[0] ? rows[0].repayment + rows[0].extra : 0), 0),
+    totalInterest: mortRows.reduce((s2, rows) => s2 + rows.reduce((s3, x) => s3 + x.interest, 0), 0),
+    end: mortRows.reduce<Date | null>((e, rows) => { const last = rows[rows.length - 1]?.month; return last && (!e || last > e) ? last : e; }, null),
+  };
+  const mortPay = mort.interest + mort.repayment;
+  const fixedShown = (separate ? fixed.filter((f) => !OWN_SCREEN.includes(f.key)) : fixed).map((f) => (f.key === "mortgage" && mortPay > 0 ? { ...f, on: true, amount: mortPay.toFixed(2) } : f));
   const subLines = subs.filter((x) => x.on && num(x.amount) > 0 && (!x.own || x.name.trim()));
   const policyLines = policies.filter((p) => p.on && num(p.premium) > 0);
   const policyName = (p: Draft["policies"][number]) => p.name?.trim() || t((POLICIES.find((x) => x.kind === p.kind) ?? OWN_POLICY).label);
@@ -263,6 +296,70 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
     ...(separate ? subLines.map((x) => ({ ...x, key: `sub-${x.key}`, name: subName(x), own: true })) : []),
     ...(separate ? policyLines.map((p, i) => ({ key: `ins-${p.key ?? p.kind}-${i}`, name: policyName(p), icon: "cross.case.fill", color: "E63946", amount: p.premium, on: true, own: true })) : []),
   ];
+  const setLine = (i: number, patch: Partial<Line>) => setFixed(fixed.map((x, j) => (j === i ? { ...x, ...patch } : x)));
+  const setParts = (i: number, split: Part[]) => setLine(i, { split, amount: String(split.reduce((s2, p) => s2 + num(p.amount), 0) || "") });
+  const toggleLine = (f: Line, i: number) => {
+    if (f.on || !SPLITS[f.key] || f.split) return setLine(i, { on: !f.on });
+    // First time on: its bills; a mobile phone per person when together.
+    const split = SPLITS[f.key].flatMap((name): Part[] =>
+      name === "Mobile phone" && together
+        ? names.map((n) => ({ key: crypto.randomUUID(), name: `${t("Mobile phone")} · ${n.trim() || t("Me")}`, amount: "", own: true }))
+        : [{ key: crypto.randomUUID(), name, amount: "" }],
+    );
+    setLine(i, { on: true, split });
+  };
+  const fixedRow = (f: Line, i: number) => {
+    const shown = fixedShown.find((x) => x.key === f.key) ?? f;
+    const toggle = (
+      <button className="pf-ob-toggle" aria-pressed={shown.on} onClick={() => toggleLine(f, i)}>
+        <CategoryIcon icon={f.icon} colorHex={shown.on ? f.color : "3a3a3c"} size={30} />
+        <span>{t(f.name)}</span>
+        {shown.on && <Check size={14} className="pf-ob-check" />}
+      </button>
+    );
+    if (shown.on && f.split)
+      return (
+        <div key={f.key} className="pf-ob-loanrow">
+          <div className="pf-ob-line" data-on>
+            {toggle}
+            <span className="pf-ob-splitsum pf-rounded">{money(num(f.amount), currency)}</span>
+          </div>
+          <div className="pf-ob-split">
+            {f.split.map((p, k) => {
+              const set = (patch: Partial<Part>) => setParts(i, f.split!.map((x, j) => (j === k ? { ...x, ...patch } : x)));
+              return (
+                <div key={p.key} className="pf-ob-splitrow">
+                  {p.own ? <input className="pf-ob-name" autoFocus={!p.name} value={p.name} placeholder={t("Name")} aria-label={t("Name")} onChange={(e) => set({ name: e.target.value })} /> : <span>{t(p.name)}</span>}
+                  <AmountField autoFocus={k === 0} currency={currency} value={p.amount} label={t("{name} per month", { name: p.own ? p.name : t(p.name) })} onChange={(v) => set({ amount: v })} />
+                  <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setParts(i, f.split!.filter((_, j) => j !== k))}><X size={13} /></button>
+                </div>
+              );
+            })}
+            <button type="button" className="pf-bal-add" onClick={() => setParts(i, [...f.split!, { key: crypto.randomUUID(), name: "", amount: "", own: true }])}>
+              <Plus size={13} /> {t("Something else")}
+            </button>
+          </div>
+        </div>
+      );
+    const auto = f.key === "mortgage" && mortPay > 0;
+    return (
+      <div key={f.key} className="pf-ob-loanrow">
+        <div className="pf-ob-line" data-on={shown.on}>
+          {toggle}
+          {shown.on && (auto
+            ? <span className="pf-ob-splitsum pf-rounded">{money(mortPay, currency)}</span>
+            : <AmountField autoFocus currency={currency} value={f.amount} label={t("{name} per month", { name: t(f.name) })} onChange={(v) => setLine(i, { amount: v })} />)}
+        </div>
+        {f.key === "mortgage" && shown.on && separate && (
+          <span className="pf-ob-note">{auto ? t("Worked out from your mortgage details: {interest} interest and {repayment} repayment.", { interest: money(mort.interest, currency), repayment: money(mort.repayment, currency) }) : t("Rate and term can be added on the Home step — then this is worked out for you.")}</span>
+        )}
+      </div>
+    );
+  };
+
+  // The mortgage's loan parts; the remaining debt is their sum.
+  const setMortParts = (parts: MortPart[]) => setHome({ ...home, parts, mortgage: String(parts.reduce((s2, p) => s2 + num(p.amount), 0) || "") });
+
   const budgetLines = budgets ?? BUDGETS.map((b) => ({ ...b, amount: netIncome ? String(Math.round((netIncome * b.share) / 10) * 10) : "", on: true }));
 
   const totals = useMemo(() => {
@@ -307,6 +404,22 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
 
   // Enter continues; Escape closes.
   const card = useRef<HTMLDivElement>(null);
+  // The card grows and shrinks smoothly with what's in it (a new step, a
+  // line opening) instead of jumping: its height is set from the content's
+  // and the change is animated in CSS.
+  const [cardH, setCardH] = useState<number | null>(null);
+  const sizer = useRef<ResizeObserver | null>(null);
+  // A callback ref: the content may mount after the first render.
+  const inner = useCallback((el: HTMLDivElement | null) => {
+    sizer.current?.disconnect();
+    sizer.current = null;
+    const box = el?.parentElement;
+    if (!el || !box) return;
+    const cs = getComputedStyle(box);
+    const extra = cs.boxSizing === "border-box" ? ["paddingTop", "paddingBottom", "borderTopWidth", "borderBottomWidth"].reduce((s2, k) => s2 + parseFloat(cs[k as "paddingTop"]), 0) : 0;
+    sizer.current = new ResizeObserver(() => setCardH(Math.ceil(el.offsetHeight + extra)));
+    sizer.current.observe(el);
+  }, []);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       // A field that used the key itself (the investment search) keeps it.
@@ -400,10 +513,23 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         for (const f of fixedShown.filter((f) => f.on && num(f.amount) > 0 && (!f.own || f.name.trim()))) {
           const c = await categoryFor(f.own ? f.name.trim() : t(f.name), f.icon, f.color, true);
           await setBudget(c.id, month, num(f.amount));
-          await addTransaction({
-            amount: num(f.amount).toFixed(2), type: "expense", date: new Date(now.getFullYear(), now.getMonth(), 1, 12).toISOString(),
-            note: f.name, is_auto_income: false, is_fixed_expense: true, recurrence_id: crypto.randomUUID(), category_id: c.id, account_id: null,
-          });
+          const book = (amount: number, note: string, category_id: string) =>
+            addTransaction({
+              amount: amount.toFixed(2), type: "expense", date: new Date(now.getFullYear(), now.getMonth(), 1, 12).toISOString(),
+              note, is_auto_income: false, is_fixed_expense: true, recurrence_id: crypto.randomUUID(), category_id, account_id: null,
+            });
+          const parts = (f.split ?? []).filter((p) => num(p.amount) > 0 && (!p.own || p.name.trim()));
+          if (!parts.length) {
+            await book(num(f.amount), f.own ? f.name.trim() : t(f.name), c.id);
+            continue;
+          }
+          // Each bill its own subcategory (Electricity under Energy & water…).
+          for (const p of parts) {
+            const name = p.own ? p.name.trim() : t(p.name);
+            const sub = cats.find((x) => x.parent_id === c.id && x.name.toLowerCase() === name.toLowerCase()) ??
+              (await addCategory({ name, icon: f.icon, color_hex: f.color, is_income_category: false, is_fixed_expense: true, parent_id: c.id }));
+            await book(num(p.amount), name, sub.id);
+          }
         }
       }
       // One category for a group (Subscriptions, Insurance), its budget the
@@ -440,8 +566,18 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         await saveGoal({ kind: "save", name: goal.name.trim() || t("Savings goal"), target: num(goal.amount).toFixed(2), start_value: totals.cash.toFixed(2), target_date: `${by.getFullYear()}-${String(by.getMonth() + 1).padStart(2, "0")}-01`, category_id: null, achieved_at: null, sort_order: 0 });
       }
       if (has("balance")) {
-        if (num(home.value)) await addBalanceItem({ name: t("Home"), side: "asset", value: num(home.value) });
-        if (num(home.mortgage)) await addBalanceItem({ name: t("Mortgage"), side: "liability", value: num(home.mortgage) });
+        if (mortParts.length) {
+          // With details: the home and its loan parts go to Real estate (the
+          // balance sheet reads them from there, the debt going down by itself).
+          const property_id = await saveProperty({ name: t("Home"), value: num(home.value).toFixed(2), value_date: today, purchase_price: null, purchase_date: null, country: "INTL", sort_order: 0 });
+          for (const [i, p] of mortParts.entries()) {
+            const kind = MORT_KINDS.find((k) => k.kind === p.kind)!;
+            await saveMortgagePart({ property_id, name: mortParts.length > 1 ? `${t(kind.label)} ${i + 1}` : t("Mortgage"), kind: p.kind, principal: num(p.amount).toFixed(2), rate: num(p.rate).toFixed(3), fixed_until: null, start_date: today.slice(0, 8) + "01", term_months: Math.round(num(p.years) * 12), nhg: false, extra_monthly: num(p.extra).toFixed(2), sort_order: i });
+          }
+        } else {
+          if (num(home.value)) await addBalanceItem({ name: t("Home"), side: "asset", value: num(home.value) });
+          if (num(home.mortgage)) await addBalanceItem({ name: t("Mortgage"), side: "liability", value: num(home.mortgage) });
+        }
         for (const [i, l] of loans.filter((l) => num(l.amount) > 0).entries()) {
           await saveLoan({ kind: l.kind, name: l.name.trim() || t(LOAN_STYLE[l.kind].label), balance: num(l.amount).toFixed(2), rate: num(l.rate).toFixed(2), monthly: num(l.monthly).toFixed(2), start_date: today, sort_order: i });
         }
@@ -473,7 +609,9 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
       </button>
 
       <div className="pf-ob-layout">
-        <div className="pf-ob-card" ref={card}>
+        <div className="pf-ob-card" ref={card} style={cardH ? { height: cardH } : undefined}>
+          {/* The card's height follows this, gliding (pf-ob-card transition). */}
+          <div className="pf-ob-inner" ref={inner}>
           <OnboardingProgress nodes={nodes} chapters={route !== "quick"} step={step} onPick={(to) => goTo(to, -1)} />
           {preview && <div className="pf-ob-draft">{t("Draft · preview — nothing is saved")}</div>}
 
@@ -668,18 +806,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                       <AmountField currency={currency} value={f.amount} label={t("Per month")} onChange={(v) => setFixed(fixed.map((x, j) => (j === i ? { ...x, amount: v } : x)))} />
                       <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setFixed(fixed.filter((_, j) => j !== i))}><X size={14} /></button>
                     </div>
-                  ) : (
-                    <div key={f.key} className="pf-ob-line" data-on={f.on}>
-                      <button className="pf-ob-toggle" aria-pressed={f.on} onClick={() => setFixed(fixed.map((x, j) => (j === i ? { ...x, on: !x.on } : x)))}>
-                        <CategoryIcon icon={f.icon} colorHex={f.on ? f.color : "3a3a3c"} size={30} />
-                        <span>{t(f.name)}</span>
-                        {f.on && <Check size={14} className="pf-ob-check" />}
-                      </button>
-                      {f.on && (
-                        <AmountField autoFocus currency={currency} value={f.amount} label={t("{name} per month", { name: t(f.name) })} onChange={(v) => setFixed(fixed.map((x, j) => (j === i ? { ...x, amount: v } : x)))} />
-                      )}
-                    </div>
-                  ))}
+                  ) : fixedRow(f, i))}
                   <button type="button" className="pf-bal-add" onClick={() => setFixed([...fixed, ownLine()])}>
                     <Plus size={13} /> {t("Add a fixed cost")}
                   </button>
@@ -755,7 +882,53 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
               <Screen title={t("Your home and debts")} hint={t("Optional — it goes on your balance sheet. Mortgage details can be added under Real estate.")}>
                 <div className="pf-ob-list">
                   <Labeled label={t("Home value (WOZ or estimate)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
-                  <Labeled label={t("Mortgage remaining")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
+                  <Labeled label={t("Mortgage remaining")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} disabled={!!home.details} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
+                  <button type="button" className="pf-ob-more" aria-expanded={!!home.details} onClick={() => setHome({ ...home, details: !home.details, parts: home.parts?.length ? home.parts : [newMortPart(home.mortgage)] })}>
+                    <Layers size={15} />
+                    <span>{t("Mortgage details")}<small>{t("Optional — rate, years to go, annuity or linear")}</small></span>
+                    <ArrowRight size={14} className="pf-ob-more-arrow" />
+                  </button>
+                  {home.details && (
+                    <div className="pf-ob-mort">
+                      {(home.parts ?? []).map((p, k, all) => {
+                        const set = (patch: Partial<MortPart>) => setMortParts(all.map((x, j) => (j === k ? { ...x, ...patch } : x)));
+                        return (
+                          <div key={p.key} className="pf-ob-mortpart">
+                            <div className="pf-ob-chips" role="group" aria-label={t("Kind")}>
+                              {MORT_KINDS.map((m) => (
+                                <button key={m.kind} type="button" aria-pressed={p.kind === m.kind} style={{ ["--c" as string]: "#0a84ff" }} onClick={() => set({ kind: m.kind })}>{t(m.label)}</button>
+                              ))}
+                              {all.length > 1 && <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setMortParts(all.filter((_, j) => j !== k))}><X size={13} /></button>}
+                            </div>
+                            <div className="pf-ob-loanterms pf-ob-mortterms">
+                              <label>{t("Left on this part")}<input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={p.amount} onChange={(e) => set({ amount: e.target.value })} /></label>
+                              <label>{t("Interest rate (%)")}<input className="pf-input" inputMode="decimal" placeholder="3,8" value={p.rate} onChange={(e) => set({ rate: e.target.value })} /></label>
+                              <label>{t("Years to go")}<input className="pf-input" inputMode="decimal" placeholder="25" value={p.years} onChange={(e) => set({ years: e.target.value })} /></label>
+                              <label>{t("Extra repayment a month")}<input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={p.extra} onChange={(e) => set({ extra: e.target.value })} /></label>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <button type="button" className="pf-bal-add" onClick={() => setMortParts([...(home.parts ?? []), newMortPart()])}>
+                        <Plus size={13} /> {t("Add a loan part")}
+                      </button>
+                      {mortPay > 0 && (
+                        <div className="pf-ob-mortsum">
+                          <div><span>{t("This month")}</span><b className="pf-rounded">{money(mortPay, currency)}</b></div>
+                          <div className="pf-ob-mortbar" aria-hidden>
+                            <i style={{ flexGrow: mort.interest, background: "var(--pf-red)" }} />
+                            <i style={{ flexGrow: mort.repayment, background: "var(--pf-green)" }} />
+                          </div>
+                          <div className="pf-ob-mortkey">
+                            <span><i style={{ background: "var(--pf-red)" }} /> {t("Interest")} {money(mort.interest, currency)}</span>
+                            <span><i style={{ background: "var(--pf-green)" }} /> {t("Repayment")} {money(mort.repayment, currency)}</span>
+                          </div>
+                          {mort.end && <small>{t("Mortgage-free in {month} · {interest} interest still to pay", { month: monthYear(mort.end), interest: money(mort.totalInterest, currency) })}</small>}
+                          <small>{t("Only the interest is a cost: the repayment moves money from your account into your home, so your equity grows by it every month.")}</small>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
                 <div className="pf-ob-list">
                   <span className="pf-ob-sublabel">{t("Other loans")}</span>
@@ -953,6 +1126,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
           </div>
             </>
           )}
+          </div>
         </div>
 
         <Preview totals={totals} netIncome={netIncome} currency={currency} step={step} fixed={costLines} budgets={budgetLines} />

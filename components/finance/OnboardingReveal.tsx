@@ -2,8 +2,8 @@
 
 import { intlLocale, t } from "@/lib/i18n";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, CreditCard, Flame, HandCoins, Plus, Sparkles, Split, Wallet, type LucideIcon } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
-import { money, monthName, monthYear } from "@/lib/finance/format";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { money, monthName, monthYear, shortMonth } from "@/lib/finance/format";
 import { useTween } from "./charts";
 import LiveAmount from "./LiveAmount";
 import { Rings } from "./ProgressParts";
@@ -263,8 +263,8 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
   ];
 
   const [i, setI0] = useState(0);
-  // The card being left: it pops (forward) or slides away (back) on top of
-  // the one coming in, then goes.
+  // The card being left slides out (to the left going forward, to the right
+  // going back) while the next one slides in behind it, like a carousel.
   const [leaving, setLeaving] = useState<{ k: number; dir: 1 | -1; n: number } | null>(null);
   const card = cards[Math.min(i, cards.length - 1)];
   const last = i >= cards.length - 1;
@@ -276,6 +276,8 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
   };
   const next = () => (last ? onOpen() : setI(i + 1));
   const prev = () => setI(i - 1);
+  // Swiping the card: left → next, right → back (a tap still goes on).
+  const swipe = useRef<{ x: number; y: number; moved: boolean } | null>(null);
 
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
@@ -296,7 +298,21 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
         ))}
       </div>
       <div className="pf-tour-stage">
-        <div key={card.key} className="pf-wr-card pf-tour-card" data-dir={leaving?.dir ?? 1} style={{ background: card.tone }} onClick={next}>
+        <div
+          className="pf-tour-track"
+          onPointerDown={(e) => (swipe.current = { x: e.clientX, y: e.clientY, moved: false })}
+          onPointerUp={(e) => {
+            const s0 = swipe.current;
+            if (!s0) return;
+            const dx = e.clientX - s0.x;
+            if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(e.clientY - s0.y)) {
+              s0.moved = true;
+              if (dx < 0) next();
+              else prev();
+            }
+          }}
+        >
+        <div key={card.key} className="pf-wr-card pf-tour-card" data-dir={leaving?.dir ?? 1} style={{ background: card.tone }} onClick={() => { if (!swipe.current?.moved) next(); swipe.current = null; }}>
           <div className="pf-wr-body">
             <span className="pf-wr-kicker">{card.kicker}</span>
             {card.body}
@@ -310,6 +326,7 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
             </div>
           </div>
         )}
+        </div>
         {i > 0 && (
           <button type="button" className="pf-tour-arrow" data-side="left" aria-label={t("Back")} onClick={(e) => { e.stopPropagation(); prev(); }}>
             <ChevronLeft size={20} />
@@ -433,10 +450,12 @@ function FixedLive({ lines, total, currency }: { lines: { name: string; amount: 
   return (
     <>
       <span className="pf-wr-title">{t("Fixed costs book themselves.")}</span>
+      <small className="pf-tour-stampnote">{t("Each one is booked on the 1st of the month, by itself.")}</small>
       <div className="pf-tour-fixed">
         {lines.slice(0, 5).map((l, i) => (
           <div key={l.name} style={{ ["--d" as string]: `${0.3 + i * 0.12}s` }}>
-            <span className="pf-tour-stamp">1</span>
+            {/* A calendar leaf: booked on the 1st of the month. */}
+            <span className="pf-tour-stamp" title={t("Booked on the 1st")}><small>{shortMonth(new Date(now))}</small>1</span>
             <span>{l.name}</span>
             <b className="pf-rounded">{money(l.amount, currency)}</b>
           </div>
