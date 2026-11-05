@@ -843,7 +843,13 @@ function RunwayDrain({ months, cash, monthly, left, currency }: { months: number
   return (
     <div className="pf-tour-drain">
       <div className="pf-tour-drain-plot" aria-hidden>
-        <span className="pf-tour-drain-zone" style={{ left: `${(3 / n) * 100}%`, width: `${(3 / n) * 100}%` }}><small>{t("3–6 months")}</small></span>
+        {/* The healthy buffer: money left from month 3 to month 6. Bars that
+            still reach into it mean you'd get through that long. */}
+        <span className="pf-tour-drain-zone" style={{ left: `${(3 / n) * 100}%`, width: `${(3 / n) * 100}%` }}>
+          <small>{t("Healthy buffer")}</small>
+          <em data-side="start">{t("{n} mo", { n: 3 })}</em>
+          <em data-side="end">{t("{n} mo", { n: 6 })}</em>
+        </span>
         {Array.from({ length: n }, (_, k) => {
           const v = Math.max(0, cash - monthly * k);
           return (

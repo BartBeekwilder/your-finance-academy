@@ -5815,7 +5815,7 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-tour-open-next span { color: rgba(255, 255, 255, 0.8); }
 /* Runway: the accounts emptying month by month. */
 .pf-tour-drain { display: grid; gap: 14px; }
-.pf-tour-drain-plot { position: relative; display: flex; align-items: flex-end; gap: 6px; height: 150px; padding-bottom: 18px; }
+.pf-tour-drain-plot { position: relative; display: flex; align-items: flex-end; gap: 6px; height: 150px; padding-bottom: 18px; margin-top: 16px; }
 .pf-tour-drain-plot > i { position: relative; flex: 1; height: 100%; display: flex; align-items: flex-end; }
 .pf-tour-drain-plot > i::before { content: ""; width: 100%; height: var(--h); min-height: 3px; border-radius: 6px 6px 3px 3px; background: linear-gradient(180deg, #fde68a, #f59e0b); box-shadow: 0 0 14px rgba(251, 191, 36, 0.35); transform-origin: bottom; animation: pf-tour-fill-y 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
 .pf-tour-drain-plot > i[data-gone="true"]::before { background: rgba(255, 105, 97, 0.5); box-shadow: none; }
@@ -5823,6 +5823,9 @@ button.pf-ck-day:active { transform: scale(0.92); }
 @keyframes pf-tour-fill-y { from { transform: scaleY(0); } }
 .pf-tour-drain-zone { position: absolute; top: 0; bottom: 18px; border-radius: 8px; background: rgba(74, 222, 128, 0.08); border: 1px dashed rgba(74, 222, 128, 0.35); pointer-events: none; }
 .pf-tour-drain-zone small { position: absolute; top: 4px; left: 6px; font-size: 0.62rem; color: #86efac; white-space: nowrap; }
+.pf-tour-drain-zone em { position: absolute; top: -16px; font-size: 0.6rem; font-style: normal; font-weight: 600; color: #86efac; white-space: nowrap; transform: translateX(-50%); }
+.pf-tour-drain-zone em[data-side="start"] { left: 0; }
+.pf-tour-drain-zone em[data-side="end"] { left: 100%; }
 .pf-tour-drain-sum { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 14px; border-radius: 14px; background: rgba(0, 0, 0, 0.2); font-size: 1rem; font-weight: 700; }
 .pf-tour-drain-sum span { display: grid; gap: 1px; white-space: nowrap; }
 .pf-tour-drain-sum small { font-size: 0.64rem; font-weight: 500; color: rgba(255, 255, 255, 0.6); white-space: normal; max-width: 12em; }
