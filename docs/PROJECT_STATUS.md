@@ -6,6 +6,12 @@ run it, and what's next. Keep it up to date at the end of every session
 
 Last updated: 2026-11-05.
 
+TO DO — TRANSLATIONS (Bart, 5 Nov: translate later, focus on features and
+speed): new texts are written with t() but not translated. Run
+`node scripts/i18n.mjs report` to see what's missing (12 texts on 5 Nov:
+onboarding own lines, goal term, check-in weekdays) and fill all 16
+languages in one go.
+
 ## The product
 
 "Personal Finance" — run your money like a business. Three clients on one
@@ -688,3 +694,24 @@ the dashboard net worth ticker with the net worth model, app icon.
   quantity. components/finance/InvestmentSearch.tsx. Enter/Escape in the
   search no longer move/close the onboarding. 16 new texts in 17 languages.
   Still no "add holding" on the Investments page itself — could reuse this.
+
+## Done 2026-11-05 (evening) — onboarding round 2 (Bart's review)
+
+- Fixed costs, insurance and budgets: "+ Add …" adds an own line (name +
+  amount); saved as a category / policy (kind other) / budget by that name.
+- Loans: no more tap-to-cycle (it jumped to "Car"); a new loan starts as
+  Other loan with kind chips (student, car, personal, credit card, other)
+  under it, and Other gets its own name.
+- Savings goal: the four squares (misaligned) are now a brand slider —
+  3, 6, 9 months … 5 years — with "within 1 year · by November 2027".
+- Check-in: twice a week / weekly ask WHICH days (components/finance/
+  WeekdayPicker.tsx; also in Settings › Check-in). Profile.checkin_days
+  (0 = Sunday; account copy / local only, stripped for the legacy Supabase
+  profile). checkin.ts `periodOf(d, interval, days)` / `startDays`: a period
+  starts on a chosen weekday and runs to the day before the next one
+  (defaults Mon + Thu / Mon, as before) + test.
+- Background trail (OnboardingTrail.tsx): a still winding line behind the
+  onboarding with a dot per chapter (per step on the quick route); finished
+  ones glow green, the part of the line up to them lights up, and a chapter
+  finished now flashes once. Cards are near-opaque so it stays behind them.
+- NOT translated (see the to-do at the top).

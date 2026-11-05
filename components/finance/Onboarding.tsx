@@ -3,11 +3,11 @@
 import { newHousehold } from "@/lib/finance/household";
 import { t, intlLocale } from "@/lib/i18n";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, Car, Check, Clock, HeartPulse, House, Layers, Plane, Plus, ShieldCheck, Sofa, Sparkles, X, Zap, type LucideIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, Car, Check, Clock, HeartPulse, House, Layers, Plane, Plus, Shield, ShieldCheck, Sofa, Sparkles, X, Zap, type LucideIcon } from "lucide-react";
 import { live, summarize } from "@/lib/finance/calc";
 import { budgetIn } from "@/lib/finance/budgetPlan";
 import { currencyName } from "@/lib/finance/currencies";
-import { money } from "@/lib/finance/format";
+import { money, monthYear } from "@/lib/finance/format";
 import { payoff } from "@/lib/finance/loans";
 import { MIN_PASSPHRASE } from "@/lib/finance/vault";
 import BrandMark from "./BrandMark";
@@ -20,6 +20,9 @@ import type { AssetType, InsurancePolicy, LoanKind } from "@/lib/finance/types";
 import { useTween } from "./charts";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
+import OnboardingTrail from "./OnboardingTrail";
+import StepSlider from "./StepSlider";
+import WeekdayPicker from "./WeekdayPicker";
 import InvestmentLine, { draftValue, draftHolding, type InvestmentDraft } from "./InvestmentSearch";
 import { useQuotes } from "./Portfolio";
 import { symbolsFor, type Quotes } from "@/lib/finance/quotes";
@@ -51,7 +54,8 @@ const CURRENCIES = [
   { code: "JPY", name: "Japanese yen" },
 ];
 
-type Line = { key: string; name: string; icon: string; color: string; amount: string; on: boolean };
+/** `own`: added by the user (a name typed in, not one of the suggestions). */
+type Line = { key: string; name: string; icon: string; color: string; amount: string; on: boolean; own?: boolean };
 
 const FIXED: Omit<Line, "amount" | "on">[] = [
   { key: "rent", name: "Rent or mortgage", icon: "house.fill", color: "2F6690" },
@@ -81,6 +85,11 @@ const POLICIES: { kind: InsurancePolicy["kind"]; label: string; Icon: LucideIcon
   { kind: "car", label: "Car", Icon: Car, color: "#ff9f0a" },
   { kind: "travel", label: "Travel", Icon: Plane, color: "#30d158" },
 ];
+
+/** Savings-goal terms on the slider, in months. */
+const TERMS = [3, 6, 9, 12, 18, 24, 30, 36, 48, 60];
+const OWN_POLICY = { label: "Other", Icon: Shield, color: "#8e8e93" };
+const ownLine = (): Line => ({ key: crypto.randomUUID(), name: "", icon: "ellipsis.circle.fill", color: "8E8E93", amount: "", on: true, own: true });
 
 const ASSETS: { type: AssetType; label: string }[] = [
   { type: "stock", label: "Stock" },
@@ -122,13 +131,14 @@ type Draft = {
   accounts: { key: string; name: string; type: "checking" | "savings"; amount: string }[];
   investments: InvestmentDraft[];
   fixed: Line[];
-  policies: { kind: InsurancePolicy["kind"]; premium: string; on: boolean }[];
+  policies: { kind: InsurancePolicy["kind"]; premium: string; on: boolean; key?: string; name?: string }[];
   budgets: Line[] | null;
   goal: { name: string; amount: string; months: number };
   home: { value: string; mortgage: string };
   loans: { key: string; kind: LoanKind; name: string; amount: string; rate: string; monthly: string }[];
   history: "now" | "january" | "years";
   checkin: "daily" | "twice-weekly" | "weekly";
+  checkinDays?: number[];
 };
 
 const DRAFT_KEY = (preview: boolean) => (preview ? "pf-onboarding-preview-draft" : "pf-onboarding-draft");
@@ -201,6 +211,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   const [loans, setLoans] = useState<Draft["loans"]>(d0.loans ?? []);
   const [history, setHistory] = useState<Draft["history"]>(d0.history ?? "now");
   const [checkin, setCheckin] = useState<Draft["checkin"]>(d0.checkin ?? data.profile.checkin_interval ?? "twice-weekly");
+  const [checkinDays, setCheckinDays] = useState<number[] | undefined>(d0.checkinDays ?? data.profile.checkin_days);
   // Security: an optional passphrase (never stored in the draft).
   const [protect, setProtect] = useState(false);
   const [pass, setPass] = useState("");
@@ -227,11 +238,11 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   // Remember where the setup stands on this device.
   useEffect(() => {
     if (saved || resume) return;
-    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, policies, budgets, goal, home, loans, history, checkin };
+    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, policies, budgets, goal, home, loans, history, checkin, checkinDays };
     try {
       localStorage.setItem(DRAFT_KEY(preview), JSON.stringify(draft));
     } catch {}
-  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, policies, budgets, goal, home, loans, history, checkin, saved, resume, preview]);
+  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, policies, budgets, goal, home, loans, history, checkin, checkinDays, saved, resume, preview]);
 
   const goTo = (to: Step, d: 1 | -1) => {
     setDir(d);
@@ -317,7 +328,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         ...(has("currency") ? { currency_code: currency } : {}),
         ...(has("income") ? { expected_net_monthly: netIncome ? netIncome.toFixed(2) : null, expected_gross_monthly: num(gross) ? num(gross).toFixed(2) : null, payday_day: payday } : {}),
         ...(has("household") ? { household: together ? newHousehold(names[0].trim() || t("Me"), names[1].trim() || t("Partner"), () => crypto.randomUUID()) : [] } : {}),
-        ...(has("security") ? { checkin_interval: checkin } : {}),
+        ...(has("security") ? { checkin_interval: checkin, ...(checkin !== "daily" && checkinDays ? { checkin_days: checkinDays } : {}) } : {}),
         onboarding: { route: route === "quick" && !resume ? "quick" : "complete", steps: done },
       });
       if (has("accounts")) {
@@ -347,8 +358,8 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         cats.find((c) => c.name.toLowerCase() === name.toLowerCase() && !c.parent_id) ??
         (await addCategory({ name, icon, color_hex: color, is_income_category: false, is_fixed_expense: isFixed }));
       if (has("fixed")) {
-        for (const f of fixed.filter((f) => f.on && num(f.amount) > 0)) {
-          const c = await categoryFor(t(f.name), f.icon, f.color, true);
+        for (const f of fixed.filter((f) => f.on && num(f.amount) > 0 && (!f.own || f.name.trim()))) {
+          const c = await categoryFor(f.own ? f.name.trim() : t(f.name), f.icon, f.color, true);
           await setBudget(c.id, month, num(f.amount));
           await addTransaction({
             amount: num(f.amount).toFixed(2), type: "expense", date: new Date(now.getFullYear(), now.getMonth(), 1, 12).toISOString(),
@@ -358,14 +369,14 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
       }
       if (has("insurance")) {
         for (const [i, p] of policies.filter((p) => p.on && num(p.premium) > 0).entries()) {
-          const style = POLICIES.find((x) => x.kind === p.kind)!;
-          await savePolicy({ kind: p.kind, name: t(style.label), insurer: "", premium: num(p.premium).toFixed(2), period: "month", deductible: "0.00", coverage: null, start_date: null, renewal_date: null, notice_months: 1, notes: "", sort_order: i });
+          const style = POLICIES.find((x) => x.kind === p.kind) ?? OWN_POLICY;
+          await savePolicy({ kind: p.kind, name: p.name?.trim() || t(style.label), insurer: "", premium: num(p.premium).toFixed(2), period: "month", deductible: "0.00", coverage: null, start_date: null, renewal_date: null, notice_months: 1, notes: "", sort_order: i });
         }
       }
       // Budgets: answered in the complete route, suggested in the quick one.
       if (has("budgets") || (route === "quick" && has("income"))) {
-        for (const b of budgetLines.filter((b) => b.on && num(b.amount) > 0)) {
-          const c = await categoryFor(b.key, b.icon, b.color, false);
+        for (const b of budgetLines.filter((b) => b.on && num(b.amount) > 0 && (!b.own || b.name.trim()))) {
+          const c = await categoryFor(b.own ? b.name.trim() : b.key, b.icon, b.color, false);
           await setBudget(c.id, month, num(b.amount));
         }
       }
@@ -397,6 +408,11 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   return (
     <div className="pf-ob" role="dialog" aria-modal="true" aria-label={t("Set up your finances")}>
       <div className="pf-ob-glow" />
+      <OnboardingTrail
+        nodes={nodes}
+        done={nodes.map((nd) => nd.steps.every((x) => answered.includes(x) || finished.includes(x)))}
+        current={nodes.findIndex((nd) => nd.steps.includes(step))}
+      />
       <button className="pf-ob-close pf-icon-button" aria-label={t("Close")} onClick={onClose}>
         <X size={18} />
       </button>
@@ -565,7 +581,14 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             {step === "fixed" && (
               <Screen title={t("Your fixed costs")} hint={`${t("The same every month. Tap what you have and fill in the amount — they become this month's fixed costs and budgets.")} ${t("Several bills in one? Add them up with +, like 40+24.")}`}>
                 <div className="pf-ob-list">
-                  {fixed.map((f, i) => (
+                  {fixed.map((f, i) => f.own ? (
+                    <div key={f.key} className="pf-ob-line" data-on>
+                      <CategoryIcon icon={f.icon} colorHex={f.color} size={30} />
+                      <input className="pf-ob-name" autoFocus={!f.name} value={f.name} placeholder={t("Name, e.g. gym or childcare")} aria-label={t("Name")} onChange={(e) => setFixed(fixed.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} />
+                      <AmountField currency={currency} value={f.amount} label={t("Per month")} onChange={(v) => setFixed(fixed.map((x, j) => (j === i ? { ...x, amount: v } : x)))} />
+                      <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setFixed(fixed.filter((_, j) => j !== i))}><X size={14} /></button>
+                    </div>
+                  ) : (
                     <div key={f.key} className="pf-ob-line" data-on={f.on}>
                       <button className="pf-ob-toggle" aria-pressed={f.on} onClick={() => setFixed(fixed.map((x, j) => (j === i ? { ...x, on: !x.on } : x)))}>
                         <CategoryIcon icon={f.icon} colorHex={f.on ? f.color : "3a3a3c"} size={30} />
@@ -577,6 +600,9 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                       )}
                     </div>
                   ))}
+                  <button type="button" className="pf-bal-add" onClick={() => setFixed([...fixed, ownLine()])}>
+                    <Plus size={13} /> {t("Add a fixed cost")}
+                  </button>
                 </div>
               </Screen>
             )}
@@ -585,7 +611,16 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
               <Screen title={t("Which insurance do you have?")} hint={t("Tap each policy and fill in the premium per month — the Insurance page checks your cover and keeps track of renewals.")}>
                 <div className="pf-ob-list">
                   {policies.map((p, i) => {
-                    const S = POLICIES.find((x) => x.kind === p.kind)!;
+                    const S = POLICIES.find((x) => x.kind === p.kind) ?? OWN_POLICY;
+                    if (p.key)
+                      return (
+                        <div key={p.key} className="pf-ob-line" data-on>
+                          <span className="pf-ob-loankind" style={{ ["--c" as string]: S.color }}><S.Icon size={16} /></span>
+                          <input className="pf-ob-name" autoFocus={!p.name} value={p.name ?? ""} placeholder={t("Name, e.g. pet or phone insurance")} aria-label={t("Name")} onChange={(e) => setPolicies(policies.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} />
+                          <AmountField currency={currency} value={p.premium} label={t("Per month")} onChange={(v) => setPolicies(policies.map((x, j) => (j === i ? { ...x, premium: v } : x)))} />
+                          <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setPolicies(policies.filter((_, j) => j !== i))}><X size={14} /></button>
+                        </div>
+                      );
                     return (
                       <div key={p.kind} className="pf-ob-line" data-on={p.on}>
                         <button className="pf-ob-toggle" aria-pressed={p.on} onClick={() => setPolicies(policies.map((x, j) => (j === i ? { ...x, on: !x.on } : x)))}>
@@ -597,6 +632,9 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                       </div>
                     );
                   })}
+                  <button type="button" className="pf-bal-add" onClick={() => setPolicies([...policies, { key: crypto.randomUUID(), kind: "other", name: "", premium: "", on: true }])}>
+                    <Plus size={13} /> {t("Add insurance")}
+                  </button>
                 </div>
               </Screen>
             )}
@@ -615,15 +653,25 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                     return (
                       <div key={l.key} className="pf-ob-loanrow">
                         <div className="pf-ob-line pf-ob-loan">
-                          {/* Tap to go through the kinds: study, car, personal… */}
-                          <button type="button" className="pf-ob-loankind" style={{ ["--c" as string]: S.color }} title={t(S.label)} aria-label={t(S.label)} onClick={() => set({ kind: LOAN_KINDS[(LOAN_KINDS.indexOf(l.kind) + 1) % LOAN_KINDS.length] })}>
+                          <span className="pf-ob-loankind" style={{ ["--c" as string]: S.color }} title={t(S.label)}>
                             <S.Icon key={l.kind} size={16} />
-                          </button>
-                          <input className="pf-ob-name" value={l.name} placeholder={t(S.label)} aria-label={t("Name")} onChange={(e) => set({ name: e.target.value })} />
+                          </span>
+                          <input className="pf-ob-name" value={l.name} placeholder={l.kind === "other" ? t("Name, e.g. family loan") : t(S.label)} aria-label={t("Name")} onChange={(e) => set({ name: e.target.value })} />
                           <AmountField currency={currency} value={l.amount} label={t("Left now")} onChange={(v) => set({ amount: v })} />
                           <button type="button" className="pf-icon-button" aria-label={t("Remove loan")} onClick={() => setLoans(loans.filter((_, j) => j !== i))}>
                             <X size={14} />
                           </button>
+                        </div>
+                        {/* What kind of loan; not listed → Other, with its own name. */}
+                        <div className="pf-ob-chips" role="group" aria-label={t("Kind")}>
+                          {LOAN_KINDS.map((k) => {
+                            const K = LOAN_STYLE[k];
+                            return (
+                              <button key={k} type="button" aria-pressed={l.kind === k} style={{ ["--c" as string]: K.color }} onClick={() => set({ kind: k })}>
+                                <K.Icon size={13} /> {t(K.label)}
+                              </button>
+                            );
+                          })}
                         </div>
                         {route === "complete" && (
                           <div className="pf-ob-loanterms">
@@ -634,7 +682,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                       </div>
                     );
                   })}
-                  <button type="button" className="pf-bal-add" onClick={() => setLoans([...loans, { key: crypto.randomUUID(), kind: loans.length ? "car" : "student", name: "", amount: "", rate: "", monthly: "" }])}>
+                  <button type="button" className="pf-bal-add" onClick={() => setLoans([...loans, { key: crypto.randomUUID(), kind: "other", name: "", amount: "", rate: "", monthly: "" }])}>
                     <Plus size={13} /> {t("Add loan")}
                   </button>
                   {loans.length > 0 && route !== "complete" && <span className="pf-unlock-hint">{t("Interest and the monthly payment can be added later under Loans — then the debt goes down by itself.")}</span>}
@@ -645,7 +693,14 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             {step === "budgets" && (
               <Screen title={t("Budgets for the rest")} hint={netIncome ? t("Suggested from your income — adjust them, or switch off what you don't need.") : t("Set a monthly limit for each, or switch off what you don't need.")}>
                 <div className="pf-ob-list">
-                  {budgetLines.map((b, i) => (
+                  {budgetLines.map((b, i) => b.own ? (
+                    <div key={b.key} className="pf-ob-line" data-on>
+                      <CategoryIcon icon={b.icon} colorHex={b.color} size={30} />
+                      <input className="pf-ob-name" autoFocus={!b.name} value={b.name} placeholder={t("Name, e.g. hobbies or kids")} aria-label={t("Name")} onChange={(e) => setBudgets(budgetLines.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} />
+                      <AmountField currency={currency} value={b.amount} label={t("Per month")} onChange={(v) => setBudgets(budgetLines.map((x, j) => (j === i ? { ...x, amount: v } : x)))} />
+                      <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setBudgets(budgetLines.filter((_, j) => j !== i))}><X size={14} /></button>
+                    </div>
+                  ) : (
                     <div key={b.key} className="pf-ob-line" data-on={b.on}>
                       <button className="pf-ob-toggle" aria-pressed={b.on} onClick={() => setBudgets(budgetLines.map((x, j) => (j === i ? { ...x, on: !x.on } : x)))}>
                         <CategoryIcon icon={b.icon} colorHex={b.on ? b.color : "3a3a3c"} size={30} />
@@ -656,6 +711,9 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                       )}
                     </div>
                   ))}
+                  <button type="button" className="pf-bal-add" onClick={() => setBudgets([...budgetLines, ownLine()])}>
+                    <Plus size={13} /> {t("Add a budget")}
+                  </button>
                 </div>
               </Screen>
             )}
@@ -666,12 +724,19 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                   <Labeled label={t("Name")}><input className="pf-input pf-ob-amount" placeholder={t("Emergency fund")} value={goal.name} onChange={(e) => setGoal({ ...goal, name: e.target.value })} /></Labeled>
                   <Labeled label={t("Target")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={goal.amount} onChange={(e) => setGoal({ ...goal, amount: e.target.value })} /></Labeled>
                 </div>
-                <div className="pf-ob-days" role="group" aria-label={t("Within")}>
-                  {[6, 12, 24, 36].map((m) => (
-                    <button key={m} aria-pressed={goal.months === m} onClick={() => setGoal({ ...goal, months: m })}>
-                      {m < 12 ? t("{n} months", { n: m }) : t("{n} years", { n: m / 12 })}
-                    </button>
-                  ))}
+                <div className="pf-ob-goalterm">
+                  <span>
+                    {t("Within")} <b style={{ color: "var(--pf-ink)" }}>{goal.months < 12 || goal.months % 12 ? t("{n} months", { n: goal.months }) : t("{n} years", { n: goal.months / 12 })}</b>
+                    {" · "}
+                    {t("by {date}", { date: monthYear(new Date(now.getFullYear(), now.getMonth() + goal.months, 1)) })}
+                  </span>
+                  <StepSlider
+                    label={t("Within")}
+                    animKey="goal"
+                    value={Math.max(0, TERMS.findIndex((m) => m >= goal.months))}
+                    onChange={(i) => setGoal({ ...goal, months: TERMS[i] })}
+                    steps={TERMS.map((m) => ({ label: m < 12 || m % 12 ? t("{n} mo", { n: m }) : t("{n} yrs", { n: m / 12 }), full: t("{n} months", { n: m }) }))}
+                  />
                 </div>
                 {num(goal.amount) > 0 && (
                   <p key={`${goal.amount}-${goal.months}`} className="pf-readout pf-loan-preview">
@@ -706,14 +771,17 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                 <div className="pf-ob-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}>
                   {[
                     { v: "daily" as const, t: t("Daily"), d: t("A minute a day") },
-                    { v: "twice-weekly" as const, t: t("Twice a week"), d: t("Monday and Thursday") },
-                    { v: "weekly" as const, t: t("Weekly"), d: t("Once a week") },
+                    { v: "twice-weekly" as const, t: t("Twice a week"), d: t("Pick two days") },
+                    { v: "weekly" as const, t: t("Weekly"), d: t("Pick a day") },
                   ].map((o) => (
                     <button key={o.v} className="pf-ob-choice" aria-pressed={checkin === o.v} onClick={() => setCheckin(o.v)}>
                       <span><b>{o.t}</b><small>{o.d}</small></span>
                     </button>
                   ))}
                 </div>
+                {checkin !== "daily" && (
+                  <WeekdayPicker key={checkin} interval={checkin} days={checkinDays} onChange={setCheckinDays} />
+                )}
                 <button type="button" className="pf-loan-book" aria-pressed={protect} onClick={() => setProtect((p) => !p)}>
                   <span className="pf-loan-switch" />
                   {t("Extra protection: encrypt my data with a passphrase")}

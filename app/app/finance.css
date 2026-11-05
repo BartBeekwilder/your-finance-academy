@@ -5567,3 +5567,37 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-inv-total b { font-size: 1rem; color: var(--pf-ink); }
 @media (max-width: 520px) { .pf-inv-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .pf-inv-worth { grid-column: 1 / -1; justify-items: start; } }
 @media (prefers-reduced-motion: reduce) { .pf-inv, .pf-inv-results li { animation: none; } .pf-inv-live span { animation: none; } }
+
+/* Onboarding: a still line behind the card, a dot per chapter; finished ones glow green. */
+.pf-ob-trail { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.pf-ob-trail-line { fill: none; stroke: rgba(255, 255, 255, 0.07); stroke-width: 2; stroke-linecap: round; }
+.pf-ob-trail-lit { fill: none; stroke: url(#pf-trail-lit); stroke-width: 2.5; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(48, 209, 88, 0.5)); transition: stroke-dasharray 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-ob-trail-ring { fill: rgba(10, 10, 14, 0.9); stroke: rgba(255, 255, 255, 0.16); stroke-width: 1.5; transition: stroke 0.5s, r 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pf-ob-trail-core { fill: rgba(255, 255, 255, 0.2); transition: fill 0.5s, r 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pf-ob-trail-dot[data-current="true"] .pf-ob-trail-ring { stroke: rgba(100, 210, 255, 0.6); }
+.pf-ob-trail-dot[data-current="true"] .pf-ob-trail-core { fill: #64d2ff; }
+.pf-ob-trail-dot[data-done="true"] .pf-ob-trail-ring { stroke: rgba(48, 209, 88, 0.7); }
+.pf-ob-trail-dot[data-done="true"] .pf-ob-trail-core { fill: #30d158; filter: drop-shadow(0 0 5px #30d158); }
+.pf-ob-trail-flash { fill: #30d158; opacity: 0; transform-box: fill-box; transform-origin: center; animation: pf-trail-flash 1.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes pf-trail-flash { 0% { opacity: 0.9; transform: scale(0.4); } 60% { opacity: 0.25; } 100% { opacity: 0; transform: scale(4); } }
+@media (prefers-reduced-motion: reduce) { .pf-ob-trail-flash { animation: none; } }
+
+/* Onboarding: own lines (a fixed cost, budget or policy not in the list). */
+.pf-ob-own { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; color: #fff; background: #48484a; }
+.pf-ob-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.pf-ob-chips button { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.04); color: var(--pf-ink-3); font: inherit; font-size: 0.75rem; cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.2s; }
+.pf-ob-chips button:active { transform: scale(0.96); }
+.pf-ob-chips button[aria-pressed="true"] { color: #fff; border-color: transparent; background: color-mix(in srgb, var(--c, #6c5ce7) 70%, transparent); box-shadow: 0 0 14px color-mix(in srgb, var(--c, #6c5ce7) 45%, transparent); }
+.pf-ob-goalterm { display: grid; gap: 6px; margin-top: 6px; }
+.pf-ob-goalterm > span { font-size: 0.8rem; color: var(--pf-ink-3); }
+
+/* Check-in weekdays. */
+.pf-wd { display: grid; gap: 8px; margin-top: 10px; }
+.pf-wd-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; max-width: 420px; }
+.pf-wd-row button { padding: 9px 0; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.04); color: var(--pf-ink-3); font: inherit; font-size: 0.78rem; cursor: pointer; transition: background 0.25s, color 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pf-wd-row button[aria-pressed="true"] { color: #fff; border-color: transparent; background: linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b)); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0, 194, 168, 0.25); }
+.pf-wd-caption { font-size: 0.78rem; color: var(--pf-ink-3); animation: pf-fade-up 0.3s ease-out both; }
+/* The trail stays behind the cards: they hide it. */
+.pf-ob .pf-ob-card { background-color: rgba(24, 24, 27, 0.97); }
+.pf-ob .pf-ob-preview { background-color: rgba(14, 14, 18, 0.94); }
+.pf-ob-goalterm .pf-mslider-labels > * { white-space: nowrap; }

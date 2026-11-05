@@ -30,7 +30,7 @@ export function useCheckin() {
   const { data, now } = useFinance();
   const interval: CheckinInterval = data.profile.checkin_interval ?? "daily";
   const days = checkinDays(data.achievements ?? []);
-  return { interval, ...checkinState(days, now, interval) };
+  return { interval, ...checkinState(days, now, interval, data.profile.checkin_days) };
 }
 
 const shortDate = (d: Date) => d.toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" });

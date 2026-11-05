@@ -15,6 +15,7 @@ import PassphraseSection from "@/components/finance/PassphraseSection";
 import HouseholdSection from "@/components/finance/HouseholdSection";
 import { resetNavOrder } from "@/components/finance/AppNav";
 import { CHECKIN_POINTS } from "@/lib/finance/checkin";
+import WeekdayPicker, { periodsLabel } from "@/components/finance/WeekdayPicker";
 
 // Settings, grouped in sections so new ones slot in as the app grows.
 // Currency is saved to the profile (shared with iOS); it changes how amounts
@@ -82,7 +83,7 @@ export default function SettingsPage() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
           <div>
             <div style={{ fontWeight: 600 }}>{t("Check-in interval")}</div>
-            <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>{t("Twice a week: once Monday–Wednesday and once Thursday–Sunday.")}</div>
+            <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>{periodsLabel(data.profile.checkin_interval ?? "daily", data.profile.checkin_days)}</div>
           </div>
           <Segmented
             label={t("Check-in interval")}
@@ -91,6 +92,14 @@ export default function SettingsPage() {
             options={[{ value: "daily", label: t("Daily") }, { value: "twice-weekly", label: t("Twice a week") }, { value: "weekly", label: t("Weekly") }]}
           />
         </div>
+        {(data.profile.checkin_interval === "twice-weekly" || data.profile.checkin_interval === "weekly") && (
+          <WeekdayPicker
+            key={data.profile.checkin_interval}
+            interval={data.profile.checkin_interval}
+            days={data.profile.checkin_days}
+            onChange={(d) => void updateProfile({ checkin_days: d }).catch((e: Error) => setStatus({ kind: "error", text: e.message }))}
+          />
+        )}
       </Section>
 
       <Section title={t("Menu")}>

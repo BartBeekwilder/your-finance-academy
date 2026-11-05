@@ -700,9 +700,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         const { data: auth } = await supabase.auth.getSession();
         const userId = auth.session?.user.id;
         if (!userId) throw new Error("You're signed out. Sign in again to save settings.");
-        // The setup status lives only in the account's copy (no column).
-        const { onboarding: _o, ...columns } = patch;
-        void _o;
+        // The setup status and check-in days live only in the account's copy (no column).
+        const { onboarding: _o, checkin_days: _d, ...columns } = patch;
+        void _o; void _d;
         const { error } = await supabase.from("profiles").upsert({ user_id: userId, ...columns, updated_at: new Date().toISOString() });
         if (error) throw error;
       }

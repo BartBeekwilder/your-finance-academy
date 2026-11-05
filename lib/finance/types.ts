@@ -32,6 +32,9 @@ export type Profile = {
   income_reminders: boolean;
   /** How often the books check-in comes round (lib/finance/checkin). */
   checkin_interval?: "daily" | "twice-weekly" | "weekly";
+  /** The weekdays a check-in period starts on (0 = Sunday); two for twice a
+   *  week, one for weekly. Account copy only (no column). */
+  checkin_days?: number[];
   /** The setup (onboarding): which route was taken and which questions are
    *  answered, so the dashboard can offer to finish a quick start; `hidden`
    *  = the person put that card away. */
