@@ -2814,6 +2814,11 @@ html[data-pf-motion="light"] *::after {
 .pf-ob-splitrow > span:first-child { flex: 1; min-width: 0; display: grid; gap: 1px; }
 .pf-ob-splitrow > span:first-child small { font-size: 0.68rem; color: var(--pf-brand-b); }
 .pf-ob-bill { display: grid; gap: 4px; }
+/* The day a fixed cost is booked: a small calendar pill. */
+.pf-ob-day { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 30px; padding: 0 8px; border-radius: 9px; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.04); color: var(--pf-ink-3); cursor: text; transition: border-color 0.2s; }
+.pf-ob-day:focus-within { border-color: var(--pf-brand-b); color: var(--pf-ink); }
+.pf-ob-day input { width: 2ch; padding: 0; border: 0; background: transparent; color: var(--pf-ink); font: inherit; font-size: 0.8rem; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; outline: none; }
+.pf-ob-every .pf-ob-day { height: 22px; padding: 0 6px; margin-inline-start: 4px; }
 /* How often a bill comes: tiny chips under it. */
 .pf-ob-every { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
 .pf-ob-every button { padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.07); background: transparent; color: var(--pf-ink-3); font: inherit; font-size: 0.66rem; cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s; }
@@ -5691,14 +5696,23 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-ob-clock small { grid-column: 1 / -1; font-size: 0.7rem; color: var(--pf-ink-3); }
 .pf-ob-live { display: grid; gap: 6px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(48, 209, 88, 0.18); background: rgba(48, 209, 88, 0.05); animation: pf-inv-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .pf-ob-live > div { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.pf-ob-live > div > span { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--pf-ink-3); }
+.pf-ob-live > div > span:first-child { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--pf-ink-3); }
 .pf-ob-live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pf-green); box-shadow: 0 0 8px var(--pf-green); animation: pf-inv-pulse 1.6s ease-in-out infinite; }
 
 /* The finale tour. */
 .pf-tour-foot { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--pf-ink-3); }
 .pf-tour-foot .pf-link:disabled { opacity: 0.3; cursor: default; }
 .pf-tour-pills { display: flex; flex-wrap: wrap; gap: 6px; }
-.pf-tour-pills span { padding: 5px 11px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); font-size: 0.78rem; animation: pf-wr-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
+.pf-tour-pills button { padding: 5px 11px; border: 0; border-radius: 999px; background: rgba(255, 255, 255, 0.12); color: #fff; font: inherit; font-size: 0.78rem; cursor: pointer; animation: pf-wr-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); transition: background 0.2s, transform 0.2s; }
+.pf-tour-pills button:hover { background: rgba(255, 255, 255, 0.22); }
+.pf-tour-pills button:active { transform: scale(0.95); }
+/* Intro: equity live + the month in four numbers. */
+.pf-tour-glance { display: grid; gap: 12px; padding: 16px; border-radius: 16px; background: rgba(0, 0, 0, 0.18); border: 1px solid rgba(255, 255, 255, 0.1); animation: pf-wr-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
+.pf-tour-glance-eq { display: grid; gap: 2px; }
+.pf-tour-glance small { font-size: 0.72rem; color: rgba(255, 255, 255, 0.65); }
+.pf-tour-glance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pf-tour-glance-grid > div { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.07); animation: pf-wr-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
+.pf-tour-glance-grid b { font-size: 1.05rem; font-weight: 700; white-space: nowrap; }
 .pf-tour-sheet { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
 .pf-tour-sheet > div { display: grid; gap: 8px; align-content: start; }
 .pf-tour-sheet small { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
@@ -5773,6 +5787,48 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-tour-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; position: relative; }
 .pf-tour-steps li { display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: center; font-size: 0.88rem; color: rgba(255, 255, 255, 0.85); animation: pf-wr-up 0.5s both; animation-delay: var(--d); }
 .pf-tour-steps b { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; background: rgba(255, 255, 255, 0.14); font-size: 0.9rem; }
+/* Debt-free: loans going down year by year, stacked. */
+.pf-tour-debt { display: grid; gap: 14px; }
+.pf-tour-debt-plot { display: flex; align-items: flex-end; gap: 6px; height: 140px; padding-bottom: 18px; }
+.pf-tour-debt-plot > i { position: relative; flex: 1; height: 100%; display: flex; align-items: flex-end; }
+.pf-tour-debt-plot > i > span { width: 100%; height: 100%; display: flex; flex-direction: column-reverse; gap: 2px; transform-origin: bottom; animation: pf-tour-fill-y 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
+.pf-tour-debt-plot em { display: block; width: 100%; border-radius: 4px; }
+.pf-tour-debt-plot small { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: 0.6rem; font-style: normal; color: rgba(255, 255, 255, 0.55); }
+.pf-tour-debt-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.pf-tour-debt-stats span { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: rgba(0, 0, 0, 0.2); }
+.pf-tour-debt-stats small { font-size: 0.66rem; color: rgba(255, 255, 255, 0.6); }
+.pf-tour-debt-stats b { font-size: 0.95rem; white-space: nowrap; }
+.pf-tour-debt-list { display: grid; gap: 6px; font-size: 0.8rem; color: rgba(255, 255, 255, 0.8); }
+.pf-tour-debt-list span { display: flex; align-items: center; gap: 8px; }
+.pf-tour-debt-list i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.pf-tour-debt-list b { margin-inline-start: auto; color: #fff; white-space: nowrap; }
+/* The last card: what's ready, and what's coming up. */
+.pf-tour-open { display: grid; gap: 16px; }
+.pf-tour-open-ready { display: flex; flex-wrap: wrap; gap: 6px; }
+.pf-tour-open-ready span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); font-size: 0.8rem; animation: pf-wr-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
+.pf-tour-open-ready svg { color: #4ade80; }
+.pf-tour-open-ready b { padding: 0 6px; border-radius: 999px; background: rgba(0, 0, 0, 0.25); font-size: 0.72rem; }
+.pf-tour-open-next { display: grid; gap: 8px; padding: 14px; border-radius: 16px; background: rgba(0, 0, 0, 0.18); border: 1px solid rgba(255, 255, 255, 0.1); }
+.pf-tour-open-next > small { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
+.pf-tour-open-next > div { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 10px; align-items: baseline; font-size: 0.85rem; animation: pf-wr-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
+.pf-tour-open-next b { color: #fff; white-space: nowrap; }
+.pf-tour-open-next span { color: rgba(255, 255, 255, 0.8); }
+/* Runway: the accounts emptying month by month. */
+.pf-tour-drain { display: grid; gap: 14px; }
+.pf-tour-drain-plot { position: relative; display: flex; align-items: flex-end; gap: 6px; height: 150px; padding-bottom: 18px; }
+.pf-tour-drain-plot > i { position: relative; flex: 1; height: 100%; display: flex; align-items: flex-end; }
+.pf-tour-drain-plot > i::before { content: ""; width: 100%; height: var(--h); min-height: 3px; border-radius: 6px 6px 3px 3px; background: linear-gradient(180deg, #fde68a, #f59e0b); box-shadow: 0 0 14px rgba(251, 191, 36, 0.35); transform-origin: bottom; animation: pf-tour-fill-y 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
+.pf-tour-drain-plot > i[data-gone="true"]::before { background: rgba(255, 105, 97, 0.5); box-shadow: none; }
+.pf-tour-drain-plot > i small { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: 0.62rem; font-style: normal; color: rgba(255, 255, 255, 0.55); white-space: nowrap; }
+@keyframes pf-tour-fill-y { from { transform: scaleY(0); } }
+.pf-tour-drain-zone { position: absolute; top: 0; bottom: 18px; border-radius: 8px; background: rgba(74, 222, 128, 0.08); border: 1px dashed rgba(74, 222, 128, 0.35); pointer-events: none; }
+.pf-tour-drain-zone small { position: absolute; top: 4px; left: 6px; font-size: 0.62rem; color: #86efac; white-space: nowrap; }
+.pf-tour-drain-sum { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 14px; border-radius: 14px; background: rgba(0, 0, 0, 0.2); font-size: 1rem; font-weight: 700; }
+.pf-tour-drain-sum span { display: grid; gap: 1px; white-space: nowrap; }
+.pf-tour-drain-sum small { font-size: 0.64rem; font-weight: 500; color: rgba(255, 255, 255, 0.6); white-space: normal; max-width: 12em; }
+.pf-tour-drain-sum b { color: rgba(255, 255, 255, 0.5); }
+.pf-tour-drain-note { font-size: 0.8rem; color: rgba(255, 255, 255, 0.78); line-height: 1.45; }
+@media (prefers-reduced-motion: reduce) { .pf-tour-drain-plot > i::before { animation: none; } }
 .pf-tour-runway { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
 .pf-tour-runway i { width: 14px; height: 22px; border-radius: 4px; background: #fbbf24; box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); animation: pf-wr-up 0.4s both; animation-delay: var(--d); }
 @media (max-width: 520px) { .pf-tour-sheet, .pf-tour-check { grid-template-columns: 1fr; } }

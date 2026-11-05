@@ -3,7 +3,7 @@
 import { newHousehold } from "@/lib/finance/household";
 import { t, intlLocale } from "@/lib/i18n";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, Car, Check, Clock, HeartPulse, House, Layers, Link2, Link2Off, Plane, Plus, Shield, ShieldCheck, Sofa, Sparkles, X, Zap, type LucideIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, Car, Check, Clock, HeartPulse, House, Layers, Link2, Link2Off, Plane, Plus, Shield, ShieldCheck, Sofa, Sparkles, X, Zap, type LucideIcon } from "lucide-react";
 import { live, summarize } from "@/lib/finance/calc";
 import { budgetIn } from "@/lib/finance/budgetPlan";
 import { currencyName } from "@/lib/finance/currencies";
@@ -57,11 +57,11 @@ const CURRENCIES = [
 ];
 
 /** `own`: added by the user (a name typed in, not one of the suggestions). */
-type Line = { key: string; name: string; icon: string; color: string; amount: string; on: boolean; own?: boolean; split?: Part[] };
+type Line = { key: string; name: string; icon: string; color: string; amount: string; on: boolean; own?: boolean; split?: Part[]; day?: number };
 /** One bill inside a fixed cost that comes from more than one supplier
  *  (electricity, gas, water…): saved as a subcategory with its own fixed
  *  cost, so each can change on its own. The line's amount is their sum. */
-type Part = { key: string; name: string; amount: string; own?: boolean; linked?: boolean; every?: number };
+type Part = { key: string; name: string; amount: string; own?: boolean; linked?: boolean; every?: number; day?: number };
 /** How often a bill comes, in months; the amount is per bill and counts in
  *  every month as its monthly share (water twice a year → amount ÷ 6). */
 const EVERY: { months: number; label: string }[] = [
@@ -176,6 +176,25 @@ function AmountField({ value, onChange, label, currency, autoFocus }: { value: s
       <input className="pf-input pf-ob-amount" inputMode="decimal" autoFocus={autoFocus} placeholder={money(0, currency)} value={value} aria-label={label} onChange={(e) => onChange(e.target.value)} />
       {sum !== null && <span key={sum} className="pf-ob-sum pf-rounded">= {money(sum, currency)}</span>}
     </span>
+  );
+}
+
+/** The day of the month a fixed cost is booked (1–31; a short month books it
+ *  on its last day). It books itself on that day every month after, and can
+ *  be moved later by changing the booking's date. In the month's figures it
+ *  is spread over the month either way. */
+function DayField({ value, onChange }: { value?: number; onChange: (day: number) => void }) {
+  return (
+    <label className="pf-ob-day" title={t("Booked on day {n} of the month", { n: value ?? 1 })}>
+      <CalendarDays size={12} />
+      <input
+        inputMode="numeric"
+        value={value ?? 1}
+        aria-label={t("Day of the month it's booked")}
+        onFocus={(e) => e.target.select()}
+        onChange={(e) => onChange(Math.min(31, Math.max(1, parseInt(e.target.value.replace(/\D/g, "").slice(-2), 10) || 1)))}
+      />
+    </label>
   );
 }
 
@@ -411,6 +430,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                     {EVERY.map((e) => (
                       <button key={e.months} type="button" aria-pressed={(first.every ?? 1) === e.months} onClick={() => set({ every: e.months })}>{t(e.label)}</button>
                     ))}
+                    <DayField value={first.day} onChange={(day) => set({ day })} />
                     {(first.every ?? 1) > 1 && num(first.amount) > 0 && <span className="pf-rounded">= {money(monthly(first), currency)} {t("a month")}</span>}
                   </div>
                   {n < bills.length - 1 && (
@@ -432,6 +452,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
       <div key={f.key} className="pf-ob-loanrow">
         <div className="pf-ob-line" data-on={shown.on}>
           {toggle}
+          {shown.on && <DayField value={f.day} onChange={(day) => setLine(i, { day })} />}
           {shown.on && (auto
             ? <span className="pf-ob-splitsum pf-rounded">{money(mortPay, currency)}</span>
             : <AmountField autoFocus currency={currency} value={f.amount} label={t("{name} per month", { name: t(f.name) })} onChange={(v) => setLine(i, { amount: v })} />)}
@@ -592,6 +613,8 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         }
       }
       const cats = live(data.categories);
+      // This month's booking on its day (a short month: its last day).
+      const bookDate = (day = 1) => new Date(now.getFullYear(), now.getMonth(), Math.min(day, new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()), 12).toISOString();
       const categoryFor = async (name: string, icon: string, color: string, isFixed: boolean) =>
         cats.find((c) => c.name.toLowerCase() === name.toLowerCase() && !c.parent_id) ??
         (await addCategory({ name, icon, color_hex: color, is_income_category: false, is_fixed_expense: isFixed }));
@@ -599,16 +622,16 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         for (const f of fixedShown.filter((f) => f.on && num(f.amount) > 0 && (!f.own || f.name.trim()))) {
           const c = await categoryFor(f.own ? f.name.trim() : t(f.name), f.icon, f.color, true);
           await setBudget(c.id, month, num(f.amount));
-          const book = (amount: number, note: string, category_id: string) =>
+          const book = (amount: number, note: string, category_id: string, day?: number) =>
             addTransaction({
-              amount: amount.toFixed(2), type: "expense", date: new Date(now.getFullYear(), now.getMonth(), 1, 12).toISOString(),
+              amount: amount.toFixed(2), type: "expense", date: bookDate(day),
               note, is_auto_income: false, is_fixed_expense: true, recurrence_id: crypto.randomUUID(), category_id, account_id: null,
             });
           const parts = billsOf(f.split ?? [])
-            .map((b) => ({ amount: String(monthly(b.parts[0])), name: b.parts.map((p) => (p.own ? p.name.trim() : t(p.name))).filter(Boolean).join(" + ") }))
+            .map((b) => ({ amount: String(monthly(b.parts[0])), day: b.parts[0].day, name: b.parts.map((p) => (p.own ? p.name.trim() : t(p.name))).filter(Boolean).join(" + ") }))
             .filter((b) => num(b.amount) > 0 && b.name);
           if (!parts.length) {
-            await book(num(f.amount), f.own ? f.name.trim() : t(f.name), c.id);
+            await book(num(f.amount), f.own ? f.name.trim() : t(f.name), c.id, f.day);
             continue;
           }
           // Each bill its own subcategory (Electricity under Energy & water;
@@ -617,25 +640,25 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             const name = p.name;
             const sub = cats.find((x) => x.parent_id === c.id && x.name.toLowerCase() === name.toLowerCase()) ??
               (await addCategory({ name, icon: f.icon, color_hex: f.color, is_income_category: false, is_fixed_expense: true, parent_id: c.id }));
-            await book(num(p.amount), name, sub.id);
+            await book(num(p.amount), name, sub.id, p.day);
           }
         }
       }
       // One category for a group (Subscriptions, Insurance), its budget the
       // group's total, and each item a fixed cost of its own that books
       // itself every month.
-      const bookGroup = async (name: string, icon: string, color: string, items: { note: string; amount: number }[]) => {
+      const bookGroup = async (name: string, icon: string, color: string, items: { note: string; amount: number; day?: number }[]) => {
         if (!items.length) return;
         const c = await categoryFor(name, icon, color, true);
         await setBudget(c.id, month, items.reduce((s2, x) => s2 + x.amount, 0));
         for (const x of items)
           await addTransaction({
-            amount: x.amount.toFixed(2), type: "expense", date: new Date(now.getFullYear(), now.getMonth(), 1, 12).toISOString(),
+            amount: x.amount.toFixed(2), type: "expense", date: bookDate(x.day),
             note: x.note, is_auto_income: false, is_fixed_expense: true, recurrence_id: crypto.randomUUID(), category_id: c.id, account_id: null,
           });
       };
       if (has("subscriptions") && separate) {
-        await bookGroup(t("Subscriptions"), "tv.fill", "BF5AF2", subLines.map((x) => ({ note: subName(x).trim(), amount: num(x.amount) })));
+        await bookGroup(t("Subscriptions"), "tv.fill", "BF5AF2", subLines.map((x) => ({ note: subName(x).trim(), amount: num(x.amount), day: x.day })));
       }
       if (has("insurance")) {
         for (const [i, p] of policyLines.entries()) {
@@ -720,6 +743,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                 left: reveal.income - reveal.fixed - reveal.budgets,
                 equity: totals.equity + bookCash,
                 debtFree,
+                loans: loans.filter((l) => num(l.amount) > 0).map((l) => ({ name: l.name.trim() || t(LOAN_STYLE[l.kind].label), balance: num(l.amount), rate: num(l.rate), monthly: num(l.monthly) })),
                 // The balance sheet as entered, post by post.
                 assets: [
                   ...accounts.map((a) => ({ name: a.name, amount: num(a.amount) })),
@@ -730,7 +754,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                   { name: t("Mortgage"), amount: num(home.mortgage) },
                   ...loans.map((l) => ({ name: l.name.trim() || t(LOAN_STYLE[l.kind].label), amount: num(l.amount) })),
                 ],
-                fixedLines: costLines.filter((x) => x.on && num(x.amount) > 0).map((x) => ({ name: x.own ? x.name : t(x.name), amount: num(x.amount) })),
+                fixedLines: costLines.filter((x) => x.on && num(x.amount) > 0).map((x) => ({ name: x.own ? x.name : t(x.name), amount: num(x.amount), day: x.split ? Math.min(...x.split.map((p) => p.day ?? 1)) : (x.day ?? 1) })),
                 budgetLines: budgetLines.filter((x) => x.on && num(x.amount) > 0).map((x) => ({ name: x.own ? x.name : t(x.name), amount: num(x.amount) })),
                 invest: {
                   total: investments.reduce((s2, x) => s2 + invValue(x), 0),
@@ -922,6 +946,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                         <div key={x.key} className="pf-ob-line" data-on>
                           <span className="pf-ob-loankind pf-ob-sub" style={{ ["--c" as string]: `#${x.color}` }}>{(x.name.trim()[0] ?? "+").toUpperCase()}</span>
                           <input className="pf-ob-name" autoFocus={!x.name} value={x.name} placeholder={t("Name, e.g. Videoland or a game pass")} aria-label={t("Name")} onChange={(e) => set({ name: e.target.value })} />
+                          <DayField value={x.day} onChange={(day) => set({ day })} />
                           <AmountField currency={currency} value={x.amount} label={t("Per month")} onChange={(v) => set({ amount: v })} />
                           <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setSubs(subs.filter((_, j) => j !== i))}><X size={14} /></button>
                         </div>
@@ -933,6 +958,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                           <span>{subName(x)}</span>
                           {x.on && <Check size={14} className="pf-ob-check" />}
                         </button>
+                        {x.on && <DayField value={x.day} onChange={(day) => set({ day })} />}
                         {x.on && <AmountField autoFocus currency={currency} value={x.amount} label={t("{name} per month", { name: subName(x) })} onChange={(v) => set({ amount: v })} />}
                       </div>
                     );

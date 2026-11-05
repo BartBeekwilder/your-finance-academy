@@ -1,7 +1,8 @@
 "use client";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, CreditCard, Flame, HandCoins, Plus, Sparkles, Split, Wallet, type LucideIcon } from "lucide-react";
+import { loanSchedule } from "@/lib/finance/loans";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, CreditCard, Flame, HandCoins, Plus, Split, Wallet, type LucideIcon } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { money, monthName, monthYear, shortMonth } from "@/lib/finance/format";
 import { useTween } from "./charts";
@@ -30,7 +31,9 @@ export type RevealFigures = {
   /** The balance sheet, post by post (what was entered). */
   assets?: { name: string; amount: number }[];
   debts?: { name: string; amount: number }[];
-  fixedLines?: { name: string; amount: number }[];
+  fixedLines?: { name: string; amount: number; day?: number }[];
+  /** Loans with what's left, the rate and the monthly payment (Debt-free card). */
+  loans?: { name: string; balance: number; rate: number; monthly: number }[];
   budgetLines?: { name: string; amount: number }[];
   /** Investments at their live value (`day`: today's change). */
   invest?: { total: number; day: number; items: { name: string; value: number }[] };
@@ -91,9 +94,11 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
         <>
           <span className="pf-wr-title">{t("Let us show you what you've built.")}</span>
           <p className="pf-wr-line">{t("Most finance apps show you last month. This one runs live: every figure moves while you watch — income, costs, investments, your equity.")}</p>
+          <IntroGlance f={f} currency={currency} />
+          {/* What's coming; each one jumps straight to its card. */}
           <div className="pf-tour-pills">
-            {[t("Balance sheet"), t("Live income"), t("Fixed costs"), t("Budgets"), t("Investments"), t("Check-ins"), t("Month close")].map((x, i) => (
-              <span key={x} style={{ ["--d" as string]: `${0.35 + i * 0.07}s` }}>{x}</span>
+            {([["balance", t("Balance sheet")], ["income", t("Live income")], ["fixed", t("Fixed costs")], ["budgets", t("Budgets")], ["invest", t("Investments")], ["checkin", t("Check-ins")], ["close", t("Month close")]] as const).map(([k, x], i) => (
+              <button key={k} type="button" style={{ ["--d" as string]: `${0.35 + i * 0.07}s` }} onClick={(e) => { e.stopPropagation(); jump(k); }}>{x}</button>
             ))}
           </div>
         </>
@@ -184,7 +189,7 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
                 <Count value={runway} plain /> <span className="pf-wr-huge-pct">{t("months")}</span>
               </span>
               <p className="pf-wr-line">{t("If no income came in, what's in your accounts would cover your fixed costs and budgets for this long. Saving makes it grow — the dashboard keeps it live.")}</p>
-              <Runway months={runway} />
+              <RunwayDrain months={runway} cash={f.cash} monthly={monthly} left={f.left} currency={currency} />
             </>
           ),
         }]
@@ -246,6 +251,7 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
             <>
               <span className="pf-wr-huge pf-rounded" style={{ color: "#fbbf24" }}>{monthYear(f.debtFree)}</span>
               <p className="pf-wr-line">{t("Your loans go down by themselves every month.")}</p>
+              <DebtDown loans={f.loans ?? []} currency={currency} />
             </>
           ),
         }]
@@ -258,6 +264,7 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
         <>
           <span className="pf-wr-title">{t("Your books are open.")}</span>
           <p className="pf-wr-line">{t("Your dashboard is ready. The month counts along live from here.")}</p>
+          <OpenSummary f={f} />
           <button type="button" className="pf-button pf-ob-reveal-open" onClick={(e) => { e.stopPropagation(); onOpen(); }}>
             {openLabel} <ArrowRight size={16} />
           </button>
@@ -267,6 +274,11 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
   ];
 
   const [i, setI0] = useState(0);
+  // A card by its key (the intro's pills); a card that isn't there → the next one.
+  function jump(key: string) {
+    const k = cards.findIndex((c) => c.key === key);
+    setI(k >= 0 ? k : i + 1);
+  }
   // The card being left slides out (to the left going forward, to the right
   // going back) while the next one slides in behind it, like a carousel.
   const [leaving, setLeaving] = useState<{ k: number; dir: 1 | -1; n: number } | null>(null);
@@ -462,6 +474,119 @@ function BalanceBuild({ assets, debts, left, currency }: { assets: { name: strin
 }
 
 /** Income accruing by the second over the month. */
+/** Debt-free: what's left of every loan, year by year (stacked), down to
+ *  zero, with the sums behind it and each loan's last month. */
+const LOAN_TONES = ["#fbbf24", "#fb923c", "#f472b6", "#a78bfa", "#60a5fa"];
+function DebtDown({ loans, currency }: { loans: { name: string; balance: number; rate: number; monthly: number }[]; currency: string }) {
+  const start = new Date();
+  const stand = `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, "0")}-${String(start.getDate()).padStart(2, "0")}`;
+  const plans = loans.filter((l) => l.balance > 0 && l.monthly > 0).map((l) => ({ ...l, rows: loanSchedule({ balance: l.balance.toFixed(2), rate: l.rate.toFixed(2), monthly: l.monthly.toFixed(2), start_date: stand }) }));
+  if (!plans.length) return null;
+  const months = Math.max(...plans.map((p) => p.rows.length));
+  const years = Math.max(1, Math.ceil(months / 12));
+  const step = years > 12 ? 2 : 1;
+  const cols = Array.from({ length: Math.ceil(years / step) + 1 }, (_, k) => k * step * 12);
+  const owed = plans.reduce((s2, p) => s2 + p.balance, 0);
+  const left = (p: (typeof plans)[number], m: number) => (m === 0 ? p.balance : (p.rows[m - 1]?.balance ?? 0));
+  const interest = plans.reduce((s2, p) => s2 + p.rows.reduce((s3, x) => s3 + x.interest, 0), 0);
+  return (
+    <div className="pf-tour-debt">
+      <div className="pf-tour-debt-plot" aria-hidden>
+        {cols.map((m, k) => (
+          <i key={m} style={{ ["--d" as string]: `${0.3 + k * 0.05}s` }}>
+            <span>
+              {plans.map((p, j) => {
+                const v = left(p, m);
+                return v > 0 ? <em key={j} style={{ height: `${(v / owed) * 100}%`, background: LOAN_TONES[j % LOAN_TONES.length] }} /> : null;
+              })}
+            </span>
+            <small>{start.getFullYear() + Math.round(m / 12)}</small>
+          </i>
+        ))}
+      </div>
+      <div className="pf-tour-debt-stats">
+        <span><small>{t("Owed now")}</small><b className="pf-rounded">{money(owed, currency)}</b></span>
+        <span><small>{t("Paid off a month")}</small><b className="pf-rounded">{money(plans.reduce((s2, p) => s2 + p.monthly, 0), currency)}</b></span>
+        <span><small>{t("Interest still to pay")}</small><b className="pf-rounded">{money(interest, currency)}</b></span>
+      </div>
+      <div className="pf-tour-debt-list">
+        {plans.map((p, j) => (
+          <span key={j}><i style={{ background: LOAN_TONES[j % LOAN_TONES.length] }} />{p.name}<b className="pf-rounded">{p.rows.length ? monthYear(p.rows[p.rows.length - 1].date) : "—"}</b></span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** The last card: what's set up, and what happens next. */
+function OpenSummary({ f }: { f: RevealFigures }) {
+  const now = new Date();
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const payday = f.payday ? new Date(now.getFullYear(), now.getMonth() + (now.getDate() >= f.payday ? 1 : 0), f.payday) : null;
+  const ready: [string, number][] = [
+    [t("Balance sheet"), [...(f.assets ?? []), ...(f.debts ?? [])].filter((a) => a.amount > 0).length],
+    [t("Fixed costs"), (f.fixedLines ?? []).length],
+    [t("Budgets"), (f.budgetLines ?? []).length],
+    [t("Investments"), f.invest?.items.length ?? 0],
+    [t("Loans"), (f.loans ?? []).length],
+  ];
+  const day = (d: Date) => d.toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" });
+  const next: [string, string][] = [
+    [day(tomorrow), t("Your first check-in: tick off the day, earn points")],
+    ...(payday ? [[day(payday), t("Payday: your income comes in")] as [string, string]] : []),
+    [day(lastDay), t("Close the month and see your Month Wrapped")],
+  ];
+  return (
+    <div className="pf-tour-open">
+      <div className="pf-tour-open-ready">
+        {ready.filter(([, n]) => n > 0).map(([label, n], k) => (
+          <span key={label} style={{ ["--d" as string]: `${0.25 + k * 0.08}s` }}><Check size={13} /> {label}<b>{n}</b></span>
+        ))}
+        {f.goal && <span style={{ ["--d" as string]: "0.7s" }}><Check size={13} /> {f.goal.name}</span>}
+      </div>
+      <div className="pf-tour-open-next">
+        <small>{t("Coming up")}</small>
+        {next.map(([when, what], k) => (
+          <div key={k} style={{ ["--d" as string]: `${0.5 + k * 0.1}s` }}><b>{when}</b><span>{what}</span></div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** The intro's glance: equity ticking on at what's left to save per second,
+ *  and the month in four numbers. */
+function IntroGlance({ f, currency }: { f: RevealFigures; currency: string }) {
+  const now = useNow(250);
+  const [opened] = useState(() => Date.now());
+  const d = new Date(now);
+  const monthMs = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate() * 86_400_000;
+  const equity = f.equity + (f.left / monthMs) * (now - opened);
+  const tiles: [string, number, string][] = [
+    [t("Comes in"), f.income, "#4ade80"],
+    [t("Fixed costs"), f.fixed, "#fff"],
+    [t("Budgets"), f.budgets, "#fff"],
+    [t("Left to save"), f.left, f.left >= 0 ? "#40c8e0" : "#ff6961"],
+  ];
+  return (
+    <div className="pf-tour-glance">
+      <div className="pf-tour-glance-eq">
+        <small>{t("Your equity, now")}</small>
+        <LiveAmount value={equity} currency={currency} size="2.2rem" color="#fff" />
+      </div>
+      <div className="pf-tour-glance-grid">
+        {tiles.map(([label, v, c], k) => (
+          <div key={label} style={{ ["--d" as string]: `${0.2 + k * 0.08}s` }}>
+            <small>{label}</small>
+            <b className="pf-rounded" style={{ color: c }}>{money(v, currency)}</b>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /** The month as a chart, like the dashboard's: income and spending both
  *  spread over the month, solid up to now and dashed to the month's end;
  *  the gap between them is what's saved. The dot is now, moving. */
@@ -526,18 +651,20 @@ function IncomeLive({ income, spending, currency }: { income: number; spending: 
 }
 
 /** Fixed costs booked on the 1st, used up through the month. */
-function FixedLive({ lines, total, currency }: { lines: { name: string; amount: number }[]; total: number; currency: string }) {
+function FixedLive({ lines: all, total, currency }: { lines: { name: string; amount: number; day?: number }[]; total: number; currency: string }) {
+  // In the order they're booked.
+  const lines = [...all].sort((a, b) => (a.day ?? 1) - (b.day ?? 1));
   const now = useNow(250);
   const frac = monthFraction(now);
   return (
     <>
       <span className="pf-wr-title">{t("Fixed costs book themselves.")}</span>
-      <small className="pf-tour-stampnote">{t("Each one is booked on the 1st of the month, by itself.")}</small>
+      <small className="pf-tour-stampnote">{t("Each one books itself every month, on its own day.")}</small>
       <div className="pf-tour-fixed">
         {lines.slice(0, 5).map((l, i) => (
           <div key={l.name} style={{ ["--d" as string]: `${0.3 + i * 0.12}s` }}>
             {/* A calendar leaf: booked on the 1st of the month. */}
-            <span className="pf-tour-stamp" title={t("Booked on the 1st")}><small>{shortMonth(new Date(now))}</small>1</span>
+            <span className="pf-tour-stamp" title={t("Booked on day {n} of the month", { n: l.day ?? 1 })}><small>{shortMonth(new Date(now))}</small>{l.day ?? 1}</span>
             <span>{l.name}</span>
             <b className="pf-rounded">{money(l.amount, currency)}</b>
           </div>
@@ -669,7 +796,8 @@ function keyFigures(x: { income: number; fixed: number; budgets: number; left: n
   const fixedShare = x.fixed / x.income;
   out.push({ key: "fixed", label: t("Fixed costs of income"), value: pctOf(fixedShare), bar: fixedShare, note: t("Under 50% leaves room to breathe."), tone: fixedShare <= 0.5 ? "good" : fixedShare <= 0.65 ? "ok" : "bad" });
   out.push({ key: "hour", label: t("An hour of your work"), value: cur(x.income / 173.3), bar: null, note: t("Net, at 40 hours a week — a {dinner} dinner costs {h} of work.", { dinner: money(40, currency), h: hoursLabel(40 / (x.income / 173.3)) }), tone: "ok" });
-  out.push({ key: "day", label: t("Free to spend per day"), value: cur(x.budgets / 30.4), bar: null, note: t("Your budgets, spread over the month."), tone: "ok" });
+  const days = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+  out.push({ key: "day", label: t("Free to spend per day"), value: cur(x.budgets / days), bar: null, note: t("{budgets} of budgets this month ÷ {days} days. Groceries, going out, shopping: this much a day keeps you on budget.", { budgets: cur(x.budgets), days }), tone: "ok" });
   const living = x.fixed + x.budgets;
   if (living > 0) out.push({ key: "months", label: t("Equity in months of living"), value: `${Math.max(0, x.equity / living).toLocaleString(undefined, { maximumFractionDigits: 0 })}`, bar: null, note: t("How many months your whole equity would carry you."), tone: x.equity > 0 ? "good" : "bad" });
   if (x.home > 0 && x.mortgage > 0) {
@@ -703,14 +831,43 @@ function freedom({ monthly, have, left }: { monthly: number; have: number; left:
 }
 
 /** The runway as a row of months that light up. */
-function Runway({ months }: { months: number }) {
-  const n = Math.min(24, Math.ceil(months));
+/** Runway as a story: your accounts emptying month by month if no income
+ *  came in (the bar per month is what's left), the healthy 3–6 month zone,
+ *  the sum behind it, and what it takes to reach six months. */
+function RunwayDrain({ months, cash, monthly, left, currency }: { months: number; cash: number; monthly: number; left: number; currency: string }) {
+  const n = Math.min(12, Math.max(7, Math.ceil(months) + 1));
+  const start = new Date();
+  const empty = new Date(start.getFullYear(), start.getMonth() + Math.floor(months), 1);
+  const toSix = Math.max(0, monthly * 6 - cash);
+  const monthsToSix = left > 0 ? Math.ceil(toSix / left) : null;
   return (
-    <div className="pf-tour-runway" aria-hidden>
-      {Array.from({ length: Math.max(n, 1) }, (_, i) => (
-        <i key={i} style={{ ["--d" as string]: `${0.4 + i * 0.05}s`, opacity: i + 1 <= months ? 1 : 0.4 }} />
-      ))}
-      {months > 24 && <Sparkles size={14} />}
+    <div className="pf-tour-drain">
+      <div className="pf-tour-drain-plot" aria-hidden>
+        <span className="pf-tour-drain-zone" style={{ left: `${(3 / n) * 100}%`, width: `${(3 / n) * 100}%` }}><small>{t("3–6 months")}</small></span>
+        {Array.from({ length: n }, (_, k) => {
+          const v = Math.max(0, cash - monthly * k);
+          return (
+            <i key={k} style={{ ["--h" as string]: `${(v / Math.max(cash, 1)) * 100}%`, ["--d" as string]: `${0.3 + k * 0.06}s` }} data-gone={v <= 0}>
+              <small>{shortMonth(new Date(start.getFullYear(), start.getMonth() + k, 1))}</small>
+            </i>
+          );
+        })}
+      </div>
+      <div className="pf-tour-drain-sum pf-rounded">
+        <span>{money(cash, currency)}<small>{t("in your accounts")}</small></span>
+        <b>÷</b>
+        <span>{money(monthly, currency)}<small>{t("a month of fixed costs and budgets")}</small></span>
+        <b>=</b>
+        <span style={{ color: "#fbbf24" }}>{months.toLocaleString(intlLocale(), { maximumFractionDigits: 1 })}<small>{t("months")}</small></span>
+      </div>
+      <small className="pf-tour-drain-note">
+        {toSix <= 0
+          ? t("More than six months: a healthy buffer.")
+          : monthsToSix != null
+            ? t("Without income the money would run out in {month}. To reach six months you need {amount} more — about {n} months of saving what's left.", { month: monthYear(empty), amount: money(toSix, currency), n: monthsToSix })
+            : t("Without income the money would run out in {month}. To reach six months you need {amount} more.", { month: monthYear(empty), amount: money(toSix, currency) })}
+      </small>
     </div>
   );
 }
+
