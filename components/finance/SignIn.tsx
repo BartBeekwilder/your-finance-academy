@@ -5,6 +5,7 @@ import { useState, type FormEvent } from "react";
 import { guessCurrency } from "@/lib/finance/currencies";
 import { getSupabase } from "@/lib/supabase";
 import BrandMark from "./BrandMark";
+import LanguagePicker from "./LanguagePicker";
 
 // Sign-in for the web app — same options as iOS:
 //   • Sign in with Apple
@@ -131,7 +132,11 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
   return (
     <div style={{ minHeight: "70dvh", display: "grid", placeItems: "center" }}>
       <div className="pf-card" style={{ width: "100%", maxWidth: 400, padding: 28, display: "grid", gap: 16, borderRadius: 18 }}>
-        <BrandMark size={52} currency={guessCurrency()} />
+        {/* The language can be picked before anything else. */}
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+          <BrandMark size={52} currency={guessCurrency()} />
+          <LanguagePicker align="end" />
+        </div>
         <div>
           <h1 style={{ fontSize: "1.6rem", fontWeight: 700 }}>{title}</h1>
           <p style={{ margin: "4px 0 0", color: "var(--pf-ink-2)" }}>{subtitle}</p>

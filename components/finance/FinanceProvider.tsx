@@ -14,6 +14,7 @@ import type { FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, B
 import { getSupabase } from "@/lib/supabase";
 import SignIn, { RECOVERY_KEY } from "./SignIn";
 import VaultUnlock from "./VaultUnlock";
+import LanguageRoot from "./LanguageRoot";
 
 // Single source of finance data for every /app screen: the signed-in user's
 // copy in their account (plain, or end-to-end encrypted when they added a
@@ -898,14 +899,19 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     update((x) => ({ ...x, documents: (x.documents ?? []).filter((d) => d.id !== id) }));
   }, [source, update]);
 
+  // The screens before the app have their own LanguageRoot (the app's sits
+  // inside this provider), so the language picker there switches them too.
   if (phase.kind === "signed-out")
     return (
-      <div className="pf-solo">
-        <SignIn onDemo={startDemo} onLocal={localFile === "has" ? () => void startLocal() : undefined} onLocalNew={localFile === "missing" ? () => void startLocal(true) : undefined} />
-      </div>
+      <LanguageRoot>
+        <div className="pf-solo">
+          <SignIn onDemo={startDemo} onLocal={localFile === "has" ? () => void startLocal() : undefined} onLocalNew={localFile === "missing" ? () => void startLocal(true) : undefined} />
+        </div>
+      </LanguageRoot>
     );
   if (phase.kind === "locked" && supabase)
     return (
+      <LanguageRoot>
       <div className="pf-solo">
         <VaultUnlock
           supabase={supabase}
@@ -916,6 +922,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
           onSignOut={() => void signOut()}
         />
       </div>
+      </LanguageRoot>
     );
   if (phase.kind === "error")
     return (

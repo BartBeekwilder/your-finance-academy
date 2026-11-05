@@ -401,6 +401,16 @@ of each imported total = Other assets / Other debts; equity = assets − debts.
   baseline; re-measured when web fonts load. Before, Windows' font put € 0.8
   units (of 64) too low; now every symbol (€ $ £ ¥ kr CHF) is within 0.1.
   Port note for iOS/Android: centre the coin's symbol on its glyph bounds.
+- Language before the app (Bart): components/finance/LanguagePicker.tsx —
+  a pill (globe + the language's own name) on the sign-in card (top right,
+  next to the logo) and on the onboarding's Welcome screen; it opens a
+  two-column panel with all 17 languages in their own script (spring-in,
+  current one checked, Arabic right-to-left), closes on outside click /
+  Escape (without closing the onboarding). The sign-in and unlock screens
+  now sit in their own LanguageRoot (FinanceProvider), so they switch at
+  once — the app's LanguageRoot is inside the provider. Journey bar runs
+  right-to-left for Arabic (fill origin + comet on inset-inline-start).
+  No new texts (uses "Language").
 
 ## Done recently (2026-10-22/23)
 

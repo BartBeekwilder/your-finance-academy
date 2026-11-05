@@ -9,6 +9,7 @@ import { currencyName } from "@/lib/finance/currencies";
 import { money } from "@/lib/finance/format";
 import BrandMark from "./BrandMark";
 import OnboardingProgress from "./OnboardingProgress";
+import LanguagePicker from "./LanguagePicker";
 import { useTween } from "./charts";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
@@ -204,8 +205,11 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
           <div key={id} className="pf-ob-step" data-dir={dir}>
             {id === "welcome" && (
               <Screen>
-                <div className="pf-ob-mark">
-                  <BrandMark size={72} currency={currency} />
+                <div className="pf-ob-welcome-top">
+                  <div className="pf-ob-mark">
+                    <BrandMark size={72} currency={currency} />
+                  </div>
+                  <LanguagePicker align="end" />
                 </div>
                 <h1>{t("Run your money like a business.")}</h1>
                 <p>{t("A few questions and your books are open: what comes in, what goes out, what you own and what you owe. About two minutes — and you can skip anything.")}</p>

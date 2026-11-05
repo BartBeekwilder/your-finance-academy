@@ -42,7 +42,7 @@ export default function OnboardingProgress({ step, onPick }: {
           <span className="pf-jb-fill" style={{ transform: `scaleX(${reach})` }}>
             <span className="pf-jb-sheen" />
           </span>
-          <span className="pf-jb-comet" style={{ left: `${reach * 100}%` }} />
+          <span className="pf-jb-comet" style={{ insetInlineStart: `${reach * 100}%` }} />
         </div>
         <ol className="pf-jb-nodes">
           {NODES.map((n, i) => {
