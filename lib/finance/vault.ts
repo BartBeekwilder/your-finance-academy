@@ -173,8 +173,9 @@ export async function unlock(passphrase: string, iterations: number = KDF.iterat
     },
     async keys() {
       return Promise.all([...good].map(async (k) => {
-        const [s, r] = k.split("/");
-        return { salt: s, rounds: Number(r), key: await keys.get(k)! };
+        // The salt is base64 and may hold "/" itself: the rounds follow the last one.
+        const cut = k.lastIndexOf("/");
+        return { salt: k.slice(0, cut), rounds: Number(k.slice(cut + 1)), key: await keys.get(k)! };
       }));
     },
   };
