@@ -5760,3 +5760,22 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-pf-actions button[data-tone="buy"] svg { color: var(--pf-green); }
 .pf-pf-actions button[data-tone="sell"] svg { color: #ff9f0a; }
 .pf-pf-actions button[data-tone="delete"] svg { color: #ff6961; }
+
+/* Tour: the spill stays inside the card (the bar is short enough for 20% over). */
+.pf-tour-budgets > div { width: 84%; }
+.pf-tour-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.pf-tour-fig { display: grid; gap: 4px; align-content: start; padding: 12px; border-radius: 14px; background: rgba(0, 0, 0, 0.22); animation: pf-wr-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
+.pf-tour-fig span { font-size: 0.72rem; color: rgba(255, 255, 255, 0.6); }
+.pf-tour-fig b { font-size: 1.35rem; font-weight: 800; }
+.pf-tour-fig[data-tone="good"] b { color: #4ade80; }
+.pf-tour-fig[data-tone="bad"] b { color: #ff8a80; }
+.pf-tour-fig i, .pf-tour-fi i { display: block; height: 5px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+.pf-tour-fig em, .pf-tour-fi em { display: block; height: 100%; border-radius: inherit; background: currentColor; color: #c4b5fd; transform-origin: left; transform: scaleX(var(--f)); animation: pf-tour-fill 1s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--d, 0.4s) + 0.25s); }
+.pf-tour-fig[data-tone="good"] em { color: #4ade80; }
+.pf-tour-fig[data-tone="bad"] em { color: #ff8a80; }
+.pf-tour-fig small { font-size: 0.7rem; color: rgba(255, 255, 255, 0.55); line-height: 1.35; }
+.pf-tour-fi { display: grid; gap: 8px; padding: 14px; border-radius: 14px; background: rgba(0, 0, 0, 0.22); animation: pf-wr-up 0.6s both; animation-delay: 0.4s; }
+.pf-tour-fi > div { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.85rem; }
+.pf-tour-fi b { font-size: 1.3rem; color: #4ade80; }
+.pf-tour-fi em { color: #4ade80; box-shadow: 0 0 10px #4ade80; }
+.pf-tour-fi small { font-size: 0.75rem; color: rgba(255, 255, 255, 0.65); }

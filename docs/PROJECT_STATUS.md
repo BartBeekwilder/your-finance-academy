@@ -770,3 +770,18 @@ the dashboard net worth ticker with the net worth model, app icon.
   rate and saved in the profile currency on any change.
 - Not yet: the sale's money booked onto an account; a list of past trades.
   Texts not translated (to do).
+
+## Done 2026-11-05 (late) — more metrics in the tour
+
+- Budget card: the over-budget spill no longer runs out of the card (rows
+  at 84% so 20% over fits).
+- New tour cards (OnboardingReveal `keyFigures`, `freedom`): YOUR NUMBERS —
+  savings rate (20%+ strong), fixed costs of income (under 50%), what an hour
+  of work brings in (net ÷ 173 h; "a €40 dinner costs 1 h 48 min of work"),
+  free to spend per day (budgets ÷ 30.4), equity in months of living,
+  mortgage of home value (LTV) — each with a rule of thumb and a colour.
+  FINANCIAL FREEDOM — the freedom number (25 × a year's fixed costs +
+  budgets, the 4% rule), % already there (accounts + investments), years to
+  get there saving what's left at 5% a year.
+- Bart loves these metrics: put them on the dashboard / Liquidity page too
+  (runway, savings rate, freedom number, hours of work) — next.

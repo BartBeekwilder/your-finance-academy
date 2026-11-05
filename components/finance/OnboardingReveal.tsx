@@ -66,6 +66,12 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
   const debts = (f.debts ?? []).filter((a) => a.amount > 0);
   const monthly = f.fixed + f.budgets;
   const runway = monthly > 0 ? f.cash / monthly : null;
+  // Key figures (from what was entered).
+  const invested = f.invest?.total ?? 0;
+  const home = (f.assets ?? []).find((a) => a.name === t("Home"))?.amount ?? 0;
+  const mortgage = (f.debts ?? []).find((a) => a.name === t("Mortgage"))?.amount ?? 0;
+  const figures = f.income > 0 ? keyFigures({ income: f.income, fixed: f.fixed, budgets: f.budgets, left: f.left, equity: f.equity, home, mortgage }, currency) : [];
+  const fi = monthly > 0 ? freedom({ monthly, have: f.cash + invested, left: f.left }) : null;
   const tones = {
     green: "linear-gradient(150deg, #1d6b4f, #0e2a22 70%)",
     blue: "linear-gradient(150deg, #20508a, #0d1f36 70%)",
@@ -175,6 +181,54 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
               </span>
               <p className="pf-wr-line">{t("If no income came in, what's in your accounts would cover your fixed costs and budgets for this long. Saving makes it grow — the dashboard keeps it live.")}</p>
               <Runway months={runway} />
+            </>
+          ),
+        }]
+      : []),
+    ...(figures.length
+      ? [{
+          key: "figures",
+          kicker: t("Your numbers"),
+          tone: tones.violet,
+          body: (
+            <>
+              <span className="pf-wr-title">{t("The figures that tell you how you're doing.")}</span>
+              <div className="pf-tour-figs">
+                {figures.map((x, i) => (
+                  <div key={x.key} className="pf-tour-fig" style={{ ["--d" as string]: `${0.3 + i * 0.12}s` }} data-tone={x.tone}>
+                    <span>{x.label}</span>
+                    <b className="pf-rounded">{x.value}</b>
+                    {x.bar != null && <i><em style={{ ["--f" as string]: Math.max(0, Math.min(1, x.bar)) }} /></i>}
+                    <small>{x.note}</small>
+                  </div>
+                ))}
+              </div>
+              <p className="pf-wr-line">{t("They move along with your books — the dashboard keeps them live.")}</p>
+            </>
+          ),
+        }]
+      : []),
+    ...(fi
+      ? [{
+          key: "freedom",
+          kicker: t("Financial freedom"),
+          tone: tones.green,
+          body: (
+            <>
+              <span className="pf-wr-title">{t("Your freedom number.")}</span>
+              <Count value={fi.target} currency={currency} color="#4ade80" />
+              <p className="pf-wr-line">{t("25 times what you spend in a year: from this amount, invested, you could live off about 4% a year — for good.")}</p>
+              <div className="pf-tour-fi">
+                <div><span>{t("Already there")}</span><b className="pf-rounded">{Math.round(fi.share * 100)}%</b></div>
+                <i><em style={{ ["--f" as string]: Math.min(1, fi.share) }} /></i>
+                <small>
+                  {fi.years == null
+                    ? t("Save something each month to start moving towards it.")
+                    : fi.years <= 0
+                      ? t("You're there already.")
+                      : t("Saving {left} a month at 5% growth a year: reached in about {n} years ({year}).", { left: money(f.left, currency), n: Math.ceil(fi.years), year: new Date().getFullYear() + Math.ceil(fi.years) })}
+                </small>
+              </div>
             </>
           ),
         }]
@@ -439,6 +493,52 @@ function CheckinDemo({ rhythm }: { rhythm?: string }) {
       </p>
     </>
   );
+}
+
+/** The key figures: savings rate, fixed costs as a share of income, what an
+ *  hour of work brings in, free to spend per day, equity in months of
+ *  living, and the mortgage against the home (loan-to-value). Each with a
+ *  rule of thumb, so the number means something. */
+function keyFigures(x: { income: number; fixed: number; budgets: number; left: number; equity: number; home: number; mortgage: number }, currency: string) {
+  const pctOf = (v: number) => `${Math.round(v * 100)}%`;
+  const cur = (v: number) => money(v, currency);
+  const out: { key: string; label: string; value: string; note: string; bar: number | null; tone: "good" | "ok" | "bad" }[] = [];
+  const rate = x.left / x.income;
+  out.push({ key: "rate", label: t("Savings rate"), value: pctOf(rate), bar: rate / 0.3, note: t("20% or more is strong."), tone: rate >= 0.2 ? "good" : rate >= 0.1 ? "ok" : "bad" });
+  const fixedShare = x.fixed / x.income;
+  out.push({ key: "fixed", label: t("Fixed costs of income"), value: pctOf(fixedShare), bar: fixedShare, note: t("Under 50% leaves room to breathe."), tone: fixedShare <= 0.5 ? "good" : fixedShare <= 0.65 ? "ok" : "bad" });
+  out.push({ key: "hour", label: t("An hour of your work"), value: cur(x.income / 173.3), bar: null, note: t("Net, at 40 hours a week — a {dinner} dinner costs {h} of work.", { dinner: money(40, currency), h: hoursLabel(40 / (x.income / 173.3)) }), tone: "ok" });
+  out.push({ key: "day", label: t("Free to spend per day"), value: cur(x.budgets / 30.4), bar: null, note: t("Your budgets, spread over the month."), tone: "ok" });
+  const living = x.fixed + x.budgets;
+  if (living > 0) out.push({ key: "months", label: t("Equity in months of living"), value: `${Math.max(0, x.equity / living).toLocaleString(undefined, { maximumFractionDigits: 0 })}`, bar: null, note: t("How many months your whole equity would carry you."), tone: x.equity > 0 ? "good" : "bad" });
+  if (x.home > 0 && x.mortgage > 0) {
+    const ltv = x.mortgage / x.home;
+    out.push({ key: "ltv", label: t("Mortgage of home value"), value: pctOf(ltv), bar: ltv, note: t("Loan-to-value: lower means more of the home is yours."), tone: ltv <= 0.8 ? "good" : ltv <= 1 ? "ok" : "bad" });
+  }
+  return out;
+}
+
+/** "1 h 12 min" for a number of hours. */
+function hoursLabel(h: number) {
+  const m = Math.round(h * 60);
+  return m < 60 ? t("{m} min", { m }) : t("{h} h {m} min", { h: Math.floor(m / 60), m: m % 60 });
+}
+
+/** The freedom number (25× a year's spending, the 4% rule), the share of it
+ *  already there (cash + investments), and the years to get there saving
+ *  `left` a month at 5% growth a year (null: never, at this rate). */
+function freedom({ monthly, have, left }: { monthly: number; have: number; left: number }) {
+  const target = monthly * 12 * 25;
+  const share = target > 0 ? have / target : 0;
+  if (have >= target) return { target, share, years: 0 };
+  if (left <= 0) return { target, share, years: null };
+  const r = 1.05 ** (1 / 12) - 1;
+  let v = have;
+  for (let m = 1; m <= 12 * 80; m++) {
+    v = v * (1 + r) + left;
+    if (v >= target) return { target, share, years: m / 12 };
+  }
+  return { target, share, years: null };
 }
 
 /** The runway as a row of months that light up. */
