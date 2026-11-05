@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Fraunces, Work_Sans, Space_Mono } from "next/font/google";
-import LockGate from "@/components/LockGate";
 import "./globals.css";
 
 const display = Fraunces({
@@ -35,8 +34,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {/* The vault gate only hides the deployed preview; skip it on `npm run dev`. */}
-        {process.env.NODE_ENV === "development" ? children : <LockGate>{children}</LockGate>}
+        {/* The site is public since 5 Nov 2026 (testers); components/LockGate.tsx
+            is kept in case a preview needs hiding again. */}
+        {children}
       </body>
     </html>
   );
