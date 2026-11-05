@@ -124,6 +124,21 @@ export type BalanceValue = Synced & {
   value: Money;
 };
 
+/** Another loan (study, car, personal…; lib/finance/loans.ts): what was
+ *  left on `start_date`, the annual rate in %, and the monthly payment — the
+ *  debt goes down by itself from there. Kept in the account's copy (vault)
+ *  and the local file; no Supabase table. */
+export type LoanKind = "student" | "car" | "personal" | "credit" | "other";
+export type Loan = Synced & {
+  name: string;
+  kind: LoanKind;
+  balance: Money;
+  rate: Money;
+  monthly: Money;
+  start_date: string;
+  sort_order: number;
+};
+
 /** A home or other property (real-estate module). */
 export type Property = Synced & {
   name: string;
@@ -207,6 +222,8 @@ export type FinanceData = {
   balanceValues: BalanceValue[];
   properties: Property[];
   mortgageParts: MortgagePartRow[];
+  /** Other loans (lib/finance/loans.ts); missing in older copies. */
+  loans?: Loan[];
   monthCloses: MonthClose[];
   goals: Goal[];
   achievements: Achievement[];

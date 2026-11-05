@@ -6,6 +6,7 @@ import { investmentsByKind, investmentsValue } from "./quotes";
 import { intlLocale, t } from "@/lib/i18n";
 import { summarize as summarizePart } from "./mortgage";
 import { homes } from "./realEstate";
+import { liveLoans, loanAt } from "./loans";
 import { money } from "./format";
 import { isSalaryName } from "./salary";
 import { upcomingFixedCosts } from "./recurring";
@@ -465,6 +466,12 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
       liabilities.push({ id: `mortgage-${part.id}`, name: part.name || t("Mortgage"), value: summarizePart(part, monthEnd).balance, kind: "auto", hint: t("From Real estate") });
     }
   }
+  // Other loans: what's left at the end of the month (the debt goes down by
+  // itself with each monthly payment, lib/finance/loans.ts).
+  for (const loan of liveLoans(data)) {
+    const left = loanAt(loan, monthEnd).balance;
+    if (left > 0.005) liabilities.push({ id: `loan-${loan.id}`, name: loan.name || t("Loan"), value: left, kind: "auto", hint: t("From Loans") });
+  }
 
   // Investments at their real (market) value at the end of the month — now
   // for this month; at cost while no quotes are loaded.
@@ -645,6 +652,12 @@ export function balanceYears(data: FinanceData, now: Date) {
         values: years.map((y) => (yearEnd(y) < part.start ? 0 : summarizePart(part, yearEnd(y)).balance)),
       });
     }
+  }
+  // Other loans: on their schedule from the stand on; before it, unknown
+  // (it stays under Other debts).
+  for (const loan of liveLoans(data)) {
+    const from = new Date(loan.start_date);
+    funding.push({ id: `loan-${loan.id}`, name: loan.name || t("Loan"), values: years.map((y) => (yearEnd(y) < from ? 0 : loanAt(loan, yearEnd(y)).balance)) });
   }
   const inv = years.map(investAt);
   if (inv.some((v) => v > 0.005)) assets.push({ id: "investments", name: t("Investments"), values: inv });

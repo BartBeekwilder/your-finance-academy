@@ -20,6 +20,7 @@ const EXTRA = [
   "Rent or mortgage", "Energy & water", "Insurance", "Internet & phone", "Subscriptions", "Car or transit pass",
   "Groceries", "Dining out", "Transport", "Shopping", "Entertainment", "Health",
   "Crypto", "Stock", "Metal",
+  "Student loan", "Car loan", "Personal loan", "Credit card", "Other loan",
   ...["Spending", "Income"].flatMap((k) => ["month", "day"].flatMap((p) => ["category", "source"].map((g) => `${k} per ${p} by ${g}`))),
 ];
 

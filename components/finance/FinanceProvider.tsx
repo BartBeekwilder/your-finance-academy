@@ -10,7 +10,7 @@ import { createContext, useCallback, useContext, useEffect, useLayoutEffect, use
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { withAdvances } from "@/lib/finance/advances";
 import { buildDemoData } from "@/lib/finance/demo";
-import type { FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
+import type { Loan, FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
 import SignIn, { RECOVERY_KEY } from "./SignIn";
 import VaultUnlock from "./VaultUnlock";
@@ -71,6 +71,9 @@ type FinanceState = {
   /** Insurance: create or update a policy (no id = new). */
   savePolicy: (p: Omit<InsurancePolicy, "updated_at" | "deleted_at" | "id"> & { id?: string }) => Promise<void>;
   deletePolicy: (id: string) => Promise<void>;
+  /** Other loans (study, car…): create or update (no id = new); returns the id. */
+  saveLoan: (l: Omit<Loan, "updated_at" | "deleted_at" | "id"> & { id?: string }) => Promise<string>;
+  deleteLoan: (id: string) => Promise<void>;
   /** Creates a category (a subcategory when parent_id is set) at the end of
    *  its list; returns it. */
   addCategory: (c: NewCategory) => Promise<Category>;
@@ -789,6 +792,21 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const savePolicy = useCallback(async (x: Parameters<FinanceState["savePolicy"]>[0]) => { await upsertRow("insurancePolicies", "insurance_policies", x); }, [upsertRow]);
   const deletePolicy = useCallback((id: string) => softDelete("insurancePolicies", "insurance_policies", id), [softDelete]);
 
+  // Loans live only in the account's copy / the local file (no table).
+  const saveLoan = useCallback(async (l: Parameters<FinanceState["saveLoan"]>[0]) => {
+    const id = l.id ?? crypto.randomUUID();
+    update((d) => {
+      const list = d.loans ?? [];
+      const existing = list.find((x) => x.id === id);
+      const full = { ...(existing ?? {}), ...l, id, updated_at: new Date().toISOString(), deleted_at: null } as Loan;
+      return { ...d, loans: [...list.filter((x) => x.id !== id), full] };
+    });
+    return id;
+  }, [update]);
+  const deleteLoan = useCallback(async (id: string) => {
+    update((d) => ({ ...d, loans: (d.loans ?? []).filter((x) => x.id !== id) }));
+  }, [update]);
+
   // ---- Balance sheet ----------------------------------------------------------
   const monthIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
 
@@ -938,7 +956,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
       {stale && (

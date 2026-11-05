@@ -1,4 +1,5 @@
 import type { FinanceData, Transaction } from "./types";
+import { loanAt } from "./loans.ts";
 
 // Fixed costs book themselves: a monthly fixed cost (the mortgage, a
 // subscription) is copied into the next month on the same day as last
@@ -15,8 +16,11 @@ import type { FinanceData, Transaction } from "./types";
 // deleted never comes back: the id is in the deletions (local) or still in
 // the database (Supabase refuses the insert).
 
-// Own tiny helpers (no imports beyond types), so the rules can be tested
-// with plain node and ported 1:1.
+// A loan's monthly payment (recurrence_id = the loan's id, lib/finance/
+// loans.ts) stops once the loan is paid off.
+//
+// Own tiny helpers (only types and the loan maths), so the rules can be
+// tested with plain node and ported 1:1.
 const key = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 const inMonth = (t: Transaction, m: Date) => {
   const d = new Date(t.date);
@@ -43,18 +47,18 @@ export function stableId(text: string): string {
 /** This month's fixed costs that are due by `now` but not booked yet. Only
  *  this month: earlier months are history (the month close points out a
  *  fixed cost that's missing there). */
-export function dueFixedCosts(data: Pick<FinanceData, "transactions"> & { deletions?: { id: string }[] }, now: Date): Transaction[] {
+export function dueFixedCosts(data: Pick<FinanceData, "transactions"> & { loans?: FinanceData["loans"]; deletions?: { id: string }[] }, now: Date): Transaction[] {
   return copies(data, now, false);
 }
 
 /** This month's fixed costs still to come (their day hasn't come yet): the
  *  live figures count them from the 1st, like any fixed cost, so a cost
  *  booked on the 29th doesn't jump in on the 29th. Not stored. */
-export function upcomingFixedCosts(data: Pick<FinanceData, "transactions"> & { deletions?: { id: string }[] }, now: Date): Transaction[] {
+export function upcomingFixedCosts(data: Pick<FinanceData, "transactions"> & { loans?: FinanceData["loans"]; deletions?: { id: string }[] }, now: Date): Transaction[] {
   return copies(data, now, true);
 }
 
-function copies(data: Pick<FinanceData, "transactions"> & { deletions?: { id: string }[] }, now: Date, upcoming: boolean): Transaction[] {
+function copies(data: Pick<FinanceData, "transactions"> & { loans?: FinanceData["loans"]; deletions?: { id: string }[] }, now: Date, upcoming: boolean): Transaction[] {
   const gone = new Set((data.deletions ?? []).map((d) => d.id));
   const ids = new Set(data.transactions.map((t) => t.id));
   const month = new Date(now.getFullYear(), now.getMonth(), 1, 12);
@@ -67,6 +71,8 @@ function copies(data: Pick<FinanceData, "transactions"> & { deletions?: { id: st
     if (!src.recurrence_id && !before.some((b) => same(b, src))) continue;
     const chain = src.recurrence_id ?? src.id;
     if (here.some((t) => t.recurrence_id === chain || same(t, src))) continue;
+    const loan = (data.loans ?? []).find((l) => l.id === chain && !l.deleted_at);
+    if (loan && loanAt(loan, new Date(month.getTime() - 86_400_000)).balance <= 0.005) continue; // paid off
     const day = Math.min(new Date(src.date).getDate(), days);
     if (upcoming ? day <= now.getDate() : day > now.getDate()) continue; // due by now / still to come
     const id = stableId(`${chain}|${key(month)}`);

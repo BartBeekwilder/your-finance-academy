@@ -10,6 +10,8 @@ import { money } from "@/lib/finance/format";
 import BrandMark from "./BrandMark";
 import OnboardingProgress from "./OnboardingProgress";
 import LanguagePicker from "./LanguagePicker";
+import { LOAN_KINDS, LOAN_STYLE } from "./loanKinds";
+import type { LoanKind } from "@/lib/finance/types";
 import { useTween } from "./charts";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
@@ -78,7 +80,7 @@ function AmountField({ value, onChange, label, currency, autoFocus }: { value: s
 }
 
 export default function Onboarding({ preview, onClose }: { preview: boolean; onClose: () => void }) {
-  const { data, now, updateProfile, saveAccount, setBudget, addCategory, addTransaction, addBalanceItem, source } = useFinance();
+  const { data, now, updateProfile, saveAccount, setBudget, addCategory, addTransaction, addBalanceItem, saveLoan, source } = useFinance();
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState<1 | -1>(1);
   const [currency, setCurrency] = useState(data.profile.currency_code || "EUR");
@@ -98,7 +100,10 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
   ]);
   const [fixed, setFixed] = useState<Line[]>(FIXED.map((f) => ({ ...f, amount: "", on: false })));
   const [budgets, setBudgets] = useState<Line[] | null>(null);
-  const [home, setHome] = useState({ value: "", mortgage: "", loans: "" });
+  const [home, setHome] = useState({ value: "", mortgage: "" });
+  // Other loans, each with its kind and a name (rate and payment later, on
+  // the Loans page).
+  const [loans, setLoans] = useState<{ key: string; kind: LoanKind; name: string; amount: string }[]>([]);
   const [history, setHistory] = useState<"now" | "january" | "years">("now");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -113,9 +118,9 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
     const fixedTotal = fixed.filter((f) => f.on).reduce((t, f) => t + num(f.amount), 0);
     const budgetTotal = budgetLines.filter((b) => b.on).reduce((t, b) => t + num(b.amount), 0);
     const cash = accounts.reduce((t, a) => t + num(a.amount), 0);
-    const equity = cash + num(home.value) - num(home.mortgage) - num(home.loans);
+    const equity = cash + num(home.value) - num(home.mortgage) - loans.reduce((t, l) => t + num(l.amount), 0);
     return { fixedTotal, budgetTotal, left: netIncome - fixedTotal - budgetTotal, cash, equity };
-  }, [fixed, budgetLines, accounts, home, netIncome]);
+  }, [fixed, budgetLines, accounts, home, loans, netIncome]);
 
   const go = (d: 1 | -1) => {
     setDir(d);
@@ -175,7 +180,10 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
       }
       if (num(home.value)) await addBalanceItem({ name: t("Home"), side: "asset", value: num(home.value) });
       if (num(home.mortgage)) await addBalanceItem({ name: t("Mortgage"), side: "liability", value: num(home.mortgage) });
-      if (num(home.loans)) await addBalanceItem({ name: t("Other loans"), side: "liability", value: num(home.loans) });
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      for (const [i, l] of loans.filter((l) => num(l.amount) > 0).entries()) {
+        await saveLoan({ kind: l.kind, name: l.name.trim() || t(LOAN_STYLE[l.kind].label), balance: num(l.amount).toFixed(2), rate: "0.00", monthly: "0.00", start_date: today, sort_order: i });
+      }
       setSaved(true);
     } catch (e) {
       setError((e as Error).message);
@@ -338,7 +346,37 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
                 <div className="pf-ob-list">
                   <Labeled label={t("Home value (WOZ or estimate)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
                   <Labeled label={t("Mortgage remaining")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
-                  <Labeled label={t("Other loans (car, study…)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.loans} onChange={(e) => setHome({ ...home, loans: e.target.value })} /></Labeled>
+                </div>
+                <div className="pf-ob-list">
+                  <span className="pf-ob-sublabel">{t("Other loans")}</span>
+                  {loans.map((l, i) => {
+                    const S = LOAN_STYLE[l.kind];
+                    const set = (patch: Partial<typeof l>) => setLoans(loans.map((x, j) => (j === i ? { ...x, ...patch } : x)));
+                    return (
+                      <div key={l.key} className="pf-ob-line pf-ob-loan">
+                        {/* Tap to go through the kinds: study, car, personal… */}
+                        <button
+                          type="button"
+                          className="pf-ob-loankind"
+                          style={{ ["--c" as string]: S.color }}
+                          title={t(S.label)}
+                          aria-label={t(S.label)}
+                          onClick={() => set({ kind: LOAN_KINDS[(LOAN_KINDS.indexOf(l.kind) + 1) % LOAN_KINDS.length] })}
+                        >
+                          <S.Icon key={l.kind} size={16} />
+                        </button>
+                        <input className="pf-ob-name" value={l.name} placeholder={t(S.label)} aria-label={t("Name")} onChange={(e) => set({ name: e.target.value })} />
+                        <AmountField currency={currency} value={l.amount} label={t("Left now")} onChange={(v) => set({ amount: v })} />
+                        <button type="button" className="pf-icon-button" aria-label={t("Remove loan")} onClick={() => setLoans(loans.filter((_, j) => j !== i))}>
+                          <X size={14} />
+                        </button>
+                      </div>
+                    );
+                  })}
+                  <button type="button" className="pf-bal-add" onClick={() => setLoans([...loans, { key: crypto.randomUUID(), kind: loans.length ? "car" : "student", name: "", amount: "" }])}>
+                    <Plus size={13} /> {t("Add loan")}
+                  </button>
+                  {loans.length > 0 && <span className="pf-unlock-hint">{t("Interest and the monthly payment can be added later under Loans — then the debt goes down by itself.")}</span>}
                 </div>
               </Screen>
             )}

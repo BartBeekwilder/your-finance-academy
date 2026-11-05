@@ -2720,6 +2720,30 @@ html[data-pf-motion="light"] *::after {
   margin: 12px 0 8px;
   animation: pf-coin-flip 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
+/* Onboarding: other loans, each with its kind (tap the icon to change it). */
+.pf-ob-sublabel {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pf-ink-3);
+}
+.pf-ob-loankind {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+  border-radius: 10px;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 16%, transparent);
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pf-ob-loankind:active { transform: scale(0.9); }
+.pf-ob-loankind svg { animation: pf-jb-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 .pf-ob-welcome-top {
   display: flex;
   align-items: flex-start;
@@ -3684,6 +3708,136 @@ html[data-pf-motion="light"] *::after {
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
 }
 .pf-ins-policy:hover { transform: translateY(-2px); box-shadow: 0 10px 30px color-mix(in srgb, var(--c) 18%, transparent); }
+/* Loans page (app/app/loans). */
+.pf-loan-hero {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  border-radius: 20px;
+  background:
+    radial-gradient(90% 120% at 0% 100%, rgba(191, 90, 242, 0.16), transparent 60%),
+    radial-gradient(80% 100% at 100% 0%, rgba(100, 210, 255, 0.12), transparent 60%),
+    var(--pf-card);
+}
+.pf-loan-figures {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: end;
+}
+@media (max-width: 760px) {
+  .pf-loan-figures { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pf-loan-figures > :first-child { grid-column: 1 / -1; }
+}
+.pf-loan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: 14px;
+}
+.pf-loan-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 18px;
+  text-align: start;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  background: radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--c) 12%, transparent), transparent 60%), var(--pf-card);
+  animation: pf-fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s;
+}
+.pf-loan-card:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--c) 45%, transparent); }
+.pf-loan-head { display: flex; align-items: center; gap: 10px; }
+.pf-loan-head b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-loan-head small { display: block; font-size: 0.72rem; color: var(--pf-ink-3); }
+.pf-loan-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 11px;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 18%, transparent);
+}
+.pf-loan-left { font-size: 1.7rem; font-weight: 800; }
+.pf-loan-track {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+.pf-loan-track span {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 60%, #fff 0%), var(--c));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--c) 60%, transparent);
+  transform-origin: left center;
+  transition: transform 0.9s cubic-bezier(0.34, 1.3, 0.5, 1);
+}
+[dir="rtl"] .pf-loan-track span { transform-origin: right center; }
+.pf-loan-meta { font-size: 0.78rem; color: var(--pf-ink-2); }
+.pf-loan-meta[data-warn], .pf-loan-preview[data-warn] { color: var(--pf-orange, #ff9f0a); }
+.pf-loan-preview { margin: -4px 0 0; font-size: 0.82rem; color: var(--pf-green); }
+.pf-loan-book {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--pf-ink);
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: start;
+  cursor: pointer;
+}
+.pf-loan-switch {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  flex: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  transition: background 0.3s;
+}
+.pf-loan-switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pf-loan-book[aria-pressed="true"] .pf-loan-switch { background: linear-gradient(90deg, var(--pf-brand-a), var(--pf-brand-b)); }
+.pf-loan-book[aria-pressed="true"] .pf-loan-switch::after { transform: translateX(16px); }
+.pf-loan-empty {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 36px 24px;
+  text-align: center;
+}
+.pf-loan-empty p { max-width: 460px; margin: 0; color: var(--pf-ink-2); line-height: 1.5; }
+.pf-loan-empty-icons { display: flex; gap: 10px; }
+.pf-loan-empty-icons span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 18%, transparent);
+  animation: pf-jb-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
 .pf-ins-kinds { display: flex; flex-wrap: wrap; gap: 6px; }
 .pf-ins-kinds button {
   display: inline-flex;

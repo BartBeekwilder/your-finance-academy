@@ -412,6 +412,41 @@ of each imported total = Other assets / Other debts; equity = assets − debts.
   right-to-left for Arabic (fill origin + comet on inset-inline-start).
   No new texts (uses "Language").
 
+## Done 2026-11-05 — Loans (Bart: "other loans need a label, and later what we pay off a month at which rate")
+
+- Backup branch: `backup/before-loans-nov05`.
+- Model: `Loan` (types.ts; FinanceData.loans, optional) — name, kind
+  (student / car / personal / credit / other), balance on `start_date`,
+  annual rate %, monthly payment. Lives in the account's copy (vault) and
+  the local file only — NO Supabase table (legacy "supabase" source keeps
+  it in memory only).
+- Maths lib/finance/loans.ts (+ loans.test.mjs): on the 1st after the
+  stand and every 1st after that, interest (balance × rate / 12) is added
+  and the payment comes off (the last one only what's left). loanAt,
+  loanSchedule (≤ 50 yrs), payoff (null = never: no payment, or it doesn't
+  cover the interest). Bart chose: the debt goes down by itself.
+- Balance sheet (calc balanceSheet + balanceYears): each loan as a debt
+  "From Loans" at its month-end balance; years before the stand → Other.
+- Page /app/loans (menu "Loans", after Real estate; components/finance/
+  loanKinds.ts has kinds/icons/colours): hero (still owed, per month,
+  debt-free month, interest still to pay, bar per loan), "Debt over time"
+  stacked chart (now → last payoff, hover), a card per loan (left now, %
+  paid off, per month, rate, payoff/interest or a warning). Editor: kind
+  chips, name, left now, rate, monthly, live preview ("Paid off in … · …
+  interest to go"); saving re-stands at today. New loan: "Book the monthly
+  payment as a fixed cost" (on) → a fixed expense on the 1st in category
+  "Loans" (made once) with recurrence_id = loan id; recurring.ts copies it
+  monthly and STOPS once the loan is paid off (test). Changing the payment
+  updates this month's booking.
+- Onboarding balance step: "Other loans" is a list — per loan a kind icon
+  (tap to cycle), a name and the amount; saved as loans (rate/payment 0,
+  to fill in under Loans). 27 new texts in 17 languages (loan kinds in
+  scripts/i18n.mjs EXTRA).
+- Open: the balance step's hint still says "a real-estate module comes
+  later" (outdated). NEXT (Bart): a premium onboarding with a quick and an
+  extended version — to design together.
+- To port: iOS + Android (model, maths, page, onboarding).
+
 ## Done recently (2026-10-22/23)
 
 - Balance sheet (web + iOS): own posts with month-end values, calculated
