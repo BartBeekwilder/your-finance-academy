@@ -125,19 +125,26 @@ export default function AppNav() {
   );
 }
 
-/** Signed in (encrypted vault): whether the last change is encrypted and
- *  saved, and a button that locks the app right away. */
+/** Signed in: whether the last change is saved to the account (encrypted,
+ *  with a passphrase — then also a button that locks the app right away). */
 function VaultChip() {
-  const { source, vaultStatus, lock } = useFinance();
+  const { source, vaultStatus, vaultProtected, lock } = useFinance();
   if (source !== "vault") return null;
-  const text = vaultStatus === "saving" ? t("Encrypting…") : vaultStatus === "error" ? t("Not saved — check your connection") : t("Encrypted and saved");
+  const text =
+    vaultStatus === "error"
+      ? t("Not saved — check your connection")
+      : vaultProtected
+        ? vaultStatus === "saving" ? t("Encrypting…") : t("Encrypted and saved")
+        : vaultStatus === "saving" ? t("Saving…") : t("Saved to your account");
   return (
     <div className="pf-vault-chip" data-status={vaultStatus ?? "saved"}>
       <span className="pf-vault-chip-dot" />
       <span>{text}</span>
-      <button type="button" className="pf-link" onClick={lock} title={t("Lock now")} aria-label={t("Lock now")}>
-        <Lock size={13} />
-      </button>
+      {vaultProtected && (
+        <button type="button" className="pf-link" onClick={lock} title={t("Lock now")} aria-label={t("Lock now")}>
+          <Lock size={13} />
+        </button>
+      )}
     </div>
   );
 }

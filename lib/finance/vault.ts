@@ -1,6 +1,7 @@
-// End-to-end encryption for the vault (supabase/migrations/0009): the data
-// is encrypted in the browser with a key derived from a passphrase only the
-// user knows, so the server only ever stores ciphertext. Web Crypto only —
+// The account's copy of the data (supabase/migrations/0009): plain JSON by
+// default, or — with the optional passphrase — encrypted in the browser with
+// a key derived from a passphrase only the user knows, so the server only
+// ever stores ciphertext. Web Crypto only —
 // no imports — so it runs in browsers and in node's tests alike.
 //
 //   key  = PBKDF2-SHA256(passphrase, random 16-byte salt, 600 000 rounds)
@@ -50,6 +51,8 @@ export async function seal(value: unknown, passphrase: string, iterations: numbe
 
 /** Decrypts a sealed vault; throws on a wrong passphrase or altered data. */
 export async function open<T = unknown>(sealed: Pick<Sealed, "ciphertext" | "iv" | "salt" | "kdf">, passphrase: string): Promise<T> {
+  // A copy kept without a passphrase (the default) opens as it is.
+  if (isPlain(sealed)) return openPlain<T>(sealed);
   const key = await deriveKey(passphrase, unb64(sealed.salt), sealed.kdf.iterations);
   let plain: ArrayBuffer;
   try {
@@ -68,11 +71,49 @@ export async function open<T = unknown>(sealed: Pick<Sealed, "ciphertext" | "iv"
 // sealed with its own salt is opened with a key derived for that salt.
 
 export type Unlocked = {
+  /** Sealed with a passphrase (end-to-end), or kept as plain JSON. */
+  protected: boolean;
   /** Opens a sealed copy (any salt) — throws on a wrong passphrase. */
   open<T = unknown>(sealed: Pick<Sealed, "ciphertext" | "iv" | "salt" | "kdf">): Promise<T>;
   /** Seals a value under this session's salt. */
   seal(value: unknown): Promise<Sealed>;
 };
+
+// ---- Without a passphrase ---------------------------------------------------
+// The default since 5 Nov: the account's copy is plain JSON in the same row
+// (kdf "none"), readable only by the account (row-level security). A
+// passphrase is an optional extra; either kind of copy opens with either
+// kind of Unlocked, except a protected copy without its passphrase.
+
+export const PLAIN_KDF = { name: "none", hash: "", iterations: 0 };
+
+/** A copy kept without a passphrase. */
+export const isPlain = (sealed: Pick<Sealed, "kdf">) => sealed.kdf?.name === PLAIN_KDF.name;
+
+/** Thrown when a passphrase-protected copy is met without its passphrase. */
+export class NeedsPassphrase extends Error {
+  constructor() {
+    super("This copy is protected with a passphrase.");
+  }
+}
+
+function openPlain<T>(sealed: Pick<Sealed, "ciphertext">): T {
+  return JSON.parse(sealed.ciphertext) as T;
+}
+
+export function plain(): Unlocked {
+  return {
+    protected: false,
+    async open<T>(sealed: Pick<Sealed, "ciphertext" | "iv" | "salt" | "kdf">) {
+      if (!isPlain(sealed)) throw new NeedsPassphrase();
+      return openPlain<T>(sealed);
+    },
+    async seal(value: unknown) {
+      const json = JSON.stringify(value);
+      return { ciphertext: json, iv: "", salt: "", kdf: { ...PLAIN_KDF }, version: 1, bytes: new TextEncoder().encode(json).length };
+    },
+  };
+}
 
 export async function unlock(passphrase: string, iterations: number = KDF.iterations): Promise<Unlocked> {
   if (passphrase.length < MIN_PASSPHRASE) throw new Error(`Passphrase must be at least ${MIN_PASSPHRASE} characters.`);
@@ -84,7 +125,10 @@ export async function unlock(passphrase: string, iterations: number = KDF.iterat
   };
   const salt = b64(crypto.getRandomValues(new Uint8Array(16)));
   return {
+    protected: true,
     async open<T>(sealed: Pick<Sealed, "ciphertext" | "iv" | "salt" | "kdf">) {
+      // Another device took the passphrase off: the copy opens as it is.
+      if (isPlain(sealed)) return openPlain<T>(sealed);
       const key = await keyFor(sealed.salt, sealed.kdf.iterations);
       let plain: ArrayBuffer;
       try {

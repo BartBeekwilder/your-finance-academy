@@ -81,10 +81,12 @@ Decisions:
   per account, a new upload replaces it). There is no automatic sync, so
   restoring replaces that computer's local data with the uploaded copy.
 - VAULT MODE (since 2026-11-04): signed in (no `?local=1`), the data lives
-  only in the end-to-end encrypted vault — unlocked with the passphrase in
-  the tab, every change sealed and saved, other devices' saves merged. So
-  signed in, the same data on every computer and on the live site; the
-  local file above stays for dev on one computer (see "Done 2026-11-04").
+  in the account's copy (encrypted_vaults) — every change saved, other
+  devices' saves merged. So signed in, the same data on every computer and
+  on the live site; the local file above stays for dev on one computer.
+  Since 2026-11-05 (Bart's decision): NO passphrase by default — sign in and
+  the app opens; the passphrase (end-to-end encryption) is an optional extra
+  under Settings › Extra protection (see "Done 2026-11-05").
 - Supabase sync of real data waits for tables for the history fields
   (yearSnapshots, yearCategoryTotals, yearIncomeTotals), documents and
   property.comparable_rent.
@@ -343,6 +345,38 @@ of each imported total = Other assets / Other debts; equity = assets − debts.
   rule, one expected rule, month-goal rings, check-in cards, Progress order,
   16 languages) + performance (expected rule 76 → 9 ms, figures cached per
   data/day, Progress 73 → 12 ms); dev builds remember -skipPaywall.
+
+## Done 2026-11-05 — passphrase optional (Bart: "email log-in only, a passphrase as an option")
+
+- Backup branch before the change: `backup/before-optional-passphrase-nov05`.
+- vault.ts: a copy WITHOUT a passphrase = the same encrypted_vaults row with
+  `kdf.name = "none"`, ciphertext = the plain JSON, iv/salt empty (no
+  migration). `plain()` is the Unlocked for it (`protected: false`; opening a
+  protected copy throws `NeedsPassphrase`); `unlock(passphrase)` and `open()`
+  also read plain copies, so either kind of device reads either kind of copy.
+  Tests in vault.test.mjs.
+- FinanceProvider: after sign-in `openAccountCopy` — no row → starts a plain
+  copy from the account (loadAll); plain row → the app opens straight away;
+  protected row → the unlock card (VaultUnlock) as before. Only a protected
+  copy auto-locks (15 min) or offers "Lock now"; if another device adds a
+  passphrase, a tab without it goes to the unlock card on its next pull.
+  `setPassphrase(next | null, current?)` re-saves the copy the new way
+  (taking it off checks `current` against the copy first).
+- Settings › Extra protection (components/finance/PassphraseSection.tsx,
+  signed in only): Add a passphrase (twice, ≥ 12 chars, meter, "nobody can
+  recover it") / Remove passphrase (current passphrase). Sidebar chip:
+  "Saved to your account" without, "Encrypted and saved" + lock with.
+  Account line in Settings says end-to-end only when protected. 11 new texts
+  (+ the untranslated "{n} days") in 17 languages.
+- Trade-off told to Bart: without a passphrase the data is readable by the
+  account (row-level security) and by whoever has full access to the
+  Supabase project (incl. the secret key that was pasted in chat on 3 Nov —
+  he was asked to delete/roll it).
+- To do on iOS + Android before Bart removes his passphrase there: their
+  vault sync must read/write `kdf.name = "none"` copies (Vault.kt /
+  VaultCrypto) — today they expect an encrypted copy.
+- NOT YET TESTED signed in: needs Bart's login + passphrase (Claude never
+  types either). Demo + sign-in page checked in the browser; 99 tests pass.
 
 ## Done recently (2026-10-22/23)
 

@@ -11,6 +11,7 @@ import { setBackgroundMotion, setLiveDecimals, setMotionMode, useBackgroundMotio
 import { setShowAxes, useCategoryAreas, setCategoryAreas, useShowAxes } from "@/lib/prefs";
 import Segmented from "@/components/finance/Segmented";
 import VaultSection from "@/components/finance/VaultSection";
+import PassphraseSection from "@/components/finance/PassphraseSection";
 import HouseholdSection from "@/components/finance/HouseholdSection";
 import { resetNavOrder } from "@/components/finance/AppNav";
 import { CHECKIN_POINTS } from "@/lib/finance/checkin";
@@ -20,7 +21,7 @@ import { CHECKIN_POINTS } from "@/lib/finance/checkin";
 // are shown — it doesn't convert them.
 
 export default function SettingsPage() {
-  const { data, source, email, updateProfile, signOut } = useFinance();
+  const { data, source, email, vaultProtected, updateProfile, signOut } = useFinance();
   const current = data.profile.currency_code;
   const [saving, setSaving] = useState<string | null>(null);
   const [status, setStatus] = useState<{ kind: "saved" | "error"; text: string } | null>(null);
@@ -108,7 +109,7 @@ export default function SettingsPage() {
           <div>
             <div style={{ fontWeight: 600 }}>{source === "demo" ? t("Demo") : source === "local" ? t("Local data") : email}</div>
             <div style={{ fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>
-              {source === "demo" ? t("Demo data — nothing is saved") : source === "local" ? t("Only on this Mac — not uploaded") : source === "vault" ? t("Signed in · end-to-end encrypted, synced with your other devices") : t("Signed in · your data syncs to your other devices")}
+              {source === "demo" ? t("Demo data — nothing is saved") : source === "local" ? t("Only on this Mac — not uploaded") : source === "vault" && vaultProtected ? t("Signed in · end-to-end encrypted, synced with your other devices") : t("Signed in · your data syncs to your other devices")}
             </div>
           </div>
           <button className="pf-chip" onClick={signOut} style={{ padding: "8px 14px" }}>
@@ -116,6 +117,8 @@ export default function SettingsPage() {
           </button>
         </div>
       </Section>
+
+      <PassphraseSection />
 
       <PaydaySection />
 

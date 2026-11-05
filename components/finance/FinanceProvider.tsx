@@ -4,7 +4,7 @@ import { t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
 import { dueFixedCosts } from "@/lib/finance/recurring";
 import { liveOnly, mergeData, trackChanges } from "@/lib/finance/vaultMerge";
-import type { Unlocked } from "@/lib/finance/vault";
+import { NeedsPassphrase, plain, unlock, type Sealed, type Unlocked } from "@/lib/finance/vault";
 import { useMarket } from "@/lib/finance/useMarket";
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
@@ -16,8 +16,8 @@ import SignIn, { RECOVERY_KEY } from "./SignIn";
 import VaultUnlock from "./VaultUnlock";
 
 // Single source of finance data for every /app screen: the signed-in user's
-// end-to-end encrypted vault (unlocked with their passphrase, see "Vault"
-// below), the private file on this Mac (dev), or demo data when the visitor chooses it (or the site
+// copy in their account (plain, or end-to-end encrypted when they added a
+// passphrase — see "Vault" below), the private file on this Mac (dev), or demo data when the visitor chooses it (or the site
 // has no Supabase config). Screens read `data` and call the actions below;
 // they never talk to Supabase directly.
 
@@ -29,10 +29,15 @@ type FinanceState = {
   source: Source;
   now: Date;
   email: string | null;
-  /** Vault mode: whether the last change is safely encrypted and saved. */
+  /** Vault mode: whether the last change is safely saved. */
   vaultStatus: "saved" | "saving" | "error" | null;
+  /** Vault mode: the copy is end-to-end encrypted with a passphrase. */
+  vaultProtected: boolean;
   /** Vault mode: lock now (the data leaves memory until the passphrase is typed again). */
   lock: () => void;
+  /** Vault mode: add a passphrase (`next`), or take it off (`next` null —
+   *  `current` must open the copy). Saved straight away. */
+  setPassphrase: (next: string | null, current?: string) => Promise<void>;
   addTransaction: (t: NewTransaction) => Promise<void>;
   /** Saves changes to an existing transaction. */
   updateTransaction: (id: string, t: NewTransaction) => Promise<void>;
@@ -152,6 +157,28 @@ async function loadAll(supabase: SupabaseClient): Promise<FinanceData> {
   return { profile: profile ?? DEFAULT_PROFILE, accounts, categories, budgets, transactions, incomeRecords, holdings, balanceItems, balanceValues, properties, mortgageParts, monthCloses, goals, achievements, activityDays, insurancePolicies };
 }
 
+type Opened = { data: FinanceData; vault: Unlocked; at: string };
+
+/** The signed-in account's copy: opened when it has no passphrase (a first
+ *  sign-in starts one from what's in the account), "locked" when it has. */
+async function openAccountCopy(supabase: SupabaseClient): Promise<Opened | "locked"> {
+  const { data: row, error } = await supabase.from("encrypted_vaults").select("ciphertext, iv, salt, kdf, updated_at").maybeSingle();
+  if (error) throw error;
+  const vault = plain();
+  if (!row) {
+    const data = await loadAll(supabase);
+    const { data: made, error: e } = await supabase.from("encrypted_vaults").insert(await vault.seal(data)).select("updated_at").single();
+    if (e) throw e;
+    return { data, vault, at: made.updated_at };
+  }
+  try {
+    return { data: liveOnly(await vault.open<FinanceData>(row)), vault, at: row.updated_at };
+  } catch (e) {
+    if (e instanceof NeedsPassphrase) return "locked";
+    throw e;
+  }
+}
+
 type Phase =
   | { kind: "starting" }
   | { kind: "signed-out" }
@@ -162,6 +189,17 @@ type Phase =
 
 export function FinanceProvider({ children }: { children: ReactNode }) {
   const [phase, setPhase] = useState<Phase>({ kind: "starting" });
+  // The account's copy (see "Vault" below): what's open in this tab.
+  const vaultRef = useRef<{ vault: Unlocked; at: string; saved: string } | null>(null);
+  const [vaultStatus, setVaultStatus] = useState<"saved" | "saving" | "error" | null>(null);
+  const [vaultProtected, setVaultProtected] = useState(false);
+  /** An opened copy becomes this tab's data. */
+  const opened = useCallback((o: Opened, session: Session) => {
+    vaultRef.current = { vault: o.vault, at: o.at, saved: JSON.stringify(o.data) };
+    setVaultProtected(o.vault.protected);
+    setVaultStatus("saved");
+    setPhase({ kind: "ready", data: o.data, source: "vault", email: session.user.email ?? null });
+  }, []);
   const [now] = useState(() => new Date());
   const supabase = getSupabase();
 
@@ -240,13 +278,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       if (loadedFor === session.user.id) return;
       loadedFor = session.user.id;
       setPhase({ kind: "loading", session });
-      // The data lives in the encrypted vault: ask for the passphrase (or to
-      // choose one, the first time).
-      supabase
-        .from("encrypted_vaults")
-        .select("updated_at")
-        .maybeSingle()
-        .then(({ data, error }) => (error ? setPhase({ kind: "error", message: error.message }) : setPhase({ kind: "locked", session, hasVault: !!data })));
+      // The data lives in the account's copy: without a passphrase it opens
+      // straight away (a first sign-in starts one); with one, ask for it.
+      openAccountCopy(supabase)
+        .then((r) => (r === "locked" ? setPhase({ kind: "locked", session, hasVault: true }) : opened(r, session)))
+        .catch((e: Error) => setPhase({ kind: "error", message: e.message }));
     };
 
     supabase.auth.getSession().then(({ data }) => apply(data.session));
@@ -256,7 +292,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "TOKEN_REFRESHED") apply(session);
     });
     return () => sub.subscription.unsubscribe();
-  }, [supabase, startDemo, startLocal]);
+  }, [supabase, startDemo, startLocal, opened]);
 
   // Local data also remembers what was deleted and when the profile changed,
   // so syncing the encrypted copy with other devices can merge (vaultMerge).
@@ -382,20 +418,21 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     return () => clearTimeout(id);
   }, [localData, stale]);
   // ---- Vault ------------------------------------------------------------------
-  // Signed in, the data lives only in the encrypted vault. Unlocked, it's in
-  // this tab's memory; every change is sealed (vault.ts) and put back,
+  // Signed in, the data lives in the account's copy (encrypted_vaults): plain
+  // JSON by default, end-to-end encrypted once a passphrase is added
+  // (Settings › Security). Open, it's in this tab's memory; every change is
+  // sealed (vault.ts) and put back,
   // debounced. The put only lands if the vault is still the copy this tab
   // last saw (updated_at); otherwise another device saved meanwhile, so its
   // copy is opened and merged (vaultMerge — the same rule as the apps) and
   // the merge is saved. A tab also picks up other devices' saves when it
-  // comes back into view. After 15 minutes without use it locks itself.
-  const vaultRef = useRef<{ vault: Unlocked; at: string; saved: string } | null>(null);
+  // comes back into view. With a passphrase, after 15 minutes without use it
+  // locks itself.
   const sessionRef = useRef<Session | null>(null);
   const phaseSession = phase.kind === "locked" || phase.kind === "loading" ? phase.session : null;
   useLayoutEffect(() => {
     if (phaseSession) sessionRef.current = phaseSession;
   }, [phaseSession]);
-  const [vaultStatus, setVaultStatus] = useState<"saved" | "saving" | "error" | null>(null);
   const vaultData = phase.kind === "ready" && phase.source === "vault" ? phase.data : null;
   const latest = useRef<FinanceData | null>(null);
   useLayoutEffect(() => {
@@ -410,7 +447,21 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     const { data: row, error } = await supabase.from("encrypted_vaults").select("ciphertext, iv, salt, kdf, updated_at").single();
     if (error) throw error;
     if (row.updated_at === v.at) return null;
-    const remote = await v.vault.open<FinanceData>(row);
+    let remote: FinanceData;
+    try {
+      remote = await v.vault.open<FinanceData>(row);
+    } catch (e) {
+      // Another device added a passphrase: this tab asks for it too.
+      if (e instanceof NeedsPassphrase) {
+        const session = sessionRef.current;
+        vaultRef.current = null;
+        latest.current = null;
+        setVaultStatus(null);
+        if (session) setPhase({ kind: "locked", session, hasVault: true });
+        return null;
+      }
+      throw e;
+    }
     const local = latest.current;
     const merged = local ? liveOnly(mergeData(local, remote)) : liveOnly(remote);
     v.at = row.updated_at;
@@ -451,7 +502,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   }, [vaultData, pushVault]);
 
   const lock = useCallback(() => {
-    if (!vaultRef.current) return;
+    // Without a passphrase there's nothing to lock with.
+    if (!vaultRef.current?.vault.protected) return;
     // The last change goes out first, then the data leaves memory.
     const session = sessionRef.current;
     void vaultBusy.current.then(pushVault).catch(() => {}).finally(() => {
@@ -469,8 +521,10 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       if (document.visibilityState !== "visible") return;
       vaultBusy.current = vaultBusy.current.then(() => pullVault()).then(() => undefined).catch(() => {});
     };
-    let idle = setTimeout(lock, 15 * 60_000);
-    const poke = () => { clearTimeout(idle); idle = setTimeout(lock, 15 * 60_000); };
+    // Only a passphrase-protected copy locks itself when left alone.
+    const after = vaultProtected ? 15 * 60_000 : null;
+    let idle = after ? setTimeout(lock, after) : undefined;
+    const poke = () => { clearTimeout(idle); if (after) idle = setTimeout(lock, after); };
     const unsaved = (e: BeforeUnloadEvent) => {
       if (vaultRef.current && JSON.stringify(latest.current) !== vaultRef.current.saved) e.preventDefault();
     };
@@ -483,7 +537,34 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       for (const ev of ["pointerdown", "keydown", "wheel", "touchstart"]) window.removeEventListener(ev, poke);
       window.removeEventListener("beforeunload", unsaved);
     };
-  }, [!!vaultData, pullVault, lock]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [!!vaultData, vaultProtected, pullVault, lock]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /** Adds a passphrase (end-to-end from then on) or takes it off — `current`
+   *  must open the copy. The copy is saved again straight away. */
+  const setPassphrase = useCallback(async (next: string | null, current?: string) => {
+    const v = vaultRef.current;
+    if (!supabase || !v) throw new Error("Not signed in.");
+    let vault: Unlocked;
+    if (next !== null) vault = await unlock(next);
+    else {
+      const { data: row, error } = await supabase.from("encrypted_vaults").select("ciphertext, iv, salt, kdf").single();
+      if (error) throw error;
+      try {
+        await (await unlock(current ?? "")).open(row as Sealed);
+      } catch {
+        throw new Error(t("That passphrase doesn't open your vault."));
+      }
+      vault = plain();
+    }
+    // Wait for any save in flight, then save the copy the new way.
+    await vaultBusy.current.catch(() => {});
+    v.vault = vault;
+    v.saved = "";
+    setVaultProtected(vault.protected);
+    const run = vaultBusy.current.then(pushVault);
+    vaultBusy.current = run.catch(() => {});
+    await run;
+  }, [supabase, pushVault]);
 
   // What every screen sees: spread expenses as their monthly parts, advances
   // apart from the spending (data.advances), and investments with their live
@@ -831,11 +912,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
           email={phase.session.user.email ?? null}
           hasVault={phase.hasVault}
           start={() => loadAll(supabase)}
-          onUnlocked={(data, vault, at) => {
-            vaultRef.current = { vault, at, saved: JSON.stringify(data) };
-            setVaultStatus("saved");
-            setPhase({ kind: "ready", data, source: "vault", email: phase.session.user.email ?? null });
-          }}
+          onUnlocked={(data, vault, at) => opened({ data, vault, at }, phase.session)}
           onSignOut={() => void signOut()}
         />
       </div>
@@ -854,7 +931,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, lock, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
       {stale && (
