@@ -2,7 +2,7 @@
 
 import { intlLocale, t } from "@/lib/i18n";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, CreditCard, Flame, HandCoins, Plus, Sparkles, Split, Wallet, type LucideIcon } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { money, monthName, monthYear, shortMonth } from "@/lib/finance/format";
 import { useTween } from "./charts";
 import LiveAmount from "./LiveAmount";
@@ -114,7 +114,7 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
         }]
       : []),
     ...(f.income > 0
-      ? [{ key: "income", kicker: t("Live income"), tone: tones.green, body: <IncomeLive income={f.income} currency={currency} /> }]
+      ? [{ key: "income", kicker: t("Live income"), tone: tones.green, body: <IncomeLive income={f.income} spending={f.fixed + f.budgets} currency={currency} /> }]
       : []),
     ...(f.fixed > 0
       ? [{ key: "fixed", kicker: t("Fixed costs"), tone: tones.amber, body: <FixedLive lines={f.fixedLines ?? []} total={f.fixed} currency={currency} /> }]
@@ -135,7 +135,11 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
               <span>{f.goal.name}</span>
               <b className="pf-rounded">{money(f.goal.amount / f.goal.months, currency)} {t("a month")}</b>
               <i><span style={{ width: `${Math.min(100, f.left > 0 ? ((f.goal.amount / f.goal.months) / f.left) * 100 : 100)}%` }} /></i>
-              <small>{t("{share} of what's left goes to this goal", { share: f.left > 0 ? `${Math.round(((f.goal.amount / f.goal.months) / f.left) * 100)}%` : "—" })}</small>
+              <small>
+                {f.left > 0 && f.goal.amount / f.goal.months <= f.left
+                  ? t("{share} of what's left goes to this goal", { share: `${Math.round(((f.goal.amount / f.goal.months) / f.left) * 100)}%` })
+                  : t("That's more than you have left each month — a longer term makes it fit.")}
+              </small>
             </div>
           )}
         </>
@@ -276,6 +280,32 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
   };
   const next = () => (last ? onOpen() : setI(i + 1));
   const prev = () => setI(i - 1);
+  // One height for the whole tour, so the window doesn't change shape from
+  // card to card: on the first frame every card is laid out (hidden) in the
+  // same grid cell, the tallest sets the height, then they're dropped.
+  const track = useRef<HTMLDivElement>(null);
+  const [tall, setTall] = useState<number | null>(null);
+  // …and the tour scales as one (same factor for every card) to fit the
+  // window, so a smaller window shows the same cards, just smaller.
+  const [fit, setFit] = useState(1);
+  useLayoutEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    if (tall == null) {
+      setTall(el.offsetHeight);
+      return;
+    }
+    const inner = el.closest(".pf-ob-inner");
+    if (!inner) return;
+    // Everything in the onboarding card besides the cards, plus its padding.
+    const other = inner.getBoundingClientRect().height - el.getBoundingClientRect().height + 58;
+    setFit(Math.max(0.55, Math.min(1, (window.innerHeight - 72 - other) / tall)));
+  }, [tall]);
+  useEffect(() => {
+    const again = () => setTall(null);
+    window.addEventListener("resize", again);
+    return () => window.removeEventListener("resize", again);
+  }, []);
   // Swiping the card: left → next, right → back (a tap still goes on).
   const swipe = useRef<{ x: number; y: number; moved: boolean } | null>(null);
 
@@ -299,7 +329,9 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
       </div>
       <div className="pf-tour-stage">
         <div
+          ref={track}
           className="pf-tour-track"
+          style={tall ? { height: tall, zoom: fit } : undefined}
           onPointerDown={(e) => (swipe.current = { x: e.clientX, y: e.clientY, moved: false })}
           onPointerUp={(e) => {
             const s0 = swipe.current;
@@ -312,6 +344,14 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
             }
           }}
         >
+        {tall == null && cards.map((c) => (
+          <div key={`size-${c.key}`} className="pf-wr-card pf-tour-sizer" aria-hidden>
+            <div className="pf-wr-body">
+              <span className="pf-wr-kicker">{c.kicker}</span>
+              {c.body}
+            </div>
+          </div>
+        ))}
         <div key={card.key} className="pf-wr-card pf-tour-card" data-dir={leaving?.dir ?? 1} style={{ background: card.tone }} onClick={() => { if (!swipe.current?.moved) next(); swipe.current = null; }}>
           <div className="pf-wr-body">
             <span className="pf-wr-kicker">{card.kicker}</span>
@@ -422,7 +462,49 @@ function BalanceBuild({ assets, debts, left, currency }: { assets: { name: strin
 }
 
 /** Income accruing by the second over the month. */
-function IncomeLive({ income, currency }: { income: number; currency: string }) {
+/** The month as a chart, like the dashboard's: income and spending both
+ *  spread over the month, solid up to now and dashed to the month's end;
+ *  the gap between them is what's saved. The dot is now, moving. */
+function MonthChart({ income, spending, frac, currency, days }: { income: number; spending: number; frac: number; currency: string; days: number }) {
+  const W = 300, H = 130, top = Math.max(income, spending, 1) * 1.08;
+  const x = (f: number) => f * W;
+  const y = (v: number) => H - (v / top) * H;
+  const nx = x(frac);
+  const saved = income - spending;
+  return (
+    <div className="pf-tour-chart">
+      <div className="pf-tc-plot">
+      <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden>
+        <defs>
+          <linearGradient id="pf-tc-gap" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#40c8e0" stopOpacity="0.35" />
+            <stop offset="1" stopColor="#40c8e0" stopOpacity="0.05" />
+          </linearGradient>
+        </defs>
+        {[0.25, 0.5, 0.75].map((g) => <line key={g} x1="0" x2={W} y1={H * g} y2={H * g} className="pf-tc-grid" />)}
+        {/* What's saved so far: between the two lines, up to now. */}
+        <polygon points={`0,${H} ${nx},${y(income * frac)} ${nx},${y(spending * frac)}`} fill="url(#pf-tc-gap)" />
+        <line x1="0" y1={H} x2={nx} y2={y(income * frac)} className="pf-tc-in" />
+        <line x1={nx} y1={y(income * frac)} x2={W} y2={y(income)} className="pf-tc-in pf-tc-ahead" />
+        <line x1="0" y1={H} x2={nx} y2={y(spending * frac)} className="pf-tc-out" />
+        <line x1={nx} y1={y(spending * frac)} x2={W} y2={y(spending)} className="pf-tc-out pf-tc-ahead" />
+        <line x1={nx} x2={nx} y1="0" y2={H} className="pf-tc-now" />
+      </svg>
+      {/* Dots in HTML so they stay round on a stretched chart. */}
+      <i className="pf-tc-dot" style={{ left: `${frac * 100}%`, top: `${(y(income * frac) / H) * 100}%`, background: "#4ade80" }} />
+      <i className="pf-tc-dot" style={{ left: `${frac * 100}%`, top: `${(y(spending * frac) / H) * 100}%`, background: "#ff6961" }} />
+      </div>
+      <div className="pf-tc-axis"><span>1</span><span style={{ left: `${frac * 100}%` }}>{t("Now")}</span><span>{days}</span></div>
+      <div className="pf-tc-key">
+        <span><i style={{ background: "#4ade80" }} /> {t("Income")} <b className="pf-rounded">{money(income, currency)}</b></span>
+        <span><i style={{ background: "#ff6961" }} /> {t("Spending")} <b className="pf-rounded">{money(spending, currency)}</b></span>
+        <span><i style={{ background: "#40c8e0" }} /> {t("Saved by the end")} <b className="pf-rounded" style={{ color: saved >= 0 ? "#40c8e0" : "#ff6961" }}>{money(saved, currency)}</b></span>
+      </div>
+    </div>
+  );
+}
+
+function IncomeLive({ income, spending, currency }: { income: number; spending: number; currency: string }) {
   const now = useNow(200);
   const frac = monthFraction(now);
   const d = new Date(now);
@@ -434,8 +516,8 @@ function IncomeLive({ income, currency }: { income: number; currency: string }) 
       <div className="pf-tour-live">
         <small>{t("Earned so far in {month}", { month: monthName(d) })}</small>
         <LiveAmount value={income * frac} currency={currency} size="2.4rem" color="#4ade80" />
-        <div className="pf-tour-month"><i style={{ width: `${frac * 100}%` }} /><span style={{ left: `${frac * 100}%` }} /></div>
       </div>
+      <MonthChart income={income} spending={spending} frac={frac} currency={currency} days={days} />
       <p className="pf-wr-line">
         {t("Your {income} a month is spread evenly over every day and second of the month — {rate} a second. So on the 10th you already see a third of it, and your balance is right every day, not just after payday.", { income: money(income, currency), rate: new Intl.NumberFormat(intlLocale(), { style: "currency", currency, minimumFractionDigits: 4, maximumFractionDigits: 4 }).format(perSecond) })}
       </p>

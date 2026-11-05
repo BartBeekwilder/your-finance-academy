@@ -1623,5 +1623,9 @@
  "Separate bills": "別々の請求",
  "Twice a year": "年2回",
  "What's left of your budgets, over the days left this month.": "予算の残りを、今月の残り日数で割った額です。",
- "Yearly": "毎年"
+ "Yearly": "毎年",
+ "That's more than you have left each month — a longer term makes it fit.": "毎月残る金額より多くなっています。期間を長くすれば収まります。",
+ "Pension": "年金",
+ "Saved by the end": "月末までの貯蓄",
+ "Spending": "支出"
 }

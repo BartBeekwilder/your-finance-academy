@@ -1292,10 +1292,25 @@ function Preview({
   const spent = (totals.fixedTotal + totals.budgetTotal) * frac;
   const equityLive = eq + (live ? (totals.left / monthMs) * (now - opened) : 0);
   const base = Math.max(netIncome, totals.fixedTotal + totals.budgetTotal, 1);
-  const parts = [
-    ...fixed.filter((f) => f.on && num(f.amount) > 0).map((f) => ({ k: f.key, v: num(f.amount), c: `#${f.color}` })),
-    ...budgets.filter((b) => b.on && num(b.amount) > 0).map((b) => ({ k: b.key, v: num(b.amount), c: `#${b.color}` })),
-  ];
+  // Where the money goes, in a few calm blocks: each fixed cost, then all
+  // subscriptions as one, all insurance as one, all budgets as one; pieces
+  // too small to read (< 4%) go together as "the rest".
+  const groups = new Map<string, { v: number; c: string; n: string }>();
+  const put = (k: string, v: number, c: string, n: string) => groups.set(k, { v: (groups.get(k)?.v ?? 0) + v, c, n });
+  for (const f of fixed.filter((f) => f.on && num(f.amount) > 0)) {
+    const sub = f.key.startsWith("sub-"), ins = f.key.startsWith("ins-");
+    put(sub ? "subs" : ins ? "ins" : f.key, num(f.amount), sub ? "#BF5AF2" : ins ? "#E63946" : `#${f.color}`, sub ? t("Subscriptions") : ins ? t("Insurance") : f.own ? f.name : t(f.name));
+  }
+  const budgeted = budgets.filter((b) => b.on).reduce((s2, b) => s2 + num(b.amount), 0);
+  if (budgeted > 0) put("budgets", budgeted, "#2E8B57", t("Budgets"));
+  const parts: { k: string; v: number; c: string; n: string }[] = [];
+  const small: string[] = [];
+  let rest = 0;
+  for (const [k, g] of groups) if (g.v / base < 0.04) { rest += g.v; small.push(g.n); } else parts.push({ k, v: g.v, c: g.c, n: g.n });
+  if (rest > 0) parts.push({ k: "rest", v: rest, c: "#636366", n: small.length === 1 ? small[0] : small.join(", ") });
+  // Hovering (or tapping) a block names it below the bar.
+  const [hover, setHover] = useState<string | null>(null);
+  const shown = parts.find((p) => p.k === hover);
   const lit = (s: Step[]) => (s.includes(step) ? "true" : "false");
   return (
     <aside className="pf-ob-preview" aria-label={t("Your month so far")}>
@@ -1321,8 +1336,19 @@ function Preview({
         <div className="pf-ob-flow-in" style={{ width: `${(netIncome / base) * 100}%` }} />
         <div className="pf-ob-flow-out">
           {parts.map((p) => (
-            <span key={p.k} style={{ flexBasis: `${(p.v / base) * 100}%`, background: p.c }} />
+            <span key={p.k} data-dim={hover != null && hover !== p.k} style={{ flexBasis: `${(p.v / base) * 100}%`, background: p.c }} title={`${p.n} · ${money(p.v, currency)}`} onMouseEnter={() => setHover(p.k)} onMouseLeave={() => setHover(null)} onClick={() => setHover(hover === p.k ? null : p.k)} />
           ))}
+        </div>
+        {/* Always the same height, so the panel doesn't move when it shows. */}
+        <div className="pf-ob-flow-tip" data-on={!!shown}>
+          {shown && (
+            <>
+              <i style={{ background: shown.c }} />
+              <span>{shown.n}</span>
+              <b className="pf-rounded">{money(shown.v, currency)}</b>
+              <small>{Math.round((shown.v / Math.max(netIncome, 1)) * 100)}%</small>
+            </>
+          )}
         </div>
       </div>
       <div className="pf-ob-stat" data-lit={lit(["fixed", "subscriptions", "insurance"])}>
