@@ -226,7 +226,7 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
                     ? t("Save something each month to start moving towards it.")
                     : fi.years <= 0
                       ? t("You're there already.")
-                      : t("Saving {left} a month at 5% growth a year: reached in about {n} years ({year}).", { left: money(f.left, currency), n: Math.ceil(fi.years), year: new Date().getFullYear() + Math.ceil(fi.years) })}
+                      : t("You keep {left} a month. Invest that every month at 5% growth a year (a cautious average) and you reach this amount in about {n} years, in {year}.", { left: money(f.left, currency), n: Math.ceil(fi.years), year: new Date().getFullYear() + Math.ceil(fi.years) })}
                 </small>
               </div>
             </>

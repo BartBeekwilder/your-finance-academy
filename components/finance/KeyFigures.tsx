@@ -88,7 +88,7 @@ export function KeyFiguresPage() {
                 ? t("Save something each month to start moving towards it.")
                 : fi.years <= 0
                   ? t("You're there already.")
-                  : t("At {left} a month and 5% growth a year: in about {n} years ({year}).", { left: money(k.left, currency), n: Math.ceil(fi.years), year: d.getFullYear() + Math.ceil(fi.years) })}
+                  : t("You keep {left} a month. Invest that every month at 5% growth a year (a cautious average) and you reach this amount in about {n} years, in {year}.", { left: money(k.left, currency), n: Math.ceil(fi.years), year: d.getFullYear() + Math.ceil(fi.years) })}
             </small>
           </div>
         </section>
