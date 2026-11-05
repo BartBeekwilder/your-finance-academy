@@ -2493,6 +2493,160 @@ html[data-pf-motion="light"] *::after {
   box-shadow: 0 0 12px rgba(64, 200, 224, 0.6);
   transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
+/* Onboarding journey bar (OnboardingProgress): nodes on a glass track; the
+   fill springs to the step you're on with a comet at its tip. Transform /
+   opacity only, so it stays smooth. */
+.pf-jb {
+  display: grid;
+  gap: 10px;
+  margin: -4px 0 22px;
+}
+.pf-jb-rail {
+  position: relative;
+  padding: 0 14px;
+}
+.pf-jb-track {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.45);
+}
+.pf-jb-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--pf-brand-a), var(--pf-brand-b));
+  box-shadow: 0 0 14px rgba(64, 200, 224, 0.55);
+  /* A spring: a touch past the node, then settles. */
+  transition: transform 0.9s cubic-bezier(0.34, 1.32, 0.5, 1);
+}
+.pf-jb-sheen {
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  animation: pf-jb-sheen 2.8s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+@keyframes pf-jb-sheen {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(320%); }
+}
+.pf-jb-comet {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 22%, rgba(120, 230, 255, 0.85) 38%, rgba(64, 200, 224, 0) 70%);
+  filter: drop-shadow(0 0 8px rgba(64, 200, 224, 0.9));
+  transition: left 0.9s cubic-bezier(0.34, 1.32, 0.5, 1), opacity 0.4s;
+  pointer-events: none;
+}
+.pf-jb[data-start] .pf-jb-comet { opacity: 0; }
+.pf-jb-nodes {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 -14px;
+  padding: 0;
+  list-style: none;
+}
+.pf-jb-node {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #15161c;
+  color: rgba(255, 255, 255, 0.38);
+  cursor: default;
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s, border-color 0.4s, color 0.4s, box-shadow 0.4s;
+  /* One after another when the bar first appears. */
+  /* backwards, not both: afterwards the state transitions own transform. */
+  animation: pf-jb-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 45ms + 120ms);
+}
+@keyframes pf-jb-in {
+  from { opacity: 0; transform: scale(0.4); }
+}
+.pf-jb-node[data-state="done"] {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b));
+  color: #fff;
+  box-shadow: 0 0 10px rgba(64, 200, 224, 0.35);
+}
+.pf-jb-node[data-state="done"]:not(:disabled) { cursor: pointer; }
+.pf-jb-node[data-state="done"]:not(:disabled):hover { transform: scale(1.12); }
+.pf-jb-node[data-state="now"] {
+  transform: scale(1.18);
+  border-color: rgba(120, 230, 255, 0.85);
+  color: #fff;
+  background: radial-gradient(circle at 50% 35%, rgba(64, 200, 224, 0.35), #15161c 70%);
+}
+/* The step you're on breathes: a soft ring that swells and fades. */
+.pf-jb-node[data-state="now"]::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(120, 230, 255, 0.7);
+  animation: pf-jb-breathe 2.2s ease-out infinite;
+}
+@keyframes pf-jb-breathe {
+  from { opacity: 0.9; transform: scale(0.85); }
+  to { opacity: 0; transform: scale(1.45); }
+}
+.pf-jb-icon {
+  display: grid;
+  place-items: center;
+  animation: pf-jb-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes pf-jb-pop {
+  from { opacity: 0; transform: scale(0.3) rotate(-25deg); }
+}
+.pf-jb-caption {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--pf-ink-3);
+}
+.pf-jb-caption b {
+  font-weight: 600;
+  color: var(--pf-ink);
+}
+.pf-jb-pct {
+  margin-left: auto;
+  color: var(--pf-ink-2);
+}
+/* The last screen: the whole track lights up once. */
+.pf-jb[data-done] .pf-jb-fill { box-shadow: 0 0 22px rgba(64, 200, 224, 0.9); }
+.pf-jb[data-done] .pf-jb-node {
+  animation: pf-jb-cheer 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+@keyframes pf-jb-cheer {
+  40% { transform: scale(1.3); box-shadow: 0 0 18px rgba(120, 230, 255, 0.9); }
+}
+.pf-jb[data-done] .pf-jb-comet { opacity: 0; }
+@media (max-width: 520px) {
+  .pf-jb-node { width: 24px; height: 24px; }
+  .pf-jb-node svg { width: 11px; height: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-jb-sheen, .pf-jb-node[data-state="now"]::after { animation: none; }
+}
 .pf-ob-draft {
   align-self: flex-start;
   font-size: 0.68rem;
@@ -2518,6 +2672,9 @@ html[data-pf-motion="light"] *::after {
 }
 .pf-ob-screen {
   display: grid;
+  /* One column that never grows past the card: on a phone the rows' inputs
+     pushed it wider and the step ran off the right edge. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   align-content: start;
 }
@@ -2671,6 +2828,7 @@ html[data-pf-motion="light"] *::after {
 }
 .pf-ob-name {
   flex: 1;
+  width: 0;
   min-width: 0;
   background: transparent;
   border: 1px solid transparent;

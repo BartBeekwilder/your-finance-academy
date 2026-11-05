@@ -8,6 +8,7 @@ import { live } from "@/lib/finance/calc";
 import { currencyName } from "@/lib/finance/currencies";
 import { money } from "@/lib/finance/format";
 import BrandMark from "./BrandMark";
+import OnboardingProgress from "./OnboardingProgress";
 import { useTween } from "./charts";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
@@ -182,8 +183,6 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
     }
   }
 
-  const progress = step / (STEPS.length - 1);
-
   return (
     <div className="pf-ob" role="dialog" aria-modal="true" aria-label={t("Set up your finances")}>
       <div className="pf-ob-glow" />
@@ -193,9 +192,13 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
 
       <div className="pf-ob-layout">
         <div className="pf-ob-card" ref={card}>
-          <div className="pf-ob-progress" aria-hidden>
-            <span style={{ width: `${progress * 100}%` }} />
-          </div>
+          <OnboardingProgress
+            step={id}
+            onPick={(to) => {
+              setDir(-1);
+              setStep(STEPS.indexOf(to as Step));
+            }}
+          />
           {preview && <div className="pf-ob-draft">{t("Draft · preview — nothing is saved")}</div>}
 
           <div key={id} className="pf-ob-step" data-dir={dir}>
@@ -377,12 +380,13 @@ export default function Onboarding({ preview, onClose }: { preview: boolean; onC
           <div className="pf-ob-nav">
             {step > 0 && id !== "done" ? (
               <button className="pf-link" onClick={() => go(-1)}>
-                <ArrowLeft size={15} /> Back
+                <ArrowLeft size={15} /> {t("Back")}
               </button>
             ) : (
               <span />
             )}
-            <span className="pf-ob-count">{step > 0 && id !== "done" ? t("{step} of {total}", { step, total: STEPS.length - 2 }) : ""}</span>
+            {/* The step count is in the journey bar on top. */}
+            <span />
             {id === "done" ? (
               saved ? (
                 <button className="pf-button" onClick={onClose}>

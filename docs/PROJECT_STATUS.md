@@ -378,6 +378,24 @@ of each imported total = Other assets / Other debts; equity = assets − debts.
 - NOT YET TESTED signed in: needs Bart's login + passphrase (Claude never
   types either). Demo + sign-in page checked in the browser; 99 tests pass.
 
+## Done 2026-11-05 — onboarding journey bar
+
+- components/finance/OnboardingProgress.tsx (+ .pf-jb* in finance.css),
+  replacing the 3 px line on top of the onboarding card: a node per question
+  (Currency, Household, Income, Accounts, Fixed costs, Budgets, Balance
+  sheet, Start date) with its icon, on a glass track. The brand-gradient
+  fill springs (slight overshoot) to the step you're on, a glowing comet at
+  its tip and a sheen running through it; the current node breathes, done
+  nodes become a check (pop), ahead nodes wait dimmed. Done nodes can be
+  tapped to go back (also from the last screen, which has no Back button).
+  Caption "Step n of 8 · <name>" + %, "Start" on Welcome, "All set" at the
+  end when the whole track lights up node by node. Transform/opacity only;
+  off with Motion off / reduced motion. The old "3 of 8" in the footer is
+  gone; "Back" is now translated. 3 new texts in 17 languages.
+- Onboarding on a phone: steps no longer run off the right edge (the
+  screen grid is one minmax(0, 1fr) column; account names width 0 + flex).
+- Bart liked it straight away ("exactly what I had in mind").
+
 ## Done recently (2026-10-22/23)
 
 - Balance sheet (web + iOS): own posts with month-end values, calculated
