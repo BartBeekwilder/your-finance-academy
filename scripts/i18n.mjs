@@ -22,6 +22,7 @@ const EXTRA = [
   "Crypto", "Stock", "Metal", "Fund", "Gold", "Silver", "Platinum", "Palladium",
   "Student loan", "Car loan", "Personal loan", "Credit card", "Other loan",
   "Basics", "Money now", "Fixed costs and insurance", "Home and debts", "Budgets and goals", "History", "Security",
+  "Off to a flying start", "Finish the quick start", "Books fully set up", "Finish the complete setup",
   "Rent", "Mortgage", "Electricity", "Gas or heating", "Water", "Internet & TV", "Mobile phone", "Gym", "News & magazines",
   "Monthly", "Quarterly", "Twice a year", "Yearly",
   "Savings rate", "Runway", "Fixed costs of income", "An hour of your work", "Free to spend per day", "Equity in months of living", "Debt ratio",

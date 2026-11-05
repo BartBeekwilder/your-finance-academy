@@ -13,6 +13,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import LastUpdated from "@/components/finance/LastUpdated";
 import FinishSetupCard from "@/components/finance/FinishSetupCard";
+import SetupCelebration from "@/components/finance/SetupCelebration";
 import { KeyFiguresStrip } from "@/components/finance/KeyFigures";
 import NetWorthCard from "@/components/finance/NetWorthCard";
 import BalanceCard from "@/components/finance/BalanceCard";
@@ -115,6 +116,7 @@ export default function DashboardPage() {
 
   return (
     <div style={{ display: "grid", gap: 28 }}>
+      <SetupCelebration />
       <header style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
         <div style={{ display: "grid", gap: 8, justifyItems: "start" }}>
           <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.1rem)", fontWeight: 700 }}>Dashboard - {monthYear(month)}</h1>

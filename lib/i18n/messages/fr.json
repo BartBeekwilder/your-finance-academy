@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Combien de mois vos comptes doivent couvrir vos charges fixes et budgets sans revenus. 3 à 6 mois, c'est l'usage.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Sans revenus, l'argent serait épuisé en {month}. Pour atteindre {goal} mois, il vous faut encore {amount} — environ {n} mois d'épargne de ce qu'il vous reste.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Sans revenus, l'argent serait épuisé en {month}. Pour atteindre {goal} mois, il vous faut encore {amount}.",
- "Your goal of {n} months is reached: a healthy buffer.": "Votre objectif de {n} mois est atteint : une réserve saine."
+ "Your goal of {n} months is reached: a healthy buffer.": "Votre objectif de {n} mois est atteint : une réserve saine.",
+ "Welcome": "Bienvenue",
+ "Welcome to the best": "Bienvenue dans la meilleure",
+ "personal finance app": "app de finances personnelles",
+ "in the world.": "au monde.",
+ "From now on you're always in control of your money.": "Désormais, vous gardez toujours le contrôle de votre argent.",
+ "Books fully set up": "Comptes entièrement configurés",
+ "Finish the complete setup": "Terminez la configuration complète",
+ "Finish the quick start": "Terminez le démarrage rapide",
+ "Off to a flying start": "Départ en trombe",
+ "Preview — the points aren't kept.": "Aperçu — les points ne sont pas conservés.",
+ "Setup complete": "Configuration terminée",
+ "To my dashboard": "Vers mon tableau de bord"
 }

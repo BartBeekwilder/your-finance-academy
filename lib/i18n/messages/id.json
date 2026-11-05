@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Berapa bulan rekeningmu harus menutup biaya tetap dan anggaran tanpa penghasilan. Umumnya 3–6 bulan.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Tanpa penghasilan, uangnya habis pada {month}. Untuk mencapai {goal} bulan kamu butuh {amount} lagi — sekitar {n} bulan menabung sisa uangmu.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Tanpa penghasilan, uangnya habis pada {month}. Untuk mencapai {goal} bulan kamu butuh {amount} lagi.",
- "Your goal of {n} months is reached: a healthy buffer.": "Target {n} bulan tercapai: cadangan yang sehat."
+ "Your goal of {n} months is reached: a healthy buffer.": "Target {n} bulan tercapai: cadangan yang sehat.",
+ "Welcome": "Selamat datang",
+ "Welcome to the best": "Selamat datang di",
+ "personal finance app": "aplikasi keuangan pribadi",
+ "in the world.": "terbaik di dunia.",
+ "From now on you're always in control of your money.": "Mulai sekarang, keuanganmu selalu dalam kendalimu.",
+ "Books fully set up": "Pembukuan tersiapkan penuh",
+ "Finish the complete setup": "Selesaikan penyiapan lengkap",
+ "Finish the quick start": "Selesaikan mulai cepat",
+ "Off to a flying start": "Awal yang mantap",
+ "Preview — the points aren't kept.": "Pratinjau — poin tidak disimpan.",
+ "Setup complete": "Penyiapan selesai",
+ "To my dashboard": "Ke dasborku"
 }

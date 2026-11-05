@@ -10,6 +10,8 @@ import { currencyName } from "@/lib/finance/currencies";
 import { money, monthYear } from "@/lib/finance/format";
 import { payoff } from "@/lib/finance/loans";
 import { schedule, type MortgageKind } from "@/lib/finance/mortgage";
+import { BADGES } from "@/lib/finance/progress";
+import { CELEBRATE, type Celebration } from "./SetupCelebration";
 import { MIN_PASSPHRASE } from "@/lib/finance/vault";
 import BrandMark from "./BrandMark";
 import OnboardingProgress from "./OnboardingProgress";
@@ -277,7 +279,7 @@ function readDraft(preview: boolean): Partial<Draft> | null {
 }
 
 export default function Onboarding({ preview, resume, onClose }: { preview: boolean; resume?: boolean; onClose: () => void }) {
-  const { data, now, source, updateProfile, saveAccount, setBudget, addCategory, addTransaction, addBalanceItem, saveLoan, addHolding, savePolicy, saveGoal, setPassphrase, saveProperty, saveMortgagePart } = useFinance();
+  const { data, now, source, updateProfile, saveAccount, setBudget, addCategory, addTransaction, addBalanceItem, saveLoan, addHolding, savePolicy, saveGoal, setPassphrase, saveProperty, saveMortgagePart, awardBadges } = useFinance();
   // A quick start being finished: the complete route, from the first
   // chapter that's still open; otherwise where this device left off.
   const finished = useMemo<string[]>(() => {
@@ -574,7 +576,17 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
       return;
     }
     const done = [...new Set([...finished, ...answered])];
+    // Points for finishing: the quick start, or the whole setup (a quick
+    // start finished later still earns the complete one). The dashboard
+    // opens with the bang (SetupCelebration).
+    const badge = BADGES.find((b) => b.code === (route === "quick" && !resume ? "setup-quick" : "setup-complete"))!;
+    const celebrate = (extra?: Partial<Celebration>) => {
+      try {
+        sessionStorage.setItem(CELEBRATE, JSON.stringify({ points: badge.points, title: badge.title, ...extra }));
+      } catch {}
+    };
     if (preview) {
+      celebrate({ preview: true });
       try {
         sessionStorage.setItem(PREVIEW_DONE, JSON.stringify({ route: resume ? "complete" : route, steps: done }));
         localStorage.removeItem(DRAFT_KEY(preview));
@@ -700,6 +712,8 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         }
       }
       if (has("security") && protect && source === "vault") await setPassphrase(pass);
+      await awardBadges([{ code: badge.code, points: badge.points }]);
+      celebrate();
       try {
         localStorage.removeItem(DRAFT_KEY(preview));
       } catch {}
@@ -798,7 +812,15 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                   </div>
                   <LanguagePicker align="end" />
                 </div>
-                <h1>{t("Run your money like a business.")}</h1>
+                {/* The big hello: line by line, the key words in the brand gradient. */}
+                <div className="pf-ob-hello">
+                  <h1>
+                    <span style={{ ["--d" as string]: "0.1s" }}>{t("Welcome to the best")}</span>
+                    <span style={{ ["--d" as string]: "0.3s" }}><em>{t("personal finance app")}</em></span>
+                    <span style={{ ["--d" as string]: "0.5s" }}>{t("in the world.")}</span>
+                  </h1>
+                  <p className="pf-ob-hello-promise" style={{ ["--d" as string]: "0.8s" }}>{t("From now on you're always in control of your money.")}</p>
+                </div>
                 <p>{t("A few questions and your books are open: what comes in, what goes out, what you own and what you owe. You can skip anything, and pick up where you left off.")}</p>
               </Screen>
             )}

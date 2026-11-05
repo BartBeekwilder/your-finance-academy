@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "बिना आय के आपके खाते कितने महीने तय ख़र्च और बजट चलाएँ। आम तौर पर 3–6 महीने।",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "बिना आय के पैसा {month} में ख़त्म हो जाएगा। {goal} महीने तक पहुँचने के लिए {amount} और चाहिए — बची रकम बचाकर लगभग {n} महीने।",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "बिना आय के पैसा {month} में ख़त्म हो जाएगा। {goal} महीने तक पहुँचने के लिए {amount} और चाहिए।",
- "Your goal of {n} months is reached: a healthy buffer.": "आपका {n} महीने का लक्ष्य पूरा: एक अच्छा सहारा।"
+ "Your goal of {n} months is reached: a healthy buffer.": "आपका {n} महीने का लक्ष्य पूरा: एक अच्छा सहारा।",
+ "Welcome": "स्वागत है",
+ "Welcome to the best": "दुनिया के सबसे बेहतरीन",
+ "personal finance app": "पर्सनल फ़ाइनेंस ऐप में",
+ "in the world.": "आपका स्वागत है।",
+ "From now on you're always in control of your money.": "अब से आपके पैसों पर हमेशा आपका नियंत्रण रहेगा।",
+ "Books fully set up": "खाते पूरी तरह सेट",
+ "Finish the complete setup": "पूरा सेटअप पूरा करें",
+ "Finish the quick start": "क्विक स्टार्ट पूरा करें",
+ "Off to a flying start": "शानदार शुरुआत",
+ "Preview — the points aren't kept.": "प्रीव्यू — पॉइंट सेव नहीं होते।",
+ "Setup complete": "सेटअप पूरा",
+ "To my dashboard": "मेरे डैशबोर्ड पर"
 }

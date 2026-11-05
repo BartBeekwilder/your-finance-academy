@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Tài khoản của bạn nên trang trải chi phí cố định và ngân sách bao nhiêu tháng khi không có thu nhập. Thường là 3–6 tháng.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Không có thu nhập, tiền sẽ hết vào {month}. Để đủ {goal} tháng bạn cần thêm {amount} — khoảng {n} tháng tiết kiệm phần còn lại.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Không có thu nhập, tiền sẽ hết vào {month}. Để đủ {goal} tháng bạn cần thêm {amount}.",
- "Your goal of {n} months is reached: a healthy buffer.": "Đã đạt mục tiêu {n} tháng: một khoản đệm lành mạnh."
+ "Your goal of {n} months is reached: a healthy buffer.": "Đã đạt mục tiêu {n} tháng: một khoản đệm lành mạnh.",
+ "Welcome": "Chào mừng",
+ "Welcome to the best": "Chào mừng bạn đến với",
+ "personal finance app": "ứng dụng tài chính cá nhân",
+ "in the world.": "tốt nhất thế giới.",
+ "From now on you're always in control of your money.": "Từ giờ, bạn luôn làm chủ tài chính của mình.",
+ "Books fully set up": "Sổ sách đã thiết lập đầy đủ",
+ "Finish the complete setup": "Hoàn tất thiết lập đầy đủ",
+ "Finish the quick start": "Hoàn tất khởi động nhanh",
+ "Off to a flying start": "Khởi đầu thần tốc",
+ "Preview — the points aren't kept.": "Xem trước — điểm không được lưu.",
+ "Setup complete": "Đã thiết lập xong",
+ "To my dashboard": "Đến bảng điều khiển"
 }

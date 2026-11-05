@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "소득이 없을 때 계좌로 고정비와 예산을 몇 달 버틸지예요. 보통 3~6개월이에요.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "소득이 없으면 {month}에 돈이 바닥나요. {goal}개월이 되려면 {amount}가 더 필요해요. 남는 돈을 모으면 약 {n}개월이에요.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "소득이 없으면 {month}에 돈이 바닥나요. {goal}개월이 되려면 {amount}가 더 필요해요.",
- "Your goal of {n} months is reached: a healthy buffer.": "{n}개월 목표 달성: 건강한 여유예요."
+ "Your goal of {n} months is reached: a healthy buffer.": "{n}개월 목표 달성: 건강한 여유예요.",
+ "Welcome": "환영해요",
+ "Welcome to the best": "세계 최고의",
+ "personal finance app": "개인 재무 앱에",
+ "in the world.": "오신 걸 환영해요.",
+ "From now on you're always in control of your money.": "이제부터 내 돈은 언제나 내가 관리해요.",
+ "Books fully set up": "장부 설정 완료",
+ "Finish the complete setup": "전체 설정 마치기",
+ "Finish the quick start": "빠른 시작 마치기",
+ "Off to a flying start": "힘찬 출발",
+ "Preview — the points aren't kept.": "미리보기 — 포인트는 저장되지 않아요.",
+ "Setup complete": "설정 완료",
+ "To my dashboard": "내 대시보드로"
 }

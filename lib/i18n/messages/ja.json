@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "収入がないとき、口座で固定費と予算を何か月まかなえるようにしたいか。3〜6か月が一般的です。",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "収入がなければ{month}にお金が尽きます。{goal}か月分にするにはあと{amount}必要です。残りを貯めれば約{n}か月です。",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "収入がなければ{month}にお金が尽きます。{goal}か月分にするにはあと{amount}必要です。",
- "Your goal of {n} months is reached: a healthy buffer.": "{n}か月の目標を達成：安心できる備えです。"
+ "Your goal of {n} months is reached: a healthy buffer.": "{n}か月の目標を達成：安心できる備えです。",
+ "Welcome": "ようこそ",
+ "Welcome to the best": "世界最高の",
+ "personal finance app": "パーソナルファイナンスアプリへ",
+ "in the world.": "ようこそ。",
+ "From now on you're always in control of your money.": "これからは、いつでもお金を自分でコントロールできます。",
+ "Books fully set up": "帳簿の設定が完了",
+ "Finish the complete setup": "すべての設定を完了する",
+ "Finish the quick start": "クイックスタートを完了する",
+ "Off to a flying start": "好スタート",
+ "Preview — the points aren't kept.": "プレビュー：ポイントは保存されません。",
+ "Setup complete": "設定完了",
+ "To my dashboard": "ダッシュボードへ"
 }

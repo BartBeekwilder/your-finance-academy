@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "没有收入时，你的账户应能支撑固定支出和预算多少个月。通常为 3–6 个月。",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "没有收入的话，钱会在 {month} 用完。要达到 {goal} 个月，还需要 {amount}——把结余存下来大约要 {n} 个月。",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "没有收入的话，钱会在 {month} 用完。要达到 {goal} 个月，还需要 {amount}。",
- "Your goal of {n} months is reached: a healthy buffer.": "已达到 {n} 个月的目标：健康的缓冲。"
+ "Your goal of {n} months is reached: a healthy buffer.": "已达到 {n} 个月的目标：健康的缓冲。",
+ "Welcome": "欢迎",
+ "Welcome to the best": "欢迎使用全世界最好的",
+ "personal finance app": "个人理财应用",
+ "in the world.": "。",
+ "From now on you're always in control of your money.": "从现在起，你的财务始终尽在掌控。",
+ "Books fully set up": "账本全部设置好",
+ "Finish the complete setup": "完成完整设置",
+ "Finish the quick start": "完成快速开始",
+ "Off to a flying start": "开门红",
+ "Preview — the points aren't kept.": "预览——积分不会保存。",
+ "Setup complete": "设置完成",
+ "To my dashboard": "前往我的仪表盘"
 }

@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Cuántos meses deben cubrir tus cuentas los gastos fijos y presupuestos si no entran ingresos. Lo habitual son 3–6 meses.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Sin ingresos, el dinero se acabaría en {month}. Para llegar a {goal} meses te faltan {amount} — unos {n} meses ahorrando lo que te sobra.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Sin ingresos, el dinero se acabaría en {month}. Para llegar a {goal} meses te faltan {amount}.",
- "Your goal of {n} months is reached: a healthy buffer.": "Has alcanzado tu meta de {n} meses: un colchón sano."
+ "Your goal of {n} months is reached: a healthy buffer.": "Has alcanzado tu meta de {n} meses: un colchón sano.",
+ "Welcome": "Bienvenido",
+ "Welcome to the best": "Bienvenido a la mejor",
+ "personal finance app": "app de finanzas personales",
+ "in the world.": "del mundo.",
+ "From now on you're always in control of your money.": "A partir de ahora siempre tienes el control de tu dinero.",
+ "Books fully set up": "Cuentas completamente configuradas",
+ "Finish the complete setup": "Termina la configuración completa",
+ "Finish the quick start": "Termina el inicio rápido",
+ "Off to a flying start": "Arranque a todo gas",
+ "Preview — the points aren't kept.": "Vista previa — los puntos no se guardan.",
+ "Setup complete": "Configuración terminada",
+ "To my dashboard": "A mi panel"
 }

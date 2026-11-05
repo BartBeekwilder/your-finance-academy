@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "كم شهرًا يجب أن تغطي حساباتك التكاليف الثابتة والميزانيات من دون دخل. المعتاد 3–6 أشهر.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "من دون دخل سينفد المال في {month}. لتصل إلى {goal} أشهر تحتاج {amount} إضافية — نحو {n} أشهر من ادخار ما يتبقى.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "من دون دخل سينفد المال في {month}. لتصل إلى {goal} أشهر تحتاج {amount} إضافية.",
- "Your goal of {n} months is reached: a healthy buffer.": "بلغت هدفك البالغ {n} أشهر: هامش أمان صحي."
+ "Your goal of {n} months is reached: a healthy buffer.": "بلغت هدفك البالغ {n} أشهر: هامش أمان صحي.",
+ "Welcome": "مرحبًا",
+ "Welcome to the best": "مرحبًا بك في أفضل",
+ "personal finance app": "تطبيق للتمويل الشخصي",
+ "in the world.": "في العالم.",
+ "From now on you're always in control of your money.": "من الآن فصاعدًا، أموالك دائمًا تحت سيطرتك.",
+ "Books fully set up": "الدفاتر مُعدّة بالكامل",
+ "Finish the complete setup": "أكمل الإعداد الكامل",
+ "Finish the quick start": "أكمل البدء السريع",
+ "Off to a flying start": "انطلاقة قوية",
+ "Preview — the points aren't kept.": "معاينة — لا يتم حفظ النقاط.",
+ "Setup complete": "اكتمل الإعداد",
+ "To my dashboard": "إلى لوحتي"
 }

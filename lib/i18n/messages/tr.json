@@ -1659,5 +1659,17 @@
  "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Gelir gelmezse hesaplarının sabit giderlerini ve bütçelerini kaç ay karşılaması gerektiği. Genelde 3–6 ay.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Gelir olmasa para {month} itibarıyla biterdi. {goal} aya ulaşmak için {amount} daha gerekiyor — artanı biriktirerek yaklaşık {n} ay.",
  "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Gelir olmasa para {month} itibarıyla biterdi. {goal} aya ulaşmak için {amount} daha gerekiyor.",
- "Your goal of {n} months is reached: a healthy buffer.": "{n} aylık hedefine ulaştın: sağlıklı bir yastık."
+ "Your goal of {n} months is reached: a healthy buffer.": "{n} aylık hedefine ulaştın: sağlıklı bir yastık.",
+ "Welcome": "Hoş geldin",
+ "Welcome to the best": "Dünyanın en iyi",
+ "personal finance app": "kişisel finans uygulamasına",
+ "in the world.": "hoş geldin.",
+ "From now on you're always in control of your money.": "Artık paran her zaman senin kontrolünde.",
+ "Books fully set up": "Defterler tamamen kuruldu",
+ "Finish the complete setup": "Tam kurulumu bitir",
+ "Finish the quick start": "Hızlı başlangıcı bitir",
+ "Off to a flying start": "Uçarak başlangıç",
+ "Preview — the points aren't kept.": "Önizleme — puanlar saklanmaz.",
+ "Setup complete": "Kurulum tamamlandı",
+ "To my dashboard": "Panoma git"
 }

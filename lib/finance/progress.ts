@@ -191,6 +191,9 @@ export const BADGES: Badge[] = [
   { code: "first-goal", group: "discover", title: "Goal setter", hint: "Create your first goal", icon: "flag", points: 50, earned: (c) => c.goals >= 1 },
   { code: "goal-achieved", group: "discover", title: "Goal reached", hint: "Reach one of your goals", icon: "party-popper", points: 300, earned: (c) => c.goalsAchieved >= 1 },
   { code: "balance-sheet", group: "discover", title: "Books balanced", hint: "Add posts to your balance sheet", icon: "scale", points: 50, earned: (c) => c.balancePosts >= 1 },
+  // Given when the setup is finished (Onboarding), not earned by a rule.
+  { code: "setup-quick", group: "discover", title: "Off to a flying start", hint: "Finish the quick start", icon: "party-popper", points: 100, earned: () => false },
+  { code: "setup-complete", group: "discover", title: "Books fully set up", hint: "Finish the complete setup", icon: "trophy", points: 250, earned: () => false },
   { code: "home-added", group: "discover", title: "Home owner", hint: "Add your home in Real estate", icon: "house-plus", points: 50, earned: (c) => c.properties >= 1 },
 ];
 
