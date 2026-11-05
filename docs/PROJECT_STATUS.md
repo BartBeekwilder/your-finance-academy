@@ -4,7 +4,7 @@ Read this first on any computer. It says where the project stands, how to
 run it, and what's next. Keep it up to date at the end of every session
 (Claude: update this file and commit it before finishing).
 
-Last updated: 2026-11-03.
+Last updated: 2026-11-05.
 
 ## The product
 
@@ -13,8 +13,8 @@ backend:
 
 | Part | Where | Branch |
 |---|---|---|
-| Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (not merged to `main`; `main` = live site) |
-| iOS / iPadOS / Mac app | repo `Personal Finance` (SwiftUI) | `ios-port-nov03` (latest; from `motion-perf-oct28`) |
+| Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (`main` = live site; last pushed to `main` 2026-11-04, then equal to `web-app`) |
+| iOS / iPadOS / Mac app | repo `Personal Finance` (SwiftUI) | `ios-port-nov04` (latest; from `ios-port-nov03`) |
 | Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
 | Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0006 all applied (0005 + 0006 on 2026-10-23) | — |
 
@@ -22,8 +22,8 @@ Decisions:
 - Supabase is the ONLY sync (iOS moves off CloudKit, keeps SwiftData as an
   offline cache). RevenueCat for one subscription across App Store, Play
   Store and Stripe.
-- Sign-in: Sign in with Apple + email & password + email 6-digit code. NO
-  magic links. Demo mode to look around.
+- Sign-in: Sign in with Apple + email & password + email 8-digit code
+  (Supabase sends 8). NO magic links. Demo mode to look around.
 - Never push, deploy, or change accounts without asking Bart. Pushing to
   `main` deploys the live site (Vercel). Bart signs in to services himself.
 
@@ -80,6 +80,11 @@ Decisions:
   the other (Supabase table `encrypted_vaults`, ciphertext only, one copy
   per account, a new upload replaces it). There is no automatic sync, so
   restoring replaces that computer's local data with the uploaded copy.
+- VAULT MODE (since 2026-11-04): signed in (no `?local=1`), the data lives
+  only in the end-to-end encrypted vault — unlocked with the passphrase in
+  the tab, every change sealed and saved, other devices' saves merged. So
+  signed in, the same data on every computer and on the live site; the
+  local file above stays for dev on one computer (see "Done 2026-11-04").
 - Supabase sync of real data waits for tables for the history fields
   (yearSnapshots, yearCategoryTotals, yearIncomeTotals), documents and
   property.comparable_rent.
@@ -297,6 +302,47 @@ Balance over time › Years (calc `balanceYears`): year-ends from yearSnapshots 
 homes interpolated purchase→today's value (estimate), mortgage parts on schedule,
 investments at market (within price history) or cost of what was held; the rest
 of each imported total = Other assets / Other debts; equity = assets − debts.
+
+## Done 2026-11-04 (evening, on the Mac; written up 5 Nov from the commits)
+
+- VAULT MODE (FinanceProvider "Vault", components/finance/VaultUnlock.tsx,
+  vault.ts): signed in, the data lives ONLY in the encrypted vault. Phase
+  `locked` asks for the passphrase (or to choose one the first time); it's
+  kept in the tab's memory only, the key derived once per salt. Every change
+  is sealed and put back (debounced) only if the vault is still the copy the
+  tab last saw (updated_at); otherwise the other device's copy is opened and
+  merged (vaultMerge, same rule as the apps) and the merge is saved. A tab
+  coming back into view pulls other devices' saves. Auto-lock after 15
+  minutes without use; sidebar shows the status (saved / saving / error) and
+  "Lock now". Sign-ups (NEXT_PUBLIC_PF_SIGNUPS=open, always open in dev) and
+  Sign in with Apple (NEXT_PUBLIC_PF_APPLE=on) hidden unless enabled by env.
+  Unlock card centred like the sign-in card.
+- Sign-in code: 8 digits (Supabase sends 8), cursor starts at the left; all
+  texts "an 8-digit code" in 17 languages.
+- CHECK-IN as story cards in the Month Wrapped style (CheckinCard.tsx): one
+  question per card (expenses, income, account balances) with Yes / fix, a
+  summary card; the current account balance is its own question and can be
+  corrected on the spot. A strip of the month's days shows which are kept
+  up; pick through which day the check-in covers (open days earn their day
+  points; checkin.ts + tests). The check-in tick can be taken back; the
+  check-in bonus counts once per day.
+- Account balances net of open advances everywhere (check-in, Liquidity =
+  balance sheet; calc.ts).
+- Liquidity card (NetWorthCard): pace caption dropped; day / month / year as
+  an aligned table (total · work · investments).
+- Progress tile (ProgressStrip): total points pill under the streak. Streak
+  flame (ProgressParts) alive from day one: orange, uneven flicker, hotter
+  from a week.
+- Expenses tiles (CategoryTiles): two income rings side by side, ring above
+  its text — share of the month's expected income spent, and share of the
+  income earned so far that's spent (both spread over the month).
+- Migration `0012_checkin_interval.sql` (profiles.checkin_interval): the
+  3 Nov notes say "run it on Supabase" — not confirmed done; check.
+- Pushed to `main` (live site) on 4 Nov: `main` = `web-app` at 5587095.
+- iOS branch `ios-port-nov04`: port of 4 Nov (safe vault sync, fixed-cost
+  rule, one expected rule, month-goal rings, check-in cards, Progress order,
+  16 languages) + performance (expected rule 76 → 9 ms, figures cached per
+  data/day, Progress 73 → 12 ms); dev builds remember -skipPaywall.
 
 ## Done recently (2026-10-22/23)
 
