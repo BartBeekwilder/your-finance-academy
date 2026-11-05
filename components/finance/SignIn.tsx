@@ -27,13 +27,32 @@ type Step =
 export const RECOVERY_KEY = "pf-recovery";
 
 const APPLE_ON = process.env.NEXT_PUBLIC_PF_APPLE === "on";
-const SIGNUPS_OPEN = process.env.NEXT_PUBLIC_PF_SIGNUPS === "open" || process.env.NODE_ENV === "development";
+// Sign-ups: hidden by default; "open" shows "Create account", "invite" also
+// asks for an invite code (checked by the Supabase auth hook, migration 0013).
+const SIGNUPS = process.env.NEXT_PUBLIC_PF_SIGNUPS;
+const SIGNUPS_OPEN = SIGNUPS === "open" || SIGNUPS === "invite" || process.env.NODE_ENV === "development";
+const INVITE_ONLY = SIGNUPS === "invite";
 
 export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: no demo link (e.g. signing in from Settings). */ onDemo?: () => void; /** Dev only: open the private data file on this computer. */ onLocal?: () => void; /** Dev only, no file yet: start one (to restore an encrypted copy). */ onLocalNew?: () => void }) {
-  const [step, setStep] = useState<Step>({ kind: "signin" });
+  // An invite link (…/app?invite=CODE) opens on "Create account".
+  const [step, setStep] = useState<Step>(() => {
+    try {
+      return SIGNUPS_OPEN && new URLSearchParams(location.search).has("invite") ? { kind: "signup" } : { kind: "signin" };
+    } catch {
+      return { kind: "signin" };
+    }
+  });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
+  // An invite code from the link (?invite=…) is filled in for you.
+  const [invite, setInvite] = useState(() => {
+    try {
+      return new URLSearchParams(location.search).get("invite")?.toUpperCase() ?? "";
+    } catch {
+      return "";
+    }
+  });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [note, setNote] = useState("");
@@ -66,7 +85,7 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
         await run(() => supabase.auth.signInWithPassword({ email: mail, password }));
         break;
       case "signup":
-        if (await run(() => supabase.auth.signUp({ email: mail, password }))) {
+        if (await run(() => supabase.auth.signUp({ email: mail, password, options: { data: { invite: invite.trim().toUpperCase() } } }))) {
           go({ kind: "verify", email: mail, type: "signup" });
           setNote(t("We emailed you an 8-digit code to confirm your address."));
         }
@@ -184,6 +203,19 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
               className="pf-input"
             />
           )}
+          {step.kind === "signup" && INVITE_ONLY && (
+            <input
+              required
+              autoComplete="off"
+              autoCapitalize="characters"
+              placeholder={t("Invite code")}
+              aria-label={t("Invite code")}
+              value={invite}
+              onChange={(e) => setInvite(e.target.value.toUpperCase())}
+              className="pf-input pf-rounded"
+              style={{ letterSpacing: "0.08em" }}
+            />
+          )}
           {step.kind === "verify" && (
             <input
               required
@@ -238,6 +270,9 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
             {t("Look around with demo data first")}
           </button>
         )}
+        <a href="/privacy/web-app" className="pf-link" style={{ color: "var(--pf-ink-3)", fontSize: "0.75rem", justifySelf: "center" }}>
+          {t("Privacy: what's stored and who can see it")}
+        </a>
       </div>
     </div>
   );

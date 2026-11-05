@@ -785,3 +785,31 @@ the dashboard net worth ticker with the net worth model, app icon.
   get there saving what's left at 5% a year.
 - Bart loves these metrics: put them on the dashboard / Liquidity page too
   (runway, savings rate, freedom number, hours of work) — next.
+
+## Done 2026-11-05 (late) — ready for testers
+
+- Onboarding is REAL now when signed in (/app/welcome saves; the demo stays
+  a preview). OnboardingGate (in the app layout) sends a brand-new account
+  there by itself: vault/supabase source, no profile.onboarding, no
+  transactions, no account balances. Closing it halfway leaves this tab on
+  the app (sessionStorage pf-onboarding-skipped); it asks again next visit.
+- Invite codes: NEXT_PUBLIC_PF_SIGNUPS=invite shows "Create account" with
+  an Invite code field (sent as user metadata `invite`); a link
+  …/app?invite=CODE opens on Create account with the code filled in.
+  Migration 0013_testers.sql: table invite_codes (code, note, max_uses,
+  uses; no policies = invisible to users) + function
+  public.hook_check_invite (Supabase Auth hook "Before user created":
+  refuses unknown / used-up codes with 403, counts uses). "open" still
+  works without a code.
+- Feedback: a "Feedback" pill beside the + (signed in only) → sheet: kind
+  (broken / idea / love / other), message → table feedback (0013; RLS:
+  insert/read own; page, screen size, browser, language saved with it).
+- Privacy page for testers: /privacy/web-app (what's stored, Supabase EU,
+  who can read it with / without passphrase, prices via Yahoo, no tracking,
+  removal on request), linked from the sign-in card. NOTE: the main
+  /privacy page still says "no accounts, nothing leaves your device" —
+  out of date now that the apps sync; rewrite before the App Store update.
+- DB tests: 59 pass (8 new for invites + feedback).
+- BART TO DO before inviting: run 0013 (and check 0012) in Supabase, switch
+  on the hook, Site URL + redirect URLs, custom SMTP, add invite codes,
+  Vercel env NEXT_PUBLIC_PF_SIGNUPS=invite, then OK to push web-app → main.

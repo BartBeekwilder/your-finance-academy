@@ -150,3 +150,18 @@ await as(A, () => sql(`update profiles set household = '[{"id":"9b1d4c1e-0000-40
 ok((await as(A, () => sql(`select jsonb_array_length(household) n from profiles`))).rows[0].n === 1, "a profile keeps its household");
 await as(A, () => sql(`insert into transactions (amount, type, person_id) values (10, 'expense', '9b1d4c1e-0000-4000-8000-000000000001')`));
 ok((await as(A, () => sql(`select count(*)::int n from transactions where person_id is not null`))).rows[0].n === 1, "a transaction can name who paid");
+
+// Testers (0013): invite codes + feedback.
+await sql(`insert into invite_codes (code, max_uses) values ('BETA-2026', 2)`);
+const hook = async (code) => (await sql(`select public.hook_check_invite($1::jsonb) r`, [JSON.stringify({ user: { user_metadata: code == null ? {} : { invite: code } } })])).rows[0].r;
+ok(JSON.stringify(await hook("beta-2026")) === "{}", "a valid invite code lets the sign-up through (any case)");
+ok((await hook("NOPE"))?.error?.http_code === 403, "an unknown invite code is refused");
+ok((await hook(null))?.error?.http_code === 403, "no invite code is refused");
+await hook("BETA-2026");
+ok((await hook("BETA-2026"))?.error?.http_code === 403, "a code stops working after its max uses");
+ok((await as(A, () => sql(`select * from invite_codes`))).rows.length === 0, "users cannot read invite codes");
+await as(A, () => sql(`insert into feedback (kind, message, page) values ('bug', 'The bar spills out', '/app')`));
+ok((await as(A, () => sql(`select count(*)::int n from feedback`))).rows[0].n === 1, "a user can send and read their own feedback");
+ok((await as(B, () => sql(`select count(*)::int n from feedback`))).rows[0].n === 0, "user B cannot read user A's feedback");
+err = null; try { await as(B, () => sql(`insert into feedback (user_id, message) values ($1, 'x')`, [A])); } catch (e) { err = e.message; }
+ok(err && /row-level security/.test(err), "user B cannot send feedback as user A");
