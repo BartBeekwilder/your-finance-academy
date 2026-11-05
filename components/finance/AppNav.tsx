@@ -4,7 +4,7 @@ import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { BookOpen, Banknote, HandCoins, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, Lock, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
+import { BookOpen, Banknote, Gauge, HandCoins, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, Lock, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
 import { setBackgroundMotion, setMotionPaused, useBackgroundMotion, useMotionMode } from "@/lib/motion";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
@@ -20,6 +20,7 @@ const TABS = [
   { href: "/app/expenses", label: "Expenses", Icon: Receipt },
   { href: "/app/net-worth", label: "Liquidity", Icon: Landmark },
   { href: "/app/balance", label: "Balance sheet", Icon: Scale },
+  { href: "/app/figures", label: "Key figures", Icon: Gauge },
   { href: "/app/real-estate", label: "Real estate", Icon: House },
   { href: "/app/loans", label: "Loans", Icon: HandCoins },
   { href: "/app/rent-vs-buy", label: "Rent or buy", Icon: KeyRound },

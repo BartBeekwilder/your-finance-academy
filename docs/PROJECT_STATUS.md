@@ -832,3 +832,45 @@ the dashboard net worth ticker with the net worth model, app icon.
   public.invite_codes (code, note, max_uses). Feedback: Table Editor ›
   feedback. Not yet tried end to end: a real tester sign-up (code email,
   hook, onboarding saving) — first tester = first real test.
+
+## 2026-11-05 (evening) — incident: the setup saved over Bart's books
+
+- Bart ran /app/welcome on the live site while signed in; since "ready for
+  testers" it saved for real and added 42 items (accounts, categories,
+  budgets, fixed costs, home/mortgage posts, a holding, insurances, a goal)
+  and overwrote his current account (name/balance) and profile settings.
+- Fixed: /app/welcome only saves for a new account (no transactions, no
+  account balances) or one that began the setup (profile.onboarding);
+  otherwise it's a preview. On web-app — LIVE only after the next push.
+- Undone on localhost with a dev-only tool (Settings › "Undo the setup",
+  components/finance/SetupUndo.tsx; provider `rewrite`): rows changed in the
+  picked minutes removed (as tracked deletions), rows already in the local
+  backup (.private/finance.json, 3 Nov) put back, profile fields from the
+  backup, setup marker removed. Bart confirmed: data back. Values put back
+  are from 3 Nov (current account balance / income / payday — Bart to check).
+- Lesson: the account copy has no history (Supabase Free has no backups);
+  consider keeping the previous copy (e.g. a second row / version) before
+  big writes.
+
+## Done 2026-11-05 (evening) — tour polish + Key figures
+
+- Tour: subtle round arrows left/right on the card; the card you leave
+  pops away over the next (back: slides away). Balance card is a real
+  T-account (Assets | Liabilities + Equity, equal totals, "In balance",
+  why it's unique); negative equity: "turns positive in N months" at
+  what's left to save. Budget bars: the budget is a tick at 80% of the
+  track, overspend red inside the bar (nothing sticks out).
+- lib/finance/metrics.ts (+ metrics.test.mjs): keyMetrics (savings rate,
+  runway, fixed costs of income, an hour of work, free to spend per day,
+  equity in months of living, debt ratio — each with a rule of thumb and a
+  tone), freedom (25× yearly spending, share there, years at 5%),
+  monthsToPositive. components/finance/useKeyFigures.ts feeds it from the
+  books (expected month = Budgets' rule, accounts + investments at market,
+  balance sheet).
+- Page /app/figures "Key figures" (menu after Balance sheet): freedom ring
+  + number + year reached, "Saved this month so far" ticking per second,
+  negative equity counter, a card per figure. Dashboard: Key figures strip
+  at the bottom (freedom %, savings rate, runway, free per day, debt ratio)
+  → "All key figures". Not translated yet.
+- The tour still has its own copy of the figures (OnboardingReveal
+  keyFigures) — could switch to metrics.ts.

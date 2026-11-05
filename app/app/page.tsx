@@ -13,6 +13,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import LastUpdated from "@/components/finance/LastUpdated";
 import FinishSetupCard from "@/components/finance/FinishSetupCard";
+import { KeyFiguresStrip } from "@/components/finance/KeyFigures";
 import NetWorthCard from "@/components/finance/NetWorthCard";
 import BalanceCard from "@/components/finance/BalanceCard";
 import CategoryBars from "@/components/finance/CategoryBars";
@@ -214,6 +215,8 @@ export default function DashboardPage() {
           ))}
         </div>
       </section>
+
+      <KeyFiguresStrip />
     </div>
   );
 }

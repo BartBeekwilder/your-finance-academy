@@ -5836,3 +5836,35 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-tour-budgets em { transform: scaleX(var(--f)) !important; }
 .pf-tour-budgets u { top: 0 !important; bottom: 0 !important; left: 80% !important; width: calc(var(--o) * 100%) !important; border-radius: 0 999px 999px 0; box-shadow: none !important; }
 .pf-tour-budgets s { position: absolute; top: -3px; bottom: -3px; left: 80%; width: 2px; margin-left: -1px; border-radius: 2px; background: rgba(255, 255, 255, 0.85); text-decoration: none; }
+
+/* Key figures (page + dashboard strip). */
+.pf-kf-hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 860px) { .pf-kf-hero { grid-template-columns: 1fr; } }
+.pf-kf-fi { display: flex; gap: 20px; align-items: center; background: radial-gradient(100% 120% at 0% 0%, rgba(48, 209, 88, 0.12), transparent 60%), var(--pf-card); }
+.pf-kf-fi > div { display: grid; gap: 6px; min-width: 0; }
+.pf-kf-fi svg { flex: none; filter: drop-shadow(0 0 14px rgba(48, 209, 88, 0.25)); }
+.pf-kf-ring { transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1); animation: pf-kf-ring 1.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes pf-kf-ring { from { stroke-dashoffset: 339.3; } }
+.pf-kf-label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pf-ink-3); }
+.pf-kf-big { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: #4ade80; }
+.pf-kf-fi small, .pf-kf-live small { font-size: 0.78rem; color: var(--pf-ink-2); line-height: 1.4; }
+.pf-kf-when { color: var(--pf-ink) !important; font-weight: 600; }
+.pf-kf-live { display: grid; gap: 8px; align-content: start; }
+.pf-kf-turn { display: grid; gap: 3px; margin-top: 6px; padding: 12px; border-radius: 14px; background: rgba(255, 105, 97, 0.1); border: 1px solid rgba(255, 105, 97, 0.25); }
+.pf-kf-turn span { font-size: 0.75rem; color: var(--pf-ink-2); }
+.pf-kf-turn b { font-size: 1.4rem; color: #ffb4ae; }
+.pf-kf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.pf-kf-card { display: grid; gap: 6px; align-content: start; padding: 16px; border-radius: 18px; border: 1px solid rgba(255, 255, 255, 0.06); background: radial-gradient(120% 100% at 100% 0%, color-mix(in srgb, var(--c) 12%, transparent), transparent 60%), var(--pf-card); animation: pf-inv-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
+.pf-kf-value { font-size: 1.7rem; font-weight: 800; color: var(--c); }
+.pf-kf-bar { display: block; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.pf-kf-bar em { display: block; height: 100%; border-radius: inherit; background: var(--c); transform-origin: left; transform: scaleX(var(--f)); box-shadow: 0 0 10px color-mix(in srgb, var(--c) 50%, transparent); animation: pf-tour-fill 1s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--d, 0ms) + 200ms); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-kf-card small { font-size: 0.76rem; color: var(--pf-ink-3); line-height: 1.4; }
+.pf-kf-strip { display: grid; gap: 12px; }
+.pf-kf-striphead { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.pf-kf-striphead h2 { display: inline-flex; align-items: center; gap: 8px; }
+.pf-kf-striphead .pf-link { display: inline-flex; align-items: center; gap: 4px; font-size: 0.82rem; }
+.pf-kf-stripgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.pf-kf-mini { display: grid; gap: 4px; align-content: start; padding: 12px; border-radius: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); }
+.pf-kf-mini span { font-size: 0.72rem; color: var(--pf-ink-3); }
+.pf-kf-mini b { font-size: 1.25rem; font-weight: 800; color: var(--c); }
+.pf-kf-mini small { font-size: 0.7rem; color: var(--pf-ink-3); }
