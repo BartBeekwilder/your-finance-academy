@@ -163,7 +163,10 @@ export default function InvestmentLine({ x, currency, quotes, onChange, onRemove
               </span>
             </span>
             <AmountField currency={currency} value={x.paid ?? ""} label={x.paidEach ? t("Paid per share") : t("Paid in total")} onChange={(paid) => onChange({ paid })} />
-            {x.paidEach && parse(x.paid) > 0 && qty > 0 && <small key={paidTotal(x)} className="pf-inv-paidsum">= {money(paidTotal(x), currency)} {t("in total")}</small>}
+            {/* Inside the card (it grows to make room, smoothly), not hanging below it. */}
+            <div className="pf-inv-paidsum" data-on={x.paidEach && parse(x.paid) > 0 && qty > 0}>
+              <small>= {money(paidTotal(x), currency)} {t("in total")}</small>
+            </div>
           </div>
           <span className="pf-inv-worth" data-on={qty > 0 && v.value != null}>
             <small>{t("Worth now")}</small>

@@ -5652,7 +5652,9 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-inv-paidmode { display: inline-flex; padding: 2px; border-radius: 8px; background: rgba(255, 255, 255, 0.06); }
 .pf-inv-paidmode button { padding: 2px 7px; border: 0; border-radius: 6px; background: none; color: var(--pf-ink-3); font: inherit; font-size: 0.66rem; cursor: pointer; white-space: nowrap; transition: background 0.25s, color 0.25s; }
 .pf-inv-paidmode button[aria-pressed="true"] { color: #fff; background: linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b)); }
-.pf-inv-paidsum { position: absolute; right: 2px; bottom: -16px; font-size: 0.66rem; color: var(--pf-brand-b); white-space: nowrap; animation: pf-fade-up 0.25s ease-out both; }
+.pf-inv-paidsum { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.4s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s; }
+.pf-inv-paidsum[data-on="true"] { grid-template-rows: 1fr; opacity: 1; }
+.pf-inv-paidsum small { overflow: hidden; min-height: 0; text-align: end; font-size: 0.7rem; color: var(--pf-brand-b); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .pf-inv-result { font-style: normal; font-size: 0.7rem; color: var(--pf-green); white-space: nowrap; }
 .pf-inv-result[data-up="false"] { color: var(--pf-red); }
 
