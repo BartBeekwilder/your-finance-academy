@@ -9,7 +9,8 @@ Last updated: 2026-11-05.
 TO DO — TRANSLATIONS (Bart, 5 Nov: translate later, focus on features and
 speed): new texts are written with t() but not translated. Run
 `node scripts/i18n.mjs report` to see what's missing (12 texts on 5 Nov:
-onboarding own lines, goal term, check-in weekdays) and fill all 16
+onboarding own lines, goal term, check-in weekdays; more since: the
+finale tour and the live preview) and fill all 16
 languages in one go.
 
 ## The product
@@ -719,3 +720,25 @@ the dashboard net worth ticker with the net worth model, app icon.
   the result vs paid (€ and %) under "Worth now" (InvestmentSearch
   `paidEach`, `paidTotal`).
 - NOT translated (see the to-do at the top).
+
+## Done 2026-11-05 (night) — the finale tour + a live month while you set up
+
+- Onboarding preview panel ("Your month"): the day + time (ticking), "Day n
+  of N" with a month bar, and — once the income is in — Earned / Spent /
+  Saved so far this month counting live (income and fixed costs + budgets
+  spread over every second of the month); Equity ticks on at what's left
+  to save per second from the moment the setup opened.
+- Finale (OnboardingReveal) is now a guided tour of up to 13 story cards,
+  each building itself up: intro (what's live) → balance sheet post by post
+  with equity → live income (earned so far, € per second, month bar) →
+  fixed costs booking themselves (used up so far, live) → budget bars
+  filling, one spilling over → left to save + the goal's share → investments
+  live (Live badge, today's change, holdings) → adding a transaction (paid
+  with current account / credit card, spread out, advance) → check-in
+  (three ticks, +15 points, streak flame, rings; the chosen rhythm) → how a
+  month goes (1st, every day, payday, close + Wrapped) → my idea: RUNWAY
+  (months the accounts would cover fixed costs + budgets) → debt-free month
+  → open the dashboard. Back / n of N / Skip the tour under the card.
+- Ideas for later: a "money per second" tile on the dashboard (net saving
+  rate ticking), runway on the Liquidity page, the tour reachable from
+  Settings ("Show me around again").

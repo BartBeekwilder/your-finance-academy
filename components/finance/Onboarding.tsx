@@ -12,7 +12,8 @@ import { payoff } from "@/lib/finance/loans";
 import { MIN_PASSPHRASE } from "@/lib/finance/vault";
 import BrandMark from "./BrandMark";
 import OnboardingProgress from "./OnboardingProgress";
-import OnboardingReveal from "./OnboardingReveal";
+import OnboardingReveal, { monthFraction, useNow } from "./OnboardingReveal";
+import LiveAmount from "./LiveAmount";
 import LanguagePicker from "./LanguagePicker";
 import { LOAN_KINDS, LOAN_STYLE } from "./loanKinds";
 import { CHAPTERS, nodesFor, stepsFor, type Route, type Step } from "./onboardingRoutes";
@@ -22,10 +23,10 @@ import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
 import OnboardingTrail from "./OnboardingTrail";
 import StepSlider from "./StepSlider";
-import WeekdayPicker from "./WeekdayPicker";
+import WeekdayPicker, { periodsLabel } from "./WeekdayPicker";
 import InvestmentLine, { draftValue, draftHolding, paidTotal, type InvestmentDraft } from "./InvestmentSearch";
 import { useQuotes } from "./Portfolio";
-import { symbolsFor, type Quotes } from "@/lib/finance/quotes";
+import { holdingValue, symbolsFor, type Quotes } from "@/lib/finance/quotes";
 
 // Onboarding — "open your books". After the welcome you pick a route:
 //   • Quick start (2 minutes): currency, household, income, accounts and
@@ -424,7 +425,32 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
 
           {saved ? (
             <OnboardingReveal
-              f={{ ...reveal, left: reveal.income - reveal.fixed - reveal.budgets, equity: totals.equity + bookCash, debtFree }}
+              f={{
+                ...reveal,
+                left: reveal.income - reveal.fixed - reveal.budgets,
+                equity: totals.equity + bookCash,
+                debtFree,
+                // The balance sheet as entered, post by post.
+                assets: [
+                  ...accounts.map((a) => ({ name: a.name, amount: num(a.amount) })),
+                  { name: t("Investments"), amount: investments.reduce((s2, x) => s2 + invValue(x), 0) },
+                  { name: t("Home"), amount: num(home.value) },
+                ],
+                debts: [
+                  { name: t("Mortgage"), amount: num(home.mortgage) },
+                  ...loans.map((l) => ({ name: l.name.trim() || t(LOAN_STYLE[l.kind].label), amount: num(l.amount) })),
+                ],
+                fixedLines: fixed.filter((x) => x.on && num(x.amount) > 0).map((x) => ({ name: x.own ? x.name : t(x.name), amount: num(x.amount) })),
+                budgetLines: budgetLines.filter((x) => x.on && num(x.amount) > 0).map((x) => ({ name: x.own ? x.name : t(x.name), amount: num(x.amount) })),
+                invest: {
+                  total: investments.reduce((s2, x) => s2 + invValue(x), 0),
+                  day: investments.filter((x) => x.symbol).reduce((s2, x) => s2 + (holdingValue(draftHolding(x, currency), invQuotes ?? {}, currency).day ?? 0), 0),
+                  items: investments.map((x) => ({ name: x.name, value: invValue(x) })).filter((x) => x.value > 0),
+                },
+                payday,
+                goal: num(goal.amount) > 0 ? { name: goal.name.trim() || t("Savings goal"), amount: num(goal.amount), months: goal.months } : null,
+                checkin: answered.includes("security") ? (checkin === "daily" ? t("Daily") : `${checkin === "weekly" ? t("Weekly") : t("Twice a week")} (${periodsLabel(checkin, checkinDays)})`) : undefined,
+              }}
               currency={currency}
               openLabel={preview ? t("Close preview") : t("Open my dashboard")}
               onOpen={onClose}
@@ -894,6 +920,19 @@ function Preview({
   budgets: Line[];
 }) {
   const [inc, fix, bud, left, cash, eq] = useTween([netIncome, totals.fixedTotal, totals.budgetTotal, totals.left, totals.cash, totals.equity], 600);
+  // Live from the moment income is known: this month so far (income and
+  // costs spread over every second of the month), and equity moving from
+  // here at what's left to save per second. The day and time on top.
+  const now = useNow(250);
+  const [opened] = useState(() => Date.now());
+  const frac = monthFraction(now);
+  const d = new Date(now);
+  const daysIn = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+  const monthMs = daysIn * 86_400_000;
+  const live = netIncome > 0;
+  const earned = netIncome * frac;
+  const spent = (totals.fixedTotal + totals.budgetTotal) * frac;
+  const equityLive = eq + (live ? (totals.left / monthMs) * (now - opened) : 0);
   const base = Math.max(netIncome, totals.fixedTotal + totals.budgetTotal, 1);
   const parts = [
     ...fixed.filter((f) => f.on && num(f.amount) > 0).map((f) => ({ k: f.key, v: num(f.amount), c: `#${f.color}` })),
@@ -903,6 +942,19 @@ function Preview({
   return (
     <aside className="pf-ob-preview" aria-label={t("Your month so far")}>
       <div className="pf-ob-preview-head">{t("Your month")}</div>
+      <div className="pf-ob-clock">
+        <b>{d.toLocaleDateString(intlLocale(), { weekday: "long", day: "numeric", month: "long" }).replace(/^./, (c) => c.toLocaleUpperCase(intlLocale()))}</b>
+        <span className="pf-rounded">{d.toLocaleTimeString(intlLocale(), { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</span>
+        <div className="pf-ob-clock-bar"><i style={{ width: `${frac * 100}%` }} /></div>
+        <small>{t("Day {n} of {total}", { n: d.getDate(), total: daysIn })} · {Math.round(frac * 100)}%</small>
+      </div>
+      {live && (
+        <div className="pf-ob-live">
+          <div><span><i className="pf-ob-live-dot" /> {t("Earned so far")}</span><LiveAmount value={earned} currency={currency} size="0.95rem" color="var(--pf-green)" /></div>
+          <div><span>{t("Spent so far")}</span><LiveAmount value={spent} currency={currency} size="0.95rem" /></div>
+          <div><span>{t("Saved so far")}</span><LiveAmount value={earned - spent} currency={currency} size="0.95rem" color={earned - spent >= 0 ? "#40c8e0" : "var(--pf-red)"} /></div>
+        </div>
+      )}
       <div className="pf-ob-stat" data-lit={lit(["income"])}>
         <span>{t("Comes in")}</span>
         <b className="pf-rounded" style={{ color: "var(--pf-green)" }}>{money(inc, currency)}</b>
@@ -934,7 +986,7 @@ function Preview({
       </div>
       <div className="pf-ob-stat pf-ob-stat-big" data-lit={lit(["investments", "balance", "done"])}>
         <span>{t("Equity")}</span>
-        <b className="pf-rounded" style={{ color: "#40c8e0" }}>{money(eq, currency)}</b>
+        {live ? <LiveAmount value={equityLive} currency={currency} size="1.25rem" color="#40c8e0" /> : <b className="pf-rounded" style={{ color: "#40c8e0" }}>{money(eq, currency)}</b>}
       </div>
     </aside>
   );
