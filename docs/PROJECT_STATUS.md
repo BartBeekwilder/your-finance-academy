@@ -395,6 +395,12 @@ of each imported total = Other assets / Other debts; equity = assets − debts.
 - Onboarding on a phone: steps no longer run off the right edge (the
   screen grid is one minmax(0, 1fr) column; account names width 0 + flex).
 - Bart liked it straight away ("exactly what I had in mind").
+- Logo coin (BrandMark): the currency symbol is centred on its INK, not
+  its font box — measured once per symbol with a canvas
+  (measureText actualBoundingBox) and placed by start point + alphabetic
+  baseline; re-measured when web fonts load. Before, Windows' font put € 0.8
+  units (of 64) too low; now every symbol (€ $ £ ¥ kr CHF) is within 0.1.
+  Port note for iOS/Android: centre the coin's symbol on its glyph bounds.
 
 ## Done recently (2026-10-22/23)
 
