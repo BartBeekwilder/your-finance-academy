@@ -5683,3 +5683,54 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-tour-runway i { width: 14px; height: 22px; border-radius: 4px; background: #fbbf24; box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); animation: pf-wr-up 0.4s both; animation-delay: var(--d); }
 @media (max-width: 520px) { .pf-tour-sheet, .pf-tour-check { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .pf-tour-chip[data-on], .pf-tour-livebadge span, .pf-ob-live-dot { animation: none; } }
+
+/* Add investment: a large panel (Sheet wide). */
+.pf-sheet.pf-sheet-wide { width: min(1040px, calc(100vw - 32px)); padding: 0; border-radius: 24px; background: radial-gradient(120% 80% at 0% 0%, rgba(108, 92, 231, 0.14), transparent 55%), radial-gradient(90% 70% at 100% 100%, rgba(0, 194, 168, 0.1), transparent 60%), #151518; }
+.pf-ah { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 300px; min-height: min(620px, calc(100dvh - 80px)); }
+.pf-ah-close { position: absolute; top: 14px; right: 14px; z-index: 2; }
+.pf-ah-main { display: grid; gap: 14px; align-content: start; padding: 28px 28px 24px; min-width: 0; }
+.pf-ah-head h2 { margin: 4px 0 0; font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; letter-spacing: -0.01em; animation: pf-wr-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pf-ah-search { display: flex; align-items: center; gap: 12px; padding: 4px 16px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04); color: var(--pf-ink-3); transition: border-color 0.25s, box-shadow 0.25s; }
+.pf-ah-search:focus-within { border-color: rgba(10, 132, 255, 0.5); box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.12), 0 0 30px rgba(10, 132, 255, 0.12); }
+.pf-ah-search input { flex: 1; min-width: 0; padding: 14px 0; border: 0; background: none; color: var(--pf-ink); font: inherit; font-size: 1.05rem; outline: none; }
+.pf-ah-sub { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pf-ink-3); }
+.pf-ah-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+.pf-ah-tile { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.06); background: rgba(255, 255, 255, 0.03); color: inherit; font: inherit; text-align: left; cursor: pointer; animation: pf-inv-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); transition: background 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pf-ah-tile[aria-selected="true"] { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.14); transform: translateY(-1px); }
+.pf-ah-tile:active { transform: scale(0.98); }
+.pf-ah-tile > span { display: grid; gap: 2px; min-width: 0; }
+.pf-ah-tile b { font-size: 0.88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pf-ah-tile small { font-size: 0.72rem; color: var(--pf-ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pf-ah-none { margin: 0; font-size: 0.85rem; color: var(--pf-ink-3); }
+.pf-ah-manual { justify-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 12px; border: 1px dashed rgba(255, 255, 255, 0.14); background: none; color: var(--pf-ink-2); font: inherit; font-size: 0.85rem; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.pf-ah-manual:hover { background: rgba(255, 255, 255, 0.04); color: var(--pf-ink); }
+.pf-ah-picked { display: grid; gap: 16px; animation: pf-inv-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pf-ah-id { display: flex; align-items: center; gap: 14px; }
+.pf-ah-idtext { flex: 1; display: grid; gap: 3px; min-width: 0; }
+.pf-ah-id small { font-size: 0.78rem; color: var(--pf-ink-3); }
+.pf-ah-id b { font-size: 1.35rem; font-weight: 700; }
+.pf-ah-id em { font-style: normal; font-size: 0.78rem; font-weight: 600; color: var(--pf-green); }
+.pf-ah-id em[data-up="false"] { color: var(--pf-red); }
+.pf-ah-chart { display: grid; gap: 6px; padding: 12px; border-radius: 16px; background: rgba(255, 255, 255, 0.025); }
+.pf-ah-chartwait { display: grid; place-items: center; height: 120px; }
+.pf-ah-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; animation: pf-inv-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pf-ah-field { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.pf-ah-field small { font-size: 0.72rem; color: var(--pf-ink-3); min-height: 1em; }
+.pf-ah-label { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 0.8rem; color: var(--pf-ink-2); }
+.pf-ah-big { font-size: 1.25rem !important; padding: 12px 14px !important; text-align: right; font-variant-numeric: tabular-nums; }
+.pf-ah-date { color-scheme: dark; padding: 12px 14px !important; }
+.pf-ah-side { display: grid; gap: 14px; align-content: start; padding: 28px 22px 22px; border-left: 1px solid rgba(255, 255, 255, 0.06); background: rgba(0, 0, 0, 0.22); border-radius: 0 24px 24px 0; }
+.pf-ah-sidehead { display: flex; align-items: center; justify-content: space-between; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pf-ink-3); }
+.pf-ah-zero { font-size: 2rem; color: var(--pf-ink-3); }
+.pf-ah-side dl { margin: 0; display: grid; gap: 10px; }
+.pf-ah-side dl > div { display: flex; justify-content: space-between; gap: 8px; font-size: 0.85rem; }
+.pf-ah-side dt { color: var(--pf-ink-3); }
+.pf-ah-side dd { margin: 0; font-weight: 600; }
+.pf-ah-sharebar { display: flex; height: 8px; border-radius: 999px; overflow: hidden; background: rgba(255, 255, 255, 0.06); }
+.pf-ah-sharebar i { background: rgba(255, 255, 255, 0.14); transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-ah-sharebar em { background: linear-gradient(90deg, var(--pf-brand-a), var(--pf-brand-b)); box-shadow: 0 0 12px rgba(0, 194, 168, 0.5); transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-ah-add { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; font-size: 0.95rem; margin-top: 6px; transition: opacity 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pf-ah-add:disabled { opacity: 0.35; }
+.pf-ah-side[data-on="true"] .pf-ah-add { animation: pf-tour-pick 2.4s ease-in-out infinite; }
+.pf-ah-hint { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--pf-ink-3); }
+@media (max-width: 820px) { .pf-ah { grid-template-columns: 1fr; } .pf-ah-side { border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.06); border-radius: 0 0 24px 24px; } .pf-ah-main { padding: 22px 18px; } }

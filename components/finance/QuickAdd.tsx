@@ -16,6 +16,7 @@ import { useFinance } from "./FinanceProvider";
 import Segmented from "./Segmented";
 import Sheet from "./Sheet";
 import { startDate } from "@/lib/finance/viewedMonth";
+import { usePathname } from "next/navigation";
 
 // Web counterpart of the iOS QuickAddButton + AddEditTransactionView: the
 // gradient "+" opens a sheet to log an expense or income. Category choice
@@ -44,6 +45,8 @@ export default function QuickAdd() {
   // keeps its content mounted for the closing animation).
   const [session, setSession] = useState(0);
   const [from, setFrom] = useState<Element | null>(null);
+  // On the Investments page the + adds an investment instead (AddHolding).
+  const onInvestments = usePathname()?.startsWith("/app/investments") ?? false;
   // Other places can open Quick Add (the dashboard's "Last updated" pill).
   useEffect(() => {
     const open = () => {
@@ -59,8 +62,9 @@ export default function QuickAdd() {
     <>
       <button
         className="pf-fab pf-bouncy"
-        aria-label={t("Quick Add")}
+        aria-label={onInvestments ? t("Add investment") : t("Quick Add")}
         onClick={(e) => {
+          if (onInvestments) return void window.dispatchEvent(new CustomEvent("pf-add-holding", { detail: e.currentTarget }));
           setFrom(e.currentTarget);
           setSession((n) => n + 1);
           setOpen(true);

@@ -742,3 +742,19 @@ the dashboard net worth ticker with the net worth model, app icon.
 - Ideas for later: a "money per second" tile on the dashboard (net saving
   rate ticking), runway on the Liquidity page, the tour reachable from
   Settings ("Show me around again").
+
+## Done 2026-11-05 (night) — Add investment panel
+
+- On /app/investments the + (QuickAdd FAB) no longer opens Quick Add: it
+  sends "pf-add-holding" and opens AddHolding (components/finance/
+  AddHolding.tsx) in a large panel (Sheet `wide`, .pf-ah*). Left: search
+  (/api/search) or tap a popular one (BTC, ETH, gold, silver, VWRL, IWDA,
+  ASML, Apple, Nvidia, Microsoft); after picking: logo, live price + today,
+  a chart with period switch; "How much do you have?" as Shares/Coins/Ounces
+  or an Amount in € (→ quantity at today's price); "What did you pay?" as
+  Total or Per share/coin/ounce (empty = today's value); "Bought on" (date
+  → date_added). Not listed → by hand (name, kind, worth today, since).
+  Right, live: worth now (ticking), paid, result € and %, how many, share of
+  the portfolio with a bar; "Add to my investments".
+- Still missing: editing / deleting a holding on the web (and buying more
+  of one you already have → average price). Texts not translated (to do).

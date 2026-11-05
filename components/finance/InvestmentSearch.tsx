@@ -65,12 +65,12 @@ export function draftValue(x: InvestmentDraft, quotes: Quotes | null, currency: 
 }
 
 /** A logo only for a plain ticker: VWRL.AS and the like come back blank. */
-const logo = (symbol: string) => (/^[A-Z0-9-]{1,10}$/.test(symbol) ? symbol : "");
+export const logo = (symbol: string) => (/^[A-Z0-9-]{1,10}$/.test(symbol) ? symbol : "");
 
 /** Metals come back by their English name; the rest by their own name. */
-const label = (r: SearchResult) => (r.type === "metal" ? t(r.name) : r.name);
+export const label = (r: SearchResult) => (r.type === "metal" ? t(r.name) : r.name);
 
-function useSearch(q: string) {
+export function useSearch(q: string) {
   const [state, setState] = useState<{ q: string; results: SearchResult[] } | null>(null);
   useEffect(() => {
     const text = q.trim();

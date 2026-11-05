@@ -8,6 +8,7 @@ import { HoldingDetail, HoldingRow, PortfolioHero, ROW_RANGES, usePref, useQuote
 import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
 import PortfolioMix from "@/components/finance/PortfolioMix";
+import AddHolding from "@/components/finance/AddHolding";
 import { live } from "@/lib/finance/calc";
 import { holdingValue, portfolioSeries, symbolsFor, type Quotes } from "@/lib/finance/quotes";
 
@@ -61,6 +62,8 @@ export default function InvestmentsPage() {
   return (
     <div style={{ display: "grid", gap: 24 }}>
       <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{tr("Investments")}</h1>
+      {/* The + adds an investment here (QuickAdd sends "pf-add-holding"). */}
+      <AddHolding />
 
       <PortfolioHero values={values} series={series} currency={currency} range={range} onRange={setRange} open={anyOpen} at={today?.at ?? null} />
 

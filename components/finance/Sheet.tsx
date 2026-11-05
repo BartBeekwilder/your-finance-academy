@@ -22,6 +22,7 @@ export default function Sheet({
   focus,
   label,
   origin,
+  wide,
   children,
 }: {
   open: boolean;
@@ -29,6 +30,8 @@ export default function Sheet({
   focus?: string;
   label: string;
   origin?: Element | null;
+  /** A large panel (most of the screen) instead of the narrow sheet. */
+  wide?: boolean;
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -53,7 +56,7 @@ export default function Sheet({
   return (
     <dialog
       ref={ref}
-      className="pf-sheet"
+      className={wide ? "pf-sheet pf-sheet-wide" : "pf-sheet"}
       aria-label={label}
       // Escape: route through onClose so the closing animation plays.
       onCancel={(e) => {
