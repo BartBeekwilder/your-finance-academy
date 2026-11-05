@@ -22,6 +22,10 @@ const EXTRA = [
   "Crypto", "Stock", "Metal", "Fund", "Gold", "Silver", "Platinum", "Palladium",
   "Student loan", "Car loan", "Personal loan", "Credit card", "Other loan",
   "Basics", "Money now", "Fixed costs and insurance", "Home and debts", "Budgets and goals", "History", "Security",
+  "Rent", "Mortgage", "Electricity", "Gas or heating", "Water", "Internet & TV", "Mobile phone", "Gym", "News & magazines",
+  "Monthly", "Quarterly", "Twice a year", "Yearly",
+  "Savings rate", "Runway", "Fixed costs of income", "An hour of your work", "Free to spend per day", "Equity in months of living", "Debt ratio",
+  "How long your accounts would last without income. 3–6 months is a healthy buffer.", "Net, at 40 hours a week.", "What's left of your budgets, over the days left this month.", "How many months your whole equity would carry you.", "Debts against everything you own. Lower means more of it is yours.",
   ...["Spending", "Income"].flatMap((k) => ["month", "day"].flatMap((p) => ["category", "source"].map((g) => `${k} per ${p} by ${g}`))),
 ];
 

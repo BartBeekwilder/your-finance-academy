@@ -3,7 +3,7 @@
 import { newHousehold } from "@/lib/finance/household";
 import { t, intlLocale } from "@/lib/i18n";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, Car, Check, Clock, HeartPulse, House, Layers, Plane, Plus, Shield, ShieldCheck, Sofa, Sparkles, X, Zap, type LucideIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, Car, Check, Clock, HeartPulse, House, Layers, Link2, Link2Off, Plane, Plus, Shield, ShieldCheck, Sofa, Sparkles, X, Zap, type LucideIcon } from "lucide-react";
 import { live, summarize } from "@/lib/finance/calc";
 import { budgetIn } from "@/lib/finance/budgetPlan";
 import { currencyName } from "@/lib/finance/currencies";
@@ -61,7 +61,25 @@ type Line = { key: string; name: string; icon: string; color: string; amount: st
 /** One bill inside a fixed cost that comes from more than one supplier
  *  (electricity, gas, water…): saved as a subcategory with its own fixed
  *  cost, so each can change on its own. The line's amount is their sum. */
-type Part = { key: string; name: string; amount: string; own?: boolean };
+type Part = { key: string; name: string; amount: string; own?: boolean; linked?: boolean; every?: number };
+/** How often a bill comes, in months; the amount is per bill and counts in
+ *  every month as its monthly share (water twice a year → amount ÷ 6). */
+const EVERY: { months: number; label: string }[] = [
+  { months: 1, label: "Monthly" },
+  { months: 3, label: "Quarterly" },
+  { months: 6, label: "Twice a year" },
+  { months: 12, label: "Yearly" },
+];
+const monthly = (p: Part) => num(p.amount) / (p.every ?? 1);
+/** Bills paid together (electricity + gas from one supplier): a part with
+ *  `linked` belongs to the bill of the part before it, whose amount is the
+ *  bill's; its own amount stays empty. */
+const billsOf = (split: Part[]) =>
+  split.reduce<{ start: number; parts: Part[] }[]>((out, p, k) => {
+    if (p.linked && out.length) out[out.length - 1].parts.push(p);
+    else out.push({ start: k, parts: [p] });
+    return out;
+  }, []);
 /** A loan part of the mortgage, from today: what's left, the rate, years to go. */
 type MortPart = { key: string; kind: MortgageKind; amount: string; rate: string; years: string; extra: string };
 
@@ -297,7 +315,10 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
     ...(separate ? policyLines.map((p, i) => ({ key: `ins-${p.key ?? p.kind}-${i}`, name: policyName(p), icon: "cross.case.fill", color: "E63946", amount: p.premium, on: true, own: true })) : []),
   ];
   const setLine = (i: number, patch: Partial<Line>) => setFixed(fixed.map((x, j) => (j === i ? { ...x, ...patch } : x)));
-  const setParts = (i: number, split: Part[]) => setLine(i, { split, amount: String(split.reduce((s2, p) => s2 + num(p.amount), 0) || "") });
+  const setParts = (i: number, split: Part[]) => {
+    const sum = split.reduce((s2, p) => s2 + monthly(p), 0);
+    setLine(i, { split, amount: sum ? String(Math.round(sum * 100) / 100) : "" });
+  };
   const toggleLine = (f: Line, i: number) => {
     if (f.on || !SPLITS[f.key] || f.split) return setLine(i, { on: !f.on });
     // First time on: its bills; a mobile phone per person when together.
@@ -325,13 +346,41 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             <span className="pf-ob-splitsum pf-rounded">{money(num(f.amount), currency)}</span>
           </div>
           <div className="pf-ob-split">
-            {f.split.map((p, k) => {
-              const set = (patch: Partial<Part>) => setParts(i, f.split!.map((x, j) => (j === k ? { ...x, ...patch } : x)));
+            {billsOf(f.split).map((b, n, bills) => {
+              const split = f.split!;
+              const first = b.parts[0], k = b.start;
+              const set = (patch: Partial<Part>) => setParts(i, split.map((x, j) => (j === k ? { ...x, ...patch } : x)));
+              const label = b.parts.map((p) => (p.own ? p.name || t("Name") : t(p.name))).join(" + ");
+              const end = k + b.parts.length;
+              // Link the next bill into this one (its amount added to this one's).
+              const link = () => {
+                const next = bills[n + 1];
+                const add = next.parts.reduce((s2, p) => s2 + num(p.amount), 0);
+                setParts(i, split.map((x, j) => (j === k ? { ...x, amount: add ? String(num(x.amount) + add) : x.amount } : j === next.start ? { ...x, linked: true, amount: "" } : j > next.start && j < next.start + next.parts.length ? { ...x, amount: "" } : x)));
+              };
+              const unlink = () => setParts(i, split.map((x, j) => (j > k && j < end ? { ...x, linked: false } : x)));
               return (
-                <div key={p.key} className="pf-ob-splitrow">
-                  {p.own ? <input className="pf-ob-name" autoFocus={!p.name} value={p.name} placeholder={t("Name")} aria-label={t("Name")} onChange={(e) => set({ name: e.target.value })} /> : <span>{t(p.name)}</span>}
-                  <AmountField autoFocus={k === 0} currency={currency} value={p.amount} label={t("{name} per month", { name: p.own ? p.name : t(p.name) })} onChange={(v) => set({ amount: v })} />
-                  <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setParts(i, f.split!.filter((_, j) => j !== k))}><X size={13} /></button>
+                <div key={first.key} className="pf-ob-bill">
+                  <div className="pf-ob-splitrow" data-linked={b.parts.length > 1}>
+                    {b.parts.length === 1 && first.own
+                      ? <input className="pf-ob-name" autoFocus={!first.name} value={first.name} placeholder={t("Name")} aria-label={t("Name")} onChange={(e) => set({ name: e.target.value })} />
+                      : <span>{label}{b.parts.length > 1 && <small>{t("One bill")}</small>}</span>}
+                    <AmountField autoFocus={n === 0} currency={currency} value={first.amount} label={t("{name} per month", { name: label })} onChange={(v) => set({ amount: v })} />
+                    {b.parts.length > 1
+                      ? <button type="button" className="pf-icon-button" aria-label={t("Separate bills")} title={t("Separate bills")} onClick={unlink}><Link2Off size={13} /></button>
+                      : <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setParts(i, split.filter((_, j) => j !== k))}><X size={13} /></button>}
+                  </div>
+                  <div className="pf-ob-every" role="group" aria-label={t("How often")}>
+                    {EVERY.map((e) => (
+                      <button key={e.months} type="button" aria-pressed={(first.every ?? 1) === e.months} onClick={() => set({ every: e.months })}>{t(e.label)}</button>
+                    ))}
+                    {(first.every ?? 1) > 1 && num(first.amount) > 0 && <span className="pf-rounded">= {money(monthly(first), currency)} {t("a month")}</span>}
+                  </div>
+                  {n < bills.length - 1 && (
+                    <button type="button" className="pf-ob-link" onClick={link}>
+                      <Link2 size={12} /> {t("Same bill as {name}", { name: bills[n + 1].parts.map((p) => (p.own ? p.name || t("Name") : t(p.name))).join(" + ") })}
+                    </button>
+                  )}
                 </div>
               );
             })}
@@ -518,14 +567,17 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
               amount: amount.toFixed(2), type: "expense", date: new Date(now.getFullYear(), now.getMonth(), 1, 12).toISOString(),
               note, is_auto_income: false, is_fixed_expense: true, recurrence_id: crypto.randomUUID(), category_id, account_id: null,
             });
-          const parts = (f.split ?? []).filter((p) => num(p.amount) > 0 && (!p.own || p.name.trim()));
+          const parts = billsOf(f.split ?? [])
+            .map((b) => ({ amount: String(monthly(b.parts[0])), name: b.parts.map((p) => (p.own ? p.name.trim() : t(p.name))).filter(Boolean).join(" + ") }))
+            .filter((b) => num(b.amount) > 0 && b.name);
           if (!parts.length) {
             await book(num(f.amount), f.own ? f.name.trim() : t(f.name), c.id);
             continue;
           }
-          // Each bill its own subcategory (Electricity under Energy & water…).
+          // Each bill its own subcategory (Electricity under Energy & water;
+          // bills paid together as one: "Electricity + Gas").
           for (const p of parts) {
-            const name = p.own ? p.name.trim() : t(p.name);
+            const name = p.name;
             const sub = cats.find((x) => x.parent_id === c.id && x.name.toLowerCase() === name.toLowerCase()) ??
               (await addCategory({ name, icon: f.icon, color_hex: f.color, is_income_category: false, is_fixed_expense: true, parent_id: c.id }));
             await book(num(p.amount), name, sub.id);
