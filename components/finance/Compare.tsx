@@ -2,7 +2,8 @@
 
 import { t } from "@/lib/i18n";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { useFlip } from "@/lib/useFlip";
 import { live } from "@/lib/finance/calc";
 import { ALL, compareYears, cumulative, historyBack, spread, type YearRow } from "@/lib/finance/compare";
 import { money, monthName, shortMonth } from "@/lib/finance/format";
@@ -248,6 +249,11 @@ export function MonthCompare({ data, now, currency }: { data: FinanceData; now: 
   const label = monthName(new Date(now.getFullYear(), m, 1));
   const otherLabel = against === "last" ? `${label} ${now.getFullYear() - 1}` : t("Average {month}", { month: label });
   const pct = (a: number, b: number) => (b > 0 ? `${a <= b ? "−" : "+"}${Math.round(Math.abs((a - b) / b) * 100)}%` : "");
+  // The rows stay put when the month or comparison changes: each bar glides
+  // from its width to the new one, and a row that moves up or down the
+  // ranking slides to its new place (FLIP) — only new rows grow in.
+  const rowsBox = useRef<HTMLDivElement>(null);
+  useFlip(rowsBox, lines.map((l) => l.c.id).join());
 
   return (
     <section className="pf-card pf-cmp" style={{ padding: 16, display: "grid", gap: 14 }}>
@@ -280,11 +286,11 @@ export function MonthCompare({ data, now, currency }: { data: FinanceData; now: 
         </div>
       )}
 
-      <div key={`rows-${m}-${against}`} className="pf-cmp-rows">
+      <div ref={rowsBox} className="pf-cmp-rows">
         {lines.map(({ c, v }, i) => {
           const d = v.a - v.b;
           return (
-            <div key={c.id} className="pf-cmp-row" style={{ ["--i" as string]: i }}>
+            <div key={c.id} data-flip-key={c.id} className="pf-cmp-row" style={{ ["--i" as string]: i }}>
               <span className="pf-cmp-name">{c.name}</span>
               <span className="pf-cmp-bars">
                 <span className="pf-cmp-bar" style={{ width: `${(v.a / max) * 100}%`, background: `#${c.color_hex}` }} />
