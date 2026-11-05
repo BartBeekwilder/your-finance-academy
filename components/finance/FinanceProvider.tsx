@@ -10,7 +10,7 @@ import { createContext, useCallback, useContext, useEffect, useLayoutEffect, use
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { withAdvances } from "@/lib/finance/advances";
 import { buildDemoData } from "@/lib/finance/demo";
-import type { Loan, FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
+import type { Holding, Loan, FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
 import SignIn, { RECOVERY_KEY } from "./SignIn";
 import VaultUnlock from "./VaultUnlock";
@@ -74,6 +74,8 @@ type FinanceState = {
   /** Other loans (study, car…): create or update (no id = new); returns the id. */
   saveLoan: (l: Omit<Loan, "updated_at" | "deleted_at" | "id"> & { id?: string }) => Promise<string>;
   deleteLoan: (id: string) => Promise<void>;
+  /** Adds an investment (the onboarding: a name and what it's worth). */
+  addHolding: (h: Omit<Holding, "updated_at" | "deleted_at" | "id">) => Promise<void>;
   /** Creates a category (a subcategory when parent_id is set) at the end of
    *  its list; returns it. */
   addCategory: (c: NewCategory) => Promise<Category>;
@@ -662,7 +664,10 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         const { data: auth } = await supabase.auth.getSession();
         const userId = auth.session?.user.id;
         if (!userId) throw new Error("You're signed out. Sign in again to save settings.");
-        const { error } = await supabase.from("profiles").upsert({ user_id: userId, ...patch, updated_at: new Date().toISOString() });
+        // The setup status lives only in the account's copy (no column).
+        const { onboarding: _o, ...columns } = patch;
+        void _o;
+        const { error } = await supabase.from("profiles").upsert({ user_id: userId, ...columns, updated_at: new Date().toISOString() });
         if (error) throw error;
       }
       update((d) => ({ ...d, profile: { ...d.profile, ...patch } }));
@@ -806,6 +811,16 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const deleteLoan = useCallback(async (id: string) => {
     update((d) => ({ ...d, loans: (d.loans ?? []).filter((x) => x.id !== id) }));
   }, [update]);
+  const addHolding = useCallback(async (h: Parameters<FinanceState["addHolding"]>[0]) => {
+    const row = { ...h, id: crypto.randomUUID(), updated_at: new Date().toISOString(), deleted_at: null } as Holding;
+    if (source === "supabase" && supabase) {
+      const { id, updated_at: _u, deleted_at: _d, ...fields } = row;
+      void _u; void _d;
+      const { error } = await supabase.from("holdings").insert({ ...fields, id });
+      if (error) throw error;
+    }
+    update((d) => ({ ...d, holdings: [...d.holdings, row] }));
+  }, [source, supabase, update]);
 
   // ---- Balance sheet ----------------------------------------------------------
   const monthIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
@@ -956,7 +971,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
       {stale && (

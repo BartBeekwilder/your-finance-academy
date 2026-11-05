@@ -32,6 +32,10 @@ export type Profile = {
   income_reminders: boolean;
   /** How often the books check-in comes round (lib/finance/checkin). */
   checkin_interval?: "daily" | "twice-weekly" | "weekly";
+  /** The setup (onboarding): which route was taken and which questions are
+   *  answered, so the dashboard can offer to finish a quick start; `hidden`
+   *  = the person put that card away. */
+  onboarding?: { route: "quick" | "complete"; steps: string[]; hidden?: boolean };
 };
 
 export type Account = Synced & {

@@ -12,6 +12,7 @@ import { CategoryDonut } from "@/components/finance/charts";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import LastUpdated from "@/components/finance/LastUpdated";
+import FinishSetupCard from "@/components/finance/FinishSetupCard";
 import NetWorthCard from "@/components/finance/NetWorthCard";
 import BalanceCard from "@/components/finance/BalanceCard";
 import CategoryBars from "@/components/finance/CategoryBars";
@@ -123,6 +124,9 @@ export default function DashboardPage() {
           <Segmented label={t("Period")} value={view} onChange={pick} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }, { value: "years", label: t("Years") }]} />
         </div>
       </header>
+
+      {/* After a quick start: finish the rest of the setup. */}
+      <FinishSetupCard />
 
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">

@@ -2430,6 +2430,8 @@ html[data-pf-motion="light"] *::after {
   place-items: center;
   padding: 24px 16px;
   overflow-y: auto;
+  /* The glow behind the card is wider than a phone; no sideways scroll. */
+  overflow-x: hidden;
   background: rgba(4, 4, 8, 0.82);
   backdrop-filter: blur(14px);
   animation: pf-fade-in 0.4s ease-out both;
@@ -2719,6 +2721,103 @@ html[data-pf-motion="light"] *::after {
   box-shadow: 0 0 60px rgba(108, 92, 231, 0.35);
   margin: 12px 0 8px;
   animation: pf-coin-flip 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+/* Onboarding: the two routes — quick start and complete setup. */
+.pf-ob-routes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 14px;
+}
+.pf-ob-route {
+  --c1: #6e5bea;
+  --c2: #14b8a6;
+  position: relative;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  align-content: start;
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    radial-gradient(120% 100% at 0% 0%, color-mix(in srgb, var(--c1) 22%, transparent), transparent 60%),
+    rgba(255, 255, 255, 0.03);
+  color: var(--pf-ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  overflow: hidden;
+  animation: pf-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, box-shadow 0.3s;
+}
+.pf-ob-route[data-route="complete"] { --c1: #14b8a6; --c2: #6e5bea; animation-delay: 0.08s; }
+.pf-ob-route:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--c1) 55%, transparent); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35); }
+.pf-ob-route:active { transform: scale(0.97); }
+.pf-ob-route[aria-pressed="true"] { border-color: color-mix(in srgb, var(--c1) 80%, transparent); }
+.pf-ob-route b { font-size: 1.15rem; }
+.pf-ob-route small { color: var(--pf-ink-2); line-height: 1.45; font-size: 0.82rem; }
+.pf-ob-route-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--c1) 40%, transparent);
+}
+.pf-ob-route-time { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--pf-ink-3); }
+.pf-ob-route-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.pf-ob-route-chips i {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  color: var(--pf-ink-2);
+  background: rgba(255, 255, 255, 0.06);
+  animation: pf-jb-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 40ms + 250ms);
+}
+/* Inside a chapter: which of its questions you're on. */
+.pf-jb-dots { display: inline-flex; gap: 4px; align-self: center; }
+.pf-jb-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); transition: background 0.3s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pf-jb-dots i[data-on] { background: var(--pf-brand-b); transform: scale(1.15); }
+/* Onboarding: investment kind as a small segmented switch. */
+.pf-ob-seg { display: inline-flex; flex: none; padding: 2px; border-radius: 9px; background: rgba(255, 255, 255, 0.06); }
+.pf-ob-seg button { padding: 5px 8px; border: 0; border-radius: 7px; background: none; color: var(--pf-ink-3); font: inherit; font-size: 0.72rem; cursor: pointer; transition: background 0.25s, color 0.25s; }
+.pf-ob-seg button[aria-checked="true"] { color: #fff; background: linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b)); }
+@media (max-width: 520px) { .pf-ob-seg button { padding: 5px 6px; } }
+/* Onboarding, complete route: a loan's rate and payment under it. */
+.pf-ob-loanrow { display: grid; gap: 6px; }
+.pf-ob-loanterms { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-inline-start: 44px; }
+.pf-ob-loanterms label { display: grid; gap: 4px; font-size: 0.72rem; color: var(--pf-ink-3); }
+/* Onboarding finale: the story cards fill the card. */
+.pf-ob-reveal { flex: 1; margin-top: 4px; }
+.pf-ob-reveal .pf-wr-card { min-height: 380px; }
+.pf-ob-reveal-open { justify-self: start; margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+/* Dashboard: finish the setup after a quick start. */
+.pf-finish {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 48px 16px 18px;
+  border-radius: 18px;
+  background: radial-gradient(120% 140% at 0% 0%, rgba(110, 91, 234, 0.18), transparent 60%), var(--pf-card);
+  animation: pf-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.pf-finish-ring { flex: none; color: var(--pf-ink); }
+.pf-finish-ring circle:nth-child(2) { transition: stroke-dasharray 1s cubic-bezier(0.34, 1.2, 0.5, 1); }
+.pf-finish-text { display: grid; gap: 4px; min-width: 0; flex: 1; }
+.pf-finish-text > span { font-size: 0.82rem; color: var(--pf-ink-2); }
+.pf-finish-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.pf-finish-chips i { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 999px; font-style: normal; font-size: 0.72rem; color: var(--pf-ink-2); background: rgba(255, 255, 255, 0.06); }
+.pf-finish-go { flex: none; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+.pf-finish-x { position: absolute; top: 10px; inset-inline-end: 10px; }
+@media (max-width: 600px) {
+  .pf-finish { flex-wrap: wrap; }
+  .pf-finish-go { width: 100%; justify-content: center; }
 }
 /* Onboarding: other loans, each with its kind (tap the icon to change it). */
 .pf-ob-sublabel {

@@ -442,10 +442,48 @@ of each imported total = Other assets / Other debts; equity = assets − debts.
   (tap to cycle), a name and the amount; saved as loans (rate/payment 0,
   to fill in under Loans). 27 new texts in 17 languages (loan kinds in
   scripts/i18n.mjs EXTRA).
-- Open: the balance step's hint still says "a real-estate module comes
-  later" (outdated). NEXT (Bart): a premium onboarding with a quick and an
-  extended version — to design together.
 - To port: iOS + Android (model, maths, page, onboarding).
+
+## Done 2026-11-05 — premium onboarding: quick start or complete setup (Bart approved the design)
+
+- Backup branch: `backup/before-premium-onboarding-nov05`. Still the
+  PREVIEW at /app/welcome (saves nothing) until Bart approves; then open it
+  for new accounts.
+- Routes (components/finance/onboardingRoutes.ts): after Welcome a "How do
+  you want to start?" screen with two cards — Quick start (~2 min: currency,
+  household, income, accounts, fixed costs; budgets suggested from income)
+  and Complete setup (~10 min, 8 chapters: Basics, Income, Money now
+  [accounts + investments], Fixed costs and insurance, Home and debts [loans
+  WITH rate + monthly], Budgets and goals [savings goal: target + 6/12/24/36
+  months → "€ a month · % of income"], History, Security [check-in rhythm +
+  optional passphrase via setPassphrase, vault only]).
+- Journey bar (OnboardingProgress) takes `nodes`: a node per step (quick)
+  or per chapter (complete) with "Chapter n of 8", dots for the questions
+  inside a chapter, and a partial fill within a chapter.
+- Finale (OnboardingReveal): story cards in the Month Wrapped style —
+  left to save each month (count-up), in your accounts, equity (when it
+  differs), debt-free month (loans with a payment), "Your books are open"
+  + open the dashboard. When continuing, figures set up earlier come from
+  the books (fixed costs this month, carried budgets, account balances).
+- Remembered: the whole draft per device in localStorage
+  (pf-onboarding-draft / pf-onboarding-preview-draft; never the
+  passphrase); cleared on finish. Only answered steps are written.
+  profile.onboarding = { route, steps, hidden? } (vault/local; stripped for
+  the legacy Supabase profile table).
+- Dashboard: FinishSetupCard after a quick start — ring "2/8", "n of 8
+  chapters done", chips of the open chapters, Continue →
+  /app/welcome?continue=1 (complete route at the first open question,
+  answered ones skipped, no Back before it), X hides it. Preview: works per
+  tab via sessionStorage (pf-onboarding-preview).
+- New: provider addHolding (onboarding investments: name, kind, value as
+  cost basis, no symbol → at cost until a ticker is added). Onboarding
+  overlay no longer scrolls sideways (glow); route cards keep their content
+  at the top. 46 new texts in 17 languages (chapter names in i18n EXTRA).
+- Checked in the browser (demo, nl): quick route → finale → dashboard card
+  → continue → all chapters → finale with equity + debt-free month.
+- Open questions for Bart: are the 5 quick questions right, the chapter
+  order right, and should "Finish your setup" be dismissable (now: yes, X)?
+  Then: make /app/welcome real and open it for new accounts. To port.
 
 ## Done recently (2026-10-22/23)
 

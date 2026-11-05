@@ -1,39 +1,37 @@
 "use client";
 
 import { t } from "@/lib/i18n";
-import { CalendarClock, Check, ChartPie, Coins, Landmark, Repeat, Scale, Users, Wallet, type LucideIcon } from "lucide-react";
+import { Check } from "lucide-react";
+import type { JourneyNode, Step } from "./onboardingRoutes";
 
-// The onboarding's journey bar: one node per question, joined by a glass
-// track that fills with the brand gradient. Moving on, the fill springs to
-// the next node (a little overshoot, like the rest of the app) with a
-// glowing comet at its tip and a sheen running through it; the node you're
-// on breathes, done nodes turn into a check, and the ones ahead wait dimmed.
-// A done node can be tapped to go back to it. Welcome sits before the first
-// node; on the last screen the whole track lights up once.
+// The onboarding's journey bar: one node per step (quick start) or per
+// chapter (complete setup), joined by a glass track that fills with the
+// brand gradient. Moving on, the fill springs to where you are (a little
+// overshoot, like the rest of the app) — within a chapter part of the way to
+// the next node — with a glowing comet at its tip and a sheen running
+// through it; the node you're on breathes, done nodes turn into a check, the
+// ones ahead wait dimmed. A done node can be tapped to go back to it.
+// Welcome and the route choice sit before the first node; on the last
+// screen the whole track lights up once.
 
-const NODES: { id: string; label: () => string; icon: LucideIcon }[] = [
-  { id: "currency", label: () => t("Currency"), icon: Coins },
-  { id: "household", label: () => t("Household"), icon: Users },
-  { id: "income", label: () => t("Income"), icon: Wallet },
-  { id: "accounts", label: () => t("Accounts"), icon: Landmark },
-  { id: "fixed", label: () => t("Fixed costs"), icon: Repeat },
-  { id: "budgets", label: () => t("Budgets"), icon: ChartPie },
-  { id: "balance", label: () => t("Balance sheet"), icon: Scale },
-  { id: "history", label: () => t("Start date"), icon: CalendarClock },
-];
-
-export default function OnboardingProgress({ step, onPick }: {
-  /** The screen shown: "welcome", one of the nodes' ids, or "done". */
-  step: string;
-  /** Go back to a node already passed. */
-  onPick: (id: string) => void;
+export default function OnboardingProgress({ nodes, step, chapters, onPick }: {
+  nodes: JourneyNode[];
+  /** The screen shown. */
+  step: Step;
+  /** Nodes are chapters (several questions each) rather than single steps. */
+  chapters?: boolean;
+  /** Go back to a node already passed (its first question). */
+  onPick: (step: Step) => void;
 }) {
-  const at = NODES.findIndex((n) => n.id === step);
+  const at = nodes.findIndex((n) => n.steps.includes(step));
   const done = step === "done";
-  // Where the fill ends: before the first node on Welcome, at the node
-  // you're on, the whole way at the end.
-  const reach = done ? 1 : at < 0 ? 0 : at / (NODES.length - 1);
-  const current = NODES[at];
+  const node = nodes[at];
+  const within = node ? node.steps.indexOf(step) : 0;
+  const parts = node ? node.steps.length : 1;
+  // Where the fill ends: before the first node until the route is chosen,
+  // at the node you're on (part of the way on in a longer chapter), the
+  // whole way at the end.
+  const reach = done ? 1 : at < 0 ? 0 : Math.min((at + within / parts) / Math.max(nodes.length - 1, 1), 1);
 
   return (
     <div className="pf-jb" data-done={done || undefined} data-start={at < 0 && !done ? true : undefined}>
@@ -45,7 +43,7 @@ export default function OnboardingProgress({ step, onPick }: {
           <span className="pf-jb-comet" style={{ insetInlineStart: `${reach * 100}%` }} />
         </div>
         <ol className="pf-jb-nodes">
-          {NODES.map((n, i) => {
+          {nodes.map((n, i) => {
             const state = done || i < at ? "done" : i === at ? "now" : "ahead";
             const Icon = n.icon;
             return (
@@ -55,9 +53,9 @@ export default function OnboardingProgress({ step, onPick }: {
                   className="pf-jb-node"
                   data-state={state}
                   disabled={state !== "done"}
-                  onClick={() => onPick(n.id)}
-                  title={n.label()}
-                  aria-label={n.label()}
+                  onClick={() => onPick(n.steps[0])}
+                  title={t(n.label)}
+                  aria-label={t(n.label)}
                   aria-current={state === "now" ? "step" : undefined}
                 >
                   <span key={state} className="pf-jb-icon">
@@ -72,10 +70,16 @@ export default function OnboardingProgress({ step, onPick }: {
       <div key={step} className="pf-jb-caption pf-readout" aria-live="polite">
         {done ? (
           <b>{t("All set")}</b>
-        ) : current ? (
+        ) : node ? (
           <>
-            <span>{t("Step {n} of {total}", { n: at + 1, total: NODES.length })}</span>
-            <b>{current.label()}</b>
+            <span>{chapters ? t("Chapter {n} of {total}", { n: at + 1, total: nodes.length }) : t("Step {n} of {total}", { n: at + 1, total: nodes.length })}</span>
+            <b>{t(node.label)}</b>
+            {parts > 1 && (
+              // Where you are inside the chapter.
+              <span className="pf-jb-dots" aria-label={`${within + 1}/${parts}`}>
+                {node.steps.map((s, k) => <i key={s} data-on={k <= within || undefined} />)}
+              </span>
+            )}
           </>
         ) : (
           <b>{t("Start")}</b>
