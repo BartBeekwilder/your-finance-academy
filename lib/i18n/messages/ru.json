@@ -1646,5 +1646,18 @@
  "Paid off a month": "Гасится в месяц",
  "Payday: your income comes in": "День зарплаты: приходит доход",
  "Your first check-in: tick off the day, earn points": "Ваш первый чек-ин: отметьте день и получите баллы",
- "Healthy buffer": "Здоровый запас"
+ "Healthy buffer": "Здоровый запас",
+ "Goal: 6 months": "Цель: 6 месяцев",
+ "{n} of 6 months": "{n} из 6 месяцев",
+ "Past the minimum of 3 months": "Выше минимума в 3 месяца",
+ "Below the minimum of 3 months": "Ниже минимума в 3 месяца",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "К этому времени кредиты будут погашены, ипотека — в {month}. Оба долга уменьшаются сами каждый месяц.",
+ "Your mortgage is paid off then. It goes down by itself every month.": "К этому времени ипотека будет погашена. Она уменьшается сама каждый месяц.",
+ "{n} of {goal} months": "{n} из {goal} месяцев",
+ "Buffer goal": "Цель запаса",
+ "Goal: {n} months": "Цель: {n} месяцев",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Сколько месяцев ваши счета должны покрывать постоянные расходы и бюджеты без дохода. Обычно 3–6 месяцев.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Без дохода деньги закончились бы в {month}. До {goal} месяцев не хватает {amount} — примерно {n} мес. откладывания остатка.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Без дохода деньги закончились бы в {month}. До {goal} месяцев не хватает {amount}.",
+ "Your goal of {n} months is reached: a healthy buffer.": "Цель в {n} месяцев достигнута — здоровый запас."
 }

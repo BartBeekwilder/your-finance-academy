@@ -1646,5 +1646,18 @@
  "Paid off a month": "Remboursé par mois",
  "Payday: your income comes in": "Jour de paie : vos revenus arrivent",
  "Your first check-in: tick off the day, earn points": "Votre premier point régulier : cochez la journée et gagnez des points",
- "Healthy buffer": "Réserve saine"
+ "Healthy buffer": "Réserve saine",
+ "Goal: 6 months": "Objectif : 6 mois",
+ "{n} of 6 months": "{n} sur 6 mois",
+ "Past the minimum of 3 months": "Au-delà du minimum de 3 mois",
+ "Below the minimum of 3 months": "Sous le minimum de 3 mois",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "Vos prêts seront alors remboursés ; votre hypothèque en {month}. Les deux baissent tout seuls chaque mois.",
+ "Your mortgage is paid off then. It goes down by itself every month.": "Votre hypothèque sera alors remboursée. Elle baisse toute seule chaque mois.",
+ "{n} of {goal} months": "{n} sur {goal} mois",
+ "Buffer goal": "Objectif de réserve",
+ "Goal: {n} months": "Objectif : {n} mois",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Combien de mois vos comptes doivent couvrir vos charges fixes et budgets sans revenus. 3 à 6 mois, c'est l'usage.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Sans revenus, l'argent serait épuisé en {month}. Pour atteindre {goal} mois, il vous faut encore {amount} — environ {n} mois d'épargne de ce qu'il vous reste.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Sans revenus, l'argent serait épuisé en {month}. Pour atteindre {goal} mois, il vous faut encore {amount}.",
+ "Your goal of {n} months is reached: a healthy buffer.": "Votre objectif de {n} mois est atteint : une réserve saine."
 }

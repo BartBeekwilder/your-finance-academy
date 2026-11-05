@@ -382,7 +382,7 @@
  "Gifts": "Hadiah",
  "Give the category a name.": "Beri nama kategori.",
  "Goal": "Tujuan",
- "Goal reached": "Tujuan tercapai",
+ "Goal reached": "Target tercapai",
  "Goal setter": "Penetap tujuan",
  "Goals": "Tujuan",
  "Goes to the part with the highest rate: {part} ({rate}%)": "Masuk ke bagian dengan bunga tertinggi: {part} ({rate}%)",
@@ -1646,5 +1646,18 @@
  "Paid off a month": "Dibayar per bulan",
  "Payday: your income comes in": "Hari gajian: penghasilanmu masuk",
  "Your first check-in: tick off the day, earn points": "Check-in pertamamu: centang harinya dan dapatkan poin",
- "Healthy buffer": "Cadangan sehat"
+ "Healthy buffer": "Cadangan sehat",
+ "Goal: 6 months": "Target: 6 bulan",
+ "{n} of 6 months": "{n} dari 6 bulan",
+ "Past the minimum of 3 months": "Di atas minimum 3 bulan",
+ "Below the minimum of 3 months": "Di bawah minimum 3 bulan",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "Saat itu pinjamanmu lunas; KPR-mu pada {month}. Keduanya turun sendiri tiap bulan.",
+ "Your mortgage is paid off then. It goes down by itself every month.": "Saat itu KPR-mu lunas. Turun sendiri tiap bulan.",
+ "{n} of {goal} months": "{n} dari {goal} bulan",
+ "Buffer goal": "Target cadangan",
+ "Goal: {n} months": "Target: {n} bulan",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Berapa bulan rekeningmu harus menutup biaya tetap dan anggaran tanpa penghasilan. Umumnya 3–6 bulan.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Tanpa penghasilan, uangnya habis pada {month}. Untuk mencapai {goal} bulan kamu butuh {amount} lagi — sekitar {n} bulan menabung sisa uangmu.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Tanpa penghasilan, uangnya habis pada {month}. Untuk mencapai {goal} bulan kamu butuh {amount} lagi.",
+ "Your goal of {n} months is reached: a healthy buffer.": "Target {n} bulan tercapai: cadangan yang sehat."
 }

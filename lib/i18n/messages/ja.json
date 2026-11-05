@@ -1646,5 +1646,18 @@
  "Paid off a month": "毎月の返済額",
  "Payday: your income comes in": "給料日：収入が入ります",
  "Your first check-in: tick off the day, earn points": "最初のチェックイン：その日をチェックしてポイント獲得",
- "Healthy buffer": "安心できる備え"
+ "Healthy buffer": "安心できる備え",
+ "Goal: 6 months": "目標：6か月",
+ "{n} of 6 months": "6か月中{n}か月",
+ "Past the minimum of 3 months": "最低ライン3か月を超えています",
+ "Below the minimum of 3 months": "最低ライン3か月に届いていません",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "その頃にはローンを完済し、住宅ローンは{month}に完済します。どちらも毎月自動で減っていきます。",
+ "Your mortgage is paid off then. It goes down by itself every month.": "その頃には住宅ローンを完済します。毎月自動で減っていきます。",
+ "{n} of {goal} months": "{goal}か月中{n}か月",
+ "Buffer goal": "備えの目標",
+ "Goal: {n} months": "目標：{n}か月",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "収入がないとき、口座で固定費と予算を何か月まかなえるようにしたいか。3〜6か月が一般的です。",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "収入がなければ{month}にお金が尽きます。{goal}か月分にするにはあと{amount}必要です。残りを貯めれば約{n}か月です。",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "収入がなければ{month}にお金が尽きます。{goal}か月分にするにはあと{amount}必要です。",
+ "Your goal of {n} months is reached: a healthy buffer.": "{n}か月の目標を達成：安心できる備えです。"
 }

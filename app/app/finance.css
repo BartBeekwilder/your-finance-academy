@@ -5821,11 +5821,13 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-tour-drain-plot > i[data-gone="true"]::before { background: rgba(255, 105, 97, 0.5); box-shadow: none; }
 .pf-tour-drain-plot > i small { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: 0.62rem; font-style: normal; color: rgba(255, 255, 255, 0.55); white-space: nowrap; }
 @keyframes pf-tour-fill-y { from { transform: scaleY(0); } }
-.pf-tour-drain-zone { position: absolute; top: 0; bottom: 18px; border-radius: 8px; background: rgba(74, 222, 128, 0.08); border: 1px dashed rgba(74, 222, 128, 0.35); pointer-events: none; }
-.pf-tour-drain-zone small { position: absolute; top: 4px; left: 6px; font-size: 0.62rem; color: #86efac; white-space: nowrap; }
-.pf-tour-drain-zone em { position: absolute; top: -16px; font-size: 0.6rem; font-style: normal; font-weight: 600; color: #86efac; white-space: nowrap; transform: translateX(-50%); }
-.pf-tour-drain-zone em[data-side="start"] { left: 0; }
-.pf-tour-drain-zone em[data-side="end"] { left: 100%; }
+.pf-tour-drain-goal { position: absolute; top: -14px; bottom: 18px; border-left: 2px dashed rgba(255, 255, 255, 0.55); pointer-events: none; }
+.pf-tour-drain-goal small { position: absolute; top: -2px; right: 8px; font-size: 0.64rem; font-weight: 600; color: #fff; white-space: nowrap; }
+.pf-tour-drain-meter { display: grid; gap: 6px; }
+.pf-tour-drain-meter > div { position: relative; height: 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); }
+.pf-tour-drain-meter > div i { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: linear-gradient(90deg, #f59e0b, #fde68a); box-shadow: 0 0 10px rgba(251, 191, 36, 0.5); transform-origin: left; animation: pf-tour-fill 1s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both; }
+.pf-tour-drain-meter > div span { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; border-radius: 1px; background: rgba(255, 255, 255, 0.8); }
+.pf-tour-drain-meter small { display: flex; justify-content: space-between; gap: 10px; font-size: 0.72rem; color: rgba(255, 255, 255, 0.75); }
 .pf-tour-drain-sum { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 14px; border-radius: 14px; background: rgba(0, 0, 0, 0.2); font-size: 1rem; font-weight: 700; }
 .pf-tour-drain-sum span { display: grid; gap: 1px; white-space: nowrap; }
 .pf-tour-drain-sum small { font-size: 0.64rem; font-weight: 500; color: rgba(255, 255, 255, 0.6); white-space: normal; max-width: 12em; }

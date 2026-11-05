@@ -105,6 +105,18 @@ export default function SettingsPage() {
         )}
       </Section>
 
+      <Section title={t("Buffer goal")} hint={t("How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.")}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+          <div style={{ fontWeight: 600 }}>{t("{n} months", { n: data.profile.runway_goal ?? 6 })}</div>
+          <Segmented
+            label={t("Buffer goal")}
+            value={String(data.profile.runway_goal ?? 6)}
+            onChange={(v) => void updateProfile({ runway_goal: Number(v) }).catch((e: Error) => setStatus({ kind: "error", text: e.message }))}
+            options={[3, 4, 6, 9, 12].map((m) => ({ value: String(m), label: t("{n} mo", { n: m }) }))}
+          />
+        </div>
+      </Section>
+
       <Section title={t("Menu")}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
           <span style={{ fontSize: "0.85rem", color: "var(--pf-ink-2)" }}>{t("Drag the tabs in the sidebar to put them in your own order.")}</span>

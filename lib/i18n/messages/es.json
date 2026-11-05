@@ -382,7 +382,7 @@
  "Gifts": "Regalos",
  "Give the category a name.": "Ponle un nombre a la categoría.",
  "Goal": "Objetivo",
- "Goal reached": "Objetivo alcanzado",
+ "Goal reached": "Meta alcanzada",
  "Goal setter": "Fijador de metas",
  "Goals": "Objetivos",
  "Goes to the part with the highest rate: {part} ({rate}%)": "Va al tramo con el tipo más alto: {part} ({rate} %)",
@@ -1646,5 +1646,18 @@
  "Paid off a month": "Pagado al mes",
  "Payday: your income comes in": "Día de cobro: entran tus ingresos",
  "Your first check-in: tick off the day, earn points": "Tu primera revisión: marca el día y gana puntos",
- "Healthy buffer": "Colchón sano"
+ "Healthy buffer": "Colchón sano",
+ "Goal: 6 months": "Meta: 6 meses",
+ "{n} of 6 months": "{n} de 6 meses",
+ "Past the minimum of 3 months": "Por encima del mínimo de 3 meses",
+ "Below the minimum of 3 months": "Por debajo del mínimo de 3 meses",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "Entonces habrás pagado tus préstamos; tu hipoteca en {month}. Ambos bajan solos cada mes.",
+ "Your mortgage is paid off then. It goes down by itself every month.": "Entonces habrás pagado tu hipoteca. Baja sola cada mes.",
+ "{n} of {goal} months": "{n} de {goal} meses",
+ "Buffer goal": "Meta de colchón",
+ "Goal: {n} months": "Meta: {n} meses",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Cuántos meses deben cubrir tus cuentas los gastos fijos y presupuestos si no entran ingresos. Lo habitual son 3–6 meses.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Sin ingresos, el dinero se acabaría en {month}. Para llegar a {goal} meses te faltan {amount} — unos {n} meses ahorrando lo que te sobra.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Sin ingresos, el dinero se acabaría en {month}. Para llegar a {goal} meses te faltan {amount}.",
+ "Your goal of {n} months is reached: a healthy buffer.": "Has alcanzado tu meta de {n} meses: un colchón sano."
 }

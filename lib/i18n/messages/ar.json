@@ -382,7 +382,7 @@
  "Gifts": "هدايا",
  "Give the category a name.": "أدخل اسمًا للفئة.",
  "Goal": "الهدف",
- "Goal reached": "تم تحقيق الهدف",
+ "Goal reached": "تم بلوغ الهدف",
  "Goal setter": "واضع الأهداف",
  "Goals": "الأهداف",
  "Goes to the part with the highest rate: {part} ({rate}%)": "يذهب إلى الجزء ذي أعلى فائدة: {part} ({rate}%)",
@@ -1646,5 +1646,18 @@
  "Paid off a month": "المسدَّد شهريًا",
  "Payday: your income comes in": "يوم الراتب: يصل دخلك",
  "Your first check-in: tick off the day, earn points": "أول مراجعة لك: علّم اليوم واكسب النقاط",
- "Healthy buffer": "هامش أمان صحي"
+ "Healthy buffer": "هامش أمان صحي",
+ "Goal: 6 months": "الهدف: 6 أشهر",
+ "{n} of 6 months": "{n} من 6 أشهر",
+ "Past the minimum of 3 months": "فوق الحد الأدنى البالغ 3 أشهر",
+ "Below the minimum of 3 months": "تحت الحد الأدنى البالغ 3 أشهر",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "حينها تكون قروضك مسددة، ورهنك العقاري في {month}. كلاهما ينخفض تلقائيًا كل شهر.",
+ "Your mortgage is paid off then. It goes down by itself every month.": "حينها يكون رهنك العقاري مسددًا. ينخفض تلقائيًا كل شهر.",
+ "{n} of {goal} months": "{n} من {goal} أشهر",
+ "Buffer goal": "هدف الهامش",
+ "Goal: {n} months": "الهدف: {n} أشهر",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "كم شهرًا يجب أن تغطي حساباتك التكاليف الثابتة والميزانيات من دون دخل. المعتاد 3–6 أشهر.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "من دون دخل سينفد المال في {month}. لتصل إلى {goal} أشهر تحتاج {amount} إضافية — نحو {n} أشهر من ادخار ما يتبقى.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "من دون دخل سينفد المال في {month}. لتصل إلى {goal} أشهر تحتاج {amount} إضافية.",
+ "Your goal of {n} months is reached: a healthy buffer.": "بلغت هدفك البالغ {n} أشهر: هامش أمان صحي."
 }

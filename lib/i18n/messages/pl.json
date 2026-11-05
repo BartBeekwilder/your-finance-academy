@@ -1646,5 +1646,18 @@
  "Paid off a month": "Spłacane miesięcznie",
  "Payday: your income comes in": "Dzień wypłaty: wpływa twój dochód",
  "Your first check-in: tick off the day, earn points": "Twój pierwszy check-in: odhacz dzień i zdobądź punkty",
- "Healthy buffer": "Zdrowy zapas"
+ "Healthy buffer": "Zdrowy zapas",
+ "Goal: 6 months": "Cel: 6 miesięcy",
+ "{n} of 6 months": "{n} z 6 miesięcy",
+ "Past the minimum of 3 months": "Powyżej minimum 3 miesięcy",
+ "Below the minimum of 3 months": "Poniżej minimum 3 miesięcy",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "Wtedy spłacisz pożyczki, a kredyt hipoteczny w {month}. Oba maleją same co miesiąc.",
+ "Your mortgage is paid off then. It goes down by itself every month.": "Wtedy spłacisz kredyt hipoteczny. Maleje sam co miesiąc.",
+ "{n} of {goal} months": "{n} z {goal} miesięcy",
+ "Buffer goal": "Cel zapasu",
+ "Goal: {n} months": "Cel: {n} miesięcy",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "Ile miesięcy twoje konta mają pokrywać koszty stałe i budżety bez dochodu. Zwykle 3–6 miesięcy.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "Bez dochodu pieniądze skończyłyby się w {month}. Do {goal} miesięcy brakuje ci {amount} — ok. {n} miesięcy odkładania tego, co zostaje.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "Bez dochodu pieniądze skończyłyby się w {month}. Do {goal} miesięcy brakuje ci {amount}.",
+ "Your goal of {n} months is reached: a healthy buffer.": "Cel {n} miesięcy osiągnięty: zdrowy zapas."
 }

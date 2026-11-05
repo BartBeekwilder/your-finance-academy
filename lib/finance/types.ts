@@ -35,6 +35,9 @@ export type Profile = {
   /** The weekdays a check-in period starts on (0 = Sunday); two for twice a
    *  week, one for weekly. Account copy only (no column). */
   checkin_days?: number[];
+  /** Runway goal: how many months your accounts should carry fixed costs
+   *  and budgets without income (default 6). Account copy only (no column). */
+  runway_goal?: number;
   /** The setup (onboarding): which route was taken and which questions are
    *  answered, so the dashboard can offer to finish a quick start; `hidden`
    *  = the person put that card away. */

@@ -1646,5 +1646,18 @@
  "Paid off a month": "매달 갚는 금액",
  "Payday: your income comes in": "월급날: 소득이 들어와요",
  "Your first check-in: tick off the day, earn points": "첫 체크인: 하루를 체크하고 포인트를 받아요",
- "Healthy buffer": "건강한 여유"
+ "Healthy buffer": "건강한 여유",
+ "Goal: 6 months": "목표: 6개월",
+ "{n} of 6 months": "6개월 중 {n}개월",
+ "Past the minimum of 3 months": "최소 3개월 이상",
+ "Below the minimum of 3 months": "최소 3개월 미만",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "그때 대출을 다 갚고, 주택담보대출은 {month}에 다 갚아요. 둘 다 매달 저절로 줄어요.",
+ "Your mortgage is paid off then. It goes down by itself every month.": "그때 주택담보대출을 다 갚아요. 매달 저절로 줄어요.",
+ "{n} of {goal} months": "{goal}개월 중 {n}개월",
+ "Buffer goal": "여유 목표",
+ "Goal: {n} months": "목표: {n}개월",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "소득이 없을 때 계좌로 고정비와 예산을 몇 달 버틸지예요. 보통 3~6개월이에요.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "소득이 없으면 {month}에 돈이 바닥나요. {goal}개월이 되려면 {amount}가 더 필요해요. 남는 돈을 모으면 약 {n}개월이에요.",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "소득이 없으면 {month}에 돈이 바닥나요. {goal}개월이 되려면 {amount}가 더 필요해요.",
+ "Your goal of {n} months is reached: a healthy buffer.": "{n}개월 목표 달성: 건강한 여유예요."
 }

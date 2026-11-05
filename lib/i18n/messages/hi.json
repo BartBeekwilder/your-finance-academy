@@ -1646,5 +1646,18 @@
  "Paid off a month": "हर महीने चुकाया",
  "Payday: your income comes in": "वेतन का दिन: आपकी आय आती है",
  "Your first check-in: tick off the day, earn points": "आपका पहला चेक-इन: दिन पर टिक करें और पॉइंट पाएँ",
- "Healthy buffer": "अच्छा सहारा"
+ "Healthy buffer": "अच्छा सहारा",
+ "Goal: 6 months": "लक्ष्य: 6 महीने",
+ "{n} of 6 months": "6 में से {n} महीने",
+ "Past the minimum of 3 months": "3 महीने की न्यूनतम सीमा से ऊपर",
+ "Below the minimum of 3 months": "3 महीने की न्यूनतम सीमा से नीचे",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "तब तक आपके लोन चुक जाएँगे; होम लोन {month} में। दोनों हर महीने अपने-आप घटते हैं।",
+ "Your mortgage is paid off then. It goes down by itself every month.": "तब तक आपका होम लोन चुक जाएगा। यह हर महीने अपने-आप घटता है।",
+ "{n} of {goal} months": "{goal} में से {n} महीने",
+ "Buffer goal": "बफ़र लक्ष्य",
+ "Goal: {n} months": "लक्ष्य: {n} महीने",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "बिना आय के आपके खाते कितने महीने तय ख़र्च और बजट चलाएँ। आम तौर पर 3–6 महीने।",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "बिना आय के पैसा {month} में ख़त्म हो जाएगा। {goal} महीने तक पहुँचने के लिए {amount} और चाहिए — बची रकम बचाकर लगभग {n} महीने।",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "बिना आय के पैसा {month} में ख़त्म हो जाएगा। {goal} महीने तक पहुँचने के लिए {amount} और चाहिए।",
+ "Your goal of {n} months is reached: a healthy buffer.": "आपका {n} महीने का लक्ष्य पूरा: एक अच्छा सहारा।"
 }

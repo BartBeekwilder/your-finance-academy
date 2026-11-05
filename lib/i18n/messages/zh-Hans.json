@@ -382,7 +382,7 @@
  "Gifts": "礼物",
  "Give the category a name.": "请为类别命名。",
  "Goal": "目标",
- "Goal reached": "目标达成",
+ "Goal reached": "已达到目标",
  "Goal setter": "目标制定者",
  "Goals": "目标",
  "Goes to the part with the highest rate: {part} ({rate}%)": "用于利率最高的部分：{part}（{rate}%）",
@@ -1646,5 +1646,18 @@
  "Paid off a month": "每月还款",
  "Payday: your income comes in": "发薪日：收入到账",
  "Your first check-in: tick off the day, earn points": "你的第一次打卡：勾选这一天，赚取积分",
- "Healthy buffer": "健康的缓冲"
+ "Healthy buffer": "健康的缓冲",
+ "Goal: 6 months": "目标：6 个月",
+ "{n} of 6 months": "6 个月中的 {n} 个月",
+ "Past the minimum of 3 months": "已超过 3 个月的最低线",
+ "Below the minimum of 3 months": "低于 3 个月的最低线",
+ "Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.": "届时你的贷款已还清；房贷在 {month} 还清。两者每月都会自动减少。",
+ "Your mortgage is paid off then. It goes down by itself every month.": "届时你的房贷已还清。它每月都会自动减少。",
+ "{n} of {goal} months": "{goal} 个月中的 {n} 个月",
+ "Buffer goal": "缓冲目标",
+ "Goal: {n} months": "目标：{n} 个月",
+ "How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.": "没有收入时，你的账户应能支撑固定支出和预算多少个月。通常为 3–6 个月。",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.": "没有收入的话，钱会在 {month} 用完。要达到 {goal} 个月，还需要 {amount}——把结余存下来大约要 {n} 个月。",
+ "Without income the money would run out in {month}. To reach {goal} months you need {amount} more.": "没有收入的话，钱会在 {month} 用完。要达到 {goal} 个月，还需要 {amount}。",
+ "Your goal of {n} months is reached: a healthy buffer.": "已达到 {n} 个月的目标：健康的缓冲。"
 }

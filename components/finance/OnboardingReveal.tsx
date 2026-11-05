@@ -28,12 +28,16 @@ export type RevealFigures = {
   equity: number;
   /** The last loan's payoff month, when there are loans with a payment. */
   debtFree: Date | null;
+  /** The runway goal in months (default 6). */
+  runwayGoal?: number;
   /** The balance sheet, post by post (what was entered). */
   assets?: { name: string; amount: number }[];
   debts?: { name: string; amount: number }[];
   fixedLines?: { name: string; amount: number; day?: number }[];
   /** Loans with what's left, the rate and the monthly payment (Debt-free card). */
   loans?: { name: string; balance: number; rate: number; monthly: number }[];
+  /** The mortgage (all parts), month by month from now. */
+  mortgage?: { owed: number; monthly: number; months: { date: Date; balance: number; interest: number }[] } | null;
   budgetLines?: { name: string; amount: number }[];
   /** Investments at their live value (`day`: today's change). */
   invest?: { total: number; day: number; items: { name: string; value: number }[] };
@@ -189,7 +193,7 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
                 <Count value={runway} plain /> <span className="pf-wr-huge-pct">{t("months")}</span>
               </span>
               <p className="pf-wr-line">{t("If no income came in, what's in your accounts would cover your fixed costs and budgets for this long. Saving makes it grow — the dashboard keeps it live.")}</p>
-              <RunwayDrain months={runway} cash={f.cash} monthly={monthly} left={f.left} currency={currency} />
+              <RunwayDrain months={runway} goal={f.runwayGoal ?? 6} cash={f.cash} monthly={monthly} left={f.left} currency={currency} />
             </>
           ),
         }]
@@ -242,16 +246,22 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
           ),
         }]
       : []),
-    ...(f.debtFree
+    ...(f.debtFree || f.mortgage?.months.length
       ? [{
           key: "debt",
           kicker: t("Debt-free"),
           tone: tones.amber,
           body: (
             <>
-              <span className="pf-wr-huge pf-rounded" style={{ color: "#fbbf24" }}>{monthYear(f.debtFree)}</span>
-              <p className="pf-wr-line">{t("Your loans go down by themselves every month.")}</p>
-              <DebtDown loans={f.loans ?? []} currency={currency} />
+              <span className="pf-wr-huge pf-rounded" style={{ color: "#fbbf24" }}>{monthYear(f.debtFree ?? f.mortgage!.months[f.mortgage!.months.length - 1].date)}</span>
+              <p className="pf-wr-line">
+                {f.debtFree && f.mortgage?.months.length
+                  ? t("Your loans are paid off then; your mortgage in {month}. Both go down by themselves every month.", { month: monthYear(f.mortgage.months[f.mortgage.months.length - 1].date) })
+                  : f.debtFree
+                    ? t("Your loans go down by themselves every month.")
+                    : t("Your mortgage is paid off then. It goes down by itself every month.")}
+              </p>
+              <DebtDown loans={f.loans ?? []} mortgage={f.mortgage ?? null} currency={currency} />
             </>
           ),
         }]
@@ -477,10 +487,13 @@ function BalanceBuild({ assets, debts, left, currency }: { assets: { name: strin
 /** Debt-free: what's left of every loan, year by year (stacked), down to
  *  zero, with the sums behind it and each loan's last month. */
 const LOAN_TONES = ["#fbbf24", "#fb923c", "#f472b6", "#a78bfa", "#60a5fa"];
-function DebtDown({ loans, currency }: { loans: { name: string; balance: number; rate: number; monthly: number }[]; currency: string }) {
+function DebtDown({ loans, mortgage, currency }: { loans: { name: string; balance: number; rate: number; monthly: number }[]; mortgage: RevealFigures["mortgage"] | null; currency: string }) {
   const start = new Date();
   const stand = `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, "0")}-${String(start.getDate()).padStart(2, "0")}`;
-  const plans = loans.filter((l) => l.balance > 0 && l.monthly > 0).map((l) => ({ ...l, rows: loanSchedule({ balance: l.balance.toFixed(2), rate: l.rate.toFixed(2), monthly: l.monthly.toFixed(2), start_date: stand }) }));
+  const plans = [
+    ...(mortgage?.months.length ? [{ name: t("Mortgage"), balance: mortgage.owed, monthly: mortgage.monthly, rows: mortgage.months }] : []),
+    ...loans.filter((l) => l.balance > 0 && l.monthly > 0).map((l) => ({ ...l, rows: loanSchedule({ balance: l.balance.toFixed(2), rate: l.rate.toFixed(2), monthly: l.monthly.toFixed(2), start_date: stand }) as { date: Date; balance: number; interest: number }[] })),
+  ];
   if (!plans.length) return null;
   const months = Math.max(...plans.map((p) => p.rows.length));
   const years = Math.max(1, Math.ceil(months / 12));
@@ -834,22 +847,17 @@ function freedom({ monthly, have, left }: { monthly: number; have: number; left:
 /** Runway as a story: your accounts emptying month by month if no income
  *  came in (the bar per month is what's left), the healthy 3–6 month zone,
  *  the sum behind it, and what it takes to reach six months. */
-function RunwayDrain({ months, cash, monthly, left, currency }: { months: number; cash: number; monthly: number; left: number; currency: string }) {
-  const n = Math.min(12, Math.max(7, Math.ceil(months) + 1));
+function RunwayDrain({ months, goal, cash, monthly, left, currency }: { months: number; goal: number; cash: number; monthly: number; left: number; currency: string }) {
+  const n = Math.min(13, Math.max(goal + 1, Math.ceil(months) + 1));
   const start = new Date();
   const empty = new Date(start.getFullYear(), start.getMonth() + Math.floor(months), 1);
-  const toSix = Math.max(0, monthly * 6 - cash);
+  const toSix = Math.max(0, monthly * goal - cash);
   const monthsToSix = left > 0 ? Math.ceil(toSix / left) : null;
   return (
     <div className="pf-tour-drain">
       <div className="pf-tour-drain-plot" aria-hidden>
-        {/* The healthy buffer: money left from month 3 to month 6. Bars that
-            still reach into it mean you'd get through that long. */}
-        <span className="pf-tour-drain-zone" style={{ left: `${(3 / n) * 100}%`, width: `${(3 / n) * 100}%` }}>
-          <small>{t("Healthy buffer")}</small>
-          <em data-side="start">{t("{n} mo", { n: 3 })}</em>
-          <em data-side="end">{t("{n} mo", { n: 6 })}</em>
-        </span>
+        {/* The goal (Settings): enough to get through that many months without income. */}
+        <span className="pf-tour-drain-goal" style={{ left: `${(goal / n) * 100}%` }}><small>{t("Goal: {n} months", { n: goal })}</small></span>
         {Array.from({ length: n }, (_, k) => {
           const v = Math.max(0, cash - monthly * k);
           return (
@@ -858,6 +866,14 @@ function RunwayDrain({ months, cash, monthly, left, currency }: { months: number
             </i>
           );
         })}
+      </div>
+      {/* How far along: 0 → 6 months, the minimum (3) ticked. */}
+      <div className="pf-tour-drain-meter">
+        <div><i style={{ width: `${Math.min(months / goal, 1) * 100}%` }} />{goal > 3 && <span style={{ left: `${(3 / goal) * 100}%` }} />}</div>
+        <small>
+          <span>{t("{n} of {goal} months", { n: months.toLocaleString(intlLocale(), { maximumFractionDigits: 1 }), goal })}</span>
+          <span>{months >= goal ? t("Goal reached") : months >= 3 ? t("Past the minimum of 3 months") : t("Below the minimum of 3 months")}</span>
+        </small>
       </div>
       <div className="pf-tour-drain-sum pf-rounded">
         <span>{money(cash, currency)}<small>{t("in your accounts")}</small></span>
@@ -868,10 +884,10 @@ function RunwayDrain({ months, cash, monthly, left, currency }: { months: number
       </div>
       <small className="pf-tour-drain-note">
         {toSix <= 0
-          ? t("More than six months: a healthy buffer.")
+          ? t("Your goal of {n} months is reached: a healthy buffer.", { n: goal })
           : monthsToSix != null
-            ? t("Without income the money would run out in {month}. To reach six months you need {amount} more — about {n} months of saving what's left.", { month: monthYear(empty), amount: money(toSix, currency), n: monthsToSix })
-            : t("Without income the money would run out in {month}. To reach six months you need {amount} more.", { month: monthYear(empty), amount: money(toSix, currency) })}
+            ? t("Without income the money would run out in {month}. To reach {goal} months you need {amount} more — about {n} months of saving what's left.", { month: monthYear(empty), amount: money(toSix, currency), n: monthsToSix, goal })
+            : t("Without income the money would run out in {month}. To reach {goal} months you need {amount} more.", { month: monthYear(empty), amount: money(toSix, currency), goal })}
       </small>
     </div>
   );

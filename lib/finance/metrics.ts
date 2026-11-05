@@ -21,6 +21,8 @@ export type MetricInput = {
   /** Budgets still free this month, and the days left in it (incl. today). */
   freeThisMonth?: number | null;
   daysLeft?: number;
+  /** Runway goal in months (profile; default 6). */
+  runwayGoal?: number;
 };
 
 export type Tone = "good" | "ok" | "bad" | "neutral";
@@ -74,7 +76,8 @@ export function keyMetrics(x: MetricInput): Metric[] {
   }
   if (x.spending > 0) {
     const runway = x.cash / x.spending;
-    out.push({ key: "runway", label: "Runway", note: "How long your accounts would last without income. 3–6 months is a healthy buffer.", value: runway, unit: "months", bar: runway / 12, tone: runway >= 6 ? "good" : runway >= 3 ? "ok" : "bad" });
+    const goal = x.runwayGoal ?? 6;
+    out.push({ key: "runway", label: "Runway", note: "How long your accounts would last without income. 3–6 months is a healthy buffer.", value: runway, unit: "months", bar: runway / goal, tone: runway >= goal ? "good" : runway >= goal / 2 ? "ok" : "bad" });
   }
   if (x.income > 0) {
     const share = x.fixed / x.income;

@@ -40,6 +40,7 @@ export function useKeyFigures() {
       cash, investments: nw.holdingsTotal,
       assets: sheet.totalAssets, debts: sheet.totalDebt,
       freeThisMonth: budgetTotal > 0 ? budgetTotal - variableSpent : null, daysLeft,
+      runwayGoal: data.profile.runway_goal,
     };
     const left = income - spending;
     return {

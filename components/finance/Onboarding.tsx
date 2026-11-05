@@ -148,6 +148,8 @@ const POLICIES: { kind: InsurancePolicy["kind"]; label: string; Icon: LucideIcon
   { kind: "travel", label: "Travel", Icon: Plane, color: "#30d158" },
 ];
 
+/** Runway goals on the slider (months the accounts should carry you). */
+const BUFFERS = [3, 4, 6, 9, 12];
 /** Savings-goal terms on the slider, in months. */
 const TERMS = [3, 6, 9, 12, 18, 24, 30, 36, 48, 60];
 const OWN_POLICY = { label: "Other", Icon: Shield, color: "#8e8e93" };
@@ -216,6 +218,7 @@ type Draft = {
   policies: { kind: InsurancePolicy["kind"]; premium: string; on: boolean; key?: string; name?: string }[];
   budgets: Line[] | null;
   goal: { name: string; amount: string; months: number };
+  runwayGoal?: number;
   home: { value: string; mortgage: string; details?: boolean; parts?: MortPart[] };
   loans: { key: string; kind: LoanKind; name: string; amount: string; rate: string; monthly: string }[];
   history: "now" | "january" | "years";
@@ -325,6 +328,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   const [policies, setPolicies] = useState<Draft["policies"]>(d0.policies ?? POLICIES.map((p) => ({ kind: p.kind, premium: "", on: false })));
   const [budgets, setBudgets] = useState<Line[] | null>(d0.budgets ?? null);
   const [goal, setGoal] = useState(d0.goal ?? { name: "", amount: "", months: 12 });
+  const [runwayGoal, setRunwayGoal] = useState(d0.runwayGoal ?? data.profile.runway_goal ?? 6);
   const [home, setHome] = useState<Draft["home"]>(d0.home ?? { value: "", mortgage: "" });
   // Other loans, each with its kind and a name; the complete route also asks
   // the rate and the monthly payment (then the debt goes down by itself).
@@ -481,11 +485,11 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   // Remember where the setup stands on this device.
   useEffect(() => {
     if (saved || resume) return;
-    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, home, loans, history, checkin, checkinDays };
+    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays };
     try {
       localStorage.setItem(DRAFT_KEY(preview), JSON.stringify(draft));
     } catch {}
-  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, home, loans, history, checkin, checkinDays, saved, resume, preview]);
+  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, saved, resume, preview]);
 
   const goTo = (to: Step, d: 1 | -1) => {
     setDir(d);
@@ -587,6 +591,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         ...(has("currency") ? { currency_code: currency } : {}),
         ...(has("income") ? { expected_net_monthly: netIncome ? netIncome.toFixed(2) : null, expected_gross_monthly: num(gross) ? num(gross).toFixed(2) : null, payday_day: payday } : {}),
         ...(has("household") ? { household: together ? newHousehold(names[0].trim() || t("Me"), names[1].trim() || t("Partner"), () => crypto.randomUUID()) : [] } : {}),
+        ...(has("goal") ? { runway_goal: runwayGoal } : {}),
         ...(has("security") ? { checkin_interval: checkin, ...(checkin !== "daily" && checkinDays ? { checkin_days: checkinDays } : {}) } : {}),
         onboarding: { route: route === "quick" && !resume ? "quick" : "complete", steps: done },
       });
@@ -743,6 +748,19 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                 left: reveal.income - reveal.fixed - reveal.budgets,
                 equity: totals.equity + bookCash,
                 debtFree,
+                runwayGoal,
+                // The mortgage's parts together, month by month (Debt-free card).
+                mortgage: mortRows.length
+                  ? {
+                      owed: mortParts.reduce((s2, p) => s2 + num(p.amount), 0),
+                      monthly: mortPay,
+                      months: Array.from({ length: Math.max(...mortRows.map((rows) => rows.length)) }, (_, k) => ({
+                        date: mortRows.find((rows) => rows[k])![k].month,
+                        balance: mortRows.reduce((s2, rows) => s2 + (rows[k]?.balance ?? 0), 0),
+                        interest: mortRows.reduce((s2, rows) => s2 + (rows[k]?.interest ?? 0), 0),
+                      })),
+                    }
+                  : null,
                 loans: loans.filter((l) => num(l.amount) > 0).map((l) => ({ name: l.name.trim() || t(LOAN_STYLE[l.kind].label), balance: num(l.amount), rate: num(l.rate), monthly: num(l.monthly) })),
                 // The balance sheet as entered, post by post.
                 assets: [
@@ -1153,6 +1171,21 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                     {netIncome > 0 && ` · ${t("{pct}% of your income", { pct: Math.round((num(goal.amount) / goal.months / netIncome) * 100) })}`}
                   </p>
                 )}
+                {/* The buffer: how long the accounts should carry you without income. */}
+                <div className="pf-ob-goalterm">
+                  <span>
+                    {t("Buffer goal")} <b style={{ color: "var(--pf-ink)" }}>{t("{n} months", { n: runwayGoal })}</b>
+                    {(reveal.fixed + reveal.budgets) > 0 && <>{" · "}{money((reveal.fixed + reveal.budgets) * runwayGoal, currency)}</>}
+                  </span>
+                  <StepSlider
+                    label={t("Buffer goal")}
+                    animKey="buffer"
+                    value={Math.max(0, BUFFERS.indexOf(runwayGoal))}
+                    onChange={(i) => setRunwayGoal(BUFFERS[i])}
+                    steps={BUFFERS.map((m) => ({ label: t("{n} mo", { n: m }), full: t("{n} months", { n: m }) }))}
+                  />
+                  <small className="pf-ob-note" style={{ paddingInlineStart: 0 }}>{t("How many months your accounts should cover your fixed costs and budgets if no income came in. 3–6 months is usual.")}</small>
+                </div>
               </Screen>
             )}
 
