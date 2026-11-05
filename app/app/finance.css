@@ -109,7 +109,14 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  /* More tabs than a short window is tall: the list scrolls (the items keep
+     their height instead of being squeezed), without scrolling the page. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
 }
+.pf-nav > * { flex-shrink: 0; }
 
 .pf-brand {
   display: flex;
@@ -175,6 +182,7 @@
     padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
     border-right: 0;
     border-top: 1px solid var(--pf-line);
+    overflow: visible;
   }
   .pf-nav .pf-brand,
   .pf-nav .pf-nav-foot {
