@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { balanceSheet, expectedByCategory, live, netWorthFigures, projectedNetIncome, summarize } from "@/lib/finance/calc";
+import { accountFlows, balanceSheet, expectedByCategory, live, netWorthFigures, num, projectedNetIncome, summarize } from "@/lib/finance/calc";
 import { budgetIn } from "@/lib/finance/budgetPlan";
 import { freedom, keyMetrics, monthsToPositive } from "@/lib/finance/metrics";
 import { useFinance } from "./FinanceProvider";
@@ -20,6 +20,13 @@ export function useKeyFigures() {
     const fixed = expected.reduce((s, e) => s + Math.max(e.fixed, e.usualFix), 0);
     const spending = Math.max(expected.reduce((s, e) => s + e.expected, 0), summarize(data.transactions, month).spent);
     const nw = netWorthFigures(data, now);
+    // Accounts as they stand TODAY (the 1 January balance + this year's
+    // flows, as on Liquidity) — not the 1 January balance alone. Runway counts
+    // the money you can spend (no investment accounts); freedom counts all.
+    const flows = accountFlows(data, now);
+    const accountsNow = live(data.accounts).map((a) => ({ type: a.type, value: num(a.balance) + (flows.get(a.id) ?? 0) }));
+    const cash = accountsNow.filter((a) => a.type !== "investment").reduce((s, a) => s + a.value, 0);
+    const allAccounts = accountsNow.reduce((s, a) => s + a.value, 0);
     const sheet = balanceSheet(data, now, month);
     // Budgets still free this month: the variable budgets minus what's
     // been spent in those categories so far.
@@ -30,7 +37,7 @@ export function useKeyFigures() {
     const daysLeft = daysIn - now.getDate() + 1;
     const input = {
       income, fixed, spending,
-      cash: nw.accountsTotal, investments: nw.holdingsTotal,
+      cash, investments: nw.holdingsTotal,
       assets: sheet.totalAssets, debts: sheet.totalDebt,
       freeThisMonth: budgetTotal > 0 ? budgetTotal - variableSpent : null, daysLeft,
     };
@@ -40,7 +47,7 @@ export function useKeyFigures() {
       left,
       equity: sheet.equity,
       metrics: keyMetrics(input),
-      freedom: freedom(spending, input.cash + input.investments, left),
+      freedom: freedom(spending, allAccounts + input.investments, left),
       toPositive: monthsToPositive(sheet.equity, left),
       // Saved per second this month (income and spending spread evenly).
       perSecond: left / (daysIn * 86_400),
