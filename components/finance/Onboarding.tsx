@@ -1037,7 +1037,7 @@ function Preview({
       {live && (
         <div className="pf-ob-live">
           <div><span><i className="pf-ob-live-dot" /> {t("Earned so far")}</span><LiveAmount value={earned} currency={currency} size="0.95rem" color="var(--pf-green)" /></div>
-          <div><span>{t("Spent so far")}</span><LiveAmount value={spent} currency={currency} size="0.95rem" /></div>
+          <div><span>{t("Spent so far")}</span><LiveAmount value={spent} currency={currency} size="0.95rem" color="var(--pf-red)" /></div>
           <div><span>{t("Saved so far")}</span><LiveAmount value={earned - spent} currency={currency} size="0.95rem" color={earned - spent >= 0 ? "#40c8e0" : "var(--pf-red)"} /></div>
         </div>
       )}
