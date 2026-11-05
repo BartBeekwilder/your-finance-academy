@@ -714,4 +714,8 @@ the dashboard net worth ticker with the net worth model, app icon.
   onboarding with a dot per chapter (per step on the quick route); finished
   ones glow green, the part of the line up to them lights up, and a chapter
   finished now flashes once. Cards are near-opaque so it stays behind them.
+- Onboarding investments: "Paid (optional)" as Total or Per share / Per
+  coin / Per ounce (× how many = cost basis, in the profile currency), and
+  the result vs paid (€ and %) under "Worth now" (InvestmentSearch
+  `paidEach`, `paidTotal`).
 - NOT translated (see the to-do at the top).

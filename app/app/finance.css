@@ -5601,3 +5601,11 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-ob .pf-ob-card { background-color: rgba(24, 24, 27, 0.97); }
 .pf-ob .pf-ob-preview { background-color: rgba(14, 14, 18, 0.94); }
 .pf-ob-goalterm .pf-mslider-labels > * { white-space: nowrap; }
+.pf-inv-paid { display: grid; gap: 4px; min-width: 0; position: relative; }
+.pf-inv-paidhead { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 0.72rem; color: var(--pf-ink-3); }
+.pf-inv-paidmode { display: inline-flex; padding: 2px; border-radius: 8px; background: rgba(255, 255, 255, 0.06); }
+.pf-inv-paidmode button { padding: 2px 7px; border: 0; border-radius: 6px; background: none; color: var(--pf-ink-3); font: inherit; font-size: 0.66rem; cursor: pointer; white-space: nowrap; transition: background 0.25s, color 0.25s; }
+.pf-inv-paidmode button[aria-pressed="true"] { color: #fff; background: linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b)); }
+.pf-inv-paidsum { position: absolute; right: 2px; bottom: -16px; font-size: 0.66rem; color: var(--pf-brand-b); white-space: nowrap; animation: pf-fade-up 0.25s ease-out both; }
+.pf-inv-result { font-style: normal; font-size: 0.7rem; color: var(--pf-green); white-space: nowrap; }
+.pf-inv-result[data-up="false"] { color: var(--pf-red); }

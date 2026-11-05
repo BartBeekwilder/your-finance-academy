@@ -24,15 +24,23 @@ export type InvestmentDraft = {
   symbol?: string;
   exchange?: string | null;
   kind?: string;
-  /** … how many, and optionally what was paid in total. */
+  /** … how many, and optionally what was paid: in total, or per share /
+   *  coin (`paidEach`) — then the total is that × how many. */
   quantity?: string;
   paid?: string;
+  paidEach?: boolean;
 };
 
 const parse = (s: string | undefined) => {
   const v = Number((s ?? "").replace(/\s/g, "").replace(",", "."));
   return Number.isFinite(v) ? v : 0;
 };
+
+/** What was paid in total (0 when not filled in). */
+export function paidTotal(x: InvestmentDraft) {
+  const p = parse(x.paid);
+  return x.paidEach ? p * parse(x.quantity) : p;
+}
 
 /** The draft as a holding (for quotes and its value). */
 export function draftHolding(x: InvestmentDraft, currency: string): Holding {
@@ -42,7 +50,7 @@ export function draftHolding(x: InvestmentDraft, currency: string): Holding {
     name: x.name,
     asset_type: x.type,
     quantity: String(parse(x.quantity)),
-    cost_basis: x.paid && parse(x.paid) > 0 ? String(parse(x.paid)) : null,
+    cost_basis: paidTotal(x) > 0 ? String(paidTotal(x)) : null,
     cost_basis_currency: currency,
     date_added: new Date().toISOString(),
     updated_at: "",
@@ -145,14 +153,28 @@ export default function InvestmentLine({ x, currency, quotes, onChange, onRemove
             {t("How many?")}
             <input ref={qtyRef} className="pf-input pf-inv-qty" inputMode="decimal" placeholder="0" value={x.quantity ?? ""} onChange={(e) => onChange({ quantity: e.target.value })} />
           </label>
-          <label>
-            {t("Paid in total (optional)")}
-            <AmountField currency={currency} value={x.paid ?? ""} label={t("Paid in total (optional)")} onChange={(paid) => onChange({ paid })} />
-          </label>
+          <div className="pf-inv-paid">
+            {/* What was paid: the total, or per share / coin. */}
+            <span className="pf-inv-paidhead">
+              {t("Paid (optional)")}
+              <span className="pf-inv-paidmode" role="group" aria-label={t("Paid")}>
+                <button type="button" aria-pressed={!x.paidEach} onClick={() => onChange({ paidEach: false })}>{t("Total")}</button>
+                <button type="button" aria-pressed={!!x.paidEach} onClick={() => onChange({ paidEach: true })}>{x.type === "crypto" ? t("Per coin") : x.type === "metal" ? t("Per ounce") : t("Per share")}</button>
+              </span>
+            </span>
+            <AmountField currency={currency} value={x.paid ?? ""} label={x.paidEach ? t("Paid per share") : t("Paid in total")} onChange={(paid) => onChange({ paid })} />
+            {x.paidEach && parse(x.paid) > 0 && qty > 0 && <small key={paidTotal(x)} className="pf-inv-paidsum">= {money(paidTotal(x), currency)} {t("in total")}</small>}
+          </div>
           <span className="pf-inv-worth" data-on={qty > 0 && v.value != null}>
             <small>{t("Worth now")}</small>
             <b className="pf-rounded">{v.value != null && qty > 0 ? money(v.value, currency) : "—"}</b>
-            <i className="pf-inv-live"><span /> {t("Live")}</i>
+            {paidTotal(x) > 0 && v.value != null && qty > 0 ? (
+              <i className="pf-inv-result" data-up={v.value >= paidTotal(x)}>
+                {v.value >= paidTotal(x) ? "+" : "−"}{money(Math.abs(v.value - paidTotal(x)), currency)} · {Math.abs(((v.value - paidTotal(x)) / paidTotal(x)) * 100).toFixed(1)}%
+              </i>
+            ) : (
+              <i className="pf-inv-live"><span /> {t("Live")}</i>
+            )}
           </span>
         </div>
       </div>

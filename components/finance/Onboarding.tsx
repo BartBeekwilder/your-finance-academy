@@ -23,7 +23,7 @@ import { useFinance } from "./FinanceProvider";
 import OnboardingTrail from "./OnboardingTrail";
 import StepSlider from "./StepSlider";
 import WeekdayPicker from "./WeekdayPicker";
-import InvestmentLine, { draftValue, draftHolding, type InvestmentDraft } from "./InvestmentSearch";
+import InvestmentLine, { draftValue, draftHolding, paidTotal, type InvestmentDraft } from "./InvestmentSearch";
 import { useQuotes } from "./Portfolio";
 import { symbolsFor, type Quotes } from "@/lib/finance/quotes";
 
@@ -346,7 +346,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             // (else what it's worth now, so the result starts at zero).
             const qty = num(x.quantity ?? "");
             if (qty <= 0) continue;
-            const paid = num(x.paid ?? "") || invValue(x);
+            const paid = paidTotal(x) || invValue(x);
             await addHolding({ symbol: x.symbol, name: x.name, asset_type: x.type, quantity: String(qty), cost_basis: paid > 0 ? paid.toFixed(2) : null, cost_basis_currency: currency, date_added });
           } else if (num(x.amount) > 0) {
             await addHolding({ symbol: "", name: x.name.trim() || t(ASSETS.find((a) => a.type === x.type)!.label), asset_type: x.type, quantity: "1", cost_basis: num(x.amount).toFixed(2), cost_basis_currency: currency, date_added });
