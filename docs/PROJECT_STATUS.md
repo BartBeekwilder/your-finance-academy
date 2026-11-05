@@ -4,14 +4,12 @@ Read this first on any computer. It says where the project stands, how to
 run it, and what's next. Keep it up to date at the end of every session
 (Claude: update this file and commit it before finishing).
 
-Last updated: 2026-11-05.
+Last updated: 2026-11-05 (late evening).
 
-TO DO — TRANSLATIONS (Bart, 5 Nov: translate later, focus on features and
-speed): new texts are written with t() but not translated. Run
-`node scripts/i18n.mjs report` to see what's missing (12 texts on 5 Nov:
-onboarding own lines, goal term, check-in weekdays; more since: the
-finale tour and the live preview) and fill all 16
-languages in one go.
+TRANSLATIONS: all 16 languages complete again (5 Nov evening, on the Mac:
+1593/1593). Keep it that way — translate new t() texts in the same commit
+(`node scripts/i18n.mjs extract` then `report`). Labels that come from data
+(e.g. lib/finance/metrics.ts, onboarding lists) go in EXTRA in scripts/i18n.mjs.
 
 ## The product
 
@@ -874,3 +872,41 @@ the dashboard net worth ticker with the net worth model, app icon.
   → "All key figures". Not translated yet.
 - The tour still has its own copy of the figures (OnboardingReveal
   keyFigures) — could switch to metrics.ts.
+
+## Done 2026-11-05 (late evening, on the Mac) — onboarding round 3, key figures, polish
+
+All on `web-app` (pushed), NOT on `main` yet (Bart to OK the deploy).
+- Month compare (Expenses): bars glide to the new month, rows slide to their
+  new rank (useFlip) instead of rebuilding. Sidebar scrolls when tabs don't fit.
+- Key figures: runway and freedom used the 1 January balances (Bart saw
+  −2,2 months) → now today's balances (balance + accountFlows; runway without
+  investment accounts). Hero tiles got padding. Freedom sentence in plain words.
+- Onboarding (complete route):
+  - Fixed costs: Rent and Mortgage apart; Energy & water and Internet & phone
+    open into their bills (subcategories; mobile per person when together);
+    bills can be LINKED into one ("Electricity + Gas") and have a PERIOD
+    (monthly / quarterly / twice a year / yearly → counted per month); a
+    BOOKING DAY per fixed cost, bill and subscription (books on that day,
+    later changed via the transaction's date).
+  - New Subscriptions screen (Netflix, Spotify, … own lines), each a fixed
+    cost under Subscriptions. Insurance premiums also book as fixed costs
+    (category Insurance). Neither is asked twice any more.
+  - Home step: optional Mortgage details (parts: annuity / linear /
+    interest-only, rate, years to go, extra) → this month's interest vs
+    repayment, mortgage-free month, interest to go; saved to Real estate
+    (property + mortgage parts) and it drives the Mortgage fixed cost.
+  - The card's height glides with its content (ResizeObserver) — Bart's rule:
+    containers never jump. Preview amounts never wrap; panel 320 px.
+  - "Jouw maand" flow bar: calm pills (subscriptions / insurance / budgets one
+    each, < 4% → rest), names on hover. Spent so far in red.
+  - Preview only: "Test: fill" / "Test: clear" (made-up answers → last step).
+- Tour (OnboardingReveal): carousel slide + swipe instead of the pop; ONE
+  height for all cards (tallest measured once), scaled as a whole (CSS zoom)
+  to fit the window; intro glance (equity live, four numbers, pills jump to
+  their card); Live income month chart (income vs spending, now → month end);
+  runway as accounts emptying month by month + the sum + what it takes to six
+  months; debt-free as loans going down year by year; final card with what's
+  set up and what's coming (check-in, payday, month close); calendar leaf for
+  the booking day; free-per-day shows its sum.
+- To port to iOS / Android: all of the above (onboarding model: Line.split,
+  Part.linked/every/day, subscriptions step, mortgage details; key figures fix).
