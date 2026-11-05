@@ -79,6 +79,9 @@ type FinanceState = {
   addHolding: (h: Omit<Holding, "updated_at" | "deleted_at" | "id">) => Promise<void>;
   /** Changes a holding (edit, buy more, sell part of it). */
   updateHolding: (id: string, patch: Partial<Omit<Holding, "id" | "updated_at" | "deleted_at">>) => Promise<void>;
+  /** Rewrites the data in one go (repair tools such as undoing the setup);
+   *  removed rows are tracked as deletions like any other change. */
+  rewrite: (fn: (d: FinanceData) => FinanceData) => void;
   /** Removes a holding (sold all of it, or entered by mistake). */
   deleteHolding: (id: string) => Promise<void>;
   /** Creates a category (a subcategory when parent_id is set) at the end of
@@ -1024,7 +1027,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, updateHolding, deleteHolding, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, updateHolding, deleteHolding, rewrite: update, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
       {stale && (

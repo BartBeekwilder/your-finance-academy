@@ -12,6 +12,7 @@ import { setShowAxes, useCategoryAreas, setCategoryAreas, useShowAxes } from "@/
 import Segmented from "@/components/finance/Segmented";
 import VaultSection from "@/components/finance/VaultSection";
 import PassphraseSection from "@/components/finance/PassphraseSection";
+import SetupUndo from "@/components/finance/SetupUndo";
 import HouseholdSection from "@/components/finance/HouseholdSection";
 import { resetNavOrder } from "@/components/finance/AppNav";
 import { CHECKIN_POINTS } from "@/lib/finance/checkin";
@@ -43,6 +44,8 @@ export default function SettingsPage() {
   return (
     <div style={{ display: "grid", gap: 28, maxWidth: 860 }}>
       <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.1rem)", fontWeight: 700 }}>{t("Settings")}</h1>
+      {/* Repair tool: only on this computer (dev), where the backup file is. */}
+      {process.env.NODE_ENV === "development" && <SetupUndo />}
 
       <Section title={t("Currency")} hint={t("How amounts are shown everywhere. Existing amounts aren't converted.")}>
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
