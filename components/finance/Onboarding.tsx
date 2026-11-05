@@ -205,6 +205,43 @@ type Draft = {
 };
 
 const DRAFT_KEY = (preview: boolean) => (preview ? "pf-onboarding-preview-draft" : "pf-onboarding-draft");
+
+/** FOR TESTING (the preview only, nothing is saved): a complete set of
+ *  made-up answers, parked on the last question so the tour is one click
+ *  away. Generic numbers — never anyone's real data. */
+function testDraft(): Draft {
+  const id = () => crypto.randomUUID();
+  const on = (list: Omit<Line, "amount" | "on">[], amounts: Record<string, string>) => list.map((l) => ({ ...l, on: l.key in amounts, amount: amounts[l.key] ?? "" }));
+  const fixed = on(FIXED, { mortgage: "1250", utilities: "185", internet: "75", transport: "120" }).map((l) =>
+    l.key === "utilities"
+      ? { ...l, split: [{ key: id(), name: "Electricity", amount: "155" }, { key: id(), name: "Gas or heating", amount: "", linked: true }, { key: id(), name: "Water", amount: "180", every: 6 }] }
+      : l.key === "internet"
+        ? { ...l, split: [{ key: id(), name: "Internet & TV", amount: "55" }, { key: id(), name: "Mobile phone", amount: "20" }] }
+        : l,
+  );
+  return {
+    route: "complete", step: "security",
+    answered: ["currency", "household", "income", "accounts", "investments", "fixed", "subscriptions", "insurance", "balance", "budgets", "goal", "history", "security"],
+    currency: "EUR", net: "3800", gross: "5200", payday: 25, together: false, names: [t("Me"), t("Partner")],
+    accounts: [
+      { key: "checking", name: t("Current account"), type: "checking", amount: "2400" },
+      { key: "savings", name: t("Savings"), type: "savings", amount: "14500" },
+    ],
+    investments: [
+      { key: id(), name: "Bitcoin", type: "crypto", amount: "", symbol: "BTC", kind: "Crypto", quantity: "0.05", paid: "2500" },
+      { key: id(), name: "Vanguard FTSE All-World", type: "stock", amount: "", symbol: "VWRL.AS", kind: "ETF", quantity: "60", paid: "95", paidEach: true },
+      { key: id(), name: t("Pension"), type: "stock", amount: "8000" },
+    ],
+    fixed,
+    subs: on(SUBS, { netflix: "13.99", spotify: "11.99", gym: "35" }),
+    policies: POLICIES.map((p) => ({ kind: p.kind, on: ["health", "liability", "contents", "home"].includes(p.kind), premium: { health: "148", liability: "6", contents: "12", home: "21" }[p.kind as string] ?? "" })),
+    budgets: BUDGETS.map((b) => ({ ...b, on: true, amount: String(Math.round((3800 * b.share) / 10) * 10) })),
+    goal: { name: t("Emergency fund"), amount: "20000", months: 18 },
+    home: { value: "425000", mortgage: "310000", details: true, parts: [{ key: id(), kind: "annuity", amount: "310000", rate: "3.9", years: "26", extra: "" }] },
+    loans: [{ key: id(), kind: "student", name: "", amount: "18000", rate: "2.6", monthly: "150" }],
+    history: "now", checkin: "twice-weekly",
+  };
+}
 /** The preview's "finished" state for this tab (the dashboard card reads it). */
 export const PREVIEW_DONE = "pf-onboarding-preview";
 
@@ -665,7 +702,16 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
           {/* The card's height follows this, gliding (pf-ob-card transition). */}
           <div className="pf-ob-inner" ref={inner}>
           <OnboardingProgress nodes={nodes} chapters={route !== "quick"} step={step} onPick={(to) => goTo(to, -1)} />
-          {preview && <div className="pf-ob-draft">{t("Draft · preview — nothing is saved")}</div>}
+          {preview && (
+            <div className="pf-ob-drafts">
+              <div className="pf-ob-draft">{t("Draft · preview — nothing is saved")}</div>
+              {/* Testing only: fill every answer with made-up data, or start over. */}
+              <span className="pf-ob-testfill">
+                <button type="button" onClick={() => { try { localStorage.setItem(DRAFT_KEY(true), JSON.stringify(testDraft())); } catch {} location.reload(); }}>Test: fill</button>
+                <button type="button" onClick={() => { try { localStorage.removeItem(DRAFT_KEY(true)); } catch {} location.reload(); }}>Test: clear</button>
+              </span>
+            </div>
+          )}
 
           {saved ? (
             <OnboardingReveal

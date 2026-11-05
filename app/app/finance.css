@@ -2667,6 +2667,10 @@ html[data-pf-motion="light"] *::after {
 @media (prefers-reduced-motion: reduce) {
   .pf-jb-sheen, .pf-jb-node[data-state="now"]::after { animation: none; }
 }
+.pf-ob-drafts { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.pf-ob-testfill { display: inline-flex; gap: 6px; }
+.pf-ob-testfill button { padding: 2px 9px; border-radius: 999px; border: 1px dashed rgba(255, 204, 0, 0.35); background: transparent; color: #ffcc00; font: inherit; font-size: 0.66rem; cursor: pointer; }
+.pf-ob-testfill button:hover { background: rgba(255, 204, 0, 0.08); }
 .pf-ob-draft {
   align-self: flex-start;
   font-size: 0.68rem;
