@@ -875,7 +875,7 @@ the dashboard net worth ticker with the net worth model, app icon.
 
 ## Done 2026-11-05 (late evening, on the Mac) — onboarding round 3, key figures, polish
 
-All on `web-app` (pushed), NOT on `main` yet (Bart to OK the deploy).
+LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since then also: big welcome, points for finishing the setup (setup-quick 100 / setup-complete 250) + the dashboard celebration (SetupCelebration), runway goal setting (profile.runway_goal), mortgage on the debt-free card.
 - Month compare (Expenses): bars glide to the new month, rows slide to their
   new rank (useFlip) instead of rebuilding. Sidebar scrolls when tabs don't fit.
 - Key figures: runway and freedom used the 1 January balances (Bart saw
