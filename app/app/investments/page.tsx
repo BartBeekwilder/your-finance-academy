@@ -9,7 +9,7 @@ import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
 import PortfolioMix from "@/components/finance/PortfolioMix";
 import { live } from "@/lib/finance/calc";
-import { holdingValue, portfolioSeries, symbolsFor } from "@/lib/finance/quotes";
+import { holdingValue, portfolioSeries, symbolsFor, type Quotes } from "@/lib/finance/quotes";
 
 // Investments: every holding at its live market price (real value) against
 // what was paid for it (nominal), in green or red. On top the portfolio's
@@ -32,6 +32,11 @@ export default function InvestmentsPage() {
   const today = useQuotes(symbols, "1d", 30_000) ?? first;
   const period = useQuotes(symbols, range, range === "1d" ? 0 : 300_000);
   const rangeQuotes = range === "1d" ? (today?.quotes ?? null) : (period?.quotes ?? null);
+  // The last period whose prices are in: while a new one loads, the chart at
+  // the bottom keeps the old one instead of disappearing (the page got
+  // shorter and the browser scrolled up).
+  const [shown, setShown] = useState<{ quotes: Quotes; range: Range } | null>(null);
+  if (rangeQuotes && (shown?.quotes !== rangeQuotes || shown?.range !== range)) setShown({ quotes: rangeQuotes, range });
   // The list's sparklines have their own period, kept as a preference.
   const [rowRange, setRowRange] = usePref<RowRange>("pf-row-range", "1d");
   const rowQ = rowRange === "all" ? "5y" : rowRange;
@@ -71,7 +76,7 @@ export default function InvestmentsPage() {
         </div>
       </section>
 
-      {rangeQuotes && holdings.length > 1 && <PortfolioMix holdings={holdings} quotes={rangeQuotes} currency={currency} range={range} onRange={setRange} />}
+      {shown && holdings.length > 1 && <PortfolioMix holdings={holdings} quotes={shown.quotes} currency={currency} range={shown.range} picked={range} onRange={setRange} />}
 
       <Sheet open={open.show} onClose={() => setOpen((o) => ({ ...o, show: false }))} origin={open.from} label={tr("Holding details")}>
         {current && (

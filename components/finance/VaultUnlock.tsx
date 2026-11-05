@@ -10,8 +10,8 @@ import type { FinanceData } from "@/lib/finance/types";
 
 // After signing in: the data lives only in the encrypted vault
 // (encrypted_vaults, migration 0009), so the passphrase opens it here, in the
-// browser. The passphrase stays in this tab's memory while the app is open
-// and is never stored or sent. No vault yet → set one up: the passphrase
+// browser. The passphrase is never stored or sent; with "Remember on this
+// device" the key it derives is kept in this browser (vaultKeys.ts). No vault yet → set one up: the passphrase
 // twice, and the account starts from what's in it (empty for a new one).
 
 export default function VaultUnlock({ supabase, email, hasVault, start, onUnlocked, onSignOut }: {
@@ -20,13 +20,17 @@ export default function VaultUnlock({ supabase, email, hasVault, start, onUnlock
   hasVault: boolean;
   /** No vault yet: the data a new vault starts with. */
   start: () => Promise<FinanceData>;
-  onUnlocked: (data: FinanceData, vault: Unlocked, updatedAt: string) => void;
+  /** `remember`: keep the key on this device (vaultKeys), so a reload opens it. */
+  onUnlocked: (data: FinanceData, vault: Unlocked, updatedAt: string, remember: boolean) => void | Promise<void>;
   onSignOut: () => void;
 }) {
   const [pass, setPass] = useState("");
   const [pass2, setPass2] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // On by default: a tablet or phone drops background tabs, and asking for
+  // the passphrase after every switch wears people out.
+  const [remember, setRemember] = useState(true);
 
   async function go() {
     setError(null);
@@ -44,13 +48,13 @@ export default function VaultUnlock({ supabase, email, hasVault, start, onUnlock
         } catch {
           throw new Error(t("That passphrase doesn't open your vault."));
         }
-        onUnlocked(liveOnly(data), vault, row.updated_at);
+        await onUnlocked(liveOnly(data), vault, row.updated_at, remember);
       } else {
         const data = await start();
         const sealed = await vault.seal(data);
         const { data: row, error: e } = await supabase.from("encrypted_vaults").insert(sealed).select("updated_at").single();
         if (e) throw e;
-        onUnlocked(data, vault, row.updated_at);
+        await onUnlocked(data, vault, row.updated_at, remember);
       }
     } catch (e) {
       setError((e as Error).message);
@@ -79,6 +83,13 @@ export default function VaultUnlock({ supabase, email, hasVault, start, onUnlock
           <span className="pf-unlock-hint">{t("At least {n} characters. A sentence of a few words is strong and easy to remember.", { n: MIN_PASSPHRASE })}</span>
         </>
       )}
+      <div className="pf-unlock-remember" onClick={() => setRemember(!remember)}>
+        <button type="button" className="pf-plan-switch" role="switch" aria-checked={remember} aria-labelledby="pf-remember-label" onClick={(e) => { e.stopPropagation(); setRemember(!remember); }}><i /></button>
+        <span>
+          <b id="pf-remember-label">{t("Remember on this device")}</b>
+          <small>{t("Opens here without the passphrase for 30 days, until you lock or sign out.")}</small>
+        </span>
+      </div>
       {error && <p className="pf-unlock-error" role="alert">{error}</p>}
       <button className="pf-button" disabled={busy || !pass}>
         {busy ? t("Working…") : hasVault ? t("Unlock") : t("Encrypt and start")}

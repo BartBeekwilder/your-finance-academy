@@ -657,3 +657,34 @@ Before going live with the web app: hide the Apple sign-in button until it's
 configured, set the Supabase Site URL, merge `web-app` into `main` (with
 Bart's OK). Still to do on iOS: replace CloudKit with Supabase sync, align
 the dashboard net worth ticker with the net worth model, app icon.
+
+## Done 2026-11-05 (later) — Bart's iPad / investments feedback
+
+- Investments page: switching the period of the bottom chart (Value per
+  holding) no longer jumps the page to the top — the chart keeps the last
+  loaded period while the new prices load instead of disappearing (page
+  `shown`, PortfolioMix `picked`).
+- Background lines (NeonLines): slower (clock 0.4×) and the speeds close
+  together (0.04–0.058) — one line raced ahead of the others and stuttered.
+- Passphrase on the iPad (live site asked for it after every tab switch:
+  Safari drops background tabs, and the key lived in the tab's memory):
+  "Remember on this device" on the unlock card (on by default) keeps the
+  derived keys in IndexedDB as NON-extractable CryptoKeys
+  (lib/finance/vaultKeys.ts; never the passphrase) for 30 days; forgotten on
+  Lock now, sign-out, removing the passphrase, or a changed passphrase.
+  vault.ts: `unlock()` now seals under the salt of the copy it opened (all
+  web devices converge on one salt, so a remembered key keeps opening other
+  devices' saves), `keys()`, `fromKeys()` (+ tests). A remembered copy
+  doesn't auto-lock. NOT LIVE until `main` is updated (Bart's OK) and NOT
+  tested signed in (needs Bart's passphrase). Note: the web-app build also
+  lets Bart drop the passphrase entirely (Settings › Extra protection) —
+  but iOS/Android can't read plain copies yet.
+- Onboarding investments are LIVE now: search a share, fund or coin by name
+  or ticker (new /api/search — Yahoo search, server side, only the typed
+  text goes out; crypto as the coin, metals as XAU/XAG/XPT/XPD), pick it,
+  enter how many → value = live price × quantity (ticking, day change,
+  "Live"), optional "Paid in total" (else cost = value now). Not listed →
+  "Add … by hand" (old way, at cost). Saved as real holdings with symbol +
+  quantity. components/finance/InvestmentSearch.tsx. Enter/Escape in the
+  search no longer move/close the onboarding. 16 new texts in 17 languages.
+  Still no "add holding" on the Investments page itself — could reuse this.

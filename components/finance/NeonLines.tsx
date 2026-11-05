@@ -34,7 +34,9 @@ function makeSeeds(count: number): Seed[] {
     hueBase: r(0.5, 0.74), // blue → teal → violet band
     originAngle: r(0, 2 * Math.PI),
     originRadius: r(0.85, 1.3),
-    speed: r(0.05, 0.14),
+    // Close together, so no line races ahead of the others (one at 0.14
+    // next to 0.06 looked like it was struggling to keep up).
+    speed: 0.04 + (r(0.05, 0.14) - 0.05) * (0.018 / 0.09),
     phase: i * 1.7 + r(0, 2),
     curveStrength: r(0.4, 1.1),
     widthScale: r(0.7, 1.5),
@@ -81,8 +83,8 @@ export default function NeonLines({ lineCount = 4, opacity = 0.1 }: { lineCount?
     };
 
     const draw = (ms: number) => {
-      // Half speed: the drift's clock runs at 0.5×.
-      const t = ms / 2000 + 1000;
+      // Slow drift: the clock runs at 0.4× (was 0.5×), the speeds 0.04–0.058.
+      const t = ms / 2500 + 1000;
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
       const cx = w / 2;

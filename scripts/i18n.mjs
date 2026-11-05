@@ -19,7 +19,7 @@ const EXTRA = [
   "Euro", "US dollar", "British pound", "Swiss franc", "Swedish krona", "Japanese yen",
   "Rent or mortgage", "Energy & water", "Insurance", "Internet & phone", "Subscriptions", "Car or transit pass",
   "Groceries", "Dining out", "Transport", "Shopping", "Entertainment", "Health",
-  "Crypto", "Stock", "Metal",
+  "Crypto", "Stock", "Metal", "Fund", "Gold", "Silver", "Platinum", "Palladium",
   "Student loan", "Car loan", "Personal loan", "Credit card", "Other loan",
   "Basics", "Money now", "Fixed costs and insurance", "Home and debts", "Budgets and goals", "History", "Security",
   ...["Spending", "Income"].flatMap((k) => ["month", "day"].flatMap((p) => ["category", "source"].map((g) => `${k} per ${p} by ${g}`))),

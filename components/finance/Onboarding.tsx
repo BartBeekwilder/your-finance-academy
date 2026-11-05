@@ -20,6 +20,9 @@ import type { AssetType, InsurancePolicy, LoanKind } from "@/lib/finance/types";
 import { useTween } from "./charts";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
+import InvestmentLine, { draftValue, draftHolding, type InvestmentDraft } from "./InvestmentSearch";
+import { useQuotes } from "./Portfolio";
+import { symbolsFor, type Quotes } from "@/lib/finance/quotes";
 
 // Onboarding — "open your books". After the welcome you pick a route:
 //   • Quick start (2 minutes): currency, household, income, accounts and
@@ -117,7 +120,7 @@ type Draft = {
   together: boolean;
   names: [string, string];
   accounts: { key: string; name: string; type: "checking" | "savings"; amount: string }[];
-  investments: { key: string; name: string; type: AssetType; amount: string }[];
+  investments: InvestmentDraft[];
   fixed: Line[];
   policies: { kind: InsurancePolicy["kind"]; premium: string; on: boolean }[];
   budgets: Line[] | null;
@@ -180,6 +183,14 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
     { key: "savings", name: t("Savings"), type: "savings", amount: "" },
   ]);
   const [investments, setInvestments] = useState<Draft["investments"]>(d0.investments ?? []);
+  // Live prices for the investments linked to a market (every 30 s).
+  const linked = investments.filter((x) => x.symbol);
+  const fresh = useQuotes(linked.length ? symbolsFor(linked.map((x) => draftHolding(x, currency)), currency) : [], "1d", 30_000)?.quotes ?? null;
+  // Adding one more asks for a new set: the ones already there keep their
+  // last price meanwhile instead of blinking to "—".
+  const [invQuotes, setInvQuotes] = useState<Quotes | null>(null);
+  if (fresh && fresh !== invQuotes) setInvQuotes(fresh);
+  const invValue = (x: InvestmentDraft) => draftValue(x, invQuotes, currency, num);
   const [fixed, setFixed] = useState<Line[]>(d0.fixed ?? FIXED.map((f) => ({ ...f, amount: "", on: false })));
   const [policies, setPolicies] = useState<Draft["policies"]>(d0.policies ?? POLICIES.map((p) => ({ kind: p.kind, premium: "", on: false })));
   const [budgets, setBudgets] = useState<Line[] | null>(d0.budgets ?? null);
@@ -208,10 +219,10 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
     const fixedTotal = fixed.filter((f) => f.on).reduce((s, f) => s + num(f.amount), 0);
     const budgetTotal = budgetLines.filter((b) => b.on).reduce((s, b) => s + num(b.amount), 0);
     const cash = accounts.reduce((s, a) => s + num(a.amount), 0);
-    const invested = investments.reduce((s, x) => s + num(x.amount), 0);
+    const invested = investments.reduce((s, x) => s + invValue(x), 0);
     const equity = cash + invested + num(home.value) - num(home.mortgage) - loans.reduce((s, l) => s + num(l.amount), 0);
     return { fixedTotal, budgetTotal, left: netIncome - fixedTotal - budgetTotal, cash, equity };
-  }, [fixed, budgetLines, accounts, investments, home, loans, netIncome]);
+  }, [fixed, budgetLines, accounts, investments, home, loans, netIncome, invQuotes]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Remember where the setup stands on this device.
   useEffect(() => {
@@ -248,7 +259,8 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   const card = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (saved) return;
+      // A field that used the key itself (the investment search) keeps it.
+      if (saved || e.defaultPrevented) return;
       if (e.key === "Escape") onClose();
       if (e.key === "Enter" && !(e.target instanceof HTMLButtonElement) && step !== "done" && step !== "route") next();
     };
@@ -316,8 +328,18 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         }
       }
       if (has("investments")) {
-        for (const x of investments.filter((x) => num(x.amount) > 0)) {
-          await addHolding({ symbol: "", name: x.name.trim() || t(ASSETS.find((a) => a.type === x.type)!.label), asset_type: x.type, quantity: "1", cost_basis: num(x.amount).toFixed(2), cost_basis_currency: currency, date_added: new Date().toISOString() });
+        for (const x of investments) {
+          const date_added = new Date().toISOString();
+          if (x.symbol) {
+            // Linked: the live price × how many; paid = what was put in
+            // (else what it's worth now, so the result starts at zero).
+            const qty = num(x.quantity ?? "");
+            if (qty <= 0) continue;
+            const paid = num(x.paid ?? "") || invValue(x);
+            await addHolding({ symbol: x.symbol, name: x.name, asset_type: x.type, quantity: String(qty), cost_basis: paid > 0 ? paid.toFixed(2) : null, cost_basis_currency: currency, date_added });
+          } else if (num(x.amount) > 0) {
+            await addHolding({ symbol: "", name: x.name.trim() || t(ASSETS.find((a) => a.type === x.type)!.label), asset_type: x.type, quantity: "1", cost_basis: num(x.amount).toFixed(2), cost_basis_currency: currency, date_added });
+          }
         }
       }
       const cats = live(data.categories);
@@ -513,26 +535,29 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             )}
 
             {step === "investments" && (
-              <Screen title={t("Do you invest?")} hint={t("Funds, shares, crypto or gold — what each is worth today. Live prices can be added later under Investments.")}>
+              <Screen title={t("Do you invest?")} hint={t("Find each share, fund or coin and say how many you have: its value then follows the live price. Not listed? Add it by hand.")}>
                 <div className="pf-ob-list">
-                  {investments.map((x, i) => {
-                    const set = (patch: Partial<typeof x>) => setInvestments(investments.map((y, j) => (j === i ? { ...y, ...patch } : y)));
-                    return (
-                      <div key={x.key} className="pf-ob-line">
-                        <span className="pf-ob-seg" role="radiogroup" aria-label={t("Kind")}>
-                          {ASSETS.map((a) => (
-                            <button key={a.type} type="button" role="radio" aria-checked={x.type === a.type} onClick={() => set({ type: a.type })}>{t(a.label)}</button>
-                          ))}
-                        </span>
-                        <input className="pf-ob-name" value={x.name} placeholder={t("Name")} aria-label={t("Name")} onChange={(e) => set({ name: e.target.value })} />
-                        <AmountField currency={currency} value={x.amount} label={t("Worth today")} onChange={(v) => set({ amount: v })} />
-                        <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setInvestments(investments.filter((_, j) => j !== i))}><X size={14} /></button>
-                      </div>
-                    );
-                  })}
+                  {investments.map((x, i) => (
+                    <InvestmentLine
+                      key={x.key}
+                      x={x}
+                      currency={currency}
+                      quotes={invQuotes}
+                      AmountField={AmountField}
+                      autoFocus={i === investments.length - 1 && !x.symbol && !x.name}
+                      onChange={(patch) => setInvestments((all) => all.map((y) => (y.key === x.key ? { ...y, ...patch } : y)))}
+                      onRemove={() => setInvestments((all) => all.filter((y) => y.key !== x.key))}
+                    />
+                  ))}
                   <button type="button" className="pf-bal-add" onClick={() => setInvestments([...investments, { key: crypto.randomUUID(), name: "", type: "stock", amount: "" }])}>
                     <Plus size={13} /> {t("Add investment")}
                   </button>
+                  {investments.some((x) => invValue(x) > 0) && (
+                    <div className="pf-inv-total">
+                      <span>{t("Invested now")}</span>
+                      <b className="pf-rounded">{money(investments.reduce((s2, x) => s2 + invValue(x), 0), currency)}</b>
+                    </div>
+                  )}
                 </div>
               </Screen>
             )}

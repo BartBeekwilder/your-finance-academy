@@ -22,7 +22,9 @@ import { useTween } from "./charts";
 const PALETTE = ["#0a84ff", "#bf5af2", "#64d2ff", "#5e5ce6", "#66d4cf", "#da8fff", "#409cff", "#a2845e", "#7d7aff", "#5ac8fa"];
 const MAX_POINTS = 240;
 
-export default function PortfolioMix({ holdings, quotes, currency, range, onRange }: { holdings: Holding[]; quotes: Quotes; currency: string; range: Range; onRange: (r: Range) => void }) {
+/** `range` is the period the quotes are for; `picked` the one chosen in the
+ *  switch (ahead of `range` while its prices load). */
+export default function PortfolioMix({ holdings, quotes, currency, range, picked = range, onRange }: { holdings: Holding[]; quotes: Quotes; currency: string; range: Range; picked?: Range; onRange: (r: Range) => void }) {
 
   // One shared timeline: every moment any price moved (24 h for 1D, thinned
   // out to a few hundred), each holding at its last price by then — nothing
@@ -56,7 +58,7 @@ export default function PortfolioMix({ holdings, quotes, currency, range, onRang
   return (
     <MixChart
       title={t("Value per holding")}
-      right={<Segmented options={RANGES.map((r) => ({ value: r.value, label: t(r.label) }))} value={range} onChange={onRange} label={t("Period")} />}
+      right={<Segmented options={RANGES.map((r) => ({ value: r.value, label: t(r.label) }))} value={picked} onChange={onRange} label={t("Period")} />}
       times={times}
       lines={lines}
       currency={currency}
