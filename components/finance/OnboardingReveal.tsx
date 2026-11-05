@@ -1,7 +1,7 @@
 "use client";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { ArrowRight, Check, CreditCard, Flame, HandCoins, Plus, Sparkles, Split, Wallet, type LucideIcon } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, CreditCard, Flame, HandCoins, Plus, Sparkles, Split, Wallet, type LucideIcon } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { money, monthName, monthYear } from "@/lib/finance/format";
 import { useTween } from "./charts";
@@ -106,9 +106,9 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
           tone: tones.violet,
           body: (
             <>
-              <span className="pf-wr-title">{t("Where you stand, post by post.")}</span>
-              <BalanceBuild assets={assets} debts={debts} equity={f.equity} currency={currency} />
-              <p className="pf-wr-line">{t("What you own on the left, what you owe on the right — the difference is your equity. It updates itself: loans go down every month, investments follow the market, and every euro you save lands here.")}</p>
+              <span className="pf-wr-title">{t("Your balance sheet — like a company's.")}</span>
+              <BalanceBuild assets={assets} debts={debts} left={f.left} currency={currency} />
+              <p className="pf-wr-line">{t("Left, everything you own. Right, who it belongs to: the bank and other lenders (debts), and you (equity). Both sides always add up to the same — that's a real balance sheet. Most money apps stop at one net-worth number; here you see where it comes from, and it moves live: loans go down every month, investments follow the market, and every euro you save lands in your equity.")}</p>
             </>
           ),
         }]
@@ -262,15 +262,25 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
     },
   ];
 
-  const [i, setI] = useState(0);
+  const [i, setI0] = useState(0);
+  // The card being left: it pops (forward) or slides away (back) on top of
+  // the one coming in, then goes.
+  const [leaving, setLeaving] = useState<{ k: number; dir: 1 | -1; n: number } | null>(null);
   const card = cards[Math.min(i, cards.length - 1)];
   const last = i >= cards.length - 1;
+  const setI = (to: number) => {
+    const n = Math.max(0, Math.min(to, cards.length - 1));
+    if (n === i) return;
+    setLeaving((l) => ({ k: i, dir: n > i ? 1 : -1, n: (l?.n ?? 0) + 1 }));
+    setI0(n);
+  };
   const next = () => (last ? onOpen() : setI(i + 1));
+  const prev = () => setI(i - 1);
 
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === "Enter") next();
-      if (e.key === "ArrowLeft") setI((k) => Math.max(k - 1, 0));
+      if (e.key === "ArrowLeft") prev();
     };
     window.addEventListener("keydown", key);
     return () => window.removeEventListener("keydown", key);
@@ -285,14 +295,32 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
           </button>
         ))}
       </div>
-      <div key={card.key} className="pf-wr-card" style={{ background: card.tone }} onClick={next}>
-        <div className="pf-wr-body">
-          <span className="pf-wr-kicker">{card.kicker}</span>
-          {card.body}
+      <div className="pf-tour-stage">
+        <div key={card.key} className="pf-wr-card pf-tour-card" data-dir={leaving?.dir ?? 1} style={{ background: card.tone }} onClick={next}>
+          <div className="pf-wr-body">
+            <span className="pf-wr-kicker">{card.kicker}</span>
+            {card.body}
+          </div>
         </div>
+        {leaving && cards[leaving.k] && (
+          <div key={`leave${leaving.n}`} className="pf-wr-card pf-tour-leaving" data-dir={leaving.dir} style={{ background: cards[leaving.k].tone }} aria-hidden onAnimationEnd={(e) => e.target === e.currentTarget && setLeaving(null)}>
+            <div className="pf-wr-body">
+              <span className="pf-wr-kicker">{cards[leaving.k].kicker}</span>
+              {cards[leaving.k].body}
+            </div>
+          </div>
+        )}
+        {i > 0 && (
+          <button type="button" className="pf-tour-arrow" data-side="left" aria-label={t("Back")} onClick={(e) => { e.stopPropagation(); prev(); }}>
+            <ChevronLeft size={20} />
+          </button>
+        )}
+        <button type="button" className="pf-tour-arrow" data-side="right" aria-label={last ? openLabel : t("Next")} onClick={(e) => { e.stopPropagation(); next(); }}>
+          <ChevronRight size={20} />
+        </button>
       </div>
       <div className="pf-tour-foot">
-        <button type="button" className="pf-link" disabled={i === 0} onClick={() => setI(Math.max(0, i - 1))}>{t("Back")}</button>
+        <button type="button" className="pf-link" disabled={i === 0} onClick={prev}>{t("Back")}</button>
         <span>{i + 1} / {cards.length}</span>
         {!last ? (
           <button type="button" className="pf-link" onClick={() => setI(cards.length - 1)}>{t("Skip the tour")}</button>
@@ -305,44 +333,74 @@ export default function OnboardingReveal({ f, currency, onOpen, openLabel }: { f
 }
 
 /** A big number counting up from zero as its card comes in. */
-function Count({ value, currency, color, plain }: { value: number; currency?: string; color?: string; plain?: boolean }) {
+function Count({ value, currency, color, plain, whole }: { value: number; currency?: string; color?: string; plain?: boolean; whole?: boolean }) {
   const [target, setTarget] = useState(0);
   useEffect(() => {
     const raf = requestAnimationFrame(() => setTarget(value));
     return () => cancelAnimationFrame(raf);
   }, [value]);
   const [shown] = useTween([target], 1100);
-  if (plain) return <>{shown.toLocaleString(intlLocale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</>;
+  if (plain) return <>{shown.toLocaleString(intlLocale(), whole ? { maximumFractionDigits: 0 } : { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</>;
   return <span className="pf-wr-huge pf-rounded" style={{ color }}>{money(shown, currency ?? "EUR")}</span>;
 }
 
 /** The balance sheet building itself: assets one by one, then debts, then
  *  the equity bar. Bar widths share one scale. */
-function BalanceBuild({ assets, debts, equity, currency }: { assets: { name: string; amount: number }[]; debts: { name: string; amount: number }[]; equity: number; currency: string }) {
-  const max = Math.max(1, ...assets.map((a) => a.amount), ...debts.map((d) => d.amount), Math.abs(equity));
+function BalanceBuild({ assets, debts, left, currency }: { assets: { name: string; amount: number }[]; debts: { name: string; amount: number }[]; left: number; currency: string }) {
+  const total = assets.reduce((x, a) => x + a.amount, 0);
+  const owed = debts.reduce((x, d) => x + d.amount, 0);
+  const equity = total - owed;
+  // Both sides on one scale: the larger total is a full bar.
+  const max = Math.max(1, total, owed);
   let k = 0;
-  const row = (a: { name: string; amount: number }, tone: string) => (
-    <div key={`${tone}${a.name}${k}`} className="pf-tour-post" style={{ ["--d" as string]: `${0.3 + k++ * 0.18}s`, ["--w" as string]: `${(a.amount / max) * 100}%`, ["--c" as string]: tone }}>
+  const row = (a: { name: string; amount: number }, tone: string, cls = "") => (
+    <div key={`${tone}${a.name}${k}`} className={`pf-tour-post ${cls}`} style={{ ["--d" as string]: `${0.3 + k++ * 0.16}s`, ["--w" as string]: `${(Math.abs(a.amount) / max) * 100}%`, ["--c" as string]: tone }}>
       <span>{a.name}</span>
       <b className="pf-rounded">{money(a.amount, currency)}</b>
       <i />
     </div>
   );
-  return (
-    <div className="pf-tour-sheet">
-      <div>
-        <small>{t("Assets")}</small>
-        {assets.map((a) => row(a, "#7cc4ff"))}
-      </div>
-      <div>
-        <small>{t("Liabilities")}</small>
-        {debts.length ? debts.map((d) => row(d, "#ff8a80")) : <span className="pf-tour-none" style={{ ["--d" as string]: `${0.3 + k++ * 0.18}s` }}>{t("No debts")}</span>}
-      </div>
-      <div className="pf-tour-equity" style={{ ["--d" as string]: `${0.4 + k * 0.18}s` }}>
-        <span>{t("Equity")}</span>
-        <b className="pf-rounded" style={{ color: equity >= 0 ? "#c4b5fd" : "#ff8a80" }}>{money(equity, currency)}</b>
-      </div>
+  const sum = (label: string, value: number) => (
+    <div className="pf-tour-sum" style={{ ["--d" as string]: `${0.5 + k * 0.16}s` }}>
+      <span>{label}</span>
+      <b className="pf-rounded">{money(value, currency)}</b>
     </div>
+  );
+  // Negative equity: when, at what's left to save each month, it turns positive.
+  const months = equity < 0 && left > 0 ? Math.ceil(-equity / left) : null;
+  const when = months != null ? new Date(new Date().getFullYear(), new Date().getMonth() + months, 1) : null;
+  return (
+    <>
+      <div className="pf-tour-sheet">
+        <div>
+          <small>{t("Assets")}</small>
+          {assets.map((a) => row(a, "#7cc4ff"))}
+          {sum(t("Total"), total)}
+        </div>
+        <div>
+          <small>{t("Liabilities")} + {t("Equity")}</small>
+          {debts.length ? debts.map((d) => row(d, "#ff8a80")) : <span className="pf-tour-none" style={{ ["--d" as string]: `${0.3 + k++ * 0.16}s` }}>{t("No debts")}</span>}
+          {row({ name: t("Equity"), amount: equity }, equity >= 0 ? "#c4b5fd" : "#ff6961", "pf-tour-post-equity")}
+          {sum(t("Total"), owed + equity)}
+        </div>
+      </div>
+      <div className="pf-tour-balanced" style={{ ["--d" as string]: `${0.7 + k * 0.16}s` }}>
+        <span>✓</span> {t("In balance: {a} = {b}", { a: money(total, currency), b: money(owed + equity, currency) })}
+      </div>
+      {equity < 0 && (
+        <div className="pf-tour-turn" style={{ ["--d" as string]: `${0.9 + k * 0.16}s` }}>
+          {months != null && when ? (
+            <>
+              <small>{t("Your equity turns positive in")}</small>
+              <b className="pf-rounded"><Count value={months} plain whole /> {t("months")}</b>
+              <small>{t("Around {month}, saving {left} a month.", { month: monthYear(when), left: money(left, currency) })}</small>
+            </>
+          ) : (
+            <small>{t("Save something each month and your equity starts climbing towards zero.")}</small>
+          )}
+        </div>
+      )}
+    </>
   );
 }
 
@@ -402,14 +460,16 @@ function BudgetDemo({ lines, currency }: { lines: { name: string; amount: number
       <span className="pf-wr-title">{t("Budgets that show it as it happens.")}</span>
       <div className="pf-tour-budgets">
         {shown.map((b, i) => (
-          <div key={b.name} style={{ ["--d" as string]: `${0.3 + i * 0.15}s`, ["--f" as string]: Math.min(fills[i], 1), ["--o" as string]: Math.max(0, fills[i] - 1) }} data-over={fills[i] > 1}>
+          // The track runs to 125% of the budget: the budget is a tick at 80%,
+          // spending over it turns red past the tick — all inside the bar.
+          <div key={b.name} style={{ ["--d" as string]: `${0.3 + i * 0.15}s`, ["--f" as string]: Math.min(fills[i], 1) / 1.25, ["--o" as string]: Math.max(0, Math.min(fills[i], 1.25) - 1) / 1.25 }} data-over={fills[i] > 1}>
             <span>{b.name}</span>
             <small className="pf-rounded">{money(b.amount * fills[i], currency)} / {money(b.amount, currency)}</small>
-            <i><em /><u /></i>
+            <i><em /><u /><s /></i>
           </div>
         ))}
       </div>
-      <p className="pf-wr-line">{t("Each bar fills as you spend; go over and it spills out of the bar in red. A forecast tells you where the month ends up — and the ring on Progress closes when you stay within.")}</p>
+      <p className="pf-wr-line">{t("Each bar fills as you spend; the line is your budget, and going over turns red. A forecast tells you where the month ends up — and the ring on Progress closes when you stay within.")}</p>
     </>
   );
 }

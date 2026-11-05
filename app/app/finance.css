@@ -5798,3 +5798,41 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-fb-sent span { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%; color: #fff; background: linear-gradient(135deg, #30d158, #0a84ff); box-shadow: 0 0 28px rgba(48, 209, 88, 0.45); animation: pf-tour-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 .pf-fb-sent b { font-size: 1.2rem; }
 .pf-fb-sent small { font-size: 0.85rem; color: var(--pf-ink-2); max-width: 32ch; }
+
+/* Tour: the stage — the card leaving pops away on top of the one coming in. */
+.pf-tour-stage { position: relative; display: grid; }
+.pf-tour-stage > .pf-wr-card { grid-area: 1 / 1; }
+.pf-tour-card { animation: pf-tour-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pf-tour-card[data-dir="-1"] { animation-name: pf-tour-in-back; }
+@keyframes pf-tour-in { from { transform: scale(0.94) translateY(8px); opacity: 0.4; filter: brightness(0.7); } }
+@keyframes pf-tour-in-back { from { transform: translateX(-24px) scale(0.98); opacity: 0; } }
+.pf-tour-leaving { position: relative; z-index: 2; pointer-events: none; animation: pf-tour-burst 0.42s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.pf-tour-leaving[data-dir="-1"] { animation-name: pf-tour-away; }
+@keyframes pf-tour-burst { 0% { transform: scale(1); opacity: 1; filter: blur(0); } 35% { transform: scale(1.035); opacity: 1; } 100% { transform: scale(1.12); opacity: 0; filter: blur(6px); } }
+@keyframes pf-tour-away { to { transform: translateX(40px) rotate(1.5deg); opacity: 0; } }
+.pf-tour-arrow { position: absolute; top: 50%; z-index: 3; display: grid; place-items: center; width: 38px; height: 38px; margin-top: -19px; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 50%; background: rgba(0, 0, 0, 0.28); color: rgba(255, 255, 255, 0.75); cursor: pointer; opacity: 0.55; backdrop-filter: blur(6px); transition: opacity 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s; }
+.pf-tour-arrow[data-side="left"] { left: -19px; }
+.pf-tour-arrow[data-side="right"] { right: -19px; }
+.pf-tour-stage:hover .pf-tour-arrow { opacity: 0.9; }
+.pf-tour-arrow:hover { opacity: 1; background: rgba(0, 0, 0, 0.45); transform: scale(1.08); }
+.pf-tour-arrow:active { transform: scale(0.94); }
+@media (max-width: 520px) { .pf-tour-arrow[data-side="left"] { left: 6px; } .pf-tour-arrow[data-side="right"] { right: 6px; } }
+@media (prefers-reduced-motion: reduce) { .pf-tour-card, .pf-tour-leaving { animation-duration: 0.01s; } }
+
+/* Tour balance sheet: a real T-account. */
+.pf-tour-sum { display: flex; justify-content: space-between; gap: 8px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.18); font-size: 0.85rem; font-weight: 700; animation: pf-wr-up 0.5s both; animation-delay: var(--d); margin-top: auto; }
+.pf-tour-sheet > div { align-content: stretch; display: flex !important; flex-direction: column; }
+.pf-tour-post-equity span { font-weight: 700; color: #fff; }
+.pf-tour-balanced { display: inline-flex; align-items: center; gap: 8px; justify-self: start; padding: 6px 12px; border-radius: 999px; background: rgba(74, 222, 128, 0.14); color: #86efac; font-size: 0.78rem; font-weight: 600; animation: pf-tour-pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: var(--d); }
+.pf-tour-balanced span { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #30d158; color: #fff; font-size: 0.7rem; }
+@keyframes pf-tour-pop-in { from { opacity: 0; transform: scale(0.8); } }
+.pf-tour-turn { display: grid; gap: 4px; padding: 12px 14px; border-radius: 14px; background: rgba(255, 105, 97, 0.12); border: 1px solid rgba(255, 105, 97, 0.25); animation: pf-wr-up 0.5s both; animation-delay: var(--d); }
+.pf-tour-turn b { font-size: 1.6rem; color: #ffb4ae; }
+.pf-tour-turn small { font-size: 0.75rem; color: rgba(255, 255, 255, 0.7); }
+
+/* Tour budgets: all inside the bar — a tick for the budget, red past it. */
+.pf-tour-budgets > div { width: 100% !important; }
+.pf-tour-budgets i { overflow: hidden; }
+.pf-tour-budgets em { transform: scaleX(var(--f)) !important; }
+.pf-tour-budgets u { top: 0 !important; bottom: 0 !important; left: 80% !important; width: calc(var(--o) * 100%) !important; border-radius: 0 999px 999px 0; box-shadow: none !important; }
+.pf-tour-budgets s { position: absolute; top: -3px; bottom: -3px; left: 80%; width: 2px; margin-left: -1px; border-radius: 2px; background: rgba(255, 255, 255, 0.85); text-decoration: none; }
