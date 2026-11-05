@@ -20,7 +20,7 @@ backend:
 
 | Part | Where | Branch |
 |---|---|---|
-| Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (`main` = live site; last pushed to `main` 2026-11-04, then equal to `web-app`) |
+| Website + web app (`/app`) | this repo (`your-finance-academy`), Next.js 16 | `web-app` (`main` = live site; last pushed to `main` 2026-11-05 at 2782f36) |
 | iOS / iPadOS / Mac app | repo `Personal Finance` (SwiftUI) | `ios-port-nov04` (latest; from `ios-port-nov03`) |
 | Android app | repo `personal-finance-android` (Kotlin + Compose), plan in `docs/android-blueprint.md` | `main` |
 | Backend | Supabase project `cjdmrrwsyzpoiemiyyyu` (eu-west-1); schema in `supabase/migrations` 0001–0006 all applied (0005 + 0006 on 2026-10-23) | — |
@@ -813,3 +813,22 @@ the dashboard net worth ticker with the net worth model, app icon.
 - BART TO DO before inviting: run 0013 (and check 0012) in Supabase, switch
   on the hook, Site URL + redirect URLs, custom SMTP, add invite codes,
   Vercel env NEXT_PUBLIC_PF_SIGNUPS=invite, then OK to push web-app → main.
+
+## LIVE 2026-11-05 — open for testers
+
+- Supabase (done with Bart, step by step): migrations 0012 + 0013 run;
+  Auth Hook "Before User Created" → public.hook_check_invite ENABLED;
+  URL Configuration already right (Site URL yourfinanceacademy.com, redirects
+  incl. www, localhost:3000, *-beekwilder.vercel.app); custom SMTP via Resend
+  already on (noreply@yourfinanceacademy.com), 30 emails/h; invite code
+  VRIENDEN-2026 (max 20 uses, note "eerste testers").
+- Vercel: NEXT_PUBLIC_PF_SIGNUPS=invite (Production, Config).
+- `main` pushed (Bart's OK): c396e95 (everything of 4–5 Nov), then 2782f36
+  removes the site-wide "Enter the vault" preview lock (Bart: remove
+  entirely; components/LockGate.tsx kept, unused). Website is public.
+- Checked live: https://yourfinanceacademy.com/app?invite=VRIENDEN-2026 opens
+  on Create account with the code filled in.
+- Tester invite link: …/app?invite=VRIENDEN-2026. More codes: SQL insert into
+  public.invite_codes (code, note, max_uses). Feedback: Table Editor ›
+  feedback. Not yet tried end to end: a real tester sign-up (code email,
+  hook, onboarding saving) — first tester = first real test.
