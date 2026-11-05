@@ -57,8 +57,9 @@ export default function LanguagePicker({ align = "start" }: { align?: "start" | 
               aria-selected={l.code === current}
               className="pf-lang-item"
               style={{ ["--i" as string]: i }}
+              // Every name lines up the same way (the page's direction);
+              // Arabic still reads right to left within its own name.
               lang={l.code}
-              dir={"rtl" in l && l.rtl ? "rtl" : undefined}
               onClick={() => pick(l.code)}
             >
               <span>{l.name}</span>
