@@ -9,6 +9,7 @@ import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
 import PortfolioMix from "@/components/finance/PortfolioMix";
 import AddHolding from "@/components/finance/AddHolding";
+import HoldingTrade, { openTrade } from "@/components/finance/HoldingTrade";
 import { live } from "@/lib/finance/calc";
 import { holdingValue, portfolioSeries, symbolsFor, type Quotes } from "@/lib/finance/quotes";
 
@@ -64,6 +65,7 @@ export default function InvestmentsPage() {
       <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>{tr("Investments")}</h1>
       {/* The + adds an investment here (QuickAdd sends "pf-add-holding"). */}
       <AddHolding />
+      <HoldingTrade />
 
       <PortfolioHero values={values} series={series} currency={currency} range={range} onRange={setRange} open={anyOpen} at={today?.at ?? null} />
 
@@ -87,7 +89,20 @@ export default function InvestmentsPage() {
             <button type="button" className="pf-icon-button" aria-label={tr("Close")} onClick={() => setOpen((o) => ({ ...o, show: false }))} style={{ position: "absolute", top: -4, right: -4 }}>
               <X size={16} />
             </button>
-            <HoldingDetail key={current.holding.id} v={current} currency={currency} rangeQuotes={rangeQuotes} range={range} onRange={setRange} />
+            <HoldingDetail
+              key={current.holding.id}
+              v={current}
+              currency={currency}
+              rangeQuotes={rangeQuotes}
+              range={range}
+              onRange={setRange}
+              onAction={(mode, from) => {
+                // The detail sheet closes, then the panel grows from the button.
+                const id = current.holding.id;
+                setOpen((o) => ({ ...o, show: false }));
+                setTimeout(() => openTrade(id, mode, from.isConnected ? from : null), 220);
+              }}
+            />
           </div>
         )}
       </Sheet>

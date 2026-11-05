@@ -756,5 +756,17 @@ the dashboard net worth ticker with the net worth model, app icon.
   → date_added). Not listed → by hand (name, kind, worth today, since).
   Right, live: worth now (ticking), paid, result € and %, how many, share of
   the portfolio with a bar; "Add to my investments".
-- Still missing: editing / deleting a holding on the web (and buying more
-  of one you already have → average price). Texts not translated (to do).
+- Holding actions (components/finance/HoldingTrade.tsx, same large panel;
+  opened from the holding's detail sheet — Buy more · Sell · Edit · Delete
+  — via "pf-holding-action"): BUY MORE adds shares (or an amount → shares at
+  today's price) and what was paid (total or per share; empty = today's
+  price) → average price follows; an earlier purchase date moves the start.
+  SELL takes shares off ("All of it"), removes the matching part of what was
+  put in, shows the result on this sale; selling everything deletes it.
+  EDIT: name, shares, paid in total (with average), since. DELETE asks
+  "Sure?" first. Side panel: before → after (shares, put in, average price,
+  worth now). Provider: updateHolding / deleteHolding (soft delete).
+  A cost kept in another currency (e.g. dollars) is converted at today's
+  rate and saved in the profile currency on any change.
+- Not yet: the sale's money booked onto an account; a list of past trades.
+  Texts not translated (to do).

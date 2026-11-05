@@ -3,7 +3,7 @@
 import InfoTip from "./InfoTip";
 
 import { intlLocale, t } from "@/lib/i18n";
-import { Bitcoin, ChartLine, Gem, ZoomIn, ZoomOut } from "lucide-react";
+import { Bitcoin, ChartLine, Gem, Minus, PenLine, Plus, Trash2, ZoomIn, ZoomOut } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { money } from "@/lib/finance/format";
 import { holdingSeries, type HoldingValue, type Quotes } from "@/lib/finance/quotes";
@@ -523,12 +523,15 @@ export function HoldingDetail({
   rangeQuotes,
   range,
   onRange,
+  onAction,
 }: {
   v: HoldingValue;
   currency: string;
   rangeQuotes: Quotes | null;
   range: Range;
   onRange: (r: Range) => void;
+  /** Buy more / sell / edit / delete (HoldingTrade). */
+  onAction?: (mode: "buy" | "sell" | "edit" | "delete", from: Element) => void;
 }) {
   const h = v.holding;
   const ty = TYPE[h.asset_type];
@@ -573,6 +576,14 @@ export function HoldingDetail({
         <Segmented options={RANGES.map((r) => ({ value: r.value, label: t(r.label) }))} value={range} onChange={onRange} label={t("Period")} />
       </div>
       <PriceChart series={series} currency={currency} range={range} height={170} />
+      {onAction && (
+        <div className="pf-pf-actions">
+          {h.symbol && <button type="button" data-tone="buy" onClick={(e) => onAction("buy", e.currentTarget)}><Plus size={18} /> {t("Buy more")}</button>}
+          {h.symbol && <button type="button" data-tone="sell" onClick={(e) => onAction("sell", e.currentTarget)}><Minus size={18} /> {t("Sell")}</button>}
+          <button type="button" onClick={(e) => onAction("edit", e.currentTarget)}><PenLine size={18} /> {t("Edit")}</button>
+          <button type="button" data-tone="delete" onClick={(e) => onAction("delete", e.currentTarget)}><Trash2 size={18} /> {t("Delete")}</button>
+        </div>
+      )}
       <div className="pf-pf-stats">
         {stat(t("Quantity"), Number(h.quantity).toLocaleString(intlLocale(), { maximumFractionDigits: 8 }))}
         {stat(t("Price"), native(q?.price))}

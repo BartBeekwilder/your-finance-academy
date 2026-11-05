@@ -5734,3 +5734,29 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-ah-side[data-on="true"] .pf-ah-add { animation: pf-tour-pick 2.4s ease-in-out infinite; }
 .pf-ah-hint { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--pf-ink-3); }
 @media (max-width: 820px) { .pf-ah { grid-template-columns: 1fr; } .pf-ah-side { border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.06); border-radius: 0 0 24px 24px; } .pf-ah-main { padding: 22px 18px; } }
+
+/* Holding: buy more / sell / edit (HoldingTrade), in the Add investment panel. */
+.pf-ht-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 0.85rem; }
+.pf-ht-row dt { color: var(--pf-ink-3); }
+.pf-ht-row dd { margin: 0; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.pf-ht-row dd > span { color: var(--pf-ink-2); font-weight: 500; }
+.pf-ht-row dd svg { color: var(--pf-ink-3); }
+.pf-ht-row dd b { animation: pf-fade-up 0.3s ease-out both; }
+.pf-ht-realised { display: grid; grid-template-columns: 1fr auto; gap: 4px; padding: 12px; border-radius: 14px; background: rgba(48, 209, 88, 0.08); border: 1px solid rgba(48, 209, 88, 0.2); animation: pf-inv-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pf-ht-realised[data-up="false"] { background: rgba(255, 69, 58, 0.08); border-color: rgba(255, 69, 58, 0.22); }
+.pf-ht-realised span { font-size: 0.8rem; color: var(--pf-ink-2); }
+.pf-ht-realised b { font-size: 1.05rem; color: var(--pf-green); }
+.pf-ht-realised[data-up="false"] b { color: var(--pf-red); }
+.pf-ht-realised small { grid-column: 1 / -1; font-size: 0.72rem; color: var(--pf-ink-3); }
+.pf-ht-danger { display: flex; align-items: center; gap: 12px; margin-top: 8px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.06); }
+.pf-ht-delete { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border-radius: 11px; border: 1px solid rgba(255, 69, 58, 0.25); background: none; color: #ff6961; font: inherit; font-size: 0.82rem; cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.2s; }
+.pf-ht-delete:hover { background: rgba(255, 69, 58, 0.08); }
+.pf-ht-delete[data-sure="true"] { background: #ff453a; border-color: #ff453a; color: #fff; animation: pf-ht-nudge 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes pf-ht-nudge { 30% { transform: translateX(-3px); } 60% { transform: translateX(3px); } }
+.pf-pf-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.pf-pf-actions button { display: grid; justify-items: center; gap: 4px; padding: 10px 4px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.07); background: rgba(255, 255, 255, 0.04); color: var(--pf-ink-2); font: inherit; font-size: 0.75rem; cursor: pointer; transition: background 0.2s, color 0.2s, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pf-pf-actions button:hover { background: rgba(255, 255, 255, 0.08); color: var(--pf-ink); transform: translateY(-1px); }
+.pf-pf-actions button:active { transform: scale(0.96); }
+.pf-pf-actions button[data-tone="buy"] svg { color: var(--pf-green); }
+.pf-pf-actions button[data-tone="sell"] svg { color: #ff9f0a; }
+.pf-pf-actions button[data-tone="delete"] svg { color: #ff6961; }

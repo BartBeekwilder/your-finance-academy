@@ -77,6 +77,10 @@ type FinanceState = {
   deleteLoan: (id: string) => Promise<void>;
   /** Adds an investment (the onboarding: a name and what it's worth). */
   addHolding: (h: Omit<Holding, "updated_at" | "deleted_at" | "id">) => Promise<void>;
+  /** Changes a holding (edit, buy more, sell part of it). */
+  updateHolding: (id: string, patch: Partial<Omit<Holding, "id" | "updated_at" | "deleted_at">>) => Promise<void>;
+  /** Removes a holding (sold all of it, or entered by mistake). */
+  deleteHolding: (id: string) => Promise<void>;
   /** Creates a category (a subcategory when parent_id is set) at the end of
    *  its list; returns it. */
   addCategory: (c: NewCategory) => Promise<Category>;
@@ -806,7 +810,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     [current, source, supabase, update],
   );
   const softDelete = useCallback(
-    async (key: "properties" | "mortgageParts" | "goals" | "insurancePolicies" | "achievements", table: string, id: string) => {
+    async (key: "properties" | "mortgageParts" | "goals" | "insurancePolicies" | "achievements" | "holdings", table: string, id: string) => {
       if (source === "supabase" && supabase) {
         const { error } = await supabase.from(table).update({ deleted_at: new Date().toISOString() }).eq("id", id);
         if (error) throw error;
@@ -832,6 +836,14 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   }, [current, softDelete]);
   const savePolicy = useCallback(async (x: Parameters<FinanceState["savePolicy"]>[0]) => { await upsertRow("insurancePolicies", "insurance_policies", x); }, [upsertRow]);
   const deletePolicy = useCallback((id: string) => softDelete("insurancePolicies", "insurance_policies", id), [softDelete]);
+  const deleteHolding = useCallback((id: string) => softDelete("holdings", "holdings", id), [softDelete]);
+  const updateHolding = useCallback(async (id: string, patch: Parameters<FinanceState["updateHolding"]>[1]) => {
+    if (source === "supabase" && supabase) {
+      const { error } = await supabase.from("holdings").update(patch).eq("id", id);
+      if (error) throw error;
+    }
+    update((d) => ({ ...d, holdings: d.holdings.map((h) => (h.id === id ? { ...h, ...patch, updated_at: new Date().toISOString() } : h)) }));
+  }, [source, supabase, update]);
 
   // Loans live only in the account's copy / the local file (no table).
   const saveLoan = useCallback(async (l: Parameters<FinanceState["saveLoan"]>[0]) => {
@@ -1012,7 +1024,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, updateHolding, deleteHolding, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
       {stale && (
