@@ -3,8 +3,8 @@
 import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
-import { BookOpen, Banknote, Gauge, HandCoins, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, Lock, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
+import { BookOpen, Banknote, Ellipsis, X, Gauge, HandCoins, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, Lock, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
 import { setBackgroundMotion, setMotionPaused, useBackgroundMotion, useMotionMode } from "@/lib/motion";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
@@ -88,6 +88,7 @@ export default function AppNav() {
   }
 
   return (
+    <>
     <nav className="pf-nav" aria-label={t("App")}>
       <div className="pf-brand">
         <BrandMark size={30} currency={data.profile.currency_code} />
@@ -124,6 +125,63 @@ export default function AppNav() {
         </button>
       </div>
     </nav>
+    <MobileTabs order={order} path={path} />
+    </>
+  );
+}
+
+/** On a phone: the first four tabs of the user's own order plus "More",
+ *  which slides up a sheet with every page, Glossary, Settings and the
+ *  account bits. (Fifteen tabs in one bottom bar were unreadable.) */
+function MobileTabs({ order, path }: { order: string[]; path: string }) {
+  const { source, email, signOut } = useFinance();
+  const [open, setOpen] = useState(false);
+  const main = order.slice(0, 4).map((h) => TABS.find((x) => x.href === h)).filter((x): x is (typeof TABS)[number] => !!x);
+  const inMore = !main.some((x) => x.href === path);
+  useEffect(() => {
+    if (!open) return;
+    const key = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", key);
+    return () => window.removeEventListener("keydown", key);
+  }, [open]);
+  const close = () => setOpen(false);
+  return (
+    <>
+      <nav className="pf-tabbar" aria-label={t("App")}>
+        {main.map(({ href, label, Icon }) => (
+          <Link key={href} href={href} aria-current={path === href ? "page" : undefined} onClick={close}>
+            <Icon size={21} strokeWidth={2} />
+            <span>{t(label)}</span>
+          </Link>
+        ))}
+        <button type="button" aria-expanded={open} aria-current={inMore && !open ? "page" : undefined} onClick={() => setOpen(!open)}>
+          {open ? <X size={21} strokeWidth={2} /> : <Ellipsis size={21} strokeWidth={2} />}
+          <span>{t("More")}</span>
+        </button>
+      </nav>
+      <div className="pf-more" data-open={open} aria-hidden={!open}>
+        <button type="button" className="pf-more-backdrop" tabIndex={-1} aria-label={t("Close")} onClick={close} />
+        <div className="pf-more-sheet" role="dialog" aria-label={t("All pages")}>
+          <div className="pf-more-grid">
+            {[...order.slice(4).map((h) => TABS.find((x) => x.href === h)).filter((x): x is (typeof TABS)[number] => !!x),
+              { href: "/app/glossary", label: "Glossary", Icon: BookOpen },
+              { href: "/app/settings", label: "Settings", Icon: Settings }].map(({ href, label, Icon }) => (
+              <Link key={href} href={href} aria-current={path === href ? "page" : undefined} tabIndex={open ? 0 : -1} onClick={close}>
+                <Icon size={20} strokeWidth={2} />
+                <span>{t(label)}</span>
+              </Link>
+            ))}
+          </div>
+          <div className="pf-more-foot">
+            <VaultChip />
+            <span>{source === "demo" ? t("Demo data — nothing is saved") : source === "local" ? t("Local data — only on this Mac") : email}</span>
+            <button className="pf-link" tabIndex={open ? 0 : -1} onClick={() => { close(); signOut(); }}>
+              <LogOut size={14} /> {source === "demo" ? t("Leave demo") : source === "local" ? t("Close local data") : t("Sign out")}
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

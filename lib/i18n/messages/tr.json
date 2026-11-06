@@ -1675,5 +1675,7 @@
  "Balance of {name} at the bank": "{name} banka bakiyesi",
  "Latest expenses": "Son harcamalar",
  "Latest income": "Son gelirler",
- "Type the balances your bank shows; only the ones you change are saved.": "Bankanın gösterdiği bakiyeleri yaz; yalnızca değiştirdiklerin kaydedilir."
+ "Type the balances your bank shows; only the ones you change are saved.": "Bankanın gösterdiği bakiyeleri yaz; yalnızca değiştirdiklerin kaydedilir.",
+ "All pages": "Tüm sayfalar",
+ "More": "Daha fazla"
 }

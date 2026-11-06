@@ -1675,5 +1675,7 @@
  "Balance of {name} at the bank": "رصيد {name} في البنك",
  "Latest expenses": "آخر المصروفات",
  "Latest income": "آخر الدخل",
- "Type the balances your bank shows; only the ones you change are saved.": "اكتب الأرصدة التي يعرضها بنكك؛ يُحفَظ فقط ما تغيّره."
+ "Type the balances your bank shows; only the ones you change are saved.": "اكتب الأرصدة التي يعرضها بنكك؛ يُحفَظ فقط ما تغيّره.",
+ "All pages": "كل الصفحات",
+ "More": "المزيد"
 }

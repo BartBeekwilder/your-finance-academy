@@ -1675,5 +1675,7 @@
  "Balance of {name} at the bank": "Остаток {name} в банке",
  "Latest expenses": "Последние расходы",
  "Latest income": "Последние доходы",
- "Type the balances your bank shows; only the ones you change are saved.": "Введите остатки из банка; сохраняются только изменённые."
+ "Type the balances your bank shows; only the ones you change are saved.": "Введите остатки из банка; сохраняются только изменённые.",
+ "All pages": "Все страницы",
+ "More": "Ещё"
 }

@@ -1681,5 +1681,7 @@
  "Balance of {name} at the bank": "Saldo van {name} bij de bank",
  "Latest expenses": "Laatste uitgaven",
  "Latest income": "Laatste inkomsten",
- "Type the balances your bank shows; only the ones you change are saved.": "Typ de saldi die je bank toont; alleen wat je wijzigt wordt opgeslagen."
+ "Type the balances your bank shows; only the ones you change are saved.": "Typ de saldi die je bank toont; alleen wat je wijzigt wordt opgeslagen.",
+ "All pages": "Alle pagina's",
+ "More": "Meer"
 }

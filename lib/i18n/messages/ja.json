@@ -1675,5 +1675,7 @@
  "Balance of {name} at the bank": "銀行での{name}の残高",
  "Latest expenses": "最近の支出",
  "Latest income": "最近の収入",
- "Type the balances your bank shows; only the ones you change are saved.": "銀行に表示されている残高を入力してください。変更したものだけが保存されます。"
+ "Type the balances your bank shows; only the ones you change are saved.": "銀行に表示されている残高を入力してください。変更したものだけが保存されます。",
+ "All pages": "すべてのページ",
+ "More": "その他"
 }

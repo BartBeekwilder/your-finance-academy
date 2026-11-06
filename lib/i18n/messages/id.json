@@ -1675,5 +1675,7 @@
  "Balance of {name} at the bank": "Saldo {name} di bank",
  "Latest expenses": "Pengeluaran terakhir",
  "Latest income": "Pemasukan terakhir",
- "Type the balances your bank shows; only the ones you change are saved.": "Ketik saldo yang ditampilkan bankmu; hanya yang kamu ubah yang disimpan."
+ "Type the balances your bank shows; only the ones you change are saved.": "Ketik saldo yang ditampilkan bankmu; hanya yang kamu ubah yang disimpan.",
+ "All pages": "Semua halaman",
+ "More": "Lainnya"
 }

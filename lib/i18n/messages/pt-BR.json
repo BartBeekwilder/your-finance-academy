@@ -1675,5 +1675,7 @@
  "Balance of {name} at the bank": "Saldo de {name} no banco",
  "Latest expenses": "Últimos gastos",
  "Latest income": "Últimas receitas",
- "Type the balances your bank shows; only the ones you change are saved.": "Digite os saldos que seu banco mostra; só os que você mudar são salvos."
+ "Type the balances your bank shows; only the ones you change are saved.": "Digite os saldos que seu banco mostra; só os que você mudar são salvos.",
+ "All pages": "Todas as páginas",
+ "More": "Mais"
 }
