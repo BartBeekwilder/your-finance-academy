@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   distDir: process.env.NODE_ENV === "development" ? ".next.nosync" : ".next",
   // pdf.js reads payslips in a route; load it from node_modules as is.
   serverExternalPackages: ["pdfjs-dist"],
+  // No "N" badge in dev: it showed up inside the live app on the product
+  // site's devices (and in screenshots).
+  devIndicators: false,
 };
 
 export default nextConfig;
