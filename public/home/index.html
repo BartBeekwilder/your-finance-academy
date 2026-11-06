@@ -55,8 +55,8 @@
   .hero__sub { margin: 0; max-width: 34ch; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.7; color: var(--c-ink); text-wrap: pretty; }
   .hero__sub em { font-style: normal; color: var(--c-accent); }
   /* Live pieces inside the sentence: a tinted pill with the amount ticking. */
-  .chip { display: inline-flex; align-items: baseline; gap: 6px; padding: 1px 9px 2px; border-radius: 999px; white-space: nowrap; background: color-mix(in oklch, var(--c) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--c) 40%, transparent); color: var(--c-ink); }
-  .chip b { font: 500 0.82em var(--mono); color: var(--c); font-variant-numeric: tabular-nums; }
+  .chip { display: inline-flex; align-items: baseline; gap: 5px; padding: 0 8px 1px; font-size: 0.84em; border-radius: 999px; white-space: nowrap; background: color-mix(in oklch, var(--c) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--c) 40%, transparent); color: var(--c-ink); }
+  .chip b { font: 500 0.9em var(--mono); color: var(--c); font-variant-numeric: tabular-nums; }
   .hint { font: 400 12px var(--mono); color: var(--c-muted); }
   .hint b { color: var(--c-ink); font-weight: 500; }
 
@@ -229,7 +229,7 @@
     </div>
     <div class="hero__col">
       <h1 id="h1">Je hele financiële leven, live.</h1>
-      <p class="hero__sub">Je <span class="chip" style="--c:#30d158">loon <b id="subPay">€ 0,00</b></span>, je <span class="chip" style="--c:#ffb547">bitcoin <b id="subBtc">€ …</b></span> en je <span class="chip" style="--c:#5b8def">huis <b>€ 425.000</b></span> in één balans die <em>elke seconde</em> bijwerkt.</p>
+      <p class="hero__sub">Je <span class="chip" style="--c:#30d158">loon <b id="subPay">€ 0,00</b></span>, je <span class="chip" style="--c:#ffb547">beleggingen <b id="subBtc">€ 45.000</b></span> en je <span class="chip" style="--c:#5b8def">huis <b>€ 425.000</b></span> in één balans die <em>elke seconde</em> bijwerkt.</p>
       <a class="btn btn--lg" href="/app?demo=1">Bekijk de live demo<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
     <div class="console" aria-label="Live voorbeeld">
       <header><span><i class="pulse"></i>LIVE · voorbeeld</span><span id="day">dag 0</span></header>
@@ -469,7 +469,7 @@
       document.getElementById('btcsub').textContent = '0,05 bitcoin tegen de echte koers, ' + (PF.btc.ch >= 0 ? '+' : '') + PF.btc.ch.toFixed(1).replace('.', ',') + '% vandaag.';
     }
     document.getElementById('subPay').textContent = PF.f2.format(m.earned);
-    if (PF.btc.eur != null) document.getElementById('subBtc').textContent = PF.f0.format(PF.btc.eur * 0.05) + ' ' + (PF.btc.ch >= 0 ? '↑' : '↓');
+    if (PF.btc.eur != null) document.getElementById('subBtc').textContent = PF.f0.format(42000 + PF.btc.eur * 0.05) + ' ' + (PF.btc.ch >= 0 ? '↑' : '↓');
     document.getElementById('mfill').style.width = (m.f * 100).toFixed(3) + '%';
     document.getElementById('exFill').style.width = (m.f * 100).toFixed(3) + '%';
     // Cents plus one smaller, faster digit, the way the app ticks.
