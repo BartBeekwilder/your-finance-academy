@@ -281,7 +281,7 @@ function EquityLine({ series, color, currency }: { series: Wrapped["equitySeries
     <div className="pf-wr-eqline">
       <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden style={{ ["--c" as string]: color }}>
         <path d={`${d} L${pts[pts.length - 1][0]} ${H} L${pts[0][0]} ${H} Z`} className="pf-wr-eqline-area" />
-        <path d={d} className="pf-wr-eqline-line" pathLength={1} />
+        <path d={d} className="pf-wr-eqline-line" />
       </svg>
       {pts.map(([x, y], i) => (
         <i key={i} data-last={i === pts.length - 1} title={`${shortMonth(series[i].month)}: ${money(series[i].equity, currency)}`} style={{ left: `${(x / W) * 100}%`, top: `calc((100% - 20px) * ${(y / H).toFixed(4)})`, background: color, ["--d" as string]: `${0.25 + i * 0.06}s` }} />

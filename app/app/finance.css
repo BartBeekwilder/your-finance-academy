@@ -6129,12 +6129,13 @@ button.pf-ck-day:active { transform: scale(0.92); }
 
 /* Wrapped, equity card: twelve month-ends as a line with dots, drawn on. */
 .pf-wr-eqline { position: relative; margin-top: 18px; height: 130px; }
-.pf-wr-eqline svg { position: absolute; inset: 0 0 20px 0; width: 100%; height: calc(100% - 20px); overflow: visible; }
-.pf-wr-eqline-line { fill: none; stroke: var(--c); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; animation: pf-wr-draw 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--c) 55%, transparent)); }
-.pf-wr-eqline-area { fill: color-mix(in srgb, var(--c) 14%, transparent); opacity: 0; animation: pf-fade-up 0.8s ease-out 0.9s forwards; }
+.pf-wr-eqline svg { position: absolute; inset: 0 0 20px 0; width: 100%; height: calc(100% - 20px); overflow: visible; clip-path: inset(-20px 100% -20px -20px); animation: pf-wr-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards; }
+@keyframes pf-wr-reveal { to { clip-path: inset(-20px -20px -20px -20px); } }
+.pf-wr-eqline-line { fill: none; stroke: var(--c); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--c) 55%, transparent)); }
+.pf-wr-eqline-area { fill: color-mix(in srgb, var(--c) 14%, transparent); }
 @keyframes pf-wr-draw { to { stroke-dashoffset: 0; } }
 .pf-wr-eqline > i { position: absolute; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.35); transform: scale(0); animation: pf-wr-dot 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: var(--d); }
 .pf-wr-eqline > i[data-last="true"] { width: 14px; height: 14px; margin: -7px 0 0 -7px; box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.35), 0 0 16px currentColor; color: inherit; }
 @keyframes pf-wr-dot { to { transform: scale(1); } }
 .pf-wr-eqline-axis { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; font-size: 0.72rem; color: rgba(255, 255, 255, 0.55); }
-@media (prefers-reduced-motion: reduce) { .pf-wr-eqline-line { animation: none; stroke-dashoffset: 0; } .pf-wr-eqline-area { animation: none; opacity: 1; } .pf-wr-eqline > i { animation: none; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .pf-wr-eqline svg { animation: none; clip-path: none; } .pf-wr-eqline-area { animation: none; opacity: 1; } .pf-wr-eqline > i { animation: none; transform: none; } }
