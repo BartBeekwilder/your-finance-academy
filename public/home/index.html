@@ -61,8 +61,11 @@
   .hint b { color: var(--c-ink); font-weight: 500; }
 
   /* B: the live console, floating over the desk */
-  .netin { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; margin-top: 4px; font-size: 13px; color: var(--c-muted); }
-  .netin__box { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px; background: var(--c-surface-2); box-shadow: inset 0 0 0 1px var(--c-rule); color: var(--c-ink); font: 500 14px var(--mono); transition: box-shadow 200ms; }
+  .netin { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin: 10px -4px 4px; padding: 10px 12px; border-radius: 10px; background: color-mix(in oklch, #30d158 10%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, #30d158 35%, transparent); font-size: 14px; color: var(--c-ink); cursor: text; }
+  .netin__hint { font-weight: 600; }
+  @media (prefers-reduced-motion: no-preference) { .netin:not(.used) .netin__box { animation: netpulse 2.2s ease-in-out infinite; } }
+  @keyframes netpulse { 50% { box-shadow: inset 0 0 0 1px #30d158, 0 0 0 5px color-mix(in oklch, #30d158 22%, transparent); } }
+  .netin__box { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px; background: var(--c-surface-2); box-shadow: inset 0 0 0 1px var(--c-rule); color: var(--c-ink); font: 500 17px var(--mono); transition: box-shadow 200ms; }
   .netin__box:focus-within { box-shadow: inset 0 0 0 1px #30d158, 0 0 0 3px color-mix(in oklch, #30d158 25%, transparent); }
   .netin input { width: 7ch; border: 0; padding: 0; background: transparent; color: #30d158; font: inherit; font-variant-numeric: tabular-nums; outline: none; text-align: right; }
   .console { margin-top: 10px; display: grid; gap: 1px; background: var(--c-rule); border-radius: 4px; overflow: hidden; box-shadow: 0 24px 48px -24px oklch(5% 0.02 200 / 0.9); }
@@ -250,7 +253,7 @@
       <div class="read">
         <small>Je loon telt elke seconde</small><strong id="pay">€ 0,000</strong>
         <div class="mbar" aria-hidden="true"><i id="mfill"></i><span id="mticks"></span></div>
-        <label class="netin" for="netIn"><span>Vul je eigen netto loon in</span><span class="netin__box">€ <input id="netIn" type="text" inputmode="decimal" value="3.800" autocomplete="off" aria-describedby="netOut"> per maand</span></label>
+        <label class="netin" for="netIn"><span class="netin__hint">Probeer het met je eigen netto loon</span><span class="netin__box">€ <input id="netIn" type="text" inputmode="decimal" value="3.800" autocomplete="off" aria-describedby="netOut"> per maand</span></label>
         <em id="netOut">Over elke seconde van de maand verdeeld: je saldo klopt elke dag, niet pas na betaaldag.</em>
       </div>
       <div class="read">
@@ -476,17 +479,23 @@
       h.textContent = txt.slice(0, n) + txt.slice(n).replace(/\S/g, function () { return chars[Math.floor(Math.random() * chars.length)]; });
       if (p < 1) requestAnimationFrame(f); else h.textContent = txt; })(t0);
   })();
+  // For the show the sample portfolio breathes slowly around its real value
+  // (two slow waves, ±0.05%), so investments and equity move like pay does.
+  function inv() {
+    var t = Date.now() / 1000, base = 42000 + (PF.btc.eur != null ? PF.btc.eur * 0.05 : 3400);
+    return base * (1 + 0.00035 * Math.sin(t / 9) + 0.00015 * Math.sin(t / 3.1 + 1.3));
+  }
   function tick() {
-    var m = PF.month(), d = new Date();
+    var m = PF.month(), d = new Date(), iv = inv();
     document.getElementById('pay').textContent = PF.f3.format(m.earned);
     document.getElementById('day').textContent = 'dag ' + d.getDate() + ' van ' + new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
     document.getElementById('clock').textContent = d.toLocaleTimeString('nl-NL') + ' · live';
     if (PF.btc.eur != null) {
-      document.getElementById('btc').textContent = PF.f2.format(42000 + PF.btc.eur * 0.05);
+      document.getElementById('btc').textContent = PF.f3.format(iv);
       document.getElementById('btcsub').textContent = 'Aandelen, ETF\'s en 0,05 bitcoin tegen de echte koers. Bitcoin vandaag ' + (PF.btc.ch >= 0 ? '+' : '') + PF.btc.ch.toFixed(1).replace('.', ',') + '%.';
     }
     document.getElementById('subPay').textContent = PF.f2.format(m.earned);
-    if (PF.btc.eur != null) document.getElementById('subBtc').textContent = PF.f0.format(42000 + PF.btc.eur * 0.05) + ' ' + (PF.btc.ch >= 0 ? '↑' : '↓');
+    if (PF.btc.eur != null) document.getElementById('subBtc').textContent = PF.f2.format(iv);
     document.getElementById('mfill').style.width = (m.f * 100).toFixed(3) + '%';
     document.getElementById('exFill').style.width = (m.f * 100).toFixed(3) + '%';
     // Cents plus one smaller, faster digit, the way the app ticks.
@@ -494,7 +503,7 @@
     document.getElementById('exEarned').innerHTML = v.slice(0, cut) + '<small class="tick">' + v.slice(cut) + '</small>';
     document.getElementById('exNow').textContent = d.toLocaleDateString('nl-NL', { weekday: 'long' }) + ' ' + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
     if (PF.btc.eur != null) document.getElementById('exBtc').textContent = PF.f0.format(PF.btc.eur * 0.05);
-    document.getElementById('eq').textContent = PF.f2.format(425000 + 16900 + 42000 + (PF.btc.eur != null ? PF.btc.eur * 0.05 : 0) - 310000 - 18000 + m.earned * 0.14);
+    document.getElementById('eq').textContent = PF.f3.format(425000 + 16900 + iv - 310000 - 18000 + m.earned * 0.14);
   }
   tick(); setInterval(tick, 50);
   // The visitor's own pay: everything that counts with pay (the ticking
@@ -509,7 +518,23 @@
       out.textContent = 'Dat is ' + PF.f2.format(v / days) + ' per dag, ' + PF.f2.format(v / days / 24) + ' per uur en ' + new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: 5, maximumFractionDigits: 5 }).format(v / days / 86400) + ' per seconde. Vandaag sta je al op ' + PF.f2.format(PF.month().earned) + '.';
     }
     inp.addEventListener('input', upd);
+    inp.addEventListener('focus', function () { inp.closest('.netin').classList.add('used'); inp.select(); });
     inp.addEventListener('blur', function () { var v = parseFloat(inp.value.replace(/\./g, '').replace(',', '.')); if (v >= 0) inp.value = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 0 }).format(v); });
+  })();
+  // Short screens: the hero grows to fit its column instead of hiding the
+  // headline under the bar.
+  (function () {
+    var hero = document.getElementById('hero'), col = hero.querySelector('.hero__col');
+    function fit() {
+      var before = hero.style.height;
+      hero.style.height = '';
+      if (innerWidth <= 900) return;
+      var need = 48 + 24 + Array.prototype.reduce.call(col.children, function (s, c) { return s + c.offsetHeight; }, 0) + 18 * (col.children.length - 1) + 24;
+      if (need > hero.offsetHeight) hero.style.height = need + 'px';
+      // the iPad is mapped onto the stage's size: lay it out again if that changed
+      if (hero.style.height !== before) dispatchEvent(new Event('resize'));
+    }
+    addEventListener('resize', fit); addEventListener('load', fit); fit();
   })();
 </script>
 </body>
