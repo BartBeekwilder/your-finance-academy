@@ -5542,6 +5542,20 @@ span.pf-cmp-chip { cursor: default; }
 .pf-ck-accts { display: grid; gap: 8px; font-size: 1rem; letter-spacing: 0; }
 .pf-ck-accts > span { display: flex; justify-content: space-between; gap: 16px; padding: 10px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.07); font-weight: 600; }
 .pf-ck-accts > span > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(255, 255, 255, 0.8); }
+/* All balances, corrected right in the card (scrolls when there are many). */
+.pf-ck-accts { max-height: 15.5rem; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.pf-ck-accts > span { align-items: center; }
+.pf-ck-accts input { width: 9.5rem; flex: none; font: inherit; font-weight: 700; font-variant-numeric: tabular-nums; text-align: end; color: #fff; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 10px; padding: 4px 10px; }
+.pf-ck-accts input:focus { outline: none; border-color: #fff; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15); }
+.pf-ck-accts .pf-ck-yes { justify-self: start; margin-top: 4px; }
+/* The latest bookings under the count: date, name, amount; new since the last check-in stand out. */
+.pf-ck-recent { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 2px; font-size: 0.86rem; }
+.pf-ck-recent li { display: grid; grid-template-columns: 6.2rem minmax(0, 1fr) auto; gap: 10px; align-items: baseline; padding: 7px 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); color: rgba(255, 255, 255, 0.62); animation: pf-fade-up 0.35s ease-out both; }
+.pf-ck-recent li:nth-child(2) { animation-delay: 40ms; } .pf-ck-recent li:nth-child(3) { animation-delay: 80ms; } .pf-ck-recent li:nth-child(4) { animation-delay: 120ms; } .pf-ck-recent li:nth-child(5) { animation-delay: 160ms; }
+.pf-ck-recent li[data-new="true"] { background: rgba(255, 255, 255, 0.1); color: #fff; }
+.pf-ck-recent-date { font-size: 0.78rem; white-space: nowrap; }
+.pf-ck-recent-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-ck-recent b { font-variant-numeric: tabular-nums; white-space: nowrap; color: #fff; }
 .pf-ck-actions { position: relative; display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
 .pf-ck-actions .pf-checkin-go { flex: 1; }
 .pf-ck-yes, .pf-ck-alt { display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 18px; border-radius: 999px; font: inherit; font-weight: 700; font-size: 0.9rem; cursor: pointer; text-decoration: none; transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1), background 0.2s, box-shadow 0.2s; }

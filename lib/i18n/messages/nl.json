@@ -1677,5 +1677,9 @@
  "Off to a flying start": "Vliegende start",
  "Preview — the points aren't kept.": "Voorbeeld — de punten worden niet bewaard.",
  "Setup complete": "Setup afgerond",
- "To my dashboard": "Naar mijn dashboard"
+ "To my dashboard": "Naar mijn dashboard",
+ "Balance of {name} at the bank": "Saldo van {name} bij de bank",
+ "Latest expenses": "Laatste uitgaven",
+ "Latest income": "Laatste inkomsten",
+ "Type the balances your bank shows; only the ones you change are saved.": "Typ de saldi die je bank toont; alleen wat je wijzigt wordt opgeslagen."
 }

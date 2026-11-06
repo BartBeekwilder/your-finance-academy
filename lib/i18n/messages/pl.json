@@ -1671,5 +1671,9 @@
  "Off to a flying start": "Start z kopyta",
  "Preview — the points aren't kept.": "Podgląd — punkty nie są zapisywane.",
  "Setup complete": "Konfiguracja ukończona",
- "To my dashboard": "Do mojego pulpitu"
+ "To my dashboard": "Do mojego pulpitu",
+ "Balance of {name} at the bank": "Saldo {name} w banku",
+ "Latest expenses": "Ostatnie wydatki",
+ "Latest income": "Ostatnie wpływy",
+ "Type the balances your bank shows; only the ones you change are saved.": "Wpisz salda z banku; zapisywane są tylko te, które zmienisz."
 }

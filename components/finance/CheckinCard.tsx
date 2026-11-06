@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { Check, ChevronLeft, CircleCheck, Flame } from "lucide-react";
 import { intlLocale, t } from "@/lib/i18n";
@@ -35,7 +34,7 @@ export function useCheckin() {
 
 const shortDate = (d: Date) => d.toLocaleDateString(intlLocale(), { weekday: "short", day: "numeric", month: "short" });
 
-type Item = { id: string; kicker: string; title: string; big: ReactNode; hint: string; bg: string; action: ReactNode };
+type Item = { id: string; kicker: string; title: string; big: ReactNode; hint: string; bg: string; action: ReactNode; extra?: ReactNode };
 
 export default function CheckinCard({ onDone }: { onDone?: () => void }) {
   const { data, now, awardBadges, undoCheckin, saveAccount } = useFinance();
@@ -69,7 +68,65 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
   const earn = bonus + newDays * POINTS.activeDay;
   const upToDate = new Date(Number(upTo.slice(0, 4)), Number(upTo.slice(5, 7)) - 1, Number(upTo.slice(8, 10)));
   const quickAdd = () => window.dispatchEvent(new Event("pf-quick-add"));
+  // The latest bookings of a kind, newest first, so you see at a glance
+  // whether you're caught up; those since the last check-in stand out.
+  const catName = new Map(live(data.categories).map((c) => [c.id, c.name]));
+  const from = state.last ? dayKey(state.last) : "";
+  const latest = (type: "expense" | "income") =>
+    live(data.transactions)
+      .filter((x) => x.type === type && new Date(x.date) <= now)
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .slice(0, 5);
+  const recentList = (type: "expense" | "income") => {
+    const rows = latest(type);
+    if (!rows.length) return null;
+    return (
+      <ul className="pf-ck-recent" aria-label={type === "expense" ? t("Latest expenses") : t("Latest income")}>
+        {rows.map((x) => (
+          <li key={x.id} data-new={x.date.slice(0, 10) > from}>
+            <span className="pf-ck-recent-date">{shortDate(new Date(x.date))}</span>
+            <span className="pf-ck-recent-name">{x.note?.trim() || (x.category_id && catName.get(x.category_id)) || (type === "expense" ? t("Expense") : t("Income"))}</span>
+            <b className="pf-rounded">{money(num(x.amount), currency)}</b>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+  // Other balances are checked and corrected right here, not on another tab.
+  const [editAccts, setEditAccts] = useState<Record<string, string> | null>(null);
 
+  // Tick a card and move on (the saves below run before `items` exists, so
+  // this one doesn't clamp; the last card simply opens the summary).
+  const advance = (id: string) => {
+    setTicked((s) => ({ ...s, [id]: true }));
+    setAt((x) => x + 1);
+  };
+  async function saveAccts() {
+    if (!editAccts) return;
+    const list = live(data.accounts);
+    for (const [id, raw0] of Object.entries(editAccts)) {
+      const a = list.find((x) => x.id === id), shown = accounts.find((x) => x.id === id);
+      if (!a || !shown) continue;
+      const raw = raw0.trim().replace(/\s|€/g, ""), v0 = parseNumber(raw.replace(/^[-−]/, ""));
+      if (v0 === null) continue;
+      const v = /^[-−]/.test(raw) ? -v0 : v0;
+      if (Math.abs(v - shown.value) < 0.005) continue;
+      await saveAccount({ id: a.id, name: a.name, type: a.type, balance: v - (flows.get(a.id) ?? 0) }).catch((e: Error) => alert(e.message));
+    }
+    setEditAccts(null);
+    advance("accounts");
+  }
+  async function fixBalance() {
+    if (!checkingAcct || fixing === null) return;
+    const raw = fixing.trim().replace(/\s|€/g, "");
+    const v0 = parseNumber(raw.replace(/^[-−]/, ""));
+    if (v0 === null) return;
+    const v = /^[-−]/.test(raw) ? -v0 : v0;
+    setFixing(null);
+    // The typed amount is today's balance: store its 1 January value.
+    await saveAccount({ id: checkingAcct.id, name: checkingAcct.name, type: checkingAcct.type, balance: v - (flows.get(checkingAcct.id) ?? 0) }).catch((e: Error) => alert(e.message));
+    advance("checking");
+  }
   const items: Item[] = [
     {
       id: "expenses",
@@ -79,6 +136,7 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
       hint: since.expenses === 1 ? t("1 expense entered {since}", { since: sinceText }) : t("{n} expenses entered {since}", { n: since.expenses, since: sinceText }),
       bg: "linear-gradient(160deg, #8f1d4a 0%, #3d1027 55%, #0d0d14 100%)",
       action: <button type="button" className="pf-ck-alt" onClick={quickAdd}>{t("Add expense")}</button>,
+      extra: recentList("expense"),
     },
     {
       id: "income",
@@ -88,6 +146,7 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
       hint: since.income === 1 ? t("1 income entered {since}", { since: sinceText }) : t("{n} incomes entered {since}", { n: since.income, since: sinceText }),
       bg: "linear-gradient(160deg, #0f5c4a 0%, #0b2c26 55%, #0d0d14 100%)",
       action: <button type="button" className="pf-ck-alt" onClick={quickAdd}>{t("Add income")}</button>,
+      extra: recentList("income"),
     },
     ...(checking ? [{
       id: "checking",
@@ -108,15 +167,23 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
       kicker: t("Accounts"),
       title: checking && others.length ? t("Other balances match the bank") : t("Account balances match the bank"),
       big: (checking ? others : accounts).length ? (
-        <span className="pf-ck-accts">
-          {(checking ? others : accounts).slice(0, 4).map((a) => (
-            <span key={a.id}><span>{a.name}</span><b className="pf-rounded">{money(a.value, currency)}</b></span>
+        <form className="pf-ck-accts" onSubmit={(e) => { e.preventDefault(); void saveAccts(); }}>
+          {(checking ? others : accounts).map((a) => (
+            <span key={a.id}>
+              <span>{a.name}</span>
+              {editAccts ? (
+                <input inputMode="decimal" aria-label={t("Balance of {name} at the bank", { name: a.name })} value={editAccts[a.id] ?? ""} onChange={(e) => setEditAccts({ ...editAccts, [a.id]: e.target.value })} onKeyDown={(e) => { if (e.key === "Escape") setEditAccts(null); }} />
+              ) : (
+                <b className="pf-rounded">{money(a.value, currency)}</b>
+              )}
+            </span>
           ))}
-        </span>
+          {editAccts && <button type="submit" className="pf-ck-yes">{t("Save")}</button>}
+        </form>
       ) : null,
-      hint: (checking ? others : accounts).length > 4 ? t("{n} more on Liquidity", { n: (checking ? others : accounts).length - 4 }) : accounts.length ? "" : t("No accounts yet"),
+      hint: editAccts ? t("Type the balances your bank shows; only the ones you change are saved.") : accounts.length ? "" : t("No accounts yet"),
       bg: "linear-gradient(160deg, #6b4a0f 0%, #2e2109 55%, #0d0d14 100%)",
-      action: <Link href="/app/net-worth" className="pf-ck-alt" onClick={onDone}>{t("Check balances")}</Link>,
+      action: editAccts ? null : <button type="button" className="pf-ck-alt" onClick={() => setEditAccts(Object.fromEntries((checking ? others : accounts).map((a) => [a.id, a.value.toFixed(2).replace(".", ",")])))}>{t("Correct")}</button>,
     },
   ].filter((i) => i.id !== "accounts" || !checking || others.length > 0);
 
@@ -126,17 +193,6 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
     setTicked((s) => ({ ...s, [id]: true }));
     setAt((x) => Math.min(x + 1, n));
   };
-  async function fixBalance() {
-    if (!checkingAcct || fixing === null) return;
-    const raw = fixing.trim().replace(/\s|€/g, "");
-    const v0 = parseNumber(raw.replace(/^[-−]/, ""));
-    if (v0 === null) return;
-    const v = /^[-−]/.test(raw) ? -v0 : v0;
-    setFixing(null);
-    // The typed amount is today's balance: store its 1 January value.
-    await saveAccount({ id: checkingAcct.id, name: checkingAcct.name, type: checkingAcct.type, balance: v - (flows.get(checkingAcct.id) ?? 0) }).catch((e: Error) => alert(e.message));
-    tick("checking");
-  }
   const confirm = async () => {
     if (!all || saving) return;
     setSaving(true);
@@ -194,11 +250,12 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
             <h3 className="pf-wr-title">{item.title}</h3>
             {item.big && <div className="pf-ck-big">{item.big}</div>}
             {item.hint && <p className="pf-wr-line pf-wr-dim">{item.hint}</p>}
+            {item.extra}
           </div>
           <div className="pf-ck-actions">
             {at > 0 && <button type="button" className="pf-ck-back" aria-label={t("Previous")} onClick={() => go(at - 1)}><ChevronLeft size={18} /></button>}
             {item.action}
-            {fixing === null && (
+            {fixing === null && !(item.id === "accounts" && editAccts) && (
               <button type="button" className="pf-ck-yes" data-on={!!ticked[item.id]} onClick={() => tick(item.id)}>
                 <Check size={16} strokeWidth={3} /> {t("Yes, that's right")}
               </button>

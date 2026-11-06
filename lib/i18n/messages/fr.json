@@ -1671,5 +1671,9 @@
  "Off to a flying start": "Départ en trombe",
  "Preview — the points aren't kept.": "Aperçu — les points ne sont pas conservés.",
  "Setup complete": "Configuration terminée",
- "To my dashboard": "Vers mon tableau de bord"
+ "To my dashboard": "Vers mon tableau de bord",
+ "Balance of {name} at the bank": "Solde de {name} à la banque",
+ "Latest expenses": "Dernières dépenses",
+ "Latest income": "Derniers revenus",
+ "Type the balances your bank shows; only the ones you change are saved.": "Saisissez les soldes affichés par votre banque ; seuls ceux que vous modifiez sont enregistrés."
 }

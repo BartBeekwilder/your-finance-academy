@@ -1671,5 +1671,9 @@
  "Off to a flying start": "开门红",
  "Preview — the points aren't kept.": "预览——积分不会保存。",
  "Setup complete": "设置完成",
- "To my dashboard": "前往我的仪表盘"
+ "To my dashboard": "前往我的仪表盘",
+ "Balance of {name} at the bank": "{name} 的银行余额",
+ "Latest expenses": "最近支出",
+ "Latest income": "最近收入",
+ "Type the balances your bank shows; only the ones you change are saved.": "输入银行显示的余额；只保存你修改过的。"
 }

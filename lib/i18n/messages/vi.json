@@ -1671,5 +1671,9 @@
  "Off to a flying start": "Khởi đầu thần tốc",
  "Preview — the points aren't kept.": "Xem trước — điểm không được lưu.",
  "Setup complete": "Đã thiết lập xong",
- "To my dashboard": "Đến bảng điều khiển"
+ "To my dashboard": "Đến bảng điều khiển",
+ "Balance of {name} at the bank": "Số dư {name} tại ngân hàng",
+ "Latest expenses": "Chi tiêu gần đây",
+ "Latest income": "Thu nhập gần đây",
+ "Type the balances your bank shows; only the ones you change are saved.": "Nhập số dư ngân hàng hiển thị; chỉ những gì bạn thay đổi được lưu."
 }

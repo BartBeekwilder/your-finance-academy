@@ -1671,5 +1671,9 @@
  "Off to a flying start": "힘찬 출발",
  "Preview — the points aren't kept.": "미리보기 — 포인트는 저장되지 않아요.",
  "Setup complete": "설정 완료",
- "To my dashboard": "내 대시보드로"
+ "To my dashboard": "내 대시보드로",
+ "Balance of {name} at the bank": "은행의 {name} 잔액",
+ "Latest expenses": "최근 지출",
+ "Latest income": "최근 수입",
+ "Type the balances your bank shows; only the ones you change are saved.": "은행에 표시된 잔액을 입력하세요. 바꾼 것만 저장돼요."
 }
