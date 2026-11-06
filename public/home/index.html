@@ -251,7 +251,7 @@
       <div class="read">
         <small>Je beleggingen bewegen mee</small>
         <div class="readrow"><strong id="btc">laden…</strong><svg class="spark" id="spark" viewBox="0 0 120 34" preserveAspectRatio="none" aria-hidden="true"><path id="sparkArea" class="spark__area" d=""></path><path id="sparkLine" class="spark__line" d=""></path></svg></div>
-        <em id="btcsub">0,05 bitcoin tegen de echte koers</em>
+        <em id="btcsub">Aandelen, ETF's en 0,05 bitcoin tegen de echte koers.</em>
       </div>
       <div class="read read--eq">
         <small>Alles samen in je eigen vermogen</small><strong id="eq">€ 0,00</strong>
@@ -477,8 +477,8 @@
     document.getElementById('day').textContent = 'dag ' + d.getDate() + ' van ' + new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
     document.getElementById('clock').textContent = d.toLocaleTimeString('nl-NL') + ' · live';
     if (PF.btc.eur != null) {
-      document.getElementById('btc').textContent = PF.f2.format(PF.btc.eur * 0.05);
-      document.getElementById('btcsub').textContent = '0,05 bitcoin tegen de echte koers, ' + (PF.btc.ch >= 0 ? '+' : '') + PF.btc.ch.toFixed(1).replace('.', ',') + '% vandaag.';
+      document.getElementById('btc').textContent = PF.f2.format(42000 + PF.btc.eur * 0.05);
+      document.getElementById('btcsub').textContent = 'Aandelen, ETF\'s en 0,05 bitcoin tegen de echte koers. Bitcoin vandaag ' + (PF.btc.ch >= 0 ? '+' : '') + PF.btc.ch.toFixed(1).replace('.', ',') + '%.';
     }
     document.getElementById('subPay').textContent = PF.f2.format(m.earned);
     if (PF.btc.eur != null) document.getElementById('subBtc').textContent = PF.f0.format(42000 + PF.btc.eur * 0.05) + ' ' + (PF.btc.ch >= 0 ? '↑' : '↓');
@@ -489,7 +489,7 @@
     document.getElementById('exEarned').innerHTML = v.slice(0, cut) + '<small class="tick">' + v.slice(cut) + '</small>';
     document.getElementById('exNow').textContent = d.toLocaleDateString('nl-NL', { weekday: 'long' }) + ' ' + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
     if (PF.btc.eur != null) document.getElementById('exBtc').textContent = PF.f0.format(PF.btc.eur * 0.05);
-    document.getElementById('eq').textContent = PF.f2.format(425000 + 16900 + 7104 + (PF.btc.eur != null ? PF.btc.eur * 0.05 : 0) - 310000 - 18000 + m.earned * 0.14);
+    document.getElementById('eq').textContent = PF.f2.format(425000 + 16900 + 42000 + (PF.btc.eur != null ? PF.btc.eur * 0.05 : 0) - 310000 - 18000 + m.earned * 0.14);
   }
   tick(); setInterval(tick, 50);
 </script>
