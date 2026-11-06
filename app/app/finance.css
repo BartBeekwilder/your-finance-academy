@@ -6139,3 +6139,15 @@ button.pf-ck-day:active { transform: scale(0.92); }
 @keyframes pf-wr-dot { to { transform: scale(1); } }
 .pf-wr-eqline-axis { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; font-size: 0.72rem; color: rgba(255, 255, 255, 0.55); }
 @media (prefers-reduced-motion: reduce) { .pf-wr-eqline svg { animation: none; clip-path: none; } .pf-wr-eqline-area { animation: none; opacity: 1; } .pf-wr-eqline > i { animation: none; transform: none; } }
+
+/* Budget bars: the numbers next to a short bar only; on a phone they go
+   under every bar (inside a bar they were cut off, past it they ran out of
+   the card). The toolbar's switches stack full width. */
+.pf-bbar-row:not([data-outside="true"]) > .pf-bbar-outtext { display: none; }
+@media (max-width: 560px) {
+  .pf-bbar-row .pf-bbar-text { display: none; }
+  .pf-bbar-row > .pf-bbar-outtext { display: block !important; position: static; translate: none; margin-top: 6px; white-space: normal; line-height: 1.35; }
+  .pf-card-toolbar { flex-direction: column; align-items: stretch; gap: 10px; }
+  .pf-card-toolbar > span:last-child { display: grid !important; grid-template-columns: 1fr; gap: 6px; }
+  .pf-card-toolbar > span:last-child > * { width: 100%; }
+}

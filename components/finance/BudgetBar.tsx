@@ -152,7 +152,8 @@ export default function BudgetBar({
         </span>
       </span>
     </div>
-    {outside && (
+    {/* Past the end of a short bar; on a phone, under every bar (CSS). */}
+    {(
       <span className="pf-bbar-outtext pf-rounded" style={{ left: `calc(${barW + spill}% + 8px)` }}>
         {forecast ? t("{amount} expected", { amount: money(used, currency) }) : fixed ? t("{amount} used", { amount: money(used, currency) }) : t("{amount} spent", { amount: money(used, currency) })}
         <span style={{ color: over ? "#ff6a5f" : "var(--pf-ink-3)" }}>
