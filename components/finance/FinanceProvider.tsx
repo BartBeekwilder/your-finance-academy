@@ -232,7 +232,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const startDemo = useCallback(() => {
     try {
-      sessionStorage.setItem(DEMO_KEY, "1");
+      // Not from inside the homepage's device frames (they share the tab's storage).
+      if (window.self === window.top) sessionStorage.setItem(DEMO_KEY, "1");
     } catch {}
     setPhase({ kind: "ready", data: buildDemoData(new Date()), source: "demo", email: null });
   }, []);
@@ -281,8 +282,12 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       }
       // /app?demo=1 opens the demo (the product site shows the app live on
       // its devices this way); nothing is saved in the demo.
-      if (new URLSearchParams(location.search).get("demo") === "1") sessionStorage.setItem(DEMO_KEY, "1");
-      demo = sessionStorage.getItem(DEMO_KEY) === "1";
+      // Inside the homepage's device frames it isn't remembered: the frames
+      // share the tab's sessionStorage, so "Inloggen" would open the demo too.
+      const demoParam = new URLSearchParams(location.search).get("demo") === "1";
+      const framed = window.self !== window.top;
+      if (demoParam && !framed) sessionStorage.setItem(DEMO_KEY, "1");
+      demo = (demoParam && framed) || sessionStorage.getItem(DEMO_KEY) === "1";
       local = DEV && sessionStorage.getItem(LOCAL_KEY) === "1";
     } catch {}
     if (local) {

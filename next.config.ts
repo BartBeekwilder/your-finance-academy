@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   // No "N" badge in dev: it showed up inside the live app on the product
   // site's devices (and in screenshots).
   devIndicators: false,
+  // The homepage is the product site, a static page in public/home (Dutch
+  // for now); the old homepage moved to /academy.
+  async rewrites() {
+    return { beforeFiles: [{ source: "/", destination: "/home/index.html" }], afterFiles: [], fallback: [] };
+  },
 };
 
 export default nextConfig;

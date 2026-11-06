@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal Finance · je hele financiële leven, live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-canvas: oklch(14% 0.018 210); --c-surface: oklch(18.5% 0.022 205); --c-surface-2: oklch(23% 0.025 205);
+    --c-ink: oklch(94% 0.012 85); --c-ink-2: oklch(82% 0.012 85); --c-muted: oklch(66% 0.018 200);
+    --c-rule: oklch(30% 0.025 205); --c-accent: oklch(80% 0.16 75); --c-accent-ink: oklch(15% 0.02 200);
+    --c-ok: oklch(78% 0.12 170); --c-alert: oklch(68% 0.19 28);
+    --f: "Geist", system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1); --g: clamp(16px, 2.6vw, 40px);
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--c-canvas); color: var(--c-ink); font: 400 16px/1.55 var(--f); -webkit-font-smoothing: antialiased; }
+  body { margin: 0; overflow-x: clip; }
+  a { color: inherit; }
+
+  /* B: the status line */
+  .status { position: fixed; z-index: 40; inset: 0 0 auto 0; height: 48px; display: flex; align-items: center; gap: 20px; padding: 0 var(--g); background: color-mix(in oklch, var(--c-canvas) 88%, transparent); border-block-end: 1px solid color-mix(in oklch, var(--c-rule) 70%, transparent); font-size: 13px; }
+  .status b { font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
+  .state { display: inline-flex; align-items: center; gap: 8px; font: 400 12px var(--mono); color: var(--c-muted); white-space: nowrap; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-accent); box-shadow: 0 0 0 3px oklch(80% 0.16 75 / 0.18); }
+  .status nav { margin-inline-start: auto; display: flex; align-items: center; gap: 18px; }
+  .status nav a { text-decoration: none; color: var(--c-ink-2); white-space: nowrap; }
+  .status nav a:hover { color: var(--c-ink); }
+  .btn { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 4px; background: var(--c-accent); color: var(--c-accent-ink) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: filter 160ms; }
+  .btn:hover { filter: brightness(1.07); }
+  .btn--lg { position: relative; overflow: hidden; height: 52px; padding: 0 22px 0 26px; gap: 12px; font-size: 16px; font-weight: 600; border-radius: 8px;
+    background: linear-gradient(180deg, oklch(86% 0.15 82), oklch(76% 0.17 68)); box-shadow: inset 0 1px 0 oklch(96% 0.06 90 / 0.7), 0 10px 30px -10px oklch(76% 0.17 68 / 0.7), 0 0 0 1px oklch(60% 0.14 60 / 0.6); }
+  .btn--lg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, oklch(100% 0 0 / 0.45) 50%, transparent 70%); transform: translateX(-120%); animation: sheen 5.5s ease-in-out 1.2s infinite; }
+  @keyframes sheen { 0%, 70% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+  .btn--lg .arr { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: oklch(18% 0.03 60 / 0.16); transition: transform 220ms cubic-bezier(.34, 1.56, .64, 1); }
+  .btn--lg:hover { filter: none; transform: translateY(-1px); box-shadow: inset 0 1px 0 oklch(96% 0.06 90 / 0.8), 0 16px 36px -10px oklch(76% 0.17 68 / 0.85), 0 0 0 1px oklch(60% 0.14 60 / 0.7); }
+  .btn--lg:hover .arr { transform: translateX(3px); }
+  .btn--lg small { font-weight: 500; opacity: 0.72; font-size: 12px; margin-inline-start: -4px; }
+  @media (prefers-reduced-motion: reduce) { .btn--lg::after { animation: none; } }
+
+  /* A: the desk. The real app runs on the iPad screen. */
+  .hero { position: relative; height: 100dvh; min-height: 640px; overflow: hidden; }
+  .photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .live-screen { position: absolute; left: 0; top: 0; border: 0; background: #000; transform-origin: 0 0; opacity: 0; transition: opacity 900ms var(--ease); }
+  .live-screen.on { opacity: 1; }
+  /* Two places, nothing on top of the app: a calm column left, the desk right. */
+  .hero__stage { position: absolute; inset: 48px 0 0 38%; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14%); mask-image: linear-gradient(90deg, transparent 0, #000 14%); }
+  .hero__col { position: absolute; z-index: 2; inset-inline-start: var(--g); top: 48px; bottom: 0; width: min(520px, calc(38% - var(--g))); display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+  .hero__col .btn { align-self: flex-start; }
+  h1 { margin: 0; font: 700 clamp(34px, 3.6vw, 58px)/1 var(--f); letter-spacing: -0.04em; text-wrap: balance; }
+  .hero__sub { margin: 0; max-width: 34ch; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.7; color: var(--c-ink); text-wrap: pretty; }
+  .hero__sub em { font-style: normal; color: var(--c-accent); }
+  /* Live pieces inside the sentence: a tinted pill with the amount ticking. */
+  .chip { display: inline-flex; align-items: baseline; gap: 6px; padding: 1px 9px 2px; border-radius: 999px; white-space: nowrap; background: color-mix(in oklch, var(--c) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--c) 40%, transparent); color: var(--c-ink); }
+  .chip b { font: 500 0.82em var(--mono); color: var(--c); font-variant-numeric: tabular-nums; }
+  .hint { font: 400 12px var(--mono); color: var(--c-muted); }
+  .hint b { color: var(--c-ink); font-weight: 500; }
+
+  /* B: the live console, floating over the desk */
+  .console { margin-top: 10px; display: grid; gap: 1px; background: var(--c-rule); border-radius: 4px; overflow: hidden; box-shadow: 0 24px 48px -24px oklch(5% 0.02 200 / 0.9); }
+  .console header { display: flex; justify-content: space-between; padding: 8px 14px; background: var(--c-surface-2); font: 500 11px var(--mono); color: var(--c-muted); }
+  .read { padding: 12px 14px; background: color-mix(in oklch, var(--c-surface) 94%, transparent); }
+  .read small { display: block; font-size: 11px; color: var(--c-muted); }
+  .read strong { display: block; margin-top: 2px; font: 500 22px/1.15 var(--mono); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .read em { display: block; margin-top: 3px; font-style: normal; font: 400 12px/1.4 var(--f); color: var(--c-muted); text-wrap: pretty; }
+  .read--eq { background: color-mix(in oklch, var(--c-surface-2) 94%, transparent); }
+  .console header span:first-child { display: inline-flex; align-items: center; gap: 8px; }
+  .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--c-accent); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 5px oklch(80% 0.16 75 / 0); } 0%, 100% { box-shadow: 0 0 0 0 oklch(80% 0.16 75 / 0.55); } }
+  .read strong { color: var(--c-ink); }
+  .mbar { position: relative; height: 8px; margin: 8px 0 2px; border-radius: 4px; background: oklch(30% 0.02 205); overflow: hidden; }
+  .mbar i { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, #1f9e46, #30d158); box-shadow: 0 0 12px #30d15899; }
+  .mbar span { position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 calc(100% / 30 - 1px), oklch(14% 0.02 210 / 0.6) calc(100% / 30 - 1px) calc(100% / 30)); }
+  .readrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .spark { width: 46%; height: 34px; }
+  .spark__line { fill: none; stroke: var(--c-alert); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+  .spark__area { fill: oklch(68% 0.19 28 / 0.14); }
+  .spark.up .spark__line { stroke: var(--c-ok); } .spark.up .spark__area { fill: oklch(78% 0.12 170 / 0.14); }
+  .stack { display: flex; gap: 2px; height: 8px; margin: 8px 0 2px; }
+  .stack i { border-radius: 3px; }
+  .stack i.neg { background: repeating-linear-gradient(135deg, oklch(68% 0.19 28 / 0.75) 0 4px, oklch(68% 0.19 28 / 0.4) 4px 8px); }
+  .read em b { font-weight: 600; } .negtxt { color: oklch(72% 0.15 28); }
+  .read em.up { color: var(--c-ok); } .read em.down { color: var(--c-alert); }
+
+  /* the stand: pinned, the screen pages through the app */
+  .stand { position: relative; height: 420vh; }
+  .stand__pin { position: sticky; top: 0; height: 100dvh; overflow: hidden; }
+  .stand__screen { position: absolute; left: 0; top: 0; width: 1400px; height: 1009px; overflow: hidden; background: #000; transform-origin: 0 0; }
+  .stand__screen img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 520ms var(--ease); }
+  .stand__screen img.cur { opacity: 1; }
+  .steps { position: absolute; z-index: 2; inset-inline-start: var(--g); top: 50%; translate: 0 -50%; width: min(360px, 28vw); display: grid; gap: 4px; }
+  .step { padding: 14px 16px; border-radius: 4px; background: color-mix(in oklch, var(--c-surface) 86%, transparent); border: 1px solid transparent; transition: background 300ms, border-color 300ms, opacity 300ms; opacity: 0.55; }
+  .step.cur { opacity: 1; border-color: var(--c-rule); background: var(--c-surface); }
+  .step small { font: 500 11px var(--mono); color: var(--c-accent); }
+  .step h2 { margin: 4px 0 4px; font: 700 20px/1.15 var(--f); letter-spacing: -0.02em; }
+  .step p { margin: 0; font-size: 14px; color: var(--c-ink-2); display: grid; grid-template-rows: 0fr; transition: grid-template-rows 420ms var(--ease); }
+  .step p span { overflow: hidden; }
+  .step.cur p { grid-template-rows: 1fr; }
+
+  /* what makes it different */
+  .diff { max-width: 1440px; margin: 0 auto; padding: clamp(90px, 14vh, 160px) var(--g); }
+  .diff__head { display: flex; justify-content: space-between; align-items: end; gap: 40px; flex-wrap: wrap; margin-bottom: 32px; }
+  .diff__head h2 { margin: 0; font: 700 clamp(32px, 3.4vw, 54px)/1 var(--f); letter-spacing: -0.035em; }
+  .diff__head p { margin: 0; max-width: 46ch; color: var(--c-ink-2); font-size: 17px; }
+  .diff__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--c-rule); border-radius: 4px; overflow: hidden; }
+  .diff__grid article { background: var(--c-surface); padding: 22px 24px 28px; display: grid; gap: 8px; align-content: start; }
+  /* the examples: small, live pieces in the app's own style */
+  .ex { margin-bottom: 14px; padding: 14px; border-radius: 12px; background: oklch(12% 0.018 210); border: 1px solid oklch(26% 0.02 205); min-height: 132px; display: grid; align-content: center; gap: 6px; font-size: 13px; }
+  .ex b { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ex__top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; color: var(--c-muted); font: 400 12px var(--mono); }
+  .ex__top b { font: 600 22px ui-rounded, "SF Pro Rounded", var(--f); color: #4ade80; letter-spacing: -0.01em; }
+  .ex__top b .tick { color: inherit; font: inherit; font-size: 0.55em; opacity: 0.7; margin-inline-start: 1px; display: inline-block; min-width: 0.6em; }
+  .ex__cap { font-size: 12px; color: var(--c-muted); }
+  .ex--sheet { grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; }
+  .ex--sheet .ex__h { display: block; font: 500 10px var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-muted); margin-bottom: 4px; }
+  .ex--sheet p { display: flex; justify-content: space-between; gap: 6px; margin: 0; padding: 3px 0; border-bottom: 1px solid oklch(24% 0.02 205); font-size: 12px; color: var(--c-ink-2); }
+  .ex--sheet .eqrow { border: 0; color: #40c8e0; } .ex--sheet .eqrow b { color: #40c8e0; }
+  .ex--list p { display: flex; align-items: center; gap: 10px; margin: 0; padding: 4px 0; }
+  .ex--list i { flex: none; width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font: 700 11px var(--f); font-style: normal; color: #fff; }
+  .ex--list span { flex: 1; color: var(--c-ink-2); }
+  .ex--bud p { display: flex; justify-content: space-between; margin: 0; color: var(--c-ink-2); font-size: 12px; }
+  .bb { position: relative; height: 9px; border-radius: 5px; background: oklch(26% 0.02 205); overflow: visible; margin-bottom: 4px; }
+  .bb i { position: absolute; inset: 0 auto 0 0; border-radius: 5px; background: #30d158; }
+  .bb u { position: absolute; top: 0; bottom: 0; border-radius: 0 5px 5px 0; background: repeating-linear-gradient(135deg, #30d15866 0 3px, transparent 3px 6px); }
+  .bb s { position: absolute; top: -3px; bottom: -3px; width: 2px; background: #fff; border-radius: 1px; }
+  .bb--over i { background: #30d158; } .bb--over u { background: repeating-linear-gradient(135deg, #ff453a 0 3px, #ff453a66 3px 6px); }
+  .over { color: #ff6961; }
+  .ex--habit { grid-template-columns: 76px 1fr; align-items: center; gap: 14px; }
+  .rings { width: 76px; height: 76px; transform: rotate(-90deg); }
+  .rings circle { fill: none; stroke-width: 6; stroke-linecap: round; }
+  .rings .rg { stroke: oklch(26% 0.02 205); }
+  .rings .r1 { stroke: #fa114f; stroke-dasharray: 157; stroke-dashoffset: 30; }
+  .rings .r2 { stroke: #7ae200; stroke-dasharray: 113; stroke-dashoffset: 40; }
+  .rings .r3 { stroke: #8e5cff; stroke-dasharray: 69; stroke-dashoffset: 28; }
+  .ex--habit p { margin: 0 0 4px; } .flame b { color: #ffb547; } .pts b { color: #b9b0ff; } .lvl { font-size: 12px; color: var(--c-muted); }
+  .ex--you .lock { margin: 0; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .ic { width: 16px; height: 16px; vertical-align: -3px; flex: none; }
+  .langs { display: flex; flex-wrap: wrap; gap: 4px; }
+  .langs i { font: 500 10px var(--mono); font-style: normal; padding: 3px 6px; border-radius: 4px; background: oklch(22% 0.02 205); color: var(--c-ink-2); }
+  /* Month Wrapped: the track slides sideways while the section holds */
+  .wr { position: relative; height: 320vh; }
+  .wr__pin { position: sticky; top: 0; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 28px; padding-top: 48px; }
+  .wr__head { padding: 0 var(--g); display: flex; justify-content: space-between; align-items: end; gap: 40px; flex-wrap: wrap; }
+  .wr__head h2 { margin: 0; font: 700 clamp(32px, 3.4vw, 54px)/1 var(--f); letter-spacing: -0.035em; }
+  .wr__head p { margin: 0; max-width: 50ch; color: var(--c-ink-2); }
+  .wr__track { display: flex; gap: 20px; padding: 0 var(--g); will-change: transform; }
+  /* Each card at its own proportions (one is taller), all the same height. */
+  .wr__track img { flex: none; height: min(56vh, 480px); width: auto; border-radius: 20px; box-shadow: 0 30px 60px -30px #000; }
+  .diff__grid small { font: 500 11px var(--mono); color: var(--c-accent); }
+  .diff__grid h3 { margin: 0; font: 700 21px/1.15 var(--f); letter-spacing: -0.02em; }
+  .diff__grid p { margin: 0; color: var(--c-ink-2); font-size: 15px; }
+  /* the setup, on the laptop */
+  .ob { position: relative; height: 420vh; }
+  .ob__pin { position: sticky; top: 0; height: 100dvh; overflow: hidden; }
+  .ob__stage { position: absolute; inset: 48px 0 0 36%; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14%); mask-image: linear-gradient(90deg, transparent 0, #000 14%); }
+  .ob__screen { position: absolute; left: 0; top: 0; width: 1440px; height: 953px; overflow: hidden; background: #000; transform-origin: 0 0; }
+  .ob__screen img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 520ms var(--ease); }
+  .ob__screen img.cur { opacity: 1; }
+  .ob__col { position: absolute; z-index: 2; inset-inline-start: var(--g); top: 48px; bottom: 0; width: min(460px, calc(36% - var(--g))); display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+  .ob__col > h2 { margin: 0; font: 700 clamp(30px, 3vw, 48px)/1 var(--f); letter-spacing: -0.035em; }
+  .ob__lede { margin: 0 0 8px; color: var(--c-ink-2); }
+  .steps--ob { position: static; translate: none; width: auto; }
+  /* every device */
+  .trio { padding: clamp(90px, 14vh, 160px) 0 clamp(40px, 6vh, 80px); }
+  .trio__head { padding: 0 var(--g); max-width: 1440px; margin: 0 auto 10px; display: flex; justify-content: space-between; align-items: end; gap: 40px; flex-wrap: wrap; }
+  .trio__head h2 { margin: 0; font: 700 clamp(32px, 3.4vw, 54px)/1 var(--f); letter-spacing: -0.035em; }
+  .trio__head p { margin: 0; max-width: 48ch; color: var(--c-ink-2); }
+  .trio__stage { position: relative; height: min(56.25vw, 92vh); overflow: hidden; }
+  .dev { position: absolute; left: 0; top: 0; overflow: hidden; background: #000; transform-origin: 0 0; }
+  .dev iframe { position: absolute; left: 0; top: 0; border: 0; }
+  .dev--phone iframe { top: 40px; }
+  .trio__labels { list-style: none; margin: 0; padding: 0 var(--g); display: flex; justify-content: space-around; font: 500 12px var(--mono); color: var(--c-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  /* the phone */
+  .phone { position: relative; height: 100dvh; min-height: 620px; overflow: hidden; }
+  /* The phone's screen: a status-bar strip on top and the home indicator
+     below, so the app sits inside the glass like on a real phone. */
+  .phone__screen { position: absolute; left: 0; top: 0; width: 390px; height: 884px; overflow: hidden; background: #000; transform-origin: 0 0; }
+  .phone__screen iframe { position: absolute; left: 0; top: 46px; width: 390px; height: 812px; border: 0; background: #000; }
+  .phone__home { position: absolute; left: 50%; bottom: 9px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: rgba(255, 255, 255, 0.55); }
+  .phone__copy { position: absolute; z-index: 2; inset-inline-start: var(--g); bottom: 12vh; max-width: 420px; }
+  .phone__copy h2 { margin: 0 0 10px; font: 700 clamp(30px, 3.4vw, 52px)/1 var(--f); letter-spacing: -0.035em; }
+  .phone__copy p { margin: 0 0 22px; color: var(--c-ink-2); }
+
+  /* pricing: B's mono table */
+  .pricing { padding: clamp(80px, 12vh, 140px) var(--g); max-width: 1200px; margin: 0 auto; }
+  .pricing h2 { margin: 0 0 8px; font: 700 clamp(30px, 3vw, 46px)/1 var(--f); letter-spacing: -0.03em; }
+  .pricing > p { margin: 0 0 28px; color: var(--c-ink-2); }
+  .plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--c-rule); border-radius: 4px; overflow: hidden; }
+  .plan { background: var(--c-surface); padding: 20px; display: grid; gap: 6px; }
+  .plan[data-best] { box-shadow: inset 0 0 0 1px var(--c-accent); }
+  .plan b { font-size: 15px; }
+  .plan strong { font: 500 26px var(--mono); }
+  .plan small { color: var(--c-muted); font-size: 13px; }
+  .foot { display: flex; justify-content: space-between; gap: 20px; padding: 28px var(--g); border-block-start: 1px solid var(--c-rule); font: 400 12px var(--mono); color: var(--c-muted); }
+  @media (max-width: 900px) {
+    .status nav a:not(.btn), .state { display: none; }
+    .hero { height: auto; min-height: 0; display: grid; }
+    .hero__col { position: relative; inset: auto; width: auto; padding: 72px var(--g) 24px; }
+    .hero__stage { position: relative; inset: auto; height: 62vh; -webkit-mask-image: none; mask-image: none; }
+    .steps { inset: auto var(--g) 18px; translate: none; width: auto; }
+    .step:not(.cur) { display: none; }
+    .plans { grid-template-columns: 1fr 1fr; }
+    .diff__grid { grid-template-columns: 1fr; }
+    .wr__track img { height: 34vh; }
+    .ob { height: auto; } .ob__pin { position: relative; height: auto; display: grid; }
+    .ob__col { position: relative; inset: auto; width: auto; padding: 60px var(--g) 20px; }
+    .ob__stage { position: relative; inset: auto; height: 50vh; -webkit-mask-image: none; mask-image: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .live-screen, .stand__screen img, .step, .step p { transition: none; } }
+</style>
+</head>
+<body>
+<header class="status">
+  <b>Personal Finance</b>
+  <span class="state"><span class="dot"></span><span id="clock">live</span></span>
+  <nav aria-label="Hoofdmenu"><a href="#functies">Functies</a><a href="/app">Inloggen</a><a class="btn" href="/app?demo=1">Bekijk de live demo</a></nav>
+</header>
+
+<main>
+  <!-- 1 · The desk. The real app is running on the iPad: try it. -->
+  <section class="hero" id="hero">
+    <div class="hero__stage" id="heroStage">
+      <img class="photo" src="/home/img/bare-ipad-top.webp?v=5" width="2400" height="1350" alt="" fetchpriority="high">
+      <iframe class="live-screen" id="ipad" src="/app?demo=1" width="1440" height="1018" title="De Personal Finance app, live, met demodata" loading="eager"></iframe>
+    </div>
+    <div class="hero__col">
+      <h1 id="h1">Je hele financiële leven, live.</h1>
+      <p class="hero__sub">Je <span class="chip" style="--c:#30d158">loon <b id="subPay">€ 0,00</b></span>, je <span class="chip" style="--c:#ffb547">bitcoin <b id="subBtc">€ …</b></span> en je <span class="chip" style="--c:#5b8def">huis <b>€ 425.000</b></span> in één balans die <em>elke seconde</em> bijwerkt.</p>
+      <a class="btn btn--lg" href="/app?demo=1">Bekijk de live demo<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    <div class="console" aria-label="Live voorbeeld">
+      <header><span><i class="pulse"></i>LIVE · voorbeeld</span><span id="day">dag 0</span></header>
+      <div class="read">
+        <small>Je loon telt elke seconde</small><strong id="pay">€ 0,000</strong>
+        <div class="mbar" aria-hidden="true"><i id="mfill"></i><span id="mticks"></span></div>
+        <em>€ 3.800 per maand, over elke seconde verdeeld: je saldo klopt elke dag, niet pas na betaaldag.</em>
+      </div>
+      <div class="read">
+        <small>Je beleggingen bewegen mee</small>
+        <div class="readrow"><strong id="btc">laden…</strong><svg class="spark" id="spark" viewBox="0 0 120 34" preserveAspectRatio="none" aria-hidden="true"><path id="sparkArea" class="spark__area" d=""></path><path id="sparkLine" class="spark__line" d=""></path></svg></div>
+        <em id="btcsub">0,05 bitcoin tegen de echte koers</em>
+      </div>
+      <div class="read read--eq">
+        <small>Alles samen in je eigen vermogen</small><strong id="eq">€ 0,00</strong>
+        <div class="stack" aria-hidden="true"><i style="flex:425;background:#5b8def"></i><i style="flex:17;background:#30d158"></i><i style="flex:10;background:#ffb547"></i><i class="neg" style="flex:328"></i></div>
+        <em><b style="color:#5b8def">huis</b> · <b style="color:#30d158">rekeningen</b> · <b style="color:#ffb547">beleggingen</b> · <b class="negtxt">hypotheek en leningen</b></em>
+      </div>
+    </div>
+      <span class="hint">Rechts draait <b>de echte app</b>, met demodata. Klik er gerust in.</span>
+    </div>
+  </section>
+
+  <!-- What makes it different: six plain claims, no invented numbers. -->
+  <section class="diff" id="anders">
+    <div class="diff__head"><h2>Wat ons anders maakt.</h2><p>De meeste geld-apps laten je vorige maand zien. Deze laat je nu zien, en alles tegelijk.</p></div>
+    <div class="diff__grid">
+      <article>
+        <div class="ex ex--live" aria-hidden="true"><div class="ex__top"><span id="exNow">dinsdag 14:32</span><b id="exEarned">€ 0,00</b></div><div class="mbar"><i id="exFill"></i></div><span class="ex__cap">van je € 3.800 al binnen deze maand</span></div>
+        <small>01</small><h3>Live, elke seconde</h3><p>Je loon, vaste lasten en budgetten worden over elke seconde van de maand verdeeld. Voorbeeld: op de 10e staat al een derde van je loon in je saldo, ook al is je betaaldag pas de 25e.</p>
+      </article>
+      <article>
+        <div class="ex ex--sheet" aria-hidden="true">
+          <div><span class="ex__h">Bezit</span><p><span>Huis</span><b>€ 425.000</b></p><p><span>Rekeningen</span><b>€ 16.900</b></p><p><span>Beleggingen</span><b>€ 10.474</b></p></div>
+          <div><span class="ex__h">Schulden + eigen vermogen</span><p><span>Hypotheek</span><b>€ 310.000</b></p><p><span>Studieschuld</span><b>€ 18.000</b></p><p class="eqrow"><span>Eigen vermogen</span><b>€ 124.374</b></p></div>
+        </div>
+        <small>02</small><h3>Een echte balans</h3><p>Bezit, schulden en eigen vermogen, zoals een bedrijf het doet. Voorbeeld: elke maand gaat € 575 van je hypotheeklast als aflossing naar je eigen vermogen, en dat zie je groeien.</p>
+      </article>
+      <article>
+        <div class="ex ex--list" aria-hidden="true">
+          <p><i style="background:#f7931a">₿</i><span>Bitcoin</span><b id="exBtc">€ …</b></p>
+          <p><i style="background:#e5e5e5"><svg viewBox="0 0 24 24" width="14" height="14" fill="#111" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.9-1.4z"/></svg></i><span>Apple</span><b>€ 3.691</b></p>
+          <p><i style="background:#d4af37">Au</i><span>Goud</span><b>€ 3.624</b></p>
+          <p><i style="background:#5b8def">W</i><span>Wereld-ETF</span><b>€ 7.104</b></p>
+        </div>
+        <small>03</small><h3>Alles op één plek</h3><p>Aandelen, ETF's, crypto en edelmetaal met live koersen, naast je rekeningen, je huis en je leningen. Voorbeeld: daalt bitcoin vandaag, dan zie je je eigen vermogen meteen mee bewegen.</p>
+      </article>
+      <article>
+        <div class="ex ex--bud" aria-hidden="true">
+          <p><span>Boodschappen</span><b>€ 380 / € 420</b></p><div class="bb"><i style="width:72%"></i><s style="left:81%"></s><u style="left:72%;width:9%"></u></div>
+          <p><span>Uitgaan</span><b class="over">€ 196 / € 150</b></p><div class="bb bb--over"><i style="width:77%"></i><s style="left:77%"></s><u style="left:77%;width:23%"></u></div>
+          <span class="ex__cap">verwacht aan het eind van de maand · <b class="over">€ 46 over je budget</b></span>
+        </div>
+        <small>04</small><h3>Je ziet het aankomen</h3><p>Een prognose per budget, je runway en je vrijheidsgetal. Voorbeeld: halverwege de maand zie je al dat uitgaan € 46 over je budget gaat, terwijl je nog kunt bijsturen.</p>
+      </article>
+      <article>
+        <div class="ex ex--habit" aria-hidden="true">
+          <svg viewBox="0 0 60 60" class="rings"><circle cx="30" cy="30" r="25" class="rg"/><circle cx="30" cy="30" r="25" class="r1"/><circle cx="30" cy="30" r="18" class="rg"/><circle cx="30" cy="30" r="18" class="r2"/><circle cx="30" cy="30" r="11" class="rg"/><circle cx="30" cy="30" r="11" class="r3"/></svg>
+          <div><p class="flame"><svg class="ic" viewBox="0 0 24 24" fill="#ffb547"><path d="M12 2c1 3.5-1.5 5-1.5 8 0 1.4 1 2.5 2.3 2.5 1.6 0 2.4-1.4 2-3.4 2.4 1.6 3.7 4.2 3.7 6.6A6.5 6.5 0 0 1 12 22a6.5 6.5 0 0 1-6.5-6.3C5.5 10.5 10 7.5 12 2z"/></svg> <b>12 dagen</b> op rij</p><p class="pts"><svg class="ic" viewBox="0 0 24 24" fill="#ffd60a"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z"/></svg> <b>+15 punten</b> vandaag</p><p class="lvl">Niveau Controller · nog 340 tot CFO</p></div>
+        </div>
+        <small>05</small><h3>Een gewoonte die beloont</h3><p>Elke dag in een minuut bijwerken. Daar krijg je punten, ringen en een vlam voor, en elke maand een eigen Wrapped met hoe het ging.</p>
+      </article>
+      <article>
+        <div class="ex ex--you" aria-hidden="true">
+          <p class="lock"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#35e0c2" stroke-width="2" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg> Versleuteld opgeslagen</p>
+          <div class="langs"><i>NL</i><i>EN</i><i>DE</i><i>FR</i><i>ES</i><i>IT</i><i>PT</i><i>PL</i><i>TR</i><i>RU</i><i>AR</i><i>HI</i><i>ID</i><i>JA</i><i>KO</i><i>VI</i><i>ZH</i></div>
+        </div>
+        <small>06</small><h3>Alleen van jou</h3><p>Versleuteld opgeslagen, en met een wachtwoordzin kun alleen jij je cijfers lezen. Op het web, iPhone en iPad, in 17 talen.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Month Wrapped: the month's story, cards sliding sideways with the scroll. -->
+  <section class="wr" id="wrapped">
+    <div class="wr__pin">
+      <div class="wr__head"><h2>Elke maand je eigen Wrapped.</h2><p>Sluit je de maand af, dan krijg je hem als verhaal terug: wat je hebt opgezet, waar het heen ging, hoe je beleggingen het deden en hoeveel rijker je bent.</p></div>
+      <div class="wr__track" id="wrTrack">
+        <img src="/home/img/wr-0.webp?v=5" alt="Month Wrapped: dit heb je opgezet"><img src="/home/img/wr-1.webp?v=5" alt="Month Wrapped: waar het heen ging"><img src="/home/img/wr-2.webp?v=5" alt="Month Wrapped: tegen je gemiddelde"><img src="/home/img/wr-3.webp?v=5" alt="Month Wrapped: beleggingen"><img src="/home/img/wr-4.webp?v=5" alt="Month Wrapped: eigen vermogen"><img src="/home/img/wr-5.webp?v=5" alt="Month Wrapped: feiten"></div>
+      <span class="hint" style="margin-inline-start:var(--g)">Echte Wrapped-kaarten uit de app, met demodata.</span>
+    </div>
+  </section>
+
+  <!-- 2 · The stand: the screen pages through the app while you scroll. -->
+  <section class="stand" id="functies">
+    <div class="stand__pin" id="standPin">
+      <img class="photo" src="/home/img/bare-ipad-stand.webp?v=5" width="2400" height="1350" alt="" loading="lazy">
+      <div class="stand__screen" id="standScreen" aria-hidden="true">
+        <img class="cur" src="/home/img/st-balance.webp?v=5" alt=""><img src="/home/img/st-budgets.webp?v=5" alt=""><img src="/home/img/st-figures.webp?v=5" alt=""><img src="/home/img/st-investments.webp?v=5" alt=""><img src="/home/img/st-progress.webp?v=5" alt="">
+      </div>
+      <div class="steps" id="steps">
+        <div class="step cur"><small>01 Balans</small><h2>Weet wat je écht waard bent</h2><p><span>Je huis, je spaargeld en je beleggingen tegenover je hypotheek en leningen: één eerlijk getal, elke dag bijgewerkt, zoals een bedrijf zijn balans bijhoudt.</span></p></div>
+        <div class="step"><small>02 Budgetten</small><h2>Geen verrassingen aan het eind van de maand</h2><p><span>Halverwege de maand zie je al welke budgetten het niet gaan halen, zodat je nog kunt bijsturen in plaats van achteraf te schrikken.</span></p></div>
+        <div class="step"><small>03 Kerncijfers</small><h2>Zie hoe dicht je bij financiële vrijheid bent</h2><p><span>Hoeveel procent je spaart, hoeveel maanden je het zonder inkomen redt en in welk jaar je van je vermogen kunt leven. Rechtstreeks uit je eigen boeken.</span></p></div>
+        <div class="step"><small>04 Beleggingen</small><h2>Al je beleggingen in één overzicht</h2><p><span>Aandelen, ETF's, bitcoin en goud bij elkaar, met live koersen. Geen vijf apps meer openen om te zien hoe je ervoor staat.</span></p></div>
+        <div class="step"><small>05 Voortgang</small><h2>Een minuut per dag houdt je bij</h2><p><span>Je check-in vraagt alleen of alles klopt. Daar krijg je punten, ringen en een vlam voor, zodat bijhouden net zo vanzelf gaat als je stappen tellen.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The setup: tailored to you, shown on the laptop while you scroll. -->
+  <section class="ob" id="onboarding">
+    <div class="ob__pin" id="obPin">
+      <div class="ob__stage" id="obStage">
+        <img class="photo" src="/home/img/bare-laptop.webp?v=5" width="2400" height="1350" alt="" loading="lazy">
+        <div class="ob__screen" id="obScreen" aria-hidden="true">
+          <img class="cur" src="/home/img/ob-route.webp?v=5" alt=""><img src="/home/img/ob-fixed.webp?v=5" alt=""><img src="/home/img/ob-subs.webp?v=5" alt=""><img src="/home/img/ob-mortgage.webp?v=5" alt=""><img src="/home/img/ob-tour.webp?v=5" alt="">
+        </div>
+      </div>
+      <div class="ob__col">
+        <h2>Helemaal op jou afgestemd.</h2>
+        <p class="ob__lede">Geen standaardsjabloon. In een paar minuten staat jouw financiële leven erin, precies zoals het is.</p>
+        <div class="steps steps--ob" id="obSteps">
+          <div class="step cur"><small>01 Jouw route</small><h2>Over twee minuten heb je al overzicht</h2><p><span>Kies een snelle start en je dashboard staat er meteen. Wil je alles, neem dan tien minuten: wat je nu overslaat, vul je later gewoon aan.</span></p></div>
+          <div class="step"><small>02 Vaste lasten</small><h2>Eén keer invoeren, daarna gaat het vanzelf</h2><p><span>Huur, energie, verzekeringen en abonnementen boeken zichzelf elke maand op de juiste dag. Je ziet wat er deze maand nog afgaat, en je saldo houdt er nu al rekening mee.</span></p></div>
+          <div class="step"><small>03 Abonnementen</small><h2>Zie wat je abonnementen écht kosten</h2><p><span>Netflix, Spotify, de sportschool: los zijn het kleine bedragen, samen vaak meer dan je denkt. Je ziet het totaal per maand en per jaar, en wat je kunt schrappen.</span></p></div>
+          <div class="step"><small>04 Je hypotheek</small><h2>Zie je huis elke maand meer van jou worden</h2><p><span>Alleen de rente is een kostenpost; de aflossing groeit als eigen vermogen. En je ziet precies in welke maand je hypotheekvrij bent.</span></p></div>
+          <div class="step"><small>05 Klaar</small><h2>Meteen weten hoe je ervoor staat</h2><p><span>Een rondleiding door je eigen cijfers: hoeveel je elke maand overhoudt, hoe lang je zonder inkomen redt en wanneer je financieel vrij bent.</span></p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Every device, the same live books. -->
+  <section class="trio" id="apparaten">
+    <div class="trio__head"><h2>Op al je apparaten, altijd gelijk.</h2><p>Boek een uitgave op je telefoon en je iPad en laptop weten het meteen. Hieronder draait drie keer dezelfde app, live, tegelijk.</p></div>
+    <div class="trio__stage" id="trioStage">
+      <img class="photo" src="/home/img/bare-trio.webp?v=5" width="2400" height="1350" alt="Een iPad, een laptop en een telefoon naast elkaar op een bureau, alle drie met de app" loading="lazy">
+      <div class="dev" id="devIpad" style="width:1440px;height:981px"><iframe data-src="/app?demo=1" width="1440" height="981" title="De app op een iPad, live"></iframe></div>
+      <div class="dev" id="devLaptop" style="width:1440px;height:918px"><iframe data-src="/app?demo=1" width="1440" height="918" title="De app op een laptop, live"></iframe></div>
+      <div class="dev dev--phone" id="devPhone" style="width:390px;height:822px"><iframe data-src="/app?demo=1" width="390" height="760" title="De app op een telefoon, live"></iframe><span class="phone__home" aria-hidden="true"></span></div>
+    </div>
+  </section>
+
+  <!-- 3 · The phone: the app live in your hand. -->
+  <section class="phone" id="phoneSec">
+    <img class="photo" src="/home/img/bare-phone.webp?v=5" width="2400" height="1350" alt="" loading="lazy">
+    <div class="phone__screen" id="phoneScreen">
+      <iframe id="phone" data-src="/app?demo=1" width="390" height="812" title="De app op een telefoon, live, met demodata"></iframe>
+      <span class="phone__home" aria-hidden="true"></span>
+    </div>
+    <div class="phone__copy"><h2>Altijd bij je.</h2><p>Dezelfde cijfers op je telefoon, je iPad en het web. Altijd bij, altijd gelijk.</p><a class="btn btn--lg" href="/app?demo=1">Bekijk de live demo<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+  </section>
+  <footer class="foot"><span>Personal Finance · Your Finance Academy</span><a href="/privacy/web-app">Privacy</a></footer>
+</main>
+
+<script src="/home/shared.js"></script>
+<script>
+  // Exact screen rectangles in the photos (2400 x 1350), measured from the images.
+  var IMG = { w: 2400, h: 1350 };
+  var rect = function (L, T, R, B) { return [[L, T], [R, T], [R, B], [L, B]]; };
+  var LAPTOP = rect(592.9, 174.7, 1808.8, 979.4), IPAD = rect(563.8, 219.7, 1840.6, 1122.4), STAND = rect(712.1, 261.2, 1701.2, 974.1), PHONE = rect(969.7, 142.1, 1435.6, 1198.2);
+  var hero = document.getElementById('hero'), ipad = document.getElementById('ipad');
+  var standPin = document.getElementById('standPin'), standScreen = document.getElementById('standScreen');
+  var phoneSec = document.getElementById('phoneSec'), phone = document.getElementById('phone');
+  // Round a screen like its glass. clip-path, not border-radius: inside a 3D
+  // transform Chrome ignores border-radius clipping on a live iframe.
+  // `top` rounds only the top corners (a laptop's display).
+  function round(el, w, r, top) {
+    var px = (w * r).toFixed(1) + 'px';
+    el.style.clipPath = 'inset(0 round ' + (top ? px + ' ' + px + ' 0 0' : px) + ')';
+  }
+  function lay() {
+    PF.onto(ipad, document.getElementById('heroStage'), IMG, IPAD); round(ipad, 1440, 0.024);
+    PF.onto(standScreen, standPin, IMG, STAND); round(standScreen, 1400, 0.024);
+    PF.onto(document.getElementById('obScreen'), document.getElementById('obStage'), IMG, LAPTOP); round(document.getElementById('obScreen'), 1440, 0.012, true);
+    var trio = document.getElementById('trioStage');
+    PF.onto(document.getElementById('devIpad'), trio, IMG, rect(179.1, 553.2, 882.4, 1032.4)); round(document.getElementById('devIpad'), 1440, 0.024);
+    PF.onto(document.getElementById('devLaptop'), trio, IMG, rect(1011.2, 451.8, 1845.9, 983.8)); round(document.getElementById('devLaptop'), 1440, 0.012, true);
+    PF.onto(document.getElementById('devPhone'), trio, IMG, rect(2029.4, 628.2, 2232.4, 1056.2)); round(document.getElementById('devPhone'), 390, 0.13);
+    var phoneScreen = document.getElementById('phoneScreen');
+    PF.onto(phoneScreen, phoneSec, IMG, PHONE); round(phoneScreen, 390, 0.125);
+  }
+  lay(); addEventListener('resize', lay);
+  ipad.addEventListener('load', function () { setTimeout(function () { ipad.classList.add('on'); }, 400); });
+  // The three devices load their app when the section comes near.
+  new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.querySelectorAll('iframe[data-src]').forEach(function (f) { if (!f.src) f.src = f.dataset.src; }); }); }, { rootMargin: '600px' }).observe(document.getElementById('apparaten'));
+  // The phone's app loads when it comes near.
+  new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && !phone.src) phone.src = phone.dataset.src; }); }, { rootMargin: '400px' }).observe(phoneSec);
+
+  // The stand pages through the app with the scroll; the step list follows.
+  var stand = document.getElementById('functies'), shots = standScreen.querySelectorAll('img'), steps = document.querySelectorAll('#steps .step'), cur = 0;
+  addEventListener('scroll', function () {
+    var r = stand.getBoundingClientRect(), span = stand.offsetHeight - innerHeight;
+    var i = Math.min(shots.length - 1, Math.max(0, Math.floor((-r.top / span) * shots.length)));
+    if (i === cur) return; cur = i;
+    shots.forEach(function (s, k) { s.classList.toggle('cur', k === i); });
+    steps.forEach(function (s, k) { s.classList.toggle('cur', k === i); });
+  }, { passive: true });
+
+  // Month Wrapped: the track travels sideways across the held section.
+  (function () {
+    var sec = document.getElementById('wrapped'), track = document.getElementById('wrTrack');
+    function f() {
+      var r = sec.getBoundingClientRect(), span = sec.offsetHeight - innerHeight;
+      var p = Math.min(Math.max(-r.top / span, 0), 1), max = track.scrollWidth - innerWidth;
+      track.style.transform = 'translate3d(' + (-p * Math.max(max, 0)).toFixed(1) + 'px,0,0)';
+    }
+    addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f();
+  })();
+  // The bitcoin sparkline: the real last 24 hours.
+  (function () {
+    fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=eur&days=1').then(function (r) { return r.json(); }).then(function (j) {
+      var pts = j.prices.map(function (x) { return x[1]; }), lo = Math.min.apply(null, pts), hi = Math.max.apply(null, pts);
+      var xy = pts.map(function (v, i) { return [i / (pts.length - 1) * 120, 32 - (v - lo) / Math.max(hi - lo, 1) * 30]; });
+      var d = 'M' + xy.map(function (q) { return q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join(' L');
+      document.getElementById('sparkLine').setAttribute('d', d);
+      document.getElementById('sparkArea').setAttribute('d', d + ' L120 34 L0 34 Z');
+      document.getElementById('spark').classList.toggle('up', pts[pts.length - 1] >= pts[0]);
+    }).catch(function () {});
+  })();
+  // The setup pages on the laptop the same way.
+  (function () {
+    var sec = document.getElementById('onboarding'), shots = document.querySelectorAll('#obScreen img'), steps = document.querySelectorAll('#obSteps .step'), cur = 0;
+    addEventListener('scroll', function () {
+      var r = sec.getBoundingClientRect(), span = sec.offsetHeight - innerHeight;
+      var i = Math.min(shots.length - 1, Math.max(0, Math.floor((-r.top / span) * shots.length)));
+      if (i === cur) return; cur = i;
+      shots.forEach(function (s, k) { s.classList.toggle('cur', k === i); });
+      steps.forEach(function (s, k) { s.classList.toggle('cur', k === i); });
+    }, { passive: true });
+  })();
+  // B: scramble the headline once, then the live readouts.
+  (function () {
+    var h = document.getElementById('h1'), txt = h.textContent, chars = '0123456789€%+.,', t0 = performance.now();
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    (function f(now) { var p = Math.min((now - t0) / 650, 1), n = Math.floor(p * txt.length);
+      h.textContent = txt.slice(0, n) + txt.slice(n).replace(/\S/g, function () { return chars[Math.floor(Math.random() * chars.length)]; });
+      if (p < 1) requestAnimationFrame(f); else h.textContent = txt; })(t0);
+  })();
+  function tick() {
+    var m = PF.month(), d = new Date();
+    document.getElementById('pay').textContent = PF.f3.format(m.earned);
+    document.getElementById('day').textContent = 'dag ' + d.getDate() + ' van ' + new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+    document.getElementById('clock').textContent = d.toLocaleTimeString('nl-NL') + ' · live';
+    if (PF.btc.eur != null) {
+      document.getElementById('btc').textContent = PF.f2.format(PF.btc.eur * 0.05);
+      document.getElementById('btcsub').textContent = '0,05 bitcoin tegen de echte koers, ' + (PF.btc.ch >= 0 ? '+' : '') + PF.btc.ch.toFixed(1).replace('.', ',') + '% vandaag.';
+    }
+    document.getElementById('subPay').textContent = PF.f2.format(m.earned);
+    if (PF.btc.eur != null) document.getElementById('subBtc').textContent = PF.f0.format(PF.btc.eur * 0.05) + ' ' + (PF.btc.ch >= 0 ? '↑' : '↓');
+    document.getElementById('mfill').style.width = (m.f * 100).toFixed(3) + '%';
+    document.getElementById('exFill').style.width = (m.f * 100).toFixed(3) + '%';
+    // Cents plus one smaller, faster digit, the way the app ticks.
+    var v = PF.f3.format(m.earned), cut = v.search(/\d(?=\D*$)/);
+    document.getElementById('exEarned').innerHTML = v.slice(0, cut) + '<small class="tick">' + v.slice(cut) + '</small>';
+    document.getElementById('exNow').textContent = d.toLocaleDateString('nl-NL', { weekday: 'long' }) + ' ' + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+    if (PF.btc.eur != null) document.getElementById('exBtc').textContent = PF.f0.format(PF.btc.eur * 0.05);
+    document.getElementById('eq').textContent = PF.f2.format(425000 + 16900 + 7104 + (PF.btc.eur != null ? PF.btc.eur * 0.05 : 0) - 310000 - 18000 + m.earned * 0.14);
+  }
+  tick(); setInterval(tick, 50);
+</script>
+</body>
+</html>
