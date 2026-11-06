@@ -910,3 +910,13 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
   the booking day; free-per-day shows its sum.
 - To port to iOS / Android: all of the above (onboarding model: Line.split,
   Part.linked/every/day, subscriptions step, mortgage details; key figures fix).
+
+## LIVE 2026-11-06
+- `main` pushed (Bart's OK) at 573be3f: phone tab bar (4 tabs + More),
+  `/app?demo=1`, demo data in the visitor's language (Rent = noun, Renting
+  on rent-vs-buy), no dev badge, Wrapped equity line, phone budgets
+  (amounts under the bar). Vercel: success.
+- Product site (A+B concept) still local only:
+  `scrollcraft/builds/personal-finance-v2/site/concepts/ab.html`.
+- System map updated: https://claude.ai/artifact/M57781RSTL8h4RzksrgGd4
+  (Apple Note "Personal Finance — datastructuur" mirrors it).
