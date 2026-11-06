@@ -1677,5 +1677,10 @@
  "Latest income": "آخر الدخل",
  "Type the balances your bank shows; only the ones you change are saved.": "اكتب الأرصدة التي يعرضها بنكك؛ يُحفَظ فقط ما تغيّره.",
  "All pages": "كل الصفحات",
- "More": "المزيد"
+ "More": "المزيد",
+ "Renting": "الإيجار",
+ "Dining Out": "الأكل خارج المنزل",
+ "Utilities": "المرافق",
+ "Freelance": "العمل الحر",
+ "Emergency buffer": "صندوق الطوارئ"
 }

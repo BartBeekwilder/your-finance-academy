@@ -682,7 +682,7 @@
  "Renewal date": "Fecha de renovación",
  "Renewals": "Renovaciones",
  "Renews {date}": "Se renueva el {date}",
- "Rent": "Alquilar",
+ "Rent": "Alquiler",
  "Rent increase per year": "Subida del alquiler por año",
  "Rent or buy": "Alquilar o comprar",
  "Rent or mortgage": "Alquiler o hipoteca",
@@ -1677,5 +1677,10 @@
  "Latest income": "Últimos ingresos",
  "Type the balances your bank shows; only the ones you change are saved.": "Escribe los saldos que muestra tu banco; solo se guardan los que cambies.",
  "All pages": "Todas las páginas",
- "More": "Más"
+ "More": "Más",
+ "Renting": "Alquilar",
+ "Dining Out": "Comer fuera",
+ "Utilities": "Luz y agua",
+ "Freelance": "Freelance",
+ "Emergency buffer": "Fondo de emergencia"
 }

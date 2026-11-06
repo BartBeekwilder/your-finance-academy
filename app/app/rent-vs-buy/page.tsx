@@ -114,7 +114,7 @@ export default function RentVsBuyPage() {
         </div>
         <div className="pf-rvb-duo">
           <Side label={t("Buy")} color={BUY} value={money(at.buyer, currency)} sub={t("home {value} − debt {debt} + invested {inv}", { value: money(at.homeValue * (1 - x.sellCostsRate), currency, { compact: true }), debt: money(at.debt, currency, { compact: true }), inv: money(at.buyerPortfolio, currency, { compact: true }) })} lead={buyAhead} />
-          <Side label={t("Rent")} color={RENT} value={money(at.renter, currency)} sub={t("invested {inv}", { inv: money(at.renterPortfolio, currency, { compact: true }) })} lead={!buyAhead} />
+          <Side label={t("Renting")} color={RENT} value={money(at.renter, currency)} sub={t("invested {inv}", { inv: money(at.renterPortfolio, currency, { compact: true }) })} lead={!buyAhead} />
         </div>
         <label className="pf-re-slider" style={{ gridColumn: "1 / -1" }}>
           <span>{t("Years")} <b className="pf-rounded">{horizon}</b></span>
@@ -157,7 +157,7 @@ export default function RentVsBuyPage() {
             </label>
           </fieldset>
           <fieldset>
-            <legend>{t("Rent")}</legend>
+            <legend>{t("Renting")}</legend>
             <Slider label={t("Rent per month")} value={x.rent} min={300} max={6_000} step={25} show={money(x.rent, currency)} onChange={(v) => set({ rent: v })} />
             <Slider label={t("Rent increase per year")} value={x.rentGrowth} min={0} max={0.08} step={0.0025} show={pct(x.rentGrowth)} onChange={(v) => set({ rentGrowth: v })} />
             <legend style={{ marginTop: 10 }}>{t("Invest")}</legend>
@@ -238,7 +238,7 @@ function WealthChart({ years, horizon, breakEven, currency, onPick }: { years: R
             <span style={{ color: lead >= 0 ? BUY : RENT }}>{lead >= 0 ? t("Buying ahead by {amount}", { amount: money(lead, currency) }) : t("Renting ahead by {amount}", { amount: money(-lead, currency) })}</span>
           ) : (
             <>
-              <span style={{ color: BUY }}>{t("Buy")} {money(p.buyer, currency)}</span> · <span style={{ color: RENT }}>{t("Rent")} {money(p.renter, currency)}</span>
+              <span style={{ color: BUY }}>{t("Buy")} {money(p.buyer, currency)}</span> · <span style={{ color: RENT }}>{t("Renting")} {money(p.renter, currency)}</span>
             </>
           )}
         </span>
@@ -336,7 +336,7 @@ function MonthCost({ r, currency }: { r: ReturnType<typeof rentVsBuy>; currency:
           <b className="pf-rounded">{money(m.total, currency)}</b>
         </div>
         <div className="pf-rvb-row">
-          <span style={{ color: RENT, fontWeight: 700 }}>{t("Rent")}</span>
+          <span style={{ color: RENT, fontWeight: 700 }}>{t("Renting")}</span>
           <div className="pf-rvb-bar">
             <span style={{ width: `${(m.rent / max) * 100}%`, background: RENT }} />
           </div>

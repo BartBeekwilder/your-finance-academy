@@ -1677,5 +1677,10 @@
  "Latest income": "हाल की आय",
  "Type the balances your bank shows; only the ones you change are saved.": "बैंक में दिख रहे बैलेंस लिखें; सिर्फ़ बदले हुए ही सेव होंगे।",
  "All pages": "सभी पेज",
- "More": "और"
+ "More": "और",
+ "Renting": "किराया",
+ "Dining Out": "बाहर खाना",
+ "Utilities": "बिजली-पानी",
+ "Freelance": "फ्रीलांस",
+ "Emergency buffer": "आपात निधि"
 }

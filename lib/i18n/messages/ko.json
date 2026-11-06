@@ -682,7 +682,7 @@
  "Renewal date": "갱신일",
  "Renewals": "갱신",
  "Renews {date}": "{date} 갱신",
- "Rent": "임대",
+ "Rent": "월세",
  "Rent increase per year": "연간 임대료 인상률",
  "Rent or buy": "임대 vs 매수",
  "Rent or mortgage": "월세 또는 주택담보대출",
@@ -1677,5 +1677,10 @@
  "Latest income": "최근 수입",
  "Type the balances your bank shows; only the ones you change are saved.": "은행에 표시된 잔액을 입력하세요. 바꾼 것만 저장돼요.",
  "All pages": "모든 페이지",
- "More": "더보기"
+ "More": "더보기",
+ "Renting": "임대",
+ "Dining Out": "외식",
+ "Utilities": "공과금",
+ "Freelance": "프리랜스",
+ "Emergency buffer": "비상금"
 }

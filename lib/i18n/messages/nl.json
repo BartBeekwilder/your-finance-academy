@@ -682,7 +682,7 @@
  "Renewal date": "Verlengdatum",
  "Renewals": "Verlengingen",
  "Renews {date}": "Verlengt {date}",
- "Rent": "Huren",
+ "Rent": "Huur",
  "Rent increase per year": "Huurverhoging per jaar",
  "Rent or buy": "Huren of kopen",
  "Rent or mortgage": "Huur of hypotheek",
@@ -1683,5 +1683,10 @@
  "Latest income": "Laatste inkomsten",
  "Type the balances your bank shows; only the ones you change are saved.": "Typ de saldi die je bank toont; alleen wat je wijzigt wordt opgeslagen.",
  "All pages": "Alle pagina's",
- "More": "Meer"
+ "More": "Meer",
+ "Renting": "Huren",
+ "Dining Out": "Uit eten",
+ "Utilities": "Energie & water",
+ "Freelance": "Freelance",
+ "Emergency buffer": "Noodbuffer"
 }

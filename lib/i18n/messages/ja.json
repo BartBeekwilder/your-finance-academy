@@ -682,7 +682,7 @@
  "Renewal date": "更新日",
  "Renewals": "更新",
  "Renews {date}": "{date}に更新",
- "Rent": "賃貸",
+ "Rent": "家賃",
  "Rent increase per year": "年間の家賃上昇",
  "Rent or buy": "賃貸か購入か",
  "Rent or mortgage": "家賃または住宅ローン",
@@ -1677,5 +1677,10 @@
  "Latest income": "最近の収入",
  "Type the balances your bank shows; only the ones you change are saved.": "銀行に表示されている残高を入力してください。変更したものだけが保存されます。",
  "All pages": "すべてのページ",
- "More": "その他"
+ "More": "その他",
+ "Renting": "賃貸",
+ "Dining Out": "外食",
+ "Utilities": "光熱費",
+ "Freelance": "フリーランス",
+ "Emergency buffer": "生活防衛資金"
 }

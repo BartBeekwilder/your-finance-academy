@@ -682,7 +682,7 @@
  "Renewal date": "Ngày gia hạn",
  "Renewals": "Gia hạn",
  "Renews {date}": "Gia hạn ngày {date}",
- "Rent": "Thuê",
+ "Rent": "Tiền thuê nhà",
  "Rent increase per year": "Tăng tiền thuê mỗi năm",
  "Rent or buy": "Thuê hay mua",
  "Rent or mortgage": "Tiền thuê hoặc vay nhà",
@@ -1677,5 +1677,10 @@
  "Latest income": "Thu nhập gần đây",
  "Type the balances your bank shows; only the ones you change are saved.": "Nhập số dư ngân hàng hiển thị; chỉ những gì bạn thay đổi được lưu.",
  "All pages": "Tất cả trang",
- "More": "Thêm"
+ "More": "Thêm",
+ "Renting": "Thuê",
+ "Dining Out": "Ăn ngoài",
+ "Utilities": "Điện nước",
+ "Freelance": "Làm tự do",
+ "Emergency buffer": "Quỹ khẩn cấp"
 }

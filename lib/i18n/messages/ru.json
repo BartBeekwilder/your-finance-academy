@@ -1677,5 +1677,10 @@
  "Latest income": "Последние доходы",
  "Type the balances your bank shows; only the ones you change are saved.": "Введите остатки из банка; сохраняются только изменённые.",
  "All pages": "Все страницы",
- "More": "Ещё"
+ "More": "Ещё",
+ "Renting": "Аренда",
+ "Dining Out": "Рестораны",
+ "Utilities": "Коммунальные услуги",
+ "Freelance": "Фриланс",
+ "Emergency buffer": "Подушка безопасности"
 }

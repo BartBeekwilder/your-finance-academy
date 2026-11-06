@@ -682,7 +682,7 @@
  "Renewal date": "Yenileme tarihi",
  "Renewals": "Yenilemeler",
  "Renews {date}": "{date} tarihinde yenilenir",
- "Rent": "Kirala",
+ "Rent": "Kira",
  "Rent increase per year": "Yıllık kira artışı",
  "Rent or buy": "Kirala ya da satın al",
  "Rent or mortgage": "Kira veya konut kredisi",
@@ -1677,5 +1677,10 @@
  "Latest income": "Son gelirler",
  "Type the balances your bank shows; only the ones you change are saved.": "Bankanın gösterdiği bakiyeleri yaz; yalnızca değiştirdiklerin kaydedilir.",
  "All pages": "Tüm sayfalar",
- "More": "Daha fazla"
+ "More": "Daha fazla",
+ "Renting": "Kirala",
+ "Dining Out": "Dışarıda yemek",
+ "Utilities": "Faturalar",
+ "Freelance": "Serbest çalışma",
+ "Emergency buffer": "Acil durum fonu"
 }

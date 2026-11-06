@@ -1,5 +1,6 @@
 import { balanceSheet, live, num, spendByCategory, summarize } from "./calc";
 import type { Category, FinanceData, Transaction } from "./types";
+import { t } from "@/lib/i18n";
 
 // Demo data shown until sign-in exists. The categories are the same starter
 // set iOS seeds on first launch (Services/SeedData.swift), so the web and
@@ -198,7 +199,16 @@ export function buildDemoData(now = new Date()): FinanceData {
     activityDays: [],
     insurancePolicies: demoInsurance(now),
   };
-  return { ...base, ...demoProgress(base, now) };
+  const built = { ...base, ...demoProgress(base, now) };
+  // The names a visitor reads, in their language (built with English names,
+  // which the lookups above use).
+  return {
+    ...built,
+    categories: built.categories.map((c) => ({ ...c, name: t(c.name) })),
+    accounts: built.accounts.map((a) => ({ ...a, name: a.name === "Default" ? t("Current account") : t(a.name) })),
+    holdings: built.holdings.map((h) => (h.symbol === "XAU" ? { ...h, name: t("Gold") } : h)),
+    goals: built.goals.map((g) => (g.kind === "save" ? { ...g, name: t(g.name) } : g)),
+  };
 }
 
 /** January … the month before last closed (with their snapshots; last
