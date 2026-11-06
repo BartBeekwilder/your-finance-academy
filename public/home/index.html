@@ -89,6 +89,12 @@
   /* the stand: pinned, the screen pages through the app */
   .stand { position: relative; height: 420vh; }
   .stand__pin { position: sticky; top: 0; height: 100dvh; overflow: hidden; }
+  .stand__stage { position: absolute; inset: 0; overflow: hidden; }
+  /* squarer screens (iPad): the photo moves right so the stand clears the step list */
+  @media (max-aspect-ratio: 17/10) and (min-width: 901px) {
+    .stand__stage { inset-inline-start: 30%; }
+    .stand__stage .photo { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 10%); mask-image: linear-gradient(90deg, transparent 0, #000 10%); }
+  }
   .stand__screen { position: absolute; left: 0; top: 0; width: 1400px; height: 1009px; overflow: hidden; background: #000; transform-origin: 0 0; }
   .stand__screen img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 520ms var(--ease); }
   .stand__screen img.cur { opacity: 1; }
@@ -182,6 +188,10 @@
   .phone__screen iframe { position: absolute; left: 0; top: 46px; width: 390px; height: 812px; border: 0; background: #000; }
   .phone__home { position: absolute; left: 50%; bottom: 9px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: rgba(255, 255, 255, 0.55); }
   .phone__copy { position: absolute; z-index: 2; inset-inline-start: var(--g); bottom: 12vh; max-width: 420px; }
+  /* squarer screens (iPad): the hand comes closer to the edge, so the copy sits higher and narrower */
+  @media (max-aspect-ratio: 17/10) and (min-width: 901px) {
+    .phone__copy { bottom: auto; top: 30%; max-width: min(420px, 27vw); }
+  }
   .phone__copy h2 { margin: 0 0 10px; font: 700 clamp(30px, 3.4vw, 52px)/1 var(--f); letter-spacing: -0.035em; }
   .phone__copy p { margin: 0 0 22px; color: var(--c-ink-2); }
 
@@ -315,9 +325,11 @@
   <!-- 2 · The stand: the screen pages through the app while you scroll. -->
   <section class="stand" id="functies">
     <div class="stand__pin" id="standPin">
+      <div class="stand__stage" id="standStage">
       <img class="photo" src="/home/img/bare-ipad-stand.webp?v=5" width="2400" height="1350" alt="" loading="lazy">
       <div class="stand__screen" id="standScreen" aria-hidden="true">
         <img class="cur" src="/home/img/st-balance.webp?v=5" alt=""><img src="/home/img/st-budgets.webp?v=5" alt=""><img src="/home/img/st-figures.webp?v=5" alt=""><img src="/home/img/st-investments.webp?v=5" alt=""><img src="/home/img/st-progress.webp?v=5" alt="">
+      </div>
       </div>
       <div class="steps" id="steps">
         <div class="step cur"><small>01 Balans</small><h2>Weet wat je écht waard bent</h2><p><span>Je huis, je spaargeld en je beleggingen tegenover je hypotheek en leningen: één eerlijk getal, elke dag bijgewerkt, zoals een bedrijf zijn balans bijhoudt.</span></p></div>
@@ -393,7 +405,7 @@
   }
   function lay() {
     PF.onto(ipad, document.getElementById('heroStage'), IMG, IPAD); round(ipad, 1440, 0.024);
-    PF.onto(standScreen, standPin, IMG, STAND); round(standScreen, 1400, 0.024);
+    PF.onto(standScreen, document.getElementById('standStage'), IMG, STAND); round(standScreen, 1400, 0.024);
     PF.onto(document.getElementById('obScreen'), document.getElementById('obStage'), IMG, LAPTOP); round(document.getElementById('obScreen'), 1440, 0.012, true);
     var trio = document.getElementById('trioStage');
     PF.onto(document.getElementById('devIpad'), trio, IMG, rect(179.1, 553.2, 882.4, 1032.4)); round(document.getElementById('devIpad'), 1440, 0.024);
