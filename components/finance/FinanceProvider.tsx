@@ -279,6 +279,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         sessionStorage.removeItem(DEMO_KEY);
         sessionStorage.setItem(LOCAL_KEY, "1");
       }
+      // /app?demo=1 opens the demo (the product site shows the app live on
+      // its devices this way); nothing is saved in the demo.
+      if (new URLSearchParams(location.search).get("demo") === "1") sessionStorage.setItem(DEMO_KEY, "1");
       demo = sessionStorage.getItem(DEMO_KEY) === "1";
       local = DEV && sessionStorage.getItem(LOCAL_KEY) === "1";
     } catch {}
