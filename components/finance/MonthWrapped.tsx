@@ -3,7 +3,7 @@
 import { intlLocale, t } from "@/lib/i18n";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { money, monthName } from "@/lib/finance/format";
+import { money, monthName, shortMonth } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import { monthWrapped, type RingRow, type Wrapped } from "@/lib/finance/wrapped";
 import { useTween } from "./charts";
@@ -264,6 +264,29 @@ function Equity({ w, name, currency }: { w: Wrapped; name: string; currency: str
         <Count value={w.equityChange} currency={currency} signed />
       </div>
       <p className="pf-wr-line">{t("Your equity at the end of {month}: {amount}.", { month: name, amount: money(w.equity, currency) })}</p>
+      <EquityLine series={w.equitySeries} color={w.equityChange >= 0 ? "#ffd27d" : "#ff8a80"} currency={currency} />
+    </div>
+  );
+}
+
+/** The last twelve months of equity: a line with a dot per month-end, drawn
+ *  on, this month's dot the brightest. */
+function EquityLine({ series, color, currency }: { series: Wrapped["equitySeries"]; color: string; currency: string }) {
+  const W = 320, H = 110, pad = 8;
+  const vals = series.map((p) => p.equity), lo = Math.min(...vals), hi = Math.max(...vals), span = Math.max(hi - lo, 1);
+  const pts = series.map((p, i) => [pad + (i / (series.length - 1)) * (W - 2 * pad), pad + (1 - (p.equity - lo) / span) * (H - 2 * pad)] as const);
+  const d = pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
+  const last = series[series.length - 1], first = series[0];
+  return (
+    <div className="pf-wr-eqline">
+      <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden style={{ ["--c" as string]: color }}>
+        <path d={`${d} L${pts[pts.length - 1][0]} ${H} L${pts[0][0]} ${H} Z`} className="pf-wr-eqline-area" />
+        <path d={d} className="pf-wr-eqline-line" pathLength={1} />
+      </svg>
+      {pts.map(([x, y], i) => (
+        <i key={i} data-last={i === pts.length - 1} title={`${shortMonth(series[i].month)}: ${money(series[i].equity, currency)}`} style={{ left: `${(x / W) * 100}%`, top: `calc((100% - 20px) * ${(y / H).toFixed(4)})`, background: color, ["--d" as string]: `${0.25 + i * 0.06}s` }} />
+      ))}
+      <div className="pf-wr-eqline-axis"><span>{shortMonth(first.month)}</span><span>{shortMonth(last.month)}</span></div>
     </div>
   );
 }

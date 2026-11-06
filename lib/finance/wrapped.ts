@@ -81,6 +81,11 @@ export function monthWrapped(data: FinanceData, month: Date, now: Date) {
   // Equity at the end of this month against the end of the last.
   const equity = balanceSheet(data, now, month).equity;
   const equityBefore = balanceSheet(data, now, prev).equity;
+  // Its course: the end of each of the last twelve months, up to this one.
+  const equitySeries = Array.from({ length: 12 }, (_, k) => {
+    const m = new Date(month.getFullYear(), month.getMonth() - 11 + k, 1);
+    return { month: m, equity: k === 11 ? equity : k === 10 ? equityBefore : balanceSheet(data, now, m).equity };
+  });
 
   // Facts: number of expenses, the most expensive day, days without spending.
   const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
@@ -105,6 +110,7 @@ export function monthWrapped(data: FinanceData, month: Date, now: Date) {
     investments: holdings.length ? { start: invStart, end: invEnd, change: invEnd - invStart, share: invStart ? invEnd / invStart - 1 : null, best: holdings[0], worst: holdings[holdings.length - 1], count: holdings.length } : null,
     equity,
     equityChange: equity - equityBefore,
+    equitySeries,
     facts: { expenses: expenses.length, topDay: perDay[topDay] > 0 ? { date: new Date(month.getFullYear(), month.getMonth(), topDay + 1), amount: perDay[topDay] } : null, noSpend },
   };
 }
