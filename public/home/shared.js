@@ -61,5 +61,7 @@ window.PF = (function () {
     el.style.transform = matrix3d(el.offsetWidth, el.offsetHeight, q);
   }
 
-  return { month: month, btc: btc, f2: f2, f3: f3, f0: f0, matrix3d: matrix3d, onto: onto, NET: NET };
+  // setNet: the visitor's own pay from the homepage (kept in the page only, never sent).
+  function setNet(v) { if (v >= 0 && v < 1e7) NET = v; }
+  return { month: month, btc: btc, f2: f2, f3: f3, f0: f0, matrix3d: matrix3d, onto: onto, setNet: setNet, net: function () { return NET; } };
 })();

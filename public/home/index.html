@@ -61,6 +61,10 @@
   .hint b { color: var(--c-ink); font-weight: 500; }
 
   /* B: the live console, floating over the desk */
+  .netin { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; margin-top: 4px; font-size: 13px; color: var(--c-muted); }
+  .netin__box { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px; background: var(--c-surface-2); box-shadow: inset 0 0 0 1px var(--c-rule); color: var(--c-ink); font: 500 14px var(--mono); transition: box-shadow 200ms; }
+  .netin__box:focus-within { box-shadow: inset 0 0 0 1px #30d158, 0 0 0 3px color-mix(in oklch, #30d158 25%, transparent); }
+  .netin input { width: 7ch; border: 0; padding: 0; background: transparent; color: #30d158; font: inherit; font-variant-numeric: tabular-nums; outline: none; text-align: right; }
   .console { margin-top: 10px; display: grid; gap: 1px; background: var(--c-rule); border-radius: 4px; overflow: hidden; box-shadow: 0 24px 48px -24px oklch(5% 0.02 200 / 0.9); }
   .console header { display: flex; justify-content: space-between; padding: 8px 14px; background: var(--c-surface-2); font: 500 11px var(--mono); color: var(--c-muted); }
   .read { padding: 12px 14px; background: color-mix(in oklch, var(--c-surface) 94%, transparent); }
@@ -246,7 +250,8 @@
       <div class="read">
         <small>Je loon telt elke seconde</small><strong id="pay">€ 0,000</strong>
         <div class="mbar" aria-hidden="true"><i id="mfill"></i><span id="mticks"></span></div>
-        <em>€ 3.800 per maand, over elke seconde verdeeld: je saldo klopt elke dag, niet pas na betaaldag.</em>
+        <label class="netin" for="netIn"><span>Vul je eigen netto loon in</span><span class="netin__box">€ <input id="netIn" type="text" inputmode="decimal" value="3.800" autocomplete="off" aria-describedby="netOut"> per maand</span></label>
+        <em id="netOut">Over elke seconde van de maand verdeeld: je saldo klopt elke dag, niet pas na betaaldag.</em>
       </div>
       <div class="read">
         <small>Je beleggingen bewegen mee</small>
@@ -328,7 +333,7 @@
       <div class="stand__stage" id="standStage">
       <img class="photo" src="/home/img/bare-ipad-stand.webp?v=5" width="2400" height="1350" alt="" loading="lazy">
       <div class="stand__screen" id="standScreen" aria-hidden="true">
-        <img class="cur" src="/home/img/st-balance.webp?v=5" alt=""><img src="/home/img/st-budgets.webp?v=5" alt=""><img src="/home/img/st-figures.webp?v=5" alt=""><img src="/home/img/st-investments.webp?v=5" alt=""><img src="/home/img/st-progress.webp?v=5" alt="">
+        <img class="cur" src="/home/img/st-balance.webp?v=6" alt=""><img src="/home/img/st-budgets.webp?v=6" alt=""><img src="/home/img/st-figures.webp?v=6" alt=""><img src="/home/img/st-investments.webp?v=6" alt=""><img src="/home/img/st-progress.webp?v=6" alt="">
       </div>
       </div>
       <div class="steps" id="steps">
@@ -492,6 +497,20 @@
     document.getElementById('eq').textContent = PF.f2.format(425000 + 16900 + 42000 + (PF.btc.eur != null ? PF.btc.eur * 0.05 : 0) - 310000 - 18000 + m.earned * 0.14);
   }
   tick(); setInterval(tick, 50);
+  // The visitor's own pay: everything that counts with pay (the ticking
+  // amount, the month bar, the chip, equity) follows it straight away.
+  (function () {
+    var inp = document.getElementById('netIn'), out = document.getElementById('netOut');
+    function upd() {
+      var v = parseFloat(inp.value.replace(/\./g, '').replace(',', '.'));
+      if (!(v >= 0)) return;
+      PF.setNet(v);
+      var n = new Date(), days = new Date(n.getFullYear(), n.getMonth() + 1, 0).getDate();
+      out.textContent = 'Dat is ' + PF.f2.format(v / days) + ' per dag, ' + PF.f2.format(v / days / 24) + ' per uur en ' + new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: 5, maximumFractionDigits: 5 }).format(v / days / 86400) + ' per seconde. Vandaag sta je al op ' + PF.f2.format(PF.month().earned) + '.';
+    }
+    inp.addEventListener('input', upd);
+    inp.addEventListener('blur', function () { var v = parseFloat(inp.value.replace(/\./g, '').replace(',', '.')); if (v >= 0) inp.value = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 0 }).format(v); });
+  })();
 </script>
 </body>
 </html>
