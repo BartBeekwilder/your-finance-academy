@@ -4,7 +4,7 @@
 
 window.PF = (function () {
   var NET = 3800; // sample net pay per month (labelled as sample on the page)
-  var nl = function (d) { return new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: d, maximumFractionDigits: d }); };
+  var nl = function (d) { return new Intl.NumberFormat(window.PF_LOCALE || 'nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: d, maximumFractionDigits: d }); };
   var f2 = nl(2), f3 = nl(3), f0 = nl(0);
 
   function month() {

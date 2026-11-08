@@ -28,6 +28,9 @@
   .status nav { margin-inline-start: auto; display: flex; align-items: center; gap: 18px; }
   .status nav a { text-decoration: none; color: var(--c-ink-2); white-space: nowrap; }
   .status nav a:hover { color: var(--c-ink); }
+  .langsel { appearance: none; -webkit-appearance: none; border: 0; border-radius: 999px; padding: 5px 26px 5px 12px; background: var(--c-surface-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center; box-shadow: inset 0 0 0 1px var(--c-rule); color: var(--c-ink-2); font: inherit; font-size: 13px; cursor: pointer; }
+  .langsel:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+  .langs i[aria-current] { color: var(--c-accent); box-shadow: inset 0 0 0 1px var(--c-accent); }
   .btn { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 4px; background: var(--c-accent); color: var(--c-accent-ink) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: filter 160ms; }
   .btn:hover { filter: brightness(1.07); }
   .btn--lg { position: relative; overflow: hidden; height: 52px; padding: 0 22px 0 26px; gap: 12px; font-size: 16px; font-weight: 600; border-radius: 8px;
@@ -235,7 +238,7 @@
 <header class="status">
   <b>Personal Finance</b>
   <span class="state"><span class="dot"></span><span id="clock">live</span></span>
-  <nav aria-label="Hoofdmenu"><a href="#functies">Functies</a><a href="/app">Inloggen</a><a class="btn" href="/app?demo=1">Bekijk de live demo</a></nav>
+  <nav aria-label="Hoofdmenu"><select id="langSel" class="langsel" aria-label="Taal / Language"></select><a href="#functies">Functies</a><a href="/app">Inloggen</a><a class="btn" href="/app?demo=1">Bekijk de live demo</a></nav>
 </header>
 
 <main>
@@ -396,6 +399,7 @@
   <footer class="foot"><span>Personal Finance · Your Finance Academy</span><a href="/privacy/web-app">Privacy</a></footer>
 </main>
 
+<script src="/home/i18n.js"></script>
 <script src="/home/shared.js"></script>
 <script>
   // Exact screen rectangles in the photos (2400 x 1350), measured from the images.
@@ -479,6 +483,8 @@
     (function f(now) { var p = Math.min((now - t0) / 650, 1), n = Math.floor(p * txt.length);
       h.textContent = txt.slice(0, n) + txt.slice(n).replace(/\S/g, function () { return chars[Math.floor(Math.random() * chars.length)]; });
       if (p < 1) requestAnimationFrame(f); else h.textContent = txt; })(t0);
+    // a tab opened in the background pauses animation frames: never leave the headline scrambled
+    setTimeout(function () { h.textContent = txt; }, 1200);
   })();
   // For the show the sample portfolio breathes slowly around its real value
   // (two slow waves, ±0.05%), so investments and equity move like pay does.
@@ -494,11 +500,11 @@
   function tick() {
     var m = PF.month(), d = new Date(), iv = inv();
     dec(document.getElementById('pay'), PF.f3.format(m.earned));
-    document.getElementById('day').textContent = 'dag ' + d.getDate() + ' van ' + new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
-    document.getElementById('clock').textContent = d.toLocaleTimeString('nl-NL') + ' · live';
+    document.getElementById('day').textContent = PFT(101, { d: d.getDate(), n: new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate() });
+    document.getElementById('clock').textContent = d.toLocaleTimeString(PF_LOCALE) + ' · live';
     dec(document.getElementById('btc'), PF.f2.format(iv));
     if (PF.btc.eur != null) {
-      document.getElementById('btcsub').textContent = 'Aandelen, ETF\'s en 0,05 bitcoin tegen de echte koers. Bitcoin vandaag ' + (PF.btc.ch >= 0 ? '+' : '') + PF.btc.ch.toFixed(1).replace('.', ',') + '%.';
+      document.getElementById('btcsub').textContent = PFT(102, { p: new Intl.NumberFormat(PF_LOCALE, { style: 'percent', maximumFractionDigits: 1, signDisplay: 'always' }).format(PF.btc.ch / 100) });
     }
     document.getElementById('subPay').textContent = PF.f2.format(m.earned);
     document.getElementById('subBtc').textContent = PF.f2.format(iv);
@@ -507,7 +513,7 @@
     // Cents plus one smaller, faster digit, the way the app ticks.
     var v = PF.f3.format(m.earned), cut = v.search(/\d(?=\D*$)/);
     document.getElementById('exEarned').innerHTML = v.slice(0, cut) + '<small class="tick">' + v.slice(cut) + '</small>';
-    document.getElementById('exNow').textContent = d.toLocaleDateString('nl-NL', { weekday: 'long' }) + ' ' + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('exNow').textContent = d.toLocaleDateString(PF_LOCALE, { weekday: 'long' }) + ' ' + d.toLocaleTimeString(PF_LOCALE, { hour: '2-digit', minute: '2-digit' });
     if (PF.btc.eur != null) document.getElementById('exBtc').textContent = PF.f0.format(PF.btc.eur * 0.05);
     dec(document.getElementById('eq'), PF.f2.format(425000 + 16900 + iv - 310000 - 18000 + m.earned * 0.14));
   }
@@ -516,16 +522,21 @@
   // amount, the month bar, the chip, equity) follows it straight away.
   (function () {
     var inp = document.getElementById('netIn'), out = document.getElementById('netOut');
+    // Read a number typed the visitor's way (3.800 / 3,800 / 3 800).
+    var parts = new Intl.NumberFormat(PF_LOCALE).formatToParts(1234.5), dsep = '.';
+    parts.forEach(function (p) { if (p.type === 'decimal') dsep = p.value; });
+    function num(t) { t = String(t).replace(/[^\d.,]/g, ''); t = dsep === ',' ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, ''); return parseFloat(t); }
+    inp.value = new Intl.NumberFormat(PF_LOCALE).format(3800);
     function upd() {
-      var v = parseFloat(inp.value.replace(/\./g, '').replace(',', '.'));
+      var v = num(inp.value);
       if (!(v >= 0)) return;
       PF.setNet(v);
       var n = new Date(), days = new Date(n.getFullYear(), n.getMonth() + 1, 0).getDate();
-      out.textContent = 'Dat is ' + PF.f2.format(v / days) + ' per dag, ' + PF.f2.format(v / days / 24) + ' per uur en ' + new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: 5, maximumFractionDigits: 5 }).format(v / days / 86400) + ' per seconde. Vandaag sta je al op ' + PF.f2.format(PF.month().earned) + '.';
+      out.textContent = PFT(103, { a: PF.f2.format(v / days), b: PF.f2.format(v / days / 24), c: new Intl.NumberFormat(PF_LOCALE, { style: 'currency', currency: 'EUR', minimumFractionDigits: 5, maximumFractionDigits: 5 }).format(v / days / 86400), d: PF.f2.format(PF.month().earned) });
     }
     inp.addEventListener('input', upd);
     inp.addEventListener('focus', function () { inp.closest('.netin').classList.add('used'); inp.select(); });
-    inp.addEventListener('blur', function () { var v = parseFloat(inp.value.replace(/\./g, '').replace(',', '.')); if (v >= 0) inp.value = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 0 }).format(v); });
+    inp.addEventListener('blur', function () { var v = num(inp.value); if (v >= 0) inp.value = new Intl.NumberFormat(PF_LOCALE, { maximumFractionDigits: 0 }).format(v); });
   })();
   // Short screens: the hero grows to fit its column instead of hiding the
   // headline under the bar.
