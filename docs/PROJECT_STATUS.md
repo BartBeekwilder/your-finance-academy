@@ -920,3 +920,16 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
   `scrollcraft/builds/personal-finance-v2/site/concepts/ab.html`.
 - System map updated: https://claude.ai/artifact/M57781RSTL8h4RzksrgGd4
   (Apple Note "Personal Finance — datastructuur" mirrors it).
+
+## LIVE 2026-11-06/08 — product homepage
+- `/` = the product site: static page `public/home/index.html` (+ shared.js,
+  img/), served by a beforeFiles rewrite in next.config.ts. Old homepage at
+  `/academy`. Live devices run `/app?demo=1` (the framed demo no longer flags
+  the tab as demo: FinanceProvider checks window.top).
+- 17 languages via `public/home/i18n.js`: K = Dutch texts, L[lang] arrays in
+  the same order (arrays for blocks with inline tags). Same language as the
+  app (localStorage pf-lang, else browser). New homepage text = add to K and
+  every L array (shape check: see the commit of 8 Nov).
+- Visitor pay input (page only), investments/equity breathe ±0.05% for show.
+- Demo income now booked on the current account (runway was -8.1 months).
+- Still Dutch: static screenshots (st-*, ob-*, wr-*) — regenerate per language.
