@@ -10,7 +10,9 @@ import FeedbackButton from "@/components/finance/FeedbackButton";
 import "./finance.css";
 
 export const metadata: Metadata = {
-  title: "Personal Finance",
+  title: "Personal Finance · Your Finance Academy",
+  applicationName: "Personal Finance",
+  publisher: "Your Finance Academy (YFA)",
   description: "Your budgets, spending and net worth — in sync with the Personal Finance iOS app.",
 };
 

@@ -23,6 +23,9 @@
   /* B: the status line */
   .status { position: fixed; z-index: 40; inset: 0 0 auto 0; height: 48px; display: flex; align-items: center; gap: 20px; padding: 0 var(--g); background: color-mix(in oklch, var(--c-canvas) 88%, transparent); border-block-end: 1px solid color-mix(in oklch, var(--c-rule) 70%, transparent); font-size: 13px; }
   .status b { font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
+  /* Brand lockup: product name with the company underneath (stays English, like a logo). */
+  .brand { display: grid; line-height: 1.1; text-decoration: none; color: inherit; }
+  .brand small { font: 400 10.5px var(--mono); color: var(--c-muted); letter-spacing: 0.01em; white-space: nowrap; }
   .state { display: inline-flex; align-items: center; gap: 8px; font: 400 12px var(--mono); color: var(--c-muted); white-space: nowrap; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-accent); box-shadow: 0 0 0 3px oklch(80% 0.16 75 / 0.18); }
   .status nav { margin-inline-start: auto; display: flex; align-items: center; gap: 18px; }
@@ -231,12 +234,14 @@
     .ob__col { position: relative; inset: auto; width: auto; padding: 60px var(--g) 20px; }
     .ob__stage { position: relative; inset: auto; height: 50vh; -webkit-mask-image: none; mask-image: none; }
   }
+  /* Phones: the brand lockup and the language picker fill the bar; the hero has the same demo button right below. */
+  @media (max-width: 520px) { .status .btn { display: none; } }
   @media (prefers-reduced-motion: reduce) { .live-screen, .stand__screen img, .step, .step p { transition: none; } }
 </style>
 </head>
 <body>
 <header class="status">
-  <b>Personal Finance</b>
+  <a class="brand" href="/" translate="no"><b>Personal Finance</b><small>by YourFinanceAcademy.com</small></a>
   <span class="state"><span class="dot"></span><span id="clock">live</span></span>
   <nav aria-label="Hoofdmenu"><select id="langSel" class="langsel" aria-label="Taal / Language"></select><a href="#functies">Functies</a><a href="/app">Inloggen</a><a class="btn" href="/app?demo=1">Bekijk de live demo</a></nav>
 </header>
@@ -396,7 +401,7 @@
     </div>
     <div class="phone__copy"><h2>Altijd bij je.</h2><p>Dezelfde cijfers op je telefoon, je iPad en het web. Altijd bij, altijd gelijk.</p><a class="btn btn--lg" href="/app?demo=1">Bekijk de live demo<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
   </section>
-  <footer class="foot"><span>Personal Finance · Your Finance Academy</span><a href="/privacy/web-app">Privacy</a></footer>
+  <footer class="foot"><span translate="no">The Personal Finance Dashboard by YourFinanceAcademy.com · © 2026 Your Finance Academy (YFA)</span><a href="/privacy/web-app">Privacy</a></footer>
 </main>
 
 <script src="/home/i18n.js"></script>

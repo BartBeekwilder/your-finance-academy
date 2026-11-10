@@ -92,7 +92,11 @@ export default function AppNav() {
     <nav className="pf-nav" aria-label={t("App")}>
       <div className="pf-brand">
         <BrandMark size={30} currency={data.profile.currency_code} />
-        <strong style={{ fontSize: "1.02rem" }}>{t("Personal Finance")}</strong>
+        <span style={{ display: "grid", lineHeight: 1.15 }}>
+          <strong style={{ fontSize: "1.02rem" }}>{t("Personal Finance")}</strong>
+          {/* The company under the product name; stays English, like a logo. */}
+          <small translate="no" style={{ fontSize: "0.68rem", color: "var(--pf-ink-2)", whiteSpace: "nowrap" }}>by YourFinanceAcademy.com</small>
+        </span>
       </div>
 
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={() => (dragging = true)} onDragCancel={() => setTimeout(() => (dragging = false), 0)} onDragEnd={onDragEnd}>

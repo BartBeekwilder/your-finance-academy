@@ -158,6 +158,7 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
         </div>
         <div>
           <h1 style={{ fontSize: "1.6rem", fontWeight: 700 }}>{title}</h1>
+          {step.kind === "signin" && <p translate="no" style={{ margin: "2px 0 0", fontSize: "0.78rem", color: "var(--pf-ink-3)" }}>The Personal Finance Dashboard by YourFinanceAcademy.com</p>}
           <p style={{ margin: "4px 0 0", color: "var(--pf-ink-2)" }}>{subtitle}</p>
         </div>
 
