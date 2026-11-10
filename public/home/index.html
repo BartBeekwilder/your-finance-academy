@@ -10,7 +10,7 @@
   :root {
     --c-canvas: oklch(14% 0.018 210); --c-surface: oklch(18.5% 0.022 205); --c-surface-2: oklch(23% 0.025 205);
     --c-ink: oklch(94% 0.012 85); --c-ink-2: oklch(82% 0.012 85); --c-muted: oklch(66% 0.018 200);
-    --c-rule: oklch(30% 0.025 205); --c-accent: oklch(80% 0.16 75); --c-accent-ink: oklch(15% 0.02 200);
+    --c-rule: oklch(30% 0.025 205); --c-accent: oklch(80% 0.16 75); --c-live: #30d158; --c-accent-ink: oklch(15% 0.02 200);
     --c-ok: oklch(78% 0.12 170); --c-alert: oklch(68% 0.19 28);
     --f: "Geist", system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, monospace;
     --ease: cubic-bezier(.22, 1, .36, 1); --g: clamp(16px, 2.6vw, 40px);
@@ -27,7 +27,7 @@
   .brand { display: grid; line-height: 1.1; text-decoration: none; color: inherit; }
   .brand small { font: 400 10.5px var(--mono); color: var(--c-muted); letter-spacing: 0.01em; white-space: nowrap; }
   .state { display: inline-flex; align-items: center; gap: 8px; font: 400 12px var(--mono); color: var(--c-muted); white-space: nowrap; }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-accent); box-shadow: 0 0 0 3px oklch(80% 0.16 75 / 0.18); }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-live); box-shadow: 0 0 0 3px color-mix(in oklch, var(--c-live) 22%, transparent); }
   .status nav { margin-inline-start: auto; display: flex; align-items: center; gap: 18px; }
   .status nav a { text-decoration: none; color: var(--c-ink-2); white-space: nowrap; }
   .status nav a:hover { color: var(--c-ink); }
@@ -83,8 +83,8 @@
   .read em { display: block; margin-top: 3px; font-style: normal; font: 400 12px/1.4 var(--f); color: var(--c-muted); text-wrap: pretty; }
   .read--eq { background: color-mix(in oklch, var(--c-surface-2) 94%, transparent); }
   .console header span:first-child { display: inline-flex; align-items: center; gap: 8px; }
-  .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--c-accent); animation: pulse 1.6s ease-in-out infinite; }
-  @keyframes pulse { 50% { box-shadow: 0 0 0 5px oklch(80% 0.16 75 / 0); } 0%, 100% { box-shadow: 0 0 0 0 oklch(80% 0.16 75 / 0.55); } }
+  .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--c-live); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 5px color-mix(in oklch, var(--c-live) 0%, transparent); } 0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--c-live) 55%, transparent); } }
   .read strong { color: var(--c-ink); }
   .mbar { position: relative; height: 8px; margin: 8px 0 2px; border-radius: 4px; background: oklch(30% 0.02 205); overflow: hidden; }
   .mbar i { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, #1f9e46, #30d158); box-shadow: 0 0 12px #30d15899; }
