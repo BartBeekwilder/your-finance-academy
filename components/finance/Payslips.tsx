@@ -19,7 +19,7 @@ const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart
 
 /** The month's main income (largest income transaction), the one a payslip
  *  belongs to. */
-function salaryOf(transactions: Transaction[], month: Date) {
+export function salaryOf(transactions: Transaction[], month: Date) {
   return live(transactions)
     .filter((x) => x.type === "income" && !x.spread_of && new Date(x.date).getFullYear() === month.getFullYear() && new Date(x.date).getMonth() === month.getMonth())
     .sort((a, b) => num(b.amount) - num(a.amount))[0];

@@ -32,7 +32,7 @@ export default function WebAppPrivacy() {
       <div className="mx-auto max-w-[42rem] px-[clamp(1.25rem,4vw,3rem)] py-[clamp(3rem,7vw,5rem)]">
         <p className="eyebrow mb-3">Test version</p>
         <h1 className="mb-2 text-[clamp(2rem,4vw,2.6rem)] font-normal" style={{ fontWeight: 400 }}>Privacy in the web app</h1>
-        <p className="mb-10 text-sm" style={{ color: "var(--ink-soft)" }}>Last updated November 5, 2026</p>
+        <p className="mb-10 text-sm" style={{ color: "var(--ink-soft)" }}>Last updated November 10, 2026</p>
 
         <div className="space-y-8 text-[1.02rem] leading-relaxed" style={{ color: "var(--ink)" }}>
           <Section title="The short version">
@@ -77,6 +77,27 @@ export default function WebAppPrivacy() {
               Live prices and the investment search ask a public price service (Yahoo Finance) for a ticker or the text
               you typed — via our server, never with your name, amounts or holdings. Company logos are loaded by ticker
               from Financial Modeling Prep.
+            </p>
+          </Section>
+
+          <Section title="Reading documents with AI">
+            <p>
+              With Premium you can let the app read a bank screenshot, a payslip or a mortgage document. Only when you
+              choose to, and after you&apos;ve agreed once: the image or PDF is sent via our server to Claude, the AI of
+              Anthropic, together with the names of your categories (so one can be suggested). Nothing else from your
+              books goes with it.
+            </p>
+            <p>
+              The figures come back to your screen for you to check; nothing is booked until you add it. We don&apos;t keep the
+              file. Anthropic processes it under its commercial terms: it isn&apos;t used to train its AI and is deleted
+              after a short retention period.
+            </p>
+          </Section>
+
+          <Section title="Payments">
+            <p>
+              Premium is paid through Stripe; we never see your card details. To know on every device that you have Premium,
+              your subscription is linked to your account at RevenueCat by an anonymous account number.
             </p>
           </Section>
 

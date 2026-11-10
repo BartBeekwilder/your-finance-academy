@@ -20,6 +20,7 @@ import Stat, { ExpectedBar } from "@/components/finance/Stat";
 import { liveFixed, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { budgetTotals } from "@/lib/finance/progressModel";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
+import ReadWithAI from "@/components/finance/ReadWithAI";
 
 // The Income page's counterpart for spending: the dashboard's live Spent
 // tile (Month / Year, zoom and scrub), a few headline figures, and the last
@@ -94,6 +95,7 @@ export default function ExpensesPage() {
             />
           )}
           <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+          <ReadWithAI kind="bank" />
         </div>
       </header>
 

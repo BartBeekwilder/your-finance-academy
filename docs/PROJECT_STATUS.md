@@ -1029,3 +1029,31 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
   keys), RevenueCat config → live account, replace the Vercel values. Bart
   asked about selling without KvK: told him selling subscriptions needs it
   (plus VAT); App Store / Stripe Managed Payments / Paddle handle VAT.
+
+## Done 2026-11-10 — Read with AI: bank screenshots, payslips, mortgage documents (Premium)
+
+- Bart's choice: AI with consent (not on-device OCR). Claude Opus 5.5 via
+  @anthropic-ai/sdk, structured output (zod schemas in lib/ai/reader.ts),
+  server-side fallback "default". Key: ANTHROPIC_API_KEY in Vercel
+  (Production + Preview) — NOT SET YET; until then the route answers 503.
+- Route POST /api/ai/read {kind: bank|payslip|mortgage, files[], today,
+  categories}: signed-in + Premium (RevenueCat) required; on next dev at
+  localhost no account needed. Max 8 files; images shrunk in the browser to
+  1800px JPEG, PDFs up to 3 MB (Vercel body limit 4.5 MB).
+- components/finance/ReadWithAI.tsx: button on Expenses ("Read bank
+  screenshots"), Income ("Read payslip"), Real estate ("Read mortgage
+  document", when there is a home). First time: consent screen
+  (profile.ai_consent_at, account copy only). Review before anything is
+  booked: bank rows with tick, date, description, category select (history
+  first via lib/finance/importMatch.ts, else the AI's pick among existing
+  names; "Already booked?" = same amount/direction within a day, unticked);
+  payslip → replaces/creates that month's salary (net + gross); mortgage →
+  loan parts added next to existing ones. The file is never stored.
+- Privacy page (/privacy/web-app): sections "Reading documents with AI" and
+  "Payments" (Stripe, RevenueCat).
+- Tested in the browser with a mocked AI answer (demo mode): consent, pick,
+  review, add, duplicates, phone layout, payslip, mortgage. NOT yet tested
+  against the real API (no key locally).
+- Cost per read roughly 2–5 cents (Opus 5.5, $4/$20 per MTok).
+- Later: port to iOS/Android (same route), "replace existing parts" option
+  for mortgages, multi-page PDF statements beyond 3 MB.

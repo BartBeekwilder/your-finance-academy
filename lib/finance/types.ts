@@ -47,6 +47,9 @@ export type Profile = {
    *  moved it on to the next year — so the year can still be told later.
    *  Account copy only (no column). */
   year_closes?: YearClose[];
+  /** When the person agreed to documents being read by AI (ReadWithAI).
+   *  Account copy only (no column). */
+  ai_consent_at?: string | null;
 };
 
 export type YearClose = {

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { House, Pencil, Plus, Trash2, X } from "lucide-react";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import HouseFill from "@/components/finance/HouseFill";
+import ReadWithAI from "@/components/finance/ReadWithAI";
 import Segmented from "@/components/finance/Segmented";
 import Sheet from "@/components/finance/Sheet";
 import Stat from "@/components/finance/Stat";
@@ -49,6 +50,7 @@ export default function RealEstatePage() {
           {list.length > 1 && (
             <Segmented label={t("Property")} value={String(sel)} onChange={(v) => setSel(Number(v))} options={list.map((h, i) => ({ value: String(i), label: h.property.name || t("Home") }))} />
           )}
+          {home && <ReadWithAI kind="mortgage" propertyId={home.property.id} />}
           <button className="pf-chip" onClick={() => setEditing({ kind: "property" })}>
             <Plus size={14} /> {t("Add property")}
           </button>

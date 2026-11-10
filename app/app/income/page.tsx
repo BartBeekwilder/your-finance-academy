@@ -17,6 +17,7 @@ import MonthPicker from "@/components/finance/MonthPicker";
 import Stat from "@/components/finance/Stat";
 import { last12Months, liveFixed, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
+import ReadWithAI from "@/components/finance/ReadWithAI";
 
 // The Expenses page's counterpart for income, with the same Month / Year
 // behaviour: the dashboard's live Income tile (zoom, scrub, forecast),
@@ -86,6 +87,7 @@ export default function IncomePage() {
             />
           )}
           <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+          <ReadWithAI kind="payslip" />
         </div>
       </header>
 
