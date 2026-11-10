@@ -15,11 +15,10 @@ import { AssetIcon, pct, tone } from "./Portfolio";
 // Segments along the top show where you are. Each card has its own colour
 // and its numbers count up as it comes in.
 
-type Card = { key: string; bg: string; body: ReactNode };
+export type Card = { key: string; bg: string; body: ReactNode };
 
 export default function MonthWrapped({ data, month, now, currency }: { data: FinanceData; month: Date; now: Date; currency: string }) {
   const w = useMemo(() => monthWrapped(data, month, now), [data, month, now]);
-  const [i, setI] = useState(0);
   const name = monthName(month);
 
   const cards: Card[] = [
@@ -30,6 +29,12 @@ export default function MonthWrapped({ data, month, now, currency }: { data: Fin
     { key: "equity", bg: "linear-gradient(160deg, #6b4a0f 0%, #2e2109 55%, #0d0d14 100%)", body: <Equity w={w} name={name} currency={currency} /> },
     { key: "facts", bg: "linear-gradient(160deg, #3d3d48 0%, #1b1b22 55%, #0d0d14 100%)", body: <Facts w={w} name={name} currency={currency} /> },
   ];
+  return <WrappedStory cards={cards} />;
+}
+
+/** The story frame both Wrappeds use: segments on top, a card at a time. */
+export function WrappedStory({ cards }: { cards: Card[] }) {
+  const [i, setI] = useState(0);
   const n = cards.length;
   const go = (d: number) => setI((x) => Math.min(Math.max(x + d, 0), n - 1));
 
@@ -76,7 +81,7 @@ export default function MonthWrapped({ data, month, now, currency }: { data: Fin
 }
 
 /** An amount that counts up from 0 as its card comes in. */
-function Count({ value, currency, signed }: { value: number; currency: string; signed?: boolean }) {
+export function Count({ value, currency, signed }: { value: number; currency: string; signed?: boolean }) {
   const [v] = useTween([value], 1100);
   return <span className="pf-rounded">{money(v, currency, { signed })}</span>;
 }
@@ -271,7 +276,7 @@ function Equity({ w, name, currency }: { w: Wrapped; name: string; currency: str
 
 /** The last twelve months of equity: a line with a dot per month-end, drawn
  *  on, this month's dot the brightest. */
-function EquityLine({ series, color, currency }: { series: Wrapped["equitySeries"]; color: string; currency: string }) {
+export function EquityLine({ series, color, currency }: { series: { month: Date; equity: number }[]; color: string; currency: string }) {
   const W = 320, H = 110, pad = 8;
   const vals = series.map((p) => p.equity), lo = Math.min(...vals), hi = Math.max(...vals), span = Math.max(hi - lo, 1);
   const pts = series.map((p, i) => [pad + (i / (series.length - 1)) * (W - 2 * pad), pad + (1 - (p.equity - lo) / span) * (H - 2 * pad)] as const);
@@ -306,7 +311,7 @@ function Facts({ w, name, currency }: { w: Wrapped; name: string; currency: stri
   );
 }
 
-function Stat({ label, value }: { label: string; value: ReactNode }) {
+export function Stat({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="pf-wr-stat">
       <span>{label}</span>
@@ -315,7 +320,7 @@ function Stat({ label, value }: { label: string; value: ReactNode }) {
   );
 }
 
-function Fact({ big, text }: { big: string; text: string }) {
+export function Fact({ big, text }: { big: string; text: string }) {
   return (
     <div className="pf-wr-fact">
       <b className="pf-rounded">{big}</b>

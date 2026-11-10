@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CalendarCheck, Plus, Trash2, X } from "lucide-react";
+import { CalendarCheck, Plus, Sparkles, Trash2, Trophy, X } from "lucide-react";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { BadgeTile, Celebration, RING_COLORS, RingLegend, Rings, StreakFlame } from "@/components/finance/ProgressParts";
 import CheckinCard from "@/components/finance/CheckinCard";
@@ -14,6 +14,7 @@ import { live, num } from "@/lib/finance/calc";
 import { money, monthYear, shortMonthYear } from "@/lib/finance/format";
 import { BADGES, LEVELS } from "@/lib/finance/progress";
 import { monthRings, progressModel, type GoalState } from "@/lib/finance/progressModel";
+import { closableYear } from "@/lib/finance/yearCloseModel";
 import type { Goal } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
 
@@ -34,6 +35,9 @@ export default function ProgressPage() {
   const { data, now, awardBadges, saveGoal, deleteGoal } = useFinance();
   const currency = data.profile.currency_code;
   const m = useMemo(() => progressModel(data, now), [data, now]);
+  const yearToClose = closableYear(data, now);
+  // Year Wrapped: this year so far, and every closed year.
+  const wrappedYears = [now.getFullYear(), ...(data.profile.year_closes ?? []).map((c) => c.year).sort((a, b) => b - a)];
   const [celebrate, setCelebrate] = useState<{ code: string; title: string; points: number; icon: string }[] | null>(null);
   const [editing, setEditing] = useState<Goal | "new" | null>(null);
   const awarded = useRef(false);
@@ -66,6 +70,23 @@ export default function ProgressPage() {
           <em>→</em>
         </Link>
       )}
+      {!m.closable && yearToClose != null && (
+        <Link href={`/app/close-year?year=${yearToClose}`} className="pf-close-banner">
+          <Trophy size={22} />
+          <span>
+            <b>{t("Close {year}", { year: String(yearToClose) })}</b>
+            <span>{t("Year Wrapped, the figures for your tax return, yearly costs, opening balances for the new year and a goal.")}</span>
+          </span>
+          <em>→</em>
+        </Link>
+      )}
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        {wrappedYears.map((y) => (
+          <Link key={y} href={`/app/close-year?year=${y}`} className="pf-chip" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <Sparkles size={14} /> {y === now.getFullYear() ? t("{year} so far", { year: String(y) }) : t("Year Wrapped {year}", { year: String(y) })}
+          </Link>
+        ))}
+      </div>
 
       {/* Level, points, streak, and this month's rings. */}
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}>

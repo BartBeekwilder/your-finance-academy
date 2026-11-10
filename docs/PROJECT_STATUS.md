@@ -957,3 +957,38 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
 - Still to do: code (API route for Checkout Session + portal session, webhook or
   RevenueCat-only), connect Stripe in RevenueCat + map the 3 prices to the entitlement,
   keys in Vercel (Bart does that himself), Stripe Tax once registered.
+
+## Done 2026-11-10 — Year close + Year Wrapped (web; backup branch `backup/before-year-close-nov10`)
+
+- /app/close-year?year=YYYY. Closable once December of last year is closed
+  and the year isn't (lib/finance/yearCloseModel.ts `closableYear`). Six
+  steps: Your year (Year Wrapped) · For your tax return (balance sheet on
+  31 Dec = stand on 1 Jan, mortgage interest paid that year, net + gross
+  income, payslips kept) · Yearly costs (fixed costs per category vs the
+  year before — only when that year has ≥ 10 months of fixed costs; policies
+  renewing in the next 12 months with cancel-by) · Opening balances (each
+  account: start of the year + its flows; editable) · Next year (savings goal:
+  same / +10% / +20% / own / none → Goal kind save, created 1 Jan next year) ·
+  Summary → Close.
+- WHY opening balances: accounts.balance is the balance at the START of the
+  year (screens add the months). Nothing rolled it on before, so in January
+  equity fell back to the start of last year. Closing now saves the new start
+  balances and keeps the old ones in profile.year_closes[].accounts_start
+  (account copy only, no Supabase column; stripped in updateProfile) so the
+  year can still be shown later (`asOfYear`). An unclosed past year is told
+  "as of its last second" (`yearNow`).
+- Year Wrapped (components/finance/YearWrapped.tsx, lib/finance/yearWrapped.ts
+  pure + tests/yearWrapped.test.mjs): saved/in/out/rate vs last year (imported
+  yearIncomeTotals/yearCategoryTotals when no transactions), month by month
+  bars (green up/red down, best glows), where it went (top 5 variable
+  categories, biggest expense), investments over the year, equity line
+  (Dec before → Dec), facts (expenses, no-spend days, priciest day, fixed
+  costs, months closed, badges). MonthWrapped's frame is now WrappedStory.
+- Points: 500 as achievement `year-close:YYYY`. Entry: December's month close
+  continues to the year close; Progress banner "Close YYYY" + chips "YYYY so
+  far" / "Year Wrapped YYYY"; dashboard strip after the month close.
+- Running year: /app/close-year shows "Your year so far" (Wrapped only).
+  Dev only: ?preview=1 walks all steps (Close stays off).
+- 64 new texts in all 16 languages ("Year Wrapped" stays English like
+  "Month Wrapped").
+- To port to iOS/Android later (with the account start-of-year roll-over!).

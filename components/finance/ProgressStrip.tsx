@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarCheck, CircleCheck, Star } from "lucide-react";
+import { CalendarCheck, CircleCheck, Star, Trophy } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import Sheet from "@/components/finance/Sheet";
 import CheckinCard, { useCheckin } from "@/components/finance/CheckinCard";
@@ -11,6 +11,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import { RING_COLORS, Rings, StreakFlame } from "@/components/finance/ProgressParts";
 import { money, monthYear } from "@/lib/finance/format";
 import { SAVINGS_SHARE, progressModel } from "@/lib/finance/progressModel";
+import { closableYear } from "@/lib/finance/yearCloseModel";
 
 /** Dashboard glance at progress: this month's rings (with a bar per ring),
  *  streak and level with the way to the next one, and a nudge when last
@@ -99,6 +100,12 @@ export default function ProgressStrip() {
         <Link href="/app/close" className="pf-close-mini">
           <CalendarCheck size={16} />
           <span>{t("Close {month}", { month: monthYear(m.closable) })}</span>
+          <em>→</em>
+        </Link>
+      ) : closableYear(data, now) != null ? (
+        <Link href={`/app/close-year?year=${closableYear(data, now)}`} className="pf-close-mini">
+          <Trophy size={16} />
+          <span>{t("Close {year}", { year: String(closableYear(data, now)) })}</span>
           <em>→</em>
         </Link>
       ) : !checkin.done ? (

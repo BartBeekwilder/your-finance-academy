@@ -42,6 +42,19 @@ export type Profile = {
    *  answered, so the dashboard can offer to finish a quick start; `hidden`
    *  = the person put that card away. */
   onboarding?: { route: "quick" | "complete"; steps: string[]; hidden?: boolean };
+  /** Closed years (lib/finance/yearCloseModel). `accounts_start`: each
+   *  account's balance at the start of that year, as it was before the close
+   *  moved it on to the next year — so the year can still be told later.
+   *  Account copy only (no column). */
+  year_closes?: YearClose[];
+};
+
+export type YearClose = {
+  year: number;
+  closed_at: string;
+  accounts_start: Record<string, number>;
+  summary: { income: number; spent: number; saved: number; savingsRate: number; equity: number };
+  points: number;
 };
 
 export type Account = Synced & {

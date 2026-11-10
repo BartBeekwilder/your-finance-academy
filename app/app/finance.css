@@ -6151,3 +6151,19 @@ button.pf-ck-day:active { transform: scale(0.92); }
   .pf-card-toolbar > span:last-child { display: grid !important; grid-template-columns: 1fr; gap: 6px; }
   .pf-card-toolbar > span:last-child > * { width: 100%; }
 }
+
+/* Year Wrapped: twelve bars from a zero line (green up, red down), each
+   growing out of the line in turn; the best month glows. */
+.pf-yw-months { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; height: 170px; }
+.pf-yw-month { display: grid; grid-template-rows: 1fr auto; gap: 6px; min-width: 0; }
+.pf-yw-col { position: relative; display: block; }
+.pf-yw-col::before { content: ""; position: absolute; left: -3px; right: -3px; top: calc(var(--zero) * 100%); height: 1px; background: rgba(255, 255, 255, 0.22); }
+.pf-yw-col i { position: absolute; left: 0; right: 0; border-radius: 5px; background: linear-gradient(180deg, #7dffa5, #30d158); bottom: calc((1 - var(--zero)) * 100%); height: calc(var(--h) * 100%); min-height: 2px; transform-origin: bottom; animation: pf-yw-grow 0.9s cubic-bezier(0.34, 1.4, 0.64, 1) both; animation-delay: var(--d); }
+.pf-yw-col i[data-neg="true"] { background: linear-gradient(0deg, #ff8a80, #ff453a); bottom: auto; top: calc(var(--zero) * 100%); transform-origin: top; }
+.pf-yw-month[data-best="true"] .pf-yw-col i { box-shadow: 0 0 18px rgba(125, 255, 165, 0.55); }
+.pf-yw-label { font-size: 0.68rem; text-align: center; color: rgba(255, 255, 255, 0.55); overflow: hidden; text-overflow: clip; white-space: nowrap; }
+.pf-yw-month[data-best="true"] .pf-yw-label { color: #7dffa5; font-weight: 700; }
+@keyframes pf-yw-grow { from { transform: scaleY(0); } }
+@media (max-width: 560px) { .pf-yw-months { gap: 3px; height: 140px; } .pf-yw-label { font-size: 0.6rem; } }
+@media (prefers-reduced-motion: reduce) { .pf-yw-col i { animation: none; } }
+.pf-yc-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; align-items: start; }

@@ -24,7 +24,7 @@ const inMonth = (iso: string, m: Date) => {
 
 /** A holding's market value at a moment, from data.market (last price on or
  *  before it); null without prices. */
-function valueAt(data: FinanceData, h: Holding, t: number) {
+export function valueAt(data: FinanceData, h: Holding, t: number) {
   const pts = data.market?.[h.id];
   if (!pts?.length || pts[0][0] > t) return null;
   let v = pts[0][1];

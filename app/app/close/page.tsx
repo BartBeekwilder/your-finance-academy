@@ -283,7 +283,7 @@ export default function ClosePage() {
         <Celebration
           title={t("{month} is in the books!", { month: monthYear(month) })}
           lines={[{ icon: "calendar-check", text: t("Month closed"), points: POINTS.monthClose }, ...(summary.rings ? [{ icon: "target", text: t("{n} of 3 rings closed", { n: summary.rings }), points: POINTS.ring * summary.rings }] : []), ...done.badges.map((b) => ({ icon: b.icon, text: t(b.title), points: b.points }))]}
-          onClose={() => router.push("/app/progress")}
+          onClose={() => router.push(month.getMonth() === 11 ? `/app/close-year?year=${month.getFullYear()}` : "/app/progress")}
         />
       )}
     </div>
