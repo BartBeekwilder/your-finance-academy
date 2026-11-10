@@ -933,3 +933,27 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
 - Visitor pay input (page only), investments/equity breathe ±0.05% for show.
 - Demo income now booked on the current account (runway was -8.1 months).
 - Still Dutch: static screenshots (st-*, ob-*, wr-*) — regenerate per language.
+
+## Done 2026-11-10 — Stripe sandbox for Personal Finance Premium (TEST MODE only)
+
+- Account: "Your Finance Academy sandbox" (acct_1Ua9IfQlQbxXjawr, livemode false). No KvK yet → no live mode.
+- Route (Claude's pick, Bart: "doe maar wat jij het beste lijkt"): Stripe Billing with
+  Stripe-hosted Checkout + Stripe Customer Portal; RevenueCat (project "Personal Finance",
+  entitlement personal_finance_premium) reads the subscriptions through its Stripe
+  integration; RevenueCat webhook → Supabase. Not RevenueCat Web Billing (that would
+  make its own Stripe products and duplicate these).
+- Product prod_VbPuHHHnlFR3ag "Personal Finance Premium" (tax code txcd_10000000,
+  metadata trial_days=7, revenuecat_entitlement=personal_finance_premium).
+- Prices (EUR, VAT inclusive; amounts approved by Bart 10 Nov; earlier test prices archived):
+  - pf_premium_monthly price_1UaD5EQlQbxXjawrsEH1qgGc €14.99 / month
+  - pf_premium_yearly  price_1UaD75QlQbxXjawrul0XTbRr €119.99 / year (≈33% off monthly)
+  - pf_premium_2year   price_1UaD76QlQbxXjawrIe5IQeLL €199.99 / 2 years (web only, ≈44% off)
+  Changing an amount = new price with the same lookup_key (transfer_lookup_key), never edit.
+- Trial: 7 days with card on file, set per Checkout Session
+  (subscription_data.trial_period_days = 7), not on the price.
+- Customer Portal bpc_1UaD4uQlQbxXjawroi9187oo (default): cancel at period end with
+  reason, switch between the 3 prices (downgrades / shorter interval at period end),
+  payment method, invoices, name/email/address; return URL /app/settings.
+- Still to do: code (API route for Checkout Session + portal session, webhook or
+  RevenueCat-only), connect Stripe in RevenueCat + map the 3 prices to the entitlement,
+  keys in Vercel (Bart does that himself), Stripe Tax once registered.
