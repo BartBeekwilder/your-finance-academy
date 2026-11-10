@@ -1016,3 +1016,16 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
   metadata + success-URL placeholder, portal session. A test customer
   checkout-test@example.com is left in the sandbox (harmless).
 - 21 texts in 16 languages. Server error messages are English for now.
+- SET UP AND WORKING (2026-11-10, sandbox): all 4 keys in Vercel (Production
+  + Preview); Stripe restricted key "Personal Finance web" (5 permissions);
+  webhook personal-finance-billing (we_1UaKmlQlQbxXjawr6GVZbuVz, 2 events);
+  RevenueCat Stripe config "Personal Finance (Stripe)" (appc1194cf149), 3
+  prices imported and attached to personal_finance_premium;
+  REVENUECAT_STRIPE_PUBLIC_KEY = the Stripe app's SANDBOX key (swap for the
+  public key when Stripe goes live). Bart's checkout on the web-app preview
+  worked: sub_1UaLADQlQbxXjawrPJzMwv5Z, Yearly, trialing. Not on main yet.
+- Going live later (needs KvK): repeat on the live Stripe account (RevenueCat
+  app, restricted key, webhook, product + 3 prices with the same lookup
+  keys), RevenueCat config → live account, replace the Vercel values. Bart
+  asked about selling without KvK: told him selling subscriptions needs it
+  (plus VAT); App Store / Stripe Managed Payments / Paddle handle VAT.
