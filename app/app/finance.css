@@ -6167,3 +6167,20 @@ button.pf-ck-day:active { transform: scale(0.92); }
 @media (max-width: 560px) { .pf-yw-months { gap: 3px; height: 140px; } .pf-yw-label { font-size: 0.6rem; } }
 @media (prefers-reduced-motion: reduce) { .pf-yw-col i { animation: none; } }
 .pf-yc-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; align-items: start; }
+
+/* Settings › Premium: three plan tiles (the chosen one lifts and glows on a
+   spring), the trial button, a test-mode tag while Stripe runs in sandbox. */
+.pf-sub-test { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; color: #ffb547; background: rgba(255, 181, 71, 0.12); }
+.pf-sub-on { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: 650; color: var(--pf-green); }
+.pf-sub-plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.pf-sub-plan { position: relative; display: grid; gap: 4px; justify-items: start; padding: 14px; border-radius: 14px; border: 1px solid var(--pf-line); background: rgba(255, 255, 255, 0.02); color: inherit; font: inherit; text-align: left; cursor: pointer; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s, box-shadow 0.35s, background 0.25s; }
+.pf-sub-plan:hover { transform: translateY(-2px); }
+.pf-sub-plan[aria-checked="true"] { transform: translateY(-3px); border-color: var(--pf-brand-a); background: color-mix(in srgb, var(--pf-brand-a) 10%, transparent); box-shadow: 0 0 0 1px var(--pf-brand-b), 0 10px 30px -12px color-mix(in srgb, var(--pf-brand-a) 70%, transparent); }
+.pf-sub-plan-name { font-size: 0.8rem; color: var(--pf-ink-2); }
+.pf-sub-plan b { font-size: 1.35rem; font-weight: 800; }
+.pf-sub-plan-per { font-size: 0.75rem; color: var(--pf-ink-3); }
+.pf-sub-save { position: absolute; top: 10px; right: 10px; font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; color: #0b2c26; background: var(--pf-green); }
+.pf-sub-only { font-size: 0.68rem; color: var(--pf-ink-3); }
+.pf-sub-go { justify-self: start; padding: 13px 22px; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s; }
+.pf-sub-go:not(:disabled):hover { transform: translateY(-1px) scale(1.02); filter: brightness(1.08); }
+@media (prefers-reduced-motion: reduce) { .pf-sub-plan, .pf-sub-go { transition: none; } }

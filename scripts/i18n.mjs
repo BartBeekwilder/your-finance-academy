@@ -21,6 +21,7 @@ const EXTRA = [
   "Groceries", "Dining out", "Transport", "Shopping", "Entertainment", "Health",
   "Crypto", "Stock", "Metal", "Fund", "Gold", "Silver", "Platinum", "Palladium",
   "Student loan", "Car loan", "Personal loan", "Credit card", "Other loan",
+  "Monthly", "Yearly", "2 years",
   "Your year", "For your tax return", "Yearly costs", "Opening balances", "Next year", "Summary",
   "Basics", "Money now", "Fixed costs and insurance", "Home and debts", "Budgets and goals", "History", "Security",
   "Off to a flying start", "Finish the quick start", "Books fully set up", "Finish the complete setup",

@@ -992,3 +992,27 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
 - 64 new texts in all 16 languages ("Year Wrapped" stays English like
   "Month Wrapped").
 - To port to iOS/Android later (with the account start-of-year roll-over!).
+
+## Done 2026-11-10 — Web billing code (Stripe Checkout + portal → RevenueCat), TEST MODE
+
+- Setup checklist for Bart: docs/billing-setup.md (4 Vercel env vars:
+  STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, REVENUECAT_STRIPE_PUBLIC_KEY,
+  REVENUECAT_SECRET_KEY; Stripe webhook; RevenueCat Stripe app + product →
+  entitlement). Until then every /api/billing/* route answers 503 and the
+  Settings card is hidden.
+- lib/billing: plans.ts (entitlement, 7-day trial, plans by lookup key),
+  server.ts (Stripe REST without SDK, Supabase user from the Bearer token,
+  customer per user by metadata app_user_id — looked up by email first
+  because Stripe search lags ~1 min, RevenueCat receipts + subscriber
+  status), stripeWire.ts (form encoding + webhook signature; tested).
+- Routes: /api/billing/prices, checkout, sync, status, portal, stripe-webhook.
+- components/finance/SubscriptionCard.tsx (Settings, #subscription): plan
+  tiles with per-month price and "Save x%", trial button, status (trial /
+  renews / cancelled until), Manage → portal; app-store subscriptions are
+  managed in the store. "Test mode" tag while the key isn't live.
+- App User ID = Supabase user id. iOS/Android: `Purchases.logIn(userId)`
+  when they get RevenueCat (not in the apps yet).
+- Checked against the sandbox: prices by lookup key, Checkout with trial +
+  metadata + success-URL placeholder, portal session. A test customer
+  checkout-test@example.com is left in the sandbox (harmless).
+- 21 texts in 16 languages. Server error messages are English for now.

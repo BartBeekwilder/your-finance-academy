@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:db": "node supabase/tests/schema.test.mjs",
-    "test:calc": "node --test lib/finance/tests/*.test.mjs"
+    "test:calc": "node --test lib/finance/tests/*.test.mjs lib/billing/tests/*.test.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
