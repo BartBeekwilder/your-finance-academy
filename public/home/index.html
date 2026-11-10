@@ -127,7 +127,7 @@
   .diff__head h2 { margin: 0; font: 700 clamp(32px, 3.4vw, 54px)/1 var(--f); letter-spacing: -0.035em; }
   .diff__head p { margin: 0; max-width: 46ch; color: var(--c-ink-2); font-size: 17px; }
   .diff__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--c-rule); border-radius: 4px; overflow: hidden; }
-  .diff__grid article { background: var(--c-surface); padding: 22px 24px 28px; display: grid; gap: 8px; align-content: start; }
+  .diff__grid article { min-width: 0; background: var(--c-surface); padding: 22px 24px 28px; display: grid; gap: 8px; align-content: start; }
   /* the examples: small, live pieces in the app's own style */
   .ex { margin-bottom: 14px; padding: 14px; border-radius: 12px; background: oklch(12% 0.018 210); border: 1px solid oklch(26% 0.02 205); min-height: 132px; display: grid; align-content: center; gap: 6px; font-size: 13px; }
   .ex b { font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -135,7 +135,7 @@
   .ex__top b { font: 600 22px ui-rounded, "SF Pro Rounded", var(--f); color: #4ade80; letter-spacing: -0.01em; }
   .ex__top b .tick { color: inherit; font: inherit; font-size: 0.55em; opacity: 0.7; margin-inline-start: 1px; display: inline-block; min-width: 0.6em; }
   .ex__cap { font-size: 12px; color: var(--c-muted); }
-  .ex--sheet { grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; }
+  .ex--sheet { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-content: start; }
   .ex--sheet .ex__h { display: block; font: 500 10px var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-muted); margin-bottom: 4px; }
   .ex--sheet p { display: flex; justify-content: space-between; gap: 6px; margin: 0; padding: 3px 0; border-bottom: 1px solid oklch(24% 0.02 205); font-size: 12px; color: var(--c-ink-2); }
   .ex--sheet .eqrow { border: 0; color: #40c8e0; } .ex--sheet .eqrow b { color: #40c8e0; }
@@ -227,15 +227,16 @@
     .hero__stage { position: relative; inset: auto; height: 62vh; -webkit-mask-image: none; mask-image: none; }
     .steps { inset: auto var(--g) 18px; translate: none; width: auto; }
     .step:not(.cur) { display: none; }
-    .plans { grid-template-columns: 1fr 1fr; }
-    .diff__grid { grid-template-columns: 1fr; }
+    .plans { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .diff__grid { grid-template-columns: minmax(0, 1fr); }
+    .stand__stage { top: 56px; }
     .wr__track img { height: 34vh; }
     .ob { height: auto; } .ob__pin { position: relative; height: auto; display: grid; }
     .ob__col { position: relative; inset: auto; width: auto; padding: 60px var(--g) 20px; }
     .ob__stage { position: relative; inset: auto; height: 50vh; -webkit-mask-image: none; mask-image: none; }
   }
   /* Phones: the brand lockup and the language picker fill the bar; the hero has the same demo button right below. */
-  @media (max-width: 520px) { .status .btn { display: none; } }
+  @media (max-width: 520px) { .status .btn { display: none; } .ex--sheet { grid-template-columns: minmax(0, 1fr); } }
   @media (prefers-reduced-motion: reduce) { .live-screen, .stand__screen img, .step, .step p { transition: none; } }
 </style>
 </head>
@@ -421,10 +422,23 @@
     var px = (w * r).toFixed(1) + 'px';
     el.style.clipPath = 'inset(0 round ' + (top ? px + ' ' + px + ' 0 0' : px) + ')';
   }
+  // Phones: the photo is cropped around the device and the stage is as tall
+  // as the photo at that size, so the whole screen is in view (a plain
+  // cover crop cut the iPad and laptop off at both sides).
+  function phoneFit(stage, quad) {
+    var photo = stage.querySelector('.photo');
+    if (innerWidth > 900) { stage.style.height = ''; photo.style.objectPosition = ''; return null; }
+    var s = stage.clientWidth * 0.94 / (quad[1][0] - quad[0][0]), cx = (quad[0][0] + quad[1][0]) / 2;
+    stage.style.height = Math.round(IMG.h * s) + 'px';
+    var ox = Math.min(0, Math.max(stage.clientWidth - IMG.w * s, stage.clientWidth / 2 - cx * s));
+    photo.style.objectPosition = ox.toFixed(1) + 'px 50%';
+    return cx;
+  }
   function lay() {
-    PF.onto(ipad, document.getElementById('heroStage'), IMG, IPAD); round(ipad, 1440, 0.024);
-    PF.onto(standScreen, document.getElementById('standStage'), IMG, STAND); round(standScreen, 1400, 0.024);
-    PF.onto(document.getElementById('obScreen'), document.getElementById('obStage'), IMG, LAPTOP); round(document.getElementById('obScreen'), 1440, 0.012, true);
+    var heroStage = document.getElementById('heroStage'), standStage = document.getElementById('standStage'), obStage = document.getElementById('obStage');
+    PF.onto(ipad, heroStage, IMG, IPAD, phoneFit(heroStage, IPAD)); round(ipad, 1440, 0.024);
+    PF.onto(standScreen, standStage, IMG, STAND, phoneFit(standStage, STAND)); round(standScreen, 1400, 0.024);
+    PF.onto(document.getElementById('obScreen'), obStage, IMG, LAPTOP, phoneFit(obStage, LAPTOP)); round(document.getElementById('obScreen'), 1440, 0.012, true);
     var trio = document.getElementById('trioStage');
     PF.onto(document.getElementById('devIpad'), trio, IMG, rect(179.1, 553.2, 882.4, 1032.4)); round(document.getElementById('devIpad'), 1440, 0.024);
     PF.onto(document.getElementById('devLaptop'), trio, IMG, rect(1011.2, 451.8, 1845.9, 983.8)); round(document.getElementById('devLaptop'), 1440, 0.012, true);

@@ -52,10 +52,11 @@ window.PF = (function () {
   }
 
   // Place `el` (sized w x h) onto a screen quad given in a photo's pixel space,
-  // for a photo shown with object-fit: cover inside `box`.
-  function onto(el, box, img, quad) {
+  // for a photo shown with object-fit: cover inside `box`. `cx` (photo x) is
+  // the point the photo is centred on (see phoneFit), else its middle.
+  function onto(el, box, img, quad, cx) {
     var W = box.clientWidth, H = box.clientHeight, s = Math.max(W / img.w, H / img.h);
-    var ox = (W - img.w * s) / 2, oy = (H - img.h * s) / 2;
+    var ox = cx == null ? (W - img.w * s) / 2 : Math.min(0, Math.max(W - img.w * s, W / 2 - cx * s)), oy = (H - img.h * s) / 2;
     var q = quad.map(function (p) { return [ox + p[0] * s, oy + p[1] * s]; });
     el.style.transformOrigin = '0 0';
     el.style.transform = matrix3d(el.offsetWidth, el.offsetHeight, q);
