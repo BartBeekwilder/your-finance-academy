@@ -1035,7 +1035,9 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
 - Bart's choice: AI with consent (not on-device OCR). Claude Opus 5.5 via
   @anthropic-ai/sdk, structured output (zod schemas in lib/ai/reader.ts),
   server-side fallback "default". Key: ANTHROPIC_API_KEY in Vercel
-  (Production + Preview) — NOT SET YET; until then the route answers 503.
+  (Production + Preview) — set 2026-11-10 (key personal-finance-web, Claude
+  Console org "Bart's Individual Org", $5 credit, auto-reload off; the key
+  EXPIRES 2026-12-10 — make a longer-lived one before going live).
 - Route POST /api/ai/read {kind: bank|payslip|mortgage, files[], today,
   categories}: signed-in + Premium (RevenueCat) required; on next dev at
   localhost no account needed. Max 8 files; images shrunk in the browser to
@@ -1052,8 +1054,9 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
 - Privacy page (/privacy/web-app): sections "Reading documents with AI" and
   "Payments" (Stripe, RevenueCat).
 - Tested in the browser with a mocked AI answer (demo mode): consent, pick,
-  review, add, duplicates, phone layout, payslip, mortgage. NOT yet tested
-  against the real API (no key locally).
+  review, add, duplicates, phone layout, payslip, mortgage. Real API on the
+  preview (Bart signed in, Premium trial): a drawn bank list of 6 rows read
+  correctly in 8 s (relative dates, in/out, categories).
 - Cost per read roughly 2–5 cents (Opus 5.5, $4/$20 per MTok).
 - Later: port to iOS/Android (same route), "replace existing parts" option
   for mortgages, multi-page PDF statements beyond 3 MB.
