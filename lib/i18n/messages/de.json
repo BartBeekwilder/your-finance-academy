@@ -1812,5 +1812,9 @@
  "Will be added a second time": "Wird dann doppelt hinzugefügt",
  "Transfer to your own account, not spending": "Umbuchung aufs eigene Konto, keine Ausgabe",
  "Will count as spending": "Zählt dann als Ausgabe",
- "Tick all": "Alle auswählen"
+ "Tick all": "Alle auswählen",
+ "Sending…": "Wird gesendet…",
+ "Reading the figures…": "Zahlen werden gelesen…",
+ "Almost done…": "Fast fertig…",
+ "Saving {n} of {total}…": "Speichern: {n} von {total}…"
 }

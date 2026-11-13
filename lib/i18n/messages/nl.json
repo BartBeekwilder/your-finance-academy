@@ -1818,5 +1818,9 @@
  "Will be added a second time": "Wordt dan dubbel toegevoegd",
  "Transfer to your own account, not spending": "Overboeking naar eigen rekening, geen uitgave",
  "Will count as spending": "Telt dan als uitgave",
- "Tick all": "Vink alles aan"
+ "Tick all": "Vink alles aan",
+ "Sending…": "Versturen…",
+ "Reading the figures…": "Cijfers lezen…",
+ "Almost done…": "Bijna klaar…",
+ "Saving {n} of {total}…": "Opslaan: {n} van {total}…"
 }

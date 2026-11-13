@@ -6222,4 +6222,11 @@ button.pf-ck-day:active { transform: scale(0.92); }
   .pf-ai-parts li { grid-template-columns: auto minmax(0, 1fr) auto; }
   .pf-ai-parts .pf-ai-desc { grid-column: 2; grid-row: 1; }
 }
+.pf-ai-progress { display: grid; gap: 8px; width: min(100%, 420px); justify-items: start; }
+.pf-ai-drop .pf-ai-progress { justify-items: center; }
+.pf-ai-progress-track { width: 100%; height: 8px; border-radius: 99px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.pf-ai-progress-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #bf5af2, #40c8e0); background-size: 200% 100%; transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1); animation: pf-ai-sheen 1.6s linear infinite; }
+@keyframes pf-ai-sheen { to { background-position: -200% 0; } }
+.pf-ai-progress-label { font-size: 0.85rem; color: var(--pf-ink-2); font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .pf-ai-progress-track i { animation: none; transition: none; } }
 .pf-ai-drop .pf-slip-spin { width: 28px; height: 28px; border-width: 3px; }

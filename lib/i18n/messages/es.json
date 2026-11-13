@@ -1812,5 +1812,9 @@
  "Will be added a second time": "Se añadirá dos veces",
  "Transfer to your own account, not spending": "Transferencia a tu propia cuenta, no es un gasto",
  "Will count as spending": "Contará como gasto",
- "Tick all": "Marcar todo"
+ "Tick all": "Marcar todo",
+ "Sending…": "Enviando…",
+ "Reading the figures…": "Leyendo las cifras…",
+ "Almost done…": "Casi listo…",
+ "Saving {n} of {total}…": "Guardando {n} de {total}…"
 }

@@ -1812,5 +1812,9 @@
  "Will be added a second time": "二重に追加されます",
  "Transfer to your own account, not spending": "自分の口座への振替（支出ではありません）",
  "Will count as spending": "支出として計上されます",
- "Tick all": "すべて選択"
+ "Tick all": "すべて選択",
+ "Sending…": "送信中…",
+ "Reading the figures…": "数字を読み取り中…",
+ "Almost done…": "もうすぐ完了…",
+ "Saving {n} of {total}…": "保存中：{n}/{total}…"
 }

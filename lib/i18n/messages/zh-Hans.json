@@ -1812,5 +1812,9 @@
  "Will be added a second time": "将被重复添加",
  "Transfer to your own account, not spending": "转入你自己的账户，不是支出",
  "Will count as spending": "将计为支出",
- "Tick all": "全选"
+ "Tick all": "全选",
+ "Sending…": "正在发送…",
+ "Reading the figures…": "正在读取数字…",
+ "Almost done…": "快完成了…",
+ "Saving {n} of {total}…": "正在保存：第 {n} / {total} 笔…"
 }

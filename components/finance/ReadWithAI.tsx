@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowLeftRight, Check, CopyCheck, History, ImageUp, Sparkles, X } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
 import { live, num } from "@/lib/finance/calc";
@@ -72,6 +72,10 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
   const [added, setAdded] = useState(0);
   const [origin, setOrigin] = useState<Element | null>(null);
   const consented = !!data.profile.ai_consent_at;
+  // Reading: roughly how long it'll take (a PDF ~half a minute, a
+  // screenshot ~10 s), for the progress bar; `landed` fills it before the list.
+  const [expect, setExpect] = useState(10);
+  const [landed, setLanded] = useState(false);
   // The review list gets the wide sheet, which has no padding of its own.
   const wide = kind !== "payslip" && step === "review";
 
@@ -87,6 +91,8 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
     const files = [...list].slice(0, kind === "bank" ? 8 : 1);
     if (!files.length) return;
     setError(null);
+    setExpect(Math.min(60, files.reduce((s, f) => s + (f.type === "application/pdf" ? 28 : 9), 0)));
+    setLanded(false);
     setStep("reading");
     try {
       const prepared = await Promise.all(files.map(prepare));
@@ -99,6 +105,8 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
       const r = await fetch("/api/ai/read", { method: "POST", headers, body: JSON.stringify({ kind, files: prepared, today: isoDay(new Date()), categories }) });
       const j = await r.json().catch(() => ({ error: t("Something went wrong.") }));
       if (!r.ok) throw new Error(j.error ?? t("Something went wrong."));
+      setLanded(true);
+      await new Promise((ok) => setTimeout(ok, 450));
       setResult(j);
       setStep("review");
     } catch (e) {
@@ -143,9 +151,15 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => { e.preventDefault(); if (step === "pick") void read(e.dataTransfer.files); }}
             >
-              {step === "reading" ? <span className="pf-slip-spin" /> : <ImageUp size={28} />}
-              <b>{step === "reading" ? t("Reading…") : t(PICK[kind])}</b>
-              <span>{step === "reading" ? t("This takes about half a minute.") : kind === "bank" ? t("Up to 8 screenshots of your bank app, or a PDF statement.") : t("A PDF or a photo.")}</span>
+              {step === "reading" ? (
+                <ReadingProgress expect={expect} landed={landed} />
+              ) : (
+                <>
+                  <ImageUp size={28} />
+                  <b>{t(PICK[kind])}</b>
+                  <span>{kind === "bank" ? t("Up to 8 screenshots of your bank app, or a PDF statement.") : t("A PDF or a photo.")}</span>
+                </>
+              )}
               <input type="file" accept={ACCEPT} multiple={kind === "bank"} hidden disabled={step === "reading"} onChange={(e) => { const f = e.target.files; if (f) void read(f); e.target.value = ""; }} />
             </label>
           )}
@@ -173,6 +187,30 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
 
 /** `booked`: the booking this row already is, as "note · day" (null = new). */
 type Draft = ReadRow & { on: boolean; categoryId: string | null; from: "history" | "ai" | null; booked: string | null; own: boolean };
+
+/** A bar that fills with the work. */
+function Progress({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="pf-ai-progress" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(value * 100)} aria-label={label}>
+      <span className="pf-ai-progress-track"><i style={{ width: `${Math.max(3, value * 100)}%` }} /></span>
+      <span className="pf-ai-progress-label">{label}</span>
+    </div>
+  );
+}
+
+/** Reading has no real progress to report, so the bar follows the expected
+ *  time: quick at first, slowing towards 95%, full when the answer lands. */
+function ReadingProgress({ expect, landed }: { expect: number; landed: boolean }) {
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    const start = Date.now();
+    const id = setInterval(() => setElapsed((Date.now() - start) / 1000), 200);
+    return () => clearInterval(id);
+  }, []);
+  const value = landed ? 1 : 0.95 * (1 - Math.exp((-2.2 * elapsed) / expect));
+  const label = landed ? t("Done") : elapsed < 2 ? t("Sending…") : value < 0.85 ? t("Reading the figures…") : t("Almost done…");
+  return <Progress value={value} label={label} />;
+}
 
 /** A small icon saying why a row is (un)ticked or where its category came
  *  from; the full sentence on hover. Orange when ticked against the advice. */
@@ -210,6 +248,7 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
     });
   });
   const [busy, setBusy] = useState(false);
+  const [saved, setSaved] = useState(0);
   const [err, setErr] = useState<string | null>(null);
   const set = (i: number, patch: Partial<Draft>) => setDrafts((d) => d.map((x, j) => (j === i ? { ...x, ...patch } : x)));
   const chosen = drafts.filter((d) => d.on);
@@ -219,9 +258,11 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
 
   async function add() {
     setBusy(true);
+    setSaved(0);
     setErr(null);
     try {
       for (const d of chosen) {
+        setSaved((n) => n + 1);
         const cat = categories.find((c) => c.id === d.categoryId);
         await addTransaction({
           amount: d.amount.toFixed(2), type: d.direction === "in" ? "income" : "expense", date: atNoon(d.date ?? today), note: d.description.trim() || null,
@@ -267,14 +308,18 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
           </li>
         ))}
       </ul>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <button className="pf-button" disabled={busy || !chosen.length} onClick={add}>
-          {busy ? t("One moment…") : t("Add {n}", { n: chosen.length })}
-        </button>
-        <span style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>
-          {money(chosen.filter((d) => d.direction === "out").reduce((s, d) => s + d.amount, 0), currency)} {t("out")}
-        </span>
-      </div>
+      {busy ? (
+        <Progress value={saved / chosen.length} label={t("Saving {n} of {total}…", { n: saved, total: chosen.length })} />
+      ) : (
+        <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+          <button className="pf-button" disabled={!chosen.length} onClick={add}>
+            {t("Add {n}", { n: chosen.length })}
+          </button>
+          <span style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>
+            {money(chosen.filter((d) => d.direction === "out").reduce((s, d) => s + d.amount, 0), currency)} {t("out")}
+          </span>
+        </div>
+      )}
       {err && <p style={{ color: "var(--pf-red)", fontSize: "0.85rem" }}>{err}</p>}
     </div>
   );

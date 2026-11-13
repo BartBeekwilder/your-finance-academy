@@ -1812,5 +1812,9 @@
  "Will be added a second time": "Verrà aggiunto due volte",
  "Transfer to your own account, not spending": "Giroconto sul tuo conto, non è una spesa",
  "Will count as spending": "Conterà come spesa",
- "Tick all": "Seleziona tutto"
+ "Tick all": "Seleziona tutto",
+ "Sending…": "Invio…",
+ "Reading the figures…": "Lettura delle cifre…",
+ "Almost done…": "Quasi fatto…",
+ "Saving {n} of {total}…": "Salvataggio {n} di {total}…"
 }

@@ -1812,5 +1812,9 @@
  "Will be added a second time": "Будет добавлено второй раз",
  "Transfer to your own account, not spending": "Перевод на свой счёт, не расход",
  "Will count as spending": "Будет учтено как расход",
- "Tick all": "Отметить все"
+ "Tick all": "Отметить все",
+ "Sending…": "Отправка…",
+ "Reading the figures…": "Читаем цифры…",
+ "Almost done…": "Почти готово…",
+ "Saving {n} of {total}…": "Сохранение: {n} из {total}…"
 }

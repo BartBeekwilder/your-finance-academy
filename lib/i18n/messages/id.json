@@ -1812,5 +1812,9 @@
  "Will be added a second time": "Akan ditambahkan dua kali",
  "Transfer to your own account, not spending": "Transfer ke rekening sendiri, bukan pengeluaran",
  "Will count as spending": "Akan dihitung sebagai pengeluaran",
- "Tick all": "Centang semua"
+ "Tick all": "Centang semua",
+ "Sending…": "Mengirim…",
+ "Reading the figures…": "Membaca angka…",
+ "Almost done…": "Hampir selesai…",
+ "Saving {n} of {total}…": "Menyimpan {n} dari {total}…"
 }

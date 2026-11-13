@@ -1812,5 +1812,9 @@
  "Will be added a second time": "두 번 추가됩니다",
  "Transfer to your own account, not spending": "내 계좌로 이체, 지출 아님",
  "Will count as spending": "지출로 계산됩니다",
- "Tick all": "모두 선택"
+ "Tick all": "모두 선택",
+ "Sending…": "보내는 중…",
+ "Reading the figures…": "숫자를 읽는 중…",
+ "Almost done…": "거의 완료…",
+ "Saving {n} of {total}…": "저장 중: {total}건 중 {n}건…"
 }
