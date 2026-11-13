@@ -303,6 +303,45 @@
     .aisheet__stage { min-height: 250px; }
   }
 
+  /* Runway: how long the money lasts without income — the app's tour card, live with the visitor's own numbers. */
+  .rw { max-width: 1440px; margin: 0 auto; padding: clamp(70px, 12vh, 140px) var(--g); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+  .rw__text { order: 2; }
+  .rw__eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 500 12px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #fbbf24; padding: 6px 12px; border-radius: 999px; background: oklch(35% 0.08 75 / 0.35); box-shadow: inset 0 0 0 1px oklch(70% 0.14 80 / 0.45); }
+  .rw h2 { margin: 18px 0 16px; font: 700 clamp(34px, 4vw, 62px)/1.02 var(--f); letter-spacing: -0.035em; text-wrap: balance; }
+  .rw__lead { margin: 0 0 28px; max-width: 52ch; color: var(--c-ink-2); font-size: 18px; }
+  .rw .ai__points i { color: #fbbf24; }
+  .rwin { display: grid; gap: 10px; margin-top: 28px; max-width: 460px; padding: 14px 16px; border-radius: 14px; background: color-mix(in oklch, #fbbf24 9%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, #fbbf24 35%, transparent); }
+  .rwin__hint { font-weight: 600; font-size: 14px; }
+  .rwin label { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px; color: var(--c-ink-2); cursor: text; }
+  .rwin .netin__box:focus-within { box-shadow: inset 0 0 0 1px #fbbf24, 0 0 0 3px color-mix(in oklch, #fbbf24 25%, transparent); }
+  .rwin input { width: 8ch; border: 0; padding: 0; background: transparent; color: #fbbf24; font: inherit; font-variant-numeric: tabular-nums; outline: none; text-align: right; }
+  .rwcard { position: relative; border-radius: 26px; padding: clamp(22px, 3vw, 34px); min-width: 0; background: radial-gradient(120% 90% at 0% 0%, oklch(55% 0.11 65 / 0.55), transparent 60%), linear-gradient(170deg, oklch(36% 0.07 60), oklch(21% 0.035 55) 70%); box-shadow: inset 0 0 0 1px oklch(75% 0.1 75 / 0.18), 0 40px 80px -40px oklch(0% 0 0 / 0.8); display: grid; gap: 18px; }
+  .rw__kicker { font: 600 12px var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: oklch(85% 0.03 80 / 0.75); }
+  .rw__big { display: flex; align-items: baseline; gap: 12px; color: #fbbf24; line-height: 1; }
+  .rw__big b { font: 700 clamp(64px, 8vw, 104px)/0.9 var(--f); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .rw__big span { font: 600 clamp(24px, 2.6vw, 34px) var(--f); }
+  .rw__plot { position: relative; height: 150px; display: flex; align-items: flex-end; gap: 8px; padding-bottom: 22px; }
+  .rw__plot i { position: relative; flex: 1; height: 100%; display: flex; align-items: flex-end; }
+  .rw__plot i::before { content: ""; width: 100%; height: var(--h, 0%); min-height: 3px; border-radius: 6px 6px 3px 3px; background: linear-gradient(180deg, #fde68a, #f59e0b); transition: height 700ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms); }
+  .rw__plot i[data-gone]::before { background: #ef4444; opacity: 0.8; }
+  .rwcard:not(.shown) .rw__plot i::before { height: 0; }
+  .rw__plot small { position: absolute; bottom: -20px; left: 0; right: 0; text-align: center; font: 400 11px var(--mono); color: oklch(85% 0.02 80 / 0.6); }
+  .rw__goal { position: absolute; top: -6px; bottom: 22px; border-left: 1.5px dashed oklch(95% 0.02 80 / 0.75); transition: left 500ms cubic-bezier(.22, 1, .36, 1); }
+  .rw__goal small { position: absolute; top: -14px; right: 6px; white-space: nowrap; font: 600 12px var(--f); color: #fff; }
+  .rw__meter div { position: relative; height: 8px; border-radius: 99px; background: oklch(100% 0 0 / 0.12); }
+  .rw__meter i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f59e0b, #fde68a); box-shadow: 0 0 16px #f59e0b88; transition: width 700ms cubic-bezier(.22, 1, .36, 1); }
+  .rw__meter span.rw__min { position: absolute; top: -3px; bottom: -3px; left: 50%; width: 2px; background: #fff; border-radius: 1px; }
+  .rw__meter small { display: flex; justify-content: space-between; gap: 10px; margin-top: 8px; font-size: 13px; color: oklch(90% 0.02 80 / 0.8); }
+  .rw__sum { display: grid; grid-template-columns: auto auto auto auto auto; justify-content: start; align-items: center; gap: 10px 16px; padding: 14px 18px; border-radius: 14px; background: oklch(0% 0 0 / 0.25); }
+  .rw__sum span { display: grid; gap: 2px; }
+  .rw__sum b { font: 700 19px var(--f); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .rw__sum small { font-size: 12px; color: oklch(85% 0.02 80 / 0.65); max-width: 18ch; }
+  .rw__sum em { font-style: normal; color: oklch(85% 0.02 80 / 0.6); font-size: 18px; }
+  .rw__sum .amber { color: #fbbf24; }
+  .rw__note { margin: 0; font-size: 15px; color: oklch(92% 0.02 80 / 0.88); }
+  @media (max-width: 900px) { .rw { grid-template-columns: minmax(0, 1fr); } .rw__text { order: 0; } }
+  @media (max-width: 520px) { .rw__sum { grid-template-columns: auto auto; } .rw__sum em { display: none; } .rw__plot { height: 120px; gap: 5px; } }
+  @media (prefers-reduced-motion: reduce) { .rwcard * { transition: none !important; } }
 </style>
 </head>
 <body>
@@ -430,6 +469,37 @@
       <div class="wr__track" id="wrTrack">
         <img src="/home/img/wr-0.webp?v=5" alt="Month Wrapped: dit heb je opgezet"><img src="/home/img/wr-1.webp?v=5" alt="Month Wrapped: waar het heen ging"><img src="/home/img/wr-2.webp?v=5" alt="Month Wrapped: tegen je gemiddelde"><img src="/home/img/wr-3.webp?v=5" alt="Month Wrapped: beleggingen"><img src="/home/img/wr-4.webp?v=5" alt="Month Wrapped: eigen vermogen"><img src="/home/img/wr-5.webp?v=5" alt="Month Wrapped: feiten"></div>
       <span class="hint" style="margin-inline-start:var(--g)">Echte Wrapped-kaarten uit de app, met demodata.</span>
+    </div>
+  </section>
+
+  <!-- Runway: how many months the accounts would last without income. -->
+  <section class="rw" id="runway">
+    <div class="rw__text">
+      <span class="rw__eyebrow">Je runway</span>
+      <h2>Hoe lang red jij het zonder inkomen?</h2>
+      <p class="rw__lead">Je runway is het aantal maanden dat wat op je rekeningen staat je vaste lasten en budgetten dekt. Het dashboard houdt hem live bij en laat zien wat je nog nodig hebt voor een gezonde buffer.</p>
+      <ul class="ai__points">
+        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></i><div><b>Je buffer in één getal</b><p>Geen vage vuistregel: je eigen saldo gedeeld door wat een maand jou echt kost.</p></div></li>
+        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V6M16 20v-6M22 20H2"/></svg></i><div><b>Zie wanneer het op zou zijn</b><p>Maand voor maand zie je je geld slinken als er niets meer binnenkwam.</p></div></li>
+        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></i><div><b>Een doel dat je haalt</b><p>Kies 3 tot 12 maanden. De app rekent uit hoeveel je nog nodig hebt en hoe lang dat sparen is.</p></div></li>
+      </ul>
+      <div class="rwin">
+        <span class="rwin__hint">Probeer het met je eigen cijfers</span>
+        <label for="rwCashIn"><span>Op je rekeningen</span><span class="netin__box">€ <input id="rwCashIn" type="text" inputmode="decimal" value="16.900" autocomplete="off"></span></label>
+        <label for="rwNeedIn"><span>Per maand nodig</span><span class="netin__box">€ <input id="rwNeedIn" type="text" inputmode="decimal" value="3.260" autocomplete="off"></span></label>
+      </div>
+    </div>
+    <div class="rwcard" id="rwCard" role="img" aria-label="Je runway: zo lang dekt je geld je vaste lasten zonder inkomen">
+      <span class="rw__kicker">Je runway</span>
+      <div class="rw__big"><b id="rwN">5,2</b><span>maanden</span></div>
+      <div class="rw__plot" id="rwPlot" aria-hidden="true"><span class="rw__goal" id="rwGoal"><small>Doel: 6 maanden</small></span></div>
+      <div class="rw__meter" aria-hidden="true"><div><i id="rwBar"></i><span class="rw__min"></span></div><small><span id="rwOf"></span><span id="rwState"></span></small></div>
+      <div class="rw__sum" aria-hidden="true">
+        <span><b id="rwCash"></b><small>op je rekeningen</small></span><em>÷</em>
+        <span><b id="rwNeed"></b><small>per maand aan vaste lasten en budgetten</small></span><em>=</em>
+        <span><b id="rwRes" class="amber"></b><small>maanden</small></span>
+      </div>
+      <p class="rw__note" id="rwNote"></p>
     </div>
   </section>
 
@@ -655,6 +725,55 @@
     inp.addEventListener('input', upd);
     inp.addEventListener('focus', function () { inp.closest('.netin').classList.add('used'); inp.select(); });
     inp.addEventListener('blur', function () { var v = num(inp.value); if (v >= 0) inp.value = new Intl.NumberFormat(PF_LOCALE, { maximumFractionDigits: 0 }).format(v); });
+  })();
+  // Runway: the visitor's own accounts ÷ what a month costs, as in the app's tour.
+  (function () {
+    var card = document.getElementById('rwCard'); if (!card) return;
+    var cashIn = document.getElementById('rwCashIn'), needIn = document.getElementById('rwNeedIn'), plot = document.getElementById('rwPlot');
+    var parts = new Intl.NumberFormat(PF_LOCALE).formatToParts(1234.5), dsep = '.';
+    parts.forEach(function (p) { if (p.type === 'decimal') dsep = p.value; });
+    function num(t) { t = String(t).replace(/[^\d.,]/g, ''); t = dsep === ',' ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, ''); return parseFloat(t); }
+    var int0 = new Intl.NumberFormat(PF_LOCALE, { maximumFractionDigits: 0 });
+    var one = new Intl.NumberFormat(PF_LOCALE, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    var eur = new Intl.NumberFormat(PF_LOCALE, { style: 'currency', currency: 'EUR' });
+    var mon = new Intl.DateTimeFormat(PF_LOCALE, { month: 'short' }), monYear = new Intl.DateTimeFormat(PF_LOCALE, { month: 'long', year: 'numeric' });
+    var cap = function (x) { return x.charAt(0).toLocaleUpperCase(PF_LOCALE) + x.slice(1); };
+    cashIn.value = int0.format(16900); needIn.value = int0.format(3260);
+    var GOAL = 6;
+    function draw() {
+      var cash = Math.max(num(cashIn.value) || 0, 0), need = Math.max(num(needIn.value) || 0, 1);
+      var months = cash / need, n = Math.min(13, Math.max(GOAL + 1, Math.ceil(months) + 1)), now = new Date();
+      document.getElementById('rwN').textContent = one.format(months);
+      document.getElementById('rwRes').textContent = one.format(months);
+      document.getElementById('rwCash').textContent = eur.format(cash);
+      document.getElementById('rwNeed').textContent = eur.format(need);
+      var bars = plot.querySelectorAll('i');
+      for (var k = bars.length; k < n; k++) { var b = document.createElement('i'); b.appendChild(document.createElement('small')); plot.appendChild(b); }
+      bars = plot.querySelectorAll('i');
+      bars.forEach(function (b, k) {
+        if (k >= n) { b.style.display = 'none'; return; }
+        b.style.display = '';
+        var v = Math.max(0, cash - need * k);
+        b.style.setProperty('--h', (cash ? v / cash * 100 : 0) + '%');
+        b.style.setProperty('--d', k * 60 + 'ms');
+        if (v <= 0) b.setAttribute('data-gone', ''); else b.removeAttribute('data-gone');
+        b.firstChild.textContent = cap(mon.format(new Date(now.getFullYear(), now.getMonth() + k, 1))).replace('.', '');
+      });
+      document.getElementById('rwGoal').style.left = 'calc(' + (GOAL / n * 100) + '% - 4px)';
+      document.getElementById('rwBar').style.width = Math.min(months / GOAL, 1) * 100 + '%';
+      document.getElementById('rwOf').textContent = PFT(142, { n: one.format(months) });
+      document.getElementById('rwState').textContent = PFT(months >= GOAL ? 145 : months >= 3 ? 143 : 144, {});
+      var toGoal = need * GOAL - cash;
+      document.getElementById('rwNote').textContent = toGoal <= 0 ? PFT(149, {}) : PFT(148, { m: cap(monYear.format(new Date(now.getFullYear(), now.getMonth() + Math.floor(months), 1))), a: eur.format(toGoal) });
+    }
+    draw();
+    [cashIn, needIn].forEach(function (inp) {
+      inp.addEventListener('input', draw);
+      inp.addEventListener('focus', function () { inp.select(); });
+      inp.addEventListener('blur', function () { var v = num(inp.value); if (v >= 0) inp.value = int0.format(v); });
+    });
+    if (!('IntersectionObserver' in window)) { card.classList.add('shown'); return; }
+    new IntersectionObserver(function (es, o) { es.forEach(function (e) { if (e.isIntersecting) { card.classList.add('shown'); o.disconnect(); } }); }, { threshold: 0.35 }).observe(card);
   })();
   // Short screens: the hero grows to fit its column instead of hiding the
   // headline under the bar.
