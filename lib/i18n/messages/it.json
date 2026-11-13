@@ -1816,5 +1816,16 @@
  "Sending…": "Invio…",
  "Reading the figures…": "Lettura delle cifre…",
  "Almost done…": "Quasi fatto…",
- "Saving {n} of {total}…": "Salvataggio {n} di {total}…"
+ "Saving {n} of {total}…": "Salvataggio {n} di {total}…",
+ "Add one to eight images or PDFs.": "Aggiungi da una a otto immagini o PDF.",
+ "Busy right now — try again in a minute.": "Molte richieste, riprova tra un minuto.",
+ "Nothing could be read from this document.": "Non è stato possibile leggere nulla da questo documento.",
+ "Reading documents is not set up yet.": "La lettura dei documenti non è ancora configurata.",
+ "Reading documents is part of Premium.": "La lettura dei documenti fa parte di Premium.",
+ "Reading failed. Try again later.": "Lettura non riuscita. Riprova più tardi.",
+ "This document couldn't be read.": "Impossibile leggere questo documento.",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "Impossibile leggere questo file. Prova uno screenshot o un PDF più piccolo.",
+ "Too much at once — try fewer screenshots.": "Troppo in una volta, prova con meno screenshot.",
+ "Unknown document type.": "Tipo di documento sconosciuto.",
+ "Sign in first.": "Accedi prima."
 }

@@ -1816,5 +1816,16 @@
  "Sending…": "Отправка…",
  "Reading the figures…": "Читаем цифры…",
  "Almost done…": "Почти готово…",
- "Saving {n} of {total}…": "Сохранение: {n} из {total}…"
+ "Saving {n} of {total}…": "Сохранение: {n} из {total}…",
+ "Add one to eight images or PDFs.": "Добавьте от одного до восьми изображений или PDF.",
+ "Busy right now — try again in a minute.": "Сейчас много запросов, попробуйте через минуту.",
+ "Nothing could be read from this document.": "Из этого документа ничего не удалось прочитать.",
+ "Reading documents is not set up yet.": "Чтение документов ещё не настроено.",
+ "Reading documents is part of Premium.": "Чтение документов входит в Premium.",
+ "Reading failed. Try again later.": "Не удалось прочитать. Попробуйте позже.",
+ "This document couldn't be read.": "Не удалось прочитать этот документ.",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "Не удалось прочитать файл. Попробуйте скриншот или PDF поменьше.",
+ "Too much at once — try fewer screenshots.": "Слишком много за раз, попробуйте меньше скриншотов.",
+ "Unknown document type.": "Неизвестный тип документа.",
+ "Sign in first.": "Сначала войдите."
 }

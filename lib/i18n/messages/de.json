@@ -1816,5 +1816,16 @@
  "Sending…": "Wird gesendet…",
  "Reading the figures…": "Zahlen werden gelesen…",
  "Almost done…": "Fast fertig…",
- "Saving {n} of {total}…": "Speichern: {n} von {total}…"
+ "Saving {n} of {total}…": "Speichern: {n} von {total}…",
+ "Add one to eight images or PDFs.": "Füge ein bis acht Bilder oder PDFs hinzu.",
+ "Busy right now — try again in a minute.": "Gerade viel los, versuch es in einer Minute erneut.",
+ "Nothing could be read from this document.": "Aus diesem Dokument konnte nichts gelesen werden.",
+ "Reading documents is not set up yet.": "Das Einlesen von Dokumenten ist noch nicht eingerichtet.",
+ "Reading documents is part of Premium.": "Das Einlesen von Dokumenten gehört zu Premium.",
+ "Reading failed. Try again later.": "Einlesen fehlgeschlagen. Versuch es später erneut.",
+ "This document couldn't be read.": "Dieses Dokument konnte nicht gelesen werden.",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "Diese Datei konnte nicht gelesen werden. Versuch einen Screenshot oder ein kleineres PDF.",
+ "Too much at once — try fewer screenshots.": "Zu viel auf einmal, versuch weniger Screenshots.",
+ "Unknown document type.": "Unbekannte Dokumentart.",
+ "Sign in first.": "Melde dich zuerst an."
 }

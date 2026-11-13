@@ -1816,5 +1816,16 @@
  "Sending…": "Mengirim…",
  "Reading the figures…": "Membaca angka…",
  "Almost done…": "Hampir selesai…",
- "Saving {n} of {total}…": "Menyimpan {n} dari {total}…"
+ "Saving {n} of {total}…": "Menyimpan {n} dari {total}…",
+ "Add one to eight images or PDFs.": "Tambahkan satu sampai delapan gambar atau PDF.",
+ "Busy right now — try again in a minute.": "Sedang sibuk, coba lagi sebentar lagi.",
+ "Nothing could be read from this document.": "Tidak ada yang bisa dibaca dari dokumen ini.",
+ "Reading documents is not set up yet.": "Membaca dokumen belum diatur.",
+ "Reading documents is part of Premium.": "Membaca dokumen termasuk Premium.",
+ "Reading failed. Try again later.": "Gagal membaca. Coba lagi nanti.",
+ "This document couldn't be read.": "Dokumen ini tidak bisa dibaca.",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "File ini tidak bisa dibaca. Coba tangkapan layar atau PDF yang lebih kecil.",
+ "Too much at once — try fewer screenshots.": "Terlalu banyak sekaligus, coba lebih sedikit tangkapan layar.",
+ "Unknown document type.": "Jenis dokumen tidak dikenal.",
+ "Sign in first.": "Masuk dulu."
 }

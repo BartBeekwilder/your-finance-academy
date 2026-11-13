@@ -1816,5 +1816,16 @@
  "Sending…": "正在发送…",
  "Reading the figures…": "正在读取数字…",
  "Almost done…": "快完成了…",
- "Saving {n} of {total}…": "正在保存：第 {n} / {total} 笔…"
+ "Saving {n} of {total}…": "正在保存：第 {n} / {total} 笔…",
+ "Add one to eight images or PDFs.": "请添加一到八张图片或 PDF。",
+ "Busy right now — try again in a minute.": "当前繁忙，请一分钟后再试。",
+ "Nothing could be read from this document.": "无法从此文档读取任何内容。",
+ "Reading documents is not set up yet.": "文档读取尚未设置。",
+ "Reading documents is part of Premium.": "文档读取属于 Premium 功能。",
+ "Reading failed. Try again later.": "读取失败，请稍后再试。",
+ "This document couldn't be read.": "无法读取此文档。",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "无法读取此文件。请尝试截图或更小的 PDF。",
+ "Too much at once — try fewer screenshots.": "一次太多，请减少截图数量。",
+ "Unknown document type.": "未知的文档类型。",
+ "Sign in first.": "请先登录。"
 }

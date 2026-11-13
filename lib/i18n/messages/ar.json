@@ -1816,5 +1816,16 @@
  "Sending…": "جارٍ الإرسال…",
  "Reading the figures…": "جارٍ قراءة الأرقام…",
  "Almost done…": "على وشك الانتهاء…",
- "Saving {n} of {total}…": "جارٍ الحفظ: {n} من {total}…"
+ "Saving {n} of {total}…": "جارٍ الحفظ: {n} من {total}…",
+ "Add one to eight images or PDFs.": "أضف من صورة إلى ثماني صور أو ملفات PDF.",
+ "Busy right now — try again in a minute.": "الضغط كبير الآن، حاول بعد دقيقة.",
+ "Nothing could be read from this document.": "تعذّرت قراءة أي شيء من هذا المستند.",
+ "Reading documents is not set up yet.": "قراءة المستندات غير مُعدّة بعد.",
+ "Reading documents is part of Premium.": "قراءة المستندات جزء من Premium.",
+ "Reading failed. Try again later.": "فشلت القراءة. حاول لاحقًا.",
+ "This document couldn't be read.": "تعذّرت قراءة هذا المستند.",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "تعذّرت قراءة هذا الملف. جرّب لقطة شاشة أو ملف PDF أصغر.",
+ "Too much at once — try fewer screenshots.": "كثير جدًا دفعة واحدة، جرّب لقطات أقل.",
+ "Unknown document type.": "نوع مستند غير معروف.",
+ "Sign in first.": "سجّل الدخول أولًا."
 }

@@ -104,7 +104,7 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
       }
       const r = await fetch("/api/ai/read", { method: "POST", headers, body: JSON.stringify({ kind, files: prepared, today: isoDay(new Date()), categories }) });
       const j = await r.json().catch(() => ({ error: t("Something went wrong.") }));
-      if (!r.ok) throw new Error(j.error ?? t("Something went wrong."));
+      if (!r.ok) throw new Error(j.error ? t(j.error) : t("Something went wrong."));
       setLanded(true);
       await new Promise((ok) => setTimeout(ok, 450));
       setResult(j);

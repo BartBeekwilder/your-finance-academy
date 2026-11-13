@@ -1816,5 +1816,16 @@
  "Sending…": "Wysyłanie…",
  "Reading the figures…": "Odczytywanie liczb…",
  "Almost done…": "Prawie gotowe…",
- "Saving {n} of {total}…": "Zapisywanie {n} z {total}…"
+ "Saving {n} of {total}…": "Zapisywanie {n} z {total}…",
+ "Add one to eight images or PDFs.": "Dodaj od jednego do ośmiu obrazów lub PDF-ów.",
+ "Busy right now — try again in a minute.": "Duże obciążenie, spróbuj za minutę.",
+ "Nothing could be read from this document.": "Nie udało się nic odczytać z tego dokumentu.",
+ "Reading documents is not set up yet.": "Odczyt dokumentów nie jest jeszcze skonfigurowany.",
+ "Reading documents is part of Premium.": "Odczyt dokumentów jest częścią Premium.",
+ "Reading failed. Try again later.": "Odczyt nie powiódł się. Spróbuj później.",
+ "This document couldn't be read.": "Nie udało się odczytać tego dokumentu.",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "Nie udało się odczytać pliku. Spróbuj zrzutu ekranu lub mniejszego PDF-a.",
+ "Too much at once — try fewer screenshots.": "Za dużo naraz, spróbuj mniej zrzutów.",
+ "Unknown document type.": "Nieznany rodzaj dokumentu.",
+ "Sign in first.": "Najpierw się zaloguj."
 }

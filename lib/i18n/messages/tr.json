@@ -1816,5 +1816,16 @@
  "Sending…": "Gönderiliyor…",
  "Reading the figures…": "Rakamlar okunuyor…",
  "Almost done…": "Neredeyse bitti…",
- "Saving {n} of {total}…": "Kaydediliyor: {n} / {total}…"
+ "Saving {n} of {total}…": "Kaydediliyor: {n} / {total}…",
+ "Add one to eight images or PDFs.": "Bir ile sekiz arasında görsel veya PDF ekle.",
+ "Busy right now — try again in a minute.": "Şu an yoğun, bir dakika sonra tekrar dene.",
+ "Nothing could be read from this document.": "Bu belgeden hiçbir şey okunamadı.",
+ "Reading documents is not set up yet.": "Belge okuma henüz ayarlanmadı.",
+ "Reading documents is part of Premium.": "Belge okuma Premium'a dahildir.",
+ "Reading failed. Try again later.": "Okuma başarısız. Daha sonra tekrar dene.",
+ "This document couldn't be read.": "Bu belge okunamadı.",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "Bu dosya okunamadı. Ekran görüntüsü veya daha küçük bir PDF dene.",
+ "Too much at once — try fewer screenshots.": "Aynı anda çok fazla, daha az ekran görüntüsü dene.",
+ "Unknown document type.": "Bilinmeyen belge türü.",
+ "Sign in first.": "Önce giriş yap."
 }

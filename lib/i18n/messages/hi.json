@@ -1816,5 +1816,16 @@
  "Sending…": "भेजा जा रहा है…",
  "Reading the figures…": "आँकड़े पढ़े जा रहे हैं…",
  "Almost done…": "लगभग हो गया…",
- "Saving {n} of {total}…": "सहेजा जा रहा है: {total} में से {n}…"
+ "Saving {n} of {total}…": "सहेजा जा रहा है: {total} में से {n}…",
+ "Add one to eight images or PDFs.": "एक से आठ छवियाँ या PDF जोड़ें।",
+ "Busy right now — try again in a minute.": "अभी व्यस्त है, एक मिनट बाद फिर कोशिश करें।",
+ "Nothing could be read from this document.": "इस दस्तावेज़ से कुछ नहीं पढ़ा जा सका।",
+ "Reading documents is not set up yet.": "दस्तावेज़ पढ़ना अभी सेट नहीं है।",
+ "Reading documents is part of Premium.": "दस्तावेज़ पढ़ना Premium का हिस्सा है।",
+ "Reading failed. Try again later.": "पढ़ना विफल रहा। बाद में कोशिश करें।",
+ "This document couldn't be read.": "यह दस्तावेज़ पढ़ा नहीं जा सका।",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "यह फ़ाइल पढ़ी नहीं जा सकी। स्क्रीनशॉट या छोटा PDF आज़माएँ।",
+ "Too much at once — try fewer screenshots.": "एक साथ बहुत ज़्यादा, कम स्क्रीनशॉट आज़माएँ।",
+ "Unknown document type.": "अज्ञात दस्तावेज़ प्रकार।",
+ "Sign in first.": "पहले साइन इन करें।"
 }

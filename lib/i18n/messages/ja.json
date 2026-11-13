@@ -1816,5 +1816,16 @@
  "Sending…": "送信中…",
  "Reading the figures…": "数字を読み取り中…",
  "Almost done…": "もうすぐ完了…",
- "Saving {n} of {total}…": "保存中：{n}/{total}…"
+ "Saving {n} of {total}…": "保存中：{n}/{total}…",
+ "Add one to eight images or PDFs.": "画像またはPDFを1〜8件追加してください。",
+ "Busy right now — try again in a minute.": "混み合っています。1分後にもう一度お試しください。",
+ "Nothing could be read from this document.": "この書類から何も読み取れませんでした。",
+ "Reading documents is not set up yet.": "書類の読み取りはまだ設定されていません。",
+ "Reading documents is part of Premium.": "書類の読み取りはPremiumの機能です。",
+ "Reading failed. Try again later.": "読み取りに失敗しました。後でもう一度お試しください。",
+ "This document couldn't be read.": "この書類は読み取れませんでした。",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "このファイルは読み取れませんでした。スクリーンショットか小さめのPDFをお試しください。",
+ "Too much at once — try fewer screenshots.": "一度に多すぎます。スクリーンショットを減らしてください。",
+ "Unknown document type.": "不明な書類の種類です。",
+ "Sign in first.": "先にログインしてください。"
 }

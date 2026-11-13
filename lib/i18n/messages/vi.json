@@ -1816,5 +1816,16 @@
  "Sending…": "Đang gửi…",
  "Reading the figures…": "Đang đọc số liệu…",
  "Almost done…": "Sắp xong…",
- "Saving {n} of {total}…": "Đang lưu {n}/{total}…"
+ "Saving {n} of {total}…": "Đang lưu {n}/{total}…",
+ "Add one to eight images or PDFs.": "Thêm từ một đến tám ảnh hoặc PDF.",
+ "Busy right now — try again in a minute.": "Đang bận, hãy thử lại sau một phút.",
+ "Nothing could be read from this document.": "Không đọc được gì từ tài liệu này.",
+ "Reading documents is not set up yet.": "Chức năng đọc tài liệu chưa được thiết lập.",
+ "Reading documents is part of Premium.": "Đọc tài liệu là một phần của Premium.",
+ "Reading failed. Try again later.": "Đọc thất bại. Hãy thử lại sau.",
+ "This document couldn't be read.": "Không đọc được tài liệu này.",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "Không đọc được tệp này. Hãy thử ảnh chụp màn hình hoặc PDF nhỏ hơn.",
+ "Too much at once — try fewer screenshots.": "Quá nhiều cùng lúc, hãy thử ít ảnh hơn.",
+ "Unknown document type.": "Loại tài liệu không xác định.",
+ "Sign in first.": "Hãy đăng nhập trước."
 }

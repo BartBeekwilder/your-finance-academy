@@ -1822,5 +1822,16 @@
  "Sending…": "Versturen…",
  "Reading the figures…": "Cijfers lezen…",
  "Almost done…": "Bijna klaar…",
- "Saving {n} of {total}…": "Opslaan: {n} van {total}…"
+ "Saving {n} of {total}…": "Opslaan: {n} van {total}…",
+ "Add one to eight images or PDFs.": "Voeg één tot acht afbeeldingen of pdf's toe.",
+ "Busy right now — try again in a minute.": "Het is nu druk, probeer het over een minuut opnieuw.",
+ "Nothing could be read from this document.": "Er kon niets uit dit document worden gelezen.",
+ "Reading documents is not set up yet.": "Documenten inlezen is nog niet ingesteld.",
+ "Reading documents is part of Premium.": "Documenten inlezen hoort bij Premium.",
+ "Reading failed. Try again later.": "Inlezen mislukt. Probeer het later opnieuw.",
+ "This document couldn't be read.": "Dit document kon niet worden gelezen.",
+ "This file couldn't be read. Try a screenshot or a smaller PDF.": "Dit bestand kon niet worden gelezen. Probeer een screenshot of een kleinere pdf.",
+ "Too much at once — try fewer screenshots.": "Te veel tegelijk, probeer minder screenshots.",
+ "Unknown document type.": "Onbekend soort document.",
+ "Sign in first.": "Log eerst in."
 }
