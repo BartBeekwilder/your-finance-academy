@@ -13,6 +13,9 @@ export type ReadRow = {
   amount: number; // positive
   direction: "out" | "in";
   category: string | null; // the AI's guess: one of the category names it was given
+  /** Money moved between the person's own accounts (savings, paying off the
+   *  credit card): not spending, so not ticked by default. */
+  transfer?: boolean;
 };
 
 type Tx = { amount: string | number; type: string; date: string; note: string | null; category_id: string | null; deleted_at?: string | null };
@@ -21,7 +24,7 @@ type Cat = { id: string; name: string; is_income_category: boolean; deleted_at?:
 // Words banks put around the shop's name that say nothing about it.
 const NOISE = new Set([
   "betaalautomaat", "betaling", "bea", "gea", "pas", "ideal", "sepa", "incasso", "overboeking", "machtiging", "apple", "pay", "google",
-  "nr", "transactie", "term", "via", "van", "naar", "bv", "b.v", "nv", "card", "payment", "purchase", "pos", "debit", "credit", "contactless", "online",
+  "nr", "transactie", "paypal", "ccv", "sumup", "zettle", "mollie", "adyen", "nyx", "nld", "term", "via", "van", "naar", "bv", "b.v", "nv", "card", "payment", "purchase", "pos", "debit", "credit", "contactless", "online",
 ]);
 
 /** "BEA, Apple Pay ALBERT HEIJN 1234 AMSTERDAM" → "albert heijn amsterdam" */
@@ -68,9 +71,17 @@ export function suggestCategory(row: ReadRow, learned: Map<string, string>, cate
 
 const day = (iso: string) => Math.round(Date.parse(iso.slice(0, 10) + "T12:00:00Z") / 86_400_000);
 
-/** Already in the books: same direction and amount, within a day. */
-export function isBooked(row: ReadRow, transactions: Tx[]): boolean {
-  if (!row.date) return false;
+/** The booking this row already is: same direction and amount, within a
+ *  day (a card payment is booked by the bank a day later). */
+export function bookedAs<T extends Tx>(row: ReadRow, transactions: T[]): T | undefined {
+  if (!row.date) return undefined;
   const d = day(row.date), type = row.direction === "in" ? "income" : "expense";
-  return transactions.some((x) => !x.deleted_at && x.type === type && Math.abs(Number(x.amount) - row.amount) < 0.005 && Math.abs(day(x.date) - d) <= 1);
+  return transactions.find((x) => !x.deleted_at && x.type === type && Math.abs(Number(x.amount) - row.amount) < 0.005 && Math.abs(day(x.date) - d) <= 1);
 }
+
+const OWN = /spaarrekening|spaar ?rekening|savings account|creditcard|credit card|eigen rekening|own account/i;
+
+/** A transfer between own accounts, by the AI's flag or the wording. */
+export const isTransfer = (row: ReadRow) => !!row.transfer || OWN.test(row.description);
+
+export const isBooked = (row: ReadRow, transactions: Tx[]) => !!bookedAs(row, transactions);

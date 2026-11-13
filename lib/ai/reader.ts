@@ -19,6 +19,7 @@ const BANK = z.object({
       amount: z.number().describe("Always positive"),
       direction: z.enum(["out", "in"]).describe("out = money left the account, in = money came in"),
       category: z.string().nullable().describe("Exactly one of the given category names, or null if none fits"),
+      transfer: z.boolean().describe("True when money moves between the person's own accounts: to or from savings, paying off their own credit card"),
     }),
   ),
 });

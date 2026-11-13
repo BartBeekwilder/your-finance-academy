@@ -5,7 +5,7 @@ import { Check, ImageUp, Sparkles, X } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
 import { live, num } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
-import { isBooked, learnCategories, suggestCategory, type ReadRow } from "@/lib/finance/importMatch";
+import { bookedAs, isTransfer, learnCategories, suggestCategory, type ReadRow } from "@/lib/finance/importMatch";
 import type { ReadResult } from "@/lib/ai/reader";
 import { t } from "@/lib/i18n";
 import { useFinance } from "./FinanceProvider";
@@ -72,6 +72,8 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
   const [added, setAdded] = useState(0);
   const [origin, setOrigin] = useState<Element | null>(null);
   const consented = !!data.profile.ai_consent_at;
+  // The review list gets the wide sheet, which has no padding of its own.
+  const wide = kind !== "payslip" && step === "review";
 
   function start(from: Element) {
     setOrigin(from);
@@ -110,9 +112,9 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
       <button type="button" className="pf-chip" onClick={(e) => start(e.currentTarget)}>
         <Sparkles size={14} /> {t(TITLE[kind])}
       </button>
-      <Sheet open={open} onClose={() => setOpen(false)} origin={origin} label={t(TITLE[kind])} wide={kind !== "payslip" && step === "review"}>
-        <div style={{ display: "grid", gap: 16, position: "relative" }}>
-          <button type="button" className="pf-icon-button" aria-label={t("Close")} onClick={() => setOpen(false)} style={{ position: "absolute", top: -4, right: -4 }}>
+      <Sheet open={open} onClose={() => setOpen(false)} origin={origin} label={t(TITLE[kind])} wide={wide}>
+        <div className="pf-ai-body" data-wide={wide || undefined}>
+          <button type="button" className="pf-icon-button pf-ai-close" aria-label={t("Close")} onClick={() => setOpen(false)}>
             <X size={16} />
           </button>
           <h2 style={{ fontSize: "1.15rem", fontWeight: 650, display: "flex", alignItems: "center", gap: 8, paddingRight: 36 }}>
@@ -169,7 +171,7 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
   );
 }
 
-type Draft = ReadRow & { on: boolean; categoryId: string | null; from: "history" | "ai" | null; booked: boolean };
+type Draft = ReadRow & { on: boolean; categoryId: string | null; from: "history" | "ai" | null; booked: boolean; own: boolean };
 
 function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => void }) {
   const { data, addTransaction } = useFinance();
@@ -178,9 +180,11 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
   const [drafts, setDrafts] = useState<Draft[]>(() => {
     const learned = learnCategories(data.transactions);
     return rows.map((r) => {
-      const booked = isBooked(r, data.transactions);
-      const s = suggestCategory(r, learned, data.categories);
-      return { ...r, on: !booked && r.amount > 0, categoryId: s.id, from: s.from, booked };
+      const match = bookedAs(r, data.transactions);
+      // Already booked: show it with the category it was booked under.
+      const s = match?.category_id ? { id: match.category_id, from: "history" as const } : suggestCategory(r, learned, data.categories);
+      const own = !match && isTransfer(r);
+      return { ...r, on: !match && !own && r.amount > 0, categoryId: s.id, from: s.from, booked: !!match, own };
     });
   });
   const [busy, setBusy] = useState(false);
@@ -228,7 +232,7 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
               </select>
-              {d.booked ? <small data-warn>{t("Already booked?")}</small> : d.from === "history" ? <small>{t("As last time")}</small> : d.from === "ai" ? <small>{t("Suggested")}</small> : null}
+              {d.booked ? <small data-warn>{t("Already booked?")}</small> : d.own ? <small data-warn>{t("Transfer between your own accounts?")}</small> : d.from === "history" ? <small>{t("As last time")}</small> : d.from === "ai" ? <small>{t("Suggested")}</small> : null}
             </span>
           </li>
         ))}
