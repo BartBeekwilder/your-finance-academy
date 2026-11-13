@@ -1101,6 +1101,10 @@
     var ti = index[norm(document.title)];
     if (ti !== undefined) document.title = T[ti];
   }
+  // The app screenshots (Wrapped cards, iPad stand, laptop setup) in this language.
+  document.querySelectorAll('#wrTrack img, #standScreen img, #obScreen img').forEach(function (img) {
+    img.src = img.getAttribute('src').replace('/home/img/', '/home/img/' + lang + '/').replace(/\?v=\d+/, '?v=7');
+  });
 
   // The language chips in "Alleen van jou" and the picker in the bar switch
   // the page (and the app on the devices) to that language.
