@@ -71,7 +71,8 @@
     "De app op een iPad, live", "De app op een laptop, live", "De app op een telefoon, live", "De app op een telefoon, live, met demodata",
     /*100*/ "Personal Finance · je hele financiële leven, live",
     "dag {d} van {n}", "Aandelen, ETF's en 0,05 bitcoin tegen de echte koers. Bitcoin vandaag {p}.",
-    "Dat is {a} per dag, {b} per uur en {c} per seconde. Vandaag sta je al op {d}."
+    "Dat is {a} per dag, {b} per uur en {c} per seconde. Vandaag sta je al op {d}.",
+    "Nieuw · lezen met AI", "Upload je bankafschrift. De rest gaat vanzelf.", "Sleep een screenshot of pdf van je bank erin. De AI leest elke betaling en kiest de categorie zoals jij die de vorige keer koos. Jij kijkt het na en tikt op Toevoegen.", "Veilig verwerkt", "Je bestand wordt niet bewaard en niet gebruikt om AI te trainen. Er wordt niets geboekt voordat jij het hebt nagekeken.", "Geen dubbele boekingen", "Wat er al in staat en overboekingen naar je spaarrekening blijven uit, ook vaste lasten die je vooruit hebt geboekt.", "Ook je loonstrook en hypotheek", "Bruto, netto en loonheffing van je loonstrook en elk leningdeel van je hypotheek, in één keer ingevuld.", "Een bankafschrift wordt ingelezen", "Bankscreenshots inlezen", "Cijfers lezen…", "Vink alles aan", "3 van 5", "Naar spaarrekening", "Vervoer", "Abonnementen", "Sparen", "Auto", "Zoals vorige keer", "Eigen overboeking", "Al geboekt", "Voeg 3 toe", "Voorbeeld met demodata."
   ];
 
   var L = {
@@ -131,7 +132,8 @@
       "The app on an iPad, live", "The app on a laptop, live", "The app on a phone, live", "The app on a phone, live, with demo data",
       /*100*/ "Personal Finance · your whole financial life, live",
       "day {d} of {n}", "Shares, ETFs and 0.05 bitcoin at the real price. Bitcoin today {p}.",
-      "That's {a} a day, {b} an hour and {c} a second. Today you're already at {d}."
+      "That's {a} a day, {b} an hour and {c} a second. Today you're already at {d}.",
+      "New · read with AI", "Upload your bank statement. The rest happens by itself.", "Drop in a screenshot or PDF from your bank. The AI reads every payment and picks the category you chose last time. You check it and tap Add.", "Handled safely", "Your file isn't kept and isn't used to train AI. Nothing is booked until you've checked it.", "No double bookings", "What's already in your books and transfers to your savings stay out, including fixed costs you booked ahead.", "Your payslip and mortgage too", "Gross, net and wage tax from your payslip and every loan part of your mortgage, filled in at once.", "A bank statement being read", "Read bank screenshots", "Reading the figures…", "Tick all", "3 of 5", "To savings account", "Transport", "Subscriptions", "Savings", "Car", "As last time", "Own transfer", "Already booked", "Add 3", "Example with demo data."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -189,7 +191,8 @@
       "Die App auf einem iPad, live", "Die App auf einem Laptop, live", "Die App auf einem Handy, live", "Die App auf einem Handy, live, mit Demodaten",
       /*100*/ "Personal Finance · dein ganzes Finanzleben, live",
       "Tag {d} von {n}", "Aktien, ETFs und 0,05 Bitcoin zum echten Kurs. Bitcoin heute {p}.",
-      "Das sind {a} pro Tag, {b} pro Stunde und {c} pro Sekunde. Heute bist du schon bei {d}."
+      "Das sind {a} pro Tag, {b} pro Stunde und {c} pro Sekunde. Heute bist du schon bei {d}.",
+      "Neu · Einlesen mit KI", "Lade deinen Kontoauszug hoch. Der Rest geht von selbst.", "Zieh einen Screenshot oder ein PDF deiner Bank hinein. Die KI liest jede Zahlung und wählt die Kategorie, die du letztes Mal gewählt hast. Du prüfst und tippst auf Hinzufügen.", "Sicher verarbeitet", "Deine Datei wird nicht gespeichert und nicht zum Training von KI genutzt. Nichts wird gebucht, bevor du es geprüft hast.", "Keine doppelten Buchungen", "Was schon drin ist und Umbuchungen auf dein Sparkonto bleiben draußen, auch Fixkosten, die du im Voraus gebucht hast.", "Auch Gehaltsabrechnung und Hypothek", "Brutto, netto und Lohnsteuer deiner Gehaltsabrechnung und jeder Darlehensteil deiner Hypothek, auf einmal eingetragen.", "Ein Kontoauszug wird eingelesen", "Bank-Screenshots einlesen", "Zahlen werden gelesen…", "Alle auswählen", "3 von 5", "Aufs Sparkonto", "Verkehr", "Abos", "Sparen", "Auto", "Wie letztes Mal", "Eigene Umbuchung", "Schon gebucht", "3 hinzufügen", "Beispiel mit Demodaten."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -247,7 +250,8 @@
       "L'appli sur un iPad, en direct", "L'appli sur un ordinateur portable, en direct", "L'appli sur un téléphone, en direct", "L'appli sur un téléphone, en direct, avec des données de démo",
       /*100*/ "Personal Finance · toute votre vie financière, en direct",
       "jour {d} sur {n}", "Actions, ETF et 0,05 bitcoin au vrai cours. Bitcoin aujourd'hui {p}.",
-      "Soit {a} par jour, {b} par heure et {c} par seconde. Aujourd'hui, vous en êtes déjà à {d}."
+      "Soit {a} par jour, {b} par heure et {c} par seconde. Aujourd'hui, vous en êtes déjà à {d}.",
+      "Nouveau · lecture par IA", "Importez votre relevé bancaire. Le reste se fait tout seul.", "Déposez une capture ou un PDF de votre banque. L'IA lit chaque paiement et choisit la catégorie que vous aviez choisie la dernière fois. Vous vérifiez et touchez Ajouter.", "Traité en toute sécurité", "Votre fichier n'est pas conservé ni utilisé pour entraîner une IA. Rien n'est enregistré avant que vous ayez vérifié.", "Pas de doublons", "Ce qui est déjà enregistré et les virements vers votre épargne restent de côté, y compris les charges fixes enregistrées à l'avance.", "Aussi votre fiche de paie et votre prêt", "Brut, net et impôt de votre fiche de paie, et chaque tranche de votre prêt immobilier, remplis d'un coup.", "Un relevé bancaire en cours de lecture", "Lire des captures bancaires", "Lecture des chiffres…", "Tout cocher", "3 sur 5", "Vers l'épargne", "Transport", "Abonnements", "Épargne", "Voiture", "Comme la dernière fois", "Virement interne", "Déjà enregistré", "Ajouter 3", "Exemple avec des données de démo."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -305,7 +309,8 @@
       "La app en un iPad, en vivo", "La app en un portátil, en vivo", "La app en un móvil, en vivo", "La app en un móvil, en vivo, con datos de demo",
       /*100*/ "Personal Finance · toda tu vida financiera, en vivo",
       "día {d} de {n}", "Acciones, ETF y 0,05 bitcoin al precio real. Bitcoin hoy {p}.",
-      "Son {a} al día, {b} por hora y {c} por segundo. Hoy ya vas por {d}."
+      "Son {a} al día, {b} por hora y {c} por segundo. Hoy ya vas por {d}.",
+      "Nuevo · lectura con IA", "Sube tu extracto bancario. El resto va solo.", "Arrastra una captura o un PDF de tu banco. La IA lee cada pago y elige la categoría que elegiste la última vez. Tú lo revisas y tocas Añadir.", "Procesado con seguridad", "Tu archivo no se guarda ni se usa para entrenar IA. No se registra nada hasta que lo revises.", "Sin movimientos duplicados", "Lo que ya está registrado y las transferencias a tu ahorro se quedan fuera, también los gastos fijos registrados por adelantado.", "También tu nómina y tu hipoteca", "Bruto, neto y retención de tu nómina, y cada tramo de tu hipoteca, rellenados de una vez.", "Se está leyendo un extracto bancario", "Leer capturas del banco", "Leyendo las cifras…", "Marcar todo", "3 de 5", "A la cuenta de ahorro", "Transporte", "Suscripciones", "Ahorro", "Coche", "Como la última vez", "Transferencia propia", "Ya registrado", "Añadir 3", "Ejemplo con datos de demostración."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -363,7 +368,8 @@
       "L'app su un iPad, dal vivo", "L'app su un portatile, dal vivo", "L'app su un telefono, dal vivo", "L'app su un telefono, dal vivo, con dati demo",
       /*100*/ "Personal Finance · tutta la tua vita finanziaria, dal vivo",
       "giorno {d} di {n}", "Azioni, ETF e 0,05 bitcoin al prezzo reale. Bitcoin oggi {p}.",
-      "Sono {a} al giorno, {b} all'ora e {c} al secondo. Oggi sei già a {d}."
+      "Sono {a} al giorno, {b} all'ora e {c} al secondo. Oggi sei già a {d}.",
+      "Nuovo · lettura con IA", "Carica il tuo estratto conto. Il resto va da sé.", "Trascina uno screenshot o un PDF della tua banca. L'IA legge ogni pagamento e sceglie la categoria che hai scelto l'ultima volta. Tu controlli e tocchi Aggiungi.", "Gestito in sicurezza", "Il file non viene conservato né usato per addestrare l'IA. Nulla viene registrato prima che tu l'abbia controllato.", "Nessun doppione", "Ciò che è già registrato e i giroconti verso i risparmi restano fuori, anche le spese fisse registrate in anticipo.", "Anche busta paga e mutuo", "Lordo, netto e ritenute della busta paga e ogni quota del mutuo, compilati in una volta.", "Lettura di un estratto conto", "Leggi screenshot bancari", "Lettura delle cifre…", "Seleziona tutto", "3 di 5", "Al conto risparmio", "Trasporti", "Abbonamenti", "Risparmio", "Auto", "Come l'ultima volta", "Giroconto", "Già registrato", "Aggiungi 3", "Esempio con dati demo."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -421,7 +427,8 @@
       "O app em um iPad, ao vivo", "O app em um notebook, ao vivo", "O app em um celular, ao vivo", "O app em um celular, ao vivo, com dados de demonstração",
       /*100*/ "Personal Finance · toda a sua vida financeira, ao vivo",
       "dia {d} de {n}", "Ações, ETFs e 0,05 bitcoin pelo preço real. Bitcoin hoje {p}.",
-      "São {a} por dia, {b} por hora e {c} por segundo. Hoje você já está em {d}."
+      "São {a} por dia, {b} por hora e {c} por segundo. Hoje você já está em {d}.",
+      "Novo · leitura com IA", "Envie seu extrato bancário. O resto acontece sozinho.", "Arraste uma captura ou um PDF do seu banco. A IA lê cada pagamento e escolhe a categoria que você escolheu da última vez. Você confere e toca em Adicionar.", "Tratado com segurança", "Seu arquivo não é guardado nem usado para treinar IA. Nada é lançado antes de você conferir.", "Sem lançamentos duplicados", "O que já está lançado e as transferências para a poupança ficam de fora, inclusive despesas fixas lançadas com antecedência.", "Também holerite e financiamento", "Bruto, líquido e imposto do holerite e cada parcela do financiamento, preenchidos de uma vez.", "Um extrato bancário sendo lido", "Ler capturas do banco", "Lendo os valores…", "Marcar tudo", "3 de 5", "Para a poupança", "Transporte", "Assinaturas", "Poupança", "Carro", "Como da última vez", "Transferência própria", "Já lançado", "Adicionar 3", "Exemplo com dados de demonstração."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -479,7 +486,8 @@
       "Aplikacja na iPadzie, na żywo", "Aplikacja na laptopie, na żywo", "Aplikacja na telefonie, na żywo", "Aplikacja na telefonie, na żywo, z danymi demo",
       /*100*/ "Personal Finance · całe twoje życie finansowe, na żywo",
       "dzień {d} z {n}", "Akcje, ETF-y i 0,05 bitcoina po prawdziwym kursie. Bitcoin dziś {p}.",
-      "To {a} dziennie, {b} na godzinę i {c} na sekundę. Dziś masz już {d}."
+      "To {a} dziennie, {b} na godzinę i {c} na sekundę. Dziś masz już {d}.",
+      "Nowość · odczyt przez AI", "Wgraj wyciąg z banku. Reszta dzieje się sama.", "Przeciągnij zrzut ekranu lub PDF z banku. AI odczytuje każdą płatność i wybiera kategorię, którą wybrałeś ostatnio. Ty sprawdzasz i stukasz Dodaj.", "Bezpiecznie przetwarzane", "Plik nie jest przechowywany ani używany do trenowania AI. Nic nie zostanie zaksięgowane, zanim tego nie sprawdzisz.", "Bez podwójnych wpisów", "To, co już jest, i przelewy na oszczędności zostają pominięte, także stałe koszty zaksięgowane z góry.", "Także pasek wypłaty i kredyt", "Brutto, netto i podatek z paska wypłaty oraz każda transza kredytu, wpisane za jednym razem.", "Odczytywanie wyciągu bankowego", "Wczytaj zrzuty z banku", "Odczytywanie liczb…", "Zaznacz wszystko", "3 z 5", "Na oszczędności", "Transport", "Subskrypcje", "Oszczędności", "Samochód", "Jak ostatnio", "Własny przelew", "Już zaksięgowane", "Dodaj 3", "Przykład z danymi demo."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -537,7 +545,8 @@
       "iPad'de uygulama, canlı", "Dizüstünde uygulama, canlı", "Telefonda uygulama, canlı", "Telefonda uygulama, canlı, demo verilerle",
       /*100*/ "Personal Finance · tüm finansal hayatın, canlı",
       "{n} günün {d}. günü", "Hisseler, ETF'ler ve 0,05 bitcoin gerçek fiyattan. Bitcoin bugün {p}.",
-      "Bu, günde {a}, saatte {b} ve saniyede {c} demek. Bugün şimdiden {d} oldu."
+      "Bu, günde {a}, saatte {b} ve saniyede {c} demek. Bugün şimdiden {d} oldu.",
+      "Yeni · yapay zekâ ile okuma", "Banka ekstreni yükle. Gerisi kendiliğinden olur.", "Bankandan bir ekran görüntüsü veya PDF bırak. Yapay zekâ her ödemeyi okur ve geçen sefer seçtiğin kategoriyi seçer. Sen kontrol edip Ekle'ye dokunursun.", "Güvenle işlenir", "Dosyan saklanmaz ve yapay zekâ eğitimi için kullanılmaz. Sen kontrol etmeden hiçbir şey kaydedilmez.", "Çift kayıt yok", "Zaten kayıtlı olanlar ve birikim hesabına transferler dışarıda kalır, önceden kaydettiğin sabit giderler de.", "Bordro ve konut kredisi de", "Bordrondaki brüt, net ve vergi ile konut kredinin her dilimi tek seferde doldurulur.", "Bir banka ekstresi okunuyor", "Banka ekran görüntülerini oku", "Rakamlar okunuyor…", "Tümünü işaretle", "3 / 5", "Birikim hesabına", "Ulaşım", "Abonelikler", "Birikim", "Araba", "Geçen seferki gibi", "Kendi transferin", "Zaten kayıtlı", "3 ekle", "Demo verilerle örnek."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -595,7 +604,8 @@
       "Приложение на iPad, вживую", "Приложение на ноутбуке, вживую", "Приложение на телефоне, вживую", "Приложение на телефоне, вживую, с демоданными",
       /*100*/ "Personal Finance · вся ваша финансовая жизнь — вживую",
       "день {d} из {n}", "Акции, ETF и 0,05 биткоина по реальному курсу. Биткоин сегодня {p}.",
-      "Это {a} в день, {b} в час и {c} в секунду. Сегодня у вас уже {d}."
+      "Это {a} в день, {b} в час и {c} в секунду. Сегодня у вас уже {d}.",
+      "Новое · чтение с помощью ИИ", "Загрузите банковскую выписку. Остальное произойдёт само.", "Перетащите скриншот или PDF из банка. ИИ читает каждый платёж и выбирает категорию, которую вы выбрали в прошлый раз. Вы проверяете и нажимаете «Добавить».", "Безопасная обработка", "Файл не хранится и не используется для обучения ИИ. Ничего не учитывается, пока вы не проверите.", "Без дублей", "То, что уже учтено, и переводы на накопительный счёт не попадают, включая постоянные расходы, внесённые заранее.", "А также расчётный листок и ипотека", "Брутто, нетто и налог из расчётного листка и каждая часть ипотеки заполняются за раз.", "Читается банковская выписка", "Прочитать скриншоты банка", "Читаем цифры…", "Отметить все", "3 из 5", "На накопительный счёт", "Транспорт", "Подписки", "Сбережения", "Машина", "Как в прошлый раз", "Свой перевод", "Уже учтено", "Добавить 3", "Пример с демо-данными."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -653,7 +663,8 @@
       "التطبيق على iPad، مباشرة", "التطبيق على حاسوب محمول، مباشرة", "التطبيق على هاتف، مباشرة", "التطبيق على هاتف، مباشرة، ببيانات تجريبية",
       /*100*/ "Personal Finance · حياتك المالية كلها، مباشرة",
       "اليوم {d} من {n}", "أسهم وصناديق مؤشرات و0.05 بيتكوين بالسعر الحقيقي. البيتكوين اليوم {p}.",
-      "أي {a} يوميًا، و{b} في الساعة، و{c} في الثانية. اليوم وصلت بالفعل إلى {d}."
+      "أي {a} يوميًا، و{b} في الساعة، و{c} في الثانية. اليوم وصلت بالفعل إلى {d}.",
+      "جديد · القراءة بالذكاء الاصطناعي", "ارفع كشف حسابك البنكي. والباقي يتم تلقائيًا.", "اسحب لقطة شاشة أو ملف PDF من بنكك. يقرأ الذكاء الاصطناعي كل دفعة ويختار الفئة التي اخترتها في المرة السابقة. تراجعها ثم تضغط إضافة.", "معالجة آمنة", "لا يُحفظ ملفك ولا يُستخدم لتدريب الذكاء الاصطناعي. لا يُسجَّل شيء قبل أن تراجعه.", "لا قيود مكررة", "ما هو مسجّل بالفعل والتحويلات إلى حساب التوفير تبقى خارجًا، وكذلك المصاريف الثابتة المسجلة مسبقًا.", "وكشف الراتب والرهن العقاري أيضًا", "الإجمالي والصافي والضريبة من كشف راتبك وكل جزء من رهنك العقاري، تُملأ دفعة واحدة.", "جارٍ قراءة كشف حساب بنكي", "قراءة لقطات البنك", "جارٍ قراءة الأرقام…", "تحديد الكل", "3 من 5", "إلى حساب التوفير", "مواصلات", "اشتراكات", "توفير", "سيارة", "كالمرة السابقة", "تحويل خاص", "مسجّلة مسبقًا", "إضافة 3", "مثال ببيانات تجريبية."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -711,7 +722,8 @@
       "iPad पर ऐप, लाइव", "लैपटॉप पर ऐप, लाइव", "फ़ोन पर ऐप, लाइव", "फ़ोन पर ऐप, लाइव, डेमो डेटा के साथ",
       /*100*/ "Personal Finance · आपकी पूरी वित्तीय ज़िंदगी, लाइव",
       "दिन {d} / {n}", "शेयर, ETF और 0.05 बिटकॉइन असली भाव पर। बिटकॉइन आज {p}।",
-      "यानी {a} प्रति दिन, {b} प्रति घंटा और {c} प्रति सेकंड। आज आप पहले ही {d} पर हैं।"
+      "यानी {a} प्रति दिन, {b} प्रति घंटा और {c} प्रति सेकंड। आज आप पहले ही {d} पर हैं।",
+      "नया · AI से पढ़ना", "अपना बैंक स्टेटमेंट अपलोड करें। बाकी अपने आप हो जाता है।", "अपने बैंक का स्क्रीनशॉट या PDF डालें। AI हर भुगतान पढ़ता है और वही श्रेणी चुनता है जो आपने पिछली बार चुनी थी। आप जाँचें और जोड़ें पर टैप करें।", "सुरक्षित प्रोसेसिंग", "आपकी फ़ाइल न रखी जाती है, न AI प्रशिक्षण में इस्तेमाल होती है। आपके जाँचने से पहले कुछ दर्ज नहीं होता।", "कोई दोहरी एंट्री नहीं", "जो पहले से दर्ज है और बचत खाते में ट्रांसफ़र बाहर रहते हैं, पहले से दर्ज तय खर्च भी।", "वेतन पर्ची और होम लोन भी", "वेतन पर्ची से सकल, शुद्ध और कर, और होम लोन का हर हिस्सा, एक बार में भरा जाता है।", "एक बैंक स्टेटमेंट पढ़ा जा रहा है", "बैंक स्क्रीनशॉट पढ़ें", "आँकड़े पढ़े जा रहे हैं…", "सब चुनें", "5 में से 3", "बचत खाते में", "परिवहन", "सदस्यताएँ", "बचत", "कार", "पिछली बार जैसा", "अपना ट्रांसफ़र", "पहले से दर्ज", "3 जोड़ें", "डेमो डेटा के साथ उदाहरण।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -769,7 +781,8 @@
       "Aplikasi di iPad, langsung", "Aplikasi di laptop, langsung", "Aplikasi di ponsel, langsung", "Aplikasi di ponsel, langsung, dengan data demo",
       /*100*/ "Personal Finance · seluruh kehidupan finansialmu, secara langsung",
       "hari {d} dari {n}", "Saham, ETF, dan 0,05 bitcoin dengan harga sebenarnya. Bitcoin hari ini {p}.",
-      "Itu {a} per hari, {b} per jam, dan {c} per detik. Hari ini kamu sudah di {d}."
+      "Itu {a} per hari, {b} per jam, dan {c} per detik. Hari ini kamu sudah di {d}.",
+      "Baru · baca dengan AI", "Unggah mutasi rekeningmu. Sisanya berjalan sendiri.", "Seret tangkapan layar atau PDF dari bankmu. AI membaca setiap pembayaran dan memilih kategori yang kamu pilih terakhir kali. Kamu periksa lalu ketuk Tambah.", "Diproses dengan aman", "Filemu tidak disimpan dan tidak dipakai untuk melatih AI. Tidak ada yang dicatat sebelum kamu memeriksanya.", "Tanpa catatan ganda", "Yang sudah tercatat dan transfer ke tabungan tidak ikut, termasuk biaya tetap yang dicatat lebih dulu.", "Juga slip gaji dan KPR", "Bruto, neto, dan pajak dari slip gajimu serta setiap bagian KPR, terisi sekaligus.", "Mutasi rekening sedang dibaca", "Baca tangkapan layar bank", "Membaca angka…", "Centang semua", "3 dari 5", "Ke tabungan", "Transportasi", "Langganan", "Tabungan", "Mobil", "Seperti terakhir kali", "Transfer sendiri", "Sudah dicatat", "Tambah 3", "Contoh dengan data demo."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -827,7 +840,8 @@
       "iPad 上のアプリ（ライブ）", "ノートPC 上のアプリ（ライブ）", "スマホ上のアプリ（ライブ）", "スマホ上のアプリ（ライブ、デモデータ）",
       /*100*/ "Personal Finance · あなたのお金のすべてを、ライブで",
       "{n}日中{d}日目", "株式、ETF、0.05 ビットコインを実際の価格で。今日のビットコイン {p}。",
-      "1日 {a}、1時間 {b}、1秒 {c} です。今日すでに {d} になっています。"
+      "1日 {a}、1時間 {b}、1秒 {c} です。今日すでに {d} になっています。",
+      "新機能 · AIで読み取り", "銀行の明細をアップロード。あとは自動で。", "銀行のスクリーンショットやPDFをドロップするだけ。AIがすべての支払いを読み取り、前回あなたが選んだカテゴリを選びます。確認して「追加」をタップ。", "安全に処理", "ファイルは保存されず、AIの学習にも使われません。確認するまで何も記録されません。", "二重登録なし", "登録済みのものや貯蓄口座への振替は除外。先に登録した固定費も認識します。", "給与明細や住宅ローンも", "給与明細の総支給・手取り・源泉税、住宅ローンの各部分を一度に入力。", "銀行明細を読み取り中", "銀行のスクリーンショットを読み取る", "数字を読み取り中…", "すべて選択", "5件中3件", "貯蓄口座へ", "交通", "サブスク", "貯蓄", "車", "前回と同じ", "自分の口座間の振替", "登録済み", "3件を追加", "デモデータの例。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -885,7 +899,8 @@
       "iPad의 앱, 실시간", "노트북의 앱, 실시간", "휴대폰의 앱, 실시간", "휴대폰의 앱, 실시간, 데모 데이터",
       /*100*/ "Personal Finance · 당신의 모든 재정 생활, 실시간으로",
       "{n}일 중 {d}일째", "주식, ETF, 0.05 비트코인을 실제 시세로. 오늘 비트코인 {p}.",
-      "하루 {a}, 시간당 {b}, 초당 {c}입니다. 오늘 이미 {d}입니다."
+      "하루 {a}, 시간당 {b}, 초당 {c}입니다. 오늘 이미 {d}입니다.",
+      "새 기능 · AI로 읽기", "은행 거래내역을 올리세요. 나머지는 알아서 됩니다.", "은행 스크린샷이나 PDF를 끌어다 놓으세요. AI가 모든 결제를 읽고 지난번에 고른 카테고리를 선택합니다. 확인하고 추가를 누르면 끝.", "안전한 처리", "파일은 저장되지 않으며 AI 학습에 쓰이지 않습니다. 확인하기 전에는 아무것도 기록되지 않습니다.", "중복 기록 없음", "이미 기록된 항목과 저축 계좌로의 이체는 빠집니다. 미리 기록한 고정비도 알아봅니다.", "급여명세서와 주택담보대출도", "급여명세서의 총액·실수령액·세금과 대출의 각 부분을 한 번에 입력합니다.", "은행 거래내역을 읽는 중", "은행 스크린샷 읽기", "숫자를 읽는 중…", "모두 선택", "5개 중 3개", "저축 계좌로", "교통", "구독", "저축", "자동차", "지난번처럼", "내 계좌 간 이체", "이미 기록됨", "3개 추가", "데모 데이터 예시."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -943,7 +958,8 @@
       "Ứng dụng trên iPad, trực tiếp", "Ứng dụng trên laptop, trực tiếp", "Ứng dụng trên điện thoại, trực tiếp", "Ứng dụng trên điện thoại, trực tiếp, với dữ liệu demo",
       /*100*/ "Personal Finance · toàn bộ đời sống tài chính của bạn, trực tiếp",
       "ngày {d}/{n}", "Cổ phiếu, ETF và 0,05 bitcoin theo giá thật. Bitcoin hôm nay {p}.",
-      "Tức là {a} mỗi ngày, {b} mỗi giờ và {c} mỗi giây. Hôm nay bạn đã có {d}."
+      "Tức là {a} mỗi ngày, {b} mỗi giờ và {c} mỗi giây. Hôm nay bạn đã có {d}.",
+      "Mới · đọc bằng AI", "Tải lên sao kê ngân hàng. Phần còn lại tự diễn ra.", "Kéo ảnh chụp màn hình hoặc PDF từ ngân hàng vào. AI đọc từng khoản thanh toán và chọn danh mục bạn đã chọn lần trước. Bạn kiểm tra rồi chạm Thêm.", "Xử lý an toàn", "Tệp của bạn không được lưu và không dùng để huấn luyện AI. Không có gì được ghi trước khi bạn kiểm tra.", "Không ghi trùng", "Những gì đã có và các khoản chuyển sang tiết kiệm được bỏ qua, kể cả chi phí cố định đã ghi trước.", "Cả phiếu lương và khoản vay mua nhà", "Tổng, thực nhận và thuế từ phiếu lương cùng từng phần khoản vay, điền một lần.", "Đang đọc sao kê ngân hàng", "Đọc ảnh chụp ngân hàng", "Đang đọc số liệu…", "Chọn tất cả", "3/5", "Sang tài khoản tiết kiệm", "Đi lại", "Đăng ký", "Tiết kiệm", "Ô tô", "Như lần trước", "Chuyển khoản nội bộ", "Đã ghi", "Thêm 3", "Ví dụ với dữ liệu demo."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -1001,7 +1017,8 @@
       "iPad 上的应用，实时", "笔记本上的应用，实时", "手机上的应用，实时", "手机上的应用，实时，使用演示数据",
       /*100*/ "Personal Finance · 你的全部财务生活，实时呈现",
       "第 {d} 天 / 共 {n} 天", "股票、ETF 和 0.05 枚比特币，按真实价格计算。比特币今日 {p}。",
-      "相当于每天 {a}、每小时 {b}、每秒 {c}。今天你已累计 {d}。"
+      "相当于每天 {a}、每小时 {b}、每秒 {c}。今天你已累计 {d}。",
+      "新功能 · AI 读取", "上传你的银行对账单，其余自动完成。", "拖入银行的截图或 PDF。AI 读取每一笔付款，并选择你上次选的类别。你检查后点“添加”即可。", "安全处理", "你的文件不会被保存，也不会用于训练 AI。在你检查之前不会记录任何内容。", "不会重复记账", "已有的记录和转入储蓄账户的款项会被排除，包括你提前记下的固定支出。", "工资单和房贷也可以", "工资单上的税前、实发和个税，以及房贷的每个部分，一次填好。", "正在读取银行对账单", "读取银行截图", "正在读取数字…", "全选", "5 笔中的 3 笔", "转入储蓄账户", "交通", "订阅", "储蓄", "汽车", "与上次相同", "自己账户间转账", "已记录", "添加 3 笔", "使用演示数据的示例。"
     ]
   };
 

@@ -238,6 +238,71 @@
   /* Phones: the brand lockup and the language picker fill the bar; the hero has the same demo button right below. */
   @media (max-width: 520px) { .status .btn { display: none; } .ex--sheet { grid-template-columns: minmax(0, 1fr); } }
   @media (prefers-reduced-motion: reduce) { .live-screen, .stand__screen img, .step, .step p { transition: none; } }
+  /* Read with AI: upload a bank statement, the app books it. A mock of the
+     review sheet plays the whole flow (file in, reading, rows ticking in);
+     at rest, and with reduced motion, it shows the finished list. */
+  .ai { max-width: 1440px; margin: 0 auto; padding: clamp(90px, 14vh, 160px) var(--g) clamp(40px, 8vh, 100px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+  .ai__eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 500 12px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #d4a6ff; padding: 6px 12px; border-radius: 999px; background: oklch(30% 0.09 300 / 0.35); box-shadow: inset 0 0 0 1px oklch(60% 0.15 300 / 0.45); }
+  .ai__eyebrow svg { width: 14px; height: 14px; }
+  .ai h2 { margin: 18px 0 16px; font: 700 clamp(34px, 4vw, 62px)/1.02 var(--f); letter-spacing: -0.035em; text-wrap: balance; }
+  .ai__lead { margin: 0 0 28px; max-width: 52ch; color: var(--c-ink-2); font-size: 18px; }
+  .ai__points { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; max-width: 54ch; }
+  .ai__points li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .ai__points i { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--c-surface-2); color: #d4a6ff; }
+  .ai__points svg { width: 18px; height: 18px; }
+  .ai__points b { display: block; font-weight: 600; margin-bottom: 2px; }
+  .ai__points p { margin: 0; color: var(--c-muted); font-size: 15px; }
+  .aisheet { position: relative; border-radius: 22px; padding: 22px; min-width: 0; background: radial-gradient(120% 80% at 0% 0%, oklch(45% 0.15 300 / 0.22), transparent 55%), radial-gradient(90% 70% at 100% 100%, oklch(70% 0.12 200 / 0.14), transparent 60%), oklch(16% 0.012 270); box-shadow: 0 40px 80px -30px oklch(0% 0 0 / 0.7), inset 0 0 0 1px oklch(40% 0.04 280 / 0.5); font-size: 13px; }
+  .aisheet__title { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; margin-bottom: 14px; }
+  .aisheet__title svg { width: 17px; height: 17px; color: #bf5af2; }
+  .aisheet__stage { position: relative; min-height: 318px; }
+  .aisheet__drop, .aisheet__read { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px; border-radius: 16px; transition: opacity 400ms var(--ease); }
+  .aisheet__drop { border: 1.5px dashed oklch(60% 0.15 300 / 0.5); background: oklch(45% 0.15 300 / 0.07); }
+  .aisheet__file { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 10px; background: var(--c-surface-2); font: 400 12px var(--mono); box-shadow: 0 12px 30px -12px oklch(0% 0 0 / 0.8); }
+  .aisheet__file b { color: oklch(68% 0.19 28); font-weight: 500; }
+  .aisheet__bar { width: min(320px, 70vw); height: 8px; border-radius: 99px; background: oklch(100% 0 0 / 0.08); overflow: hidden; }
+  .aisheet__bar i { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, #bf5af2, #40c8e0); }
+  .aisheet__read span { color: var(--c-muted); }
+  .aisheet__list { display: grid; gap: 6px; }
+  .aisheet__all { display: flex; align-items: center; gap: 10px; padding: 0 10px 6px; color: var(--c-ink-2); }
+  .aisheet__all small { color: var(--c-muted); font: 400 12px var(--mono); }
+  .airow { display: grid; grid-template-columns: 18px 64px minmax(0, 1fr) 18px minmax(0, 116px) 64px; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; background: oklch(100% 0 0 / 0.035); transition: opacity 380ms var(--ease), transform 380ms var(--ease), background 300ms; }
+  .airow[data-off] { background: transparent; }
+  .airow[data-off] > :not(.tick) { opacity: 0.38; filter: grayscale(1); }
+  .tick { width: 18px; height: 18px; border-radius: 5px; display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px oklch(70% 0.02 270 / 0.6); transition: background 200ms, box-shadow 200ms; }
+  .tick svg { width: 12px; height: 12px; opacity: 0; transform: scale(0.4); transition: opacity 200ms, transform 260ms cubic-bezier(.34, 1.56, .64, 1); color: #fff; }
+  .tick[data-on] { background: #bf5af2; box-shadow: none; }
+  .tick[data-on] svg { opacity: 1; transform: none; }
+  .airow__date { font: 400 12px var(--mono); color: var(--c-muted); white-space: nowrap; }
+  .airow__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .airow__why { color: var(--c-muted); display: grid; place-items: center; }
+  .airow__why svg { width: 15px; height: 15px; }
+  .airow__cat { padding: 4px 8px; border-radius: 8px; background: var(--c-surface-2); color: var(--c-ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .airow__amt { text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .aisheet__foot { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+  .aisheet__add { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 10px; font-weight: 600; color: #fff; background: linear-gradient(90deg, #8e5cff, #2fb9c9); }
+  .aisheet__foot small { color: var(--c-muted); font-size: 12px; }
+  /* the play: data-phase on .aisheet */
+  .aisheet[data-phase="drop"] .aisheet__read, .aisheet[data-phase="drop"] .aisheet__list, .aisheet[data-phase="drop"] .aisheet__foot { opacity: 0; }
+  .aisheet[data-phase="read"] .aisheet__drop, .aisheet[data-phase="read"] .aisheet__list, .aisheet[data-phase="read"] .aisheet__foot { opacity: 0; }
+  .aisheet[data-phase="list"] .aisheet__drop, .aisheet[data-phase="list"] .aisheet__read, .aisheet:not([data-phase]) .aisheet__drop, .aisheet:not([data-phase]) .aisheet__read { opacity: 0; pointer-events: none; }
+  .aisheet__list, .aisheet__foot { transition: opacity 400ms var(--ease); }
+  .aisheet[data-phase="drop"] .aisheet__file { animation: aifile 900ms var(--ease) both; }
+  @keyframes aifile { from { opacity: 0; transform: translateY(-30px) rotate(-4deg) scale(1.06); } }
+  .aisheet[data-phase="read"] .aisheet__bar i { animation: aibar 2.4s var(--ease) forwards; }
+  @keyframes aibar { 0% { width: 4%; } 70% { width: 82%; } 100% { width: 100%; } }
+  .aisheet[data-phase="list"] .airow { animation: airow 460ms var(--ease) both; animation-delay: calc(var(--i) * 110ms); }
+  @keyframes airow { from { opacity: 0; transform: translateY(10px); } }
+  .aisheet__note { margin: 12px 4px 0; color: var(--c-muted); font-size: 12px; }
+  @media (prefers-reduced-motion: reduce) { .aisheet * { animation: none !important; transition: none !important; } }
+  @media (max-width: 900px) { .ai { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 520px) {
+    .aisheet { padding: 16px; }
+    .airow { grid-template-columns: 18px minmax(0, 1fr) 18px auto; gap: 8px; }
+    .airow__date, .airow__cat { display: none; }
+    .aisheet__stage { min-height: 250px; }
+  }
+
 </style>
 </head>
 <body>
@@ -278,6 +343,34 @@
       </div>
     </div>
       <span class="hint">Rechts draait <b>de echte app</b>, met demodata. Klik er gerust in.</span>
+    </div>
+  </section>
+
+  <!-- Read with AI: the bank statement goes in, the bookings come out. -->
+  <section class="ai" id="inlezen">
+    <div>
+      <span class="ai__eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg><span>Nieuw · lezen met AI</span></span>
+      <h2>Upload je bankafschrift. De rest gaat vanzelf.</h2>
+      <p class="ai__lead">Sleep een screenshot of pdf van je bank erin. De AI leest elke betaling en kiest de categorie zoals jij die de vorige keer koos. Jij kijkt het na en tikt op Toevoegen.</p>
+      <ul class="ai__points">
+        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></i><div><b>Veilig verwerkt</b><p>Je bestand wordt niet bewaard en niet gebruikt om AI te trainen. Er wordt niets geboekt voordat jij het hebt nagekeken.</p></div></li>
+        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M4 16V5a2 2 0 0 1 2-2h11"/><path d="M11.5 14.5l2 2 4-4"/></svg></i><div><b>Geen dubbele boekingen</b><p>Wat er al in staat en overboekingen naar je spaarrekening blijven uit, ook vaste lasten die je vooruit hebt geboekt.</p></div></li>
+        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></i><div><b>Ook je loonstrook en hypotheek</b><p>Bruto, netto en loonheffing van je loonstrook en elk leningdeel van je hypotheek, in één keer ingevuld.</p></div></li>
+      </ul>
+    </div>
+    <div>
+      <div class="aisheet" id="aiSheet" role="img" aria-label="Een bankafschrift wordt ingelezen">
+        <div class="aisheet__title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg><span>Bankscreenshots inlezen</span></div>
+        <div class="aisheet__stage">
+          <div class="aisheet__drop" aria-hidden="true"><span class="aisheet__file"><b>PDF</b> ing-november.pdf</span></div>
+          <div class="aisheet__read" aria-hidden="true"><span class="aisheet__bar"><i></i></span><span>Cijfers lezen…</span></div>
+          <div class="aisheet__list">
+            <div class="aisheet__all"><span class="tick" data-on><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Vink alles aan</span><small>3 van 5</small></div>
+            <div class="airow" style="--i:0" data-day="0"><span class="tick" data-on><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="airow__date"></span><span class="airow__name">Albert Heijn</span><span class="airow__why" title="Zoals vorige keer" aria-label="Zoals vorige keer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg></span><span class="airow__cat">Boodschappen</span><b class="airow__amt"><i>−</i><span>€ 24</span></b></div><div class="airow" style="--i:1" data-day="1"><span class="tick" data-on><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="airow__date"></span><span class="airow__name">NS</span><span class="airow__why"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span><span class="airow__cat">Vervoer</span><b class="airow__amt"><i>−</i><span>€ 13</span></b></div><div class="airow" style="--i:2" data-day="2"><span class="tick" data-on><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="airow__date"></span><span class="airow__name">Spotify</span><span class="airow__why" title="Zoals vorige keer" aria-label="Zoals vorige keer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg></span><span class="airow__cat">Abonnementen</span><b class="airow__amt"><i>−</i><span>€ 12</span></b></div><div class="airow" style="--i:3" data-off data-day="3"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="airow__date"></span><span class="airow__name">Naar spaarrekening</span><span class="airow__why" title="Eigen overboeking" aria-label="Eigen overboeking"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></svg></span><span class="airow__cat">Sparen</span><b class="airow__amt"><i>−</i><span>€ 100</span></b></div><div class="airow" style="--i:4" data-off data-day="4"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="airow__date"></span><span class="airow__name">Shell</span><span class="airow__why" title="Al geboekt" aria-label="Al geboekt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M4 16V5a2 2 0 0 1 2-2h11"/><path d="M11.5 14.5l2 2 4-4"/></svg></span><span class="airow__cat">Auto</span><b class="airow__amt"><i>−</i><span>€ 68</span></b></div>
+          </div>
+        </div>
+        <div class="aisheet__foot"><span class="aisheet__add">Voeg 3 toe</span><small>Voorbeeld met demodata.</small></div>
+      </div>
     </div>
   </section>
 
@@ -571,6 +664,29 @@
       if (hero.style.height !== before) dispatchEvent(new Event('resize'));
     }
     addEventListener('resize', fit); addEventListener('load', fit); fit();
+  })();
+</script>
+<script>
+  // Read with AI mock: real dates (today and the days before, in the page's
+  // language), and the flow played once each time it comes into view.
+  (function () {
+    var sheet = document.getElementById('aiSheet'); if (!sheet) return;
+    var loc = window.PF_LOCALE || 'nl-NL';
+    var fmt = new Intl.DateTimeFormat(loc, { day: 'numeric', month: 'short' });
+    sheet.querySelectorAll('.airow').forEach(function (r) {
+      var d = new Date(); d.setDate(d.getDate() - Number(r.dataset.day));
+      r.querySelector('.airow__date').textContent = fmt.formatToParts(d).map(function (p) { return p.type === 'month' ? p.value.charAt(0).toLocaleUpperCase(loc) + p.value.slice(1) : p.value; }).join('');
+    });
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    var busy = false;
+    function play() {
+      if (busy) return; busy = true;
+      sheet.dataset.phase = 'drop';
+      setTimeout(function () { sheet.dataset.phase = 'read'; }, 1300);
+      setTimeout(function () { sheet.dataset.phase = 'list'; }, 3900);
+      setTimeout(function () { busy = false; }, 6000);
+    }
+    new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) play(); }); }, { threshold: 0.45 }).observe(sheet);
   })();
 </script>
 </body>
