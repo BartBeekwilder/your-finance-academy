@@ -1060,3 +1060,14 @@ LIVE: `main` = 842b0ed (Bart's OK, 5 Nov late evening; Vercel success). Since th
 - Cost per read roughly 2–5 cents (Opus 5.5, $4/$20 per MTok).
 - Later: port to iOS/Android (same route), "replace existing parts" option
   for mortgages, multi-page PDF statements beyond 3 MB.
+
+## Live 2026-11-13 (Bart: "Alles live")
+
+web-app merged into main: web billing (Stripe TEST MODE — the Premium card
+shows a "Test mode" tag until Stripe goes live after KvK), Read with AI
+(bank / payslip / mortgage, Premium), the homepage AI section, device
+screens mapped onto measured corners, phone layout fixes, the web-app
+privacy page in 17 languages in the homepage look, translated server
+errors. privacy@yourfinanceacademy.com forwards to Bart's mac.com via
+Cloudflare Email Routing. Backup of main before this: branch
+backup/main-before-live-nov13 (67be407).
