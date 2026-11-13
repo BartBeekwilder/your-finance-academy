@@ -4,7 +4,7 @@ import { intlLocale, t } from "@/lib/i18n";
 import { useShowAxes } from "@/lib/prefs";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
-import { live, netWorthFigures, num, spendByCategory, summarize, yearForecast } from "@/lib/finance/calc";
+import { live, liveFixed, netWorthFigures, num, otherIncome, spendByCategory, summarize, yearForecast } from "@/lib/finance/calc";
 import { cap, money, monthYear, shortMonth, monthName } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import CategoryIcon from "./CategoryIcon";
@@ -283,6 +283,7 @@ function BackToNow({ onClose }: { onClose?: () => void }) {
 /** One day of this month in detail: liquidity at the end of it, the change
  *  that day and what was booked on it. Days ahead run at the expected pace. */
 function DayPanel({ data, now, currency, day, step, onClose }: { data: FinanceData; now: Date; currency: string; day: number; step: Step; onClose?: () => void }) {
+  const nw = useMemo(() => netWorthFigures(data, now), [data, now]);
   const d = new Date(now.getFullYear(), now.getMonth(), day);
   const today = now.getDate();
   const ahead = day > today, isNow = day === today;
@@ -290,8 +291,17 @@ function DayPanel({ data, now, currency, day, step, onClose }: { data: FinanceDa
   const booked = live(data.transactions)
     .filter((x) => { const td = new Date(x.date); return td.getFullYear() === d.getFullYear() && td.getMonth() === d.getMonth() && td.getDate() === day; })
     .sort((a, b) => num(b.amount) - num(a.amount));
-  const income = booked.filter((x) => x.type === "income").reduce((s2, x) => s2 + num(x.amount), 0);
-  const spent = booked.filter((x) => x.type === "expense").reduce((s2, x) => s2 + num(x.amount), 0);
+  const parts = ahead ? null : dayParts(nw, data, now, day);
+  const rest = parts ? change - (parts.pay + parts.other - parts.fixed - parts.variable) : 0;
+  const rows = parts
+    ? [
+        { label: t("Pay, earned by the second"), v: parts.pay },
+        { label: t("Other income"), v: parts.other },
+        { label: t("Fixed costs, spread over the month"), v: -parts.fixed },
+        { label: t("Spent this day"), v: -parts.variable },
+        { label: t("Spending dated later this month"), v: rest },
+      ].filter((x, i) => i === 0 || i === 2 || Math.abs(x.v) >= 0.005)
+    : [];
   const cat = (id: string | null) => data.categories.find((c) => c.id === id);
   const color = (v: number) => (v >= 0 ? "var(--pf-green)" : "var(--pf-red)");
 
@@ -317,10 +327,20 @@ function DayPanel({ data, now, currency, day, step, onClose }: { data: FinanceDa
         <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)", lineHeight: 1.5 }}>{t("A forecast: the rest of the month at the expected pace.")}</span>
       ) : (
         <>
-          <div className="pf-wf-figs" style={{ gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }}>
-            <div><span>{t("In")}</span><b className="pf-rounded" style={{ color: "var(--pf-green)" }}>{money(income, currency)}</b></div>
-            <div><span>{t("Out")}</span><b className="pf-rounded" style={{ color: "var(--pf-red)" }}>{money(spent, currency)}</b></div>
+          <div style={{ display: "grid", gap: 6 }}>
+            <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>{isNow ? t("How today moved, live") : t("How this day moved")}</span>
+            {rows.map((x) => (
+              <div key={x.label} className="pf-wf-part">
+                <span>{x.label}</span>
+                <b className="pf-rounded" style={{ color: x.v > 0 ? "var(--pf-green)" : x.v < 0 ? "var(--pf-red)" : undefined }}>{money(x.v, currency, { signed: true })}</b>
+              </div>
+            ))}
           </div>
+          {nw.holdingsTotal > 0 && (
+            <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)", lineHeight: 1.5 }}>
+              {t("Included: {amount} in investments at today's market value; price moves change it straight away.", { amount: money(nw.holdingsTotal, currency) })}
+            </span>
+          )}
           {booked.length > 0 ? (
             <div style={{ display: "grid", gap: 8 }}>
               <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>{t("Booked this day")}</span>
@@ -337,9 +357,8 @@ function DayPanel({ data, now, currency, day, step, onClose }: { data: FinanceDa
               {booked.length > 6 && <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("{n} more", { n: booked.length - 6 })}</span>}
             </div>
           ) : (
-            <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("Nothing booked this day.")}</span>
+            <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("No transactions booked this day — your pay and fixed costs still move it.")}</span>
           )}
-          <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)", lineHeight: 1.5 }}>{t("Income and fixed costs count evenly over the month; what you spend counts on its day.")}</span>
         </>
       )}
     </div>
@@ -363,14 +382,28 @@ function yearSteps(nw: ReturnType<typeof netWorthFigures>, now: Date): Step[] {
   return steps;
 }
 
+/** What moved liquidity on one day of this month, on the live Balance's
+ *  rules (netWorthFigures.liveChange): the pay earned by the second, other
+ *  income on the moment it was booked, fixed costs spread the same way and
+ *  variable spending on its day. Today runs up to now. */
+function dayParts(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now: Date, day: number) {
+  const year = now.getFullYear(), month = now.getMonth();
+  const monthStart = new Date(year, month, 1).getTime(), span = nw.days * 86_400_000;
+  const at0 = new Date(year, month, day).getTime(), at1 = Math.min(new Date(year, month, day + 1).getTime(), now.getTime());
+  const f = (at: number) => Math.min(Math.max((at - monthStart) / span, 0), 1);
+  const share = Math.max(f(at1) - f(at0), 0);
+  const fixedNow = liveFixed(data, now);
+  let variable = 0;
+  for (const x of live(data.transactions)) {
+    const d = new Date(x.date);
+    if (x.type === "expense" && !x.is_fixed_expense && d.getFullYear() === year && d.getMonth() === month && d.getDate() === day) variable += num(x.amount);
+  }
+  const m = new Date(year, month, 1);
+  return { pay: nw.projected * share, other: otherIncome(data, m, at1) - otherIncome(data, m, at0 - 1), fixed: fixedNow * share, variable };
+}
+
 function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now: Date): Step[] {
   const year = now.getFullYear(), month = now.getMonth(), today = now.getDate(), days = nw.days;
-  const variableByDay = new Array(days + 1).fill(0);
-  for (const t of live(data.transactions)) {
-    const d = new Date(t.date);
-    if (t.type === "expense" && !t.is_fixed_expense && d.getFullYear() === year && d.getMonth() === month) variableByDay[d.getDate()] += num(t.amount);
-  }
-  const perDay = (nw.projected - nw.thisMonth.fixed) / days;
   const soFar = nw.liveChange(now.getTime());
   const ahead = days - today;
   const restPerDay = ahead > 0 ? ((nw.forecast[0]?.change ?? soFar) - soFar) / ahead : 0;
@@ -379,7 +412,9 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
   let level = nw.base;
   for (let day = 1; day <= days; day++) {
     const d = new Date(year, month, day);
-    const change = day < today ? perDay - variableByDay[day] : day === today ? nw.base + soFar - level : restPerDay;
+    const p = day <= today ? dayParts(nw, data, now, day) : null;
+    // Today closes on the live number exactly (spending dated later this month counts now).
+    const change = day < today && p ? p.pay + p.other - p.fixed - p.variable : day === today ? nw.base + soFar - level : restPerDay;
     const show = day === 1 || day === days || day === today || (day % 5 === 0 && Math.abs(day - today) > 1 && days - day > 1);
     steps.push({
       key: `d${day}`,

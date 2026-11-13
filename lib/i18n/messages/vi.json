@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "Nhấp vào một ngày để xem chi tiết.",
  "Expected at the end of the day": "Dự kiến cuối ngày",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Thu nhập và chi phí cố định được chia đều trong tháng; khoản bạn chi được tính vào đúng ngày.",
- "Nothing booked this day.": "Không có gì được ghi trong ngày này."
+ "Nothing booked this day.": "Không có gì được ghi trong ngày này.",
+ "Fixed costs, spread over the month": "Chi phí cố định, chia đều trong tháng",
+ "How this day moved": "Ngày này thay đổi thế nào",
+ "How today moved, live": "Hôm nay thay đổi thế nào, trực tiếp",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "Bao gồm: {amount} đầu tư theo giá thị trường hôm nay; biến động giá được tính ngay.",
+ "No transactions booked this day — your pay and fixed costs still move it.": "Không có giao dịch trong ngày — lương và chi phí cố định vẫn làm nó thay đổi.",
+ "Other income": "Thu nhập khác",
+ "Pay, earned by the second": "Lương, kiếm được từng giây",
+ "Spending dated later this month": "Chi tiêu ghi ngày sau trong tháng này",
+ "Spent this day": "Đã chi trong ngày"
 }

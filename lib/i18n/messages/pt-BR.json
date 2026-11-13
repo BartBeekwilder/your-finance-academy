@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "Clique em um dia para ver os detalhes.",
  "Expected at the end of the day": "Previsto no fim do dia",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Renda e custos fixos contam de forma igual ao longo do mês; o que você gasta conta no próprio dia.",
- "Nothing booked this day.": "Nada lançado neste dia."
+ "Nothing booked this day.": "Nada lançado neste dia.",
+ "Fixed costs, spread over the month": "Custos fixos, distribuídos no mês",
+ "How this day moved": "Como este dia se moveu",
+ "How today moved, live": "Como hoje se move, ao vivo",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "Incluído: {amount} em investimentos ao valor de mercado de hoje; variações de preço contam na hora.",
+ "No transactions booked this day — your pay and fixed costs still move it.": "Nenhuma transação neste dia — seu salário e custos fixos ainda o movem.",
+ "Other income": "Outras rendas",
+ "Pay, earned by the second": "Salário, ganho por segundo",
+ "Spending dated later this month": "Gastos com data mais adiante neste mês",
+ "Spent this day": "Gasto neste dia"
 }

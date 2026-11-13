@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "点击某一天查看详情。",
  "Expected at the end of the day": "预计当天结束时",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "收入和固定支出在整个月平均计算；你的消费计入当天。",
- "Nothing booked this day.": "当天没有记录。"
+ "Nothing booked this day.": "当天没有记录。",
+ "Fixed costs, spread over the month": "固定支出，平摊到整个月",
+ "How this day moved": "这一天的变化",
+ "How today moved, live": "今天的变化（实时）",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "已包含：按今日市值计的投资 {amount}；价格变动立即计入。",
+ "No transactions booked this day — your pay and fixed costs still move it.": "当天没有交易——你的工资和固定支出仍在让它变化。",
+ "Other income": "其他收入",
+ "Pay, earned by the second": "工资，按秒累计",
+ "Spending dated later this month": "本月稍后日期的支出",
+ "Spent this day": "当天支出"
 }

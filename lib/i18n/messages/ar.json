@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "انقر على يوم لعرض التفاصيل.",
  "Expected at the end of the day": "المتوقع في نهاية اليوم",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "يُوزَّع الدخل والتكاليف الثابتة بالتساوي على الشهر؛ وما تنفقه يُحتسب في يومه.",
- "Nothing booked this day.": "لا شيء مسجّل في هذا اليوم."
+ "Nothing booked this day.": "لا شيء مسجّل في هذا اليوم.",
+ "Fixed costs, spread over the month": "التكاليف الثابتة، موزّعة على الشهر",
+ "How this day moved": "كيف تحرّك هذا اليوم",
+ "How today moved, live": "كيف يتحرّك اليوم، مباشرة",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "مُدرج: {amount} في الاستثمارات بقيمة السوق اليوم؛ تُحتسب تحركات الأسعار فورًا.",
+ "No transactions booked this day — your pay and fixed costs still move it.": "لا معاملات في هذا اليوم — راتبك وتكاليفك الثابتة تحرّكه رغم ذلك.",
+ "Other income": "دخل آخر",
+ "Pay, earned by the second": "الراتب، يُكسب كل ثانية",
+ "Spending dated later this month": "مصروفات بتاريخ لاحق هذا الشهر",
+ "Spent this day": "المُنفَق في هذا اليوم"
 }

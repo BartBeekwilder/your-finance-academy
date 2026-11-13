@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "Klik sebuah hari untuk detailnya.",
  "Expected at the end of the day": "Perkiraan di akhir hari",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Pendapatan dan biaya tetap dihitung merata sepanjang bulan; pengeluaranmu dihitung pada harinya.",
- "Nothing booked this day.": "Tidak ada yang tercatat hari ini."
+ "Nothing booked this day.": "Tidak ada yang tercatat hari ini.",
+ "Fixed costs, spread over the month": "Biaya tetap, dibagi sepanjang bulan",
+ "How this day moved": "Bagaimana hari ini bergerak",
+ "How today moved, live": "Bagaimana hari ini bergerak, langsung",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "Termasuk: {amount} investasi pada nilai pasar hari ini; perubahan harga langsung terhitung.",
+ "No transactions booked this day — your pay and fixed costs still move it.": "Tidak ada transaksi hari ini — gaji dan biaya tetap tetap menggerakkannya.",
+ "Other income": "Pendapatan lain",
+ "Pay, earned by the second": "Gaji, didapat per detik",
+ "Spending dated later this month": "Pengeluaran bertanggal lebih lambat bulan ini",
+ "Spent this day": "Dibelanjakan hari ini"
 }

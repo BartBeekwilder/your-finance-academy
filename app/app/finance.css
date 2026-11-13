@@ -6258,3 +6258,5 @@ button.pf-ck-day:active { transform: scale(0.92); }
   .pf-wf-panel { min-width: 0; padding-left: 0; border-left: 0; padding-top: 14px; border-top: 1px solid var(--pf-line); }
 }
 @media (prefers-reduced-motion: reduce) { .pf-wf-layout, .pf-wf-panel { transition: none; } }
+.pf-wf-part { display: flex; justify-content: space-between; gap: 10px; font-size: 0.8rem; color: var(--pf-ink-2); }
+.pf-wf-part b { color: var(--pf-ink); white-space: nowrap; }

@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "Ayrıntılar için bir güne tıkla.",
  "Expected at the end of the day": "Gün sonunda beklenen",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Gelir ve sabit giderler aya eşit dağılır; harcamaların kendi gününde sayılır.",
- "Nothing booked this day.": "Bu gün kayıt yok."
+ "Nothing booked this day.": "Bu gün kayıt yok.",
+ "Fixed costs, spread over the month": "Sabit giderler, aya yayılmış",
+ "How this day moved": "Bu gün nasıl değişti",
+ "How today moved, live": "Bugün nasıl değişiyor, canlı",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "Dahil: bugünkü piyasa değeriyle {amount} yatırım; fiyat hareketleri hemen yansır.",
+ "No transactions booked this day — your pay and fixed costs still move it.": "Bu gün işlem yok — maaşın ve sabit giderlerin yine de onu değiştirir.",
+ "Other income": "Diğer gelir",
+ "Pay, earned by the second": "Maaş, saniye saniye kazanılan",
+ "Spending dated later this month": "Bu ay daha sonraki tarihli harcamalar",
+ "Spent this day": "Bu gün harcanan"
 }

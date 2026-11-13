@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "Нажми на день, чтобы увидеть подробности.",
  "Expected at the end of the day": "Ожидается на конец дня",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Доход и постоянные расходы распределяются равномерно по месяцу; траты учитываются в свой день.",
- "Nothing booked this day.": "В этот день ничего не учтено."
+ "Nothing booked this day.": "В этот день ничего не учтено.",
+ "Fixed costs, spread over the month": "Постоянные расходы, распределённые по месяцу",
+ "How this day moved": "Как изменился этот день",
+ "How today moved, live": "Как меняется сегодня, в реальном времени",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "Включено: {amount} в инвестициях по сегодняшней рыночной стоимости; изменения цен учитываются сразу.",
+ "No transactions booked this day — your pay and fixed costs still move it.": "В этот день нет операций — зарплата и постоянные расходы всё равно его меняют.",
+ "Other income": "Прочий доход",
+ "Pay, earned by the second": "Зарплата, заработанная посекундно",
+ "Spending dated later this month": "Расходы с датой позже в этом месяце",
+ "Spent this day": "Потрачено в этот день"
 }

@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "일을 클릭하면 상세 정보를 볼 수 있습니다.",
  "Expected at the end of the day": "하루가 끝날 때 예상",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "수입과 고정비는 한 달에 고르게 나뉘고, 지출은 그날에 반영됩니다.",
- "Nothing booked this day.": "이날 기록된 내용이 없습니다."
+ "Nothing booked this day.": "이날 기록된 내용이 없습니다.",
+ "Fixed costs, spread over the month": "고정비, 한 달에 나눠 반영",
+ "How this day moved": "이날의 변화",
+ "How today moved, live": "오늘의 변화, 실시간",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "포함: 오늘 시가 기준 투자 {amount}; 가격 변동이 바로 반영됩니다.",
+ "No transactions booked this day — your pay and fixed costs still move it.": "이날 거래 없음 — 급여와 고정비가 여전히 반영됩니다.",
+ "Other income": "기타 수입",
+ "Pay, earned by the second": "급여, 초 단위로 적립",
+ "Spending dated later this month": "이번 달 이후 날짜의 지출",
+ "Spent this day": "이날 지출"
 }

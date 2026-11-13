@@ -7,6 +7,7 @@ import { money, monthName, shortMonth } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import { useTween } from "./charts";
 import Segmented from "./Segmented";
+import { MixChart } from "./PortfolioMix";
 
 // Asset mix over time: what your assets are made of at the end of each month
 // this year (this month: today), as stacked areas — Share (each band its % of
@@ -59,7 +60,20 @@ export default function AssetMixChart({ data, now, currency }: { data: FinanceDa
     return list;
   }, [data, now, currency, year, current]);
 
-  return <StackedMix series={series} now={now} currency={currency} note={t("End of each month this year (this month: today). Investments at market value.")} />;
+  // The chart with the mix on the right (as Balance sheet › Balance over time).
+  return (
+    <MixChart
+      title=""
+      times={series[0]?.values.map((_, m) => m) ?? []}
+      lines={series}
+      currency={currency}
+      labelAt={(m) => (m === current ? t("Today") : t("End of {n}", { n: monthName(new Date(year, m, 1)) }))}
+      nowLabel={t("Today")}
+      xTicks={(series[0]?.values ?? []).map((_, m) => ({ t: m, label: shortMonth(new Date(year, m, 1)) }))}
+      storageKey="pf-liquidity-mix-hidden"
+      note={t("End of each month this year (this month: today). Investments at market value.")}
+    />
+  );
 }
 
 /** The stacked-areas chart itself (shared with the Balance page's 2D view):

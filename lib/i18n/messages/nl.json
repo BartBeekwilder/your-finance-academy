@@ -1887,5 +1887,14 @@
  "Click a day for its details.": "Klik op een dag voor de details.",
  "Expected at the end of the day": "Verwacht aan het eind van de dag",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Inkomen en vaste lasten tellen gelijk verdeeld over de maand; wat je uitgeeft telt op de dag zelf.",
- "Nothing booked this day.": "Niets geboekt op deze dag."
+ "Nothing booked this day.": "Niets geboekt op deze dag.",
+ "Fixed costs, spread over the month": "Vaste lasten, verdeeld over de maand",
+ "How this day moved": "Hoe deze dag bewoog",
+ "How today moved, live": "Hoe vandaag bewoog, live",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "Inbegrepen: {amount} aan beleggingen tegen de marktwaarde van vandaag; koersbewegingen tellen meteen mee.",
+ "No transactions booked this day — your pay and fixed costs still move it.": "Geen transacties geboekt op deze dag — je loon en vaste lasten bewegen wel mee.",
+ "Other income": "Overig inkomen",
+ "Pay, earned by the second": "Loon, per seconde verdiend",
+ "Spending dated later this month": "Uitgaven later deze maand gedateerd",
+ "Spent this day": "Uitgegeven op deze dag"
 }

@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "日をクリックすると詳細が表示されます。",
  "Expected at the end of the day": "その日の終わりの見込み",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "収入と固定費は月全体に均等に配分され、支出はその日に計上されます。",
- "Nothing booked this day.": "この日の記録はありません。"
+ "Nothing booked this day.": "この日の記録はありません。",
+ "Fixed costs, spread over the month": "固定費（月全体に配分）",
+ "How this day moved": "この日の動き",
+ "How today moved, live": "今日の動き（ライブ）",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "含まれるもの：本日の時価で{amount}の投資。価格の変動はすぐに反映されます。",
+ "No transactions booked this day — your pay and fixed costs still move it.": "この日の取引はありません。給与と固定費によって変動しています。",
+ "Other income": "その他の収入",
+ "Pay, earned by the second": "給与（1秒ごとに加算）",
+ "Spending dated later this month": "今月のこれより後の日付の支出",
+ "Spent this day": "この日の支出"
 }

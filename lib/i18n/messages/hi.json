@@ -1881,5 +1881,14 @@
  "Click a day for its details.": "विवरण के लिए किसी दिन पर क्लिक करें।",
  "Expected at the end of the day": "दिन के अंत में अपेक्षित",
  "Income and fixed costs count evenly over the month; what you spend counts on its day.": "आय और निश्चित खर्च पूरे महीने में बराबर गिने जाते हैं; आपका खर्च उसी दिन गिना जाता है।",
- "Nothing booked this day.": "इस दिन कुछ दर्ज नहीं।"
+ "Nothing booked this day.": "इस दिन कुछ दर्ज नहीं।",
+ "Fixed costs, spread over the month": "निश्चित खर्च, महीने भर में बँटे",
+ "How this day moved": "यह दिन कैसे बदला",
+ "How today moved, live": "आज कैसे बदल रहा है, लाइव",
+ "Included: {amount} in investments at today's market value; price moves change it straight away.": "शामिल: आज के बाज़ार मूल्य पर {amount} निवेश; कीमतों का बदलाव तुरंत गिना जाता है।",
+ "No transactions booked this day — your pay and fixed costs still move it.": "इस दिन कोई लेन-देन नहीं — आपका वेतन और निश्चित खर्च फिर भी इसे बदलते हैं।",
+ "Other income": "अन्य आय",
+ "Pay, earned by the second": "वेतन, हर सेकंड कमाया",
+ "Spending dated later this month": "इस महीने बाद की तारीख वाले खर्च",
+ "Spent this day": "इस दिन खर्च"
 }
