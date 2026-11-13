@@ -501,10 +501,12 @@
 <script src="/home/i18n.js"></script>
 <script src="/home/shared.js"></script>
 <script>
-  // Exact screen rectangles in the photos (2400 x 1350), measured from the images.
+  // Exact screen corners in the photos (2400 x 1350), measured from the images
+  // (top-left, top-right, bottom-right, bottom-left). The iPad on the stand
+  // leans a little: its right side is nearer, so that one is a true quad.
   var IMG = { w: 2400, h: 1350 };
   var rect = function (L, T, R, B) { return [[L, T], [R, T], [R, B], [L, B]]; };
-  var LAPTOP = rect(592.9, 174.7, 1808.8, 979.4), IPAD = rect(563.8, 219.7, 1840.6, 1122.4), STAND = rect(712.1, 261.2, 1701.2, 974.1), PHONE = rect(969.7, 142.1, 1435.6, 1198.2);
+  var LAPTOP = rect(592.9, 174.7, 1808.8, 979.4), IPAD = rect(563.8, 219.7, 1840.6, 1122.4), STAND = [[711.6, 260.6], [1700.2, 256.9], [1708.4, 982.2], [706.1, 975.9]], PHONE = rect(969.7, 142.1, 1435.6, 1198.2);
   var hero = document.getElementById('hero'), ipad = document.getElementById('ipad');
   var standPin = document.getElementById('standPin'), standScreen = document.getElementById('standScreen');
   var phoneSec = document.getElementById('phoneSec'), phone = document.getElementById('phone');
