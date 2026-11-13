@@ -544,13 +544,13 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         // The categories this setup will create (in the app's language), so
         // the AI can suggest one for each row.
         const names = [...live(data.categories).map((c) => c.name), ...BUDGETS.map((x) => t(x.name)), ...FIXED.map((x) => t(x.name)), t("Subscriptions"), t("Insurance")];
-        const res = await readFiles("bank", files, [...new Set(names)], source === "supabase");
+        const res = await readFiles("bank", files, [...new Set(names)], source === "supabase" || source === "vault");
         setReading({ kind, expect: 1, landed: true });
         await new Promise((ok) => setTimeout(ok, 450));
         // Transfers to your own accounts start unticked, as on Expenses.
         setStmt(res.transactions.map((r) => ({ ...r, off: !!r.transfer })));
       } else {
-        const res = await readFiles("mortgage", files, [], source === "supabase");
+        const res = await readFiles("mortgage", files, [], source === "supabase" || source === "vault");
         const parts = res.parts.map((x): MortPart => {
           const startedAgo = x.start_date ? Math.max(0, (now.getFullYear() - Number(x.start_date.slice(0, 4))) * 12 + now.getMonth() + 1 - Number(x.start_date.slice(5, 7))) : 0;
           const left = x.term_months ? Math.max(x.term_months - startedAgo, 1) : 0;
@@ -1398,6 +1398,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                 {readError?.kind === "bank" && <p style={{ color: "var(--pf-red)", fontSize: "0.85rem" }}>{readError.text}</p>}
                 <span className="pf-unlock-hint">{t("The file is sent once to Claude, the AI of Anthropic, only to read it: it's never kept or used for training. Nothing is added until you've checked it.")}</span>
                 <span className="pf-unlock-hint">{t("Rather later? Skip it — no problem. It's always there under Expenses › Read with AI.")}</span>
+                <span className="pf-unlock-hint">{t("Tip: once a week is plenty — collect the week's screenshots and read them in one go.")}</span>
               </Screen>
             )}
 

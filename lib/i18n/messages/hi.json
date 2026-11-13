@@ -1920,5 +1920,11 @@
  "Current value (estimate)": "वर्तमान मूल्य (अनुमान)",
  "Home value (estimate)": "घर का मूल्य (अनुमान)",
  "New category, e.g. Children or Pets": "नई श्रेणी, जैसे बच्चे या पालतू",
- "Read another statement instead": "इसके बजाय दूसरा स्टेटमेंट पढ़ें"
+ "Read another statement instead": "इसके बजाय दूसरा स्टेटमेंट पढ़ें",
+ "{n} of {limit} reads left today.": "आज {limit} में से {n} बार पढ़ना बाकी है।",
+ "Adding {n} transactions…": "{n} लेन-देन जोड़े जा रहे हैं…",
+ "No reads left today.": "आज पढ़ने की सीमा पूरी हो गई।",
+ "No reads left today. You can read again on {when}.": "आज पढ़ने की सीमा पूरी हो गई। आप फिर {when} पढ़ सकते हैं।",
+ "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "सुझाव: हफ़्ते में एक बार काफ़ी है — हफ़्ते के स्क्रीनशॉट जमा करें और एक साथ पढ़वाएँ।",
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "पिछले 24 घंटों में आप 2 दस्तावेज़ पढ़वा चुके हैं। हफ़्ते में एक बार काफ़ी है: हफ़्ते के स्क्रीनशॉट जमा करें और एक साथ पढ़वाएँ।"
 }

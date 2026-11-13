@@ -165,3 +165,17 @@ ok((await as(A, () => sql(`select count(*)::int n from feedback`))).rows[0].n ==
 ok((await as(B, () => sql(`select count(*)::int n from feedback`))).rows[0].n === 0, "user B cannot read user A's feedback");
 err = null; try { await as(B, () => sql(`insert into feedback (user_id, message) values ($1, 'x')`, [A])); } catch (e) { err = e.message; }
 ok(err && /row-level security/.test(err), "user B cannot send feedback as user A");
+
+// AI reads: two per 24 hours, claimed through the function only.
+const claim = (uid) => as(uid, () => sql(`select public.claim_ai_read('bank') r`)).then((x) => x.rows[0].r);
+const c1 = await claim(A), c2 = await claim(A), c3 = await claim(A);
+ok(c1.ok && c2.ok && c1.left === 1 && c2.left === 0, "two AI reads a day are allowed");
+ok(c3.ok === false && c3.left === 0 && c3.next_at, "a third AI read is refused, with when the next one frees up");
+ok((await claim(B)).ok, "the limit is per account");
+await as(A, () => sql(`select public.refund_ai_read($1)`, [c2.id]));
+ok((await claim(A)).ok, "a failed read is given back");
+err = null; try { await as(A, () => sql(`insert into ai_reads (kind) values ('bank')`)); } catch (e) { err = e.message; }
+ok(err && /row-level security/.test(err), "users cannot add AI reads themselves");
+await as(A, () => sql(`delete from ai_reads`));
+ok((await as(A, () => sql(`select count(*)::int n from ai_reads`))).rows[0].n === 2, "users cannot delete their AI reads to reset the limit");
+ok((await as(B, () => sql(`select * from ai_reads where user_id = $1`, [A]))).rows.length === 0, "user B cannot see user A's AI reads");

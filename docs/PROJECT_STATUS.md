@@ -1094,3 +1094,20 @@ backup/main-before-live-nov13 (67be407).
   exist per language in public/home/img/<lang>/ and i18n.js picks the set
   for the page language. Regenerate with the puppeteer script (demo data,
   `pf-lang` per language, onboarding via the preview's "Test: fill" draft).
+
+## Done 2026-11-13 — AI read limit (branch web-app, not live yet)
+
+- At most **2 AI reads per account per 24 hours** (one read = up to 8
+  screenshots or one PDF). Enforced on the server: /api/ai/read claims a read
+  via `claim_ai_read()` before calling Claude and gives it back on failure
+  (`refund_ai_read()`); GET /api/ai/read returns what's left
+  (lib/ai/quota.ts). The sheet shows "n of 2 reads left today" and the tip to
+  read once a week; the setup step shows the tip too.
+- **Migration `supabase/migrations/0014_ai_reads.sql` must be run in the
+  Supabase SQL editor.** Until then the limit is off (the route fails open
+  when the function doesn't exist). Only timestamps are stored, never
+  document contents. Tests in supabase/tests/schema.test.mjs.
+- Adding the reviewed rows now goes in one batch (addTransactions) with a
+  spinner — 39 rows used to redraw the page 39 times and froze it.
+- Fix: signed-in "account copy" (vault) users now send their login with the
+  read request (before, only the old table mode did).

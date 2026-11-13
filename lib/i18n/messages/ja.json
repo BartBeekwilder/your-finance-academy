@@ -1920,5 +1920,11 @@
  "Current value (estimate)": "現在の価値（見積もり）",
  "Home value (estimate)": "住まいの価値（見積もり）",
  "New category, e.g. Children or Pets": "新しいカテゴリ（例：子ども、ペット）",
- "Read another statement instead": "別の明細を読み取る"
+ "Read another statement instead": "別の明細を読み取る",
+ "{n} of {limit} reads left today.": "今日の読み取り残り：{limit}回中{n}回。",
+ "Adding {n} transactions…": "{n}件の取引を追加しています…",
+ "No reads left today.": "今日の読み取り回数はもうありません。",
+ "No reads left today. You can read again on {when}.": "今日の読み取り回数はもうありません。次は{when}に読み取れます。",
+ "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "ヒント：週に1回で十分です。1週間分のスクリーンショットをまとめて読み取りましょう。",
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "この24時間ですでに2件の書類を読み取りました。週に1回で十分です。1週間分のスクリーンショットをまとめて読み取りましょう。"
 }

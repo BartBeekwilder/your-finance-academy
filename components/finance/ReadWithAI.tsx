@@ -7,7 +7,7 @@ import { live, num } from "@/lib/finance/calc";
 import { money, monthYear, shortMonth } from "@/lib/finance/format";
 import { bookedAs, isTransfer, learnCategories, suggestCategory, type ReadRow } from "@/lib/finance/importMatch";
 import type { ReadResult } from "@/lib/ai/reader";
-import { t } from "@/lib/i18n";
+import { intlLocale, t } from "@/lib/i18n";
 import { useFinance } from "./FinanceProvider";
 import { salaryOf } from "./Payslips";
 import Sheet from "./Sheet";
@@ -67,8 +67,44 @@ export async function readFiles<K extends Kind>(kind: K, list: FileList | File[]
   }
   const r = await fetch("/api/ai/read", { method: "POST", headers, body: JSON.stringify({ kind, files: prepared, today: isoDay(new Date()), categories }) });
   const j = await r.json().catch(() => ({ error: t("Something went wrong.") }));
-  if (!r.ok) throw new Error(j.error ? t(j.error) : t("Something went wrong."));
+  if (!r.ok) throw Object.assign(new Error(j.error ? t(j.error) : t("Something went wrong.")), { nextAt: (j.next_at as string | undefined) ?? null });
   return j;
+}
+
+/** Reads left in the last 24 hours (2 per account; null = no limit here,
+ *  e.g. the local dev site or the demo). */
+export type AiQuota = { limit: number; used: number; left: number; next_at: string | null };
+export function useAiQuota(signedIn: boolean, when: unknown = true) {
+  const [q, setQ] = useState<AiQuota | null>(null);
+  useEffect(() => {
+    if (!signedIn || !when) return;
+    let off = false;
+    (async () => {
+      const token = (await getSupabase()?.auth.getSession())?.data.session?.access_token;
+      if (!token) return;
+      const r = await fetch("/api/ai/read", { headers: { Authorization: `Bearer ${token}` } }).catch(() => null);
+      const j = r?.ok ? ((await r.json()) as AiQuota | null) : null;
+      if (!off) setQ(j);
+    })();
+    return () => { off = true; };
+  }, [signedIn, when]);
+  return [q, setQ] as const;
+}
+
+/** "2 of 2 reads left today", or when the next one frees up — with the tip to make it a weekly habit. */
+export function QuotaNote({ q }: { q: AiQuota | null }) {
+  if (!q) return null;
+  const at = q.next_at ? new Date(q.next_at) : null;
+  return (
+    <p className="pf-ai-quota" data-empty={q.left <= 0 || undefined}>
+      {q.left > 0
+        ? t("{n} of {limit} reads left today.", { n: q.left, limit: q.limit })
+        : at
+          ? t("No reads left today. You can read again on {when}.", { when: at.toLocaleString(intlLocale(), { weekday: "long", hour: "2-digit", minute: "2-digit" }) })
+          : t("No reads left today.")}{" "}
+      <span>{t("Tip: once a week is plenty — collect the week's screenshots and read them in one go.")}</span>
+    </p>
+  );
 }
 
 /** About how long reading takes, in seconds (a PDF ~half a minute, a screenshot ~10 s). */
@@ -106,6 +142,7 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
   const [added, setAdded] = useState(0);
   const [origin, setOrigin] = useState<Element | null>(null);
   const consented = !!data.profile.ai_consent_at;
+  const [quota, setQuota] = useAiQuota(source === "supabase" || source === "vault", open);
   // Reading: roughly how long it'll take (a PDF ~half a minute, a
   // screenshot ~10 s), for the progress bar; `landed` fills it before the list.
   const [expect, setExpect] = useState(10);
@@ -128,12 +165,16 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
     setLanded(false);
     setStep("reading");
     try {
-      const j = await readFiles(kind, list, kind === "bank" ? live(data.categories).map((c) => c.name) : [], source === "supabase");
+      const j = await readFiles(kind, list, kind === "bank" ? live(data.categories).map((c) => c.name) : [], source === "supabase" || source === "vault");
       setLanded(true);
+      if (quota) setQuota({ ...quota, used: quota.used + 1, left: Math.max(0, quota.left - 1) });
       await new Promise((ok) => setTimeout(ok, 450));
       setResult(j);
       setStep("review");
     } catch (e) {
+      const nextAt = (e as { nextAt?: string | null }).nextAt;
+      if (nextAt) setQuota((q) => ({ limit: q?.limit ?? 2, used: q?.limit ?? 2, left: 0, next_at: nextAt }));
+      else if (quota) setQuota({ ...quota });
       setError((e as Error).message);
       setStep("pick");
     }
@@ -172,8 +213,9 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
             <label
               className="pf-ai-drop"
               data-busy={step === "reading" || undefined}
+              data-off={(step === "pick" && quota?.left === 0) || undefined}
               onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => { e.preventDefault(); if (step === "pick") void read(e.dataTransfer.files); }}
+              onDrop={(e) => { e.preventDefault(); if (step === "pick" && quota?.left !== 0) void read(e.dataTransfer.files); }}
             >
               {step === "reading" ? (
                 <ReadingProgress expect={expect} landed={landed} />
@@ -184,9 +226,10 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
                   <span>{kind === "bank" ? t("Up to 8 screenshots of your bank app, or a PDF statement.") : t("A PDF or a photo.")}</span>
                 </>
               )}
-              <input type="file" accept={ACCEPT} multiple={kind === "bank"} hidden disabled={step === "reading"} onChange={(e) => { const f = e.target.files; if (f) void read(f); e.target.value = ""; }} />
+              <input type="file" accept={ACCEPT} multiple={kind === "bank"} hidden disabled={step === "reading" || quota?.left === 0} onChange={(e) => { const f = e.target.files; if (f) void read(f); e.target.value = ""; }} />
             </label>
           )}
+          {step === "pick" && <QuotaNote q={quota} />}
 
           {step === "review" && result && kind === "bank" && <BankReview rows={(result as ReadResult["bank"]).transactions} onDone={(n) => { setAdded(n); setStep("done"); }} />}
           {step === "review" && result && kind === "payslip" && <PayslipReview read={result as ReadResult["payslip"]} onDone={() => { setAdded(1); setStep("done"); }} />}
@@ -256,7 +299,7 @@ function RowStatus({ d }: { d: Draft }) {
 }
 
 function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => void }) {
-  const { data, addTransaction } = useFinance();
+  const { data, addTransactions } = useFinance();
   const currency = data.profile.currency_code;
   const categories = live(data.categories);
   const [drafts, setDrafts] = useState<Draft[]>(() => {
@@ -285,14 +328,18 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
     setSaved(0);
     setErr(null);
     try {
-      for (const d of chosen) {
-        setSaved((n) => n + 1);
+      // Let the spinner show before the work starts (it keeps turning while
+      // the page recalculates), then add them all in one go.
+      await new Promise((ok) => requestAnimationFrame(() => setTimeout(ok, 60)));
+      await addTransactions(chosen.map((d) => {
         const cat = categories.find((c) => c.id === d.categoryId);
-        await addTransaction({
+        return {
           amount: d.amount.toFixed(2), type: d.direction === "in" ? "income" : "expense", date: atNoon(d.date ?? today), note: d.description.trim() || null,
           is_auto_income: false, is_fixed_expense: !!cat?.is_fixed_expense, recurrence_id: null, category_id: d.categoryId, account_id: null,
-        });
-      }
+        };
+      }));
+      setSaved(chosen.length);
+      await new Promise((ok) => setTimeout(ok, 450));
       onDone(chosen.length);
     } catch (e) {
       setErr((e as Error).message);
@@ -333,7 +380,10 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
         ))}
       </ul>
       {busy ? (
-        <Progress value={saved / chosen.length} label={t("Saving {n} of {total}…", { n: saved, total: chosen.length })} />
+        <div className="pf-ai-saving">
+          <span className="pf-slip-spin" aria-hidden />
+          <Progress value={saved ? 1 : 0.35} label={saved ? t("{n} added.", { n: saved }) : t("Adding {n} transactions…", { n: chosen.length })} />
+        </div>
       ) : (
         <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
           <button className="pf-button" disabled={!chosen.length} onClick={add}>

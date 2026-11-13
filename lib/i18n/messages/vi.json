@@ -1920,5 +1920,11 @@
  "Current value (estimate)": "Giá trị hiện tại (ước tính)",
  "Home value (estimate)": "Giá trị nhà (ước tính)",
  "New category, e.g. Children or Pets": "Danh mục mới, ví dụ Con cái hoặc Thú cưng",
- "Read another statement instead": "Đọc sao kê khác"
+ "Read another statement instead": "Đọc sao kê khác",
+ "{n} of {limit} reads left today.": "Hôm nay còn {n}/{limit} lượt đọc.",
+ "Adding {n} transactions…": "Đang thêm {n} giao dịch…",
+ "No reads left today.": "Hôm nay đã hết lượt đọc.",
+ "No reads left today. You can read again on {when}.": "Hôm nay đã hết lượt đọc. Bạn có thể đọc lại vào {when}.",
+ "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "Mẹo: mỗi tuần một lần là đủ — gom ảnh chụp của cả tuần và đọc một lượt.",
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Bạn đã đọc 2 tài liệu trong 24 giờ qua. Mỗi tuần một lần là đủ: gom ảnh chụp của cả tuần và đọc một lượt."
 }

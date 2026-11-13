@@ -41,6 +41,8 @@ type FinanceState = {
    *  `current` must open the copy). Saved straight away. */
   setPassphrase: (next: string | null, current?: string) => Promise<void>;
   addTransaction: (t: NewTransaction) => Promise<void>;
+  /** Many at once (Read with AI): one save, one redraw. */
+  addTransactions: (list: NewTransaction[]) => Promise<void>;
   /** Saves changes to an existing transaction. */
   updateTransaction: (id: string, t: NewTransaction) => Promise<void>;
   /** Saves settings (e.g. currency_code) to the user's profile. */
@@ -363,6 +365,19 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         Object.assign(row, data);
       }
       update((d) => ({ ...d, transactions: [row, ...d.transactions].sort((a, b) => b.date.localeCompare(a.date)) }));
+    },
+    [source, supabase, update],
+  );
+
+  const addTransactions = useCallback(
+    async (list: NewTransaction[]) => {
+      const rows: Transaction[] = list.map((x) => ({ ...x, id: crypto.randomUUID(), updated_at: new Date().toISOString(), deleted_at: null }));
+      if (source === "supabase" && supabase && rows.length) {
+        const { data, error } = await supabase.from("transactions").insert(list.map((x, i) => ({ ...withoutEmptyGross(x), id: rows[i].id }))).select();
+        if (error) throw error;
+        for (const r of (data ?? []) as Transaction[]) Object.assign(rows.find((x) => x.id === r.id) ?? {}, r);
+      }
+      update((d) => ({ ...d, transactions: [...rows, ...d.transactions].sort((a, b) => b.date.localeCompare(a.date)) }));
     },
     [source, supabase, update],
   );
@@ -1035,7 +1050,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, updateHolding, deleteHolding, rewrite: update, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, addTransactions, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, updateHolding, deleteHolding, rewrite: update, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
       {stale && (

@@ -1920,5 +1920,11 @@
  "Current value (estimate)": "현재 가치(추정)",
  "Home value (estimate)": "주택 가치(추정)",
  "New category, e.g. Children or Pets": "새 카테고리 (예: 자녀, 반려동물)",
- "Read another statement instead": "다른 내역서 읽기"
+ "Read another statement instead": "다른 내역서 읽기",
+ "{n} of {limit} reads left today.": "오늘 읽기 {limit}회 중 {n}회 남음.",
+ "Adding {n} transactions…": "거래 {n}건 추가 중…",
+ "No reads left today.": "오늘은 읽기 횟수가 남아 있지 않습니다.",
+ "No reads left today. You can read again on {when}.": "오늘은 읽기 횟수가 남아 있지 않습니다. {when}에 다시 읽을 수 있습니다.",
+ "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "팁: 일주일에 한 번이면 충분해요 — 한 주의 스크린샷을 모아 한 번에 읽으세요.",
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "지난 24시간 동안 이미 문서 2개를 읽었습니다. 일주일에 한 번이면 충분해요: 한 주의 스크린샷을 모아 한 번에 읽으세요."
 }

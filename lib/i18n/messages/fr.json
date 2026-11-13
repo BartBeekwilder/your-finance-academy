@@ -1920,5 +1920,11 @@
  "Current value (estimate)": "Valeur actuelle (estimation)",
  "Home value (estimate)": "Valeur du logement (estimation)",
  "New category, e.g. Children or Pets": "Nouvelle catégorie, ex. Enfants ou Animaux",
- "Read another statement instead": "Lire un autre relevé à la place"
+ "Read another statement instead": "Lire un autre relevé à la place",
+ "{n} of {limit} reads left today.": "Encore {n} lecture(s) sur {limit} aujourd'hui.",
+ "Adding {n} transactions…": "Ajout de {n} transactions…",
+ "No reads left today.": "Plus de lecture possible aujourd'hui.",
+ "No reads left today. You can read again on {when}.": "Plus de lecture possible aujourd'hui. À nouveau possible {when}.",
+ "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "Astuce : une fois par semaine suffit — rassemble les captures de la semaine et lis-les en une fois.",
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Tu as déjà fait lire 2 documents ces dernières 24 heures. Une fois par semaine suffit : rassemble les captures de la semaine et lis-les en une fois."
 }

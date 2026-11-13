@@ -1920,5 +1920,11 @@
  "Current value (estimate)": "Nilai saat ini (perkiraan)",
  "Home value (estimate)": "Nilai rumah (perkiraan)",
  "New category, e.g. Children or Pets": "Kategori baru, mis. Anak atau Hewan peliharaan",
- "Read another statement instead": "Baca rekening koran lain saja"
+ "Read another statement instead": "Baca rekening koran lain saja",
+ "{n} of {limit} reads left today.": "Sisa {n} dari {limit} pembacaan hari ini.",
+ "Adding {n} transactions…": "Menambahkan {n} transaksi…",
+ "No reads left today.": "Tidak ada sisa pembacaan hari ini.",
+ "No reads left today. You can read again on {when}.": "Tidak ada sisa pembacaan hari ini. Bisa lagi pada {when}.",
+ "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "Tips: seminggu sekali sudah cukup — kumpulkan tangkapan layar seminggu dan baca sekaligus.",
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Kamu sudah membaca 2 dokumen dalam 24 jam terakhir. Seminggu sekali sudah cukup: kumpulkan tangkapan layar seminggu dan baca sekaligus."
 }

@@ -6275,3 +6275,10 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-ob-stmt-new { display: flex; gap: 8px; flex-wrap: wrap; }
 .pf-ob-stmt-new input { flex: 1; min-width: 180px; }
 @media (max-width: 560px) { .pf-ob-stmt-row { grid-template-columns: 18px minmax(0, 1fr) auto; } .pf-ob-stmt-date { display: none; } .pf-ob-stmt-row select { grid-column: 2 / -1; } }
+.pf-ai-saving { display: flex; align-items: center; gap: 14px; }
+.pf-ai-saving .pf-slip-spin { width: 22px; height: 22px; border-width: 3px; border-color: #bf5af2; border-top-color: transparent; flex: none; }
+.pf-ai-saving .pf-ai-progress { flex: 1; }
+.pf-ai-quota { margin: 0; font-size: 0.82rem; color: var(--pf-ink-2); line-height: 1.5; }
+.pf-ai-quota span { color: var(--pf-ink-3); }
+.pf-ai-quota[data-empty] { color: #ff9f0a; }
+.pf-ai-drop[data-off] { opacity: 0.45; cursor: not-allowed; }

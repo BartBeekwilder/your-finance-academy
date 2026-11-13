@@ -1926,5 +1926,11 @@
  "Current value (estimate)": "Huidige waarde (schatting)",
  "Home value (estimate)": "Waarde woning (schatting)",
  "New category, e.g. Children or Pets": "Nieuwe categorie, bijv. Kinderen of Huisdieren",
- "Read another statement instead": "Toch een ander afschrift lezen"
+ "Read another statement instead": "Toch een ander afschrift lezen",
+ "{n} of {limit} reads left today.": "Nog {n} van {limit} keer inlezen vandaag.",
+ "Adding {n} transactions…": "{n} transacties toevoegen…",
+ "No reads left today.": "Vandaag kun je niet meer inlezen.",
+ "No reads left today. You can read again on {when}.": "Vandaag kun je niet meer inlezen. Dat kan weer op {when}.",
+ "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "Tip: één keer per week is genoeg — verzamel de screenshots van de week en lees ze in één keer in.",
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Je hebt de afgelopen 24 uur al 2 documenten laten lezen. Eén keer per week is genoeg: verzamel de screenshots van de week en lees ze in één keer in."
 }

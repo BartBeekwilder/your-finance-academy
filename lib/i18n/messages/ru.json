@@ -1920,5 +1920,11 @@
  "Current value (estimate)": "Текущая стоимость (оценка)",
  "Home value (estimate)": "Стоимость жилья (оценка)",
  "New category, e.g. Children or Pets": "Новая категория, например Дети или Питомцы",
- "Read another statement instead": "Прочитать другую выписку"
+ "Read another statement instead": "Прочитать другую выписку",
+ "{n} of {limit} reads left today.": "Сегодня осталось {n} из {limit} чтений.",
+ "Adding {n} transactions…": "Добавляем {n} операций…",
+ "No reads left today.": "На сегодня чтений больше нет.",
+ "No reads left today. You can read again on {when}.": "На сегодня чтений больше нет. Снова можно: {when}.",
+ "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "Совет: раз в неделю достаточно — собери скриншоты за неделю и прочитай их за один раз.",
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "За последние 24 часа уже прочитано 2 документа. Раз в неделю достаточно: собери скриншоты за неделю и прочитай их за один раз."
 }
