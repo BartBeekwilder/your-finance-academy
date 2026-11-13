@@ -1807,5 +1807,9 @@
  "Choose screenshots": "选择截图",
  "Choose payslip": "选择工资单",
  "Choose document": "选择文件",
- "Transfer between your own accounts?": "在你自己的账户之间转账？"
+ "Transfer between your own accounts?": "在你自己的账户之间转账？",
+ "Already in your expenses: {what}": "已在你的支出中：{what}",
+ "Will be added a second time": "将被重复添加",
+ "Transfer to your own account, not spending": "转入你自己的账户，不是支出",
+ "Will count as spending": "将计为支出"
 }

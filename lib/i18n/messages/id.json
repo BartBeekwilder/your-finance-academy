@@ -1807,5 +1807,9 @@
  "Choose screenshots": "Pilih tangkapan layar",
  "Choose payslip": "Pilih slip gaji",
  "Choose document": "Pilih dokumen",
- "Transfer between your own accounts?": "Transfer antar rekeningmu sendiri?"
+ "Transfer between your own accounts?": "Transfer antar rekeningmu sendiri?",
+ "Already in your expenses: {what}": "Sudah ada di pengeluaranmu: {what}",
+ "Will be added a second time": "Akan ditambahkan dua kali",
+ "Transfer to your own account, not spending": "Transfer ke rekening sendiri, bukan pengeluaran",
+ "Will count as spending": "Akan dihitung sebagai pengeluaran"
 }

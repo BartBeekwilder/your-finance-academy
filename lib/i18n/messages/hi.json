@@ -1807,5 +1807,9 @@
  "Choose screenshots": "स्क्रीनशॉट चुनें",
  "Choose payslip": "वेतन पर्ची चुनें",
  "Choose document": "दस्तावेज़ चुनें",
- "Transfer between your own accounts?": "अपने खातों के बीच ट्रांसफ़र?"
+ "Transfer between your own accounts?": "अपने खातों के बीच ट्रांसफ़र?",
+ "Already in your expenses: {what}": "पहले से आपके खर्चों में: {what}",
+ "Will be added a second time": "दोबारा जुड़ जाएगा",
+ "Transfer to your own account, not spending": "अपने खाते में ट्रांसफ़र, खर्च नहीं",
+ "Will count as spending": "खर्च के रूप में गिना जाएगा"
 }

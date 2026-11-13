@@ -1807,5 +1807,9 @@
  "Choose screenshots": "Chọn ảnh chụp màn hình",
  "Choose payslip": "Chọn phiếu lương",
  "Choose document": "Chọn tài liệu",
- "Transfer between your own accounts?": "Chuyển giữa các tài khoản của bạn?"
+ "Transfer between your own accounts?": "Chuyển giữa các tài khoản của bạn?",
+ "Already in your expenses: {what}": "Đã có trong chi tiêu của bạn: {what}",
+ "Will be added a second time": "Sẽ bị thêm lần thứ hai",
+ "Transfer to your own account, not spending": "Chuyển sang tài khoản của bạn, không phải chi tiêu",
+ "Will count as spending": "Sẽ được tính là chi tiêu"
 }

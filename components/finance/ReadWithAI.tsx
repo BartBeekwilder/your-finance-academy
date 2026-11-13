@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Check, ImageUp, Sparkles, X } from "lucide-react";
+import { ArrowLeftRight, Check, CopyCheck, History, ImageUp, Sparkles, X } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
 import { live, num } from "@/lib/finance/calc";
-import { money, monthYear } from "@/lib/finance/format";
+import { money, monthYear, shortMonth } from "@/lib/finance/format";
 import { bookedAs, isTransfer, learnCategories, suggestCategory, type ReadRow } from "@/lib/finance/importMatch";
 import type { ReadResult } from "@/lib/ai/reader";
 import { t } from "@/lib/i18n";
@@ -171,7 +171,27 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
   );
 }
 
-type Draft = ReadRow & { on: boolean; categoryId: string | null; from: "history" | "ai" | null; booked: boolean; own: boolean };
+/** `booked`: the booking this row already is, as "note · day" (null = new). */
+type Draft = ReadRow & { on: boolean; categoryId: string | null; from: "history" | "ai" | null; booked: string | null; own: boolean };
+
+/** A small icon saying why a row is (un)ticked or where its category came
+ *  from; the full sentence on hover. Orange when ticked against the advice. */
+function RowStatus({ d }: { d: Draft }) {
+  const [Icon, text, warn] = d.booked
+    ? [CopyCheck, d.on ? t("Will be added a second time") : t("Already in your expenses: {what}", { what: d.booked }), d.on]
+    : d.own
+      ? [ArrowLeftRight, d.on ? t("Will count as spending") : t("Transfer to your own account, not spending"), d.on]
+      : d.from === "history"
+        ? [History, t("As last time"), false]
+        : d.from === "ai"
+          ? [Sparkles, t("Suggested"), false]
+          : [null, "", false];
+  return (
+    <span className="pf-ai-why" data-warn={warn || undefined} title={text || undefined} aria-label={text || undefined} role={text ? "img" : undefined}>
+      {Icon && <Icon size={15} />}
+    </span>
+  );
+}
 
 function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => void }) {
   const { data, addTransaction } = useFinance();
@@ -184,7 +204,9 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
       // Already booked: show it with the category it was booked under.
       const s = match?.category_id ? { id: match.category_id, from: "history" as const } : suggestCategory(r, learned, data.categories);
       const own = !match && isTransfer(r);
-      return { ...r, on: !match && !own && r.amount > 0, categoryId: s.id, from: s.from, booked: !!match, own };
+      const when = match && new Date(match.date);
+      const booked = match && when ? `${match.note || categories.find((c) => c.id === match.category_id)?.name || money(r.amount, currency)} · ${when.getDate()} ${shortMonth(when)}` : null;
+      return { ...r, on: !match && !own && r.amount > 0, categoryId: s.id, from: s.from, booked, own };
     });
   });
   const [busy, setBusy] = useState(false);
@@ -225,15 +247,13 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
             <b className="pf-rounded pf-ai-amt" style={{ color: d.direction === "in" ? "var(--pf-green)" : undefined }}>
               {d.direction === "in" ? "+" : "−"}{money(d.amount, currency)}
             </b>
-            <span className="pf-ai-cat">
-              <select className="pf-input" value={d.categoryId ?? ""} onChange={(e) => set(i, { categoryId: e.target.value || null, from: null })} aria-label={t("Category")}>
-                <option value="">{t("No category")}</option>
-                {categories.filter((c) => c.is_income_category === (d.direction === "in")).map((c) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
-                ))}
-              </select>
-              {d.booked ? <small data-warn>{t("Already booked?")}</small> : d.own ? <small data-warn>{t("Transfer between your own accounts?")}</small> : d.from === "history" ? <small>{t("As last time")}</small> : d.from === "ai" ? <small>{t("Suggested")}</small> : null}
-            </span>
+            <RowStatus d={d} />
+            <select className="pf-input pf-ai-cat" value={d.categoryId ?? ""} onChange={(e) => set(i, { categoryId: e.target.value || null, from: null })} aria-label={t("Category")}>
+              <option value="">{t("No category")}</option>
+              {categories.filter((c) => c.is_income_category === (d.direction === "in")).map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
           </li>
         ))}
       </ul>

@@ -1807,5 +1807,9 @@
  "Choose screenshots": "Screenshots wählen",
  "Choose payslip": "Gehaltsabrechnung wählen",
  "Choose document": "Dokument wählen",
- "Transfer between your own accounts?": "Umbuchung zwischen eigenen Konten?"
+ "Transfer between your own accounts?": "Umbuchung zwischen eigenen Konten?",
+ "Already in your expenses: {what}": "Schon in deinen Ausgaben: {what}",
+ "Will be added a second time": "Wird dann doppelt hinzugefügt",
+ "Transfer to your own account, not spending": "Umbuchung aufs eigene Konto, keine Ausgabe",
+ "Will count as spending": "Zählt dann als Ausgabe"
 }

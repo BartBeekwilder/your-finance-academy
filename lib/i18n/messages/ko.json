@@ -1807,5 +1807,9 @@
  "Choose screenshots": "스크린샷 선택",
  "Choose payslip": "급여명세서 선택",
  "Choose document": "문서 선택",
- "Transfer between your own accounts?": "내 계좌 간 이체?"
+ "Transfer between your own accounts?": "내 계좌 간 이체?",
+ "Already in your expenses: {what}": "이미 지출에 있음: {what}",
+ "Will be added a second time": "두 번 추가됩니다",
+ "Transfer to your own account, not spending": "내 계좌로 이체, 지출 아님",
+ "Will count as spending": "지출로 계산됩니다"
 }

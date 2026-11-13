@@ -1807,5 +1807,9 @@
  "Choose screenshots": "Выбрать скриншоты",
  "Choose payslip": "Выбрать расчётный листок",
  "Choose document": "Выбрать документ",
- "Transfer between your own accounts?": "Перевод между своими счетами?"
+ "Transfer between your own accounts?": "Перевод между своими счетами?",
+ "Already in your expenses: {what}": "Уже в ваших расходах: {what}",
+ "Will be added a second time": "Будет добавлено второй раз",
+ "Transfer to your own account, not spending": "Перевод на свой счёт, не расход",
+ "Will count as spending": "Будет учтено как расход"
 }

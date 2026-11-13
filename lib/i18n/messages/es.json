@@ -1807,5 +1807,9 @@
  "Choose screenshots": "Elegir capturas",
  "Choose payslip": "Elegir nómina",
  "Choose document": "Elegir documento",
- "Transfer between your own accounts?": "¿Transferencia entre tus cuentas?"
+ "Transfer between your own accounts?": "¿Transferencia entre tus cuentas?",
+ "Already in your expenses: {what}": "Ya está en tus gastos: {what}",
+ "Will be added a second time": "Se añadirá dos veces",
+ "Transfer to your own account, not spending": "Transferencia a tu propia cuenta, no es un gasto",
+ "Will count as spending": "Contará como gasto"
 }

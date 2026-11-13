@@ -1807,5 +1807,9 @@
  "Choose screenshots": "Scegli screenshot",
  "Choose payslip": "Scegli busta paga",
  "Choose document": "Scegli documento",
- "Transfer between your own accounts?": "Giroconto tra i tuoi conti?"
+ "Transfer between your own accounts?": "Giroconto tra i tuoi conti?",
+ "Already in your expenses: {what}": "Già nelle tue spese: {what}",
+ "Will be added a second time": "Verrà aggiunto due volte",
+ "Transfer to your own account, not spending": "Giroconto sul tuo conto, non è una spesa",
+ "Will count as spending": "Conterà come spesa"
 }

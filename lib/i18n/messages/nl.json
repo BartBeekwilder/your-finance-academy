@@ -1813,5 +1813,9 @@
  "Choose screenshots": "Kies screenshots",
  "Choose payslip": "Kies loonstrook",
  "Choose document": "Kies document",
- "Transfer between your own accounts?": "Eigen overboeking?"
+ "Transfer between your own accounts?": "Eigen overboeking?",
+ "Already in your expenses: {what}": "Staat al in je uitgaven: {what}",
+ "Will be added a second time": "Wordt dan dubbel toegevoegd",
+ "Transfer to your own account, not spending": "Overboeking naar eigen rekening, geen uitgave",
+ "Will count as spending": "Telt dan als uitgave"
 }

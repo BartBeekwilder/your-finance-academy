@@ -1807,5 +1807,9 @@
  "Choose screenshots": "Choisir des captures",
  "Choose payslip": "Choisir la fiche de paie",
  "Choose document": "Choisir le document",
- "Transfer between your own accounts?": "Virement entre vos comptes ?"
+ "Transfer between your own accounts?": "Virement entre vos comptes ?",
+ "Already in your expenses: {what}": "Déjà dans vos dépenses : {what}",
+ "Will be added a second time": "Sera alors ajouté deux fois",
+ "Transfer to your own account, not spending": "Virement vers votre compte, pas une dépense",
+ "Will count as spending": "Comptera alors comme dépense"
 }

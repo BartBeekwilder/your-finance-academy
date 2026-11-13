@@ -1807,5 +1807,9 @@
  "Choose screenshots": "Wybierz zrzuty",
  "Choose payslip": "Wybierz pasek wypłaty",
  "Choose document": "Wybierz dokument",
- "Transfer between your own accounts?": "Przelew między własnymi kontami?"
+ "Transfer between your own accounts?": "Przelew między własnymi kontami?",
+ "Already in your expenses: {what}": "Już w twoich wydatkach: {what}",
+ "Will be added a second time": "Zostanie dodane drugi raz",
+ "Transfer to your own account, not spending": "Przelew na własne konto, nie wydatek",
+ "Will count as spending": "Będzie liczone jako wydatek"
 }
