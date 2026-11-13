@@ -1111,3 +1111,40 @@ backup/main-before-live-nov13 (67be407).
   spinner — 39 rows used to redraw the page 39 times and froze it.
 - Fix: signed-in "account copy" (vault) users now send their login with the
   read request (before, only the old table mode did).
+
+## App port 2026-11-13 (Bart: "start preparing the other versions of the app")
+
+iOS + Mac (one codebase, Catalyst) on iOS repo branch `ios-port-nov13`
+(from `ios-port-nov04`; backup zip `Personal Finance_backup_pre_port_20261113.zip`).
+Android (`~/Developer/personal-finance-android`, main) is further behind: its
+last port is 27 Oct.
+
+Gap list, in launch order (✓ = done on iOS):
+1. ✓ Account copy without a passphrase (kdf "none", the web default since
+   5 Nov): VaultCrypto.plain/open(passphrase: nil), sync without asking when
+   the copy is plain; Settings › Account + Extra protection (add / remove a
+   passphrase, like PassphraseSection). Test plainCopiesOpenWithoutAPassphrase.
+   Guard: a collection the app starts keeping (VaultSnapshot.kept) never
+   counts as "deleted here" on its first sync (test newlyKeptCollectionDeletesNothing).
+2. ✓ Loans: model Loan, Loans.swift (= loans.ts, same tests), balance sheet
+   ("From Loans"), Loans tab, book the payment as a fixed cost (stops when
+   paid off), synced in the vault ("loans").
+3. ✓ Key figures: Metrics.swift (= metrics.ts, same tests), Key figures tab,
+   dashboard strip, Settings › Buffer goal (runway_goal synced once set).
+   Checked in the simulator (nl). Seen on the phone dashboard (old issues):
+   "Dit jaar" amount wraps on the Liquidity card, points pill truncated.
+4. Investments: Add investment panel (search /api/search), buy more / sell
+   / edit / delete.
+5. Onboarding (quick start / complete setup, all steps incl. home, loans,
+   subscriptions, investments search, statement, finale tour) + setup
+   celebration + Finish your setup card. Opens for a new account.
+6. Year close + Year Wrapped; check-in latest five; Liquidity detail panel
+   (month / day with live breakdown); asset-mix side panel.
+7. Country rules (countries.ts: health insurance, WOZ/NHG only with NL);
+   demo data per language.
+8. Premium via RevenueCat (App User ID = Supabase user id; entitlement
+   personal_finance_premium) instead of StoreKit-only; Read with AI through
+   /api/ai/read with the user's token (2 a day).
+9. Sign-in first (account required + demo), remove CloudKit.
+Android: the same list plus everything of 28 Oct – 4 Nov (see the Apple Note
+"Personal Finance — nog naar iOS & Android").
