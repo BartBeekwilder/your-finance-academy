@@ -1914,5 +1914,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "Le logement est souvent ta plus grosse charge fixe. Remplis ce que tu sais — les détails peuvent attendre.",
  "Your other debts": "Tes autres dettes",
  "Your home": "Ton logement",
- "Bank statement": "Relevé bancaire"
+ "Bank statement": "Relevé bancaire",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "{n} sur {total} cochées. Choisis une catégorie pour chacune — elles sont ajoutées dès que tes comptes sont ouverts.",
+ "Categories can always be added, renamed or merged later under Categories.": "Tu peux toujours ajouter, renommer ou fusionner des catégories plus tard dans Catégories.",
+ "Current value (estimate)": "Valeur actuelle (estimation)",
+ "Home value (estimate)": "Valeur du logement (estimation)",
+ "New category, e.g. Children or Pets": "Nouvelle catégorie, ex. Enfants ou Animaux",
+ "Read another statement instead": "Lire un autre relevé à la place"
 }

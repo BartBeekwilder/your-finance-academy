@@ -1914,5 +1914,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "La casa è spesso la tua spesa fissa più grande. Compila ciò che sai: i dettagli possono aspettare.",
  "Your other debts": "I tuoi altri debiti",
  "Your home": "La tua casa",
- "Bank statement": "Estratto conto"
+ "Bank statement": "Estratto conto",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "{n} su {total} selezionati. Scegli una categoria per ciascuno: vengono aggiunti appena i tuoi conti sono aperti.",
+ "Categories can always be added, renamed or merged later under Categories.": "Puoi sempre aggiungere, rinominare o unire categorie più tardi in Categorie.",
+ "Current value (estimate)": "Valore attuale (stima)",
+ "Home value (estimate)": "Valore della casa (stima)",
+ "New category, e.g. Children or Pets": "Nuova categoria, es. Figli o Animali",
+ "Read another statement instead": "Leggi un altro estratto"
 }

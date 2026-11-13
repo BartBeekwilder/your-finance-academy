@@ -1914,5 +1914,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "住房通常是你最大的固定支出。填写你知道的——细节可以稍后再补。",
  "Your other debts": "你的其他债务",
  "Your home": "你的住房",
- "Bank statement": "银行对账单"
+ "Bank statement": "银行对账单",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "已勾选 {n}/{total}。为每一笔选择类别——账本一打开就会添加。",
+ "Categories can always be added, renamed or merged later under Categories.": "之后随时可以在“类别”中添加、重命名或合并类别。",
+ "Current value (estimate)": "当前价值（估算）",
+ "Home value (estimate)": "房屋价值（估算）",
+ "New category, e.g. Children or Pets": "新类别，例如 孩子 或 宠物",
+ "Read another statement instead": "改为读取另一份对账单"
 }

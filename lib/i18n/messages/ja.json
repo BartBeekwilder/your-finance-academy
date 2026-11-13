@@ -1914,5 +1914,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "住居費は多くの場合いちばん大きな固定費です。わかる範囲で入力してください。詳細はあとで大丈夫です。",
  "Your other debts": "その他の借入",
  "Your home": "住まい",
- "Bank statement": "銀行明細"
+ "Bank statement": "銀行明細",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "{total}件中{n}件を選択中。それぞれにカテゴリを選んでください。帳簿が開いたら追加されます。",
+ "Categories can always be added, renamed or merged later under Categories.": "カテゴリはあとからいつでも「カテゴリ」で追加・名前変更・統合できます。",
+ "Current value (estimate)": "現在の価値（見積もり）",
+ "Home value (estimate)": "住まいの価値（見積もり）",
+ "New category, e.g. Children or Pets": "新しいカテゴリ（例：子ども、ペット）",
+ "Read another statement instead": "別の明細を読み取る"
 }

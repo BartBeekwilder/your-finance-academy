@@ -1914,5 +1914,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "Nhà ở thường là chi phí cố định lớn nhất. Điền những gì bạn biết — chi tiết có thể để sau.",
  "Your other debts": "Các khoản nợ khác",
  "Your home": "Nhà của bạn",
- "Bank statement": "Sao kê ngân hàng"
+ "Bank statement": "Sao kê ngân hàng",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "Đã chọn {n}/{total}. Chọn danh mục cho từng khoản — chúng được thêm ngay khi sổ sách được mở.",
+ "Categories can always be added, renamed or merged later under Categories.": "Bạn luôn có thể thêm, đổi tên hoặc gộp danh mục sau trong mục Danh mục.",
+ "Current value (estimate)": "Giá trị hiện tại (ước tính)",
+ "Home value (estimate)": "Giá trị nhà (ước tính)",
+ "New category, e.g. Children or Pets": "Danh mục mới, ví dụ Con cái hoặc Thú cưng",
+ "Read another statement instead": "Đọc sao kê khác"
 }

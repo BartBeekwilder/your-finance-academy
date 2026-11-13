@@ -1914,5 +1914,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "Жильё — часто самая большая постоянная статья. Заполни, что знаешь, — детали подождут.",
  "Your other debts": "Твои другие долги",
  "Your home": "Твоё жильё",
- "Bank statement": "Банковская выписка"
+ "Bank statement": "Банковская выписка",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "Отмечено {n} из {total}. Выбери категорию для каждой — они добавятся, как только твои книги будут открыты.",
+ "Categories can always be added, renamed or merged later under Categories.": "Категории всегда можно добавить, переименовать или объединить позже в разделе «Категории».",
+ "Current value (estimate)": "Текущая стоимость (оценка)",
+ "Home value (estimate)": "Стоимость жилья (оценка)",
+ "New category, e.g. Children or Pets": "Новая категория, например Дети или Питомцы",
+ "Read another statement instead": "Прочитать другую выписку"
 }

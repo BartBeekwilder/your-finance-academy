@@ -1,6 +1,6 @@
 import { balanceSheet, live, num, spendByCategory, summarize } from "./calc";
 import type { Category, FinanceData, Transaction } from "./types";
-import { t } from "@/lib/i18n";
+import { lang, t } from "@/lib/i18n";
 
 // Demo data shown until sign-in exists. The categories are the same starter
 // set iOS seeds on first launch (Services/SeedData.swift), so the web and
@@ -201,9 +201,18 @@ export function buildDemoData(now = new Date()): FinanceData {
   };
   const built = { ...base, ...demoProgress(base, now) };
   // The names a visitor reads, in their language (built with English names,
-  // which the lookups above use).
+  // which the lookups above use) — shops, the train and the insurers as
+  // they'd be where that language is spoken, not Dutch for everyone.
+  const L = LOCAL[lang()] ?? LOCAL.en;
+  const local: Record<string, string> = {
+    "Albert Heijn": L.shops[0], Jumbo: L.shops[1], Lidl: L.shops[2], "NS train": L.train, "OV top-up": L.topup, "Bol.com": L.online,
+    "Student loan (DUO)": L.student ?? t("Student loan"), "Zilveren Kruis": L.health, "Centraal Beheer": L.insurer, ANWB: L.motor, DAS: L.legal,
+  };
   return {
     ...built,
+    transactions: built.transactions.map((x) => (x.note && local[x.note] ? { ...x, note: local[x.note] } : x)),
+    balanceItems: built.balanceItems.map((b) => (local[b.name] ? { ...b, name: local[b.name] } : b)),
+    insurancePolicies: built.insurancePolicies.map((x) => (local[x.insurer] ? { ...x, insurer: local[x.insurer] } : x)),
     categories: built.categories.map((c) => ({ ...c, name: t(c.name) })),
     accounts: built.accounts.map((a) => ({ ...a, name: a.name === "Default" ? t("Current account") : t(a.name) })),
     holdings: built.holdings.map((h) => (h.symbol === "XAU" ? { ...h, name: t("Gold") } : h)),
@@ -292,7 +301,30 @@ function demoBalance(now: Date): Pick<FinanceData, "balanceItems" | "balanceValu
   return { balanceItems, balanceValues };
 }
 
-/** Insurance like a Dutch household with a home and a car. */
+/** Local names per language for the demo's shops, transport and insurers
+ *  (the demo household lives where its language is spoken). */
+type Local = { shops: [string, string, string]; train: string; topup: string; online: string; student?: string; health: string; insurer: string; motor: string; legal: string };
+const LOCAL: Record<string, Local> = {
+  nl: { shops: ["Albert Heijn", "Jumbo", "Lidl"], train: "NS", topup: "OV-chipkaart opladen", online: "Bol.com", student: "Studieschuld (DUO)", health: "Zilveren Kruis", insurer: "Centraal Beheer", motor: "ANWB", legal: "DAS" },
+  en: { shops: ["Tesco", "Sainsbury's", "Aldi"], train: "Trainline", topup: "Oyster top-up", online: "Amazon", health: "Bupa", insurer: "Aviva", motor: "AA", legal: "DAS" },
+  de: { shops: ["REWE", "Edeka", "Aldi"], train: "Deutsche Bahn", topup: "Deutschlandticket", online: "Otto", health: "TK", insurer: "Allianz", motor: "ADAC", legal: "ARAG" },
+  fr: { shops: ["Carrefour", "E.Leclerc", "Lidl"], train: "SNCF", topup: "Passe Navigo", online: "Fnac", health: "MGEN", insurer: "AXA", motor: "MAIF", legal: "Juridica" },
+  es: { shops: ["Mercadona", "Carrefour", "Lidl"], train: "Renfe", topup: "Abono transporte", online: "El Corte Inglés", health: "Sanitas", insurer: "Mapfre", motor: "Mapfre", legal: "DAS" },
+  it: { shops: ["Esselunga", "Coop", "Lidl"], train: "Trenitalia", topup: "Abbonamento ATM", online: "Amazon", health: "UniSalute", insurer: "Generali", motor: "Generali", legal: "ARAG" },
+  "pt-BR": { shops: ["Pão de Açúcar", "Carrefour", "Assaí"], train: "Metrô SP", topup: "Bilhete Único", online: "Mercado Livre", health: "Amil", insurer: "Porto Seguro", motor: "Porto Seguro", legal: "Porto Seguro" },
+  pl: { shops: ["Biedronka", "Lidl", "Żabka"], train: "PKP Intercity", topup: "Bilet miesięczny", online: "Allegro", health: "Luxmed", insurer: "PZU", motor: "PZU", legal: "ARAG" },
+  tr: { shops: ["Migros", "BİM", "A101"], train: "TCDD", topup: "İstanbulkart", online: "Trendyol", health: "Acıbadem Sigorta", insurer: "Allianz", motor: "Axa", legal: "Allianz" },
+  ru: { shops: ["Пятёрочка", "Перекрёсток", "Магнит"], train: "РЖД", topup: "Тройка", online: "Ozon", health: "СОГАЗ", insurer: "Ингосстрах", motor: "Ингосстрах", legal: "Ингосстрах" },
+  ar: { shops: ["كارفور", "لولو", "سبينيس"], train: "مترو دبي", topup: "بطاقة نول", online: "نون", health: "ضمان", insurer: "أكسا", motor: "أكسا", legal: "أكسا" },
+  hi: { shops: ["BigBasket", "DMart", "Reliance Fresh"], train: "IRCTC", topup: "मेट्रो कार्ड रिचार्ज", online: "Flipkart", health: "Star Health", insurer: "LIC", motor: "ICICI Lombard", legal: "HDFC Ergo" },
+  id: { shops: ["Indomaret", "Alfamart", "Superindo"], train: "KAI", topup: "Top-up KRL", online: "Tokopedia", health: "BPJS Kesehatan", insurer: "Allianz", motor: "Asuransi Astra", legal: "Allianz" },
+  ja: { shops: ["セブン-イレブン", "イオン", "ライフ"], train: "JR東日本", topup: "Suica チャージ", online: "楽天市場", health: "協会けんぽ", insurer: "東京海上日動", motor: "損保ジャパン", legal: "東京海上日動" },
+  ko: { shops: ["이마트", "홈플러스", "GS25"], train: "코레일", topup: "티머니 충전", online: "쿠팡", health: "국민건강보험", insurer: "삼성화재", motor: "현대해상", legal: "DB손해보험" },
+  vi: { shops: ["Co.opmart", "WinMart", "Bách Hóa Xanh"], train: "Đường sắt Việt Nam", topup: "Nạp thẻ xe buýt", online: "Shopee", health: "Bảo hiểm xã hội", insurer: "Bảo Việt", motor: "PVI", legal: "Bảo Việt" },
+  "zh-Hans": { shops: ["盒马", "永辉", "物美"], train: "12306", topup: "交通卡充值", online: "京东", health: "医保", insurer: "中国平安", motor: "人保财险", legal: "中国平安" },
+};
+
+/** Insurance like a household with a home and a car (insurers per language, LOCAL). */
 function demoInsurance(now: Date): FinanceData["insurancePolicies"] {
   const y = now.getFullYear();
   const p = (n: number, kind: FinanceData["insurancePolicies"][number]["kind"], name: string, insurer: string, premium: string, period: "month" | "quarter" | "year", deductible: string, renewal: string, coverage: string | null = null, notice = 1) => ({

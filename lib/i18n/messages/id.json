@@ -1914,5 +1914,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "Tempat tinggal sering jadi biaya tetap terbesarmu. Isi yang kamu tahu — detailnya bisa menunggu.",
  "Your other debts": "Utangmu yang lain",
  "Your home": "Rumahmu",
- "Bank statement": "Rekening koran"
+ "Bank statement": "Rekening koran",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "{n} dari {total} dicentang. Pilih kategori untuk masing-masing — ditambahkan begitu bukumu terbuka.",
+ "Categories can always be added, renamed or merged later under Categories.": "Kategori selalu bisa ditambah, diganti nama, atau digabung nanti di Kategori.",
+ "Current value (estimate)": "Nilai saat ini (perkiraan)",
+ "Home value (estimate)": "Nilai rumah (perkiraan)",
+ "New category, e.g. Children or Pets": "Kategori baru, mis. Anak atau Hewan peliharaan",
+ "Read another statement instead": "Baca rekening koran lain saja"
 }

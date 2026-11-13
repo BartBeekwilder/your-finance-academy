@@ -24,7 +24,8 @@ import type { AssetType, InsurancePolicy, LoanKind } from "@/lib/finance/types";
 import { useTween } from "./charts";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
-import { ACCEPT, expectedSeconds, PENDING_KEY, ReadingProgress, readFiles } from "./ReadWithAI";
+import { ACCEPT, expectedSeconds, PENDING_KEY, ReadingProgress, readFiles, readPending } from "./ReadWithAI";
+import type { ReadRow } from "@/lib/finance/importMatch";
 import { countryOf } from "@/lib/finance/countries";
 import OnboardingTrail from "./OnboardingTrail";
 import StepSlider from "./StepSlider";
@@ -228,8 +229,8 @@ type Draft = {
   housing?: "rent" | "own" | null;
   /** Agreed to AI reading a document during the setup (ai_consent_at on finish). */
   aiConsent?: boolean;
-  /** Transactions read from a bank statement, waiting for the dashboard. */
-  statementRows?: number;
+  /** Categories added while checking the bank statement (made on finish). */
+  extraCats?: string[];
   loans: { key: string; kind: LoanKind; name: string; amount: string; rate: string; monthly: string }[];
   history: "now" | "january" | "years";
   checkin: "daily" | "twice-weekly" | "weekly";
@@ -346,7 +347,17 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   const [history, setHistory] = useState<Draft["history"]>(d0.history ?? "now");
   const [housing, setHousingRaw] = useState<Draft["housing"]>(d0.housing ?? null);
   const [aiConsent, setAiConsent] = useState(!!d0.aiConsent || !!data.profile.ai_consent_at);
-  const [statementRows, setStatementRows] = useState<number | undefined>(d0.statementRows);
+  // The bank statement read here: kept in this tab only (sessionStorage),
+  // never in the draft; checked again on the dashboard before it's added.
+  const [stmt, setStmtRaw] = useState<ReadRow[] | null>(() => (typeof window === "undefined" ? null : readPending()?.rows ?? null));
+  const setStmt = (rows: ReadRow[]) => {
+    setStmtRaw(rows);
+    try {
+      sessionStorage.setItem(PENDING_KEY, JSON.stringify({ rows, demo: preview }));
+    } catch {}
+  };
+  const [extraCats, setExtraCats] = useState<string[]>(d0.extraCats ?? []);
+  const [newCat, setNewCat] = useState("");
   // A document being read right now (bank statement or mortgage papers).
   const [reading, setReading] = useState<{ kind: "bank" | "mortgage"; expect: number; landed: boolean } | null>(null);
   const [readError, setReadError] = useState<{ kind: "bank" | "mortgage"; text: string } | null>(null);
@@ -501,17 +512,21 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   // Remember where the setup stands on this device.
   useEffect(() => {
     if (saved || resume) return;
-    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, statementRows };
+    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, extraCats };
     try {
       localStorage.setItem(DRAFT_KEY(preview), JSON.stringify(draft));
     } catch {}
-  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, statementRows, saved, resume, preview]);
+  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, extraCats, saved, resume, preview]);
 
   // Rent or own: the fixed costs follow (rent on, or the mortgage on).
   const setHousing = (h: "rent" | "own") => {
     setHousingRaw(h);
     setFixed(fixed.map((f) => (f.key === "rent" ? { ...f, on: h === "rent" } : f.key === "mortgage" ? { ...f, on: h === "own" } : f)));
   };
+  // Categories the statement rows can go in: what exists, what this setup
+  // will make, and what was added while checking.
+  const outNames = [...new Set([...live(data.categories).filter((c) => !c.is_income_category).map((c) => c.name), ...BUDGETS.map((x) => t(x.name)), ...FIXED.map((x) => t(x.name)), t("Subscriptions"), t("Insurance"), ...extraCats])];
+  const inNames = [...new Set([...live(data.categories).filter((c) => c.is_income_category).map((c) => c.name), t("Income")])];
   const rentLine = fixed.find((f) => f.key === "rent");
   const mortLine = fixed.find((f) => f.key === "mortgage");
   const setLineAmount = (key: string, amount: string) => setFixed(fixed.map((f) => (f.key === key ? { ...f, amount, on: true } : f)));
@@ -530,12 +545,10 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         // the AI can suggest one for each row.
         const names = [...live(data.categories).map((c) => c.name), ...BUDGETS.map((x) => t(x.name)), ...FIXED.map((x) => t(x.name)), t("Subscriptions"), t("Insurance")];
         const res = await readFiles("bank", files, [...new Set(names)], source === "supabase");
-        try {
-          sessionStorage.setItem(PENDING_KEY, JSON.stringify(res.transactions));
-        } catch {}
         setReading({ kind, expect: 1, landed: true });
         await new Promise((ok) => setTimeout(ok, 450));
-        setStatementRows(res.transactions.length);
+        // Transfers to your own accounts start unticked, as on Expenses.
+        setStmt(res.transactions.map((r) => ({ ...r, off: !!r.transfer })));
       } else {
         const res = await readFiles("mortgage", files, [], source === "supabase");
         const parts = res.parts.map((x): MortPart => {
@@ -698,6 +711,8 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
       const categoryFor = async (name: string, icon: string, color: string, isFixed: boolean) =>
         cats.find((c) => c.name.toLowerCase() === name.toLowerCase() && !c.parent_id) ??
         (await addCategory({ name, icon, color_hex: color, is_income_category: false, is_fixed_expense: isFixed }));
+      // Categories added while checking the bank statement.
+      for (const name of extraCats) await categoryFor(name, "ellipsis.circle.fill", "8E8E93", false);
       if (has("fixed")) {
         for (const f of fixedShown.filter((f) => f.on && num(f.amount) > 0 && (!f.own || f.name.trim()))) {
           const c = await categoryFor(f.own ? f.name.trim() : t(f.name), f.icon, f.color, true);
@@ -1004,7 +1019,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                 {housing === "own" && (
                   <>
                     <div className="pf-ob-list">
-                  <Labeled label={t("Home value (WOZ or estimate)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
+                  <Labeled label={countryOf(data.profile) === "NL" ? t("Home value (WOZ or estimate)") : t("Home value (estimate)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
                   {!home.details && mortLine && <Labeled label={t("Mortgage payment per month")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={mortLine.amount} onChange={(e) => setLineAmount("mortgage", e.target.value)} /></Labeled>}
                   <Labeled label={t("Mortgage remaining")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} disabled={!!home.details} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
                   <button type="button" className="pf-ob-more" aria-expanded={!!home.details} onClick={() => setHome({ ...home, details: !home.details, parts: home.parts?.length ? home.parts : [newMortPart(home.mortgage)] })}>
@@ -1338,8 +1353,34 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
 
             {step === "statement" && (
               <Screen title={t("Let AI read your bank statement")} hint={t("Drop a PDF statement or screenshots of your bank app. The AI lists what came in and went out, with a category for each — you check the list as soon as your books are open.")}>
-                {statementRows !== undefined && !reading ? (
-                  <p className="pf-sub-on"><Check size={16} /> {t("{n} transactions read. You'll check them on your dashboard right after this.", { n: statementRows })}</p>
+                {stmt && !reading ? (
+                  <div className="pf-ob-stmt">
+                    <p className="pf-sub-on"><Check size={16} /> {t("{n} of {total} ticked. Choose a category for each — they're added once your books are open.", { n: stmt.filter((r) => !r.off).length, total: stmt.length })}</p>
+                    <div className="pf-ob-stmt-list">
+                      {stmt.map((r, i) => {
+                        const set = (patch: Partial<ReadRow>) => setStmt(stmt.map((x, j) => (j === i ? { ...x, ...patch } : x)));
+                        const names = r.direction === "in" ? inNames : outNames;
+                        return (
+                          <div key={i} className="pf-ob-stmt-row" data-off={r.off || undefined}>
+                            <input type="checkbox" checked={!r.off} aria-label={t("Add {name}", { name: r.description })} onChange={(e) => set({ off: !e.target.checked })} />
+                            <span className="pf-ob-stmt-date">{r.date ? new Date(`${r.date}T12:00:00`).toLocaleDateString(intlLocale(), { day: "numeric", month: "short" }) : "—"}</span>
+                            <span className="pf-ob-stmt-desc" title={r.description}>{r.description}</span>
+                            <b className="pf-rounded" style={{ color: r.direction === "in" ? "var(--pf-green)" : undefined }}>{money(r.direction === "in" ? r.amount : -r.amount, currency, { signed: r.direction === "in" })}</b>
+                            <select className="pf-input" value={r.category && names.includes(r.category) ? r.category : ""} aria-label={t("Category")} onChange={(e) => set({ category: e.target.value || null })}>
+                              <option value="">{t("No category")}</option>
+                              {names.map((n) => <option key={n} value={n}>{n}</option>)}
+                            </select>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <form className="pf-ob-stmt-new" onSubmit={(e) => { e.preventDefault(); const n = newCat.trim(); if (n && !outNames.some((x) => x.toLowerCase() === n.toLowerCase())) setExtraCats([...extraCats, n]); setNewCat(""); }}>
+                      <input className="pf-input" value={newCat} placeholder={t("New category, e.g. Children or Pets")} aria-label={t("New category")} onChange={(e) => setNewCat(e.target.value)} />
+                      <button type="submit" className="pf-chip" disabled={!newCat.trim()}><Plus size={13} /> {t("Add category")}</button>
+                    </form>
+                    <span className="pf-unlock-hint">{t("Categories can always be added, renamed or merged later under Categories.")}</span>
+                    <button type="button" className="pf-ob-link" onClick={() => { setStmtRaw(null); try { sessionStorage.removeItem(PENDING_KEY); } catch {} }}>{t("Read another statement instead")}</button>
+                  </div>
                 ) : (
                   <label className="pf-ai-drop" data-busy={reading?.kind === "bank" || undefined} onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); if (!reading) void readDoc("bank", e.dataTransfer.files); }}>
                     {reading?.kind === "bank" ? (

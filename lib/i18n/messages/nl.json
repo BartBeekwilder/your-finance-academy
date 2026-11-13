@@ -1920,5 +1920,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "Je woonlasten zijn vaak je grootste vaste last. Vul in wat je weet — de details kunnen wachten.",
  "Your other debts": "Je overige schulden",
  "Your home": "Je huis",
- "Bank statement": "Bankafschrift"
+ "Bank statement": "Bankafschrift",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "{n} van {total} aangevinkt. Kies voor elk een categorie — ze worden toegevoegd zodra je boeken open staan.",
+ "Categories can always be added, renamed or merged later under Categories.": "Categorieën kun je later altijd toevoegen, hernoemen of samenvoegen onder Categorieën.",
+ "Current value (estimate)": "Huidige waarde (schatting)",
+ "Home value (estimate)": "Waarde woning (schatting)",
+ "New category, e.g. Children or Pets": "Nieuwe categorie, bijv. Kinderen of Huisdieren",
+ "Read another statement instead": "Toch een ander afschrift lezen"
 }

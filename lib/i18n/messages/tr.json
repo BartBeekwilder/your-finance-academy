@@ -1914,5 +1914,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "Konut genellikle en büyük sabit giderindir. Bildiklerini doldur — ayrıntılar bekleyebilir.",
  "Your other debts": "Diğer borçların",
  "Your home": "Evin",
- "Bank statement": "Banka ekstresi"
+ "Bank statement": "Banka ekstresi",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "{total} işlemden {n} tanesi işaretli. Her biri için bir kategori seç — defterlerin açılınca eklenir.",
+ "Categories can always be added, renamed or merged later under Categories.": "Kategorileri daha sonra her zaman Kategoriler altında ekleyebilir, yeniden adlandırabilir veya birleştirebilirsin.",
+ "Current value (estimate)": "Güncel değer (tahmini)",
+ "Home value (estimate)": "Konut değeri (tahmini)",
+ "New category, e.g. Children or Pets": "Yeni kategori, ör. Çocuklar veya Evcil hayvanlar",
+ "Read another statement instead": "Bunun yerine başka bir ekstre oku"
 }

@@ -6262,3 +6262,16 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-wf-part b { color: var(--pf-ink); white-space: nowrap; }
 .pf-ai-pending { display: flex; align-items: center; gap: 14px; padding: 16px 18px; flex-wrap: wrap; border-color: rgba(191, 90, 242, 0.35); background: linear-gradient(120deg, rgba(191, 90, 242, 0.12), rgba(64, 200, 224, 0.06)); animation: pf-fade-up 0.4s ease-out both; }
 .pf-ob-ai { cursor: pointer; } .pf-ob-ai[data-busy] { cursor: progress; } .pf-ob-ai .pf-ai-progress { width: 100%; }
+/* Setup › Bank statement: the rows read, with a category each. */
+.pf-ob-stmt { display: grid; gap: 12px; }
+.pf-ob-stmt-list { display: grid; gap: 6px; max-height: 340px; overflow-y: auto; padding-right: 4px; }
+.pf-ob-stmt-row { display: grid; grid-template-columns: 18px 56px minmax(0, 1fr) auto minmax(120px, 170px); gap: 10px; align-items: center; padding: 6px 8px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); font-size: 0.85rem; transition: opacity 0.2s; }
+.pf-ob-stmt-row[data-off] { opacity: 0.45; }
+.pf-ob-stmt-row input[type="checkbox"] { accent-color: #bf5af2; width: 16px; height: 16px; }
+.pf-ob-stmt-row select { padding: 6px 8px; font-size: 0.8rem; min-width: 0; }
+.pf-ob-stmt-date { color: var(--pf-ink-3); font-size: 0.75rem; white-space: nowrap; }
+.pf-ob-stmt-desc { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-ob-stmt-row b { white-space: nowrap; }
+.pf-ob-stmt-new { display: flex; gap: 8px; flex-wrap: wrap; }
+.pf-ob-stmt-new input { flex: 1; min-width: 180px; }
+@media (max-width: 560px) { .pf-ob-stmt-row { grid-template-columns: 18px minmax(0, 1fr) auto; } .pf-ob-stmt-date { display: none; } .pf-ob-stmt-row select { grid-column: 2 / -1; } }

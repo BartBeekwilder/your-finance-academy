@@ -434,7 +434,7 @@ function PropertyForm({ row, onSave, onCancel, onDelete }: { row?: Property; onS
     >
       <FormHead title={row ? t("Edit property") : t("Add property")} onCancel={onCancel} />
       <Field label={t("Name")}><input className="pf-input" value={name} onChange={(e) => setName(e.target.value)} /></Field>
-      <Field label={t("Current value (WOZ or estimate)")}><input className="pf-input" inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} required /></Field>
+      <Field label={country === "NL" ? t("Current value (WOZ or estimate)") : t("Current value (estimate)")}><input className="pf-input" inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} required /></Field>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
         <Field label={t("Purchase price")}><input className="pf-input" inputMode="decimal" value={purchase} onChange={(e) => setPurchase(e.target.value)} /></Field>
         <Field label={t("Purchase date")}><input className="pf-input" type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} /></Field>
@@ -453,6 +453,9 @@ function PropertyForm({ row, onSave, onCancel, onDelete }: { row?: Property; onS
 }
 
 function PartForm({ row, propertyId, currency, onSave, onCancel, onDelete }: { row?: MortgagePartRow; propertyId: string; currency: string; onSave: (m: Omit<MortgagePartRow, "updated_at" | "deleted_at" | "id"> & { id?: string }) => void; onCancel: () => void; onDelete?: () => void }) {
+  const { data } = useFinance();
+  // The Dutch mortgage guarantee only exists in the Netherlands.
+  const dutch = data.properties?.find((x) => x.id === propertyId)?.country === "NL";
   const today = new Date();
   const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
   const [name, setName] = useState(row?.name ?? t("Loan part"));
@@ -490,9 +493,11 @@ function PartForm({ row, propertyId, currency, onSave, onCancel, onDelete }: { r
         <Field label={t("Rate fixed until")}><input className="pf-input" type="date" value={fixed} onChange={(e) => setFixed(e.target.value)} /></Field>
         <Field label={t("Extra repayment per month")}><input className="pf-input" inputMode="decimal" value={extra} onChange={(e) => setExtra(e.target.value)} /></Field>
       </div>
-      <label style={{ display: "flex", gap: 10, alignItems: "center", fontSize: "0.9rem" }}>
-        <input type="checkbox" checked={nhg} onChange={(e) => setNhg(e.target.checked)} /> {t("NHG (Dutch mortgage guarantee)")}
-      </label>
+      {dutch && (
+        <label style={{ display: "flex", gap: 10, alignItems: "center", fontSize: "0.9rem" }}>
+          <input type="checkbox" checked={nhg} onChange={(e) => setNhg(e.target.checked)} /> {t("NHG (Dutch mortgage guarantee)")}
+        </label>
+      )}
       <button className="pf-button">{t("Save")}</button>
       {onDelete && (
         <button type="button" className="pf-delete-button" data-confirm={confirm} onClick={() => (confirm ? onDelete() : setConfirm(true))} onBlur={() => setConfirm(false)}>

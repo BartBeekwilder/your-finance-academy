@@ -1914,5 +1914,11 @@
  "Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.": "आवास अक्सर आपका सबसे बड़ा निश्चित खर्च होता है। जो पता है वह भरें — बाकी बाद में।",
  "Your other debts": "आपके अन्य कर्ज़",
  "Your home": "आपका घर",
- "Bank statement": "बैंक स्टेटमेंट"
+ "Bank statement": "बैंक स्टेटमेंट",
+ "{n} of {total} ticked. Choose a category for each — they're added once your books are open.": "{total} में से {n} चुने गए। हर एक के लिए श्रेणी चुनें — आपकी किताबें खुलते ही ये जुड़ जाएँगे।",
+ "Categories can always be added, renamed or merged later under Categories.": "श्रेणियाँ आप बाद में कभी भी श्रेणियाँ में जोड़, नाम बदल या मिला सकते हैं।",
+ "Current value (estimate)": "वर्तमान मूल्य (अनुमान)",
+ "Home value (estimate)": "घर का मूल्य (अनुमान)",
+ "New category, e.g. Children or Pets": "नई श्रेणी, जैसे बच्चे या पालतू",
+ "Read another statement instead": "इसके बजाय दूसरा स्टेटमेंट पढ़ें"
 }

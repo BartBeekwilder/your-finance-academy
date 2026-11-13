@@ -16,6 +16,8 @@ export type ReadRow = {
   /** Money moved between the person's own accounts (savings, paying off the
    *  credit card): not spending, so not ticked by default. */
   transfer?: boolean;
+  /** Unticked while checking the list during the setup. */
+  off?: boolean;
 };
 
 type Tx = { amount: string | number; type: string; date: string; note: string | null; category_id: string | null; deleted_at?: string | null; is_fixed_expense?: boolean; recurrence_id?: string | null };

@@ -75,8 +75,20 @@ export async function readFiles<K extends Kind>(kind: K, list: FileList | File[]
 export const expectedSeconds = (files: FileList | File[]) => Math.min(60, [...files].slice(0, 8).reduce((s, f) => s + (f.type === "application/pdf" ? 28 : 9), 0));
 
 /** A statement read during the setup waits here (this tab only) until the
- *  books are open; the dashboard offers it for checking (PendingStatement). */
+ *  books are open; the dashboard offers it for checking (PendingStatement).
+ *  `demo`: read in the preview — only the demo may show it, never an account. */
 export const PENDING_KEY = "pf-ai-pending-statement";
+export type Pending = { rows: ReadRow[]; demo: boolean };
+export function readPending(): Pending | null {
+  try {
+    const raw = sessionStorage.getItem(PENDING_KEY);
+    if (!raw) return null;
+    const v = JSON.parse(raw) as Pending | ReadRow[];
+    return Array.isArray(v) ? { rows: v, demo: false } : v;
+  } catch {
+    return null;
+  }
+}
 
 const isoDay = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const atNoon = (day: string) => new Date(`${day}T12:00:00`).toISOString();
@@ -256,7 +268,7 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
       const own = !match && isTransfer(r);
       const when = match && new Date(match.date);
       const booked = match && when ? `${match.note || categories.find((c) => c.id === match.category_id)?.name || money(r.amount, currency)} · ${when.getDate()} ${shortMonth(when)}` : null;
-      return { ...r, on: !match && !own && r.amount > 0, categoryId: s.id, from: s.from, booked, own };
+      return { ...r, on: !r.off && !match && !own && r.amount > 0, categoryId: s.id, from: s.from, booked, own };
     });
   });
   const [busy, setBusy] = useState(false);
@@ -458,17 +470,20 @@ function MortgageReview({ read, propertyId, onDone }: { read: ReadResult["mortga
 /** On the dashboard after the setup: the bank statement read during it,
  *  ready to check and add (the same list as Expenses › Read with AI). */
 export function PendingStatement() {
+  const { source } = useFinance();
   const [rows, setRows] = useState<ReadRow[] | null>(null);
   const [open, setOpen] = useState(false);
   const [added, setAdded] = useState<number | null>(null);
   const [origin, setOrigin] = useState<Element | null>(null);
   useEffect(() => {
     try {
-      const saved = sessionStorage.getItem(PENDING_KEY);
+      const saved = readPending();
+      // Read in the preview: never into a real account.
+      if (saved?.demo && source !== "demo") sessionStorage.removeItem(PENDING_KEY);
       // eslint-disable-next-line react-hooks/set-state-in-effect -- read once from this tab's storage after mount
-      if (saved) setRows(JSON.parse(saved) as ReadRow[]);
+      else if (saved) setRows(saved.rows);
     } catch {}
-  }, []);
+  }, [source]);
   const forget = () => {
     try { sessionStorage.removeItem(PENDING_KEY); } catch {}
   };
