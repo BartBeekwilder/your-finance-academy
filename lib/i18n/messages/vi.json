@@ -1811,5 +1811,6 @@
  "Already in your expenses: {what}": "Đã có trong chi tiêu của bạn: {what}",
  "Will be added a second time": "Sẽ bị thêm lần thứ hai",
  "Transfer to your own account, not spending": "Chuyển sang tài khoản của bạn, không phải chi tiêu",
- "Will count as spending": "Sẽ được tính là chi tiêu"
+ "Will count as spending": "Sẽ được tính là chi tiêu",
+ "Tick all": "Chọn tất cả"
 }

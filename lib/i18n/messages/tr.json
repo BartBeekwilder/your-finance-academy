@@ -1811,5 +1811,6 @@
  "Already in your expenses: {what}": "Zaten harcamalarında: {what}",
  "Will be added a second time": "İkinci kez eklenecek",
  "Transfer to your own account, not spending": "Kendi hesabına transfer, harcama değil",
- "Will count as spending": "Harcama olarak sayılacak"
+ "Will count as spending": "Harcama olarak sayılacak",
+ "Tick all": "Tümünü işaretle"
 }

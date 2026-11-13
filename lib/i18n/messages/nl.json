@@ -1817,5 +1817,6 @@
  "Already in your expenses: {what}": "Staat al in je uitgaven: {what}",
  "Will be added a second time": "Wordt dan dubbel toegevoegd",
  "Transfer to your own account, not spending": "Overboeking naar eigen rekening, geen uitgave",
- "Will count as spending": "Telt dan als uitgave"
+ "Will count as spending": "Telt dan als uitgave",
+ "Tick all": "Vink alles aan"
 }

@@ -1811,5 +1811,6 @@
  "Already in your expenses: {what}": "Sudah ada di pengeluaranmu: {what}",
  "Will be added a second time": "Akan ditambahkan dua kali",
  "Transfer to your own account, not spending": "Transfer ke rekening sendiri, bukan pengeluaran",
- "Will count as spending": "Akan dihitung sebagai pengeluaran"
+ "Will count as spending": "Akan dihitung sebagai pengeluaran",
+ "Tick all": "Centang semua"
 }

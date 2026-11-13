@@ -1811,5 +1811,6 @@
  "Already in your expenses: {what}": "이미 지출에 있음: {what}",
  "Will be added a second time": "두 번 추가됩니다",
  "Transfer to your own account, not spending": "내 계좌로 이체, 지출 아님",
- "Will count as spending": "지출로 계산됩니다"
+ "Will count as spending": "지출로 계산됩니다",
+ "Tick all": "모두 선택"
 }

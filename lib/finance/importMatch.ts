@@ -18,7 +18,7 @@ export type ReadRow = {
   transfer?: boolean;
 };
 
-type Tx = { amount: string | number; type: string; date: string; note: string | null; category_id: string | null; deleted_at?: string | null };
+type Tx = { amount: string | number; type: string; date: string; note: string | null; category_id: string | null; deleted_at?: string | null; is_fixed_expense?: boolean; recurrence_id?: string | null };
 type Cat = { id: string; name: string; is_income_category: boolean; deleted_at?: string | null };
 
 // Words banks put around the shop's name that say nothing about it.
@@ -72,11 +72,15 @@ export function suggestCategory(row: ReadRow, learned: Map<string, string>, cate
 const day = (iso: string) => Math.round(Date.parse(iso.slice(0, 10) + "T12:00:00Z") / 86_400_000);
 
 /** The booking this row already is: same direction and amount, within a
- *  day (a card payment is booked by the bank a day later). */
+ *  day (a card payment is booked by the bank a day later) — or, for a fixed
+ *  cost or repeating booking, within 10 days (booked ahead on a set day,
+ *  debited by the bank a few days earlier or later). */
 export function bookedAs<T extends Tx>(row: ReadRow, transactions: T[]): T | undefined {
   if (!row.date) return undefined;
   const d = day(row.date), type = row.direction === "in" ? "income" : "expense";
-  return transactions.find((x) => !x.deleted_at && x.type === type && Math.abs(Number(x.amount) - row.amount) < 0.005 && Math.abs(day(x.date) - d) <= 1);
+  return transactions.find(
+    (x) => !x.deleted_at && x.type === type && Math.abs(Number(x.amount) - row.amount) < 0.005 && Math.abs(day(x.date) - d) <= (x.is_fixed_expense || x.recurrence_id ? 10 : 1),
+  );
 }
 
 const OWN = /spaarrekening|spaar ?rekening|savings account|creditcard|credit card|eigen rekening|own account/i;

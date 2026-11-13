@@ -1811,5 +1811,6 @@
  "Already in your expenses: {what}": "Już w twoich wydatkach: {what}",
  "Will be added a second time": "Zostanie dodane drugi raz",
  "Transfer to your own account, not spending": "Przelew na własne konto, nie wydatek",
- "Will count as spending": "Będzie liczone jako wydatek"
+ "Will count as spending": "Będzie liczone jako wydatek",
+ "Tick all": "Zaznacz wszystko"
 }

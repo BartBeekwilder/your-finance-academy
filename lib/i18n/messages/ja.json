@@ -1811,5 +1811,6 @@
  "Already in your expenses: {what}": "支出に登録済み：{what}",
  "Will be added a second time": "二重に追加されます",
  "Transfer to your own account, not spending": "自分の口座への振替（支出ではありません）",
- "Will count as spending": "支出として計上されます"
+ "Will count as spending": "支出として計上されます",
+ "Tick all": "すべて選択"
 }

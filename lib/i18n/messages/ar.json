@@ -1811,5 +1811,6 @@
  "Already in your expenses: {what}": "موجود بالفعل في مصروفاتك: {what}",
  "Will be added a second time": "ستُضاف مرة ثانية",
  "Transfer to your own account, not spending": "تحويل إلى حسابك، ليس مصروفًا",
- "Will count as spending": "سيُحتسب كمصروف"
+ "Will count as spending": "سيُحتسب كمصروف",
+ "Tick all": "تحديد الكل"
 }

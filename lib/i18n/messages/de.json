@@ -1811,5 +1811,6 @@
  "Already in your expenses: {what}": "Schon in deinen Ausgaben: {what}",
  "Will be added a second time": "Wird dann doppelt hinzugefügt",
  "Transfer to your own account, not spending": "Umbuchung aufs eigene Konto, keine Ausgabe",
- "Will count as spending": "Zählt dann als Ausgabe"
+ "Will count as spending": "Zählt dann als Ausgabe",
+ "Tick all": "Alle auswählen"
 }

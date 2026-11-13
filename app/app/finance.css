@@ -6198,6 +6198,9 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-ai-close { position: absolute; top: -4px; right: -4px; }
 .pf-ai-body[data-wide] .pf-ai-close { top: 18px; right: 18px; }
 .pf-ai-rows li { display: grid; grid-template-columns: auto 132px minmax(0, 1fr) auto 18px minmax(0, 180px); align-items: center; gap: 8px; padding: 3px 10px; border-radius: 10px; background: rgba(255, 255, 255, 0.03); }
+.pf-ai-all { display: flex; align-items: center; gap: 10px; padding: 0 10px; font-size: 0.85rem; cursor: pointer; justify-self: start; }
+.pf-ai-all input { width: 18px; height: 18px; accent-color: #bf5af2; }
+.pf-ai-all span { color: var(--pf-ink-3); }
 .pf-ai-why { display: grid; place-items: center; color: var(--pf-ink-3); cursor: help; }
 .pf-ai-why[data-warn] { color: #ff9f0a; }
 .pf-ai-parts .pf-ai-cat { display: grid; gap: 2px; min-width: 0; }

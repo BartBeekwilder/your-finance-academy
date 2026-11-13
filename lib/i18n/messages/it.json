@@ -1811,5 +1811,6 @@
  "Already in your expenses: {what}": "Già nelle tue spese: {what}",
  "Will be added a second time": "Verrà aggiunto due volte",
  "Transfer to your own account, not spending": "Giroconto sul tuo conto, non è una spesa",
- "Will count as spending": "Conterà come spesa"
+ "Will count as spending": "Conterà come spesa",
+ "Tick all": "Seleziona tutto"
 }

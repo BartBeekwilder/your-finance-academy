@@ -238,6 +238,16 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
   return (
     <div style={{ display: "grid", gap: 12 }}>
       <p style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>{t("Check the list: untick what you don't want, change a category if needed.")}</p>
+      <label className="pf-ai-all">
+        <input
+          type="checkbox"
+          checked={chosen.length === drafts.length}
+          ref={(el) => { if (el) el.indeterminate = chosen.length > 0 && chosen.length < drafts.length; }}
+          onChange={(e) => setDrafts((list) => list.map((x) => ({ ...x, on: e.target.checked })))}
+        />
+        <b>{t("Tick all")}</b>
+        <span>{t("{n} of {total}", { n: chosen.length, total: drafts.length })}</span>
+      </label>
       <ul className="pf-ai-rows">
         {drafts.map((d, i) => (
           <li key={i} data-off={!d.on || undefined}>
