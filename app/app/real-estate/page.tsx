@@ -14,6 +14,7 @@ import { combined, extraEffect, ltv, NL, nlMonthlyTaxEffect, ownership, perYear,
 import { homes } from "@/lib/finance/realEstate";
 import type { MortgagePartRow, Property } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
+import { countryOf } from "@/lib/finance/countries";
 
 // Real estate — your home and its mortgage, worked out in full:
 //   • a house that fills up with the share that's yours (value − debt), and
@@ -418,7 +419,9 @@ function PropertyForm({ row, onSave, onCancel, onDelete }: { row?: Property; onS
   const [value, setValue] = useState(row ? String(num(row.value)) : "");
   const [purchase, setPurchase] = useState(row?.purchase_price ? String(num(row.purchase_price)) : "");
   const [purchaseDate, setPurchaseDate] = useState(row?.purchase_date?.slice(0, 10) ?? "");
-  const [country, setCountry] = useState<Property["country"]>(row?.country ?? "INTL");
+  const { data } = useFinance();
+  // A new home follows where you live (Settings, else this device).
+  const [country, setCountry] = useState<Property["country"]>(row?.country ?? (countryOf(data.profile) === "NL" ? "NL" : "INTL"));
   const [confirm, setConfirm] = useState(false);
   const n = (s: string) => Number(s.replace(/\s/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", ".")) || 0;
   return (

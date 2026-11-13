@@ -6230,3 +6230,31 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-ai-progress-label { font-size: 0.85rem; color: var(--pf-ink-2); font-variant-numeric: tabular-nums; }
 @media (prefers-reduced-motion: reduce) { .pf-ai-progress-track i { animation: none; transition: none; } }
 .pf-ai-drop .pf-slip-spin { width: 28px; height: 28px; border-width: 3px; }
+
+/* Liquidity › Year: a month's details glide open beside the waterfall. */
+.pf-wf-layout { display: grid; grid-template-columns: minmax(0, 1fr) 0fr; gap: 0; transition: grid-template-columns 0.5s cubic-bezier(0.22, 1, 0.36, 1), gap 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-wf-layout[data-open] { grid-template-columns: minmax(0, 1fr) clamp(260px, 32%, 340px); gap: 20px; }
+.pf-wf-side { min-width: 0; overflow: hidden; }
+.pf-wf-panel { display: grid; gap: 14px; align-content: start; min-width: 260px; padding-left: 20px; border-left: 1px solid var(--pf-line); opacity: 0; translate: 24px 0; transition: opacity 0.3s, translate 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-wf-layout[data-open] .pf-wf-panel { opacity: 1; translate: 0 0; animation: pf-fade-up 0.3s ease-out both; }
+.pf-wf-tag { font-size: 0.65rem; padding: 2px 7px; border-radius: 999px; background: rgba(64, 200, 224, 0.14); color: #40c8e0; white-space: nowrap; }
+.pf-wf-close { display: grid; place-items: center; width: 26px; height: 26px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.07); color: var(--pf-ink-2); cursor: pointer; transition: background 0.2s, transform 0.2s; }
+.pf-wf-close:hover { background: rgba(255, 255, 255, 0.14); transform: scale(1.08); }
+.pf-wf-figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.pf-wf-figs div { display: grid; gap: 2px; padding: 8px 10px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); min-width: 0; }
+.pf-wf-figs span { font-size: 0.65rem; color: var(--pf-ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pf-wf-figs b { font-size: 0.85rem; white-space: nowrap; }
+.pf-wf-cat { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; font-size: 0.8rem; }
+.pf-wf-catname { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--pf-ink-2); }
+.pf-wf-cat i { display: block; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+.pf-wf-cat i span { display: block; height: 100%; border-radius: inherit; animation: pf-cbar-grow-x 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; transform-origin: left; }
+@keyframes pf-cbar-grow-x { from { transform: scaleX(0); } }
+.pf-wf-slot[data-pick] { cursor: pointer; }
+.pf-wf-slot[data-dim] .pf-wf-bar { opacity: 0.35; transition: opacity 0.3s; }
+.pf-wf-slot:focus-visible { outline: 2px solid #40c8e0; outline-offset: 2px; }
+@media (max-width: 860px) {
+  .pf-wf-layout, .pf-wf-layout[data-open] { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .pf-wf-layout:not([data-open]) .pf-wf-side { display: none; }
+  .pf-wf-panel { min-width: 0; padding-left: 0; border-left: 0; padding-top: 14px; border-top: 1px solid var(--pf-line); }
+}
+@media (prefers-reduced-motion: reduce) { .pf-wf-layout, .pf-wf-panel { transition: none; } }

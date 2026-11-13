@@ -2,6 +2,8 @@
 // renew or can be cancelled, and what might be missing for your situation.
 // Pure functions only, so iOS and Android can port them 1:1.
 
+import type { HealthRule } from "./countries";
+
 export type InsuranceKind = "health" | "home" | "contents" | "liability" | "car" | "travel" | "life" | "disability" | "legal" | "pet" | "other";
 export type PremiumPeriod = "month" | "quarter" | "year";
 
@@ -56,21 +58,35 @@ export function renewal(p: Pick<PolicyInput, "renewalDate" | "noticeMonths">, no
   return { next, cancelBy, daysToRenewal: days(next), daysToCancel: days(cancelBy), canStillCancel: cancelBy >= today };
 }
 
+function healthItem(s: Situation): Omit<CoverageItem, "have"> {
+  const where = { country: s.countryName ?? s.country ?? "" };
+  switch (s.health) {
+    case "required": return { kind: "health", importance: "required", reason: "Basic health insurance is required by law where you live ({country})", vars: where };
+    case "public": return { kind: "health", importance: "optional", reason: "Public healthcare covers you where you live ({country}); private cover only adds to it", vars: where };
+    default: return { kind: "health", importance: "recommended", reason: "Medical costs can be very high" };
+  }
+}
+
 export type Situation = {
   ownsHome: boolean;
   hasMortgage: boolean;
   hasCar: boolean;
-  country: "NL" | "INTL";
+  /** Where you live (ISO code), null if unknown. */
+  country: string | null;
+  /** That country's health insurance rule (countries.ts healthRule). */
+  health: HealthRule;
+  /** The country's name in the app's language, for the reasons. */
+  countryName?: string;
 };
 
-export type CoverageItem = { kind: InsuranceKind; importance: "required" | "recommended" | "optional"; have: boolean; reason: string };
+export type CoverageItem = { kind: InsuranceKind; importance: "required" | "recommended" | "optional"; have: boolean; reason: string; vars?: Record<string, string> };
 
 /** What's sensible for your situation, and whether you have it. Reasons are
- *  English text = translation keys. */
+ *  English text = translation keys, with `vars` filled in. */
 export function coverageCheck(policies: PolicyInput[], s: Situation): CoverageItem[] {
   const have = (k: InsuranceKind) => policies.some((p) => p.kind === k);
   const items: Omit<CoverageItem, "have">[] = [
-    { kind: "health", importance: s.country === "NL" ? "required" : "recommended", reason: s.country === "NL" ? "Required by law in the Netherlands" : "Medical costs can be very high" },
+    healthItem(s),
     { kind: "liability", importance: "recommended", reason: "Covers damage you cause to others — cheap and important" },
     { kind: "contents", importance: "recommended", reason: "Your belongings, in case of fire, theft or water damage" },
   ];

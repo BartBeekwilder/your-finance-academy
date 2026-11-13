@@ -1,7 +1,7 @@
 "use client";
 
 import { intlLocale, LANGUAGES, setLang, t, useLang } from "@/lib/i18n";
-import { useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Check } from "lucide-react";
 import BrandMark from "@/components/finance/BrandMark";
 import { useFinance } from "@/components/finance/FinanceProvider";
@@ -18,6 +18,7 @@ import HouseholdSection from "@/components/finance/HouseholdSection";
 import { resetNavOrder } from "@/components/finance/AppNav";
 import { CHECKIN_POINTS } from "@/lib/finance/checkin";
 import WeekdayPicker, { periodsLabel } from "@/components/finance/WeekdayPicker";
+import { countryCodes, countryName, guessCountry } from "@/lib/finance/countries";
 
 // Settings, grouped in sections so new ones slot in as the app grows.
 // Currency is saved to the profile (shared with iOS); it changes how amounts
@@ -82,6 +83,8 @@ export default function SettingsPage() {
           ))}
         </div>
       </Section>
+
+      <CountrySection />
 
       <ChartsSection />
 
@@ -305,6 +308,37 @@ function PaydaySection() {
           }}
           style={day && !PAYDAYS.includes(day) ? { background: "linear-gradient(135deg, var(--pf-brand-a), var(--pf-brand-b))", borderColor: "transparent" } : undefined}
         />
+      </div>
+    </Section>
+  );
+}
+
+/** Where you live — rules that differ per country (health insurance, the
+ *  Dutch mortgage tax) follow it, not the app's language. "Automatic"
+ *  guesses from this device's time zone. */
+function CountrySection() {
+  const { data, updateProfile } = useFinance();
+  const [error, setError] = useState<string | null>(null);
+  const locale = intlLocale();
+  const chosen = data.profile.country ?? "";
+  const guess = guessCountry();
+  const codes = useMemo(() => countryCodes().map((c) => ({ c, name: countryName(c, locale) })).sort((a, b) => a.name.localeCompare(b.name, locale)), [locale]);
+  return (
+    <Section title={t("Country")} hint={t("Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.")}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+        <select
+          className="pf-input"
+          style={{ maxWidth: 320 }}
+          value={chosen}
+          aria-label={t("Country")}
+          onChange={(e) => { setError(null); void updateProfile({ country: e.target.value || null }).catch((err: Error) => setError(err.message)); }}
+        >
+          <option value="">{guess ? t("Automatic ({country})", { country: countryName(guess, locale) }) : t("Automatic")}</option>
+          {codes.map(({ c, name }) => (
+            <option key={c} value={c}>{name}</option>
+          ))}
+        </select>
+        {error && <span style={{ fontSize: "0.8rem", color: "var(--pf-red)" }}>{error}</span>}
       </div>
     </Section>
   );

@@ -10,6 +10,7 @@ import { money } from "@/lib/finance/format";
 import { coverageCheck, KINDS, perMonth, renewal, totals, type InsuranceKind, type PremiumPeriod } from "@/lib/finance/insurance";
 import type { InsurancePolicy } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
+import { countryName, countryOf, healthRule } from "@/lib/finance/countries";
 
 // Insurance — every policy in one place:
 //   • what you pay per month and per year, split by kind in one bar, and
@@ -48,11 +49,15 @@ export default function InsurancePage() {
   const assets = live(data.balanceItems ?? []).filter((b) => b.side === "asset").map((b) => b.name.toLowerCase());
   const debts = live(data.balanceItems ?? []).filter((b) => b.side === "liability").map((b) => b.name.toLowerCase());
   const homes = live(data.properties ?? []);
+  // Where you live (Settings, else guessed from this device) — not the language.
+  const country = countryOf(data.profile);
   const situation = {
     ownsHome: homes.length > 0 || assets.some((n) => /home|house|huis|woning|apartment/.test(n)),
     hasMortgage: live(data.mortgageParts ?? []).length > 0 || debts.some((n) => /mortgage|hypotheek/.test(n)),
     hasCar: assets.some((n) => /\bcar\b|auto/.test(n)) || policies.some((p) => p.kind === "car"),
-    country: (homes.some((h) => h.country === "NL") || intlLocale().startsWith("nl") ? "NL" : "INTL") as "NL" | "INTL",
+    country,
+    health: healthRule(country),
+    countryName: country ? countryName(country, intlLocale()) : undefined,
   };
   const coverage = coverageCheck(policies.map(input), situation);
   const missing = coverage.filter((c) => !c.have && c.importance !== "optional").length;
@@ -115,7 +120,7 @@ export default function InsurancePage() {
                 <span className="pf-ins-icon" style={{ color: S.color, background: `${S.color}22` }}><S.Icon size={16} /></span>
                 <span style={{ display: "grid", gap: 2 }}>
                   <b style={{ fontSize: "0.88rem" }}>{t(S.label)} <em className="pf-ins-tag" data-level={c.importance}>{t(c.importance === "required" ? "Required" : c.importance === "recommended" ? "Recommended" : "Optional")}</em></b>
-                  <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t(c.reason)}</span>
+                  <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t(c.reason, c.vars)}</span>
                 </span>
                 <span style={{ color: tone }}>{c.have ? <Check size={18} /> : c.importance === "optional" ? <span style={{ fontSize: "0.7rem" }}>—</span> : <CircleAlert size={18} />}</span>
               </div>

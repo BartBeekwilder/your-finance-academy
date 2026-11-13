@@ -11,6 +11,7 @@ import { homes } from "@/lib/finance/realEstate";
 import { rentVsBuy, RENT_BUY_DEFAULTS, type CostTotals, type RentBuyInput, type RentBuyYear } from "@/lib/finance/rentVsBuy";
 import type { FinanceData } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
+import { countryOf } from "@/lib/finance/countries";
 
 // Rent or buy — the long run, side by side. Both sides spend the same each
 // month; whoever's housing is cheaper invests the difference. The hero says
@@ -44,7 +45,7 @@ function initial(data: FinanceData, now: Date): RentBuyInput {
     : home?.property.comparable_rent
       ? num(home.property.comparable_rent)
       : RENT_BUY_DEFAULTS.rent;
-  const nl = home?.property.country === "NL" || intlLocale().startsWith("nl");
+  const nl = home?.property.country === "NL" || countryOf(data.profile) === "NL";
   const buyCostsRate = nl ? 0.04 : RENT_BUY_DEFAULTS.buyCostsRate;
   // Your own home: what you paid (else today's value), and your mortgage —
   // total loan, its average rate (weighted by amount), kind and term. Own

@@ -1071,3 +1071,26 @@ privacy page in 17 languages in the homepage look, translated server
 errors. privacy@yourfinanceacademy.com forwards to Bart's mac.com via
 Cloudflare Email Routing. Backup of main before this: branch
 backup/main-before-live-nov13 (67be407).
+
+## Done 2026-11-13 — country rules, Liquidity month panel, localized homepage (branch web-app, not live yet)
+
+- **Country, not language.** New `profile.country` (ISO code, account copy
+  only, no column), set in Settings › Country; "Automatic" guesses from the
+  device's time zone, else the browser language's region
+  (lib/finance/countries.ts). Insurance coverage check: health insurance is
+  Required / Optional (public system) / Recommended per country, with the
+  country's name in the reason. Rent vs buy (Dutch buying costs and
+  mortgage tax) and a new home's rules default follow the country instead of
+  the app language. Tests in lib/finance/tests/insurance.test.mjs.
+- **Liquidity › Year:** click a month in "How your liquidity moved per
+  month" → a panel glides open in the tile: month-end liquidity, change from
+  the start, vs the month before, in / out / savings rate, top 5 categories,
+  biggest expense. This month uses the expected figures (booked so far as a
+  note); months ahead are the forecast. Esc or × closes; on phones it opens
+  under the chart.
+- **Homepage:** the AI mock's shop names per language (Albert Heijn/NS in
+  Dutch, Tesco/Trainline in English, REWE/Deutsche Bahn…). The app
+  screenshots (Month Wrapped wr-0..5, iPad stand st-*, laptop setup ob-*)
+  exist per language in public/home/img/<lang>/ and i18n.js picks the set
+  for the page language. Regenerate with the puppeteer script (demo data,
+  `pf-lang` per language, onboarding via the preview's "Test: fill" draft).

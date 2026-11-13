@@ -50,6 +50,10 @@ export type Profile = {
   /** When the person agreed to documents being read by AI (ReadWithAI).
    *  Account copy only (no column). */
   ai_consent_at?: string | null;
+  /** Where the person lives (ISO 3166 code, "NL"), for rules that differ per
+   *  country; null = guessed from the device (lib/finance/countries).
+   *  Account copy only (no column). */
+  country?: string | null;
 };
 
 export type YearClose = {
