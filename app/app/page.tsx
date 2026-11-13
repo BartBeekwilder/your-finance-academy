@@ -13,6 +13,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import LastUpdated from "@/components/finance/LastUpdated";
 import FinishSetupCard from "@/components/finance/FinishSetupCard";
+import { PendingStatement } from "@/components/finance/ReadWithAI";
 import SetupCelebration from "@/components/finance/SetupCelebration";
 import { KeyFiguresStrip } from "@/components/finance/KeyFigures";
 import NetWorthCard from "@/components/finance/NetWorthCard";
@@ -129,6 +130,7 @@ export default function DashboardPage() {
       </header>
 
       {/* After a quick start: finish the rest of the setup. */}
+      <PendingStatement />
       <FinishSetupCard />
 
       {/* Net worth with progress beside it. */}

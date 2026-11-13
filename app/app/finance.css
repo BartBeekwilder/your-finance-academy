@@ -6260,3 +6260,5 @@ button.pf-ck-day:active { transform: scale(0.92); }
 @media (prefers-reduced-motion: reduce) { .pf-wf-layout, .pf-wf-panel { transition: none; } }
 .pf-wf-part { display: flex; justify-content: space-between; gap: 10px; font-size: 0.8rem; color: var(--pf-ink-2); }
 .pf-wf-part b { color: var(--pf-ink); white-space: nowrap; }
+.pf-ai-pending { display: flex; align-items: center; gap: 14px; padding: 16px 18px; flex-wrap: wrap; border-color: rgba(191, 90, 242, 0.35); background: linear-gradient(120deg, rgba(191, 90, 242, 0.12), rgba(64, 200, 224, 0.06)); animation: pf-fade-up 0.4s ease-out both; }
+.pf-ob-ai { cursor: pointer; } .pf-ob-ai[data-busy] { cursor: progress; } .pf-ob-ai .pf-ai-progress { width: 100%; }

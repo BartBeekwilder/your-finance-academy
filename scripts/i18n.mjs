@@ -25,7 +25,7 @@ const EXTRA = [
   "Student loan", "Car loan", "Personal loan", "Credit card", "Other loan",
   "Monthly", "Yearly", "2 years",
   "Your year", "For your tax return", "Yearly costs", "Opening balances", "Next year", "Summary",
-  "Basics", "Money now", "Fixed costs and insurance", "Home and debts", "Budgets and goals", "History", "Security",
+  "Basics", "Money now", "Fixed costs and insurance", "Home and debts", "Your home", "Bank statement", "Budgets and goals", "History", "Security",
   "Off to a flying start", "Finish the quick start", "Books fully set up", "Finish the complete setup",
   "Rent", "Mortgage", "Electricity", "Gas or heating", "Water", "Internet & TV", "Mobile phone", "Gym", "News & magazines",
   "Monthly", "Quarterly", "Twice a year", "Yearly",

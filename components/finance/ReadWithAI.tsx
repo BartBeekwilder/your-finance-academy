@@ -22,7 +22,7 @@ import Sheet from "./Sheet";
 type Kind = "bank" | "payslip" | "mortgage";
 type Step = "consent" | "pick" | "reading" | "review" | "done";
 
-const ACCEPT = "image/png,image/jpeg,image/webp,image/gif,application/pdf";
+export const ACCEPT = "image/png,image/jpeg,image/webp,image/gif,application/pdf";
 const MAX_SIDE = 1800;
 const MAX_PDF = 3 * 1024 * 1024;
 const TITLE: Record<Kind, string> = { bank: "Read bank screenshots", payslip: "Read payslip", mortgage: "Read mortgage document" };
@@ -56,6 +56,28 @@ async function prepare(file: File): Promise<{ mime: string; data: string }> {
   return { mime: "image/jpeg", data: b64(await blob.arrayBuffer()) };
 }
 
+/** Send files to /api/ai/read and return what was read (throws a message). */
+export async function readFiles<K extends Kind>(kind: K, list: FileList | File[], categories: string[], signedIn: boolean): Promise<ReadResult[K]> {
+  const files = [...list].slice(0, kind === "bank" ? 8 : 1);
+  const prepared = await Promise.all(files.map(prepare));
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (signedIn) {
+    const token = (await getSupabase()?.auth.getSession())?.data.session?.access_token;
+    if (token) headers.Authorization = `Bearer ${token}`;
+  }
+  const r = await fetch("/api/ai/read", { method: "POST", headers, body: JSON.stringify({ kind, files: prepared, today: isoDay(new Date()), categories }) });
+  const j = await r.json().catch(() => ({ error: t("Something went wrong.") }));
+  if (!r.ok) throw new Error(j.error ? t(j.error) : t("Something went wrong."));
+  return j;
+}
+
+/** About how long reading takes, in seconds (a PDF ~half a minute, a screenshot ~10 s). */
+export const expectedSeconds = (files: FileList | File[]) => Math.min(60, [...files].slice(0, 8).reduce((s, f) => s + (f.type === "application/pdf" ? 28 : 9), 0));
+
+/** A statement read during the setup waits here (this tab only) until the
+ *  books are open; the dashboard offers it for checking (PendingStatement). */
+export const PENDING_KEY = "pf-ai-pending-statement";
+
 const isoDay = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const atNoon = (day: string) => new Date(`${day}T12:00:00`).toISOString();
 const parseNum = (s: string) => {
@@ -88,23 +110,13 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
   }
 
   async function read(list: FileList | File[]) {
-    const files = [...list].slice(0, kind === "bank" ? 8 : 1);
-    if (!files.length) return;
+    if (!list.length) return;
     setError(null);
-    setExpect(Math.min(60, files.reduce((s, f) => s + (f.type === "application/pdf" ? 28 : 9), 0)));
+    setExpect(expectedSeconds(list));
     setLanded(false);
     setStep("reading");
     try {
-      const prepared = await Promise.all(files.map(prepare));
-      const categories = kind === "bank" ? live(data.categories).map((c) => c.name) : [];
-      const headers: Record<string, string> = { "Content-Type": "application/json" };
-      if (source === "supabase") {
-        const token = (await getSupabase()?.auth.getSession())?.data.session?.access_token;
-        if (token) headers.Authorization = `Bearer ${token}`;
-      }
-      const r = await fetch("/api/ai/read", { method: "POST", headers, body: JSON.stringify({ kind, files: prepared, today: isoDay(new Date()), categories }) });
-      const j = await r.json().catch(() => ({ error: t("Something went wrong.") }));
-      if (!r.ok) throw new Error(j.error ? t(j.error) : t("Something went wrong."));
+      const j = await readFiles(kind, list, kind === "bank" ? live(data.categories).map((c) => c.name) : [], source === "supabase");
       setLanded(true);
       await new Promise((ok) => setTimeout(ok, 450));
       setResult(j);
@@ -200,7 +212,7 @@ function Progress({ value, label }: { value: number; label: string }) {
 
 /** Reading has no real progress to report, so the bar follows the expected
  *  time: quick at first, slowing towards 95%, full when the answer lands. */
-function ReadingProgress({ expect, landed }: { expect: number; landed: boolean }) {
+export function ReadingProgress({ expect, landed }: { expect: number; landed: boolean }) {
   const [elapsed, setElapsed] = useState(0);
   useEffect(() => {
     const start = Date.now();
@@ -440,5 +452,57 @@ function MortgageReview({ read, propertyId, onDone }: { read: ReadResult["mortga
       </button>
       {err && <p style={{ color: "var(--pf-red)", fontSize: "0.85rem" }}>{err}</p>}
     </div>
+  );
+}
+
+/** On the dashboard after the setup: the bank statement read during it,
+ *  ready to check and add (the same list as Expenses › Read with AI). */
+export function PendingStatement() {
+  const [rows, setRows] = useState<ReadRow[] | null>(null);
+  const [open, setOpen] = useState(false);
+  const [added, setAdded] = useState<number | null>(null);
+  const [origin, setOrigin] = useState<Element | null>(null);
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(PENDING_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- read once from this tab's storage after mount
+      if (saved) setRows(JSON.parse(saved) as ReadRow[]);
+    } catch {}
+  }, []);
+  const forget = () => {
+    try { sessionStorage.removeItem(PENDING_KEY); } catch {}
+  };
+  if (!rows || (added === null && !rows.length)) return null;
+  if (added !== null && !open) return null;
+  return (
+    <>
+      <section className="pf-card pf-ai-pending">
+        <Sparkles size={20} color="#bf5af2" />
+        <span style={{ display: "grid", gap: 2, flex: 1, minWidth: 0 }}>
+          <b>{t("Your bank statement is read")}</b>
+          <span style={{ fontSize: "0.82rem", color: "var(--pf-ink-2)" }}>{t("{n} transactions are ready to check. Nothing is added until you say so.", { n: rows.length })}</span>
+        </span>
+        <button className="pf-button" onClick={(e) => { setOrigin(e.currentTarget); setOpen(true); }}>{t("Check them")}</button>
+        <button className="pf-icon-button" aria-label={t("Not now")} title={t("Not now")} onClick={() => { forget(); setRows(null); }}><X size={16} /></button>
+      </section>
+      <Sheet open={open} onClose={() => setOpen(false)} origin={origin} label={t("Read bank screenshots")} wide={added === null}>
+        <div className="pf-ai-body" data-wide={added === null || undefined}>
+          <button type="button" className="pf-icon-button pf-ai-close" aria-label={t("Close")} onClick={() => setOpen(false)}>
+            <X size={16} />
+          </button>
+          <h2 style={{ fontSize: "1.15rem", fontWeight: 650, display: "flex", alignItems: "center", gap: 8, paddingRight: 36 }}>
+            <Sparkles size={18} color="#bf5af2" /> {t("Your bank statement")}
+          </h2>
+          {added === null ? (
+            <BankReview rows={rows} onDone={(n) => { forget(); setAdded(n); }} />
+          ) : (
+            <div style={{ display: "grid", gap: 12, justifyItems: "start" }}>
+              <p className="pf-sub-on"><Check size={16} /> {t("{n} added.", { n: added })}</p>
+              <button className="pf-button" onClick={() => setOpen(false)}>{t("Done")}</button>
+            </div>
+          )}
+        </div>
+      </Sheet>
+    </>
   );
 }

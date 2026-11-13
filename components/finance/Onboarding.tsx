@@ -3,7 +3,7 @@
 import { newHousehold } from "@/lib/finance/household";
 import { t, intlLocale } from "@/lib/i18n";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, CalendarDays, Car, Check, Clock, HeartPulse, House, Layers, Link2, Link2Off, Plane, Plus, Shield, ShieldCheck, Sofa, Sparkles, X, Zap, type LucideIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, Car, Check, FileText, Clock, HeartPulse, House, Layers, Link2, Link2Off, Plane, Plus, Shield, ShieldCheck, Sofa, Sparkles, X, Zap, type LucideIcon } from "lucide-react";
 import { live, summarize } from "@/lib/finance/calc";
 import { budgetIn } from "@/lib/finance/budgetPlan";
 import { currencyName } from "@/lib/finance/currencies";
@@ -24,6 +24,8 @@ import type { AssetType, InsurancePolicy, LoanKind } from "@/lib/finance/types";
 import { useTween } from "./charts";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
+import { ACCEPT, expectedSeconds, PENDING_KEY, ReadingProgress, readFiles } from "./ReadWithAI";
+import { countryOf } from "@/lib/finance/countries";
 import OnboardingTrail from "./OnboardingTrail";
 import StepSlider from "./StepSlider";
 import WeekdayPicker, { periodsLabel } from "./WeekdayPicker";
@@ -222,6 +224,12 @@ type Draft = {
   goal: { name: string; amount: string; months: number };
   runwayGoal?: number;
   home: { value: string; mortgage: string; details?: boolean; parts?: MortPart[] };
+  /** Rent or own (Your home); rent and the mortgage payment go to the fixed costs. */
+  housing?: "rent" | "own" | null;
+  /** Agreed to AI reading a document during the setup (ai_consent_at on finish). */
+  aiConsent?: boolean;
+  /** Transactions read from a bank statement, waiting for the dashboard. */
+  statementRows?: number;
   loans: { key: string; kind: LoanKind; name: string; amount: string; rate: string; monthly: string }[];
   history: "now" | "january" | "years";
   checkin: "daily" | "twice-weekly" | "weekly";
@@ -245,7 +253,7 @@ function testDraft(): Draft {
   );
   return {
     route: "complete", step: "security",
-    answered: ["currency", "household", "income", "accounts", "investments", "fixed", "subscriptions", "insurance", "balance", "budgets", "goal", "history", "security"],
+    answered: ["currency", "household", "income", "housing", "accounts", "investments", "fixed", "subscriptions", "insurance", "balance", "budgets", "goal", "history", "statement", "security"], housing: "own",
     currency: "EUR", net: "3800", gross: "5200", payday: 25, together: false, names: [t("Me"), t("Partner")],
     accounts: [
       { key: "checking", name: t("Current account"), type: "checking", amount: "2400" },
@@ -336,6 +344,12 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   // the rate and the monthly payment (then the debt goes down by itself).
   const [loans, setLoans] = useState<Draft["loans"]>(d0.loans ?? []);
   const [history, setHistory] = useState<Draft["history"]>(d0.history ?? "now");
+  const [housing, setHousingRaw] = useState<Draft["housing"]>(d0.housing ?? null);
+  const [aiConsent, setAiConsent] = useState(!!d0.aiConsent || !!data.profile.ai_consent_at);
+  const [statementRows, setStatementRows] = useState<number | undefined>(d0.statementRows);
+  // A document being read right now (bank statement or mortgage papers).
+  const [reading, setReading] = useState<{ kind: "bank" | "mortgage"; expect: number; landed: boolean } | null>(null);
+  const [readError, setReadError] = useState<{ kind: "bank" | "mortgage"; text: string } | null>(null);
   const [checkin, setCheckin] = useState<Draft["checkin"]>(d0.checkin ?? data.profile.checkin_interval ?? "twice-weekly");
   const [checkinDays, setCheckinDays] = useState<number[] | undefined>(d0.checkinDays ?? data.profile.checkin_days);
   // Security: an optional passphrase (never stored in the draft).
@@ -471,7 +485,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   };
 
   // The mortgage's loan parts; the remaining debt is their sum.
-  const setMortParts = (parts: MortPart[]) => setHome({ ...home, parts, mortgage: String(parts.reduce((s2, p) => s2 + num(p.amount), 0) || "") });
+  const setMortParts = (parts: MortPart[], open?: boolean) => setHome({ ...home, ...(open ? { details: true } : {}), parts, mortgage: String(parts.reduce((s2, p) => s2 + num(p.amount), 0) || "") });
 
   const budgetLines = budgets ?? BUDGETS.map((b) => ({ ...b, amount: netIncome ? String(Math.round((netIncome * b.share) / 10) * 10) : "", on: true }));
 
@@ -487,11 +501,59 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   // Remember where the setup stands on this device.
   useEffect(() => {
     if (saved || resume) return;
-    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays };
+    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, statementRows };
     try {
       localStorage.setItem(DRAFT_KEY(preview), JSON.stringify(draft));
     } catch {}
-  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, saved, resume, preview]);
+  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, statementRows, saved, resume, preview]);
+
+  // Rent or own: the fixed costs follow (rent on, or the mortgage on).
+  const setHousing = (h: "rent" | "own") => {
+    setHousingRaw(h);
+    setFixed(fixed.map((f) => (f.key === "rent" ? { ...f, on: h === "rent" } : f.key === "mortgage" ? { ...f, on: h === "own" } : f)));
+  };
+  const rentLine = fixed.find((f) => f.key === "rent");
+  const mortLine = fixed.find((f) => f.key === "mortgage");
+  const setLineAmount = (key: string, amount: string) => setFixed(fixed.map((f) => (f.key === key ? { ...f, amount, on: true } : f)));
+
+  // Read a document with AI during the setup: a bank statement (kept for the
+  // dashboard to check once the books are open) or mortgage papers (filling
+  // in the loan parts here).
+  async function readDoc(kind: "bank" | "mortgage", files: FileList) {
+    if (!files.length) return;
+    setAiConsent(true);
+    setReadError(null);
+    setReading({ kind, expect: expectedSeconds(files), landed: false });
+    try {
+      if (kind === "bank") {
+        // The categories this setup will create (in the app's language), so
+        // the AI can suggest one for each row.
+        const names = [...live(data.categories).map((c) => c.name), ...BUDGETS.map((x) => t(x.name)), ...FIXED.map((x) => t(x.name)), t("Subscriptions"), t("Insurance")];
+        const res = await readFiles("bank", files, [...new Set(names)], source === "supabase");
+        try {
+          sessionStorage.setItem(PENDING_KEY, JSON.stringify(res.transactions));
+        } catch {}
+        setReading({ kind, expect: 1, landed: true });
+        await new Promise((ok) => setTimeout(ok, 450));
+        setStatementRows(res.transactions.length);
+      } else {
+        const res = await readFiles("mortgage", files, [], source === "supabase");
+        const parts = res.parts.map((x): MortPart => {
+          const startedAgo = x.start_date ? Math.max(0, (now.getFullYear() - Number(x.start_date.slice(0, 4))) * 12 + now.getMonth() + 1 - Number(x.start_date.slice(5, 7))) : 0;
+          const left = x.term_months ? Math.max(x.term_months - startedAgo, 1) : 0;
+          return { key: crypto.randomUUID(), kind: x.kind, amount: String(Math.round(x.principal)), rate: String(x.rate).replace(".", ","), years: left ? String(Math.round((left / 12) * 10) / 10).replace(".", ",") : "", extra: "" };
+        });
+        setReading({ kind, expect: 1, landed: true });
+        await new Promise((ok) => setTimeout(ok, 450));
+        if (parts.length) setMortParts(parts, true);
+        else setReadError({ kind, text: t("No loan parts found in this document.") });
+      }
+    } catch (e) {
+      setReadError({ kind, text: (e as Error).message });
+    } finally {
+      setReading(null);
+    }
+  }
 
   const goTo = (to: Step, d: 1 | -1) => {
     setDir(d);
@@ -604,6 +666,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         ...(has("income") ? { expected_net_monthly: netIncome ? netIncome.toFixed(2) : null, expected_gross_monthly: num(gross) ? num(gross).toFixed(2) : null, payday_day: payday } : {}),
         ...(has("household") ? { household: together ? newHousehold(names[0].trim() || t("Me"), names[1].trim() || t("Partner"), () => crypto.randomUUID()) : [] } : {}),
         ...(has("goal") ? { runway_goal: runwayGoal } : {}),
+        ...(aiConsent && !data.profile.ai_consent_at ? { ai_consent_at: new Date().toISOString() } : {}),
         ...(has("security") ? { checkin_interval: checkin, ...(checkin !== "daily" && checkinDays ? { checkin_days: checkinDays } : {}) } : {}),
         onboarding: { route: route === "quick" && !resume ? "quick" : "complete", steps: done },
       });
@@ -694,11 +757,11 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         const by = new Date(now.getFullYear(), now.getMonth() + goal.months, 1);
         await saveGoal({ kind: "save", name: goal.name.trim() || t("Savings goal"), target: num(goal.amount).toFixed(2), start_value: totals.cash.toFixed(2), target_date: `${by.getFullYear()}-${String(by.getMonth() + 1).padStart(2, "0")}-01`, category_id: null, achieved_at: null, sort_order: 0 });
       }
-      if (has("balance")) {
+      if ((has("housing") && housing === "own") || (has("balance") && !has("housing"))) {
         if (mortParts.length) {
           // With details: the home and its loan parts go to Real estate (the
           // balance sheet reads them from there, the debt going down by itself).
-          const property_id = await saveProperty({ name: t("Home"), value: num(home.value).toFixed(2), value_date: today, purchase_price: null, purchase_date: null, country: "INTL", sort_order: 0 });
+          const property_id = await saveProperty({ name: t("Home"), value: num(home.value).toFixed(2), value_date: today, purchase_price: null, purchase_date: null, country: countryOf(data.profile) === "NL" ? "NL" : "INTL", sort_order: 0 });
           for (const [i, p] of mortParts.entries()) {
             const kind = MORT_KINDS.find((k) => k.kind === p.kind)!;
             await saveMortgagePart({ property_id, name: mortParts.length > 1 ? `${t(kind.label)} ${i + 1}` : t("Mortgage"), kind: p.kind, principal: num(p.amount).toFixed(2), rate: num(p.rate).toFixed(3), fixed_until: null, start_date: today.slice(0, 8) + "01", term_months: Math.round(num(p.years) * 12), nhg: false, extra_monthly: num(p.extra).toFixed(2), sort_order: i });
@@ -707,6 +770,8 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
           if (num(home.value)) await addBalanceItem({ name: t("Home"), side: "asset", value: num(home.value) });
           if (num(home.mortgage)) await addBalanceItem({ name: t("Mortgage"), side: "liability", value: num(home.mortgage) });
         }
+      }
+      if (has("balance")) {
         for (const [i, l] of loans.filter((l) => num(l.amount) > 0).entries()) {
           await saveLoan({ kind: l.kind, name: l.name.trim() || t(LOAN_STYLE[l.kind].label), balance: num(l.amount).toFixed(2), rate: num(l.rate).toFixed(2), monthly: num(l.monthly).toFixed(2), start_date: today, sort_order: i });
         }
@@ -914,6 +979,97 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
               </Screen>
             )}
 
+            {step === "housing" && (
+              <Screen title={t("Do you rent or own your home?")} hint={t("Your housing costs are often the biggest fixed cost. Fill in what you know — the details can wait.")}>
+                <div className="pf-ob-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))" }}>
+                  {[
+                    { v: "rent" as const, t: t("I rent"), d: t("Rent goes to your fixed costs") },
+                    { v: "own" as const, t: t("I own my home"), d: t("With or without a mortgage") },
+                  ].map((o) => (
+                    <button key={o.v} className="pf-ob-choice" aria-pressed={housing === o.v} onClick={() => setHousing(o.v)}>
+                      <span><b>{o.t}</b><small>{o.d}</small></span>
+                    </button>
+                  ))}
+                </div>
+                {housing === "rent" && rentLine && (
+                  <div className="pf-ob-list">
+                    <div className="pf-ob-line" data-on>
+                      <CategoryIcon icon={rentLine.icon} colorHex={rentLine.color} size={30} />
+                      <span className="pf-ob-name">{t("Rent per month")}</span>
+                      <DayField value={rentLine.day} onChange={(day) => setFixed(fixed.map((f) => (f.key === "rent" ? { ...f, day } : f)))} />
+                      <AmountField autoFocus currency={currency} value={rentLine.amount} label={t("Rent per month")} onChange={(v) => setLineAmount("rent", v)} />
+                    </div>
+                  </div>
+                )}
+                {housing === "own" && (
+                  <>
+                    <div className="pf-ob-list">
+                  <Labeled label={t("Home value (WOZ or estimate)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
+                  {!home.details && mortLine && <Labeled label={t("Mortgage payment per month")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={mortLine.amount} onChange={(e) => setLineAmount("mortgage", e.target.value)} /></Labeled>}
+                  <Labeled label={t("Mortgage remaining")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} disabled={!!home.details} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
+                  <button type="button" className="pf-ob-more" aria-expanded={!!home.details} onClick={() => setHome({ ...home, details: !home.details, parts: home.parts?.length ? home.parts : [newMortPart(home.mortgage)] })}>
+                    <Layers size={15} />
+                    <span>{t("Mortgage details")}<small>{t("Optional — rate, years to go, annuity or linear")}</small></span>
+                    <ArrowRight size={14} className="pf-ob-more-arrow" />
+                  </button>
+                  {home.details && (
+                    <div className="pf-ob-mort">
+                      {(home.parts ?? []).map((p, k, all) => {
+                        const set = (patch: Partial<MortPart>) => setMortParts(all.map((x, j) => (j === k ? { ...x, ...patch } : x)));
+                        return (
+                          <div key={p.key} className="pf-ob-mortpart">
+                            <div className="pf-ob-chips" role="group" aria-label={t("Kind")}>
+                              {MORT_KINDS.map((m) => (
+                                <button key={m.kind} type="button" aria-pressed={p.kind === m.kind} style={{ ["--c" as string]: "#0a84ff" }} onClick={() => set({ kind: m.kind })}>{t(m.label)}</button>
+                              ))}
+                              {all.length > 1 && <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setMortParts(all.filter((_, j) => j !== k))}><X size={13} /></button>}
+                            </div>
+                            <div className="pf-ob-loanterms pf-ob-mortterms">
+                              <label>{t("Left on this part")}<input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={p.amount} onChange={(e) => set({ amount: e.target.value })} /></label>
+                              <label>{t("Interest rate (%)")}<input className="pf-input" inputMode="decimal" placeholder="3,8" value={p.rate} onChange={(e) => set({ rate: e.target.value })} /></label>
+                              <label>{t("Years to go")}<input className="pf-input" inputMode="decimal" placeholder="25" value={p.years} onChange={(e) => set({ years: e.target.value })} /></label>
+                              <label>{t("Extra repayment a month")}<input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={p.extra} onChange={(e) => set({ extra: e.target.value })} /></label>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <button type="button" className="pf-bal-add" onClick={() => setMortParts([...(home.parts ?? []), newMortPart()])}>
+                        <Plus size={13} /> {t("Add a loan part")}
+                      </button>
+                      {mortPay > 0 && (
+                        <div className="pf-ob-mortsum">
+                          <div><span>{t("This month")}</span><b className="pf-rounded">{money(mortPay, currency)}</b></div>
+                          <div className="pf-ob-mortbar" aria-hidden>
+                            <i style={{ flexGrow: mort.interest, background: "var(--pf-red)" }} />
+                            <i style={{ flexGrow: mort.repayment, background: "var(--pf-green)" }} />
+                          </div>
+                          <div className="pf-ob-mortkey">
+                            <span><i style={{ background: "var(--pf-red)" }} /> {t("Interest")} {money(mort.interest, currency)}</span>
+                            <span><i style={{ background: "var(--pf-green)" }} /> {t("Repayment")} {money(mort.repayment, currency)}</span>
+                          </div>
+                          {mort.end && <small>{t("Mortgage-free in {month} · {interest} interest still to pay", { month: monthYear(mort.end), interest: money(mort.totalInterest, currency) })}</small>}
+                          <small>{t("Only the interest is a cost: the repayment moves money from your account into your home, so your equity grows by it every month.")}</small>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+                    <label className="pf-ob-more pf-ob-ai" data-busy={reading?.kind === "mortgage" || undefined}>
+                      <Sparkles size={15} />
+                      {reading?.kind === "mortgage" ? (
+                        <span style={{ flex: 1 }}><ReadingProgress expect={reading.expect} landed={reading.landed} /></span>
+                      ) : (
+                        <span>{t("Let AI fill it in from your mortgage papers")}<small>{t("A PDF or photo of your offer or annual statement. Sent once to Claude to read, never kept.")}</small></span>
+                      )}
+                      <input type="file" accept={ACCEPT} hidden disabled={!!reading} onChange={(e) => { const f = e.target.files; if (f) void readDoc("mortgage", f); e.target.value = ""; }} />
+                    </label>
+                    {readError?.kind === "mortgage" && <p style={{ color: "var(--pf-red)", fontSize: "0.85rem" }}>{readError.text}</p>}
+                  </>
+                )}
+                <span className="pf-unlock-hint">{t("Not at hand? Skip it — no problem. You can fill it in later under Real estate.")}</span>
+              </Screen>
+            )}
+
             {step === "accounts" && (
               <Screen title={t("What's in your accounts today?")} hint={t("Your starting point. From here every month adds what you saved.")}>
                 <div className="pf-ob-list">
@@ -1043,57 +1199,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             )}
 
             {step === "balance" && (
-              <Screen title={t("Your home and debts")} hint={t("Optional — it goes on your balance sheet. Mortgage details can be added under Real estate.")}>
-                <div className="pf-ob-list">
-                  <Labeled label={t("Home value (WOZ or estimate)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
-                  <Labeled label={t("Mortgage remaining")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} disabled={!!home.details} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
-                  <button type="button" className="pf-ob-more" aria-expanded={!!home.details} onClick={() => setHome({ ...home, details: !home.details, parts: home.parts?.length ? home.parts : [newMortPart(home.mortgage)] })}>
-                    <Layers size={15} />
-                    <span>{t("Mortgage details")}<small>{t("Optional — rate, years to go, annuity or linear")}</small></span>
-                    <ArrowRight size={14} className="pf-ob-more-arrow" />
-                  </button>
-                  {home.details && (
-                    <div className="pf-ob-mort">
-                      {(home.parts ?? []).map((p, k, all) => {
-                        const set = (patch: Partial<MortPart>) => setMortParts(all.map((x, j) => (j === k ? { ...x, ...patch } : x)));
-                        return (
-                          <div key={p.key} className="pf-ob-mortpart">
-                            <div className="pf-ob-chips" role="group" aria-label={t("Kind")}>
-                              {MORT_KINDS.map((m) => (
-                                <button key={m.kind} type="button" aria-pressed={p.kind === m.kind} style={{ ["--c" as string]: "#0a84ff" }} onClick={() => set({ kind: m.kind })}>{t(m.label)}</button>
-                              ))}
-                              {all.length > 1 && <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setMortParts(all.filter((_, j) => j !== k))}><X size={13} /></button>}
-                            </div>
-                            <div className="pf-ob-loanterms pf-ob-mortterms">
-                              <label>{t("Left on this part")}<input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={p.amount} onChange={(e) => set({ amount: e.target.value })} /></label>
-                              <label>{t("Interest rate (%)")}<input className="pf-input" inputMode="decimal" placeholder="3,8" value={p.rate} onChange={(e) => set({ rate: e.target.value })} /></label>
-                              <label>{t("Years to go")}<input className="pf-input" inputMode="decimal" placeholder="25" value={p.years} onChange={(e) => set({ years: e.target.value })} /></label>
-                              <label>{t("Extra repayment a month")}<input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={p.extra} onChange={(e) => set({ extra: e.target.value })} /></label>
-                            </div>
-                          </div>
-                        );
-                      })}
-                      <button type="button" className="pf-bal-add" onClick={() => setMortParts([...(home.parts ?? []), newMortPart()])}>
-                        <Plus size={13} /> {t("Add a loan part")}
-                      </button>
-                      {mortPay > 0 && (
-                        <div className="pf-ob-mortsum">
-                          <div><span>{t("This month")}</span><b className="pf-rounded">{money(mortPay, currency)}</b></div>
-                          <div className="pf-ob-mortbar" aria-hidden>
-                            <i style={{ flexGrow: mort.interest, background: "var(--pf-red)" }} />
-                            <i style={{ flexGrow: mort.repayment, background: "var(--pf-green)" }} />
-                          </div>
-                          <div className="pf-ob-mortkey">
-                            <span><i style={{ background: "var(--pf-red)" }} /> {t("Interest")} {money(mort.interest, currency)}</span>
-                            <span><i style={{ background: "var(--pf-green)" }} /> {t("Repayment")} {money(mort.repayment, currency)}</span>
-                          </div>
-                          {mort.end && <small>{t("Mortgage-free in {month} · {interest} interest still to pay", { month: monthYear(mort.end), interest: money(mort.totalInterest, currency) })}</small>}
-                          <small>{t("Only the interest is a cost: the repayment moves money from your account into your home, so your equity grows by it every month.")}</small>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
+              <Screen title={t("Your other debts")} hint={t("Optional — a student loan, car loan or credit card. It goes on your balance sheet.")}>
                 <div className="pf-ob-list">
                   <span className="pf-ob-sublabel">{t("Other loans")}</span>
                   {loans.map((l, i) => {
@@ -1227,6 +1333,30 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                     </button>
                   ))}
                 </div>
+              </Screen>
+            )}
+
+            {step === "statement" && (
+              <Screen title={t("Let AI read your bank statement")} hint={t("Drop a PDF statement or screenshots of your bank app. The AI lists what came in and went out, with a category for each — you check the list as soon as your books are open.")}>
+                {statementRows !== undefined && !reading ? (
+                  <p className="pf-sub-on"><Check size={16} /> {t("{n} transactions read. You'll check them on your dashboard right after this.", { n: statementRows })}</p>
+                ) : (
+                  <label className="pf-ai-drop" data-busy={reading?.kind === "bank" || undefined} onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); if (!reading) void readDoc("bank", e.dataTransfer.files); }}>
+                    {reading?.kind === "bank" ? (
+                      <ReadingProgress expect={reading.expect} landed={reading.landed} />
+                    ) : (
+                      <>
+                        <FileText size={28} />
+                        <b>{t("Choose your statement")}</b>
+                        <span>{t("Up to 8 screenshots of your bank app, or a PDF statement.")}</span>
+                      </>
+                    )}
+                    <input type="file" accept={ACCEPT} multiple hidden disabled={!!reading} onChange={(e) => { const f = e.target.files; if (f) void readDoc("bank", f); e.target.value = ""; }} />
+                  </label>
+                )}
+                {readError?.kind === "bank" && <p style={{ color: "var(--pf-red)", fontSize: "0.85rem" }}>{readError.text}</p>}
+                <span className="pf-unlock-hint">{t("The file is sent once to Claude, the AI of Anthropic, only to read it: it's never kept or used for training. Nothing is added until you've checked it.")}</span>
+                <span className="pf-unlock-hint">{t("Rather later? Skip it — no problem. It's always there under Expenses › Read with AI.")}</span>
               </Screen>
             )}
 
@@ -1449,7 +1579,7 @@ function Preview({
         <span>{t("In your accounts")}</span>
         <b className="pf-rounded">{money(cash, currency)}</b>
       </div>
-      <div className="pf-ob-stat pf-ob-stat-big" data-lit={lit(["investments", "balance", "done"])}>
+      <div className="pf-ob-stat pf-ob-stat-big" data-lit={lit(["investments", "housing", "balance", "done"])}>
         <span>{t("Equity")}</span>
         {live ? <LiveAmount value={equityLive} currency={currency} size="1.25rem" color="#40c8e0" /> : <b className="pf-rounded" style={{ color: "#40c8e0" }}>{money(eq, currency)}</b>}
       </div>
