@@ -503,7 +503,8 @@
 <script>
   // Exact screen corners in the photos (2400 x 1350), measured from the images
   // (top-left, top-right, bottom-right, bottom-left). The iPad on the stand
-  // leans a little: its right side is nearer, so that one is a true quad.
+  // leans a little: its right side is nearer, so that one is a true quad;
+  // so do the iPad and the phone in the trio (bottom edges tilt).
   var IMG = { w: 2400, h: 1350 };
   var rect = function (L, T, R, B) { return [[L, T], [R, T], [R, B], [L, B]]; };
   var LAPTOP = rect(592.9, 174.7, 1808.8, 979.4), IPAD = rect(563.8, 219.7, 1840.6, 1122.4), STAND = [[711.6, 260.6], [1700.2, 256.9], [1708.4, 982.2], [706.1, 975.9]], PHONE = rect(969.7, 142.1, 1435.6, 1198.2);
@@ -535,9 +536,9 @@
     PF.onto(standScreen, standStage, IMG, STAND, phoneFit(standStage, STAND)); round(standScreen, 1400, 0.024);
     PF.onto(document.getElementById('obScreen'), obStage, IMG, LAPTOP, phoneFit(obStage, LAPTOP)); round(document.getElementById('obScreen'), 1440, 0.012, true);
     var trio = document.getElementById('trioStage');
-    PF.onto(document.getElementById('devIpad'), trio, IMG, rect(179.1, 553.2, 882.4, 1032.4)); round(document.getElementById('devIpad'), 1440, 0.024);
+    PF.onto(document.getElementById('devIpad'), trio, IMG, [[180.0, 552.7], [883.2, 553.6], [894.9, 1024.7], [165.9, 1044.5]]); round(document.getElementById('devIpad'), 1440, 0.024);
     PF.onto(document.getElementById('devLaptop'), trio, IMG, rect(1011.2, 451.8, 1845.9, 983.8)); round(document.getElementById('devLaptop'), 1440, 0.012, true);
-    PF.onto(document.getElementById('devPhone'), trio, IMG, rect(2029.4, 628.2, 2232.4, 1056.2)); round(document.getElementById('devPhone'), 390, 0.13);
+    PF.onto(document.getElementById('devPhone'), trio, IMG, [[2032.1, 628.3], [2233.0, 630.2], [2233.0, 1059.1], [2023.9, 1049.6]]); round(document.getElementById('devPhone'), 390, 0.13);
     var phoneScreen = document.getElementById('phoneScreen');
     PF.onto(phoneScreen, phoneSec, IMG, PHONE); round(phoneScreen, 390, 0.125);
   }
