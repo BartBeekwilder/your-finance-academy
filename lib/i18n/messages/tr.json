@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "Yaşadığın yer. Sağlık sigortası ve konut kredisi vergisi gibi ülkeye göre değişen kurallar buna göre belirlenir — uygulamanın dili değil.",
  "Automatic ({country})": "Otomatik ({country})",
  "Basic health insurance is required by law where you live ({country})": "Yaşadığın yerde ({country}) temel sağlık sigortası yasal olarak zorunludur",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "Yaşadığın yerde ({country}) kamu sağlık sistemi seni kapsar; özel sigorta yalnızca ek koruma sağlar"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "Yaşadığın yerde ({country}) kamu sağlık sistemi seni kapsar; özel sigorta yalnızca ek koruma sağlar",
+ "{n} more": "{n} tane daha",
+ "A forecast: the rest of the month at the expected pace.": "Bir tahmin: ayın geri kalanı beklenen hızda.",
+ "At the end of the day": "Gün sonunda",
+ "Back to now": "Şimdiye dön",
+ "Booked this day": "Bu gün kaydedilenler",
+ "Click a day for its details.": "Ayrıntılar için bir güne tıkla.",
+ "Expected at the end of the day": "Gün sonunda beklenen",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Gelir ve sabit giderler aya eşit dağılır; harcamaların kendi gününde sayılır.",
+ "Nothing booked this day.": "Bu gün kayıt yok."
 }

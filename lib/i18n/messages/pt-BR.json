@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "Onde você mora. Regras que mudam de país para país seguem isso, como plano de saúde e impostos do financiamento — não o idioma do app.",
  "Automatic ({country})": "Automático ({country})",
  "Basic health insurance is required by law where you live ({country})": "O seguro de saúde básico é obrigatório por lei onde você mora ({country})",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "Onde você mora ({country}), a saúde pública cobre você; um plano privado apenas complementa"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "Onde você mora ({country}), a saúde pública cobre você; um plano privado apenas complementa",
+ "{n} more": "mais {n}",
+ "A forecast: the rest of the month at the expected pace.": "Uma previsão: o resto do mês no ritmo esperado.",
+ "At the end of the day": "No fim do dia",
+ "Back to now": "Voltar para agora",
+ "Booked this day": "Lançado neste dia",
+ "Click a day for its details.": "Clique em um dia para ver os detalhes.",
+ "Expected at the end of the day": "Previsto no fim do dia",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Renda e custos fixos contam de forma igual ao longo do mês; o que você gasta conta no próprio dia.",
+ "Nothing booked this day.": "Nada lançado neste dia."
 }

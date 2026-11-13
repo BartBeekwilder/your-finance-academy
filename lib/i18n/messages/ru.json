@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "Где ты живёшь. От этого зависят правила, которые различаются по странам, например медицинская страховка и налоги по ипотеке, а не от языка приложения.",
  "Automatic ({country})": "Автоматически ({country})",
  "Basic health insurance is required by law where you live ({country})": "Там, где ты живёшь ({country}), базовое медицинское страхование обязательно по закону",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "Там, где ты живёшь ({country}), тебя покрывает государственная медицина; частная страховка лишь дополняет её"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "Там, где ты живёшь ({country}), тебя покрывает государственная медицина; частная страховка лишь дополняет её",
+ "{n} more": "ещё {n}",
+ "A forecast: the rest of the month at the expected pace.": "Прогноз: остаток месяца в ожидаемом темпе.",
+ "At the end of the day": "На конец дня",
+ "Back to now": "Вернуться к сейчас",
+ "Booked this day": "Учтено в этот день",
+ "Click a day for its details.": "Нажми на день, чтобы увидеть подробности.",
+ "Expected at the end of the day": "Ожидается на конец дня",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Доход и постоянные расходы распределяются равномерно по месяцу; траты учитываются в свой день.",
+ "Nothing booked this day.": "В этот день ничего не учтено."
 }

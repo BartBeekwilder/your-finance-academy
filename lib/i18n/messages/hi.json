@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "आप कहाँ रहते हैं। देश के अनुसार बदलने वाले नियम, जैसे स्वास्थ्य बीमा और होम लोन टैक्स, इसी के अनुसार चलते हैं — ऐप की भाषा के अनुसार नहीं।",
  "Automatic ({country})": "स्वचालित ({country})",
  "Basic health insurance is required by law where you live ({country})": "जहाँ आप रहते हैं ({country}), वहाँ बुनियादी स्वास्थ्य बीमा कानूनन अनिवार्य है",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "जहाँ आप रहते हैं ({country}), वहाँ सार्वजनिक स्वास्थ्य सेवा आपको कवर करती है; निजी बीमा केवल अतिरिक्त है"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "जहाँ आप रहते हैं ({country}), वहाँ सार्वजनिक स्वास्थ्य सेवा आपको कवर करती है; निजी बीमा केवल अतिरिक्त है",
+ "{n} more": "{n} और",
+ "A forecast: the rest of the month at the expected pace.": "एक अनुमान: महीने का बाकी हिस्सा अपेक्षित गति से।",
+ "At the end of the day": "दिन के अंत में",
+ "Back to now": "अभी पर लौटें",
+ "Booked this day": "इस दिन दर्ज",
+ "Click a day for its details.": "विवरण के लिए किसी दिन पर क्लिक करें।",
+ "Expected at the end of the day": "दिन के अंत में अपेक्षित",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "आय और निश्चित खर्च पूरे महीने में बराबर गिने जाते हैं; आपका खर्च उसी दिन गिना जाता है।",
+ "Nothing booked this day.": "इस दिन कुछ दर्ज नहीं।"
 }

@@ -1878,5 +1878,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "Waar je woont. Regels die per land verschillen volgen dit, zoals zorgverzekering en hypotheekaftrek — niet de taal waarin je de app leest.",
  "Automatic ({country})": "Automatisch ({country})",
  "Basic health insurance is required by law where you live ({country})": "Een basiszorgverzekering is wettelijk verplicht waar je woont ({country})",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "Waar je woont ({country}) dekt de publieke zorg je; een private verzekering is alleen een aanvulling"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "Waar je woont ({country}) dekt de publieke zorg je; een private verzekering is alleen een aanvulling",
+ "{n} more": "nog {n}",
+ "A forecast: the rest of the month at the expected pace.": "Een prognose: de rest van de maand in het verwachte tempo.",
+ "At the end of the day": "Aan het eind van de dag",
+ "Back to now": "Terug naar nu",
+ "Booked this day": "Geboekt op deze dag",
+ "Click a day for its details.": "Klik op een dag voor de details.",
+ "Expected at the end of the day": "Verwacht aan het eind van de dag",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Inkomen en vaste lasten tellen gelijk verdeeld over de maand; wat je uitgeeft telt op de dag zelf.",
+ "Nothing booked this day.": "Niets geboekt op deze dag."
 }

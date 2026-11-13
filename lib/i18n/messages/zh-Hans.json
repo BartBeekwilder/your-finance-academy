@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "你居住的地方。因国家而异的规则（如医疗保险和房贷税务）以此为准，而不是应用的语言。",
  "Automatic ({country})": "自动（{country}）",
  "Basic health insurance is required by law where you live ({country})": "在你居住的地方（{country}），基本医疗保险是法定强制的",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "在你居住的地方（{country}），公共医疗为你提供保障；私人保险只是补充"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "在你居住的地方（{country}），公共医疗为你提供保障；私人保险只是补充",
+ "{n} more": "还有 {n} 项",
+ "A forecast: the rest of the month at the expected pace.": "预测：本月剩余时间按预期节奏计算。",
+ "At the end of the day": "当天结束时",
+ "Back to now": "回到现在",
+ "Booked this day": "当天记录",
+ "Click a day for its details.": "点击某一天查看详情。",
+ "Expected at the end of the day": "预计当天结束时",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "收入和固定支出在整个月平均计算；你的消费计入当天。",
+ "Nothing booked this day.": "当天没有记录。"
 }

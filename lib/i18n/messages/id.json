@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "Tempat kamu tinggal. Aturan yang berbeda per negara mengikuti ini, seperti asuransi kesehatan dan pajak KPR — bukan bahasa aplikasi.",
  "Automatic ({country})": "Otomatis ({country})",
  "Basic health insurance is required by law where you live ({country})": "Asuransi kesehatan dasar wajib menurut hukum di tempat kamu tinggal ({country})",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "Di tempat kamu tinggal ({country}), layanan kesehatan publik menanggungmu; asuransi swasta hanya pelengkap"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "Di tempat kamu tinggal ({country}), layanan kesehatan publik menanggungmu; asuransi swasta hanya pelengkap",
+ "{n} more": "{n} lagi",
+ "A forecast: the rest of the month at the expected pace.": "Perkiraan: sisa bulan dengan laju yang diharapkan.",
+ "At the end of the day": "Di akhir hari",
+ "Back to now": "Kembali ke sekarang",
+ "Booked this day": "Tercatat hari ini",
+ "Click a day for its details.": "Klik sebuah hari untuk detailnya.",
+ "Expected at the end of the day": "Perkiraan di akhir hari",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Pendapatan dan biaya tetap dihitung merata sepanjang bulan; pengeluaranmu dihitung pada harinya.",
+ "Nothing booked this day.": "Tidak ada yang tercatat hari ini."
 }

@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "المكان الذي تعيش فيه. القواعد التي تختلف من بلد لآخر تتبعه، مثل التأمين الصحي وضرائب الرهن العقاري، وليس لغة التطبيق.",
  "Automatic ({country})": "تلقائي ({country})",
  "Basic health insurance is required by law where you live ({country})": "التأمين الصحي الأساسي إلزامي بموجب القانون حيث تعيش ({country})",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "حيث تعيش ({country}) تغطيك الرعاية الصحية العامة؛ التأمين الخاص مجرد إضافة"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "حيث تعيش ({country}) تغطيك الرعاية الصحية العامة؛ التأمين الخاص مجرد إضافة",
+ "{n} more": "{n} أخرى",
+ "A forecast: the rest of the month at the expected pace.": "توقّع: بقية الشهر بالوتيرة المتوقعة.",
+ "At the end of the day": "في نهاية اليوم",
+ "Back to now": "العودة إلى الآن",
+ "Booked this day": "المسجّل في هذا اليوم",
+ "Click a day for its details.": "انقر على يوم لعرض التفاصيل.",
+ "Expected at the end of the day": "المتوقع في نهاية اليوم",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "يُوزَّع الدخل والتكاليف الثابتة بالتساوي على الشهر؛ وما تنفقه يُحتسب في يومه.",
+ "Nothing booked this day.": "لا شيء مسجّل في هذا اليوم."
 }

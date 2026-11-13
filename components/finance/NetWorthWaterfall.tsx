@@ -2,10 +2,10 @@
 
 import { intlLocale, t } from "@/lib/i18n";
 import { useShowAxes } from "@/lib/prefs";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { live, netWorthFigures, num, spendByCategory, summarize, yearForecast } from "@/lib/finance/calc";
-import { money, monthYear, shortMonth, monthName } from "@/lib/finance/format";
+import { cap, money, monthYear, shortMonth, monthName } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import CategoryIcon from "./CategoryIcon";
 import type { Mode } from "./LiveTiles";
@@ -21,10 +21,11 @@ import type { Mode } from "./LiveTiles";
 // Bars float from the level before to the level after, grow out of that
 // line one after another, and the axis is fitted to the levels (not to
 // zero), so the changes are big enough to read. Pointing at a bar says
-// what it is. In Year, clicking a month opens a panel beside the chart with
-// that month in detail (MonthPanel).
+// what it is. Beside the chart a panel shows one period in detail: this
+// month (Year) or today (Month) until another bar is clicked (MonthPanel,
+// DayPanel); clicking it again, × or Esc goes back to now.
 
-const H = 210;
+const MIN_H = 210;
 const TEAL = "#40c8e0";
 type Step = { key: string; label: string; long: string; from: number; to: number; kind: "total" | "change" | "forecast" | "end"; isNow?: boolean };
 
@@ -32,23 +33,38 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
   const showAxes = useShowAxes();
   const nw = useMemo(() => netWorthFigures(data, now), [data, now]);
   const [hover, setHover] = useState<number | null>(null);
-  // The month open in the side panel (its step index); `shownPick` keeps the
-  // last one on screen while the panel glides shut.
-  const [picked, setPicked] = useState<number | null>(null);
-  const [shownPick, setShownPick] = useState<number | null>(null);
+  // The bar shown in the side panel (its step index): the one clicked, else now.
+  // (Kept per view, so switching Month / Year starts at now again.)
+  const [pickedIn, setPickedIn] = useState<{ mode: Mode; i: number } | null>(null);
+  const picked = pickedIn?.mode === mode ? pickedIn.i : null;
+  const setPicked = (f: number | null | ((p: number | null) => number | null)) => {
+    const i = typeof f === "function" ? f(picked) : f;
+    setPickedIn(i === null ? null : { mode, i });
+  };
   const steps = mode === "year" ? yearSteps(nw, now) : daySteps(nw, data, now);
-  const open = mode === "year" && picked !== null;
+  const nowIdx = Math.max(steps.findIndex((s) => s.isNow), 1);
+  const sel = picked !== null && picked < steps.length - 1 ? picked : nowIdx;
   const pick = (i: number) => {
-    if (mode !== "year" || steps[i].kind === "total" || steps[i].kind === "end") return;
-    setPicked((p) => (p === i ? null : i));
-    setShownPick(i);
+    if (steps[i].kind === "total" || steps[i].kind === "end") return;
+    setPicked((p) => (p === i || i === nowIdx ? null : i));
   };
   useEffect(() => {
-    if (!open) return;
-    const esc = (e: KeyboardEvent) => e.key === "Escape" && setPicked(null);
+    if (picked === null) return;
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && setPickedIn(null);
     window.addEventListener("keydown", esc);
     return () => window.removeEventListener("keydown", esc);
-  }, [open]);
+  }, [picked]);
+  // The chart is as tall as the panel beside it (wide screens).
+  const side = useRef<HTMLElement>(null);
+  const [sideH, setSideH] = useState(0);
+  useEffect(() => {
+    const el = side.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setSideH(window.matchMedia("(max-width: 860px)").matches ? 0 : el.offsetHeight));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const H = Math.max(MIN_H, sideH - 24);
 
   const levels = steps.flatMap((s) => [s.from, s.to]);
   const lo0 = Math.min(...levels), hi0 = Math.max(...levels);
@@ -85,7 +101,7 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
         </span>
       </div>
 
-      <div className="pf-wf-layout" data-open={open || undefined}>
+      <div className="pf-wf-layout" data-open>
       <div style={{ display: "grid", gridTemplateColumns: showAxes ? "auto 1fr" : "1fr", gap: 8, minWidth: 0 }}>
         {showAxes && (
 <div style={{ position: "relative", height: H, fontSize: "0.6rem", color: "var(--pf-ink-3)", textAlign: "right" }}>
@@ -109,13 +125,13 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
                 <div
                   key={s.key}
                   className="pf-wf-slot"
-                  data-lit={hover === i || (open && picked === i)}
-                  data-pick={mode === "year" && !total ? true : undefined}
-                  data-dim={open && picked !== i ? true : undefined}
-                  role={mode === "year" && !total ? "button" : undefined}
-                  tabIndex={mode === "year" && !total ? 0 : undefined}
-                  aria-label={mode === "year" && !total ? t("Details for {month}", { month: monthYear(new Date(now.getFullYear(), i - 1, 1)) }) : undefined}
-                  aria-pressed={mode === "year" && !total ? picked === i : undefined}
+                  data-lit={hover === i || sel === i}
+                  data-pick={!total ? true : undefined}
+                  data-dim={!total && sel !== i ? true : undefined}
+                  role={!total ? "button" : undefined}
+                  tabIndex={!total ? 0 : undefined}
+                  aria-label={!total ? t("Details for {month}", { month: s.long }) : undefined}
+                  aria-pressed={!total ? sel === i : undefined}
                   onMouseEnter={() => setHover(i)}
                   onClick={() => pick(i)}
                   onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), pick(i))}
@@ -139,20 +155,22 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
           </div>
           <div key={`l${mode}`} className="pf-cbar-labels pf-readout" style={mode === "month" ? { gap: "clamp(1px, 0.35vw, 4px)" } : undefined}>
             {steps.map((s, i) => (
-              <span key={s.key} data-now={!!s.isNow} data-lit={hover === i || (open && picked === i)}>
+              <span key={s.key} data-now={!!s.isNow} data-lit={hover === i || sel === i}>
                 {s.label}
               </span>
             ))}
           </div>
         </div>
       </div>
-      <aside className="pf-wf-side" aria-hidden={!open}>
-        {mode === "year" && shownPick !== null && steps[shownPick] && (
-          <MonthPanel key={shownPick} data={data} now={now} currency={currency} month={shownPick - 1} step={steps[shownPick]} prev={shownPick > 1 ? steps[shownPick - 1] : null} onClose={() => setPicked(null)} />
+      <aside className="pf-wf-side" ref={side}>
+        {mode === "year" ? (
+          <MonthPanel key={`m${sel}`} data={data} now={now} currency={currency} month={sel - 1} step={steps[sel]} prev={sel > 1 ? steps[sel - 1] : null} onClose={picked !== null ? () => setPicked(null) : undefined} />
+        ) : (
+          <DayPanel key={`d${sel}`} data={data} now={now} currency={currency} day={sel} step={steps[sel]} onClose={picked !== null ? () => setPicked(null) : undefined} />
         )}
       </aside>
       </div>
-      {mode === "year" && !open && <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{t("Click a month for its details.")}</div>}
+      <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{mode === "year" ? t("Click a month for its details.") : t("Click a day for its details.")}</div>
     </div>
   );
 }
@@ -162,7 +180,7 @@ export default function NetWorthWaterfall({ data, now, currency, mode }: { data:
  *  where the money went and the biggest expense. Finished months as
  *  entered; this month as expected, with what is booked so far; months
  *  ahead from the forecast (expected income, average spending). */
-function MonthPanel({ data, now, currency, month, step, prev, onClose }: { data: FinanceData; now: Date; currency: string; month: number; step: Step; prev: Step | null; onClose: () => void }) {
+function MonthPanel({ data, now, currency, month, step, prev, onClose }: { data: FinanceData; now: Date; currency: string; month: number; step: Step; prev: Step | null; onClose?: () => void }) {
   const year = now.getFullYear(), current = now.getMonth();
   const d = new Date(year, month, 1);
   const ahead = month > current, isNow = month === current;
@@ -190,9 +208,7 @@ function MonthPanel({ data, now, currency, month, step, prev, onClose }: { data:
           <b style={{ fontSize: "1rem" }}>{monthYear(d)}</b>
           {(ahead || isNow) && <span className="pf-wf-tag">{ahead ? t("Forecast") : t("So far")}</span>}
         </span>
-        <button type="button" className="pf-wf-close" aria-label={t("Close")} onClick={onClose}>
-          <X size={14} />
-        </button>
+        <BackToNow onClose={onClose} />
       </div>
 
       <div style={{ display: "grid", gap: 2 }}>
@@ -249,6 +265,82 @@ function MonthPanel({ data, now, currency, month, step, prev, onClose }: { data:
             day: new Date(biggest.date).toLocaleDateString(intlLocale(), { day: "numeric", month: "long" }),
           })}
         </span>
+      )}
+    </div>
+  );
+}
+
+/** Back to now (only when another bar was picked). */
+function BackToNow({ onClose }: { onClose?: () => void }) {
+  if (!onClose) return null;
+  return (
+    <button type="button" className="pf-wf-close" aria-label={t("Back to now")} title={t("Back to now")} onClick={onClose}>
+      <X size={14} />
+    </button>
+  );
+}
+
+/** One day of this month in detail: liquidity at the end of it, the change
+ *  that day and what was booked on it. Days ahead run at the expected pace. */
+function DayPanel({ data, now, currency, day, step, onClose }: { data: FinanceData; now: Date; currency: string; day: number; step: Step; onClose?: () => void }) {
+  const d = new Date(now.getFullYear(), now.getMonth(), day);
+  const today = now.getDate();
+  const ahead = day > today, isNow = day === today;
+  const change = step.to - step.from;
+  const booked = live(data.transactions)
+    .filter((x) => { const td = new Date(x.date); return td.getFullYear() === d.getFullYear() && td.getMonth() === d.getMonth() && td.getDate() === day; })
+    .sort((a, b) => num(b.amount) - num(a.amount));
+  const income = booked.filter((x) => x.type === "income").reduce((s2, x) => s2 + num(x.amount), 0);
+  const spent = booked.filter((x) => x.type === "expense").reduce((s2, x) => s2 + num(x.amount), 0);
+  const cat = (id: string | null) => data.categories.find((c) => c.id === id);
+  const color = (v: number) => (v >= 0 ? "var(--pf-green)" : "var(--pf-red)");
+
+  return (
+    <div className="pf-wf-panel">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 8, minWidth: 0 }}>
+          <b style={{ fontSize: "1rem" }}>{cap(d.toLocaleDateString(intlLocale(), { weekday: "long", day: "numeric", month: "long" }))}</b>
+          {(ahead || isNow) && <span className="pf-wf-tag">{ahead ? t("Forecast") : t("Today")}</span>}
+        </span>
+        <BackToNow onClose={onClose} />
+      </div>
+
+      <div style={{ display: "grid", gap: 2 }}>
+        <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>{ahead ? t("Expected at the end of the day") : isNow ? t("Now") : t("At the end of the day")}</span>
+        <b className="pf-rounded" style={{ fontSize: "1.5rem", color: "#40c8e0" }}>{money(step.to, currency)}</b>
+        <span className="pf-rounded" style={{ fontSize: "0.78rem", color: "var(--pf-ink-2)" }}>
+          <b style={{ color: color(change) }}>{money(change, currency, { signed: true })}</b> {t("from {amount} at the start", { amount: money(step.from, currency) })}
+        </span>
+      </div>
+
+      {ahead ? (
+        <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)", lineHeight: 1.5 }}>{t("A forecast: the rest of the month at the expected pace.")}</span>
+      ) : (
+        <>
+          <div className="pf-wf-figs" style={{ gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }}>
+            <div><span>{t("In")}</span><b className="pf-rounded" style={{ color: "var(--pf-green)" }}>{money(income, currency)}</b></div>
+            <div><span>{t("Out")}</span><b className="pf-rounded" style={{ color: "var(--pf-red)" }}>{money(spent, currency)}</b></div>
+          </div>
+          {booked.length > 0 ? (
+            <div style={{ display: "grid", gap: 8 }}>
+              <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>{t("Booked this day")}</span>
+              {booked.slice(0, 6).map((x) => {
+                const c = cat(x.category_id);
+                return (
+                  <div key={x.id} className="pf-wf-cat">
+                    {c ? <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={22} /> : <span />}
+                    <span className="pf-wf-catname">{x.note || c?.name || t("Expense")}</span>
+                    <b className="pf-rounded" style={{ color: x.type === "income" ? "var(--pf-green)" : undefined }}>{money(num(x.amount) * (x.type === "income" ? 1 : -1), currency, { signed: x.type === "income" })}</b>
+                  </div>
+                );
+              })}
+              {booked.length > 6 && <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("{n} more", { n: booked.length - 6 })}</span>}
+            </div>
+          ) : (
+            <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("Nothing booked this day.")}</span>
+          )}
+          <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-3)", lineHeight: 1.5 }}>{t("Income and fixed costs count evenly over the month; what you spend counts on its day.")}</span>
+        </>
       )}
     </div>
   );

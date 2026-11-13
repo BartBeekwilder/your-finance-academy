@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "Nơi bạn sống. Các quy định khác nhau theo quốc gia, như bảo hiểm y tế và thuế khoản vay mua nhà, sẽ theo thiết lập này chứ không theo ngôn ngữ của ứng dụng.",
  "Automatic ({country})": "Tự động ({country})",
  "Basic health insurance is required by law where you live ({country})": "Bảo hiểm y tế cơ bản là bắt buộc theo luật nơi bạn sống ({country})",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "Nơi bạn sống ({country}), y tế công bảo vệ bạn; bảo hiểm tư nhân chỉ là bổ sung"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "Nơi bạn sống ({country}), y tế công bảo vệ bạn; bảo hiểm tư nhân chỉ là bổ sung",
+ "{n} more": "thêm {n}",
+ "A forecast: the rest of the month at the expected pace.": "Dự báo: phần còn lại của tháng theo tốc độ dự kiến.",
+ "At the end of the day": "Cuối ngày",
+ "Back to now": "Quay lại hiện tại",
+ "Booked this day": "Đã ghi trong ngày",
+ "Click a day for its details.": "Nhấp vào một ngày để xem chi tiết.",
+ "Expected at the end of the day": "Dự kiến cuối ngày",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "Thu nhập và chi phí cố định được chia đều trong tháng; khoản bạn chi được tính vào đúng ngày.",
+ "Nothing booked this day.": "Không có gì được ghi trong ngày này."
 }

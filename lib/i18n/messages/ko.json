@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "거주하는 곳입니다. 건강보험이나 주택담보대출 세금처럼 나라마다 다른 규칙은 앱 언어가 아니라 이 설정을 따릅니다.",
  "Automatic ({country})": "자동 ({country})",
  "Basic health insurance is required by law where you live ({country})": "거주 국가({country})에서는 기본 건강보험 가입이 법적 의무입니다",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "거주 국가({country})에서는 공공 의료가 보장하며 민간 보험은 보완일 뿐입니다"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "거주 국가({country})에서는 공공 의료가 보장하며 민간 보험은 보완일 뿐입니다",
+ "{n} more": "{n}개 더",
+ "A forecast: the rest of the month at the expected pace.": "예측: 남은 달을 예상 속도로 계산합니다.",
+ "At the end of the day": "하루가 끝날 때",
+ "Back to now": "지금으로 돌아가기",
+ "Booked this day": "이날 기록",
+ "Click a day for its details.": "일을 클릭하면 상세 정보를 볼 수 있습니다.",
+ "Expected at the end of the day": "하루가 끝날 때 예상",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "수입과 고정비는 한 달에 고르게 나뉘고, 지출은 그날에 반영됩니다.",
+ "Nothing booked this day.": "이날 기록된 내용이 없습니다."
 }

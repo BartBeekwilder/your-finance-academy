@@ -1872,5 +1872,14 @@
  "Where you live. Rules that differ per country follow it, such as health insurance and mortgage tax — not the language you read the app in.": "お住まいの国です。健康保険や住宅ローン税制など、国によって異なるルールはアプリの言語ではなくこの設定に従います。",
  "Automatic ({country})": "自動（{country}）",
  "Basic health insurance is required by law where you live ({country})": "お住まいの国（{country}）では、基本的な健康保険への加入が法律で義務付けられています",
- "Public healthcare covers you where you live ({country}); private cover only adds to it": "お住まいの国（{country}）では公的医療制度が適用され、民間保険はその上乗せです"
+ "Public healthcare covers you where you live ({country}); private cover only adds to it": "お住まいの国（{country}）では公的医療制度が適用され、民間保険はその上乗せです",
+ "{n} more": "ほか{n}件",
+ "A forecast: the rest of the month at the expected pace.": "予測：月の残りを見込みのペースで計算しています。",
+ "At the end of the day": "その日の終わり",
+ "Back to now": "今に戻る",
+ "Booked this day": "この日の記録",
+ "Click a day for its details.": "日をクリックすると詳細が表示されます。",
+ "Expected at the end of the day": "その日の終わりの見込み",
+ "Income and fixed costs count evenly over the month; what you spend counts on its day.": "収入と固定費は月全体に均等に配分され、支出はその日に計上されます。",
+ "Nothing booked this day.": "この日の記録はありません。"
 }
