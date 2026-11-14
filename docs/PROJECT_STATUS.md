@@ -1135,9 +1135,24 @@ Gap list, in launch order (✓ = done on iOS):
    "Dit jaar" amount wraps on the Liquidity card, points pill truncated.
 4. Investments: Add investment panel (search /api/search), buy more / sell
    / edit / delete.
-5. Onboarding (quick start / complete setup, all steps incl. home, loans,
-   subscriptions, investments search, statement, finale tour) + setup
-   celebration + Finish your setup card. Opens for a new account.
+5. ✓ Onboarding (2026-11-14): Views/Onboarding/ — quick start / complete
+   setup with all 17 screens (home with mortgage details, bills split per
+   supplier with how often + day + "same bill", subscriptions, insurance,
+   loans, budgets, goal + buffer, history, check-in rhythm, passphrase when
+   signed in), journey bar, trail, live month preview (side panel on
+   iPad/Mac, three numbers on a phone), finale tour (15 story cards),
+   SetupCelebration, Finish your setup card on the dashboard. Opens by itself
+   for empty books (Onboarding.isFresh); a preview (saves nothing) otherwise.
+   profile.onboarding synced; badges setup-quick / setup-complete. Tests
+   OnboardingTests (5). Debug: -onboarding, -onboardingTest (= web "Test:
+   fill"), -onboardingStep <step>, -onboardingReveal.
+   Differences from the web, still to do: investments are entered by hand
+   (no search / live price yet — comes with 4; manual holdings now count at
+   their value, as on the web); the statement step points to on-device
+   Finance AI instead of reading here; mortgage papers aren't read with AI
+   (comes with 8); no weekday picker for the check-in (iOS has no
+   checkin_days yet). Also fixed: translations of keys with "%" but no
+   arguments showed "%%" (e.g. "Rente (%%)") in all 16 languages.
 6. Year close + Year Wrapped; check-in latest five; Liquidity detail panel
    (month / day with live breakdown); asset-mix side panel.
 7. Country rules (countries.ts: health insurance, WOZ/NHG only with NL);
