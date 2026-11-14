@@ -342,13 +342,44 @@
   @media (max-width: 900px) { .rw { grid-template-columns: minmax(0, 1fr); } .rw__text { order: 0; } }
   @media (max-width: 520px) { .rw__sum { grid-template-columns: auto auto; } .rw__sum em { display: none; } .rw__plot { height: 120px; gap: 5px; } }
   @media (prefers-reduced-motion: reduce) { .rwcard * { transition: none !important; } }
+  /* Try for free (top and bottom) and "pays for itself". */
+  .btn--trial { font-weight: 600; }
+  .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+  .ctas--center { justify-content: center; }
+  .ctas__alt { color: var(--c-ink-2); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: oklch(70% 0 0 / 0.4); font-weight: 500; }
+  .ctas__alt:hover { color: var(--c-ink); }
+  .ctas__note { font: 400 12px var(--mono); color: var(--c-muted); }
+  .pb { max-width: 1440px; margin: 0 auto; padding: clamp(70px, 12vh, 140px) var(--g); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+  .pb__eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 500 12px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #4ade80; padding: 6px 12px; border-radius: 999px; background: oklch(35% 0.08 150 / 0.35); box-shadow: inset 0 0 0 1px oklch(70% 0.14 150 / 0.45); }
+  .pb h2 { margin: 18px 0 16px; font: 700 clamp(34px, 4vw, 62px)/1.02 var(--f); letter-spacing: -0.035em; text-wrap: balance; }
+  .pb__lead { margin: 0; max-width: 52ch; color: var(--c-ink-2); font-size: 18px; }
+  .pbcard { display: grid; gap: 14px; padding: clamp(22px, 3vw, 34px); border-radius: 22px; background: linear-gradient(160deg, oklch(30% 0.06 150 / 0.55), oklch(16% 0.02 150 / 0.85)); box-shadow: inset 0 0 0 1px oklch(70% 0.1 150 / 0.25), 0 30px 80px -30px oklch(0% 0 0 / 0.8); }
+  .pb__row { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: baseline; }
+  .pb__row span { color: var(--c-ink-2); font-size: 15px; }
+  .pb__row b { font: 700 20px var(--f); color: #4ade80; font-variant-numeric: tabular-nums; }
+  .pb__row--cost b { color: var(--c-ink); }
+  .pb__row i { grid-column: 1 / -1; height: 8px; border-radius: 999px; background: oklch(100% 0 0 / 0.08); position: relative; overflow: hidden; }
+  .pb__row i::before { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w); border-radius: inherit; background: linear-gradient(90deg, #22c55e, #4ade80); transition: width 900ms cubic-bezier(.22, 1, .36, 1) calc(var(--d, 0) * 140ms + 150ms); }
+  .pb__row--cost i::before { background: oklch(85% 0 0 / 0.7); }
+  .pbcard:not(.shown) .pb__row i::before { width: 0; }
+  .pb__sum { display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px solid oklch(100% 0 0 / 0.12); }
+  .pb__sum span { font-weight: 600; }
+  .pb__sum b { font: 700 clamp(34px, 4vw, 48px)/1 var(--f); color: #4ade80; letter-spacing: -0.03em; }
+  .pb__times { justify-self: start; font: 600 13px var(--mono); color: #052e16; background: #4ade80; padding: 6px 12px; border-radius: 999px; }
+  .pb__note { color: var(--c-muted); font-size: 12px; }
+  .pb__row[hidden], .pb__times[hidden] { display: none; }
+  .final { padding: clamp(60px, 10vh, 120px) var(--g); text-align: center; display: grid; justify-items: center; gap: 14px; border-block-start: 1px solid var(--c-rule); }
+  .final h2 { margin: 0; font: 700 clamp(32px, 4vw, 56px)/1.05 var(--f); letter-spacing: -0.035em; }
+  .final p { margin: 0 0 10px; font: 400 13px var(--mono); color: var(--c-muted); }
+  @media (max-width: 900px) { .pb { grid-template-columns: 1fr; } .navdemo { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .pb__row i::before { transition: none; } }
 </style>
 </head>
 <body>
 <header class="status">
   <a class="brand" href="/" translate="no"><b>Personal Finance</b><small>by YourFinanceAcademy.com</small></a>
   <span class="state"><span class="dot"></span><span id="clock">live</span></span>
-  <nav aria-label="Hoofdmenu"><select id="langSel" class="langsel" aria-label="Taal / Language"></select><a href="#functies">Functies</a><a href="/app">Inloggen</a><a class="btn" href="/app?demo=1">Bekijk de live demo</a></nav>
+  <nav aria-label="Hoofdmenu"><select id="langSel" class="langsel" aria-label="Taal / Language"></select><a href="#functies">Functies</a><a href="/app?demo=1" class="navdemo">Live demo</a><a href="/app">Inloggen</a><a class="btn btn--trial" href="/app?trial=1">Probeer nu gratis!</a></nav>
 </header>
 
 <main>
@@ -361,7 +392,8 @@
     <div class="hero__col">
       <h1 id="h1">Je hele financiële leven, live.</h1>
       <p class="hero__sub">Je <span class="chip" style="--c:#30d158">loon <b id="subPay">€ 0,00</b></span>, je <span class="chip" style="--c:#ffb547">beleggingen <b id="subBtc">€ 45.000</b></span> en je <span class="chip" style="--c:#5b8def">huis <b>€ 425.000</b></span> in één balans die <em>elke seconde</em> bijwerkt.</p>
-      <a class="btn btn--lg" href="/app?demo=1">Bekijk de live demo<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <div class="ctas"><a class="btn btn--lg" href="/app?trial=1">Probeer nu gratis!<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="ctas__alt" href="/app?demo=1">Bekijk de live demo</a></div>
+      <span class="ctas__note">7 dagen gratis · daarna opzeggen wanneer je wilt</span>
     <div class="console" aria-label="Live voorbeeld">
       <header><span><i class="pulse"></i>LIVE · voorbeeld</span><span id="day">dag 0</span></header>
       <div class="read">
@@ -564,6 +596,29 @@
       <span class="phone__home" aria-hidden="true"></span>
     </div>
     <div class="phone__copy"><h2>Altijd bij je.</h2><p>Dezelfde cijfers op je telefoon, je iPad en het web. Altijd bij, altijd gelijk.</p><a class="btn btn--lg" href="/app?demo=1">Bekijk de live demo<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+  </section>
+  <!-- The app pays for itself: Premium against what it helps you find. -->
+  <section class="pb" id="terugverdiend">
+    <div class="pb__text">
+      <span class="pb__eyebrow">Verdient zichzelf terug</span>
+      <h2>De app betaalt zichzelf terug.</h2>
+      <p class="pb__lead">Premium kost minder dan één vergeten abonnement. Wat de app je laat terugvinden, heb je er meestal in de eerste maand al uit.</p>
+    </div>
+    <div class="pbcard" id="pbCard">
+      <div class="pb__row pb__row--cost" id="pbCost" hidden><span>Premium per maand</span><b id="pbPrice"></b><i style="--w:0%" id="pbCostBar"></i></div>
+      <div class="pb__row" style="--d:0"><span>Een vergeten abonnement opgezegd</span><b>€ 13</b><i style="--w:18%"></i></div>
+      <div class="pb__row" style="--d:1"><span>Je verzekering vergeleken vóór de opzegdatum</span><b>€ 15</b><i style="--w:20%"></i></div>
+      <div class="pb__row" style="--d:2"><span>Je budget halverwege de maand bijgestuurd</span><b>€ 46</b><i style="--w:62%"></i></div>
+      <div class="pb__sum"><span>Bespaard per maand</span><b>€ 74</b></div>
+      <span class="pb__times" id="pbTimes" hidden></span>
+      <small class="pb__note">Voorbeeld: wat mensen vaak terugvinden. Jouw bedragen zie je in je eigen dashboard.</small>
+    </div>
+  </section>
+
+  <section class="final" id="probeer">
+    <h2>Klaar om het zelf te zien?</h2>
+    <p>7 dagen gratis · daarna opzeggen wanneer je wilt</p>
+    <div class="ctas ctas--center"><a class="btn btn--lg" href="/app?trial=1">Probeer nu gratis!<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="ctas__alt" href="/app?demo=1">of bekijk eerst de live demo</a></div>
   </section>
   <footer class="foot"><span translate="no">The Personal Finance Dashboard by YourFinanceAcademy.com · © 2026 Your Finance Academy (YFA)</span><a href="/privacy/web-app">Privacy</a></footer>
 </main>
@@ -838,6 +893,27 @@
       setTimeout(function () { busy = false; }, 6000);
     }
     new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) play(); }); }, { threshold: 0.45 }).observe(sheet);
+  })();
+</script>
+<script>
+  // Pays for itself: the bars grow in view; the cheapest Premium price per
+  // month (from the live prices) is set against what the examples save.
+  (function () {
+    var card = document.getElementById('pbCard');
+    if (!card) return;
+    new IntersectionObserver(function (es, o) { es.forEach(function (e) { if (e.isIntersecting) { card.classList.add('shown'); o.disconnect(); } }); }, { threshold: 0.3 }).observe(card);
+    var SAVED = 74, BIGGEST = 46;
+    fetch('/api/billing/prices').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.prices || !j.prices.length) return;
+      var per = Math.min.apply(null, j.prices.map(function (p) { return p.amount / p.months; }));
+      if (!(per > 0)) return;
+      var fmt = new Intl.NumberFormat(document.documentElement.lang || 'nl', { style: 'currency', currency: j.prices[0].currency || 'EUR' });
+      document.getElementById('pbPrice').textContent = fmt.format(per);
+      document.getElementById('pbCostBar').style.setProperty('--w', Math.min(100, (per / BIGGEST) * 62) + '%');
+      document.getElementById('pbCost').hidden = false;
+      var times = Math.floor(SAVED / per);
+      if (times >= 2 && window.PFT) { var t = document.getElementById('pbTimes'); t.textContent = window.PFT(165, { n: times }); t.hidden = false; }
+    }).catch(function () {});
   })();
 </script>
 </body>

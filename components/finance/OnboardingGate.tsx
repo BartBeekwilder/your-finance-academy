@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { live } from "@/lib/finance/calc";
-import { useFinance } from "./FinanceProvider";
+import { TRIAL_KEY, useFinance } from "./FinanceProvider";
 
 // A brand-new account goes to the setup by itself: signed in, never set up
 // (no profile.onboarding) and nothing in the books yet. Closing the setup
@@ -25,7 +25,8 @@ export default function OnboardingGate() {
   useEffect(() => {
     if (!fresh || path?.startsWith("/app/welcome")) return;
     try {
-      if (sessionStorage.getItem(SKIPPED)) return;
+      // Starting the free trial first (TrialRedirect); the setup follows after.
+      if (sessionStorage.getItem(SKIPPED) || sessionStorage.getItem(TRIAL_KEY)) return;
     } catch {}
     router.replace("/app/welcome");
   }, [fresh, path, router]);

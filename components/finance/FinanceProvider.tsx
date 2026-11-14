@@ -1,5 +1,6 @@
 "use client";
 
+import { OPEN_SIGNUP } from "./SignIn";
 import { t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
 import { dueFixedCosts } from "@/lib/finance/recurring";
@@ -114,6 +115,8 @@ export type Source = "demo" | "supabase" | "local" | "vault";
 
 const FinanceContext = createContext<FinanceState | null>(null);
 const DEMO_KEY = "pf-demo";
+/** Came from "Try it free now!": after signing in, open Premium's trial. */
+export const TRIAL_KEY = "pf-trial";
 const LOCAL_KEY = "pf-local";
 const LOCAL_API = "/api/local-data";
 // The private file's version this tab last loaded or saved (see the route).
@@ -286,6 +289,13 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       // its devices this way); nothing is saved in the demo.
       // Inside the homepage's device frames it isn't remembered: the frames
       // share the tab's sessionStorage, so "Inloggen" would open the demo too.
+      // /app?trial=1 ("Try it free now!" on the homepage): create an account,
+      // then straight to Premium's free trial (TrialRedirect) — not the demo.
+      if (new URLSearchParams(location.search).get("trial") === "1" && window.self === window.top) {
+        sessionStorage.setItem(TRIAL_KEY, "1");
+        sessionStorage.setItem(OPEN_SIGNUP, "1");
+        sessionStorage.removeItem(DEMO_KEY);
+      }
       const demoParam = new URLSearchParams(location.search).get("demo") === "1";
       const framed = window.self !== window.top;
       if (demoParam && !framed) sessionStorage.setItem(DEMO_KEY, "1");
