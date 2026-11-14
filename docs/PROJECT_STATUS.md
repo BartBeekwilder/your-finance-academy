@@ -1160,8 +1160,21 @@ Gap list, in launch order (✓ = done on iOS):
    (comes with 8); no weekday picker for the check-in (iOS has no
    checkin_days yet). Also fixed: translations of keys with "%" but no
    arguments showed "%%" (e.g. "Rente (%%)") in all 16 languages.
-6. Year close + Year Wrapped; check-in latest five; Liquidity detail panel
-   (month / day with live breakdown); asset-mix side panel.
+6. ✓ (2026-11-14) Year close + Year Wrapped: Services/YearClose.swift
+   (= yearWrapped.ts with the same tests, YearCloseTests; + yearCloseModel:
+   year as of its last second, balance sheet per month-end, tax lines,
+   mortgage interest, fixed costs vs the year before, renewals, opening
+   balances), YearWrappedView (6 cards), YearCloseView (6 steps; other years
+   show Year Wrapped only); profile.year_closes synced; Progress gets the
+   "Close {year}" banner + "{year} so far" / "Year Wrapped {year}" chips,
+   the dashboard strip a Close {year} button. Check-in: latest five expenses
+   / incomes (new since the last check-in stand out), other balances
+   corrected inside the card. Liquidity: month panel (Year) and day panel
+   with the live breakdown (Month) under the waterfall. Asset mix (Liquidity
+   and Balance): the mix at today / the month pointed at always shown under
+   the chart; fixed the Share axis showing "10000%". Debug: -openYear Y,
+   -closeYearPreview, -yearStep n, -wrappedCard n, -liqYear, -liqPick n,
+   -scrollTo waterfall|mix|checkin, -checkinCards n.
 7. Country rules (countries.ts: health insurance, WOZ/NHG only with NL);
    demo data per language.
 8. Premium via RevenueCat (App User ID = Supabase user id; entitlement
