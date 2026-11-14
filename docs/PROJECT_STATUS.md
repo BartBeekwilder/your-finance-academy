@@ -1217,3 +1217,20 @@ five, Liquidity panels, mix panel; (7) country rules; (8) sign-in first +
 silent 10-minute demo timer (lib/finance/demoTimer.ts); then Premium.
 Also: everything of 28 Oct – 4 Nov (see the Apple Note
 "Personal Finance — nog naar iOS & Android").
+Android progress 2026-11-14 (main, at 55a20d9, pushed): done (1) plain copy +
+Extra protection + Doc keeps website-only fields (profileExtra, row merge);
+(2) Loans + recurring fixed costs (= recurring.ts, same ids); (3) Key figures
+(= metrics.ts) + dashboard strip + Buffer goal; (4) onboarding (simplified:
+no per-supplier bill splits, simple mortgage, statement step hints only) +
+celebration + Finish card; (5) investment search / buy / sell; (6) year close
+(domain/YearClose.kt = yearWrapped.ts + yearCloseModel.ts, same tests;
+feature/yearclose: six steps + Year Wrapped story cards; Progress banner +
+"Year Wrapped {year}" chips; debug --ei year 2026); (7) country rules
+(domain/Countries.kt); (8) sign-in first: feature/welcome/WelcomeScreen
+(password, 8-digit code, Create account with optional invite via
+/auth/v1/signup + verify signup), demo = DemoData in the store with a silent
+10-minute clock (domain/DemoClock.kt = demoTimer.ts, same tests; data/AppMode),
+end screen leaves the demo and clears its books; Settings shows a demo card
+instead of Account. New installs start empty; installs from before keep their
+books. Still open on Android: check-in latest five, Liquidity month/day
+panels, asset mix panel, Forgot password, then Premium.
