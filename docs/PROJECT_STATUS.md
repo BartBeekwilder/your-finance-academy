@@ -1252,3 +1252,17 @@ panels, asset mix panel, Forgot password, then Premium.
   Managed Payments (Settings › Managed payments), support email in business
   details; then live product/prices/webhook/restricted key, RevenueCat Stripe
   app on live, Vercel env swap, NEXT_PUBLIC_PF_SIGNUPS=open, merge to main.
+
+## 2026-11-14 — Scroll indicator, updates page, demo without time limit (web-app)
+- Demo: no time limit any more (Bart meant the limit, not the demo): DemoTimer
+  removed from app/app/layout.tsx, sign-in always shows "Look around with demo
+  data first". lib/finance/demoTimer.ts stays (iOS/Android still use theirs).
+- Homepage scroll indicator: rail on the right (dot per section, fills with
+  progress, name on hover/while scrolling, click scrolls), "Scroll" hint on the
+  first screen, thin bar under the top bar on phones (≤900px).
+- /updates (public/updates/index.html, rewrite in next.config.ts): changelog
+  per date, tags Nieuw/Verbeterd, dates via Intl with a capital month, texts via
+  /home/i18n.js (/*updates*/ block in K and every language). Linked in the
+  homepage nav and footer. ADD AN ENTRY AT EVERY LIVE PUSH (Dutch in the page,
+  translations appended to the /*updates*/ blocks).
+- Sidebar: the animation/background switches are gone (Settings has them).

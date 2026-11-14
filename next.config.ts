@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   // The homepage is the product site, a static page in public/home (Dutch
   // for now); the old homepage moved to /academy.
   async rewrites() {
-    return { beforeFiles: [{ source: "/", destination: "/home/index.html" }], afterFiles: [], fallback: [] };
+    return { beforeFiles: [{ source: "/", destination: "/home/index.html" }, { source: "/updates", destination: "/updates/index.html" }], afterFiles: [], fallback: [] };
   },
 };
 

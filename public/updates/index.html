@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Updates · Personal Finance</title>
+<meta name="description" content="Elke verbetering aan Personal Finance, met de datum waarop hij live ging.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-canvas: oklch(14% 0.018 210); --c-surface: oklch(18.5% 0.022 205); --c-surface-2: oklch(23% 0.025 205);
+    --c-ink: oklch(94% 0.012 85); --c-ink-2: oklch(82% 0.012 85); --c-muted: oklch(66% 0.018 200);
+    --c-rule: oklch(30% 0.025 205); --c-accent: oklch(80% 0.16 75); --c-live: #30d158; --c-accent-ink: oklch(15% 0.02 200);
+    --c-ok: oklch(78% 0.12 170); --c-alert: oklch(68% 0.19 28);
+    --f: "Geist", system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1); --g: clamp(16px, 2.6vw, 40px);
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--c-canvas); color: var(--c-ink); font: 400 16px/1.55 var(--f); -webkit-font-smoothing: antialiased; }
+  body { margin: 0; overflow-x: clip; }
+  a { color: inherit; }
+  .status { position: fixed; z-index: 40; inset: 0 0 auto 0; height: 48px; display: flex; align-items: center; gap: 20px; padding: 0 var(--g); background: color-mix(in oklch, var(--c-canvas) 88%, transparent); border-block-end: 1px solid color-mix(in oklch, var(--c-rule) 70%, transparent); font-size: 13px; }
+  .status b { font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
+  .brand { display: grid; line-height: 1.1; text-decoration: none; color: inherit; }
+  .brand small { font: 400 10.5px var(--mono); color: var(--c-muted); letter-spacing: 0.01em; white-space: nowrap; }
+  .state { display: inline-flex; align-items: center; gap: 8px; font: 400 12px var(--mono); color: var(--c-muted); white-space: nowrap; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-live); box-shadow: 0 0 0 3px color-mix(in oklch, var(--c-live) 22%, transparent); }
+  .status nav { margin-inline-start: auto; display: flex; align-items: center; gap: 18px; }
+  .status nav a { text-decoration: none; color: var(--c-ink-2); white-space: nowrap; }
+  .status nav a:hover { color: var(--c-ink); }
+  .langsel:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+  .btn { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 4px; background: var(--c-accent); color: var(--c-accent-ink) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: filter 160ms; }
+  .btn:hover { filter: brightness(1.07); }
+  .foot { display: flex; justify-content: space-between; gap: 20px; padding: 28px var(--g); border-block-start: 1px solid var(--c-rule); font: 400 12px var(--mono); color: var(--c-muted); }
+  .langsel { appearance: none; -webkit-appearance: none; border: 0; border-radius: 999px; padding: 5px 26px 5px 12px; background: var(--c-surface-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center; box-shadow: inset 0 0 0 1px var(--c-rule); color: var(--c-ink-2); font: inherit; font-size: 13px; cursor: pointer; }
+  .status nav a[aria-current] { color: var(--c-ink); }
+  /* The updates: newest first, one block per day. */
+  .upd { max-width: 760px; margin: 0 auto; padding: calc(48px + clamp(40px, 8vw, 96px)) var(--g) 72px; }
+  .upd__kicker { font: 500 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--c-accent); }
+  .upd h1 { margin: 10px 0 12px; font-size: clamp(36px, 6vw, 60px); line-height: 1.02; letter-spacing: -0.03em; }
+  .upd__lede { margin: 0 0 48px; color: var(--c-ink-2); font-size: 18px; max-width: 54ch; }
+  .day { position: relative; display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 26px 0; border-block-start: 1px solid var(--c-rule); }
+  .day h2 { margin: 2px 0 0; font: 500 13px/1.4 var(--mono); color: var(--c-muted); }
+  .day ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: max-content 1fr; gap: 14px 12px; align-items: baseline; }
+  .day li { display: contents; }
+  .tag { justify-self: start; }
+  .tag { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .tag--new { color: var(--c-accent-ink); background: var(--c-accent); }
+  .tag--better { color: var(--c-ok); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--c-ok) 55%, transparent); }
+  .tag--fixed { color: var(--c-ink-2); box-shadow: inset 0 0 0 1px var(--c-rule); }
+  .day:first-of-type h2::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-inline-end: 8px; border-radius: 50%; background: var(--c-live); vertical-align: 1px; box-shadow: 0 0 0 3px color-mix(in oklch, var(--c-live) 22%, transparent); }
+  .upd__cta { margin-top: 40px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+  .upd__cta a:not(.btn) { color: var(--c-ink-2); }
+  @media (max-width: 640px) { .day { grid-template-columns: 1fr; gap: 12px; } .status nav a { display: none; } }
+</style>
+</head>
+<body>
+<header class="status">
+  <a class="brand" href="/" translate="no"><b>Personal Finance</b><small>by YourFinanceAcademy.com</small></a>
+  <nav aria-label="Hoofdmenu"><select id="langSel" class="langsel" aria-label="Taal / Language"></select><a href="/#functies">Functies</a><a href="/updates" aria-current="page">Updates</a><a href="/app">Inloggen</a><a class="btn btn--trial" href="/app?trial=1">Probeer nu gratis!</a></nav>
+</header>
+<main class="upd">
+  <span class="upd__kicker">Updates</span>
+  <h1>Wat er nieuw is</h1>
+  <p class="upd__lede">Elke verbetering aan Personal Finance, met de datum waarop hij live ging.</p>
+    <section class="day"><h2><time datetime="2026-11-14">2026-11-14</time></h2><ul><li><b class="tag tag--new">Nieuw</b><span>Deze updatespagina: hier zie je per datum wat er nieuw is.</span></li><li><b class="tag tag--better">Verbeterd</b><span>De demo heeft geen tijdslimiet meer. Kijk zo lang rond als je wilt.</span></li><li><b class="tag tag--new">Nieuw</b><span>Op de homepage zie je aan de zijkant waar je bent en wat er nog komt.</span></li><li><b class="tag tag--new">Nieuw</b><span>Probeer Premium 7 dagen gratis, direct vanaf de homepage.</span></li><li><b class="tag tag--better">Verbeterd</b><span>Animaties en de bewegende achtergrond stel je in bij Instellingen; de zijbalk is rustiger.</span></li></ul></section>
+    <section class="day"><h2><time datetime="2026-11-13">2026-11-13</time></h2><ul><li><b class="tag tag--new">Nieuw</b><span>Bij het instellen: je huis (huur of koop, hypotheek) en je bankafschrift, ingelezen met AI.</span></li><li><b class="tag tag--better">Verbeterd</b><span>Liquiditeit: per maand en per dag zie je precies waar je geld heen gaat.</span></li><li><b class="tag tag--better">Verbeterd</b><span>Regels per land: termen als WOZ en NHG alleen als je in Nederland woont.</span></li><li><b class="tag tag--new">Nieuw</b><span>De privacypagina in alle 17 talen.</span></li></ul></section>
+    <section class="day"><h2><time datetime="2026-11-10">2026-11-10</time></h2><ul><li><b class="tag tag--new">Nieuw</b><span>Lezen met AI: bankscreenshots, loonstroken en hypotheekpapieren worden vanzelf verwerkt (Premium).</span></li><li><b class="tag tag--new">Nieuw</b><span>Je jaar afsluiten, met Year Wrapped en de cijfers voor je belastingaangifte.</span></li></ul></section>
+    <section class="day"><h2><time datetime="2026-11-08">2026-11-08</time></h2><ul><li><b class="tag tag--new">Nieuw</b><span>De website in 17 talen, in dezelfde taal als de app.</span></li></ul></section>
+    <section class="day"><h2><time datetime="2026-11-06">2026-11-06</time></h2><ul><li><b class="tag tag--new">Nieuw</b><span>De nieuwe homepage, met de echte app live op de apparaten.</span></li><li><b class="tag tag--better">Verbeterd</b><span>Op je telefoon: vier tabbladen en Meer, in plaats van vijftien in één balk.</span></li></ul></section>
+    <section class="day"><h2><time datetime="2026-11-05">2026-11-05</time></h2><ul><li><b class="tag tag--new">Nieuw</b><span>Kerncijfers: je vrijheidsgetal en je runway, live uit je eigen cijfers.</span></li><li><b class="tag tag--better">Verbeterd</b><span>Instellen: abonnementen, rekeningen per leverancier en een vaste dag per vaste last.</span></li></ul></section>
+  <div class="upd__cta"><a class="btn" href="/app?trial=1">Probeer nu gratis!</a><a href="/">Terug naar de homepage</a></div>
+</main>
+<footer class="foot"><span translate="no">The Personal Finance Dashboard by YourFinanceAcademy.com · © 2026 Your Finance Academy (YFA)</span><a href="/privacy/web-app">Privacy</a></footer>
+<script src="/home/i18n.js"></script>
+<script>
+  // Dates in the visitor's language, the month always with a capital.
+  document.querySelectorAll('time[datetime]').forEach(function (el) {
+    var p = el.getAttribute('datetime').split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
+    el.textContent = new Intl.DateTimeFormat(window.PF_LOCALE || 'nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }).formatToParts(d)
+      .map(function (x) { return x.type === 'month' ? x.value.charAt(0).toLocaleUpperCase(window.PF_LOCALE) + x.value.slice(1) : x.value; }).join('');
+  });
+</script>
+</body>
+</html>
