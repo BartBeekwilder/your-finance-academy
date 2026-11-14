@@ -1947,5 +1947,10 @@
  "Confirm your months": "Conferma i tuoi mesi",
  "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "Questi mesi contengono una stima. Controllali uno per uno: giusto, o correggi. +{points} punti al mese.",
  "Right": "Giusto",
- "Estimated": "Stimato"
+ "Estimated": "Stimato",
+ "Under your income": "Sotto il tuo reddito",
+ "{n} of {days} days you spent less than you earned · goal {goal} days": "{n} giorni su {days} hai speso meno di quanto hai guadagnato · obiettivo {goal} giorni",
+ "Days you spent less than you earned": "Giorni in cui hai speso meno di quanto hai guadagnato",
+ "Under your income in a row": "Sotto il tuo reddito di fila",
+ "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "L'anello centrale è un obiettivo giornaliero: un giorno conta quando quel giorno spendi meno di quanto guadagni quel giorno. Stipendio e spese fisse contano una quota ogni giorno, così l'affitto del 1° e lo stipendio del 25 non falsano nulla; le altre spese ed entrate contano nel loro giorno. L'anello è pieno quando l'80% dei giorni del mese è rimasto sotto il tuo reddito: 24 su 30. Nel calendario, l'anello verde di un giorno è pieno quando quel giorno è rimasto sotto."
 }

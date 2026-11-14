@@ -48,6 +48,8 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
         // Day by day on the live model: the salary accrues (this month at its
         // expected net, a finished month at what came in), as on the tiles.
         accrue: { salary: isPast ? salaryIn : projectedNetIncome(data, month), isSalary: salaryLike },
+        // The green ring: that day's spending under that day's income.
+        underIncome: true,
         // Budget: all budgets together — each day's forecast for the month
         // within the total budget (a finished month's fixed costs as booked).
         budgetPlan: (() => {
@@ -67,7 +69,7 @@ export default function ActivityCalendar({ data, now }: { data: FinanceData; now
   const chips = [
     { label: t("Bookkeeping streak"), value: streak(active, now), unit: t("days"), color: RING_COLORS.tracking, icon: true },
     { label: t("Longest streak"), value: longestStreak(active), unit: t("days"), color: RING_COLORS.tracking },
-    { label: t("Within budget in a row"), value: offset === 0 ? ringStreak(rings, "budget") : null, unit: t("days"), color: RING_COLORS.budget },
+    { label: t("Under your income in a row"), value: offset === 0 ? ringStreak(rings, "budget") : null, unit: t("days"), color: RING_COLORS.budget },
     // All three rings closed: their three colours.
     { label: t("Perfect days"), value: perfect, unit: t("this month"), color: [RING_COLORS.tracking[0], RING_COLORS.budget[0], RING_COLORS.saving[1]] as readonly string[] },
   ];

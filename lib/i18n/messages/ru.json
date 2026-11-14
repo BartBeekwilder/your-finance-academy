@@ -1947,5 +1947,10 @@
  "Confirm your months": "Подтвердите месяцы",
  "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "В этих месяцах стоит оценка. Проверьте каждый: всё верно или исправьте. +{points} очков за месяц.",
  "Right": "Верно",
- "Estimated": "Оценка"
+ "Estimated": "Оценка",
+ "Under your income": "Ниже дохода",
+ "{n} of {days} days you spent less than you earned · goal {goal} days": "{n} из {days} дней вы потратили меньше, чем заработали · цель {goal} дней",
+ "Days you spent less than you earned": "Дни, когда вы потратили меньше, чем заработали",
+ "Under your income in a row": "Ниже дохода подряд",
+ "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "Среднее кольцо — дневная цель: день засчитывается, если в этот день вы потратили меньше, чем заработали в этот день. Зарплата и постоянные расходы учитываются каждый день по дневной доле, поэтому аренда 1-го и зарплата 25-го ничего не искажают; другие расходы и доходы учитываются в свой день. Кольцо заполнено, когда 80% дней месяца остались ниже дохода — 24 из 30. В календаре зелёное кольцо дня заполнено, если этот день остался ниже."
 }

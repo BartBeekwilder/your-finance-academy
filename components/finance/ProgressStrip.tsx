@@ -54,7 +54,7 @@ export default function ProgressStrip() {
       <Link href="/app/progress" className="pf-progress-bars">
         {([
           ["tracking", t("Tracking"), m.rings.tracking],
-          ["budget", t("Budget (forecast)"), m.rings.budget],
+          ["budget", t("Under your income"), m.rings.budget],
           ["saving", t("Saving (forecast)"), m.rings.saving],
         ] as const).map(([key, label, v], i) => {
           // Saving: the share of income the forecast expects to be saved by

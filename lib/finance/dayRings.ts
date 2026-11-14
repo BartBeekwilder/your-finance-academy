@@ -35,6 +35,7 @@ export function dayRings<T extends DayTx>({
   savingsTarget,
   accrue,
   budgetPlan,
+  underIncome,
 }: {
   transactions: T[];
   activeDays: string[];
@@ -50,11 +51,17 @@ export function dayRings<T extends DayTx>({
   budgetPlan?: { budget: number; usualVar: number; fixedExpected: number; inBudget: (t: T) => boolean };
   /** Spread the month's salary (and the fixed costs) evenly over its days. */
   accrue?: { salary: number; isSalary: (t: T) => boolean };
+  /** The budget ring as a daily goal (Bart, 14 Nov): a day is full when its
+   *  spending (fixed costs a day's worth each day, the rest on its day)
+   *  stays under its income (the salary a day's worth each day, other
+   *  income on its day); over, it's income ÷ spending. Needs `accrue`. */
+  underIncome?: boolean;
 }): DayRing[] {
   const y = month.getFullYear(), m = month.getMonth();
   const days = new Date(y, m + 1, 0).getDate();
   const active = new Set(activeDays.map((d) => d.slice(0, 10)));
   const spent = Array.from({ length: days }, () => 0), saved = Array.from({ length: days }, () => 0);
+  const dayIn = Array.from({ length: days }, () => 0), dayOut = Array.from({ length: days }, () => 0);
   let fixedTotal = 0;
   for (const t of transactions) {
     if (t.deleted_at) continue;
@@ -62,10 +69,10 @@ export function dayRings<T extends DayTx>({
     if (d.getFullYear() !== y || d.getMonth() !== m) continue;
     const a = Number(t.amount), i = d.getDate() - 1;
     if (t.type === "income") {
-      if (!accrue?.isSalary(t)) saved[i] += a;
+      if (!accrue?.isSalary(t)) { saved[i] += a; dayIn[i] += a; }
     } else {
       if (accrue && t.is_fixed_expense) fixedTotal += a;
-      else saved[i] -= a;
+      else { saved[i] -= a; dayOut[i] += a; }
       if (!t.is_fixed_expense && (!budgetPlan || budgetPlan.inBudget(t))) spent[i] += a;
     }
   }
@@ -81,7 +88,10 @@ export function dayRings<T extends DayTx>({
     const share = (i + 1) / days;
     const tracking = active.has(key(date)) ? 1 : 0;
     const allowed = allowance * share;
-    const budget = budgetPlan
+    const income = (accrue?.salary ?? 0) / days + dayIn[i], out = fixedTotal / days + dayOut[i];
+    const budget = underIncome && accrue
+      ? income <= 0 && out <= 0 ? 1 : out <= income + 0.005 ? 1 : Math.max(income, 0) / out
+      : budgetPlan
       ? budgetPlan.budget > 0 ? budgetTotalRing({ forecast: cumSpent + budgetPlan.usualVar * (1 - share) + budgetPlan.fixedExpected, budget: budgetPlan.budget }) : null
       : allowance > 0 ? (cumSpent <= allowed + 0.005 ? 1 : allowed / cumSpent) : null;
     const goal = savingsTarget * share;
@@ -116,4 +126,14 @@ export function ringStreak(rings: DayRing[], which: "budget" | "perfect") {
     else break;
   }
   return n;
+}
+
+/** Days under your income, as a month goal: the ring is full once
+ *  UNDER_INCOME_SHARE of the month's days stayed under that day's income
+ *  (`underIncome` rings; today counts once it's full). */
+export const UNDER_INCOME_SHARE = 0.8;
+export function underIncomeMonth(rings: DayRing[]) {
+  const goal = Math.ceil(rings.length * UNDER_INCOME_SHARE);
+  const hits = rings.filter((r) => !r.future && (r.budget ?? 0) >= 1).length;
+  return { hits, goal, days: rings.length, ring: goal > 0 ? Math.min(hits / goal, 1) : 0 };
 }

@@ -1,4 +1,5 @@
-import { balanceSheet, budgetIn, expectedByCategory, live, monthProgress, netWorthFigures, num, projectedNetIncome, spendByCategory, summarize, yearForecast } from "./calc";
+import { balanceSheet, budgetIn, expectedByCategory, inMonth, live, monthProgress, netWorthFigures, num, projectedNetIncome, salaryTest, spendByCategory, summarize, yearForecast } from "./calc";
+import { dayRings, underIncomeMonth } from "./dayRings";
 import { ownership, summarize as summarizePart } from "./mortgage";
 import { BADGES, POINTS, goalProgress, level, rings, ringsClosed, streak, type BadgeContext } from "./progress";
 import { homes } from "./realEstate";
@@ -70,12 +71,32 @@ export function activeDays(data: FinanceData) {
   return trackedDays(live(data.activityDays ?? []).map((a) => a.day), checkinDays(live(data.achievements ?? [])));
 }
 
+/** The middle ring (Bart, 14 Nov): days whose spending stayed under that
+ *  day's income, on the live model — the salary and fixed costs a day's
+ *  worth each day (this month the expected pay, a finished month what came
+ *  in). Full at 80% of the month's days. */
+export function incomeDays(data: FinanceData, month: Date, now: Date) {
+  const past = month < new Date(now.getFullYear(), now.getMonth(), 1);
+  const salaryLike = salaryTest(data);
+  const salaryIn = live(data.transactions).filter((t) => t.type === "income" && salaryLike(t) && inMonth(t, month)).reduce((a, t) => a + Number(t.amount), 0);
+  return dayRings({
+    transactions: data.transactions,
+    activeDays: activeDays(data),
+    month,
+    today: past ? new Date(month.getFullYear(), month.getMonth() + 1, 0, 23, 59) : now,
+    allowance: 0,
+    savingsTarget: 0,
+    accrue: { salary: past ? salaryIn : projectedNetIncome(data, month), isSalary: salaryLike },
+    underIncome: true,
+  });
+}
+
 /** A finished month's rings (in full). */
 export function monthRings(data: FinanceData, month: Date) {
   const s = summarize(data.transactions, month);
   const activity = activeDays(data).filter((d) => d.slice(0, 7) === iso(month).slice(0, 7)).length;
   const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
-  return rings({
+  const r = rings({
     daysElapsed: days,
     activeDaysInMonth: activity,
     budgets: budgetRows(data, month),
@@ -84,6 +105,7 @@ export function monthRings(data: FinanceData, month: Date) {
     budgetTotal: (() => { const t = budgetTotals(data, month, new Date(month.getFullYear(), month.getMonth() + 1, 1)); return { forecast: t.forecast, budget: t.budget }; })(),
     savingsTarget: projectedNetIncome(data, month) * SAVINGS_SHARE,
   });
+  return { ...r, budget: underIncomeMonth(incomeDays(data, month, new Date(month.getFullYear(), month.getMonth() + 1, 1))).ring };
 }
 
 /** A month's snapshot for closing it (a finished month: in full). */
@@ -114,7 +136,8 @@ export function progressModel(data: FinanceData, now: Date) {
   // expected income (not today's pace, which swings early in the month).
   const fc = yearForecast(data, now)[0];
   const budgetNow = budgetTotals(data, month, now);
-  const ringNow = rings({
+  const under = underIncomeMonth(incomeDays(data, month, now));
+  const ringBase = rings({
     // Tracking fills with the month: kept-up days out of all its days.
     daysElapsed: new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(),
     activeDaysInMonth: activity.filter((d) => d.slice(0, 7) === iso(month).slice(0, 7)).length,
@@ -126,6 +149,7 @@ export function progressModel(data: FinanceData, now: Date) {
     savingsTarget: (fc ? fc.income : projectedNetIncome(data, month)) * SAVINGS_SHARE,
     savedIsForecast: !!fc,
   });
+  const ringNow = { ...ringBase, budget: under.ring };
 
   const days = streak(activity, now);
   const points = closes.reduce((t, c) => t + c.points, 0) + achievements.reduce((t, a) => t + a.points, 0) + visited.length * POINTS.activeDay;
@@ -162,7 +186,7 @@ export function progressModel(data: FinanceData, now: Date) {
   const have = new Set(achievements.map((a) => a.code));
   const earnable = BADGES.filter((b) => !have.has(b.code) && b.earned(context));
 
-  return { rings: ringNow, budgetTotal: budgetNow, savingRate: fc && fc.income > 0 ? (fc.income - fc.spent) / fc.income : 0, streak: days, points, level: level(points), closable, closes, achievements, have, earnable, goals, context, activeToday: activity.includes(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`) };
+  return { rings: ringNow, underIncome: under, budgetTotal: budgetNow, savingRate: fc && fc.income > 0 ? (fc.income - fc.spent) / fc.income : 0, streak: days, points, level: level(points), closable, closes, achievements, have, earnable, goals, context, activeToday: activity.includes(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`) };
 }
 
 export type GoalState = ReturnType<typeof goalState>;

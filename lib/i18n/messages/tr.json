@@ -1947,5 +1947,10 @@
  "Confirm your months": "Aylarını onayla",
  "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "Bu aylarda bir tahmin var. Tek tek kontrol et: doğru ya da düzelt. Ay başına +{points} puan.",
  "Right": "Doğru",
- "Estimated": "Tahmini"
+ "Estimated": "Tahmini",
+ "Under your income": "Gelirinin altında",
+ "{n} of {days} days you spent less than you earned · goal {goal} days": "{days} günün {n} gününde kazandığından az harcadın · hedef {goal} gün",
+ "Days you spent less than you earned": "Kazandığından az harcadığın günler",
+ "Under your income in a row": "Üst üste gelirinin altında",
+ "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "Ortadaki halka günlük bir hedeftir: o gün harcadığın, o gün kazandığından azsa gün sayılır. Maaşın ve sabit giderlerin her gün bir günlük pay olarak sayılır; böylece ayın 1'indeki kira ve 25'indeki maaş tabloyu bozmaz. Diğer harcama ve gelirler kendi gününde sayılır. Ayın günlerinin %80'i gelirinin altında kaldığında halka dolar — 30 günün 24'ü. Takvimde bir günün yeşil halkası, o gün altında kaldıysa doludur."
 }

@@ -1947,5 +1947,10 @@
  "Confirm your months": "अपने महीनों की पुष्टि करें",
  "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "इन महीनों में अनुमान है। हर एक जाँचें: सही है, या बदलें। हर महीने +{points} पॉइंट।",
  "Right": "सही है",
- "Estimated": "अनुमानित"
+ "Estimated": "अनुमानित",
+ "Under your income": "आपकी आमदनी से कम",
+ "{n} of {days} days you spent less than you earned · goal {goal} days": "{days} में से {n} दिन आपने कमाई से कम खर्च किया · लक्ष्य {goal} दिन",
+ "Days you spent less than you earned": "दिन जब आपने कमाई से कम खर्च किया",
+ "Under your income in a row": "लगातार आमदनी से कम",
+ "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "बीच वाली रिंग एक रोज़ का लक्ष्य है: कोई दिन तब गिना जाता है जब उस दिन का खर्च उस दिन की कमाई से कम रहे। आपकी सैलरी और तय खर्च हर दिन एक दिन के हिस्से के रूप में गिने जाते हैं, ताकि 1 तारीख का किराया और 25 तारीख की सैलरी तस्वीर न बिगाड़ें; बाकी खर्च और आमदनी अपने दिन पर गिने जाते हैं। जब महीने के 80% दिन आमदनी से कम रहें तो रिंग भर जाती है — 30 में से 24। कैलेंडर में किसी दिन की हरी रिंग तब भरती है जब वह दिन कम रहा।"
 }

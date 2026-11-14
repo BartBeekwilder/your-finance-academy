@@ -3,7 +3,6 @@
 import { CalendarCheck, ChevronDown, CalendarRange, Flag, Flame, Gem, House, HousePlus, Landmark, Lock, Medal, PartyPopper, Percent, PiggyBank, Scale, ShieldCheck, Sprout, Target, TrendingUp, Trophy, FileText, FolderCheck, History, type LucideIcon } from "lucide-react";
 import { useEffect, useId, useState } from "react";
 import { t } from "@/lib/i18n";
-import { money } from "@/lib/finance/format";
 import type { Badge } from "@/lib/finance/progress";
 import { SAVINGS_SHARE } from "@/lib/finance/progressModel";
 import InfoTip from "@/components/finance/InfoTip";
@@ -108,14 +107,14 @@ export function Rings({ tracking, budget, saving, size = 180 }: { tracking: numb
   );
 }
 
-export function RingLegend({ tracking, budget, saving, notes = {}, forecast = false, budgetTotal, savingRate, currency = "EUR" }: {
+export function RingLegend({ tracking, budget, saving, notes = {}, forecast = false, underIncome, savingRate }: {
   tracking: number; budget: number; saving: number;
   /** Why a ring can't fill (shown instead of its %). */
   notes?: { tracking?: string; budget?: string };
   /** This month: saving is the month-end forecast. */
   forecast?: boolean;
-  /** All budgets together: the month-end forecast against the total budget. */
-  budgetTotal?: { forecast: number; budget: number };
+  /** The middle ring: days under that day's income, against the goal. */
+  underIncome?: { hits: number; goal: number; days: number };
   /** This month: the share of income the forecast expects to be saved. */
   savingRate?: number;
   currency?: string;
@@ -125,7 +124,7 @@ export function RingLegend({ tracking, budget, saving, notes = {}, forecast = fa
   const rate = Math.round(saving * SAVINGS_SHARE * 100), goal = Math.round(SAVINGS_SHARE * 100);
   const rows = [
     { tip: "ring-tracking", label: t("Tracking"), hint: notes.tracking ?? t("Days you updated your books"), v: tracking, c: RING_COLORS.tracking[0], na: !!notes.tracking },
-    { tip: "ring-budget", label: forecast ? t("Budget (forecast)") : t("Budget"), hint: notes.budget ?? (forecast && budgetTotal ? t("Expected {forecast} of {budget} budget at month end", { forecast: money(budgetTotal.forecast, currency), budget: money(budgetTotal.budget, currency) }) : forecast ? t("Budgets expected to hold at month end") : t("Budgets on track")), v: budget, c: RING_COLORS.budget[0], na: !!notes.budget },
+    { tip: "ring-budget", label: t("Under your income"), hint: notes.budget ?? (underIncome ? t("{n} of {days} days you spent less than you earned · goal {goal} days", { n: underIncome.hits, days: underIncome.days, goal: underIncome.goal }) : t("Days you spent less than you earned")), v: budget, c: RING_COLORS.budget[0], na: !!notes.budget },
     {
       tip: "ring-saving",
       label: forecast ? t("Saving (forecast)") : t("Saving"),
