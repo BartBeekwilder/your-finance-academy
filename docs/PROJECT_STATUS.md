@@ -1175,8 +1175,15 @@ Gap list, in launch order (✓ = done on iOS):
    the chart; fixed the Share axis showing "10000%". Debug: -openYear Y,
    -closeYearPreview, -yearStep n, -wrappedCard n, -liqYear, -liqPick n,
    -scrollTo waterfall|mix|checkin, -checkinCards n.
-7. Country rules (countries.ts: health insurance, WOZ/NHG only with NL);
-   demo data per language.
+7. ✓ (2026-11-14) Country rules: Services/Countries.swift (= countries.ts:
+   health rule per country, guess from the time zone else the region, names,
+   codes); Settings › Country (Automatic (…) or a country), synced as
+   profile.country only once chosen. Insurance health item required /
+   optional / recommended per country with its name; rent vs buy, new homes
+   and the setup follow the country instead of the language; WOZ only on
+   Dutch homes, NHG only on parts of a Dutch home. Tests CountryRulesTests.
+   Demo data per language: waits for item 9 (iOS has no public demo yet —
+   DummyData is debug only).
 8. Premium via RevenueCat (App User ID = Supabase user id; entitlement
    personal_finance_premium) instead of StoreKit-only; Read with AI through
    /api/ai/read with the user's token (2 a day).
