@@ -368,7 +368,8 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   const [pass, setPass] = useState("");
   const [pass2, setPass2] = useState("");
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  // The tour of the books after the last question (nothing saved yet).
+  const [touring, setTouring] = useState(false);
   const [error, setError] = useState("");
 
   const steps = stepsFor(route ?? "complete");
@@ -511,12 +512,12 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
 
   // Remember where the setup stands on this device.
   useEffect(() => {
-    if (saved || resume) return;
+    if (touring || resume) return;
     const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, extraCats };
     try {
       localStorage.setItem(DRAFT_KEY(preview), JSON.stringify(draft));
     } catch {}
-  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, extraCats, saved, resume, preview]);
+  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, extraCats, touring, resume, preview]);
 
   // Rent or own: the fixed costs follow (rent on, or the mortgage on).
   const setHousing = (h: "rent" | "own") => {
@@ -611,7 +612,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       // A field that used the key itself (the investment search) keeps it.
-      if (saved || e.defaultPrevented) return;
+      if (touring || e.defaultPrevented) return;
       if (e.key === "Escape") onClose();
       if (e.key === "Enter" && !(e.target instanceof HTMLButtonElement) && step !== "done" && step !== "route") next();
     };
@@ -645,11 +646,19 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
     return p && (!latest || p.date > latest) ? p.date : latest;
   }, null);
 
-  async function finish() {
+  // "Open my books" shows the tour first; nothing is saved until its last
+  // card ("Open my dashboard"). So the journey bar can still go back to a
+  // chapter to correct something (Bart, 14 Nov) without booking twice.
+  function finish() {
     if (protect && (pass.length < MIN_PASSPHRASE || pass !== pass2)) {
       setError(pass.length < MIN_PASSPHRASE ? t("Use at least {n} characters.", { n: MIN_PASSPHRASE }) : t("The two passphrases are not the same."));
       return;
     }
+    setError("");
+    setTouring(true);
+  }
+
+  async function save() {
     const done = [...new Set([...finished, ...answered])];
     // Points for finishing: the quick start, or the whole setup (a quick
     // start finished later still earns the complete one). The dashboard
@@ -666,7 +675,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         sessionStorage.setItem(PREVIEW_DONE, JSON.stringify({ route: resume ? "complete" : route, steps: done }));
         localStorage.removeItem(DRAFT_KEY(preview));
       } catch {}
-      setSaved(true);
+      onClose();
       return;
     }
     setSaving(true);
@@ -797,8 +806,10 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
       try {
         localStorage.removeItem(DRAFT_KEY(preview));
       } catch {}
-      setSaved(true);
+      onClose();
     } catch (e) {
+      // Back to the last screen, where the error shows.
+      setTouring(false);
       setError((e as Error).message);
     } finally {
       setSaving(false);
@@ -823,7 +834,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         <div className="pf-ob-card" ref={card} style={cardH ? { height: cardH } : undefined}>
           {/* The card's height follows this, gliding (pf-ob-card transition). */}
           <div className="pf-ob-inner" ref={inner}>
-          <OnboardingProgress nodes={nodes} chapters={route !== "quick"} step={step} onPick={(to) => goTo(to, -1)} />
+          <OnboardingProgress nodes={nodes} chapters={route !== "quick"} step={step} onPick={(to) => { setTouring(false); goTo(to, -1); }} />
           {preview && (
             <div className="pf-ob-drafts">
               <div className="pf-ob-draft">{t("Draft · preview — nothing is saved")}</div>
@@ -835,7 +846,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             </div>
           )}
 
-          {saved ? (
+          {touring ? (
             <OnboardingReveal
               f={{
                 ...reveal,
@@ -878,8 +889,8 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                 checkin: answered.includes("security") ? (checkin === "daily" ? t("Daily") : `${checkin === "weekly" ? t("Weekly") : t("Twice a week")} (${periodsLabel(checkin, checkinDays)})`) : undefined,
               }}
               currency={currency}
-              openLabel={preview ? t("Close preview") : t("Open my dashboard")}
-              onOpen={onClose}
+              openLabel={saving ? t("Opening…") : preview ? t("Close preview") : t("Open my dashboard")}
+              onOpen={() => { if (!saving) void save(); }}
             />
           ) : (
             <>
