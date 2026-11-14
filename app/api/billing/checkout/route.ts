@@ -5,6 +5,11 @@ import { PLANS, TRIAL_DAYS } from "@/lib/billing/plans";
 // the free trial the first time. The App User ID travels on the
 // subscription so the webhook can hand it to RevenueCat even if the browser
 // never comes back.
+// Managed Payments: Stripe (as Link) is the seller, so it collects and pays
+// the VAT in every country and handles disputes (3.5% on top of the normal
+// fee). Prices include VAT; the product needs an eligible tax code
+// (txcd_10103000, SaaS personal use). It asks for the billing address
+// itself, so no automatic_tax / customer_update / payment_method_types here.
 export async function POST(req: Request) {
   try {
     const user = await userFrom(req);
@@ -24,6 +29,7 @@ export async function POST(req: Request) {
       customer,
       client_reference_id: user.id,
       line_items: [{ price: price.id, quantity: 1 }],
+      managed_payments: { enabled: true },
       subscription_data: { ...(trialUsed ? {} : { trial_period_days: TRIAL_DAYS }), metadata: { app_user_id: user.id } },
       success_url: `${origin}/app/settings?billing=success&session_id={CHECKOUT_SESSION_ID}#subscription`,
       cancel_url: `${origin}/app/settings?billing=cancel#subscription`,
