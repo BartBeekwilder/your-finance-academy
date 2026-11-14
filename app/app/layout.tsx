@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   publisher: "Your Finance Academy (YFA)",
   description: "Your budgets, spending and net worth — in sync with the Personal Finance iOS app.",
 };
+import { EstimateHistory } from "@/components/finance/EarlierMonths";
 
 export default function FinanceAppLayout({ children }: LayoutProps<"/app">) {
   return (
@@ -31,6 +32,7 @@ export default function FinanceAppLayout({ children }: LayoutProps<"/app">) {
               <OnboardingGate />
               <FeedbackButton />
               <TrialRedirect />
+              <EstimateHistory />
             </div>
           </CategoryDetailProvider>
         </LanguageRoot>

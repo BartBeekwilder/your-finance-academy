@@ -1,5 +1,7 @@
 "use client";
 
+import { FillMonth, monthFromUrl } from "@/components/finance/EarlierMonths";
+import { isEmptyMonth } from "@/lib/finance/estimate";
 import { t } from "@/lib/i18n";
 import Segmented from "@/components/finance/Segmented";
 import { useEffect, useState } from "react";
@@ -34,6 +36,13 @@ export default function IncomePage() {
   // Month view: the month looked at — this one, or an earlier one picked.
   const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const [picked, setPicked] = useState(thisMonth);
+  // ?month=YYYY-MM (from "Confirm your months") opens that month.
+  useEffect(() => {
+    const m = monthFromUrl(thisMonth);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- read once from the address
+    if (m < thisMonth) setPicked(m);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const past = mode === "month" && picked < thisMonth;
   // Quick Add starts its date in the month looked at.
   useEffect(() => {
@@ -48,7 +57,8 @@ export default function IncomePage() {
   const s = summarize(data.transactions, month);
   // Pickable: from the first month with income up to this one.
   const firstIncome = data.transactions.reduce((m, x) => (x.type === "income" && !x.deleted_at && x.date < m ? x.date : m), thisMonth.toISOString());
-  const firstMonth = new Date(new Date(firstIncome).getFullYear(), new Date(firstIncome).getMonth(), 1);
+  // …and always back to January, so earlier months can be filled in.
+  const firstMonth = new Date(Math.min(new Date(new Date(firstIncome).getFullYear(), new Date(firstIncome).getMonth(), 1).getTime(), new Date(now.getFullYear(), 0, 1).getTime()));
   const incomeMonths = new Set(data.transactions.filter((x) => x.type === "income" && !x.deleted_at).map((x) => x.date.slice(0, 7)));
   // Two or more people: the category chart can become income per person.
   const together = householdOf(data.profile).length > 0;
@@ -90,6 +100,8 @@ export default function IncomePage() {
           <ReadWithAI kind="payslip" />
         </div>
       </header>
+
+      {past && isEmptyMonth(data, picked) && <FillMonth key={picked.getTime()} month={picked} />}
 
       {/* The dashboard's live Income tile: Month / Year, zoom and scrub. */}
       <LiveTiles

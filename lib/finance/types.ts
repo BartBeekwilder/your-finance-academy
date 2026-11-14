@@ -105,6 +105,10 @@ export type Transaction = Synced & {
   /** Household member (migration 0010): who earned it (income) or who paid
    *  (expense); null = shared / not set. */
   person_id?: string | null;
+  /** Filled in by an estimate for an earlier month (lib/finance/estimate.ts)
+   *  and not confirmed yet: "Klopt" or editing the row clears it. Only in
+   *  the account copy (vault), not in the old tables. */
+  estimated?: boolean | null;
   /** Expense spread over this many months (migration 0008); null = one-off. */
   spread_months?: number | null;
   /** Expense only (migration 0011): paid on someone else's behalf, to be

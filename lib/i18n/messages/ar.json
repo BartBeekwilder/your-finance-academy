@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "استكشف أولًا ببيانات تجريبية ({n} دقائق)",
  "The demo is over": "انتهى العرض التجريبي",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "لقد استخدمت دقائقك الـ {n} في العرض التجريبي. أنشئ حسابًا لتبدأ دفاترك الخاصة — بياناتك، مباشرة، على كل جهاز.",
- "You've seen the demo. Create an account to keep going.": "لقد شاهدت العرض التجريبي. أنشئ حسابًا للمتابعة."
+ "You've seen the demo. Create an account to keep going.": "لقد شاهدت العرض التجريبي. أنشئ حسابًا للمتابعة.",
+ "{month} is still empty": "{month} ما زال فارغًا",
+ "Fill it in, so your year adds up. Choose how:": "املأه لتكتمل سنتك. اختر الطريقة:",
+ "The AI books every payment on its own date.": "يسجّل الذكاء الاصطناعي كل دفعة في تاريخها.",
+ "Quick totals": "إدخال سريع",
+ "One amount for your pay, each fixed cost and each category.": "مبلغ واحد لراتبك ولكل تكلفة ثابتة ولكل فئة.",
+ "Use the estimate": "استخدم التقدير",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "راتبك وتكاليفك الثابتة وميزانياتك — معلّمة كتقدير حتى تؤكدها.",
+ "Set your expected pay or budgets first.": "أدخل أولًا راتبك المتوقع أو ميزانياتك.",
+ "Save {month}": "احفظ {month}",
+ "Amounts in {currency}; you can type 12,50+30.": "المبالغ بعملة {currency}؛ يمكنك أيضًا كتابة 12,50+30.",
+ "Confirm your months": "أكّد أشهرك",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "تحتوي هذه الأشهر على تقدير. راجعها واحدًا تلو الآخر: صحيح، أو عدّل. +{points} نقطة لكل شهر.",
+ "Right": "صحيح",
+ "Estimated": "تقديري"
 }

@@ -15,6 +15,7 @@ import { CELEBRATE, type Celebration } from "./SetupCelebration";
 import { MIN_PASSPHRASE } from "@/lib/finance/vault";
 import BrandMark from "./BrandMark";
 import OnboardingProgress from "./OnboardingProgress";
+import { ESTIMATE_FROM } from "./EarlierMonths";
 import OnboardingReveal, { monthFraction, useNow } from "./OnboardingReveal";
 import LiveAmount from "./LiveAmount";
 import LanguagePicker from "./LanguagePicker";
@@ -805,6 +806,9 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
       celebrate();
       try {
         localStorage.removeItem(DRAFT_KEY(preview));
+        // "From 1 January": the app fills this year's earlier months with
+        // the estimate, to confirm one by one (EarlierMonths).
+        if (has("history") && history !== "now") sessionStorage.setItem(ESTIMATE_FROM, `${now.getFullYear()}-01`);
       } catch {}
       onClose();
     } catch (e) {

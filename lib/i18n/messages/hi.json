@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "पहले डेमो डेटा से देखें ({n} मिनट)",
  "The demo is over": "डेमो समाप्त हो गया",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "डेमो के आपके {n} मिनट पूरे हो गए। अपने खाते शुरू करने के लिए अकाउंट बनाएँ — आपका डेटा, लाइव, हर डिवाइस पर।",
- "You've seen the demo. Create an account to keep going.": "आप डेमो देख चुके हैं। आगे बढ़ने के लिए अकाउंट बनाएँ।"
+ "You've seen the demo. Create an account to keep going.": "आप डेमो देख चुके हैं। आगे बढ़ने के लिए अकाउंट बनाएँ।",
+ "{month} is still empty": "{month} अभी खाली है",
+ "Fill it in, so your year adds up. Choose how:": "इसे भरें ताकि आपका साल सही बैठे। तरीका चुनें:",
+ "The AI books every payment on its own date.": "AI हर भुगतान को उसकी अपनी तारीख पर दर्ज करता है।",
+ "Quick totals": "झटपट भरें",
+ "One amount for your pay, each fixed cost and each category.": "आपकी सैलरी, हर तय खर्च और हर श्रेणी के लिए एक रकम।",
+ "Use the estimate": "अनुमान अपनाएँ",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "आपकी सैलरी, तय खर्च और बजट — पुष्टि होने तक अनुमानित के रूप में चिह्नित।",
+ "Set your expected pay or budgets first.": "पहले अपनी अपेक्षित सैलरी या बजट भरें।",
+ "Save {month}": "{month} सेव करें",
+ "Amounts in {currency}; you can type 12,50+30.": "रकम {currency} में; आप 12,50+30 भी लिख सकते हैं।",
+ "Confirm your months": "अपने महीनों की पुष्टि करें",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "इन महीनों में अनुमान है। हर एक जाँचें: सही है, या बदलें। हर महीने +{points} पॉइंट।",
+ "Right": "सही है",
+ "Estimated": "अनुमानित"
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { intlLocale, t } from "@/lib/i18n";
+import { intlLocale, t, t as tr } from "@/lib/i18n";
 import { editProps } from "@/lib/finance/editTransaction";
 import { WithYAxis } from "./YAxis";
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
@@ -186,6 +186,7 @@ function Detail({ categoryId, at, onClose }: { categoryId: string; at: Date | nu
                 <div style={{ flex: 1 }}>
                   <div>
                     {t.note || sub || category.name}
+                    {t.estimated && <> <span className="pf-est">{tr("Estimated")}</span></>}
                     {t.spread_total ? <span className="pf-txn-part"> · {t.spread_index}/{t.spread_total}</span> : null}
                   </div>
                   {sub && sub !== t.note && <div style={{ fontSize: "0.7rem", color: "var(--pf-ink-2)" }}>{sub}</div>}

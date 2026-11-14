@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "Lihat-lihat dulu dengan data demo ({n} menit)",
  "The demo is over": "Demo telah berakhir",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Waktu {n} menit Anda dengan demo sudah habis. Buat akun untuk menyiapkan pembukuan sendiri — data Anda, langsung, di setiap perangkat.",
- "You've seen the demo. Create an account to keep going.": "Anda sudah melihat demo. Buat akun untuk melanjutkan."
+ "You've seen the demo. Create an account to keep going.": "Anda sudah melihat demo. Buat akun untuk melanjutkan.",
+ "{month} is still empty": "{month} masih kosong",
+ "Fill it in, so your year adds up. Choose how:": "Isi supaya tahunmu pas. Pilih caranya:",
+ "The AI books every payment on its own date.": "AI mencatat setiap pembayaran pada tanggalnya sendiri.",
+ "Quick totals": "Isi cepat",
+ "One amount for your pay, each fixed cost and each category.": "Satu jumlah untuk gajimu, tiap biaya tetap, dan tiap kategori.",
+ "Use the estimate": "Pakai perkiraan",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "Gaji, biaya tetap, dan anggaranmu — ditandai sebagai perkiraan sampai kamu konfirmasi.",
+ "Set your expected pay or budgets first.": "Isi dulu gaji yang diharapkan atau anggaranmu.",
+ "Save {month}": "Simpan {month}",
+ "Amounts in {currency}; you can type 12,50+30.": "Jumlah dalam {currency}; kamu juga bisa mengetik 12,50+30.",
+ "Confirm your months": "Konfirmasi bulanmu",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "Bulan-bulan ini berisi perkiraan. Cek satu per satu: sudah benar, atau perbaiki. +{points} poin per bulan.",
+ "Right": "Sudah benar",
+ "Estimated": "Perkiraan"
 }

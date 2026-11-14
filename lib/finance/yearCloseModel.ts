@@ -1,3 +1,4 @@
+import { CONFIRM_PREFIX } from "./estimate";
 import { accountFlows, balanceSheet, live, num, spendByCategoryYear, summarize } from "./calc";
 import { combined, perYear } from "./mortgage";
 import { renewal, totals } from "./insurance";
@@ -97,7 +98,7 @@ export function yearCloseData(source: FinanceData, year: number, now: Date) {
       equityStart,
       investments: priced ? { start: invStart, end: invEnd } : null,
       closes: live(data.monthCloses ?? []).filter((c) => c.month.startsWith(String(year))).length,
-      badges: live(data.achievements ?? []).filter((a) => a.earned_at.startsWith(String(year)) && !a.code.startsWith(CHECKIN_PREFIX) && !a.code.startsWith(YEAR_CLOSE_PREFIX)).length,
+      badges: live(data.achievements ?? []).filter((a) => a.earned_at.startsWith(String(year)) && !a.code.startsWith(CHECKIN_PREFIX) && !a.code.startsWith(YEAR_CLOSE_PREFIX) && !a.code.startsWith(CONFIRM_PREFIX)).length,
     },
     at,
   );

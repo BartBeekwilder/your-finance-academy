@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "Explore primeiro com dados de demo ({n} minutos)",
  "The demo is over": "A demo terminou",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Seus {n} minutos com a demo acabaram. Crie uma conta para montar suas próprias finanças — seus dados, ao vivo, em todos os aparelhos.",
- "You've seen the demo. Create an account to keep going.": "Você já viu a demo. Crie uma conta para continuar."
+ "You've seen the demo. Create an account to keep going.": "Você já viu a demo. Crie uma conta para continuar.",
+ "{month} is still empty": "{month} ainda está vazio",
+ "Fill it in, so your year adds up. Choose how:": "Preencha para que seu ano feche. Escolha como:",
+ "The AI books every payment on its own date.": "A IA lança cada pagamento na própria data.",
+ "Quick totals": "Preencher rápido",
+ "One amount for your pay, each fixed cost and each category.": "Um valor para seu salário, cada despesa fixa e cada categoria.",
+ "Use the estimate": "Usar a estimativa",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "Seu salário, despesas fixas e orçamentos — marcados como estimados até você confirmar.",
+ "Set your expected pay or budgets first.": "Informe primeiro seu salário esperado ou seus orçamentos.",
+ "Save {month}": "Salvar {month}",
+ "Amounts in {currency}; you can type 12,50+30.": "Valores em {currency}; você também pode digitar 12,50+30.",
+ "Confirm your months": "Confirme seus meses",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "Estes meses têm uma estimativa. Confira um por um: está certo, ou corrija. +{points} pontos por mês.",
+ "Right": "Está certo",
+ "Estimated": "Estimado"
 }

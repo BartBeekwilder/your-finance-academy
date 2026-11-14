@@ -1,5 +1,7 @@
 "use client";
 
+import { FillMonth, monthFromUrl } from "@/components/finance/EarlierMonths";
+import { isEmptyMonth } from "@/lib/finance/estimate";
 import { intlLocale, t } from "@/lib/i18n";
 import Segmented from "@/components/finance/Segmented";
 import CategoryBars from "@/components/finance/CategoryBars";
@@ -45,6 +47,13 @@ export default function ExpensesPage() {
   // Month view: the month looked at — this one, or an earlier one picked.
   const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const [picked, setPicked] = useState(thisMonth);
+  // ?month=YYYY-MM (from "Confirm your months") opens that month.
+  useEffect(() => {
+    const m = monthFromUrl(thisMonth);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- read once from the address
+    if (m < thisMonth) setPicked(m);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const past = mode === "month" && picked < thisMonth;
   // Quick Add starts its date in the month looked at.
   useEffect(() => {
@@ -57,7 +66,8 @@ export default function ExpensesPage() {
   const s = summarize(data.transactions, month);
   // Pickable: from the first month with spending up to this one.
   const firstSpend = all.transactions.reduce((m, x) => (x.type === "expense" && x.date < m ? x.date : m), thisMonth.toISOString());
-  const firstMonth = new Date(new Date(firstSpend).getFullYear(), new Date(firstSpend).getMonth(), 1);
+  // …and always back to January, so earlier months can be filled in.
+  const firstMonth = new Date(Math.min(new Date(new Date(firstSpend).getFullYear(), new Date(firstSpend).getMonth(), 1).getTime(), new Date(now.getFullYear(), 0, 1).getTime()));
   const spentMonths = new Set(all.transactions.filter((x) => x.type === "expense").map((x) => x.date.slice(0, 7)));
   const together = householdOf(all.profile).length > 0;
   const [view, setView] = useState<"together" | "people">("together");
@@ -98,6 +108,8 @@ export default function ExpensesPage() {
           <ReadWithAI kind="bank" />
         </div>
       </header>
+
+      {past && isEmptyMonth(all, picked) && <FillMonth key={picked.getTime()} month={picked} />}
 
       <CategoryTiles data={all} now={at} mode={mode} currency={currency} selected={scope} onSelect={setScope} />
 

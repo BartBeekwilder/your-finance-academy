@@ -13,6 +13,7 @@ import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles from "@/components/finance/LiveTiles";
 import LastUpdated from "@/components/finance/LastUpdated";
 import FinishSetupCard from "@/components/finance/FinishSetupCard";
+import { ConfirmMonths } from "@/components/finance/EarlierMonths";
 import { PendingStatement } from "@/components/finance/ReadWithAI";
 import SetupCelebration from "@/components/finance/SetupCelebration";
 import { KeyFiguresStrip } from "@/components/finance/KeyFigures";
@@ -132,6 +133,7 @@ export default function DashboardPage() {
       {/* After a quick start: finish the rest of the setup. */}
       <PendingStatement />
       <FinishSetupCard />
+      <ConfirmMonths />
 
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">

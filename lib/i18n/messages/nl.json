@@ -1939,5 +1939,19 @@
  "Look around with demo data first ({n} minutes)": "Eerst rondkijken met demodata ({n} minuten)",
  "The demo is over": "De demo is voorbij",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Je hebt je {n} minuten met de demo gehad. Maak een account aan om je eigen boekhouding op te zetten — jouw cijfers, live, op elk apparaat.",
- "You've seen the demo. Create an account to keep going.": "Je hebt de demo gezien. Maak een account aan om verder te gaan."
+ "You've seen the demo. Create an account to keep going.": "Je hebt de demo gezien. Maak een account aan om verder te gaan.",
+ "{month} is still empty": "{month} is nog leeg",
+ "Fill it in, so your year adds up. Choose how:": "Vul hem in, zodat je jaar klopt. Kies hoe:",
+ "The AI books every payment on its own date.": "De AI boekt elke betaling op zijn eigen datum.",
+ "Quick totals": "Snel invullen",
+ "One amount for your pay, each fixed cost and each category.": "Eén bedrag voor je salaris, elke vaste last en elke categorie.",
+ "Use the estimate": "Schatting overnemen",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "Je salaris, vaste lasten en budgetten — gemarkeerd als geschat tot je ze bevestigt.",
+ "Set your expected pay or budgets first.": "Vul eerst je verwachte salaris of budgetten in.",
+ "Save {month}": "{month} opslaan",
+ "Amounts in {currency}; you can type 12,50+30.": "Bedragen in {currency}; je kunt ook 12,50+30 typen.",
+ "Confirm your months": "Bevestig je maanden",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "In deze maanden staat een schatting. Check ze één voor één: klopt, of pas aan. +{points} punten per maand.",
+ "Right": "Klopt",
+ "Estimated": "Geschat"
 }

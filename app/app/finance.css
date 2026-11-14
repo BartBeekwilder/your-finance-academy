@@ -6292,3 +6292,29 @@ button.pf-ck-day:active { transform: scale(0.92); }
 .pf-demo-end-icon { display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; color: #ffd60a; background: radial-gradient(circle, rgba(255, 214, 10, 0.22), rgba(255, 214, 10, 0.04)); box-shadow: 0 0 0 1px rgba(255, 214, 10, 0.3), 0 0 40px rgba(255, 214, 10, 0.35); animation: pf-cele-star 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both; }
 .pf-demo-used { font-size: 0.8rem; color: var(--pf-ink-3); text-align: center; }
 @media (prefers-reduced-motion: reduce) { .pf-demo-end, .pf-demo-end-card, .pf-demo-end-icon { animation: none; } }
+
+/* Earlier months (EarlierMonths.tsx): fill an empty month, confirm estimates. */
+.pf-fill, .pf-confirm { display: grid; gap: 14px; }
+.pf-fill-head { display: grid; gap: 4px; }
+.pf-fill-head b { display: inline-flex; align-items: center; gap: 8px; font-size: 1.05rem; }
+.pf-fill-head span { font-size: 0.85rem; color: var(--pf-ink-2); }
+.pf-fill-ways { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.pf-fill-way { display: grid; gap: 6px; align-content: start; justify-items: start; padding: 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.07); text-align: start; font: inherit; color: var(--pf-ink); height: auto; }
+button.pf-fill-way { cursor: pointer; flex-direction: column; align-items: flex-start; font-weight: 600; transition: background-color 0.2s, border-color 0.2s; }
+button.pf-fill-way:hover:not(:disabled) { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.14); }
+button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
+.pf-fill-way small { font-weight: 400; font-size: 0.78rem; color: var(--pf-ink-2); line-height: 1.4; }
+.pf-fill-quick { display: grid; gap: 8px; }
+.pf-fill-row { display: grid; grid-template-columns: 1fr 160px; gap: 12px; align-items: center; font-size: 0.9rem; }
+.pf-fill-row input { text-align: end; font-variant-numeric: tabular-nums; }
+.pf-fill-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+.pf-fill-actions .pf-button { display: inline-flex; align-items: center; gap: 6px; }
+.pf-fill-note { font-size: 0.75rem; color: var(--pf-ink-3); }
+.pf-confirm-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pf-confirm-list li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); }
+.pf-confirm-month { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.pf-confirm-month small { font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+.pf-confirm-list .pf-chip { text-decoration: none; }
+.pf-confirm-ok { display: inline-flex; align-items: center; gap: 5px; }
+.pf-est { display: inline-flex; align-items: center; padding: 1px 6px; border-radius: 999px; font-size: 0.68rem; font-weight: 600; color: var(--pf-ink-2); border: 1px dashed rgba(255, 255, 255, 0.28); white-space: nowrap; }
+@media (max-width: 560px) { .pf-fill-row { grid-template-columns: 1fr 120px; } }

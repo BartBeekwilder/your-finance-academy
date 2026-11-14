@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "Xem trước với dữ liệu mẫu ({n} phút)",
  "The demo is over": "Bản dùng thử đã kết thúc",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Bạn đã dùng hết {n} phút dùng thử. Tạo tài khoản để lập sổ sách của riêng bạn — dữ liệu của bạn, trực tiếp, trên mọi thiết bị.",
- "You've seen the demo. Create an account to keep going.": "Bạn đã xem bản dùng thử. Tạo tài khoản để tiếp tục."
+ "You've seen the demo. Create an account to keep going.": "Bạn đã xem bản dùng thử. Tạo tài khoản để tiếp tục.",
+ "{month} is still empty": "{month} vẫn còn trống",
+ "Fill it in, so your year adds up. Choose how:": "Hãy điền để cả năm khớp số. Chọn cách:",
+ "The AI books every payment on its own date.": "AI ghi mỗi khoản thanh toán vào đúng ngày của nó.",
+ "Quick totals": "Điền nhanh",
+ "One amount for your pay, each fixed cost and each category.": "Một số tiền cho lương, mỗi chi phí cố định và mỗi danh mục.",
+ "Use the estimate": "Dùng ước tính",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "Lương, chi phí cố định và ngân sách — được đánh dấu là ước tính đến khi bạn xác nhận.",
+ "Set your expected pay or budgets first.": "Hãy nhập lương dự kiến hoặc ngân sách trước.",
+ "Save {month}": "Lưu {month}",
+ "Amounts in {currency}; you can type 12,50+30.": "Số tiền tính bằng {currency}; bạn cũng có thể gõ 12,50+30.",
+ "Confirm your months": "Xác nhận các tháng",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "Những tháng này đang chứa ước tính. Kiểm tra từng tháng: đúng, hoặc sửa. +{points} điểm mỗi tháng.",
+ "Right": "Đúng",
+ "Estimated": "Ước tính"
 }

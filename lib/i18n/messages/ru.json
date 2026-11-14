@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "Сначала осмотреться с демо-данными ({n} минут)",
  "The demo is over": "Демо закончилось",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Ваши {n} минут с демо истекли. Создайте аккаунт, чтобы вести свои финансы — ваши данные, в реальном времени, на любом устройстве.",
- "You've seen the demo. Create an account to keep going.": "Вы уже посмотрели демо. Создайте аккаунт, чтобы продолжить."
+ "You've seen the demo. Create an account to keep going.": "Вы уже посмотрели демо. Создайте аккаунт, чтобы продолжить.",
+ "{month} is still empty": "{month}: пока пусто",
+ "Fill it in, so your year adds up. Choose how:": "Заполните месяц, чтобы год сходился. Выберите как:",
+ "The AI books every payment on its own date.": "ИИ записывает каждый платёж на его дату.",
+ "Quick totals": "Быстро заполнить",
+ "One amount for your pay, each fixed cost and each category.": "Одна сумма для зарплаты, каждого постоянного расхода и каждой категории.",
+ "Use the estimate": "Взять оценку",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "Ваша зарплата, постоянные расходы и бюджеты — отмечены как оценка, пока вы не подтвердите.",
+ "Set your expected pay or budgets first.": "Сначала укажите ожидаемую зарплату или бюджеты.",
+ "Save {month}": "Сохранить {month}",
+ "Amounts in {currency}; you can type 12,50+30.": "Суммы в {currency}; можно ввести и 12,50+30.",
+ "Confirm your months": "Подтвердите месяцы",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "В этих месяцах стоит оценка. Проверьте каждый: всё верно или исправьте. +{points} очков за месяц.",
+ "Right": "Верно",
+ "Estimated": "Оценка"
 }

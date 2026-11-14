@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "先用演示数据看看（{n} 分钟）",
  "The demo is over": "演示已结束",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "你的 {n} 分钟演示已用完。创建账户，建立你自己的账本——你的数据，实时，在每台设备上。",
- "You've seen the demo. Create an account to keep going.": "你已看过演示。创建账户以继续。"
+ "You've seen the demo. Create an account to keep going.": "你已看过演示。创建账户以继续。",
+ "{month} is still empty": "{month}还是空的",
+ "Fill it in, so your year adds up. Choose how:": "填一下，让全年数字完整。选择方式：",
+ "The AI books every payment on its own date.": "AI 会把每笔付款记在它自己的日期上。",
+ "Quick totals": "快速填写",
+ "One amount for your pay, each fixed cost and each category.": "工资、每项固定支出和每个类别各填一个金额。",
+ "Use the estimate": "使用估算",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "你的工资、固定支出和预算——在你确认前标记为估算。",
+ "Set your expected pay or budgets first.": "请先设置预期工资或预算。",
+ "Save {month}": "保存{month}",
+ "Amounts in {currency}; you can type 12,50+30.": "金额单位为 {currency}；也可以输入 12,50+30。",
+ "Confirm your months": "确认你的月份",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "这些月份里是估算数字。逐个检查：没错，或修改。每个月 +{points} 积分。",
+ "Right": "没错",
+ "Estimated": "估算"
 }

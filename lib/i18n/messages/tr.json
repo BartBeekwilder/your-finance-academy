@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "Önce demo verilerle göz atın ({n} dakika)",
  "The demo is over": "Demo sona erdi",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Demoyla {n} dakikanızı kullandınız. Kendi defterlerinizi kurmak için bir hesap oluşturun — verileriniz, canlı, her cihazda.",
- "You've seen the demo. Create an account to keep going.": "Demoyu gördünüz. Devam etmek için bir hesap oluşturun."
+ "You've seen the demo. Create an account to keep going.": "Demoyu gördünüz. Devam etmek için bir hesap oluşturun.",
+ "{month} is still empty": "{month} henüz boş",
+ "Fill it in, so your year adds up. Choose how:": "Yılın doğru çıksın diye doldur. Nasıl olacağını seç:",
+ "The AI books every payment on its own date.": "Yapay zekâ her ödemeyi kendi tarihine kaydeder.",
+ "Quick totals": "Hızlı doldur",
+ "One amount for your pay, each fixed cost and each category.": "Maaşın, her sabit gider ve her kategori için tek bir tutar.",
+ "Use the estimate": "Tahmini kullan",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "Maaşın, sabit giderlerin ve bütçelerin — onaylayana kadar tahmini olarak işaretli.",
+ "Set your expected pay or budgets first.": "Önce beklenen maaşını veya bütçelerini gir.",
+ "Save {month}": "{month} kaydet",
+ "Amounts in {currency}; you can type 12,50+30.": "Tutarlar {currency} cinsinden; 12,50+30 da yazabilirsin.",
+ "Confirm your months": "Aylarını onayla",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "Bu aylarda bir tahmin var. Tek tek kontrol et: doğru ya da düzelt. Ay başına +{points} puan.",
+ "Right": "Doğru",
+ "Estimated": "Tahmini"
 }

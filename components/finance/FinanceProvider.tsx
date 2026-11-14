@@ -354,8 +354,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   // …same for spread_months (0008), person_id (0010) and advances (0011).
   // Runtime-only spread fields never go out.
   const withoutEmptyGross = (t: NewTransaction) => {
-    const { gross_amount, spread_months, person_id, advance, repaid_at, spread_of: _o, spread_index: _i, spread_total: _n, ...rest } = t;
-    void _o; void _i; void _n;
+    const { gross_amount, spread_months, person_id, advance, repaid_at, estimated: _e, spread_of: _o, spread_index: _i, spread_total: _n, ...rest } = t;
+    void _e; void _o; void _i; void _n;
     return {
       ...rest,
       ...(gross_amount != null ? { gross_amount } : {}),
@@ -394,7 +394,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const updateTransaction = useCallback(
     async (id: string, t: NewTransaction) => {
-      const patch = { ...t, updated_at: new Date().toISOString() };
+      // Editing an estimated row confirms it.
+      const patch = { ...t, estimated: null, updated_at: new Date().toISOString() };
       if (source === "supabase" && supabase) {
         const had = (phase.kind === "ready" ? phase.data.transactions : []).find((x) => x.id === id)?.gross_amount != null;
         const before = (phase.kind === "ready" ? phase.data.transactions : []).find((x) => x.id === id);

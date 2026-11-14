@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "まずデモデータで見てみる（{n}分）",
  "The demo is over": "デモは終了しました",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "デモの{n}分が終わりました。アカウントを作成して、自分の帳簿を始めましょう。あなたのデータを、リアルタイムで、すべてのデバイスで。",
- "You've seen the demo. Create an account to keep going.": "デモはご覧いただきました。続けるにはアカウントを作成してください。"
+ "You've seen the demo. Create an account to keep going.": "デモはご覧いただきました。続けるにはアカウントを作成してください。",
+ "{month} is still empty": "{month}はまだ空です",
+ "Fill it in, so your year adds up. Choose how:": "1年の数字がそろうように入力しましょう。方法を選んでください：",
+ "The AI books every payment on its own date.": "AI が各支払いをその日付で記録します。",
+ "Quick totals": "まとめて入力",
+ "One amount for your pay, each fixed cost and each category.": "給与、各固定費、各カテゴリーにそれぞれ1つの金額。",
+ "Use the estimate": "見積もりを使う",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "給与・固定費・予算から作成。確認するまで「見積もり」と表示されます。",
+ "Set your expected pay or budgets first.": "まず予定の給与か予算を設定してください。",
+ "Save {month}": "{month}を保存",
+ "Amounts in {currency}; you can type 12,50+30.": "金額は{currency}。12,50+30 のようにも入力できます。",
+ "Confirm your months": "月を確認する",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "これらの月には見積もりが入っています。1つずつ確認：合っている、または修正。1か月ごとに +{points} ポイント。",
+ "Right": "合っている",
+ "Estimated": "見積もり"
 }

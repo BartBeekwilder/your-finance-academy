@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "Najpierw rozejrzyj się z danymi demo ({n} minut)",
  "The demo is over": "Demo dobiegło końca",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Twoje {n} minut z demo minęło. Załóż konto, aby prowadzić własne finanse — Twoje dane, na żywo, na każdym urządzeniu.",
- "You've seen the demo. Create an account to keep going.": "Demo już widziałeś. Załóż konto, aby kontynuować."
+ "You've seen the demo. Create an account to keep going.": "Demo już widziałeś. Załóż konto, aby kontynuować.",
+ "{month} is still empty": "{month} jest jeszcze pusty",
+ "Fill it in, so your year adds up. Choose how:": "Uzupełnij go, żeby twój rok się zgadzał. Wybierz jak:",
+ "The AI books every payment on its own date.": "AI zapisuje każdą płatność pod jej własną datą.",
+ "Quick totals": "Szybkie wpisanie",
+ "One amount for your pay, each fixed cost and each category.": "Jedna kwota na pensję, każdy stały koszt i każdą kategorię.",
+ "Use the estimate": "Użyj szacunku",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "Twoja pensja, stałe koszty i budżety — oznaczone jako szacowane, aż je potwierdzisz.",
+ "Set your expected pay or budgets first.": "Najpierw podaj oczekiwaną pensję lub budżety.",
+ "Save {month}": "Zapisz {month}",
+ "Amounts in {currency}; you can type 12,50+30.": "Kwoty w {currency}; możesz też wpisać 12,50+30.",
+ "Confirm your months": "Potwierdź swoje miesiące",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "W tych miesiącach jest szacunek. Sprawdź je po kolei: zgadza się, albo popraw. +{points} punktów za miesiąc.",
+ "Right": "Zgadza się",
+ "Estimated": "Szacowane"
 }

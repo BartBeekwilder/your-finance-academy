@@ -76,6 +76,7 @@ export default function TransactionsPage() {
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <div style={{ fontSize: "0.95rem" }}>
                       {t.note || c?.name || tr("Transaction")}
+                      {t.estimated && <> <span className="pf-est">{tr("Estimated")}</span></>}
                       {t.spread_months ? <span className="pf-txn-part"> · {tr("spread over {n} mo", { n: t.spread_months })}</span> : null}
                       {t.person_id && <PersonTag member={people.get(t.person_id)} />}
                     </div>

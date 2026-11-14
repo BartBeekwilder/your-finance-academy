@@ -1933,5 +1933,19 @@
  "Look around with demo data first ({n} minutes)": "먼저 데모 데이터로 둘러보기 ({n}분)",
  "The demo is over": "데모가 끝났어요",
  "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "데모 {n}분이 끝났어요. 계정을 만들어 나만의 장부를 시작하세요 — 내 데이터를, 실시간으로, 모든 기기에서.",
- "You've seen the demo. Create an account to keep going.": "데모를 이미 보셨어요. 계속하려면 계정을 만드세요."
+ "You've seen the demo. Create an account to keep going.": "데모를 이미 보셨어요. 계속하려면 계정을 만드세요.",
+ "{month} is still empty": "{month}이(가) 아직 비어 있어요",
+ "Fill it in, so your year adds up. Choose how:": "한 해가 맞아떨어지도록 채워 보세요. 방법을 고르세요:",
+ "The AI books every payment on its own date.": "AI가 결제를 각각의 날짜에 기록합니다.",
+ "Quick totals": "빠르게 입력",
+ "One amount for your pay, each fixed cost and each category.": "급여, 각 고정비, 각 카테고리마다 금액 하나.",
+ "Use the estimate": "추정치 사용",
+ "Your pay, fixed costs and budgets — marked as estimated until you confirm.": "급여, 고정비, 예산 — 확인할 때까지 추정으로 표시됩니다.",
+ "Set your expected pay or budgets first.": "먼저 예상 급여나 예산을 입력하세요.",
+ "Save {month}": "{month} 저장",
+ "Amounts in {currency}; you can type 12,50+30.": "금액 단위는 {currency}이며 12,50+30처럼 입력해도 됩니다.",
+ "Confirm your months": "월 확인하기",
+ "These months hold an estimate. Check each one: right, or correct it. +{points} points per month.": "이 달들에는 추정치가 들어 있어요. 하나씩 확인하세요: 맞음 또는 수정. 한 달에 +{points}점.",
+ "Right": "맞음",
+ "Estimated": "추정"
 }
