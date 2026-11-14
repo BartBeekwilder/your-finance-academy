@@ -4,8 +4,8 @@ import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BookOpen, Banknote, Ellipsis, X, Gauge, HandCoins, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, Lock, LogOut, Receipt, Pause, Play, Settings, Sparkles } from "lucide-react";
-import { setBackgroundMotion, setMotionPaused, useBackgroundMotion, useMotionMode } from "@/lib/motion";
+import { BookOpen, Banknote, Ellipsis, X, Gauge, HandCoins, Scale, House, KeyRound, Umbrella, Trophy, ChartLine, ChartPie, CircleDollarSign, Landmark, LayoutGrid, List, Lock, LogOut, Receipt, Settings } from "lucide-react";
+import { useMotionMode } from "@/lib/motion";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
 import { arrayMove, rectSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -213,30 +213,15 @@ function VaultChip() {
   );
 }
 
-/** Quick motion switches in the sidebar: pause everything (tickers, the
- *  background, CSS animations) and the background drift on its own. Also
- *  marks <html> with the motion mode for finance.css. Settings has the
- *  Light mode for slower computers. */
+/** Marks <html> with the motion mode for finance.css. The switches
+ *  themselves live in Settings › Animations (Bart, 14 Nov: not in the
+ *  sidebar). */
 function MotionToggle() {
   const mode = useMotionMode();
-  const background = useBackgroundMotion();
-  const paused = mode === "off";
   useEffect(() => {
     const html = document.documentElement;
     if (mode === "full") html.removeAttribute("data-pf-motion");
     else html.setAttribute("data-pf-motion", mode);
   }, [mode]);
-  const style = { display: "inline-flex", alignItems: "center", gap: 6, padding: 0 } as const;
-  return (
-    <div style={{ display: "grid", gap: 6, justifyItems: "start", marginBottom: 8 }}>
-      <button className="pf-link" onClick={() => setMotionPaused(!paused)} style={style}>
-        {paused ? <Play size={14} /> : <Pause size={14} />} {paused ? t("Resume animations") : t("Pause animations")}
-      </button>
-      {!paused && (
-        <button className="pf-link" onClick={() => setBackgroundMotion(!background)} style={style}>
-          <Sparkles size={14} /> {background ? t("Background still") : t("Background moving")}
-        </button>
-      )}
-    </div>
-  );
+  return null;
 }
