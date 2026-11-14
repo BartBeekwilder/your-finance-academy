@@ -298,10 +298,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       }
       const demoParam = new URLSearchParams(location.search).get("demo") === "1";
       const framed = window.self !== window.top;
-      // The demo only runs inside the homepage's device frames now (Bart,
-      // 14 Nov): no stand-alone demo on the site.
-      sessionStorage.removeItem(DEMO_KEY);
-      demo = demoParam && framed;
+      if (demoParam && !framed) sessionStorage.setItem(DEMO_KEY, "1");
+      demo = (demoParam && framed) || sessionStorage.getItem(DEMO_KEY) === "1";
       local = DEV && sessionStorage.getItem(LOCAL_KEY) === "1";
     } catch {}
     if (local) {
@@ -1026,7 +1024,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     return (
       <LanguageRoot>
         <div className="pf-solo">
-          <SignIn onLocal={localFile === "has" ? () => void startLocal() : undefined} onLocalNew={localFile === "missing" ? () => void startLocal(true) : undefined} />
+          <SignIn onDemo={startDemo} onLocal={localFile === "has" ? () => void startLocal() : undefined} onLocalNew={localFile === "missing" ? () => void startLocal(true) : undefined} />
         </div>
       </LanguageRoot>
     );
