@@ -1245,7 +1245,10 @@ panels, asset mix panel, Forgot password, then Premium.
 - Customers see "Sold through Link", statement LINK.COM*, can manage the
   subscription at link.com as well as our portal. Payment methods: cards,
   Apple Pay, Google Pay, Link (no iDEAL for subscriptions).
-- Go live (Bart): activate the live Stripe account as an individual, enable
+- BLOCKER found 14 Nov: Stripe NL activation offers only "bedrijf" /
+  non-profit (no individual) and the KVK number is required. So Managed
+  Payments takes VAT off Bart's hands but does NOT remove the need for a KvK.
+- Go live (Bart): activate the live Stripe account (eenmanszaak + KvK), enable
   Managed Payments (Settings › Managed payments), support email in business
   details; then live product/prices/webhook/restricted key, RevenueCat Stripe
   app on live, Vercel env swap, NEXT_PUBLIC_PF_SIGNUPS=open, merge to main.
