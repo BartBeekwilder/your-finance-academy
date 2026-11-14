@@ -1,5 +1,6 @@
 "use client";
 
+import { demoUsed, DEMO_MINUTES } from "@/lib/finance/demoTimer";
 import { t } from "@/lib/i18n";
 import { useState, type FormEvent } from "react";
 import { guessCurrency } from "@/lib/finance/currencies";
@@ -33,15 +34,21 @@ const SIGNUPS = process.env.NEXT_PUBLIC_PF_SIGNUPS;
 const SIGNUPS_OPEN = SIGNUPS === "open" || SIGNUPS === "invite" || process.env.NODE_ENV === "development";
 const INVITE_ONLY = SIGNUPS === "invite";
 
+/** Set by the demo's end screen ("Create your account"): open on sign-up. */
+export const OPEN_SIGNUP = "pf-open-signup";
+
 export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: no demo link (e.g. signing in from Settings). */ onDemo?: () => void; /** Dev only: open the private data file on this computer. */ onLocal?: () => void; /** Dev only, no file yet: start one (to restore an encrypted copy). */ onLocalNew?: () => void }) {
-  // An invite link (…/app?invite=CODE) opens on "Create account".
+  // An invite link (…/app?invite=CODE), or the demo's end screen, opens on "Create account".
   const [step, setStep] = useState<Step>(() => {
     try {
-      return SIGNUPS_OPEN && new URLSearchParams(location.search).has("invite") ? { kind: "signup" } : { kind: "signin" };
+      const fromDemo = sessionStorage.getItem(OPEN_SIGNUP) === "1";
+      sessionStorage.removeItem(OPEN_SIGNUP);
+      return SIGNUPS_OPEN && (fromDemo || new URLSearchParams(location.search).has("invite")) ? { kind: "signup" } : { kind: "signin" };
     } catch {
       return { kind: "signin" };
     }
   });
+  const [used] = useState(() => (typeof window === "undefined" ? false : demoUsed()));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
@@ -266,11 +273,14 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
           </button>
         )}
 
-        {onDemo && (
+        {onDemo && (used ? (
+          // The demo has had its time in this browser (lib/finance/demoTimer.ts).
+          <p className="pf-demo-used">{t("You've seen the demo. Create an account to keep going.")}</p>
+        ) : (
           <button type="button" onClick={onDemo} className="pf-link" style={{ color: "var(--pf-ink-3)" }}>
-            {t("Look around with demo data first")}
+            {t("Look around with demo data first ({n} minutes)", { n: DEMO_MINUTES })}
           </button>
-        )}
+        ))}
         <a href="/privacy/web-app" className="pf-link" style={{ color: "var(--pf-ink-3)", fontSize: "0.75rem", justifySelf: "center" }}>
           {t("Privacy: what's stored and who can see it")}
         </a>

@@ -7,6 +7,7 @@ import NeonLines from "@/components/finance/NeonLines";
 import QuickAdd from "@/components/finance/QuickAdd";
 import OnboardingGate from "@/components/finance/OnboardingGate";
 import FeedbackButton from "@/components/finance/FeedbackButton";
+import DemoTimer from "@/components/finance/DemoTimer";
 import "./finance.css";
 
 export const metadata: Metadata = {
@@ -29,6 +30,7 @@ export default function FinanceAppLayout({ children }: LayoutProps<"/app">) {
               <QuickAdd />
               <OnboardingGate />
               <FeedbackButton />
+              <DemoTimer />
             </div>
           </CategoryDetailProvider>
         </LanguageRoot>

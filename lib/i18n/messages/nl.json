@@ -1932,5 +1932,12 @@
  "No reads left today.": "Vandaag kun je niet meer inlezen.",
  "No reads left today. You can read again on {when}.": "Vandaag kun je niet meer inlezen. Dat kan weer op {when}.",
  "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "Tip: één keer per week is genoeg — verzamel de screenshots van de week en lees ze in één keer in.",
- "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Je hebt de afgelopen 24 uur al 2 documenten laten lezen. Eén keer per week is genoeg: verzamel de screenshots van de week en lees ze in één keer in."
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Je hebt de afgelopen 24 uur al 2 documenten laten lezen. Eén keer per week is genoeg: verzamel de screenshots van de week en lees ze in één keer in.",
+ "Demo time left: {time}": "Nog {time} demo",
+ "I already have an account": "Ik heb al een account",
+ "Liked what you saw?": "Beviel het?",
+ "Look around with demo data first ({n} minutes)": "Eerst rondkijken met demodata ({n} minuten)",
+ "The demo is over": "De demo is voorbij",
+ "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Je hebt je {n} minuten met de demo gehad. Maak een account aan om je eigen boekhouding op te zetten — jouw cijfers, live, op elk apparaat.",
+ "You've seen the demo. Create an account to keep going.": "Je hebt de demo gezien. Maak een account aan om verder te gaan."
 }

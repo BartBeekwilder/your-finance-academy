@@ -1926,5 +1926,12 @@
  "No reads left today.": "今日の読み取り回数はもうありません。",
  "No reads left today. You can read again on {when}.": "今日の読み取り回数はもうありません。次は{when}に読み取れます。",
  "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "ヒント：週に1回で十分です。1週間分のスクリーンショットをまとめて読み取りましょう。",
- "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "この24時間ですでに2件の書類を読み取りました。週に1回で十分です。1週間分のスクリーンショットをまとめて読み取りましょう。"
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "この24時間ですでに2件の書類を読み取りました。週に1回で十分です。1週間分のスクリーンショットをまとめて読み取りましょう。",
+ "Demo time left: {time}": "デモの残り時間 {time}",
+ "I already have an account": "アカウントをお持ちの方",
+ "Liked what you saw?": "気に入りましたか？",
+ "Look around with demo data first ({n} minutes)": "まずデモデータで見てみる（{n}分）",
+ "The demo is over": "デモは終了しました",
+ "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "デモの{n}分が終わりました。アカウントを作成して、自分の帳簿を始めましょう。あなたのデータを、リアルタイムで、すべてのデバイスで。",
+ "You've seen the demo. Create an account to keep going.": "デモはご覧いただきました。続けるにはアカウントを作成してください。"
 }

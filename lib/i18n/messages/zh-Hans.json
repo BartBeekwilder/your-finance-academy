@@ -1926,5 +1926,12 @@
  "No reads left today.": "今天的读取次数已用完。",
  "No reads left today. You can read again on {when}.": "今天的读取次数已用完。{when} 可以再次读取。",
  "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "提示：每周一次就够了——把一周的截图攒起来一次读取。",
- "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "过去 24 小时内你已读取了 2 份文件。每周一次就够了：把一周的截图攒起来一次读取。"
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "过去 24 小时内你已读取了 2 份文件。每周一次就够了：把一周的截图攒起来一次读取。",
+ "Demo time left: {time}": "演示剩余 {time}",
+ "I already have an account": "我已有账户",
+ "Liked what you saw?": "喜欢你看到的吗？",
+ "Look around with demo data first ({n} minutes)": "先用演示数据看看（{n} 分钟）",
+ "The demo is over": "演示已结束",
+ "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "你的 {n} 分钟演示已用完。创建账户，建立你自己的账本——你的数据，实时，在每台设备上。",
+ "You've seen the demo. Create an account to keep going.": "你已看过演示。创建账户以继续。"
 }

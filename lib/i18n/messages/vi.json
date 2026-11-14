@@ -1926,5 +1926,12 @@
  "No reads left today.": "Hôm nay đã hết lượt đọc.",
  "No reads left today. You can read again on {when}.": "Hôm nay đã hết lượt đọc. Bạn có thể đọc lại vào {when}.",
  "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "Mẹo: mỗi tuần một lần là đủ — gom ảnh chụp của cả tuần và đọc một lượt.",
- "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Bạn đã đọc 2 tài liệu trong 24 giờ qua. Mỗi tuần một lần là đủ: gom ảnh chụp của cả tuần và đọc một lượt."
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Bạn đã đọc 2 tài liệu trong 24 giờ qua. Mỗi tuần một lần là đủ: gom ảnh chụp của cả tuần và đọc một lượt.",
+ "Demo time left: {time}": "Còn {time} dùng thử",
+ "I already have an account": "Tôi đã có tài khoản",
+ "Liked what you saw?": "Bạn thấy thích chứ?",
+ "Look around with demo data first ({n} minutes)": "Xem trước với dữ liệu mẫu ({n} phút)",
+ "The demo is over": "Bản dùng thử đã kết thúc",
+ "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Bạn đã dùng hết {n} phút dùng thử. Tạo tài khoản để lập sổ sách của riêng bạn — dữ liệu của bạn, trực tiếp, trên mọi thiết bị.",
+ "You've seen the demo. Create an account to keep going.": "Bạn đã xem bản dùng thử. Tạo tài khoản để tiếp tục."
 }

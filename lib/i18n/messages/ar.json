@@ -1926,5 +1926,12 @@
  "No reads left today.": "لا قراءات متبقية اليوم.",
  "No reads left today. You can read again on {when}.": "لا قراءات متبقية اليوم. يمكنك القراءة مجددًا {when}.",
  "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "نصيحة: مرة في الأسبوع تكفي — اجمع لقطات الأسبوع واقرأها دفعة واحدة.",
- "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "قرأت مستندين خلال آخر 24 ساعة. مرة في الأسبوع تكفي: اجمع لقطات الأسبوع واقرأها دفعة واحدة."
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "قرأت مستندين خلال آخر 24 ساعة. مرة في الأسبوع تكفي: اجمع لقطات الأسبوع واقرأها دفعة واحدة.",
+ "Demo time left: {time}": "تبقى {time} من العرض التجريبي",
+ "I already have an account": "لدي حساب بالفعل",
+ "Liked what you saw?": "هل أعجبك ما رأيت؟",
+ "Look around with demo data first ({n} minutes)": "استكشف أولًا ببيانات تجريبية ({n} دقائق)",
+ "The demo is over": "انتهى العرض التجريبي",
+ "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "لقد استخدمت دقائقك الـ {n} في العرض التجريبي. أنشئ حسابًا لتبدأ دفاترك الخاصة — بياناتك، مباشرة، على كل جهاز.",
+ "You've seen the demo. Create an account to keep going.": "لقد شاهدت العرض التجريبي. أنشئ حسابًا للمتابعة."
 }

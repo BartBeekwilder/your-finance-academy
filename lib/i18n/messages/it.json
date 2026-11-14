@@ -1926,5 +1926,12 @@
  "No reads left today.": "Oggi non hai più letture.",
  "No reads left today. You can read again on {when}.": "Oggi non hai più letture. Potrai di nuovo {when}.",
  "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "Consiglio: una volta a settimana basta — raccogli gli screenshot della settimana e leggili in un colpo solo.",
- "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Hai già fatto leggere 2 documenti nelle ultime 24 ore. Una volta a settimana basta: raccogli gli screenshot della settimana e leggili in un colpo solo."
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Hai già fatto leggere 2 documenti nelle ultime 24 ore. Una volta a settimana basta: raccogli gli screenshot della settimana e leggili in un colpo solo.",
+ "Demo time left: {time}": "Ancora {time} di demo",
+ "I already have an account": "Ho già un account",
+ "Liked what you saw?": "Ti è piaciuto?",
+ "Look around with demo data first ({n} minutes)": "Dai prima un'occhiata con i dati demo ({n} minuti)",
+ "The demo is over": "La demo è finita",
+ "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Hai avuto i tuoi {n} minuti con la demo. Crea un account per impostare i tuoi conti: i tuoi dati, in tempo reale, su ogni dispositivo.",
+ "You've seen the demo. Create an account to keep going.": "Hai già visto la demo. Crea un account per continuare."
 }

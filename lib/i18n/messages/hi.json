@@ -1926,5 +1926,12 @@
  "No reads left today.": "आज पढ़ने की सीमा पूरी हो गई।",
  "No reads left today. You can read again on {when}.": "आज पढ़ने की सीमा पूरी हो गई। आप फिर {when} पढ़ सकते हैं।",
  "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "सुझाव: हफ़्ते में एक बार काफ़ी है — हफ़्ते के स्क्रीनशॉट जमा करें और एक साथ पढ़वाएँ।",
- "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "पिछले 24 घंटों में आप 2 दस्तावेज़ पढ़वा चुके हैं। हफ़्ते में एक बार काफ़ी है: हफ़्ते के स्क्रीनशॉट जमा करें और एक साथ पढ़वाएँ।"
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "पिछले 24 घंटों में आप 2 दस्तावेज़ पढ़वा चुके हैं। हफ़्ते में एक बार काफ़ी है: हफ़्ते के स्क्रीनशॉट जमा करें और एक साथ पढ़वाएँ।",
+ "Demo time left: {time}": "डेमो के {time} बचे हैं",
+ "I already have an account": "मेरा अकाउंट पहले से है",
+ "Liked what you saw?": "जो देखा, पसंद आया?",
+ "Look around with demo data first ({n} minutes)": "पहले डेमो डेटा से देखें ({n} मिनट)",
+ "The demo is over": "डेमो समाप्त हो गया",
+ "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "डेमो के आपके {n} मिनट पूरे हो गए। अपने खाते शुरू करने के लिए अकाउंट बनाएँ — आपका डेटा, लाइव, हर डिवाइस पर।",
+ "You've seen the demo. Create an account to keep going.": "आप डेमो देख चुके हैं। आगे बढ़ने के लिए अकाउंट बनाएँ।"
 }

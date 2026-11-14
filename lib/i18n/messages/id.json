@@ -1926,5 +1926,12 @@
  "No reads left today.": "Tidak ada sisa pembacaan hari ini.",
  "No reads left today. You can read again on {when}.": "Tidak ada sisa pembacaan hari ini. Bisa lagi pada {when}.",
  "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "Tips: seminggu sekali sudah cukup — kumpulkan tangkapan layar seminggu dan baca sekaligus.",
- "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Kamu sudah membaca 2 dokumen dalam 24 jam terakhir. Seminggu sekali sudah cukup: kumpulkan tangkapan layar seminggu dan baca sekaligus."
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "Kamu sudah membaca 2 dokumen dalam 24 jam terakhir. Seminggu sekali sudah cukup: kumpulkan tangkapan layar seminggu dan baca sekaligus.",
+ "Demo time left: {time}": "Sisa waktu demo {time}",
+ "I already have an account": "Saya sudah punya akun",
+ "Liked what you saw?": "Suka dengan yang Anda lihat?",
+ "Look around with demo data first ({n} minutes)": "Lihat-lihat dulu dengan data demo ({n} menit)",
+ "The demo is over": "Demo telah berakhir",
+ "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "Waktu {n} menit Anda dengan demo sudah habis. Buat akun untuk menyiapkan pembukuan sendiri — data Anda, langsung, di setiap perangkat.",
+ "You've seen the demo. Create an account to keep going.": "Anda sudah melihat demo. Buat akun untuk melanjutkan."
 }

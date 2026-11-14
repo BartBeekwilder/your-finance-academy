@@ -1926,5 +1926,12 @@
  "No reads left today.": "오늘은 읽기 횟수가 남아 있지 않습니다.",
  "No reads left today. You can read again on {when}.": "오늘은 읽기 횟수가 남아 있지 않습니다. {when}에 다시 읽을 수 있습니다.",
  "Tip: once a week is plenty — collect the week's screenshots and read them in one go.": "팁: 일주일에 한 번이면 충분해요 — 한 주의 스크린샷을 모아 한 번에 읽으세요.",
- "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "지난 24시간 동안 이미 문서 2개를 읽었습니다. 일주일에 한 번이면 충분해요: 한 주의 스크린샷을 모아 한 번에 읽으세요."
+ "You've read 2 documents in the last 24 hours. Once a week is plenty: collect the week's screenshots and read them in one go.": "지난 24시간 동안 이미 문서 2개를 읽었습니다. 일주일에 한 번이면 충분해요: 한 주의 스크린샷을 모아 한 번에 읽으세요.",
+ "Demo time left: {time}": "데모 남은 시간 {time}",
+ "I already have an account": "이미 계정이 있어요",
+ "Liked what you saw?": "마음에 드셨나요?",
+ "Look around with demo data first ({n} minutes)": "먼저 데모 데이터로 둘러보기 ({n}분)",
+ "The demo is over": "데모가 끝났어요",
+ "You've had your {n} minutes with the demo. Create an account to set up your own books — your data, live, on every device.": "데모 {n}분이 끝났어요. 계정을 만들어 나만의 장부를 시작하세요 — 내 데이터를, 실시간으로, 모든 기기에서.",
+ "You've seen the demo. Create an account to keep going.": "데모를 이미 보셨어요. 계속하려면 계정을 만드세요."
 }
