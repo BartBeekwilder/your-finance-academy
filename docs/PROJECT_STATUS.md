@@ -1187,6 +1187,32 @@ Gap list, in launch order (✓ = done on iOS):
 8. Premium via RevenueCat (App User ID = Supabase user id; entitlement
    personal_finance_premium) instead of StoreKit-only; Read with AI through
    /api/ai/read with the user's token (2 a day).
-9. Sign-in first (account required + demo), remove CloudKit.
-Android: the same list plus everything of 28 Oct – 4 Nov (see the Apple Note
+9. ✓ (2026-11-14) Sign-in first + demo, CloudKit off. App opens on
+   Views/SignIn/SignInView.swift (= web SignIn: password, 8-digit code,
+   Create account with invite code via /auth/v1/signup + verify type signup,
+   Forgot password via /auth/v1/recover + verify recovery + PUT /auth/v1/user).
+   A device with its own books (pre-account users) keeps them: an account
+   without a copy takes them over (merge), one with a copy asks replace /
+   merge (with the passphrase when protected). Demo: AppGate builds an
+   in-memory store with DummyData.demo (names local per language = web
+   demo LOCAL table), no paywall, never synced (Settings › Account says
+   "Demo data — nothing is saved" + Leave demo); the expected income it
+   borrows is backed up and restored (also at the next launch). Demo timer =
+   web demoTimer.ts 1:1 (Services/DemoTimer.swift, 10 min, reset after 30
+   days, start in UserDefaults + Keychain, earliest wins; DemoTimerTests)
+   with the pill and end screen (Views/SignIn/DemoTimerView.swift).
+   ModelConfiguration cloudKitDatabase .none on the same store (books stay),
+   iCloud entitlement removed. Debug: -skipSignIn (sticky) / -signIn,
+   -demo, -demoReset, -demoMinutesAgo n.
+   Web (same day, web-app): demo time limit lib/finance/demoTimer.ts +
+   components/finance/DemoTimer.tsx.
+Android (repo ~/Developer/personal-finance-android, main, clean at 6828d10 —
+vault sync with a passphrase only). Order, same as iOS (follow the iOS
+commits on ios-port-nov13 as the reference, 1:1): (1) plain account copy
+(kdf "none") + Extra protection, kept-collections guard; (2) Loans;
+(3) Key figures; (4) onboarding + celebration + Finish card; (5) investment
+search, add / buy / sell; (6) year close + Year Wrapped, check-in latest
+five, Liquidity panels, mix panel; (7) country rules; (8) sign-in first +
+silent 10-minute demo timer (lib/finance/demoTimer.ts); then Premium.
+Also: everything of 28 Oct – 4 Nov (see the Apple Note
 "Personal Finance — nog naar iOS & Android").
