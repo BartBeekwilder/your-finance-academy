@@ -1200,7 +1200,8 @@ Gap list, in launch order (✓ = done on iOS):
    borrows is backed up and restored (also at the next launch). Demo timer =
    web demoTimer.ts 1:1 (Services/DemoTimer.swift, 10 min, reset after 30
    days, start in UserDefaults + Keychain, earliest wins; DemoTimerTests)
-   with the pill and end screen (Views/SignIn/DemoTimerView.swift).
+   silent (no countdown, as on the web), only the end screen after 10 minutes
+   (Views/SignIn/DemoTimerView.swift).
    ModelConfiguration cloudKitDatabase .none on the same store (books stay),
    iCloud entitlement removed. Debug: -skipSignIn (sticky) / -signIn,
    -demo, -demoReset, -demoMinutesAgo n.
