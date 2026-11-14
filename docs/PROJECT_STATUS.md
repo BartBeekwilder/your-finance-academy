@@ -1234,3 +1234,18 @@ end screen leaves the demo and clears its books; Settings shows a demo card
 instead of Account. New installs start empty; installs from before keep their
 books. Still open on Android: check-in latest five, Liquidity month/day
 panels, asset mix panel, Forgot password, then Premium.
+
+## 2026-11-14 — Selling without KvK: Stripe Managed Payments (web-app)
+- Bart's choice: pay the 3.5% Managed Payments fee, no KvK yet. Stripe (as
+  Link) is the merchant of record: VAT in 80+ countries, fraud, disputes,
+  receipts. NL accounts are eligible (Stripe reviews eligibility).
+- Code: checkout sends managed_payments[enabled]=true (app/api/billing/checkout).
+  Sandbox product tax code → txcd_10103000 (SaaS personal use); prices stay
+  tax-inclusive. Sandbox accepted a Managed Payments session (liability stripe).
+- Customers see "Sold through Link", statement LINK.COM*, can manage the
+  subscription at link.com as well as our portal. Payment methods: cards,
+  Apple Pay, Google Pay, Link (no iDEAL for subscriptions).
+- Go live (Bart): activate the live Stripe account as an individual, enable
+  Managed Payments (Settings › Managed payments), support email in business
+  details; then live product/prices/webhook/restricted key, RevenueCat Stripe
+  app on live, Vercel env swap, NEXT_PUBLIC_PF_SIGNUPS=open, merge to main.
