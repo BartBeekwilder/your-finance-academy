@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Hourglass } from "lucide-react";
 import { t } from "@/lib/i18n";
-import { clock, demoLeft, DEMO_MINUTES, startDemoClock } from "@/lib/finance/demoTimer";
+import { demoLeft, DEMO_MINUTES, startDemoClock } from "@/lib/finance/demoTimer";
 import { useFinance } from "./FinanceProvider";
 import { OPEN_SIGNUP } from "./SignIn";
 
-// The demo's time limit (lib/finance/demoTimer.ts): a pill counting down
-// while you look around, amber in the last minute, and when time is up a
-// screen over the app that only leads to signing in or creating an account.
+// The demo's time limit (lib/finance/demoTimer.ts), silent: nothing shows
+// while you look around; when time is up a screen covers the app that only
+// leads to signing in or creating an account.
 // Not inside the homepage's device frames (the product site shows the app
 // live there).
 
@@ -33,14 +33,7 @@ export default function DemoTimer() {
   if (!demo || start == null) return null;
   const left = demoLeft(start, now);
 
-  if (left > 0)
-    return (
-      <div className="pf-demo-pill" data-low={left <= 60_000 || undefined} role="timer" aria-label={t("Demo time left: {time}", { time: clock(left) })}>
-        <Hourglass size={13} />
-        <span>{t("Demo")}</span>
-        <b className="pf-rounded">{clock(left)}</b>
-      </div>
-    );
+  if (left > 0) return null;
 
   return (
     <div className="pf-demo-end" role="dialog" aria-modal="true" aria-label={t("The demo is over")}>
