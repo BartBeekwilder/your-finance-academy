@@ -1,6 +1,5 @@
 "use client";
 
-import { demoUsed, DEMO_MINUTES } from "@/lib/finance/demoTimer";
 import { t } from "@/lib/i18n";
 import { useState, type FormEvent } from "react";
 import { guessCurrency } from "@/lib/finance/currencies";
@@ -48,7 +47,6 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
       return { kind: "signin" };
     }
   });
-  const [used] = useState(() => (typeof window === "undefined" ? false : demoUsed()));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
@@ -273,14 +271,11 @@ export default function SignIn({ onDemo, onLocal, onLocalNew }: { /** Omitted: n
           </button>
         )}
 
-        {onDemo && (used ? (
-          // The demo has had its time in this browser (lib/finance/demoTimer.ts).
-          <p className="pf-demo-used">{t("You've seen the demo. Create an account to keep going.")}</p>
-        ) : (
+        {onDemo && (
           <button type="button" onClick={onDemo} className="pf-link" style={{ color: "var(--pf-ink-3)" }}>
-            {t("Look around with demo data first ({n} minutes)", { n: DEMO_MINUTES })}
+            {t("Look around with demo data first")}
           </button>
-        ))}
+        )}
         <a href="/privacy/web-app" className="pf-link" style={{ color: "var(--pf-ink-3)", fontSize: "0.75rem", justifySelf: "center" }}>
           {t("Privacy: what's stored and who can see it")}
         </a>
