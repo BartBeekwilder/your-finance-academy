@@ -1133,8 +1133,17 @@ Gap list, in launch order (✓ = done on iOS):
    dashboard strip, Settings › Buffer goal (runway_goal synced once set).
    Checked in the simulator (nl). Seen on the phone dashboard (old issues):
    "Dit jaar" amount wraps on the Liquidity card, points pill truncated.
-4. Investments: Add investment panel (search /api/search), buy more / sell
-   / edit / delete.
+4. ✓ Investments (2026-11-14): InvestmentSearch.swift (= /api/search, Yahoo
+   search straight from the app, only the typed text goes out; test
+   InvestmentSearchTests), AddHoldingView (search or popular → live price +
+   chart, shares or amount, paid total or per share, bought on; live worth
+   now / result / share of portfolio; by hand without a price),
+   HoldingTradeView (buy more / sell / edit / delete with before → after,
+   result on a sale, sell all removes it) from the detail sheet and the
+   long-press menu. The setup's investments step uses the same search
+   (InvestmentFinder) and values linked ones at the live price. Old
+   AddEditHoldingView removed. Amounts saved as exact decimals (OB.dec).
+   Debug: -addHolding, -searchFor x, -pick SYMBOL, -trade buy|sell|edit.
 5. ✓ Onboarding (2026-11-14): Views/Onboarding/ — quick start / complete
    setup with all 17 screens (home with mortgage details, bills split per
    supplier with how often + day + "same bill", subscriptions, insurance,
@@ -1146,9 +1155,7 @@ Gap list, in launch order (✓ = done on iOS):
    profile.onboarding synced; badges setup-quick / setup-complete. Tests
    OnboardingTests (5). Debug: -onboarding, -onboardingTest (= web "Test:
    fill"), -onboardingStep <step>, -onboardingReveal.
-   Differences from the web, still to do: investments are entered by hand
-   (no search / live price yet — comes with 4; manual holdings now count at
-   their value, as on the web); the statement step points to on-device
+   Differences from the web, still to do: the statement step points to on-device
    Finance AI instead of reading here; mortgage papers aren't read with AI
    (comes with 8); no weekday picker for the check-in (iOS has no
    checkin_days yet). Also fixed: translations of keys with "%" but no
