@@ -712,7 +712,13 @@
     PF.onto(phoneScreen, phoneSec, IMG, PHONE); round(phoneScreen, 390, 0.125);
   }
   lay(); addEventListener('resize', lay);
-  ipad.addEventListener('load', function () { setTimeout(function () { ipad.classList.add('on'); }, 400); });
+  // Show the app once it has loaded. It can finish before this script runs
+  // (cache, a slow script above), so check now too, and never leave the
+  // iPad dark: show it after a few seconds whatever happens.
+  var showIpad = function () { setTimeout(function () { ipad.classList.add('on'); }, 400); };
+  ipad.addEventListener('load', showIpad);
+  try { var ipadDoc = ipad.contentDocument; if (ipadDoc && ipadDoc.readyState === 'complete' && ipadDoc.URL !== 'about:blank') showIpad(); } catch (e) {}
+  setTimeout(function () { ipad.classList.add('on'); }, 4000);
   // The three devices load their app when the section comes near.
   new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.querySelectorAll('iframe[data-src]').forEach(function (f) { if (!f.src) f.src = f.dataset.src; }); }); }, { rootMargin: '600px' }).observe(document.getElementById('apparaten'));
   // The phone's app loads when it comes near.
