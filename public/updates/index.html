@@ -32,8 +32,9 @@
   .langsel:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
   .btn { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 4px; background: var(--c-accent); color: var(--c-accent-ink) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: filter 160ms; }
   .btn:hover { filter: brightness(1.07); }
-  .foot { display: flex; justify-content: space-between; gap: 20px; padding: 28px var(--g); border-block-start: 1px solid var(--c-rule); font: 400 12px var(--mono); color: var(--c-muted); }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 20px; padding: 28px var(--g); border-block-start: 1px solid var(--c-rule); font: 400 12px var(--mono); color: var(--c-muted); }
   .foot__links { display: flex; gap: 16px; }
+  .foot__legal { flex-basis: 100%; font-size: 11px; opacity: .6; }
   .langsel { appearance: none; -webkit-appearance: none; border: 0; border-radius: 999px; padding: 5px 26px 5px 12px; background: var(--c-surface-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center; box-shadow: inset 0 0 0 1px var(--c-rule); color: var(--c-ink-2); font: inherit; font-size: 13px; cursor: pointer; }
   .status nav a[aria-current] { color: var(--c-ink); }
   /* The updates: newest first, one block per day. */
@@ -73,7 +74,7 @@
     <section class="day"><h2><time datetime="2026-11-05">2026-11-05</time></h2><ul><li><b class="tag tag--new">Nieuw</b><span>Kerncijfers: je vrijheidsgetal en je runway, live uit je eigen cijfers.</span></li><li><b class="tag tag--better">Verbeterd</b><span>Instellen: abonnementen, rekeningen per leverancier en een vaste dag per vaste last.</span></li></ul></section>
   <div class="upd__cta"><a class="btn" href="/app?trial=1">Probeer nu gratis!</a><a href="/">Terug naar de homepage</a></div>
 </main>
-<footer class="foot"><span translate="no">The Personal Finance Dashboard by YourFinanceAcademy.com · © 2026 Your Finance Academy (YFA)</span><span class="foot__links"><a href="/terms">Voorwaarden</a><a href="/privacy">Privacy</a></span></footer>
+<footer class="foot"><span translate="no">The Personal Finance Dashboard by YourFinanceAcademy.com · © 2026 Your Finance Academy (YFA)</span><span class="foot__links"><a href="/terms">Voorwaarden</a><a href="/privacy">Privacy</a></span><span class="foot__legal" translate="no">Your Finance Academy · KvK 42222252 · Molenstraat 29, 5461 JP Veghel, Nederland</span></footer>
 <script src="/home/i18n.js"></script>
 <script>
   // Dates in the visitor's language, the month always with a capital.

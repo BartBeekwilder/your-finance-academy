@@ -40,6 +40,7 @@ const CSS = `
   .pp .foot { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 28px var(--g); border-block-start: 1px solid var(--c-rule); font: 400 12px var(--mono); color: var(--c-muted); }
   .pp .foot a { color: var(--c-muted); }
   .pp .foot__links { display: flex; gap: 16px; }
+  .pp .foot__legal { flex-basis: 100%; font-size: 11px; opacity: .6; }
   @media (max-width: 640px) { .pp .status nav a.hide-sm { display: none; } }
 `;
 
@@ -87,6 +88,7 @@ export default function LegalPage({ title, updated, lede, children }: { title: s
           <Link href="/privacy">Privacy</Link>
           <Link href="/privacy/web-app">Web app privacy</Link>
         </span>
+        <span className="foot__legal" translate="no">Your Finance Academy · KvK 42222252 · Molenstraat 29, 5461 JP Veghel, Nederland</span>
       </footer>
     </div>
   );

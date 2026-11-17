@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 // web, App Store / Google Play in the apps) — to be checked before it's
 // relied on. English for now.
 //
-// Business details: fill these in (KvK number and the address registered
-// with it). The sentence that names them only shows once they're set.
+// Business details. The KvK number shows here; the address sits in the
+// footer of every page (components/LegalPage.tsx, homepage, /updates).
 const BUSINESS = {
   name: "Your Finance Academy",
   owner: "Bart Beekwilder",
-  kvk: "",
+  kvk: "42222252",
   address: "",
   email: "privacy@yourfinanceacademy.com",
 };
