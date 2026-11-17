@@ -102,7 +102,8 @@
       "Op je telefoon: vier tabbladen en Meer, in plaats van vijftien in één balk.",
       "Kerncijfers: je vrijheidsgetal en je runway, live uit je eigen cijfers.",
       "Instellen: abonnementen, rekeningen per leverancier en een vaste dag per vaste last.",
-      "Privacy"
+      "Privacy",
+      "Voorwaarden"
   ];
 
   var L = {
@@ -193,7 +194,8 @@
       "On your phone: four tabs and More, instead of fifteen in one bar.",
       "Key figures: your freedom number and your runway, live from your own numbers.",
       "Setup: subscriptions, bills per supplier and a fixed day for each fixed cost.",
-      "Privacy"
+      "Privacy",
+      "Terms"
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -282,7 +284,8 @@
       "Auf dem Handy: vier Tabs und Mehr statt fünfzehn in einer Leiste.",
       "Kennzahlen: deine Freiheitszahl und deine Runway, live aus deinen eigenen Zahlen.",
       "Einrichtung: Abos, Rechnungen pro Anbieter und ein fester Tag für jede Fixkosten-Position.",
-      "Datenschutz"
+      "Datenschutz",
+      "AGB"
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -371,7 +374,8 @@
       "Sur ton téléphone : quatre onglets et Plus, au lieu de quinze dans une barre.",
       "Indicateurs clés : ton chiffre de liberté et ta marge de survie, en direct à partir de tes chiffres.",
       "Configuration : abonnements, factures par fournisseur et un jour fixe pour chaque charge fixe.",
-      "Confidentialité"
+      "Confidentialité",
+      "Conditions"
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -460,7 +464,8 @@
       "En tu móvil: cuatro pestañas y Más, en lugar de quince en una barra.",
       "Cifras clave: tu número de libertad y tu margen, en vivo a partir de tus propias cifras.",
       "Configuración: suscripciones, facturas por proveedor y un día fijo para cada gasto fijo.",
-      "Privacidad"
+      "Privacidad",
+      "Condiciones"
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -549,7 +554,8 @@
       "Sul telefono: quattro schede e Altro, invece di quindici in una barra.",
       "Indicatori chiave: il tuo numero della libertà e la tua autonomia, dal vivo dai tuoi numeri.",
       "Configurazione: abbonamenti, bollette per fornitore e un giorno fisso per ogni spesa fissa.",
-      "Privacy"
+      "Privacy",
+      "Termini"
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -638,7 +644,8 @@
       "No celular: quatro abas e Mais, em vez de quinze em uma barra.",
       "Números-chave: seu número da liberdade e sua autonomia, ao vivo a partir dos seus números.",
       "Configuração: assinaturas, contas por fornecedor e um dia fixo para cada despesa fixa.",
-      "Privacidade"
+      "Privacidade",
+      "Termos"
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -727,7 +734,8 @@
       "Na telefonie: cztery karty i Więcej zamiast piętnastu w jednym pasku.",
       "Kluczowe liczby: twoja liczba wolności i twój zapas, na żywo z twoich liczb.",
       "Konfiguracja: subskrypcje, rachunki według dostawcy i stały dzień dla każdego stałego kosztu.",
-      "Prywatność"
+      "Prywatność",
+      "Regulamin"
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -816,7 +824,8 @@
       "Telefonunda: tek çubukta on beş sekme yerine dört sekme ve Daha Fazla.",
       "Temel göstergeler: özgürlük sayın ve dayanma süren, kendi rakamlarından canlı.",
       "Kurulum: abonelikler, tedarikçiye göre faturalar ve her sabit gider için sabit bir gün.",
-      "Gizlilik"
+      "Gizlilik",
+      "Koşullar"
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -905,7 +914,8 @@
       "На телефоне: четыре вкладки и «Ещё» вместо пятнадцати в одной панели.",
       "Ключевые показатели: ваше число свободы и запас прочности в реальном времени по вашим цифрам.",
       "Настройка: подписки, счета по поставщикам и фиксированный день для каждого постоянного расхода.",
-      "Конфиденциальность"
+      "Конфиденциальность",
+      "Условия"
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -994,7 +1004,8 @@
       "على هاتفك: أربع علامات تبويب والمزيد، بدلًا من خمس عشرة في شريط واحد.",
       "الأرقام الرئيسية: رقم حريتك ومدة صمودك، مباشرةً من أرقامك.",
       "الإعداد: الاشتراكات، والفواتير حسب المورّد، ويوم ثابت لكل تكلفة ثابتة.",
-      "الخصوصية"
+      "الخصوصية",
+      "الشروط"
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1083,7 +1094,8 @@
       "फ़ोन पर: एक बार में पंद्रह की जगह चार टैब और ज़्यादा।",
       "मुख्य आंकड़े: आपका आज़ादी नंबर और आपका रनवे, आपके अपने आंकड़ों से लाइव।",
       "सेटअप: सब्सक्रिप्शन, सप्लायर के हिसाब से बिल और हर तय खर्च के लिए एक तय दिन।",
-      "गोपनीयता"
+      "गोपनीयता",
+      "शर्तें"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -1172,7 +1184,8 @@
       "Di ponselmu: empat tab dan Lainnya, bukan lima belas dalam satu bilah.",
       "Angka kunci: angka kebebasanmu dan runway-mu, langsung dari angkamu sendiri.",
       "Pengaturan: langganan, tagihan per pemasok, dan hari tetap untuk tiap biaya tetap.",
-      "Privasi"
+      "Privasi",
+      "Ketentuan"
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -1261,7 +1274,8 @@
       "スマホでは：1本のバーに15個ではなく、4つのタブと「その他」。",
       "主要指標：あなたの自由の数字とランウェイを、自分の数字からライブで。",
       "セットアップ：サブスク、事業者ごとの請求、固定費ごとの決まった日。",
-      "プライバシー"
+      "プライバシー",
+      "利用規約"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -1350,7 +1364,8 @@
       "휴대폰에서: 한 줄에 15개 대신 탭 4개와 더보기.",
       "핵심 지표: 자유 숫자와 런웨이를 내 숫자로 실시간 계산.",
       "설정: 구독, 공급업체별 청구서, 고정비마다 정해진 날짜.",
-      "개인정보"
+      "개인정보",
+      "이용약관"
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -1439,7 +1454,8 @@
       "Trên điện thoại: bốn thẻ và Thêm, thay vì mười lăm trong một thanh.",
       "Chỉ số chính: con số tự do và thời gian trụ được, trực tiếp từ số liệu của bạn.",
       "Thiết lập: gói đăng ký, hóa đơn theo nhà cung cấp và một ngày cố định cho mỗi chi phí cố định.",
-      "Quyền riêng tư"
+      "Quyền riêng tư",
+      "Điều khoản"
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -1528,7 +1544,8 @@
       "在手机上：四个标签加“更多”，而不是一栏十五个。",
       "关键指标：你的自由数字和续航月数，根据你自己的数字实时计算。",
       "设置：订阅、按供应商的账单，以及每项固定支出的固定日期。",
-      "隐私"
+      "隐私",
+      "条款"
     ]
   };
 

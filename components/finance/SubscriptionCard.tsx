@@ -146,6 +146,9 @@ export default function SubscriptionCard() {
               <p style={{ color: "var(--pf-ink-3)", fontSize: "0.75rem" }}>
                 {t("Free until {date}, then {amount} — unless you cancel before. Payment is handled by Stripe.", { date: date(trialEnds), amount: money(chosen.amount, chosen.currency) })}
               </p>
+              <p style={{ color: "var(--pf-ink-3)", fontSize: "0.75rem" }}>
+                <a href="/terms" target="_blank" rel="noreferrer" className="pf-link">{t("By starting the trial, you agree to the Terms of Service.")}</a>
+              </p>
             </>
           ) : (
             <p className="pf-close-note">{t("Sign in to start your free trial — Premium is tied to your account, so it works on every device.")}</p>
