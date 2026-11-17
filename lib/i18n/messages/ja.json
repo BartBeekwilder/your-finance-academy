@@ -2044,5 +2044,7 @@
  "{n} of {days} days you spent less than you earned · goal {goal} days": "{days}日中{n}日、稼いだより少なく使いました · 目標{goal}日",
  "Days you spent less than you earned": "稼いだより少なく使った日",
  "Under your income in a row": "収入以内の連続日数",
- "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "真ん中のリングは毎日の目標です。その日の支出がその日の収入より少なければ、その日はカウントされます。給与と固定費は毎日1日分ずつ数えるので、1日の家賃や25日の給料で偏りません。それ以外の支出と収入はその日に数えます。月の日数の80%が収入以内ならリングがいっぱいになります（30日中24日）。カレンダーでは、その日が収入以内ならその日の緑のリングがいっぱいになります。"
+ "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "真ん中のリングは毎日の目標です。その日の支出がその日の収入より少なければ、その日はカウントされます。給与と固定費は毎日1日分ずつ数えるので、1日の家賃や25日の給料で偏りません。それ以外の支出と収入はその日に数えます。月の日数の80%が収入以内ならリングがいっぱいになります（30日中24日）。カレンダーでは、その日が収入以内ならその日の緑のリングがいっぱいになります。",
+ "Premium given to you — nothing to pay.": "Premium をプレゼント — お支払いは不要です。",
+ "Premium for life — a gift, nothing to pay.": "Premium を永久に — プレゼントなので、お支払いは不要です。"
 }

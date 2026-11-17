@@ -118,7 +118,10 @@ export default function SubscriptionCard() {
                   : t("Renews on {date}.", { date: date(status.expires) })}
             </p>
           )}
-          {status.store === "stripe" ? (
+          {status.store === "promotional" ? (
+            // Granted in RevenueCat (the owner, testers): nothing to manage.
+            <p style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>{status.expires ? t("Premium given to you — nothing to pay.") : t("Premium for life — a gift, nothing to pay.")}</p>
+          ) : status.store === "stripe" ? (
             <button className="pf-button" style={{ justifySelf: "start" }} disabled={busy} onClick={() => go("/api/billing/portal")}>{t("Manage subscription")}</button>
           ) : (
             <p style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>{t("Bought in the app — manage it in the App Store or Google Play.")}</p>

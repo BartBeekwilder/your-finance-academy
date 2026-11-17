@@ -2044,5 +2044,7 @@
  "{n} of {days} days you spent less than you earned · goal {goal} days": "{days} 天中有 {n} 天花得比赚得少 · 目标 {goal} 天",
  "Days you spent less than you earned": "花得比赚得少的日子",
  "Under your income in a row": "连续低于收入",
- "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "中间的圆环是每日目标：当天的支出低于当天的收入，这一天就算达成。工资和固定支出每天按一天的份额计算，所以 1 号的房租和 25 号的工资不会造成偏差；其他支出和收入按各自的日期计算。当一个月中 80% 的天数都低于收入时（30 天中 24 天），圆环就会填满。在日历中，某天低于收入，那天的绿色圆环就会填满。"
+ "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "中间的圆环是每日目标：当天的支出低于当天的收入，这一天就算达成。工资和固定支出每天按一天的份额计算，所以 1 号的房租和 25 号的工资不会造成偏差；其他支出和收入按各自的日期计算。当一个月中 80% 的天数都低于收入时（30 天中 24 天），圆环就会填满。在日历中，某天低于收入，那天的绿色圆环就会填满。",
+ "Premium given to you — nothing to pay.": "Premium 赠送给你——无需付费。",
+ "Premium for life — a gift, nothing to pay.": "终身 Premium——这是礼物，无需付费。"
 }
