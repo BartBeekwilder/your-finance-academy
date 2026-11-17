@@ -1378,3 +1378,22 @@ on each live price; Stripe picks the currency from the customer's location):
   the currency; other countries get Adaptive Pricing (always on with MP).
 - Checked on the web-app preview: usd / gbp / eur come back right.
 - NEXT: step 3 of the hand-over (Vercel live: Bart's secrets), then live.
+
+## LIVE 2026-11-17 (evening, Mac) — payments live, sign-ups open
+- Stripe live: restricted key "Personal Finance web" (Customers W, Checkout
+  Sessions W, Customer portal W, Prices R, Subscriptions R) → Vercel
+  STRIPE_SECRET_KEY (Production). Live webhook "personal-finance-web"
+  (we_1UcrXYQiEN3unuhx41iXa9GS → https://www.yourfinanceacademy.com/api/billing/stripe-webhook,
+  customer.subscription.created/updated, API 2026-10-28) → STRIPE_WEBHOOK_SECRET.
+- RevenueCat: live Stripe account linked (app installed on the live account);
+  NEW web config "Personal Finance (Stripe live)" (appddf80fbc82), the 3 live
+  prices imported and attached to personal_finance_premium; its public key →
+  REVENUECAT_STRIPE_PUBLIC_KEY (Production). The sandbox config
+  (appc1194cf149) stays for Preview. REVENUECAT_SECRET_KEY unchanged.
+- Preview env keeps the sandbox values (test mode on the web-app preview).
+- NEXT_PUBLIC_PF_SIGNUPS=open (Production) and the Supabase "Before User
+  Created" hook (hook_check_invite) DISABLED (not deleted) — anyone can sign up.
+- main = web-app at 48e7fa4; /api/billing/prices answers test:false with the
+  live EUR/USD/GBP prices. /updates entry for 17 Nov.
+- STILL TO DO: a real payment by Bart + refund; then check RevenueCat shows the
+  customer with the entitlement. Supabase/Vercel Pro (go-live advice).
