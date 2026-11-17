@@ -25,7 +25,7 @@ type Step = "consent" | "pick" | "reading" | "review" | "done";
 export const ACCEPT = "image/png,image/jpeg,image/webp,image/gif,application/pdf";
 const MAX_SIDE = 1800;
 const MAX_PDF = 3 * 1024 * 1024;
-const TITLE: Record<Kind, string> = { bank: "Read bank screenshots", payslip: "Read payslip", mortgage: "Read mortgage document" };
+const TITLE: Record<Kind, string> = { bank: "Read bank or card statements", payslip: "Read payslip", mortgage: "Read mortgage document" };
 const PICK: Record<Kind, string> = { bank: "Choose screenshots", payslip: "Choose payslip", mortgage: "Choose document" };
 
 const b64 = (buf: ArrayBuffer) => {
@@ -223,7 +223,7 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
                 <>
                   <ImageUp size={28} />
                   <b>{t(PICK[kind])}</b>
-                  <span>{kind === "bank" ? t("Up to 8 screenshots of your bank app, or a PDF statement.") : t("A PDF or a photo.")}</span>
+                  <span>{kind === "bank" ? t("Up to 8 screenshots of your bank or credit card app, or a PDF statement.") : t("A PDF or a photo.")}</span>
                 </>
               )}
               <input type="file" accept={ACCEPT} multiple={kind === "bank"} hidden disabled={step === "reading" || quota?.left === 0} onChange={(e) => { const f = e.target.files; if (f) void read(f); e.target.value = ""; }} />
@@ -231,7 +231,7 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
           )}
           {step === "pick" && <QuotaNote q={quota} />}
 
-          {step === "review" && result && kind === "bank" && <BankReview rows={(result as ReadResult["bank"]).transactions} onDone={(n) => { setAdded(n); setStep("done"); }} />}
+          {step === "review" && result && kind === "bank" && <BankReview rows={(result as ReadResult["bank"]).transactions} statement={(result as ReadResult["bank"]).statement} onDone={(n) => { setAdded(n); setStep("done"); }} />}
           {step === "review" && result && kind === "payslip" && <PayslipReview read={result as ReadResult["payslip"]} onDone={() => { setAdded(1); setStep("done"); }} />}
           {step === "review" && result && kind === "mortgage" && propertyId && <MortgageReview read={result as ReadResult["mortgage"]} propertyId={propertyId} onDone={(n) => { setAdded(n); setStep("done"); }} />}
 
@@ -298,10 +298,17 @@ function RowStatus({ d }: { d: Draft }) {
   );
 }
 
-function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => void }) {
+function BankReview({ rows, statement, onDone }: { rows: ReadRow[]; statement?: "bank" | "credit_card"; onDone: (n: number) => void }) {
   const { data, addTransactions } = useFinance();
   const currency = data.profile.currency_code;
   const categories = live(data.categories);
+  // Which account the rows are booked on. A credit card statement goes on
+  // the credit card (the first credit account), a bank one on the default
+  // account (null = the default account, as Quick Add does).
+  const accounts = live(data.accounts).filter((a) => a.type !== "investment");
+  const card = accounts.find((a) => a.type === "credit");
+  const [accountId, setAccountId] = useState<string | null>(() => (statement === "credit_card" && card ? card.id : null));
+  const showAccount = accounts.length > 1 || statement === "credit_card";
   const [drafts, setDrafts] = useState<Draft[]>(() => {
     const learned = learnCategories(data.transactions);
     return rows.map((r) => {
@@ -335,7 +342,7 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
         const cat = categories.find((c) => c.id === d.categoryId);
         return {
           amount: d.amount.toFixed(2), type: d.direction === "in" ? "income" : "expense", date: atNoon(d.date ?? today), note: d.description.trim() || null,
-          is_auto_income: false, is_fixed_expense: !!cat?.is_fixed_expense, recurrence_id: null, category_id: d.categoryId, account_id: null,
+          is_auto_income: false, is_fixed_expense: !!cat?.is_fixed_expense, recurrence_id: null, category_id: d.categoryId, account_id: accountId,
         };
       }));
       setSaved(chosen.length);
@@ -350,6 +357,26 @@ function BankReview({ rows, onDone }: { rows: ReadRow[]; onDone: (n: number) => 
   return (
     <div style={{ display: "grid", gap: 12 }}>
       <p style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>{t("Check the list: untick what you don't want, change a category if needed.")}</p>
+      {showAccount && (
+        <div className="pf-ai-account">
+          <label>
+            <span>{t("Booked on")}</span>
+            <select className="pf-input" value={accountId ?? ""} onChange={(e) => setAccountId(e.target.value || null)}>
+              <option value="">{t("Default account")}</option>
+              {accounts.map((a) => (
+                <option key={a.id} value={a.id}>{a.name}</option>
+              ))}
+            </select>
+          </label>
+          {statement === "credit_card" && (
+            <small>
+              {card
+                ? t("Read as a credit card statement: purchases go on your card, and paying off the card is left out as a transfer.")
+                : t("Read as a credit card statement. Choose the account to book these on; paying off the card is left out as a transfer.")}
+            </small>
+          )}
+        </div>
+      )}
       <label className="pf-ai-all">
         <input
           type="checkbox"
@@ -550,7 +577,7 @@ export function PendingStatement() {
         <button className="pf-button" onClick={(e) => { setOrigin(e.currentTarget); setOpen(true); }}>{t("Check them")}</button>
         <button className="pf-icon-button" aria-label={t("Not now")} title={t("Not now")} onClick={() => { forget(); setRows(null); }}><X size={16} /></button>
       </section>
-      <Sheet open={open} onClose={() => setOpen(false)} origin={origin} label={t("Read bank screenshots")} wide={added === null}>
+      <Sheet open={open} onClose={() => setOpen(false)} origin={origin} label={t("Read bank or card statements")} wide={added === null}>
         <div className="pf-ai-body" data-wide={added === null || undefined}>
           <button type="button" className="pf-icon-button pf-ai-close" aria-label={t("Close")} onClick={() => setOpen(false)}>
             <X size={16} />

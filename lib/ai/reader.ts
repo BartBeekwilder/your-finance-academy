@@ -12,6 +12,7 @@ export type ReadKind = "bank" | "payslip" | "mortgage";
 export type ReadFile = { mime: string; data: string }; // base64
 
 const BANK = z.object({
+  statement: z.enum(["bank", "credit_card"]).describe("credit_card when this is a credit card app or statement (card purchases, a balance owed, a monthly repayment), else bank"),
   transactions: z.array(
     z.object({
       date: z.string().nullable().describe("YYYY-MM-DD; null if the screenshot doesn't show it"),
@@ -56,7 +57,8 @@ function prompt(kind: ReadKind, today: string, categories: string[]) {
   switch (kind) {
     case "bank":
       return [
-        `These are screenshots of a bank app or statement. List every transaction you can read, once (screenshots may overlap). Today is ${today}: where a date lacks the year, it is the most recent such date not after today; "today" / "yesterday" / weekday headers count from today.`,
+        `These are screenshots of a bank app, a bank statement, or a credit card app or statement. List every transaction you can read, once (screenshots may overlap). Today is ${today}: where a date lacks the year, it is the most recent such date not after today; "today" / "yesterday" / weekday headers count from today.`,
+        `On a credit card statement: a purchase is "out" (even when it is printed as a positive or debit amount), a refund is "in", and the payment that pays off the card balance is a transfer (transfer: true). Interest, fees and foreign-transaction charges are "out". Use the merchant name as the description; leave out card numbers.`,
         `Skip balances, totals, pending card authorisations that are marked as such, and anything cut off so the amount can't be read.`,
         categories.length ? `For category, pick exactly one of these names when one clearly fits, else null: ${categories.join(" | ")}` : `Set category to null.`,
       ].join("\n");

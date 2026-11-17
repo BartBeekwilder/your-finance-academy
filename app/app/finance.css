@@ -6318,3 +6318,9 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .pf-confirm-ok { display: inline-flex; align-items: center; gap: 5px; }
 .pf-est { display: inline-flex; align-items: center; padding: 1px 6px; border-radius: 999px; font-size: 0.68rem; font-weight: 600; color: var(--pf-ink-2); border: 1px dashed rgba(255, 255, 255, 0.28); white-space: nowrap; }
 @media (max-width: 560px) { .pf-fill-row { grid-template-columns: 1fr 120px; } }
+
+/* Read with AI: which account the read rows are booked on. */
+.pf-ai-account { display: grid; gap: 6px; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.035); border: 1px solid rgba(255, 255, 255, 0.06); }
+.pf-ai-account label { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 0.85rem; color: var(--pf-ink-2); }
+.pf-ai-account select { width: auto; min-width: 200px; }
+.pf-ai-account small { font-size: 0.75rem; color: var(--pf-ink-3); line-height: 1.4; }
