@@ -1395,5 +1395,8 @@ on each live price; Stripe picks the currency from the customer's location):
   Created" hook (hook_check_invite) DISABLED (not deleted) — anyone can sign up.
 - main = web-app at 48e7fa4; /api/billing/prices answers test:false with the
   live EUR/USD/GBP prices. /updates entry for 17 Nov.
-- STILL TO DO: a real payment by Bart + refund; then check RevenueCat shows the
-  customer with the entitlement. Supabase/Vercel Pro (go-live advice).
+- TESTED LIVE end to end (Bart's own card, 17 Nov): monthly trial →
+  sub_1UcrutQiEN3unuhxWanLZDGk trialing (Managed Payments, app_user_id set) →
+  RevenueCat entitlement 'Active trial' → Settings 'Free until 24 Nov' →
+  cancelled in the customer portal (cancel_at = trial end, nothing charged).
+- Advice still open: Vercel Pro + Supabase Pro now that it's commercial.
