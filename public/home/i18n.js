@@ -103,7 +103,11 @@
       "Kerncijfers: je vrijheidsgetal en je runway, live uit je eigen cijfers.",
       "Instellen: abonnementen, rekeningen per leverancier en een vaste dag per vaste last.",
       "Privacy",
-      "Voorwaarden"
+      "Voorwaarden",
+      "Creditcardafschriften inlezen met AI: aankopen komen op je creditcard, het aflossen van de kaart blijft eruit.",
+      "Algemene voorwaarden en een vernieuwde privacyverklaring, te vinden onderaan elke pagina.",
+      "Eerdere maanden aanvullen: kies een maand terug tot januari en vul hem met je bankafschrift, snelle totalen of een schatting.",
+      "De middelste ring is nu ‘Onder je inkomen’: een dag telt als je uitgaven onder je inkomen van die dag blijven."
   ];
 
   var L = {
@@ -195,7 +199,11 @@
       "Key figures: your freedom number and your runway, live from your own numbers.",
       "Setup: subscriptions, bills per supplier and a fixed day for each fixed cost.",
       "Privacy",
-      "Terms"
+      "Terms",
+      "Read credit card statements with AI: purchases go on your credit card, paying off the card is left out.",
+      "Terms of service and a renewed privacy policy, linked at the bottom of every page.",
+      "Fill in earlier months: pick a month back to January and fill it with your bank statement, quick totals or an estimate.",
+      "The middle ring is now ‘Under your income’: a day counts when your spending stays under that day's income."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -285,7 +293,11 @@
       "Kennzahlen: deine Freiheitszahl und deine Runway, live aus deinen eigenen Zahlen.",
       "Einrichtung: Abos, Rechnungen pro Anbieter und ein fester Tag für jede Fixkosten-Position.",
       "Datenschutz",
-      "AGB"
+      "AGB",
+      "Kreditkartenabrechnungen mit KI einlesen: Einkäufe gehen auf deine Kreditkarte, die Rückzahlung der Karte bleibt außen vor.",
+      "Nutzungsbedingungen und eine erneuerte Datenschutzerklärung, unten auf jeder Seite verlinkt.",
+      "Frühere Monate ergänzen: wähle einen Monat bis zurück zum Januar und fülle ihn mit deinem Kontoauszug, schnellen Summen oder einer Schätzung.",
+      "Der mittlere Ring heißt jetzt ‚Unter deinem Einkommen‘: Ein Tag zählt, wenn deine Ausgaben unter dem Einkommen dieses Tages bleiben."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -375,7 +387,11 @@
       "Indicateurs clés : ton chiffre de liberté et ta marge de survie, en direct à partir de tes chiffres.",
       "Configuration : abonnements, factures par fournisseur et un jour fixe pour chaque charge fixe.",
       "Confidentialité",
-      "Conditions"
+      "Conditions",
+      "Lire les relevés de carte de crédit avec l’IA : les achats vont sur ta carte, le remboursement de la carte est exclu.",
+      "Conditions d’utilisation et une politique de confidentialité renouvelée, en bas de chaque page.",
+      "Compléter les mois précédents : choisis un mois jusqu’à janvier et remplis-le avec ton relevé bancaire, des totaux rapides ou une estimation.",
+      "L’anneau du milieu devient « Sous ton revenu » : un jour compte quand tes dépenses restent sous le revenu de ce jour."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -465,7 +481,11 @@
       "Cifras clave: tu número de libertad y tu margen, en vivo a partir de tus propias cifras.",
       "Configuración: suscripciones, facturas por proveedor y un día fijo para cada gasto fijo.",
       "Privacidad",
-      "Condiciones"
+      "Condiciones",
+      "Leer extractos de tarjeta de crédito con IA: las compras van a tu tarjeta y el pago de la tarjeta queda fuera.",
+      "Condiciones del servicio y una política de privacidad renovada, enlazadas al pie de cada página.",
+      "Completar meses anteriores: elige un mes hasta enero y llénalo con tu extracto bancario, totales rápidos o una estimación.",
+      "El anillo central ahora es «Por debajo de tus ingresos»: un día cuenta si tus gastos quedan por debajo de los ingresos de ese día."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -555,7 +575,11 @@
       "Indicatori chiave: il tuo numero della libertà e la tua autonomia, dal vivo dai tuoi numeri.",
       "Configurazione: abbonamenti, bollette per fornitore e un giorno fisso per ogni spesa fissa.",
       "Privacy",
-      "Termini"
+      "Termini",
+      "Leggi gli estratti della carta di credito con l’IA: gli acquisti vanno sulla carta, il saldo della carta resta fuori.",
+      "Termini di servizio e un’informativa sulla privacy rinnovata, in fondo a ogni pagina.",
+      "Completa i mesi precedenti: scegli un mese fino a gennaio e riempilo con l’estratto conto, totali rapidi o una stima.",
+      "L’anello centrale ora è «Sotto il tuo reddito»: un giorno conta se le spese restano sotto il reddito di quel giorno."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -645,7 +669,11 @@
       "Números-chave: seu número da liberdade e sua autonomia, ao vivo a partir dos seus números.",
       "Configuração: assinaturas, contas por fornecedor e um dia fixo para cada despesa fixa.",
       "Privacidade",
-      "Termos"
+      "Termos",
+      "Leia faturas de cartão de crédito com IA: as compras vão para o seu cartão e o pagamento da fatura fica de fora.",
+      "Termos de serviço e uma política de privacidade renovada, no rodapé de cada página.",
+      "Complete meses anteriores: escolha um mês até janeiro e preencha com seu extrato, totais rápidos ou uma estimativa.",
+      "O anel do meio agora é “Abaixo da sua renda”: um dia conta quando seus gastos ficam abaixo da renda daquele dia."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -735,7 +763,11 @@
       "Kluczowe liczby: twoja liczba wolności i twój zapas, na żywo z twoich liczb.",
       "Konfiguracja: subskrypcje, rachunki według dostawcy i stały dzień dla każdego stałego kosztu.",
       "Prywatność",
-      "Regulamin"
+      "Regulamin",
+      "Wczytuj wyciągi z karty kredytowej z AI: zakupy trafiają na kartę, spłata karty jest pomijana.",
+      "Regulamin i odnowiona polityka prywatności, w stopce każdej strony.",
+      "Uzupełnij wcześniejsze miesiące: wybierz miesiąc aż do stycznia i wypełnij go wyciągiem, szybkimi sumami lub szacunkiem.",
+      "Środkowy pierścień to teraz „Poniżej dochodu”: dzień się liczy, gdy wydatki są niższe niż dochód z tego dnia."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -825,7 +857,11 @@
       "Temel göstergeler: özgürlük sayın ve dayanma süren, kendi rakamlarından canlı.",
       "Kurulum: abonelikler, tedarikçiye göre faturalar ve her sabit gider için sabit bir gün.",
       "Gizlilik",
-      "Koşullar"
+      "Koşullar",
+      "Kredi kartı ekstrelerini yapay zekâyla oku: alışverişler kartına yazılır, kart borcu ödemesi dışarıda kalır.",
+      "Hizmet koşulları ve yenilenmiş gizlilik politikası, her sayfanın altında.",
+      "Önceki ayları tamamla: ocak ayına kadar bir ay seç ve banka ekstresi, hızlı toplamlar ya da bir tahminle doldur.",
+      "Orta halka artık ‘Gelirinin altında’: harcamaların o günün gelirinin altında kalırsa o gün sayılır."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -915,7 +951,11 @@
       "Ключевые показатели: ваше число свободы и запас прочности в реальном времени по вашим цифрам.",
       "Настройка: подписки, счета по поставщикам и фиксированный день для каждого постоянного расхода.",
       "Конфиденциальность",
-      "Условия"
+      "Условия",
+      "Считывайте выписки по кредитной карте с ИИ: покупки идут на карту, погашение карты не учитывается.",
+      "Условия использования и обновлённая политика конфиденциальности — внизу каждой страницы.",
+      "Заполняйте прошлые месяцы: выберите месяц вплоть до января и заполните его выпиской, быстрыми итогами или оценкой.",
+      "Среднее кольцо теперь «Ниже дохода»: день засчитывается, если расходы ниже дохода за этот день."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1005,7 +1045,11 @@
       "الأرقام الرئيسية: رقم حريتك ومدة صمودك، مباشرةً من أرقامك.",
       "الإعداد: الاشتراكات، والفواتير حسب المورّد، ويوم ثابت لكل تكلفة ثابتة.",
       "الخصوصية",
-      "الشروط"
+      "الشروط",
+      "اقرأ كشوف بطاقات الائتمان بالذكاء الاصطناعي: المشتريات تُسجَّل على بطاقتك، وسداد البطاقة يُستبعد.",
+      "شروط الخدمة وسياسة خصوصية مُحدَّثة، في أسفل كل صفحة.",
+      "أكمل الأشهر السابقة: اختر شهرًا حتى يناير واملأه بكشف حسابك أو مجاميع سريعة أو تقدير.",
+      "الحلقة الوسطى أصبحت «تحت دخلك»: يُحتسب اليوم عندما تبقى مصاريفك تحت دخل ذلك اليوم."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1095,7 +1139,11 @@
       "मुख्य आंकड़े: आपका आज़ादी नंबर और आपका रनवे, आपके अपने आंकड़ों से लाइव।",
       "सेटअप: सब्सक्रिप्शन, सप्लायर के हिसाब से बिल और हर तय खर्च के लिए एक तय दिन।",
       "गोपनीयता",
-      "शर्तें"
+      "शर्तें",
+      "AI से क्रेडिट कार्ड स्टेटमेंट पढ़ें: खरीदारी आपके कार्ड पर जाती है, कार्ड का भुगतान बाहर रहता है।",
+      "सेवा की शर्तें और नई गोपनीयता नीति, हर पेज के नीचे।",
+      "पिछले महीने भरें: जनवरी तक कोई महीना चुनें और उसे बैंक स्टेटमेंट, झटपट टोटल या अनुमान से भरें।",
+      "बीच की रिंग अब ‘आपकी आय से कम’ है: कोई दिन तब गिना जाता है जब खर्च उस दिन की आय से कम रहे।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -1185,7 +1233,11 @@
       "Angka kunci: angka kebebasanmu dan runway-mu, langsung dari angkamu sendiri.",
       "Pengaturan: langganan, tagihan per pemasok, dan hari tetap untuk tiap biaya tetap.",
       "Privasi",
-      "Ketentuan"
+      "Ketentuan",
+      "Baca tagihan kartu kredit dengan AI: pembelian masuk ke kartumu, pelunasan kartu dikecualikan.",
+      "Ketentuan layanan dan kebijakan privasi yang diperbarui, di bagian bawah setiap halaman.",
+      "Lengkapi bulan-bulan sebelumnya: pilih bulan hingga Januari dan isi dengan rekening koran, total cepat, atau perkiraan.",
+      "Cincin tengah kini ‘Di bawah pendapatanmu’: sebuah hari dihitung jika pengeluaranmu di bawah pendapatan hari itu."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -1275,7 +1327,11 @@
       "主要指標：あなたの自由の数字とランウェイを、自分の数字からライブで。",
       "セットアップ：サブスク、事業者ごとの請求、固定費ごとの決まった日。",
       "プライバシー",
-      "利用規約"
+      "利用規約",
+      "AIでクレジットカード明細を読み込み：購入はカードに記帳され、カードの支払いは除外されます。",
+      "利用規約と新しいプライバシーポリシー。各ページの下部にあります。",
+      "過去の月を補完：1月までの月を選び、銀行明細、簡単な合計、または見積もりで埋められます。",
+      "真ん中のリングは「収入の範囲内」に：その日の支出がその日の収入を下回れば、その日はカウントされます。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -1365,7 +1421,11 @@
       "핵심 지표: 자유 숫자와 런웨이를 내 숫자로 실시간 계산.",
       "설정: 구독, 공급업체별 청구서, 고정비마다 정해진 날짜.",
       "개인정보",
-      "이용약관"
+      "이용약관",
+      "AI로 신용카드 명세서 읽기: 구매는 카드에 기록되고, 카드 대금 결제는 제외됩니다.",
+      "이용약관과 새로 바뀐 개인정보 처리방침, 모든 페이지 하단에 있습니다.",
+      "지난 달 채우기: 1월까지의 달을 골라 은행 명세서, 빠른 합계 또는 추정치로 채우세요.",
+      "가운데 링은 이제 ‘수입 이내’: 그날의 지출이 그날 수입보다 적으면 그날이 집계됩니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -1455,7 +1515,11 @@
       "Chỉ số chính: con số tự do và thời gian trụ được, trực tiếp từ số liệu của bạn.",
       "Thiết lập: gói đăng ký, hóa đơn theo nhà cung cấp và một ngày cố định cho mỗi chi phí cố định.",
       "Quyền riêng tư",
-      "Điều khoản"
+      "Điều khoản",
+      "Đọc sao kê thẻ tín dụng bằng AI: các khoản mua ghi vào thẻ, khoản thanh toán thẻ được loại ra.",
+      "Điều khoản dịch vụ và chính sách quyền riêng tư mới, ở cuối mỗi trang.",
+      "Bổ sung các tháng trước: chọn một tháng đến tận tháng Một và điền bằng sao kê ngân hàng, tổng nhanh hoặc ước tính.",
+      "Vòng giữa giờ là ‘Dưới thu nhập’: một ngày được tính khi chi tiêu thấp hơn thu nhập của ngày đó."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -1545,7 +1609,11 @@
       "关键指标：你的自由数字和续航月数，根据你自己的数字实时计算。",
       "设置：订阅、按供应商的账单，以及每项固定支出的固定日期。",
       "隐私",
-      "条款"
+      "条款",
+      "用 AI 读取信用卡账单：消费记在你的卡上，还卡款不计入。",
+      "服务条款和更新后的隐私政策，见每页底部。",
+      "补全过去的月份：选择一直到一月的任意月份，用银行账单、快速合计或估算填写。",
+      "中间的环现在是“低于收入”：当天支出低于当天收入，这一天就计入。"
     ]
   };
 
