@@ -1303,3 +1303,12 @@ panels, asset mix panel, Forgot password, then Premium.
   Before charging: terms of service (Claude can draft), privacy page live.
 - Also: the ANTHROPIC_API_KEY (Read with AI) expires 2026-12-10 — replace
   before then.
+
+## LIVE 2026-11-17 (later) — terms + privacy in 17 languages
+- /terms and /privacy translated (language picker in the header, English on
+  the server, then the visitor's language; texts via lib/i18n, 1950/1950).
+- `main` = web-app at 958a34d (Bart's OK). Note: the Windows checkout's local
+  `main` has an old Sep 8 commit (kept in backup/windows-main-sep08) — push
+  with `git push origin web-app:main`, don't merge local main.
+- Stripe: Bart is doing the passport check (printed copy) on the live
+  account's "Verify your identity" step; the go-live checklist above follows.
