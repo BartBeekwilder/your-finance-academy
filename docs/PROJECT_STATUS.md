@@ -1312,3 +1312,19 @@ panels, asset mix panel, Forgot password, then Premium.
   with `git push origin web-app:main`, don't merge local main.
 - Stripe: Bart is doing the passport check (printed copy) on the live
   account's "Verify your identity" step; the go-live checklist above follows.
+
+## 2026-11-17 (evening) — Stripe LIVE account set up (acct_1UaCvfQiEN3unuhx)
+- Identity check done; Payments + Payouts active, no open tasks.
+- Copied from the sandbox: product prod_VbPuHHHnlFR3ag (tax code SaaS personal
+  use), tax + billing settings, Managed Payments, RevenueCat app installed.
+- NEW PRICES (Bart): €14.99/month (pf_premium_monthly), €99/year
+  (pf_premium_yearly, price_1UcnOJQiEN3unuhxnnKrrN5b), €175/2 years
+  (pf_premium_2year, price_1UcnPOQiEN3unuhxobN9fQ5O). Old €119.99/€199.99
+  archived with keys renamed *_old119 / *_old199. Sandbox keeps the old prices.
+- Customer portal (bpc_1UcnUlQiEN3unuhxkGV579dw): switch between the 3 prices,
+  cheaper/shorter at period end, prorate, trials not ended by a switch;
+  cancel at period end with reason.
+- Public details: support email privacy@…, terms + privacy URLs.
+- STILL TO DO (secrets → Bart): live restricted key + webhook (same 2 events as
+  the sandbox) + RevenueCat Stripe config on live + public key, then swap the
+  4 Vercel values; real test payment + refund.

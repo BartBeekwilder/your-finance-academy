@@ -55,5 +55,5 @@ KvK yet, so no live Stripe keys.
 5. In RevenueCat → Customers → the Supabase user id has the entitlement.
 
 Prices (lookup keys, EUR incl. VAT): `pf_premium_monthly` €14.99,
-`pf_premium_yearly` €119.99, `pf_premium_2year` €199.99 (web only).
+`pf_premium_yearly` €99, `pf_premium_2year` €175 (web only; live prices since 17 Nov — the sandbox still has €119.99 / €199.99).
 A new amount = a new price with the same lookup key (transfer it); no code change.
