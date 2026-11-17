@@ -35,7 +35,7 @@ export default function PrivacyContent() {
 
       <Section title={t("Where it is stored and who processes it")}>
         <p><strong>Supabase</strong> {t("(database and sign-in) in the European Union (Ireland). Each account can only read its own data; the database enforces this.")}</p>
-        <p><strong>Vercel</strong> {t("hosts the website and serves the app; it processes connection logs.")}</p>
+        <p><strong>Vercel</strong> {t("hosts the website and serves the app; it processes connection logs.")} {t("It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.")}</p>
         <p><strong>Resend</strong> {t("sends the sign-in and confirmation emails.")} <strong>Cloudflare</strong> {t("handles the domain and forwards mail sent to our privacy address.")}</p>
       </Section>
 

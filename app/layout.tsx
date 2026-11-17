@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Work_Sans, Space_Mono } from "next/font/google";
 import "./globals.css";
+import SiteAnalytics from "@/components/SiteAnalytics";
 
 const display = Fraunces({
   variable: "--font-display",
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* The site is public since 5 Nov 2026 (testers); components/LockGate.tsx
             is kept in case a preview needs hiding again. */}
         {children}
+        <SiteAnalytics />
       </body>
     </html>
   );
