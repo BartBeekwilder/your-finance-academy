@@ -1266,3 +1266,40 @@ panels, asset mix panel, Forgot password, then Premium.
   homepage nav and footer. ADD AN ENTRY AT EVERY LIVE PUSH (Dutch in the page,
   translations appended to the /*updates*/ blocks).
 - Sidebar: the animation/background switches are gone (Settings has them).
+
+## 2026-11-17 — Windows: privacy policy, card statements, Stripe activation started (web-app, not live)
+
+- Translations: the app (lib/i18n, 1864/1864) and the homepage + /updates
+  (public/home/i18n.js, 194 texts) are complete in all 16 languages; added
+  "Privacy" (footer link) to the homepage translations.
+- /privacy rewritten for the whole service (website + apps, one account):
+  what's stored, encryption with/without passphrase, processors (Supabase EU,
+  Vercel, Resend, Cloudflare), live prices, Read with AI (Anthropic), payments
+  (Stripe, RevenueCat, App Store / Google Play), retention, rights (AP),
+  children (16). In the live site's look (Geist, dark canvas, homepage top
+  bar + footer). English only for now. DRAFT — Bart to review (responsible
+  person's name, backups sentence).
+- Read with AI also reads CREDIT CARD statements: reader returns
+  statement bank|credit_card; on a card statement purchases are spending,
+  refunds income, paying off the card a transfer (unticked). Review shows
+  "Booked on" (accounts); a card statement defaults to the first credit
+  account. Button "Read bank or card statements". 16 languages. Tested in
+  Chrome with a mocked AI answer; not yet with a real statement.
+- Local: npm install (the AI SDK was missing), `next typegen` after
+  clearing .next.
+- STRIPE GO-LIVE, in progress: live account "Your Finance Academy"
+  (acct_1UaCvfQiEN3unuhx). Bart filled the activation (business details
+  with KvK, products: Software + description, statement descriptor
+  YOURFINANCEACADEMY.COM / short YFA, bank). LEFT: identity verification
+  with the passport (Bart, at home). Then, in order: (2) Managed payments
+  on + support email; (3) add the live account to Claude's Stripe access
+  (manage_stripe_accounts link); (4) Claude creates the live product, the 3
+  prices (same lookup keys pf_premium_monthly / _yearly / _2year, €14.99 /
+  €119.99 / €199.99, tax code txcd_10103000) and the customer portal; (5)
+  Bart makes the live restricted key + webhook (secret); (6) RevenueCat →
+  live Stripe, attach prices to personal_finance_premium, public key;
+  (7) Bart swaps the 4 Vercel values (+ NEXT_PUBLIC_PF_SIGNUPS=open?);
+  (8) web-app → main with an /updates entry, a real test payment + refund.
+  Before charging: terms of service (Claude can draft), privacy page live.
+- Also: the ANTHROPIC_API_KEY (Read with AI) expires 2026-12-10 — replace
+  before then.
