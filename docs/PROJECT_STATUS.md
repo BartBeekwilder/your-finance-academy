@@ -1400,3 +1400,15 @@ on each live price; Stripe picks the currency from the customer's location):
   RevenueCat entitlement 'Active trial' → Settings 'Free until 24 Nov' →
   cancelled in the customer portal (cancel_at = trial end, nothing charged).
 - Advice still open: Vercel Pro + Supabase Pro now that it's commercial.
+
+## LIVE 2026-11-17 (late) — analytics, gift Premium, @me.com removed
+- Vercel Web Analytics enabled (Hobby: 50k events/month, 30 days, no custom
+  events). Tracker: components/SiteAnalytics.tsx in the root layout (skips the
+  homepage's device frames via beforeSend), a script tag on public/home and
+  public/updates. Privacy policy mentions it (17 languages). Checked live: one
+  view per homepage visit.
+- Bart's @mac.com account (187d1f48-…) has LIFETIME Premium granted in
+  RevenueCat; Settings shows "Premium for life — a gift" for store
+  "promotional".
+- The @me.com test user (7a621ccc-…) deleted in Supabase (tables cascade);
+  its Stripe customer + cancelled trial stay as records.
