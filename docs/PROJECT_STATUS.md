@@ -1364,3 +1364,17 @@ on each live price; Stripe picks the currency from the customer's location):
    See docs/billing-setup.md for the sandbox steps (same shape).
 4. Also: App Store / Google Play prices to match the table later;
    ANTHROPIC_API_KEY expires 2026-12-10.
+
+## 2026-11-17 (Mac) — prices per currency done (web-app, not live)
+- Claude's Stripe access now includes the LIVE account (read + write).
+- Live prices got currency_options (tax inclusive): monthly $14.99 / £12.99,
+  yearly $99 / £89, 2 years $179 / £159 (EUR unchanged €14.99 / €99 / €175).
+  Sandbox prices got the same USD/GBP amounts (its EUR stays €119.99/€199.99).
+- Code: currencyFor() in lib/billing/plans.ts (US→usd, GB/GG/JE/IM→gbp, else
+  eur; ?currency= overrides; test), prices(currency) expands
+  data.currency_options, /api/billing/prices answers per visitor (private
+  cache, Vary x-vercel-ip-country). The homepage asks ?currency=eur (its
+  example savings are in euros). Checkout unchanged: Managed Payments picks
+  the currency; other countries get Adaptive Pricing (always on with MP).
+- Checked on the web-app preview: usd / gbp / eur come back right.
+- NEXT: step 3 of the hand-over (Vercel live: Bart's secrets), then live.
