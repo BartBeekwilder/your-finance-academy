@@ -107,7 +107,9 @@
       "Creditcardafschriften inlezen met AI: aankopen komen op je creditcard, het aflossen van de kaart blijft eruit.",
       "Algemene voorwaarden en een vernieuwde privacyverklaring, te vinden onderaan elke pagina.",
       "Eerdere maanden aanvullen: kies een maand terug tot januari en vul hem met je bankafschrift, snelle totalen of een schatting.",
-      "De middelste ring is nu ‘Onder je inkomen’: een dag telt als je uitgaven onder je inkomen van die dag blijven."
+      "De middelste ring is nu ‘Onder je inkomen’: een dag telt als je uitgaven onder je inkomen van die dag blijven.",
+    /*live 17 Nov*/ "Iedereen kan nu een account maken en Premium 7 dagen gratis proberen.",
+      "Prijzen in je eigen valuta: dollars in de VS, ponden in het VK."
   ];
 
   var L = {
@@ -203,7 +205,9 @@
       "Read credit card statements with AI: purchases go on your credit card, paying off the card is left out.",
       "Terms of service and a renewed privacy policy, linked at the bottom of every page.",
       "Fill in earlier months: pick a month back to January and fill it with your bank statement, quick totals or an estimate.",
-      "The middle ring is now ‘Under your income’: a day counts when your spending stays under that day's income."
+      "The middle ring is now ‘Under your income’: a day counts when your spending stays under that day's income.",
+      /*live 17 Nov*/ "Anyone can now create an account and try Premium free for 7 days.",
+      "Prices in your own currency: dollars in the US, pounds in the UK."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -297,7 +301,9 @@
       "Kreditkartenabrechnungen mit KI einlesen: Einkäufe gehen auf deine Kreditkarte, die Rückzahlung der Karte bleibt außen vor.",
       "Nutzungsbedingungen und eine erneuerte Datenschutzerklärung, unten auf jeder Seite verlinkt.",
       "Frühere Monate ergänzen: wähle einen Monat bis zurück zum Januar und fülle ihn mit deinem Kontoauszug, schnellen Summen oder einer Schätzung.",
-      "Der mittlere Ring heißt jetzt ‚Unter deinem Einkommen‘: Ein Tag zählt, wenn deine Ausgaben unter dem Einkommen dieses Tages bleiben."
+      "Der mittlere Ring heißt jetzt ‚Unter deinem Einkommen‘: Ein Tag zählt, wenn deine Ausgaben unter dem Einkommen dieses Tages bleiben.",
+      /*live 17 Nov*/ "Jeder kann jetzt ein Konto erstellen und Premium 7 Tage kostenlos testen.",
+      "Preise in deiner Währung: Dollar in den USA, Pfund im Vereinigten Königreich."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -391,7 +397,9 @@
       "Lire les relevés de carte de crédit avec l’IA : les achats vont sur ta carte, le remboursement de la carte est exclu.",
       "Conditions d’utilisation et une politique de confidentialité renouvelée, en bas de chaque page.",
       "Compléter les mois précédents : choisis un mois jusqu’à janvier et remplis-le avec ton relevé bancaire, des totaux rapides ou une estimation.",
-      "L’anneau du milieu devient « Sous ton revenu » : un jour compte quand tes dépenses restent sous le revenu de ce jour."
+      "L’anneau du milieu devient « Sous ton revenu » : un jour compte quand tes dépenses restent sous le revenu de ce jour.",
+      /*live 17 Nov*/ "Tout le monde peut désormais créer un compte et essayer Premium gratuitement pendant 7 jours.",
+      "Des prix dans ta devise : en dollars aux États-Unis, en livres au Royaume-Uni."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -485,7 +493,9 @@
       "Leer extractos de tarjeta de crédito con IA: las compras van a tu tarjeta y el pago de la tarjeta queda fuera.",
       "Condiciones del servicio y una política de privacidad renovada, enlazadas al pie de cada página.",
       "Completar meses anteriores: elige un mes hasta enero y llénalo con tu extracto bancario, totales rápidos o una estimación.",
-      "El anillo central ahora es «Por debajo de tus ingresos»: un día cuenta si tus gastos quedan por debajo de los ingresos de ese día."
+      "El anillo central ahora es «Por debajo de tus ingresos»: un día cuenta si tus gastos quedan por debajo de los ingresos de ese día.",
+      /*live 17 Nov*/ "Ya puede cualquiera crear una cuenta y probar Premium gratis durante 7 días.",
+      "Precios en tu propia moneda: dólares en EE. UU., libras en el Reino Unido."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -579,7 +589,9 @@
       "Leggi gli estratti della carta di credito con l’IA: gli acquisti vanno sulla carta, il saldo della carta resta fuori.",
       "Termini di servizio e un’informativa sulla privacy rinnovata, in fondo a ogni pagina.",
       "Completa i mesi precedenti: scegli un mese fino a gennaio e riempilo con l’estratto conto, totali rapidi o una stima.",
-      "L’anello centrale ora è «Sotto il tuo reddito»: un giorno conta se le spese restano sotto il reddito di quel giorno."
+      "L’anello centrale ora è «Sotto il tuo reddito»: un giorno conta se le spese restano sotto il reddito di quel giorno.",
+      /*live 17 Nov*/ "Ora chiunque può creare un account e provare Premium gratis per 7 giorni.",
+      "Prezzi nella tua valuta: dollari negli Stati Uniti, sterline nel Regno Unito."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -673,7 +685,9 @@
       "Leia faturas de cartão de crédito com IA: as compras vão para o seu cartão e o pagamento da fatura fica de fora.",
       "Termos de serviço e uma política de privacidade renovada, no rodapé de cada página.",
       "Complete meses anteriores: escolha um mês até janeiro e preencha com seu extrato, totais rápidos ou uma estimativa.",
-      "O anel do meio agora é “Abaixo da sua renda”: um dia conta quando seus gastos ficam abaixo da renda daquele dia."
+      "O anel do meio agora é “Abaixo da sua renda”: um dia conta quando seus gastos ficam abaixo da renda daquele dia.",
+      /*live 17 Nov*/ "Agora qualquer pessoa pode criar uma conta e testar o Premium grátis por 7 dias.",
+      "Preços na sua moeda: dólares nos EUA, libras no Reino Unido."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -767,7 +781,9 @@
       "Wczytuj wyciągi z karty kredytowej z AI: zakupy trafiają na kartę, spłata karty jest pomijana.",
       "Regulamin i odnowiona polityka prywatności, w stopce każdej strony.",
       "Uzupełnij wcześniejsze miesiące: wybierz miesiąc aż do stycznia i wypełnij go wyciągiem, szybkimi sumami lub szacunkiem.",
-      "Środkowy pierścień to teraz „Poniżej dochodu”: dzień się liczy, gdy wydatki są niższe niż dochód z tego dnia."
+      "Środkowy pierścień to teraz „Poniżej dochodu”: dzień się liczy, gdy wydatki są niższe niż dochód z tego dnia.",
+      /*live 17 Nov*/ "Teraz każdy może założyć konto i wypróbować Premium za darmo przez 7 dni.",
+      "Ceny w twojej walucie: dolary w USA, funty w Wielkiej Brytanii."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -861,7 +877,9 @@
       "Kredi kartı ekstrelerini yapay zekâyla oku: alışverişler kartına yazılır, kart borcu ödemesi dışarıda kalır.",
       "Hizmet koşulları ve yenilenmiş gizlilik politikası, her sayfanın altında.",
       "Önceki ayları tamamla: ocak ayına kadar bir ay seç ve banka ekstresi, hızlı toplamlar ya da bir tahminle doldur.",
-      "Orta halka artık ‘Gelirinin altında’: harcamaların o günün gelirinin altında kalırsa o gün sayılır."
+      "Orta halka artık ‘Gelirinin altında’: harcamaların o günün gelirinin altında kalırsa o gün sayılır.",
+      /*live 17 Nov*/ "Artık herkes hesap açıp Premium'u 7 gün ücretsiz deneyebilir.",
+      "Kendi para biriminde fiyatlar: ABD'de dolar, Birleşik Krallık'ta sterlin."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -955,7 +973,9 @@
       "Считывайте выписки по кредитной карте с ИИ: покупки идут на карту, погашение карты не учитывается.",
       "Условия использования и обновлённая политика конфиденциальности — внизу каждой страницы.",
       "Заполняйте прошлые месяцы: выберите месяц вплоть до января и заполните его выпиской, быстрыми итогами или оценкой.",
-      "Среднее кольцо теперь «Ниже дохода»: день засчитывается, если расходы ниже дохода за этот день."
+      "Среднее кольцо теперь «Ниже дохода»: день засчитывается, если расходы ниже дохода за этот день.",
+      /*live 17 Nov*/ "Теперь любой может создать аккаунт и попробовать Premium бесплатно 7 дней.",
+      "Цены в вашей валюте: доллары в США, фунты в Великобритании."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1049,7 +1069,9 @@
       "اقرأ كشوف بطاقات الائتمان بالذكاء الاصطناعي: المشتريات تُسجَّل على بطاقتك، وسداد البطاقة يُستبعد.",
       "شروط الخدمة وسياسة خصوصية مُحدَّثة، في أسفل كل صفحة.",
       "أكمل الأشهر السابقة: اختر شهرًا حتى يناير واملأه بكشف حسابك أو مجاميع سريعة أو تقدير.",
-      "الحلقة الوسطى أصبحت «تحت دخلك»: يُحتسب اليوم عندما تبقى مصاريفك تحت دخل ذلك اليوم."
+      "الحلقة الوسطى أصبحت «تحت دخلك»: يُحتسب اليوم عندما تبقى مصاريفك تحت دخل ذلك اليوم.",
+      /*live 17 Nov*/ "يمكن لأي شخص الآن إنشاء حساب وتجربة Premium مجانًا لمدة 7 أيام.",
+      "أسعار بعملتك: بالدولار في الولايات المتحدة وبالجنيه في المملكة المتحدة."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1143,7 +1165,9 @@
       "AI से क्रेडिट कार्ड स्टेटमेंट पढ़ें: खरीदारी आपके कार्ड पर जाती है, कार्ड का भुगतान बाहर रहता है।",
       "सेवा की शर्तें और नई गोपनीयता नीति, हर पेज के नीचे।",
       "पिछले महीने भरें: जनवरी तक कोई महीना चुनें और उसे बैंक स्टेटमेंट, झटपट टोटल या अनुमान से भरें।",
-      "बीच की रिंग अब ‘आपकी आय से कम’ है: कोई दिन तब गिना जाता है जब खर्च उस दिन की आय से कम रहे।"
+      "बीच की रिंग अब ‘आपकी आय से कम’ है: कोई दिन तब गिना जाता है जब खर्च उस दिन की आय से कम रहे।",
+      /*live 17 Nov*/ "अब कोई भी अकाउंट बनाकर Premium को 7 दिन मुफ़्त आज़मा सकता है।",
+      "आपकी अपनी मुद्रा में कीमतें: अमेरिका में डॉलर, ब्रिटेन में पाउंड।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -1237,7 +1261,9 @@
       "Baca tagihan kartu kredit dengan AI: pembelian masuk ke kartumu, pelunasan kartu dikecualikan.",
       "Ketentuan layanan dan kebijakan privasi yang diperbarui, di bagian bawah setiap halaman.",
       "Lengkapi bulan-bulan sebelumnya: pilih bulan hingga Januari dan isi dengan rekening koran, total cepat, atau perkiraan.",
-      "Cincin tengah kini ‘Di bawah pendapatanmu’: sebuah hari dihitung jika pengeluaranmu di bawah pendapatan hari itu."
+      "Cincin tengah kini ‘Di bawah pendapatanmu’: sebuah hari dihitung jika pengeluaranmu di bawah pendapatan hari itu.",
+      /*live 17 Nov*/ "Kini siapa pun bisa membuat akun dan mencoba Premium gratis selama 7 hari.",
+      "Harga dalam mata uangmu sendiri: dolar di AS, pound di Inggris."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -1331,7 +1357,9 @@
       "AIでクレジットカード明細を読み込み：購入はカードに記帳され、カードの支払いは除外されます。",
       "利用規約と新しいプライバシーポリシー。各ページの下部にあります。",
       "過去の月を補完：1月までの月を選び、銀行明細、簡単な合計、または見積もりで埋められます。",
-      "真ん中のリングは「収入の範囲内」に：その日の支出がその日の収入を下回れば、その日はカウントされます。"
+      "真ん中のリングは「収入の範囲内」に：その日の支出がその日の収入を下回れば、その日はカウントされます。",
+      /*live 17 Nov*/ "誰でもアカウントを作成して、Premium を7日間無料で試せるようになりました。",
+      "自分の通貨での価格：米国ではドル、英国ではポンド。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -1425,7 +1453,9 @@
       "AI로 신용카드 명세서 읽기: 구매는 카드에 기록되고, 카드 대금 결제는 제외됩니다.",
       "이용약관과 새로 바뀐 개인정보 처리방침, 모든 페이지 하단에 있습니다.",
       "지난 달 채우기: 1월까지의 달을 골라 은행 명세서, 빠른 합계 또는 추정치로 채우세요.",
-      "가운데 링은 이제 ‘수입 이내’: 그날의 지출이 그날 수입보다 적으면 그날이 집계됩니다."
+      "가운데 링은 이제 ‘수입 이내’: 그날의 지출이 그날 수입보다 적으면 그날이 집계됩니다.",
+      /*live 17 Nov*/ "이제 누구나 계정을 만들고 Premium을 7일간 무료로 체험할 수 있어요.",
+      "내 통화로 표시되는 가격: 미국은 달러, 영국은 파운드."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -1519,7 +1549,9 @@
       "Đọc sao kê thẻ tín dụng bằng AI: các khoản mua ghi vào thẻ, khoản thanh toán thẻ được loại ra.",
       "Điều khoản dịch vụ và chính sách quyền riêng tư mới, ở cuối mỗi trang.",
       "Bổ sung các tháng trước: chọn một tháng đến tận tháng Một và điền bằng sao kê ngân hàng, tổng nhanh hoặc ước tính.",
-      "Vòng giữa giờ là ‘Dưới thu nhập’: một ngày được tính khi chi tiêu thấp hơn thu nhập của ngày đó."
+      "Vòng giữa giờ là ‘Dưới thu nhập’: một ngày được tính khi chi tiêu thấp hơn thu nhập của ngày đó.",
+      /*live 17 Nov*/ "Giờ đây ai cũng có thể tạo tài khoản và dùng thử Premium miễn phí 7 ngày.",
+      "Giá theo đơn vị tiền của bạn: đô la ở Mỹ, bảng Anh ở Vương quốc Anh."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -1613,7 +1645,9 @@
       "用 AI 读取信用卡账单：消费记在你的卡上，还卡款不计入。",
       "服务条款和更新后的隐私政策，见每页底部。",
       "补全过去的月份：选择一直到一月的任意月份，用银行账单、快速合计或估算填写。",
-      "中间的环现在是“低于收入”：当天支出低于当天收入，这一天就计入。"
+      "中间的环现在是“低于收入”：当天支出低于当天收入，这一天就计入。",
+      /*live 17 Nov*/ "现在任何人都可以创建账户，并免费试用 Premium 7 天。",
+      "以你自己的货币显示价格：美国用美元，英国用英镑。"
     ]
   };
 
