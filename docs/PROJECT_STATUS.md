@@ -1328,3 +1328,39 @@ panels, asset mix panel, Forgot password, then Premium.
 - STILL TO DO (secrets → Bart): live restricted key + webhook (same 2 events as
   the sandbox) + RevenueCat Stripe config on live + public key, then swap the
   4 Vercel values; real test payment + refund.
+
+## NEXT (start here on the Mac, 17 Nov evening) — prices per currency, then Vercel live
+Bart chose FIXED PRICES PER CURRENCY (same lookup keys, Stripe currency_options
+on each live price; Stripe picks the currency from the customer's location):
+
+| | monthly | yearly | 2 years |
+|---|---|---|---|
+| EUR | €14.99 | €99 | €175 |
+| USD | $14.99 | $99 | $179 |
+| GBP | £12.99 | £89 | £159 |
+(Bart may tweak the table / add CHF, CAD, AUD — ask first.)
+
+1. Stripe live (acct_1UaCvfQiEN3unuhx, Bart's Chrome; Claude's Stripe MCP only
+   reaches the sandbox): each of the 3 active prices → Edit → "Add a price by
+   currency" → USD + GBP amounts above, tax inclusive.
+   Check: does Adaptive Pricing (auto-convert other currencies) work together
+   with Managed Payments? If yes, turn it on as the fallback for other countries.
+   Check: US with tax-inclusive prices under Managed Payments (net per state).
+2. Code (lib/billing/server.ts prices(), app/api/billing/prices/route.ts,
+   components/finance/SubscriptionCard.tsx): fetch prices with
+   expand[]=data.currency_options, pick the visitor's currency from the
+   x-vercel-ip-country header (US→usd, GB→gbp, else eur; maybe ?currency= for
+   testing), show amounts + "Save x%" in that currency (no longer cache the
+   route publicly per country without Vary). Checkout needs no change (Stripe
+   chooses the currency); a customer stays in one currency.
+3. Vercel live (Bart enters secrets): live restricted key "Personal Finance web"
+   (same 5 permissions as the sandbox one), live webhook to
+   /api/billing/stripe-webhook (same 2 events) → secret; RevenueCat: Stripe
+   config on the live account, attach the live prices (incl. new ones) to
+   personal_finance_premium, public key; swap STRIPE_SECRET_KEY,
+   STRIPE_WEBHOOK_SECRET, REVENUECAT_STRIPE_PUBLIC_KEY (+ check
+   REVENUECAT_SECRET_KEY) in Vercel Production; NEXT_PUBLIC_PF_SIGNUPS=open?
+   Redeploy, then a real test payment + refund. /updates entry for the launch.
+   See docs/billing-setup.md for the sandbox steps (same shape).
+4. Also: App Store / Google Play prices to match the table later;
+   ANTHROPIC_API_KEY expires 2026-12-10.
