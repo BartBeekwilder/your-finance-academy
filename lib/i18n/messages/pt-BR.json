@@ -2047,5 +2047,15 @@
  "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "O anel do meio é uma meta diária: um dia conta quando você gasta naquele dia menos do que ganha naquele dia. Seu salário e despesas fixas contam uma parte por dia, assim o aluguel do dia 1 e o pagamento do dia 25 não distorcem nada; outros gastos e receitas contam no próprio dia. O anel fica cheio quando 80% dos dias do mês ficaram abaixo da sua renda — 24 de 30. No calendário, o anel verde de um dia fica cheio quando aquele dia ficou abaixo.",
  "Premium given to you — nothing to pay.": "Premium de presente — você não paga nada.",
  "Premium for life — a gift, nothing to pay.": "Premium para sempre — um presente, você não paga nada.",
- "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "Ele também conta as visitas para nós (Vercel Web Analytics): quais páginas, o país e o tipo de aparelho, sem cookies e sem guardar nada que identifique você. As visitas dentro do app não são contadas por pessoa."
+ "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "Ele também conta as visitas para nós (Vercel Web Analytics): quais páginas, o país e o tipo de aparelho, sem cookies e sem guardar nada que identifique você. As visitas dentro do app não são contadas por pessoa.",
+ "Take everything with you, or delete it for good.": "Leve tudo com você ou apague para sempre.",
+ "Download everything (JSON)": "Baixar tudo (JSON)",
+ "Transactions as CSV": "Transações em CSV",
+ "Delete my account…": "Excluir minha conta…",
+ "Delete your account?": "Excluir sua conta?",
+ "Your account and all your data are deleted on every device. This can't be undone. Download your data first if you want to keep it.": "Sua conta e todos os seus dados são excluídos em todos os aparelhos. Não dá para desfazer. Baixe seus dados antes se quiser guardá-los.",
+ "Type {email} to confirm": "Digite {email} para confirmar",
+ "Delete my account for good": "Excluir minha conta para sempre",
+ "Cancel your subscription first: Settings › Personal Finance Premium › Manage subscription.": "Cancele primeiro sua assinatura: Ajustes › Personal Finance Premium › Gerenciar assinatura.",
+ "Cancel your subscription in the App Store or Google Play first.": "Cancele primeiro sua assinatura na App Store ou no Google Play."
 }

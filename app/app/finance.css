@@ -6324,3 +6324,9 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .pf-ai-account label { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 0.85rem; color: var(--pf-ink-2); }
 .pf-ai-account select { width: auto; min-width: 200px; }
 .pf-ai-account small { font-size: 0.75rem; color: var(--pf-ink-3); line-height: 1.4; }
+
+/* Settings › Your data: deleting the account. */
+.pf-danger { padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.pf-danger-link { display: inline-flex; align-items: center; gap: 6px; color: var(--pf-red) !important; }
+.pf-danger-button { background: var(--pf-red) !important; }
+.pf-danger-button:disabled { opacity: 0.45; }

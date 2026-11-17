@@ -2047,5 +2047,15 @@
  "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "가운데 링은 하루 목표입니다. 그날 쓴 돈이 그날 번 돈보다 적으면 그날이 인정됩니다. 급여와 고정비는 매일 하루치씩 계산하므로 1일의 월세나 25일의 급여 때문에 왜곡되지 않고, 다른 지출과 수입은 해당 날짜에 계산됩니다. 한 달 중 80%의 날이 수입 이내면 링이 가득 찹니다(30일 중 24일). 캘린더에서 그날이 수입 이내였다면 그날의 초록 링이 가득 찹니다.",
  "Premium given to you — nothing to pay.": "Premium 선물 — 결제할 필요가 없어요.",
  "Premium for life — a gift, nothing to pay.": "평생 Premium — 선물이라 결제할 필요가 없어요.",
- "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "또한 방문 수를 집계합니다(Vercel Web Analytics): 어떤 페이지인지, 국가, 기기 종류만 쿠키 없이, 신원을 알 수 있는 정보는 저장하지 않고요. 앱 안의 방문은 사람별로 집계하지 않습니다."
+ "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "또한 방문 수를 집계합니다(Vercel Web Analytics): 어떤 페이지인지, 국가, 기기 종류만 쿠키 없이, 신원을 알 수 있는 정보는 저장하지 않고요. 앱 안의 방문은 사람별로 집계하지 않습니다.",
+ "Take everything with you, or delete it for good.": "모든 데이터를 가져가거나 영구히 삭제하세요.",
+ "Download everything (JSON)": "전체 다운로드 (JSON)",
+ "Transactions as CSV": "거래 내역 CSV",
+ "Delete my account…": "내 계정 삭제…",
+ "Delete your account?": "계정을 삭제할까요?",
+ "Your account and all your data are deleted on every device. This can't be undone. Download your data first if you want to keep it.": "계정과 모든 데이터가 모든 기기에서 삭제됩니다. 되돌릴 수 없어요. 보관하려면 먼저 데이터를 다운로드하세요.",
+ "Type {email} to confirm": "확인하려면 {email}을(를) 입력하세요",
+ "Delete my account for good": "내 계정 영구 삭제",
+ "Cancel your subscription first: Settings › Personal Finance Premium › Manage subscription.": "먼저 구독을 해지하세요: 설정 › Personal Finance Premium › 구독 관리.",
+ "Cancel your subscription in the App Store or Google Play first.": "먼저 App Store 또는 Google Play에서 구독을 해지하세요."
 }

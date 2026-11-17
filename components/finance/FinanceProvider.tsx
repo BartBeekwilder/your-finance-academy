@@ -98,6 +98,9 @@ type FinanceState = {
   deleteTransaction: (id: string) => Promise<void>;
   reorderCategories: (orderedIds: string[]) => Promise<void>;
   signOut: () => Promise<void>;
+  /** Deletes the signed-in account and everything in it (after the server
+   *  checked no paid subscription is running). Ends signed out. */
+  deleteAccount: () => Promise<void>;
   /** The stored data as it is (no runtime spread parts or market values) —
    *  what an encrypted copy is made of. */
   storedData: () => FinanceData;
@@ -1005,6 +1008,28 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     setPhase({ kind: "signed-out" });
   }, [supabase, startDemo, phase, pushVault]);
 
+  const deleteAccount = useCallback(async () => {
+    if (!supabase || phase.kind !== "ready" || (phase.source !== "vault" && phase.source !== "supabase")) throw new Error(t("Sign in first."));
+    const { data: auth } = await supabase.auth.getSession();
+    const token = auth.session?.access_token;
+    if (!token) throw new Error(t("Sign in first."));
+    const res = await fetch("/api/account/delete", { method: "POST", headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) throw new Error(t(((await res.json().catch(() => ({}))) as { error?: string }).error ?? "Something went wrong."));
+    const { error } = await supabase.rpc("delete_my_account");
+    if (error) throw new Error(error.message);
+    // Nothing is saved any more: the vault went with the account.
+    vaultRef.current = null;
+    latest.current = null;
+    setVaultStatus(null);
+    setVaultRemembered(false);
+    await forgetKeys();
+    try {
+      localStorage.removeItem("pf-onboarding-draft");
+    } catch {}
+    await supabase.auth.signOut().catch(() => {});
+    setPhase({ kind: "signed-out" });
+  }, [supabase, phase]);
+
   const storedData = useCallback(() => (phase.kind === "ready" ? phase.data : (null as unknown as FinanceData)), [phase]);
   const restoreLocal = useCallback((d: FinanceData) => {
     setPhase((p) => (p.kind === "ready" && p.source === "local" ? { ...p, data: d } : p));
@@ -1061,7 +1086,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, addTransactions, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, updateHolding, deleteHolding, rewrite: update, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, storedData, restoreLocal, addDocument, removeDocument }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, addTransactions, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, updateHolding, deleteHolding, rewrite: update, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, deleteAccount, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
       {stale && (

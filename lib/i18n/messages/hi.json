@@ -2047,5 +2047,15 @@
  "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "बीच वाली रिंग एक रोज़ का लक्ष्य है: कोई दिन तब गिना जाता है जब उस दिन का खर्च उस दिन की कमाई से कम रहे। आपकी सैलरी और तय खर्च हर दिन एक दिन के हिस्से के रूप में गिने जाते हैं, ताकि 1 तारीख का किराया और 25 तारीख की सैलरी तस्वीर न बिगाड़ें; बाकी खर्च और आमदनी अपने दिन पर गिने जाते हैं। जब महीने के 80% दिन आमदनी से कम रहें तो रिंग भर जाती है — 30 में से 24। कैलेंडर में किसी दिन की हरी रिंग तब भरती है जब वह दिन कम रहा।",
  "Premium given to you — nothing to pay.": "Premium आपको तोहफ़े में मिला — कुछ भी नहीं देना।",
  "Premium for life — a gift, nothing to pay.": "Premium हमेशा के लिए — एक तोहफ़ा, कुछ भी नहीं देना।",
- "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "यह हमारे लिए विज़िट भी गिनता है (Vercel Web Analytics): कौन-से पेज, देश और डिवाइस का प्रकार — बिना कुकी के और ऐसा कुछ भी सहेजे बिना जिससे आपकी पहचान हो। ऐप के अंदर की विज़िट हर व्यक्ति के हिसाब से नहीं गिनी जातीं।"
+ "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "यह हमारे लिए विज़िट भी गिनता है (Vercel Web Analytics): कौन-से पेज, देश और डिवाइस का प्रकार — बिना कुकी के और ऐसा कुछ भी सहेजे बिना जिससे आपकी पहचान हो। ऐप के अंदर की विज़िट हर व्यक्ति के हिसाब से नहीं गिनी जातीं।",
+ "Take everything with you, or delete it for good.": "सब कुछ अपने साथ ले जाएँ, या हमेशा के लिए मिटा दें।",
+ "Download everything (JSON)": "सब कुछ डाउनलोड करें (JSON)",
+ "Transactions as CSV": "लेन-देन CSV के रूप में",
+ "Delete my account…": "मेरा अकाउंट मिटाएँ…",
+ "Delete your account?": "अपना अकाउंट मिटाएँ?",
+ "Your account and all your data are deleted on every device. This can't be undone. Download your data first if you want to keep it.": "आपका अकाउंट और आपका सारा डेटा हर डिवाइस से मिट जाएगा। इसे वापस नहीं लिया जा सकता। अगर रखना चाहते हैं तो पहले अपना डेटा डाउनलोड कर लें।",
+ "Type {email} to confirm": "पुष्टि के लिए {email} टाइप करें",
+ "Delete my account for good": "मेरा अकाउंट हमेशा के लिए मिटाएँ",
+ "Cancel your subscription first: Settings › Personal Finance Premium › Manage subscription.": "पहले अपनी सदस्यता रद्द करें: सेटिंग्स › Personal Finance Premium › सदस्यता प्रबंधित करें।",
+ "Cancel your subscription in the App Store or Google Play first.": "पहले App Store या Google Play में अपनी सदस्यता रद्द करें।"
 }

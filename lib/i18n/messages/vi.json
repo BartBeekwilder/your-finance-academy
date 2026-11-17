@@ -2047,5 +2047,15 @@
  "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "Vòng giữa là mục tiêu mỗi ngày: một ngày được tính khi số tiền bạn tiêu trong ngày ít hơn số tiền kiếm được trong ngày đó. Lương và chi phí cố định được tính mỗi ngày một phần, nên tiền thuê ngày 1 và lương ngày 25 không làm lệch; các khoản chi và thu khác tính vào đúng ngày của chúng. Vòng đầy khi 80% số ngày trong tháng ở dưới thu nhập — 24 trên 30. Trong lịch, vòng xanh của một ngày đầy khi ngày đó ở dưới thu nhập.",
  "Premium given to you — nothing to pay.": "Premium được tặng — bạn không phải trả gì.",
  "Premium for life — a gift, nothing to pay.": "Premium trọn đời — một món quà, bạn không phải trả gì.",
- "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "Vercel cũng đếm lượt truy cập cho chúng tôi (Vercel Web Analytics): những trang nào, quốc gia và loại thiết bị, không dùng cookie và không lưu gì có thể nhận ra bạn. Lượt truy cập trong ứng dụng không được đếm theo từng người."
+ "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "Vercel cũng đếm lượt truy cập cho chúng tôi (Vercel Web Analytics): những trang nào, quốc gia và loại thiết bị, không dùng cookie và không lưu gì có thể nhận ra bạn. Lượt truy cập trong ứng dụng không được đếm theo từng người.",
+ "Take everything with you, or delete it for good.": "Mang tất cả theo bạn, hoặc xóa vĩnh viễn.",
+ "Download everything (JSON)": "Tải xuống tất cả (JSON)",
+ "Transactions as CSV": "Giao dịch dạng CSV",
+ "Delete my account…": "Xóa tài khoản của tôi…",
+ "Delete your account?": "Xóa tài khoản của bạn?",
+ "Your account and all your data are deleted on every device. This can't be undone. Download your data first if you want to keep it.": "Tài khoản và mọi dữ liệu của bạn sẽ bị xóa trên mọi thiết bị. Không thể hoàn tác. Hãy tải dữ liệu xuống trước nếu muốn giữ lại.",
+ "Type {email} to confirm": "Nhập {email} để xác nhận",
+ "Delete my account for good": "Xóa vĩnh viễn tài khoản của tôi",
+ "Cancel your subscription first: Settings › Personal Finance Premium › Manage subscription.": "Hãy hủy gói đăng ký trước: Cài đặt › Personal Finance Premium › Quản lý gói đăng ký.",
+ "Cancel your subscription in the App Store or Google Play first.": "Hãy hủy gói đăng ký trong App Store hoặc Google Play trước."
 }

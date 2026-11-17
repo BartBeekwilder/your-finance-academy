@@ -12,6 +12,7 @@ import { setShowAxes, useCategoryAreas, setCategoryAreas, useShowAxes } from "@/
 import Segmented from "@/components/finance/Segmented";
 import VaultSection from "@/components/finance/VaultSection";
 import SubscriptionCard from "@/components/finance/SubscriptionCard";
+import YourDataSection from "@/components/finance/YourDataSection";
 import PassphraseSection from "@/components/finance/PassphraseSection";
 import SetupUndo from "@/components/finance/SetupUndo";
 import HouseholdSection from "@/components/finance/HouseholdSection";
@@ -157,6 +158,8 @@ export default function SettingsPage() {
       <VaultSection />
 
       <MotionSection />
+
+      <YourDataSection />
     </div>
   );
 }

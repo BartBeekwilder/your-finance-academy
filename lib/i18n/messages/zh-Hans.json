@@ -2047,5 +2047,15 @@
  "The middle ring is a daily goal: a day counts when what you spent that day stays under what you earned that day. Your salary and fixed costs count a day's worth each day, so rent on the 1st and pay on the 25th don't skew it; other spending and income count on their own day. The ring is full when 80% of the month's days stayed under your income — 24 of 30. In the calendar, a day's green ring is full when that day stayed under.": "中间的圆环是每日目标：当天的支出低于当天的收入，这一天就算达成。工资和固定支出每天按一天的份额计算，所以 1 号的房租和 25 号的工资不会造成偏差；其他支出和收入按各自的日期计算。当一个月中 80% 的天数都低于收入时（30 天中 24 天），圆环就会填满。在日历中，某天低于收入，那天的绿色圆环就会填满。",
  "Premium given to you — nothing to pay.": "Premium 赠送给你——无需付费。",
  "Premium for life — a gift, nothing to pay.": "终身 Premium——这是礼物，无需付费。",
- "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "它还为我们统计访问量（Vercel Web Analytics）：哪些页面、国家和设备类型，不使用 Cookie，也不保存任何能识别你的信息。应用内的访问不按个人统计。"
+ "It also counts visits for us (Vercel Web Analytics): which pages, the country and the type of device, without cookies and without storing anything that identifies you. Visits inside the app are not counted per person.": "它还为我们统计访问量（Vercel Web Analytics）：哪些页面、国家和设备类型，不使用 Cookie，也不保存任何能识别你的信息。应用内的访问不按个人统计。",
+ "Take everything with you, or delete it for good.": "把所有数据带走，或永久删除。",
+ "Download everything (JSON)": "下载全部（JSON）",
+ "Transactions as CSV": "交易导出为 CSV",
+ "Delete my account…": "删除我的账户…",
+ "Delete your account?": "删除你的账户？",
+ "Your account and all your data are deleted on every device. This can't be undone. Download your data first if you want to keep it.": "你的账户和所有数据将在所有设备上删除，且无法撤销。如果想保留，请先下载你的数据。",
+ "Type {email} to confirm": "输入 {email} 以确认",
+ "Delete my account for good": "永久删除我的账户",
+ "Cancel your subscription first: Settings › Personal Finance Premium › Manage subscription.": "请先取消订阅：设置 › Personal Finance Premium › 管理订阅。",
+ "Cancel your subscription in the App Store or Google Play first.": "请先在 App Store 或 Google Play 中取消订阅。"
 }

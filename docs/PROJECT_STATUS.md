@@ -1412,3 +1412,18 @@ on each live price; Stripe picks the currency from the customer's location):
   "promotional".
 - The @me.com test user (7a621ccc-…) deleted in Supabase (tables cascade);
   its Stripe customer + cancelled trial stay as records.
+
+## 2026-11-17 (night) — your data, delete account, FAQ (web-app, NOT live)
+- Settings › Your data (components/finance/YourDataSection.tsx): "Download
+  everything (JSON)" (the whole books) and "Transactions as CSV". Checked in
+  the demo. Delete account (signed-in only): type your email, then
+  /api/account/delete checks no running paid subscription (Stripe → cancel in
+  the portal first; app stores likewise; a gifted "promotional" Premium is
+  fine) and deletes the RevenueCat customer; the browser then calls the
+  database function delete_my_account() and signs out.
+- BEFORE THIS GOES LIVE: run supabase/migrations/0015_delete_account.sql in
+  the Supabase SQL editor (creates delete_my_account(); all user tables
+  cascade). Delete flow not yet tried with a real account.
+- Homepage FAQ (7 questions, <details>, 17 languages, rail dot "Vragen").
+- Dev note: if `next dev` shows "Can't resolve …/font/google/font", move
+  .next.nosync aside (a failed font fetch got cached); run dev with network.

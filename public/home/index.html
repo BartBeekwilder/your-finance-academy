@@ -368,6 +368,15 @@
   .pb__times { justify-self: start; font: 600 13px var(--mono); color: #052e16; background: #4ade80; padding: 6px 12px; border-radius: 999px; }
   .pb__note { color: var(--c-muted); font-size: 12px; }
   .pb__row[hidden], .pb__times[hidden] { display: none; }
+  .faq { max-width: 860px; margin: 0 auto; padding: clamp(60px, 10vh, 120px) var(--g); display: grid; justify-items: start; gap: 14px; }
+  .faq h2 { margin: 4px 0 10px; font: 700 clamp(32px, 4vw, 52px)/1.05 var(--f); letter-spacing: -0.035em; }
+  .faq__list { width: 100%; border-block-start: 1px solid var(--c-rule); }
+  .faq__q { border-block-end: 1px solid var(--c-rule); }
+  .faq__q summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 2px; font: 600 17px/1.35 var(--f); color: var(--c-ink); }
+  .faq__q summary::-webkit-details-marker { display: none; }
+  .faq__q summary::after { content: "+"; flex: none; font: 400 22px var(--mono); color: var(--c-accent); transition: transform .3s var(--ease); }
+  .faq__q[open] summary::after { transform: rotate(45deg); }
+  .faq__q p { margin: -4px 0 18px; max-width: 64ch; color: var(--c-ink-2); line-height: 1.6; }
   .final { padding: clamp(60px, 10vh, 120px) var(--g); text-align: center; display: grid; justify-items: center; gap: 14px; border-block-start: 1px solid var(--c-rule); }
   .final h2 { margin: 0; font: 700 clamp(32px, 4vw, 56px)/1.05 var(--f); letter-spacing: -0.035em; }
   .final p { margin: 0 0 10px; font: 400 13px var(--mono); color: var(--c-muted); }
@@ -425,6 +434,7 @@
   <a href="#apparaten"><span>Op al je apparaten, altijd gelijk.</span><i></i></a>
   <a href="#phoneSec"><span>Altijd bij je.</span><i></i></a>
   <a href="#terugverdiend"><span>Verdient zichzelf terug</span><i></i></a>
+  <a href="#faq"><span>Vragen</span><i></i></a>
   <a href="#probeer"><span>Probeer nu gratis!</span><i></i></a>
 </nav>
 <div class="topprogress" aria-hidden="true"></div>
@@ -663,6 +673,11 @@
     </div>
   </section>
 
+  <section class="faq" id="faq">
+    <span class="pb__eyebrow">Vragen</span>
+    <h2>Veelgestelde vragen</h2>
+    <div class="faq__list"><details class="faq__q"><summary>Wat kost het?</summary><p>Je probeert Premium 7 dagen gratis. Daarna kies je per maand, per jaar of voor twee jaar; bij het afrekenen zie je de prijs in je eigen valuta. Opzeggen kan altijd.</p></details><details class="faq__q"><summary>Hoe zeg ik op?</summary><p>In de app onder Instellingen › Personal Finance Premium › Abonnement beheren. Je houdt Premium tot het einde van je periode; daarna wordt er niets meer afgeschreven.</p></details><details class="faq__q"><summary>Moet ik mijn bank koppelen?</summary><p>Nee. Je voert zelf in, of je laat AI je bankafschrift of screenshots lezen. Er is geen koppeling met je bank.</p></details><details class="faq__q"><summary>Wie kan mijn gegevens zien?</summary><p>Je gegevens staan in de EU en worden nooit verkocht of voor reclame gebruikt. Met een extra wachtzin wordt alles al in je browser versleuteld, zodat ook wij het niet kunnen lezen.</p></details><details class="faq__q"><summary>Is dit financieel advies?</summary><p>Nee. De app laat je eigen cijfers zien en rekent voor je; de keuzes maak je zelf.</p></details><details class="faq__q"><summary>Werkt het op mijn telefoon?</summary><p>Ja, in de browser op je telefoon, tablet en computer, met overal dezelfde cijfers. Apps voor iPhone, iPad, Mac en Android komen eraan.</p></details><details class="faq__q"><summary>Kan ik mijn gegevens meenemen of verwijderen?</summary><p>Ja. In Instellingen › Je gegevens download je alles als bestand, of verwijder je je account met alles erin.</p></details></div>
+  </section>
   <section class="final" id="probeer">
     <h2>Klaar om het zelf te zien?</h2>
     <p>7 dagen gratis · daarna opzeggen wanneer je wilt</p>
