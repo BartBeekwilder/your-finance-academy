@@ -954,7 +954,8 @@
     if (!card) return;
     new IntersectionObserver(function (es, o) { es.forEach(function (e) { if (e.isIntersecting) { card.classList.add('shown'); o.disconnect(); } }); }, { threshold: 0.3 }).observe(card);
     var SAVED = 74, BIGGEST = 46;
-    fetch('/api/billing/prices').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+    // In euros, like the page's example savings.
+    fetch('/api/billing/prices?currency=eur').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
       if (!j || !j.prices || !j.prices.length) return;
       var per = Math.min.apply(null, j.prices.map(function (p) { return p.amount / p.months; }));
       if (!(per > 0)) return;

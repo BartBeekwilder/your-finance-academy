@@ -15,6 +15,21 @@ export const PLANS = [
 
 export type PlanKey = (typeof PLANS)[number]["key"];
 
+/** Fixed prices per currency (Stripe currency_options on each price, Bart
+ *  17 Nov): the US pays in dollars, the UK in pounds, everyone else in euros
+ *  (Managed Payments converts those at checkout where it applies). */
+export const CURRENCIES = ["eur", "usd", "gbp"] as const;
+export type Currency = (typeof CURRENCIES)[number];
+const BY_COUNTRY: Record<string, Currency> = { US: "usd", GB: "gbp", GG: "gbp", JE: "gbp", IM: "gbp" };
+
+/** The currency shown to a visitor: ?currency= (testing) first, else the
+ *  country Vercel saw the visitor in. */
+export function currencyFor(country: string | null | undefined, asked?: string | null): Currency {
+  const a = asked?.toLowerCase();
+  if (a && (CURRENCIES as readonly string[]).includes(a)) return a as Currency;
+  return BY_COUNTRY[(country ?? "").toUpperCase()] ?? "eur";
+}
+
 export type PlanPrice = { key: PlanKey; amount: number; currency: string; months: number };
 
 export type BillingStatus = {

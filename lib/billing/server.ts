@@ -43,14 +43,17 @@ export async function userFrom(req: Request) {
   return { id: data.user.id, email: data.user.email ?? null };
 }
 
-type Price = { id: string; lookup_key: string; unit_amount: number; currency: string };
+type Price = { id: string; lookup_key: string; unit_amount: number; currency: string; currency_options?: Record<string, { unit_amount: number | null }> };
 
-/** The three prices by lookup key. */
-export async function prices(): Promise<(PlanPrice & { id: string })[]> {
-  const list = await stripe<{ data: Price[] }>("GET", "prices", { active: true, lookup_keys: PLANS.map((p) => p.lookup), limit: 10 });
+/** The three prices by lookup key, in `currency` when the price has an
+ *  amount for it (currency_options), else in its own currency. */
+export async function prices(currency?: string): Promise<(PlanPrice & { id: string })[]> {
+  const list = await stripe<{ data: Price[] }>("GET", "prices", { active: true, lookup_keys: PLANS.map((p) => p.lookup), limit: 10, expand: ["data.currency_options"] });
   return PLANS.flatMap((p) => {
     const price = list.data.find((x) => x.lookup_key === p.lookup);
-    return price ? [{ key: p.key, id: price.id, amount: price.unit_amount / 100, currency: price.currency.toUpperCase(), months: p.months }] : [];
+    if (!price) return [];
+    const own = currency ? price.currency_options?.[currency]?.unit_amount : null;
+    return [{ key: p.key, id: price.id, amount: (own ?? price.unit_amount) / 100, currency: (own != null ? currency! : price.currency).toUpperCase(), months: p.months }];
   });
 }
 
