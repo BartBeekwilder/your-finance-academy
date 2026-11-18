@@ -1633,3 +1633,18 @@ what the compiler finds, run the tests, then look at it in the simulator.
   and the shared PDF; the compact axis label uses
   .currency(...).notation(.compactName) (iOS 16+). Not yet: a "PDF" button
   on Expenses: DONE (toolbar, this month or in Year view this year; iOS Expenses has no month picker yet).
+
+## 2026-11-18 (evening, Windows) — accounts to pay with (web-app 220d68b, NOT live)
+- Balance sheet: the unfolded Accounts end in a grey "+ Add account" →
+  small form (current / savings / credit card / cash, name, balance today) →
+  saveAccount. Accounts always unfold when editable, even with none.
+- Quick Add expense: dashed "+ Credit card" / "+ Cash" chips when there's no
+  such account yet — one tap makes it (balance 0) and picks it.
+- calc balanceSheet: only EMPTY SAVINGS accounts are hidden now; empty
+  current accounts, cards and cash stay (else a new one vanished).
+- saveAccount now returns the id. 3 texts in 16 languages ("Savings account"
+  etc. in i18n EXTRA). Checked in the browser (demo).
+- iOS (ios-port-nov18 3464b72, not built): the same two chips in the
+  transaction form; the "Paid with" section labels now localise.
+- Note for users who kept cash as a balance post: after adding a Cash
+  account, remove the post or it counts twice.
