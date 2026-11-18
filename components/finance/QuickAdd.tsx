@@ -160,6 +160,7 @@ function Form({
   const [advance, setAdvance] = useState(initial?.advance ?? false);
   // Which account it comes off (or goes to): the transaction's own, else the
   // one used last in this browser, else the default account.
+  const { saveAccount } = useFinance();
   const payable = accounts.filter((a) => a.type !== "investment");
   const [accountId, setAccountId] = useState<string | null>(() => {
     if (initial) return initial.account_id;
@@ -571,7 +572,7 @@ function Form({
         </div>
       )}
 
-      {payable.length > 0 && (
+      {(payable.length > 0 || type === "expense") && (
         <div>
           <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)", marginBottom: 8 }}>{type === "expense" ? t("Paid with") : t("Received on")}</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -591,6 +592,34 @@ function Form({
                     <Icon size={13} strokeWidth={2.4} />
                   </span>
                   {a.name}
+                </button>
+              );
+            })}
+            {/* Paid by card or in cash, but no such account yet: one tap makes it (balance 0) and picks it. */}
+            {type === "expense" && !advancing && (["credit", "cash"] as const).filter((k) => !payable.some((a) => a.type === k)).map((k) => {
+              const Icon = ACCOUNT_ICON[k] ?? Wallet;
+              const name = k === "credit" ? t("Credit card") : t("Cash");
+              return (
+                <button
+                  key={`new-${k}`}
+                  type="button"
+                  className="pf-chip pf-acct-chip pf-acct-new"
+                  title={t("Adds this account to your balance sheet")}
+                  onClick={async () => {
+                    try {
+                      const id = await saveAccount({ name, type: k, balance: 0 });
+                      setAccountId(id);
+                      setTouched((x) => ({ ...x, account: true }));
+                    } catch (e) {
+                      alert((e as Error).message);
+                    }
+                  }}
+                >
+                  <Plus size={12} strokeWidth={2.6} />
+                  <span className="pf-acct-icon" data-type={k}>
+                    <Icon size={13} strokeWidth={2.4} />
+                  </span>
+                  {name}
                 </button>
               );
             })}

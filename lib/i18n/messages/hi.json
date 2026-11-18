@@ -2094,5 +2094,8 @@
  "What you own": "आपके पास क्या है",
  "What you own and owe on 31 December {year}.": "31 दिसंबर {year} को आपके पास क्या है और आप पर क्या बकाया है।",
  "Your accounts on 31 December": "31 दिसंबर को आपके खाते",
- "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "आपका महीना और आपका साल एक सुंदर PDF में — रखने, प्रिंट करने या अपने साथी या अकाउंटेंट के साथ साझा करने के लिए।"
+ "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "आपका महीना और आपका साल एक सुंदर PDF में — रखने, प्रिंट करने या अपने साथी या अकाउंटेंट के साथ साझा करने के लिए।",
+ "Savings account": "बचत खाता",
+ "Adds this account to your balance sheet": "यह खाता आपकी बैलेंस शीट में जोड़ता है",
+ "Still to pay on the card? Enter it as a minus amount.": "कार्ड पर अभी भुगतान बाकी है? उसे माइनस राशि के रूप में दर्ज करें।"
 }

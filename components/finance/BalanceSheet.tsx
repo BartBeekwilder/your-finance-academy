@@ -3,7 +3,7 @@
 import InfoTip from "./InfoTip";
 
 import { t } from "@/lib/i18n";
-import { Check, ChevronRight, Plus, X } from "lucide-react";
+import { Banknote, Check, ChevronRight, CreditCard, Landmark, PiggyBank, Plus, X } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useFlip } from "@/lib/useFlip";
@@ -274,7 +274,61 @@ type Edit = {
   onReceive?: (id: string, accountId: string) => void;
   /** Accounts to receive onto: the current account first. */
   accounts?: { id: string; name: string; type: string; is_default: boolean }[];
+  /** A new account (to pay with or save on), with its balance today. */
+  onAddAccount?: (a: { name: string; type: AccountKind; balance: number }) => void;
 };
+
+type AccountKind = "checking" | "savings" | "credit" | "cash";
+const KIND_LABEL: Record<AccountKind, string> = { checking: "Current account", savings: "Savings account", credit: "Credit card", cash: "Cash" };
+const KIND_ICON: Record<AccountKind, typeof Landmark> = { checking: Landmark, savings: PiggyBank, credit: CreditCard, cash: Banknote };
+
+/** At the end of the unfolded Accounts: a grey "+ Add account" that opens a
+ *  small form — kind, name, balance today. A card or cash then shows up under
+ *  "Paid with" when booking an expense. */
+function AddAccount({ i, open, currency, onAdd }: { i: number; open: boolean; currency: string; onAdd: NonNullable<Edit["onAddAccount"]> }) {
+  const [editing, setEditing] = useState(false);
+  const [type, setType] = useState<AccountKind>("checking");
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState("");
+  const close = () => { setEditing(false); setName(""); setAmount(""); setType("checking"); };
+  const save = () => {
+    onAdd({ name: name.trim() || t(KIND_LABEL[type]), type, balance: parseAmount(amount) ?? 0 });
+    close();
+  };
+  if (!editing) {
+    return (
+      <div className="pf-bal-part pf-bal-part-add" style={{ ["--i" as string]: i }}>
+        <button type="button" className="pf-bal-add" tabIndex={open ? 0 : -1} onClick={() => setEditing(true)}>
+          <Plus size={13} /> {t("Add account")}
+        </button>
+      </div>
+    );
+  }
+  return (
+    <div className="pf-bal-part pf-bal-acc-form" style={{ ["--i" as string]: i }}>
+      <div className="pf-bal-acc-kinds" role="radiogroup" aria-label={t("Type")}>
+        {(Object.keys(KIND_LABEL) as AccountKind[]).map((k) => {
+          const Icon = KIND_ICON[k];
+          return (
+            <button key={k} type="button" role="radio" aria-checked={type === k} className="pf-chip pf-acct-chip" aria-pressed={type === k} onClick={() => setType(k)}>
+              <span className="pf-acct-icon" data-type={k}><Icon size={13} strokeWidth={2.4} /></span>
+              {t(KIND_LABEL[k])}
+            </button>
+          );
+        })}
+      </div>
+      <div className="pf-bal-acc-fields">
+        <input className="pf-input" autoFocus placeholder={t(KIND_LABEL[type])} aria-label={t("Account name")} value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") save(); if (e.key === "Escape") close(); }} />
+        <input className="pf-input pf-rounded" inputMode="decimal" placeholder={money(0, currency)} aria-label={t("Balance today")} value={amount} onChange={(e) => setAmount(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") save(); if (e.key === "Escape") close(); }} />
+      </div>
+      {type === "credit" && <small className="pf-bal-acc-hint">{t("Still to pay on the card? Enter it as a minus amount.")}</small>}
+      <div className="pf-bal-acc-actions">
+        <button type="button" className="pf-button" onClick={save}>{t("Add")}</button>
+        <button type="button" className="pf-chip" onClick={close}>{t("Cancel")}</button>
+      </div>
+    </div>
+  );
+}
 
 type Order = "own" | "desc" | "asc";
 
@@ -378,7 +432,9 @@ function Total({ label, value, currency, balanced }: { label: string; value: num
 function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number | null; color: string; currency: string; edit?: Edit }) {
   const editable = edit && line.kind === "manual";
   const [open, setOpen] = useState(false);
-  const parts = line.parts?.length ? line.parts : null;
+  // Accounts always unfold (with "+ Add account" at the end), even with none yet.
+  const addAccount = line.id === "accounts" ? edit?.onAddAccount : undefined;
+  const parts = line.parts?.length ? line.parts : addAccount ? [] : null;
   const row = (
     <div
       className="pf-bal-line"
@@ -478,6 +534,7 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
             );
             return heading ? [heading, row] : row;
           })}
+          {addAccount && <AddAccount i={parts.length} open={open} currency={currency} onAdd={addAccount} />}
         </div>
       </div>
     </div>

@@ -2094,5 +2094,8 @@
  "What you own": "Ваши активы",
  "What you own and owe on 31 December {year}.": "Ваши активы и долги на 31 декабря {year}.",
  "Your accounts on 31 December": "Ваши счета на 31 декабря",
- "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "Ваш месяц и ваш год в красивом PDF — чтобы хранить, печатать или делиться с партнёром или бухгалтером."
+ "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "Ваш месяц и ваш год в красивом PDF — чтобы хранить, печатать или делиться с партнёром или бухгалтером.",
+ "Savings account": "Сберегательный счёт",
+ "Adds this account to your balance sheet": "Добавляет этот счёт в твой баланс",
+ "Still to pay on the card? Enter it as a minus amount.": "На карте ещё есть долг? Введи его со знаком минус."
 }

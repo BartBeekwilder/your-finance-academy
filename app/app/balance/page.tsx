@@ -207,9 +207,11 @@ export default function BalancePage() {
                     onAdd: (side) => run(addBalanceItem({ name: t("New post"), side, value: 0 })),
                     onAccount: (id, opening) => {
                       const a = data.accounts.find((x) => x.id === id);
-                      if (a) run(saveAccount({ id, name: a.name, type: a.type, balance: opening }));
+                      if (a) run(saveAccount({ id, name: a.name, type: a.type, balance: opening }).then(() => undefined));
                     },
                     accounts: data.accounts.filter((a) => !a.deleted_at),
+                    // Nothing booked on a new account yet: its balance today is its start.
+                    onAddAccount: (a) => run(saveAccount(a).then(() => undefined)),
                     // Income still to receive came in: on that account (dated
                     // today if it was entered for later).
                     onReceive: (id, accountId) => {

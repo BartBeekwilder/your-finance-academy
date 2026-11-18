@@ -2094,5 +2094,8 @@
  "What you own": "가진 것",
  "What you own and owe on 31 December {year}.": "{year}년 12월 31일 기준 자산과 부채.",
  "Your accounts on 31 December": "12월 31일 기준 계좌",
- "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "나의 한 달과 한 해를 멋진 PDF로 — 보관, 인쇄하거나 파트너나 세무사와 공유하세요."
+ "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "나의 한 달과 한 해를 멋진 PDF로 — 보관, 인쇄하거나 파트너나 세무사와 공유하세요.",
+ "Savings account": "저축 계좌",
+ "Adds this account to your balance sheet": "이 계좌를 대차대조표에 추가합니다",
+ "Still to pay on the card? Enter it as a minus amount.": "카드에 아직 갚을 금액이 있나요? 마이너스 금액으로 입력하세요."
 }

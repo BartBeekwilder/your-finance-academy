@@ -2094,5 +2094,8 @@
  "What you own": "Ce que vous possédez",
  "What you own and owe on 31 December {year}.": "Ce que vous possédez et devez au 31 décembre {year}.",
  "Your accounts on 31 December": "Vos comptes au 31 décembre",
- "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "Votre mois et votre année dans un beau PDF — à garder, imprimer ou partager avec votre partenaire ou votre comptable."
+ "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "Votre mois et votre année dans un beau PDF — à garder, imprimer ou partager avec votre partenaire ou votre comptable.",
+ "Savings account": "Compte d'épargne",
+ "Adds this account to your balance sheet": "Ajoute ce compte à ton bilan",
+ "Still to pay on the card? Enter it as a minus amount.": "Il reste à payer sur la carte ? Saisis-le en montant négatif."
 }

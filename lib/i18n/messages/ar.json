@@ -2094,5 +2094,8 @@
  "What you own": "ما تملكه",
  "What you own and owe on 31 December {year}.": "ما تملكه وما عليك في 31 ديسمبر {year}.",
  "Your accounts on 31 December": "حساباتك في 31 ديسمبر",
- "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "شهرك وعامك في ملف PDF أنيق — للاحتفاظ به أو طباعته أو مشاركته مع شريكك أو محاسبك."
+ "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "شهرك وعامك في ملف PDF أنيق — للاحتفاظ به أو طباعته أو مشاركته مع شريكك أو محاسبك.",
+ "Savings account": "حساب توفير",
+ "Adds this account to your balance sheet": "يضيف هذا الحساب إلى ميزانيتك",
+ "Still to pay on the card? Enter it as a minus amount.": "هل ما زال هناك مبلغ مستحق على البطاقة؟ أدخله كمبلغ سالب."
 }

@@ -577,8 +577,9 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
             : t("1 Jan {start} · in {inflow} · out {outflow}", { start: money(num(a.balance), cur), inflow: money(io.in, cur), outflow: money(io.out, cur) });
           return { id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0), flow: flows.get(a.id) ?? 0, group: GROUP[kind], hint };
         })
-        // An empty account isn't worth a line (it shows again once it isn't).
-        .filter((p) => Math.abs(p.value) >= 0.005),
+        // An empty savings pot isn't worth a line (it shows again once it
+        // isn't); an empty current account, card or cash stays — you pay with it.
+        .filter((p) => kind !== "savings" || Math.abs(p.value) >= 0.005),
     );
     const rest = acc.value - parts.reduce((s2, p) => s2 + p.value, 0);
     if (Math.abs(rest) >= 0.005) parts.push({ id: "unassigned", name: t("Correction"), value: rest, hint: t("Difference between your account balances and this year's bookings") });

@@ -56,7 +56,7 @@ type FinanceState = {
   renameBalanceItem: (itemId: string, name: string) => Promise<void>;
   deleteBalanceItem: (itemId: string) => Promise<void>;
   /** Creates or updates an account (no id = new). */
-  saveAccount: (a: { id?: string; name: string; type: Account["type"]; balance: number }) => Promise<void>;
+  saveAccount: (a: { id?: string; name: string; type: Account["type"]; balance: number }) => Promise<string>;
   /** Sets a category's budget for a month (creates or updates that month's row). */
   setBudget: (categoryId: string, month: Date, amount: number) => Promise<void>;
   /** Real estate: create or update a property / mortgage part (no id = new). */
@@ -774,6 +774,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         if (error) throw error;
       }
       update((d) => ({ ...d, accounts: [...d.accounts.filter((x) => x.id !== row.id), row] }));
+      return row.id;
     },
     [current, source, supabase, update],
   );

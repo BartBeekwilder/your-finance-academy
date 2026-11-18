@@ -4575,6 +4575,10 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
 /* Quick Add — paid with / received on */
 .pf-acct-chip { padding: 5px 12px 5px 5px; }
 .pf-acct-chip[aria-pressed="true"] { border-color: var(--pf-brand-b); background: rgba(94, 92, 230, 0.16); }
+/* "+ Cash" / "+ Credit card": not an account yet — grey and dashed until tapped. */
+.pf-acct-new { border-style: dashed; color: var(--pf-ink-3); background: transparent; padding-left: 8px; gap: 5px; }
+.pf-acct-new .pf-acct-icon { opacity: 0.55; }
+.pf-acct-new:hover { color: var(--pf-ink); }
 .pf-acct-icon { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; color: #fff; background: #40c8e0; }
 .pf-acct-icon[data-type="savings"] { background: #30d158; }
 .pf-acct-icon[data-type="credit"] { background: #ff9f0a; }
@@ -4605,6 +4609,16 @@ button.pf-subrow:hover { background: rgba(255, 255, 255, 0.04); }
 .pf-bal-name-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .pf-bal-name-fold em, .pf-bal-name-fold .pf-bal-chev { flex: none; }
 .pf-bal-part { align-items: center; }
+/* "+ Add account" at the end of the unfolded Accounts, and its small form. */
+.pf-bal-part-add { padding-top: 4px; }
+.pf-bal-part-add .pf-bal-add { margin-top: 0; }
+.pf-bal-acc-form { flex-direction: column; align-items: stretch; gap: 8px; padding-top: 10px; padding-bottom: 10px; }
+.pf-bal-acc-kinds { display: flex; flex-wrap: wrap; gap: 6px; }
+.pf-bal-acc-kinds .pf-acct-chip { font-size: 0.78rem; }
+.pf-bal-acc-fields { display: grid; grid-template-columns: minmax(0, 1fr) 9em; gap: 8px; }
+.pf-bal-acc-fields .pf-input { font-size: 0.85rem; padding: 7px 10px; min-width: 0; }
+.pf-bal-acc-hint { color: var(--pf-ink-3); font-size: 0.75rem; }
+.pf-bal-acc-actions { display: flex; gap: 8px; }
 .pf-bal-part .pf-bal-input { width: 8em; font-size: 0.85rem; }
 .pf-bal-part[data-edit="true"] .pf-bal-input { border-bottom: 1px dashed transparent; }
 .pf-bal-part[data-edit="true"]:hover .pf-bal-input { border-bottom-color: var(--pf-ink-3); }

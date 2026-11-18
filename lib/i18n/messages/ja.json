@@ -2094,5 +2094,8 @@
  "What you own": "資産",
  "What you own and owe on 31 December {year}.": "{year}年12月31日時点の資産と負債。",
  "Your accounts on 31 December": "12月31日時点の口座",
- "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "あなたの月と年を美しいPDFに — 保存、印刷、パートナーや税理士との共有に。"
+ "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "あなたの月と年を美しいPDFに — 保存、印刷、パートナーや税理士との共有に。",
+ "Savings account": "普通預金口座",
+ "Adds this account to your balance sheet": "この口座を貸借対照表に追加します",
+ "Still to pay on the card? Enter it as a minus amount.": "カードにまだ未払いがありますか？マイナスの金額で入力してください。"
 }
