@@ -1729,3 +1729,28 @@ what the compiler finds, run the tests, then look at it in the simulator.
     review with the first app version (Apple's rule).
   - China mainland needs extra declarations — consider leaving it out.
   4. Sandbox test: trial, restore, web-Premium account opens without paying.
+
+## 2026-11-18 (late, Mac) — iOS: first TestFlight build (ios-port-nov18 d8873de)
+- Demo has no time limit any more (website parity): DemoTimer,
+  DemoTimerView (its end card rendered squeezed) and their tests removed;
+  sign-in says "Look around with demo data first"; isDemo lives in AppGate.
+  72/72 tests pass.
+- Archived (Release, automatic signing, team 3R533T2A74) and UPLOADED to App
+  Store Connect: version 1.0 build 1 — "Processing" at 20:17. Apple warns:
+  from April 2027 builds must use the iOS 27 SDK (Xcode 27).
+  Commands: xcodebuild … -configuration Release -destination
+  generic/platform=iOS -archivePath /tmp/pf-archive/PersonalFinance.xcarchive
+  -allowProvisioningUpdates archive; then -exportArchive with
+  ExportOptions (method app-store-connect, destination upload). Next build:
+  raise CURRENT_PROJECT_VERSION (2, 3, …).
+- TestFlight internal group "Team" (automatic distribution) with Bart as
+  tester. Purchases in a TestFlight build run in Apple's sandbox, free — no
+  sandbox account needed.
+- WATCH OUT: the app targets iOS 26.2. Bart's iPhone that Xcode saw runs
+  iOS 16.2 — it can't install the app. Update that phone, or use one on 26.2+.
+- After processing: App Store Connect may ask the export-compliance
+  (encryption) question for the build — Bart answers (the app uses HTTPS and
+  Apple's CryptoKit for the vault).
+- Not yet checked on a device: Settings › Je gegevens / Premium / Juridisch,
+  paywall + trial purchase, restore, web-Premium account, Read with AI,
+  + Creditcard / + Contant, + Rekening toevoegen. Do it in TestFlight.
