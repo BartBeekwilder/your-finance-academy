@@ -73,15 +73,16 @@ export function suggestCategory(row: ReadRow, learned: Map<string, string>, cate
 
 const day = (iso: string) => Math.round(Date.parse(iso.slice(0, 10) + "T12:00:00Z") / 86_400_000);
 
-/** The booking this row already is: same direction and amount, within a
- *  day (a card payment is booked by the bank a day later) — or, for a fixed
+/** The booking this row already is: same direction and amount, within
+ *  three days (a card payment reaches the bank a day or two later, over a
+ *  weekend three — Bart's November had Fridays booked on the Sunday) — or, for a fixed
  *  cost or repeating booking, within 10 days (booked ahead on a set day,
  *  debited by the bank a few days earlier or later). */
 export function bookedAs<T extends Tx>(row: ReadRow, transactions: T[]): T | undefined {
   if (!row.date) return undefined;
   const d = day(row.date), type = row.direction === "in" ? "income" : "expense";
   return transactions.find(
-    (x) => !x.deleted_at && x.type === type && Math.abs(Number(x.amount) - row.amount) < 0.005 && Math.abs(day(x.date) - d) <= (x.is_fixed_expense || x.recurrence_id ? 10 : 1),
+    (x) => !x.deleted_at && x.type === type && Math.abs(Number(x.amount) - row.amount) < 0.005 && Math.abs(day(x.date) - d) <= (x.is_fixed_expense || x.recurrence_id ? 10 : 3),
   );
 }
 
