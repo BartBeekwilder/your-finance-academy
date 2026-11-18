@@ -1492,3 +1492,47 @@ on each live price; Stripe picks the currency from the customer's location):
   year only (Apple has no 2-year auto-renew, stays web only); join the Small
   Business Program (15%); Bart signs the Paid Apps agreement + bank/tax in
   App Store Connect. Not built yet (iOS gap list item 8).
+
+## 2026-11-18 (later, Windows) — iOS decisions, app icon, Apple sign-in, revenue model
+
+- iOS DECISIONS (Bart):
+  1. The app keeps a paywall: a 7-day free trial straight away, then paying
+     (unlike the website's free + Premium). But through RevenueCat with
+     `Purchases.logIn(supabase user id)`, entitlement personal_finance_premium,
+     so Premium from the website, a gift (promotional) or another device opens
+     the app too. Today the app uses plain StoreKit with one monthly product
+     (SubscriptionManager.swift, `com.misura.perfin.pro.monthly`) — replace.
+     Products: month + year (Apple has no 2-year auto-renew), prices as on the
+     web (€14.99 / €99, $ and £), 7-day intro offer; "Restore purchases",
+     "Manage subscription". Demo stays reachable before the paywall.
+  2. The app gets EVERYTHING the website has since 13 Nov: PDF reports,
+     Settings › Your data (download JSON/CSV) + DELETE ACCOUNT (Apple
+     requires in-app account deletion — guideline 5.1.1(v)), Read with AI via
+     /api/ai/read with the user's token (2 a day, credit card statements
+     too), terms/privacy links, annual report with the live month.
+  3. App icon: four designs in pf-marketing/icon (variants.png) — Bart picks.
+  4. Bart (App Store Connect): Paid Apps agreement, bank + tax, Small
+     Business Program (15%), subscriptions, In-App Purchase key + App Store
+     Connect API key for RevenueCat.
+  5. App Store page (texts in 17 languages, screenshots, privacy label,
+     review notes + a test account with Premium, TestFlight): later.
+  Check before the first submission: the bundle id `com.misura.perfin` can't
+  change afterwards.
+- SIGN IN WITH APPLE on the website (Bart wants it, "professioneel"): the
+  code is there behind NEXT_PUBLIC_PF_APPLE=on. Needed: Apple Developer →
+  Services ID for the web + domain verification + Sign in with Apple key;
+  Supabase › Auth › Apple provider (client id + secret JWT — EXPIRES EVERY
+  6 MONTHS, put a reminder); register the email domain (noreply@…) with
+  Apple's private relay so mail reaches "Hide my email" users; Vercel
+  switch on; test live. The same key serves the iOS app. Do it together
+  with the App Store Connect work (Bart signs in, Claude guides in the
+  browser). Note: a "Hide my email" sign-in becomes a separate account from
+  an earlier email sign-up (same address = linked by Supabase).
+- Revenue model shown to Bart as an interactive chart in chat (paying
+  customers over 36 months, kept per month after VAT, Apple 15% / Stripe ~5%
+  + €0.25, RevenueCat 1% over €2.3k, AI €0.25/customer, €60/month fixed;
+  before income tax). Lesson: churn is the biggest lever.
+- Marketing (see above + pf-marketing README): Bart wants the plan
+  worldwide — waves NL → English (Product Hunt, App Store US/UK) → DE/FR/ES
+  → the rest of the 17 languages; a "Wereldwijd" chapter for the doc was
+  offered, not written yet.
