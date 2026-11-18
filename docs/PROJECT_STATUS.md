@@ -1555,3 +1555,10 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - NEXT on this branch: RevenueCat paywall (7-day trial, then pay; add the
   RevenueCat SPM package in Xcode on the Mac — not by hand), Read with AI
   via /api/ai/read, PDF reports, annual report live month.
+
+## TO DO — website (Bart's list; keep it current)
+- [ ] Sign in with Apple on the website (Bart, 18 Nov). Steps: see "SIGN IN
+      WITH APPLE" under 2026-11-18 above (Services ID + domain, key, Supabase
+      Apple provider — secret expires every 6 months, email relay for
+      noreply@, Vercel NEXT_PUBLIC_PF_APPLE=on, test live, /updates entry).
+      Do it together with the App Store Connect work (same key for iOS).
