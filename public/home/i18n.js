@@ -125,7 +125,9 @@
       "Werkt het op mijn telefoon?",
       "Ja, in de browser op je telefoon, tablet en computer, met overal dezelfde cijfers. Apps voor iPhone, iPad, Mac en Android komen eraan.",
       "Kan ik mijn gegevens meenemen of verwijderen?",
-      "Ja. In Instellingen › Je gegevens download je alles als bestand, of verwijder je je account met alles erin."
+      "Ja. In Instellingen › Je gegevens download je alles als bestand, of verwijder je je account met alles erin.",
+    /*live 18 Nov*/ "Download al je gegevens als bestand, of verwijder je account met alles erin (Instellingen › Je gegevens).",
+      "Veelgestelde vragen op de homepage."
   ];
 
   var L = {
@@ -239,7 +241,9 @@
       "Does it work on my phone?",
       "Yes, in the browser on your phone, tablet and computer, with the same numbers everywhere. Apps for iPhone, iPad, Mac and Android are on the way.",
       "Can I take my data with me or delete it?",
-      "Yes. In Settings › Your data you download everything as a file, or delete your account with everything in it."
+      "Yes. In Settings › Your data you download everything as a file, or delete your account with everything in it.",
+      /*live 18 Nov*/ "Download all your data as a file, or delete your account with everything in it (Settings › Your data).",
+      "Frequently asked questions on the homepage."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -351,7 +355,9 @@
       "Funktioniert es auf meinem Handy?",
       "Ja, im Browser auf Handy, Tablet und Computer, überall mit denselben Zahlen. Apps für iPhone, iPad, Mac und Android kommen bald.",
       "Kann ich meine Daten mitnehmen oder löschen?",
-      "Ja. Unter Einstellungen › Deine Daten lädst du alles als Datei herunter oder löschst dein Konto mit allem darin."
+      "Ja. Unter Einstellungen › Deine Daten lädst du alles als Datei herunter oder löschst dein Konto mit allem darin.",
+      /*live 18 Nov*/ "Lade alle deine Daten als Datei herunter oder lösche dein Konto mit allem darin (Einstellungen › Deine Daten).",
+      "Häufige Fragen auf der Startseite."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -463,7 +469,9 @@
       "Ça marche sur mon téléphone ?",
       "Oui, dans le navigateur de ton téléphone, ta tablette et ton ordinateur, avec partout les mêmes chiffres. Des apps pour iPhone, iPad, Mac et Android arrivent.",
       "Puis-je emporter ou supprimer mes données ?",
-      "Oui. Dans Réglages › Tes données, tu télécharges tout dans un fichier, ou tu supprimes ton compte avec tout son contenu."
+      "Oui. Dans Réglages › Tes données, tu télécharges tout dans un fichier, ou tu supprimes ton compte avec tout son contenu.",
+      /*live 18 Nov*/ "Télécharge toutes tes données dans un fichier, ou supprime ton compte avec tout son contenu (Réglages › Tes données).",
+      "Questions fréquentes sur la page d'accueil."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -575,7 +583,9 @@
       "¿Funciona en mi móvil?",
       "Sí, en el navegador del móvil, la tableta y el ordenador, con las mismas cifras en todas partes. Las apps para iPhone, iPad, Mac y Android están en camino.",
       "¿Puedo llevarme o eliminar mis datos?",
-      "Sí. En Ajustes › Tus datos descargas todo en un archivo o eliminas tu cuenta con todo su contenido."
+      "Sí. En Ajustes › Tus datos descargas todo en un archivo o eliminas tu cuenta con todo su contenido.",
+      /*live 18 Nov*/ "Descarga todos tus datos en un archivo o elimina tu cuenta con todo su contenido (Ajustes › Tus datos).",
+      "Preguntas frecuentes en la página de inicio."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -687,7 +697,9 @@
       "Funziona sul mio telefono?",
       "Sì, nel browser di telefono, tablet e computer, con gli stessi numeri ovunque. Le app per iPhone, iPad, Mac e Android sono in arrivo.",
       "Posso portare via o cancellare i miei dati?",
-      "Sì. In Impostazioni › I tuoi dati scarichi tutto in un file oppure elimini l'account con tutto il contenuto."
+      "Sì. In Impostazioni › I tuoi dati scarichi tutto in un file oppure elimini l'account con tutto il contenuto.",
+      /*live 18 Nov*/ "Scarica tutti i tuoi dati in un file oppure elimina l'account con tutto il contenuto (Impostazioni › I tuoi dati).",
+      "Domande frequenti nella home."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -799,7 +811,9 @@
       "Funciona no meu celular?",
       "Sim, no navegador do celular, do tablet e do computador, com os mesmos números em todo lugar. Apps para iPhone, iPad, Mac e Android estão a caminho.",
       "Posso levar ou excluir meus dados?",
-      "Sim. Em Ajustes › Seus dados você baixa tudo em um arquivo ou exclui sua conta com tudo dentro."
+      "Sim. Em Ajustes › Seus dados você baixa tudo em um arquivo ou exclui sua conta com tudo dentro.",
+      /*live 18 Nov*/ "Baixe todos os seus dados em um arquivo ou exclua sua conta com tudo dentro (Ajustes › Seus dados).",
+      "Perguntas frequentes na página inicial."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -911,7 +925,9 @@
       "Czy działa na telefonie?",
       "Tak, w przeglądarce na telefonie, tablecie i komputerze, wszędzie z tymi samymi liczbami. Aplikacje na iPhone'a, iPada, Maca i Androida są w drodze.",
       "Czy mogę zabrać lub usunąć swoje dane?",
-      "Tak. W Ustawienia › Twoje dane pobierzesz wszystko jako plik albo usuniesz konto ze wszystkim w środku."
+      "Tak. W Ustawienia › Twoje dane pobierzesz wszystko jako plik albo usuniesz konto ze wszystkim w środku.",
+      /*live 18 Nov*/ "Pobierz wszystkie dane jako plik albo usuń konto ze wszystkim w środku (Ustawienia › Twoje dane).",
+      "Najczęstsze pytania na stronie głównej."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1023,7 +1039,9 @@
       "Telefonumda çalışır mı?",
       "Evet, telefonunda, tabletinde ve bilgisayarında tarayıcıda, her yerde aynı rakamlarla. iPhone, iPad, Mac ve Android uygulamaları yolda.",
       "Verilerimi yanıma alabilir veya silebilir miyim?",
-      "Evet. Ayarlar › Verilerin bölümünde her şeyi dosya olarak indirir ya da hesabını içindekilerle birlikte silersin."
+      "Evet. Ayarlar › Verilerin bölümünde her şeyi dosya olarak indirir ya da hesabını içindekilerle birlikte silersin.",
+      /*live 18 Nov*/ "Tüm verilerini dosya olarak indir ya da hesabını içindekilerle birlikte sil (Ayarlar › Verilerin).",
+      "Ana sayfada sık sorulan sorular."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1135,7 +1153,9 @@
       "Работает ли на телефоне?",
       "Да, в браузере на телефоне, планшете и компьютере, везде с одинаковыми цифрами. Приложения для iPhone, iPad, Mac и Android на подходе.",
       "Можно забрать или удалить свои данные?",
-      "Да. В разделе Настройки › Ваши данные можно скачать всё одним файлом или удалить аккаунт со всем содержимым."
+      "Да. В разделе Настройки › Ваши данные можно скачать всё одним файлом или удалить аккаунт со всем содержимым.",
+      /*live 18 Nov*/ "Скачайте все данные одним файлом или удалите аккаунт со всем содержимым (Настройки › Ваши данные).",
+      "Частые вопросы на главной странице."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1247,7 +1267,9 @@
       "هل يعمل على هاتفي؟",
       "نعم، في المتصفح على الهاتف والجهاز اللوحي والكمبيوتر، وبالأرقام نفسها في كل مكان. تطبيقات iPhone وiPad وMac وAndroid قادمة.",
       "هل يمكنني أخذ بياناتي معي أو حذفها؟",
-      "نعم. من الإعدادات › بياناتك تنزّل كل شيء في ملف، أو تحذف حسابك بكل ما فيه."
+      "نعم. من الإعدادات › بياناتك تنزّل كل شيء في ملف، أو تحذف حسابك بكل ما فيه.",
+      /*live 18 Nov*/ "نزّل كل بياناتك في ملف، أو احذف حسابك بكل ما فيه (الإعدادات › بياناتك).",
+      "الأسئلة الشائعة في الصفحة الرئيسية."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1359,7 +1381,9 @@
       "क्या यह मेरे फ़ोन पर चलता है?",
       "हाँ, फ़ोन, टैबलेट और कंप्यूटर के ब्राउज़र में, हर जगह एक जैसे आंकड़ों के साथ। iPhone, iPad, Mac और Android ऐप आने वाले हैं।",
       "क्या मैं अपना डेटा साथ ले जा या मिटा सकता हूँ?",
-      "हाँ। सेटिंग्स › आपका डेटा में सब कुछ फ़ाइल के रूप में डाउनलोड करें, या अपना अकाउंट सब कुछ समेत मिटा दें।"
+      "हाँ। सेटिंग्स › आपका डेटा में सब कुछ फ़ाइल के रूप में डाउनलोड करें, या अपना अकाउंट सब कुछ समेत मिटा दें।",
+      /*live 18 Nov*/ "अपना सारा डेटा फ़ाइल के रूप में डाउनलोड करें, या अपना अकाउंट सब कुछ समेत मिटा दें (सेटिंग्स › आपका डेटा)।",
+      "होमपेज पर अक्सर पूछे जाने वाले सवाल।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -1471,7 +1495,9 @@
       "Apakah bisa di ponsel saya?",
       "Ya, di browser ponsel, tablet, dan komputer, dengan angka yang sama di mana pun. Aplikasi untuk iPhone, iPad, Mac, dan Android segera hadir.",
       "Bisakah saya membawa atau menghapus data saya?",
-      "Bisa. Di Pengaturan › Datamu kamu mengunduh semuanya sebagai file, atau menghapus akunmu beserta isinya."
+      "Bisa. Di Pengaturan › Datamu kamu mengunduh semuanya sebagai file, atau menghapus akunmu beserta isinya.",
+      /*live 18 Nov*/ "Unduh semua datamu sebagai file, atau hapus akunmu beserta isinya (Pengaturan › Datamu).",
+      "Pertanyaan umum di beranda."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -1583,7 +1609,9 @@
       "スマホで使えますか？",
       "はい。スマホ、タブレット、パソコンのブラウザで、どこでも同じ数字が使えます。iPhone、iPad、Mac、Android 向けアプリも準備中です。",
       "データを持ち出したり削除したりできますか？",
-      "はい。設定 › あなたのデータ から、すべてをファイルでダウンロードしたり、アカウントを丸ごと削除したりできます。"
+      "はい。設定 › あなたのデータ から、すべてをファイルでダウンロードしたり、アカウントを丸ごと削除したりできます。",
+      /*live 18 Nov*/ "すべてのデータをファイルでダウンロード、またはアカウントを丸ごと削除できます（設定 › あなたのデータ）。",
+      "ホームページによくある質問を追加。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -1695,7 +1723,9 @@
       "휴대폰에서도 되나요?",
       "네, 휴대폰·태블릿·컴퓨터 브라우저에서 어디서나 같은 숫자로 쓸 수 있어요. iPhone, iPad, Mac, Android 앱도 준비 중입니다.",
       "데이터를 가져가거나 삭제할 수 있나요?",
-      "네. 설정 › 내 데이터에서 모든 것을 파일로 다운로드하거나, 계정을 모든 내용과 함께 삭제할 수 있어요."
+      "네. 설정 › 내 데이터에서 모든 것을 파일로 다운로드하거나, 계정을 모든 내용과 함께 삭제할 수 있어요.",
+      /*live 18 Nov*/ "모든 데이터를 파일로 다운로드하거나, 계정을 모든 내용과 함께 삭제할 수 있어요(설정 › 내 데이터).",
+      "홈페이지에 자주 묻는 질문."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -1807,7 +1837,9 @@
       "Có dùng được trên điện thoại không?",
       "Có, trong trình duyệt trên điện thoại, máy tính bảng và máy tính, với cùng số liệu ở mọi nơi. Ứng dụng cho iPhone, iPad, Mac và Android sắp ra mắt.",
       "Tôi có thể mang theo hoặc xóa dữ liệu của mình không?",
-      "Có. Trong Cài đặt › Dữ liệu của bạn, bạn tải tất cả về dưới dạng tệp, hoặc xóa tài khoản cùng toàn bộ nội dung."
+      "Có. Trong Cài đặt › Dữ liệu của bạn, bạn tải tất cả về dưới dạng tệp, hoặc xóa tài khoản cùng toàn bộ nội dung.",
+      /*live 18 Nov*/ "Tải toàn bộ dữ liệu về dưới dạng tệp, hoặc xóa tài khoản cùng mọi nội dung (Cài đặt › Dữ liệu của bạn).",
+      "Câu hỏi thường gặp trên trang chủ."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -1919,7 +1951,9 @@
       "能在手机上用吗？",
       "可以，在手机、平板和电脑的浏览器中都能用，各处数字一致。iPhone、iPad、Mac 和 Android 应用即将推出。",
       "我可以带走或删除我的数据吗？",
-      "可以。在 设置 › 你的数据 中，你可以把所有内容下载为文件，或连同所有内容删除账户。"
+      "可以。在 设置 › 你的数据 中，你可以把所有内容下载为文件，或连同所有内容删除账户。",
+      /*live 18 Nov*/ "将你的全部数据下载为文件，或连同所有内容删除账户（设置 › 你的数据）。",
+      "首页新增常见问题。"
     ]
   };
 

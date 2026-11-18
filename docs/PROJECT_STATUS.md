@@ -1421,9 +1421,9 @@ on each live price; Stripe picks the currency from the customer's location):
   the portal first; app stores likewise; a gifted "promotional" Premium is
   fine) and deletes the RevenueCat customer; the browser then calls the
   database function delete_my_account() and signs out.
-- BEFORE THIS GOES LIVE: run supabase/migrations/0015_delete_account.sql in
-  the Supabase SQL editor (creates delete_my_account(); all user tables
-  cascade). Delete flow not yet tried with a real account.
+- Migration 0015 RUN in Supabase on 18 Nov (delete_my_account: security
+  definer, authenticated yes, anon no). LIVE 18 Nov with an /updates entry.
+  Delete flow not yet tried with a real account.
 - Homepage FAQ (7 questions, <details>, 17 languages, rail dot "Vragen").
 - Dev note: if `next dev` shows "Can't resolve …/font/google/font", move
   .next.nosync aside (a failed font fetch got cached); run dev with network.
