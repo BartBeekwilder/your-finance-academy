@@ -1464,3 +1464,31 @@ on each live price; Stripe picks the currency from the customer's location):
   support@ address; Sentry; real credit-card statement test.
 - Later: port the reports (and everything since 13 Nov) to the iOS/Android
   apps, only when Bart says the web is done.
+
+## 2026-11-18 (Windows work laptop) — report fix, marketing start
+
+- LIVE (main = 17b1b07): annual report — this month on the live model ("tot nu
+  toe", as on the tiles), months ahead grey as the forecast ("verwacht");
+  booked months unchanged. The KPI totals / best month on top still count
+  booked only (Bart may want them live too). /updates line for 18 Nov.
+- Settings › the Reports card is called "Overzichten" in Dutch (Bart
+  couldn't find "Rapporten").
+- A family member of Bart's got Premium for life (RevenueCat promotional,
+  granted 18 Nov) to test. Sign-ups are open, so testers just make an
+  account; Premium gifts go via RevenueCat › customer › Grant.
+- MARKETING:
+  - Plan as a Claude doc "Marketingplan Personal Finance"
+    (https://claude.ai/artifact/RieFcqsGTzG4M3gZbMyAM1): positioning,
+    7 channels, 4 phases (iOS launch is the big moment, NL first), measuring,
+    open questions. Urgent: Year Wrapped share card before 1 Jan; record the
+    source (creator code / ?ref) per account.
+  - Videos: NEW PRIVATE repo github.com/BartBeekwilder/pf-marketing (Remotion),
+    clone it next to this repo — its README has the status and next steps.
+    Five short videos (9–16 s) + a long one (43 s), with own sound effects.
+    Next there: Bart's verdict on the sound, English versions, App Store
+    badge at launch.
+- App Store subscriptions (told Bart): iOS needs Apple in-app purchase via
+  RevenueCat (same Supabase user id, so Premium works everywhere); month +
+  year only (Apple has no 2-year auto-renew, stays web only); join the Small
+  Business Program (15%); Bart signs the Paid Apps agreement + bank/tax in
+  App Store Connect. Not built yet (iOS gap list item 8).
