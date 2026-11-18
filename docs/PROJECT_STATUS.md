@@ -1562,3 +1562,29 @@ what the compiler finds, run the tests, then look at it in the simulator.
       Apple provider — secret expires every 6 months, email relay for
       noreply@, Vercel NEXT_PUBLIC_PF_APPLE=on, test live, /updates entry).
       Do it together with the App Store Connect work (same key for iOS).
+
+### iOS ios-port-nov18 — Premium (18 Nov, Windows, NOT YET BUILT)
+- Paywall = 7 days free, then pay (yearly preselected €99 · monthly €14.99).
+  Products `com.misura.perfin.pro.monthly` / `com.misura.perfin.pro.yearly`,
+  both with a 1-week free intro offer, in one subscription group.
+- Premium is active from: the App Store (StoreKit) · the account via the
+  website's /api/billing/status (web, gift, other stores; cached offline) ·
+  RevenueCat SDK when the package is there. Settings › Premium shows the
+  source + Manage subscription.
+- ON THE MAC, in order:
+  1. Build `ios-port-nov18`, fix compile errors (Swift 6 / MainActor:
+     SubscriptionManager is now @MainActor), run tests, look at the paywall
+     in the simulator with Subscriptions.storekit (Run from Xcode).
+  2. Xcode › Add Package: https://github.com/RevenueCat/purchases-ios-spm
+     (product RevenueCat) to the app target.
+  3. RevenueCat › project "Personal Finance" › add an App Store app (bundle
+     com.misura.perfin) with the In-App Purchase key from App Store Connect;
+     copy its public key into `Personal Finance/RevenueCat.json`
+     {"appleKey": "appl_…"} (git-ignored); import the two products and attach
+     them to entitlement personal_finance_premium.
+  4. Bart in App Store Connect: Paid Apps agreement + bank/tax, Small
+     Business Program, the subscription group with the two products and
+     prices (EUR/USD/GBP like the web), 7-day free intro offer, review
+     screenshot of the paywall.
+  5. Sandbox test: new trial, restore, a web-Premium account opens without
+     paying, a gift account too, and the website shows an App Store trial.
