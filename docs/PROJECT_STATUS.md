@@ -1536,3 +1536,22 @@ on each live price; Stripe picks the currency from the customer's location):
   worldwide — waves NL → English (Product Hunt, App Store US/UK) → DE/FR/ES
   → the rest of the 17 languages; a "Wereldwijd" chapter for the doc was
   offered, not written yet.
+
+## iOS — branch `ios-port-nov18` (started 18 Nov on Windows; NOT YET BUILT)
+Written on the Windows laptop, so nothing on this branch has been compiled.
+On the Mac: check out `ios-port-nov18`, build for iPhone + Mac Catalyst, fix
+what the compiler finds, run the tests, then look at it in the simulator.
+- App icon: Neon D2 (light / dark / tinted, 1024 px) in AppIcon.appiconset;
+  source in pf-marketing (src/Icon.tsx → icon/final).
+- Settings › Your data (Views/Settings/YourDataSection.swift): JSON / CSV
+  via `.fileExporter`, Delete account (VaultCloud.deleteAccount(): POST
+  website /api/account/delete with the token, then rpc delete_my_account,
+  sign out, clear the books). Legal section (Terms, Privacy links).
+  VaultCloud.website = https://www.yourfinanceacademy.com.
+- Translations: `node tools/web-i18n.mjs "Key" …` copies the website's 16
+  translations into Localizable.xcstrings (web {name} ↔ app %@);
+  `tools/add-i18n.mjs` for app-only keys; `--missing` lists gaps (65 old
+  keys, mostly numbers/symbols).
+- NEXT on this branch: RevenueCat paywall (7-day trial, then pay; add the
+  RevenueCat SPM package in Xcode on the Mac — not by hand), Read with AI
+  via /api/ai/read, PDF reports, annual report live month.
