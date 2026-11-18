@@ -1717,6 +1717,5 @@ what the compiler finds, run the tests, then look at it in the simulator.
      RevenueCat › Apps › Personal Finance (App Store) › In-app purchase key
      (Bart uploads; it's a secret). Optionally the App Store Connect API key
      for product import.
-  4. RevenueCat Offering "default" with the two packages (monthly, annual)
-     — only if the app reads offerings; check SubscriptionManager first.
-  5. Sandbox test: trial, restore, web-Premium account opens without paying.
+  (No RevenueCat Offering needed: the app loads the two products itself.)
+  4. Sandbox test: trial, restore, web-Premium account opens without paying.
