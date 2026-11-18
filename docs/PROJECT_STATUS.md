@@ -1263,8 +1263,10 @@ panels, asset mix panel, Forgot password, then Premium.
 - /updates (public/updates/index.html, rewrite in next.config.ts): changelog
   per date, tags Nieuw/Verbeterd, dates via Intl with a capital month, texts via
   /home/i18n.js (/*updates*/ block in K and every language). Linked in the
-  homepage nav and footer. ADD AN ENTRY AT EVERY LIVE PUSH (Dutch in the page,
-  translations appended to the /*updates*/ blocks).
+  homepage nav and footer. ADD AN ENTRY AT EVERY LIVE PUSH THAT CHANGES WHAT THE APP DOES (Dutch in the page,
+  translations appended to the /*updates*/ blocks). Bart, 18 Nov: NO entry for
+  small cosmetic fixes (e.g. a hidden scrollbar, a scroll hint) — only changes
+  users notice in what the app does; do not ask.
 - Sidebar: the animation/background switches are gone (Settings has them).
 
 ## 2026-11-17 — Windows: privacy policy, card statements, Stripe activation started (web-app, not live)
@@ -1588,3 +1590,11 @@ what the compiler finds, run the tests, then look at it in the simulator.
      screenshot of the paywall.
   5. Sandbox test: new trial, restore, a web-Premium account opens without
      paying, a gift account too, and the website shows an App Store trial.
+
+## LIVE 2026-11-18 (evening, Windows) — homepage phone polish
+- `main` = 2f333c7 (Bart's OK; no /updates entry, his rule above). The app
+  inside the homepage's device frames has no scrollbars (FinanceProvider sets
+  html[data-framed], CSS in finance.css); the big phone shows a glass scroll
+  hint (#phoneNudge) that leaves once the visitor scrolls or taps the app.
+  The "blue strip" Bart saw was the Windows scrollbar narrowing the app;
+  the teal/purple rims are the photo's own neon edge light (left as is).
