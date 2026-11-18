@@ -1428,7 +1428,7 @@ on each live price; Stripe picks the currency from the customer's location):
 - Dev note: if `next dev` shows "Can't resolve …/font/google/font", move
   .next.nosync aside (a failed font fetch got cached); run dev with network.
 
-## 2026-11-18 — PDF reports, Premium (web-app, NOT live)
+## LIVE 2026-11-18 — PDF reports, Premium (with an /updates entry)
 - /app/report: monthly report (one A4) and annual report (two A4 pages, the
   second "For your tax return": own/owe, equity on 31 Dec, accounts, fixed
   costs per category vs last year, disclaimer). ?month=YYYY-MM|prev,

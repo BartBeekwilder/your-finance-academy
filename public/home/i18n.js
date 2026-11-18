@@ -133,7 +133,9 @@
     "Je maand op één A4: wat binnenkwam, wat eruit ging en wat je overhield.",
     "Je jaar op twee pagina's, met de cijfers voor je belastingaangifte.",
     "Gemaakt op je eigen apparaat: je cijfers gaan nergens heen.",
-    "Een maandoverzicht als PDF, met demodata"
+    "Een maandoverzicht als PDF, met demodata",
+    /*live 18 Nov reports*/ "Download je maand en je jaar als prachtig PDF-overzicht, met de cijfers voor je belastingaangifte (Premium).",
+    "Op de homepage: je maand op papier."
   ];
 
   var L = {
@@ -255,7 +257,9 @@
       "Your month on one A4: what came in, what went out and what you kept.",
       "Your year on two pages, with the figures for your tax return.",
       "Made on your own device: your numbers go nowhere.",
-      "A monthly report as a PDF, with demo data"
+      "A monthly report as a PDF, with demo data",
+      "Download your month and your year as a beautiful PDF report, with the figures for your tax return (Premium).",
+      "On the homepage: your month on paper."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -375,7 +379,9 @@
       "Dein Monat auf einer A4-Seite: was reinkam, was rausging und was übrig blieb.",
       "Dein Jahr auf zwei Seiten, mit den Zahlen für deine Steuererklärung.",
       "Erstellt auf deinem eigenen Gerät: deine Zahlen gehen nirgendwohin.",
-      "Ein Monatsbericht als PDF, mit Demodaten"
+      "Ein Monatsbericht als PDF, mit Demodaten",
+      "Lade deinen Monat und dein Jahr als schönen PDF-Bericht herunter, mit den Zahlen für deine Steuererklärung (Premium).",
+      "Auf der Startseite: dein Monat auf Papier."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -495,7 +501,9 @@
       "Votre mois sur un A4 : ce qui est entré, ce qui est sorti et ce qu'il vous reste.",
       "Votre année sur deux pages, avec les chiffres pour votre déclaration d'impôts.",
       "Créé sur votre propre appareil : vos chiffres ne vont nulle part.",
-      "Un rapport mensuel en PDF, avec des données de démo"
+      "Un rapport mensuel en PDF, avec des données de démo",
+      "Téléchargez votre mois et votre année dans un beau rapport PDF, avec les chiffres pour votre déclaration d'impôts (Premium).",
+      "Sur la page d'accueil : votre mois sur papier."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -615,7 +623,9 @@
       "Tu mes en un A4: lo que entró, lo que salió y lo que te quedó.",
       "Tu año en dos páginas, con las cifras para tu declaración de la renta.",
       "Hecho en tu propio dispositivo: tus cifras no van a ninguna parte.",
-      "Un informe mensual en PDF, con datos de demo"
+      "Un informe mensual en PDF, con datos de demo",
+      "Descarga tu mes y tu año en un informe PDF precioso, con las cifras para tu declaración de la renta (Premium).",
+      "En la página de inicio: tu mes en papel."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -735,7 +745,9 @@
       "Il tuo mese su un A4: cosa è entrato, cosa è uscito e cosa ti è rimasto.",
       "Il tuo anno su due pagine, con i numeri per la dichiarazione dei redditi.",
       "Creato sul tuo dispositivo: i tuoi numeri non vanno da nessuna parte.",
-      "Un report mensile in PDF, con dati demo"
+      "Un report mensile in PDF, con dati demo",
+      "Scarica il tuo mese e il tuo anno in un bel report PDF, con i numeri per la dichiarazione dei redditi (Premium).",
+      "Sulla homepage: il tuo mese su carta."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -855,7 +867,9 @@
       "Seu mês em uma folha A4: o que entrou, o que saiu e o que sobrou.",
       "Seu ano em duas páginas, com os números para a sua declaração de imposto.",
       "Feito no seu próprio aparelho: seus números não vão a lugar nenhum.",
-      "Um relatório mensal em PDF, com dados de demonstração"
+      "Um relatório mensal em PDF, com dados de demonstração",
+      "Baixe seu mês e seu ano em um relatório PDF bonito, com os números para a sua declaração de imposto (Premium).",
+      "Na página inicial: seu mês no papel."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -975,7 +989,9 @@
       "Twój miesiąc na jednej stronie A4: co wpłynęło, co wyszło i co zostało.",
       "Twój rok na dwóch stronach, z liczbami do zeznania podatkowego.",
       "Tworzone na Twoim urządzeniu: Twoje liczby nigdzie nie trafiają.",
-      "Raport miesięczny w PDF, z danymi demo"
+      "Raport miesięczny w PDF, z danymi demo",
+      "Pobierz swój miesiąc i rok jako piękny raport PDF, z liczbami do zeznania podatkowego (Premium).",
+      "Na stronie głównej: Twój miesiąc na papierze."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1095,7 +1111,9 @@
       "Ayınız tek bir A4'te: ne geldi, ne gitti ve ne kaldı.",
       "Yılınız iki sayfada, vergi beyannameniz için rakamlarla.",
       "Kendi cihazınızda oluşturulur: rakamlarınız hiçbir yere gitmez.",
-      "Demo verilerle PDF olarak aylık rapor"
+      "Demo verilerle PDF olarak aylık rapor",
+      "Ayınızı ve yılınızı vergi beyannameniz için rakamlarla birlikte şık bir PDF raporu olarak indirin (Premium).",
+      "Ana sayfada: ayınız kâğıtta."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1215,7 +1233,9 @@
       "Ваш месяц на одном листе A4: что пришло, что ушло и что осталось.",
       "Ваш год на двух страницах, с цифрами для налоговой декларации.",
       "Создаётся на вашем устройстве: ваши цифры никуда не уходят.",
-      "Месячный отчёт в PDF с демоданными"
+      "Месячный отчёт в PDF с демоданными",
+      "Скачайте свой месяц и год в виде красивого PDF-отчёта с цифрами для налоговой декларации (Premium).",
+      "На главной: ваш месяц на бумаге."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1335,7 +1355,9 @@
       "شهرك على ورقة A4 واحدة: ما دخل وما خرج وما تبقّى لك.",
       "عامك على صفحتين، مع أرقام إقرارك الضريبي.",
       "يُنشأ على جهازك: أرقامك لا تذهب إلى أي مكان.",
-      "تقرير شهري بصيغة PDF مع بيانات تجريبية"
+      "تقرير شهري بصيغة PDF مع بيانات تجريبية",
+      "نزّل شهرك وعامك في تقرير PDF أنيق، مع أرقام إقرارك الضريبي (Premium).",
+      "في الصفحة الرئيسية: شهرك على الورق."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1455,7 +1477,9 @@
       "आपका महीना एक A4 पर: क्या आया, क्या गया और क्या बचा।",
       "आपका साल दो पेजों पर, आपके टैक्स रिटर्न के आंकड़ों के साथ।",
       "आपके अपने डिवाइस पर बना: आपके आंकड़े कहीं नहीं जाते।",
-      "डेमो डेटा के साथ PDF में मासिक रिपोर्ट"
+      "डेमो डेटा के साथ PDF में मासिक रिपोर्ट",
+      "अपना महीना और अपना साल एक सुंदर PDF रिपोर्ट में डाउनलोड करें, टैक्स रिटर्न के आंकड़ों के साथ (Premium)।",
+      "होमपेज पर: आपका महीना काग़ज़ पर।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -1575,7 +1599,9 @@
       "Bulan Anda dalam satu A4: apa yang masuk, apa yang keluar, dan apa yang tersisa.",
       "Tahun Anda dalam dua halaman, dengan angka untuk SPT pajak Anda.",
       "Dibuat di perangkat Anda sendiri: angka Anda tidak dikirim ke mana pun.",
-      "Laporan bulanan sebagai PDF, dengan data demo"
+      "Laporan bulanan sebagai PDF, dengan data demo",
+      "Unduh bulan dan tahun Anda sebagai laporan PDF yang indah, dengan angka untuk SPT pajak Anda (Premium).",
+      "Di beranda: bulan Anda di atas kertas."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -1695,7 +1721,9 @@
       "1か月をA4一枚に：入ったお金、出たお金、残ったお金。",
       "1年を2ページに。確定申告に使える数字つき。",
       "あなたの端末で作成：数字はどこにも送られません。",
-      "デモデータによる月間レポートのPDF"
+      "デモデータによる月間レポートのPDF",
+      "月と年を美しいPDFレポートでダウンロード。確定申告に使える数字つき（Premium）。",
+      "ホームページに：あなたの月を紙に。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -1815,7 +1843,9 @@
       "한 달을 A4 한 장에: 들어온 돈, 나간 돈, 남은 돈.",
       "한 해를 두 페이지에, 세금 신고에 필요한 숫자와 함께.",
       "내 기기에서 만들어집니다: 숫자는 어디로도 전송되지 않습니다.",
-      "데모 데이터로 만든 월간 리포트 PDF"
+      "데모 데이터로 만든 월간 리포트 PDF",
+      "한 달과 한 해를 세금 신고용 숫자와 함께 멋진 PDF 리포트로 다운로드하세요 (Premium).",
+      "홈페이지에: 나의 한 달을 종이로."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -1935,7 +1965,9 @@
       "Tháng của bạn trên một trang A4: tiền vào, tiền ra và phần còn lại.",
       "Năm của bạn trên hai trang, kèm số liệu cho tờ khai thuế.",
       "Tạo ngay trên thiết bị của bạn: số liệu không đi đâu cả.",
-      "Báo cáo tháng dạng PDF, với dữ liệu demo"
+      "Báo cáo tháng dạng PDF, với dữ liệu demo",
+      "Tải tháng và năm của bạn dưới dạng báo cáo PDF đẹp, kèm số liệu cho tờ khai thuế (Premium).",
+      "Trên trang chủ: tháng của bạn trên giấy."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -2055,7 +2087,9 @@
       "一张 A4 看完一个月：收入、支出和结余。",
       "两页看完一年，附报税所需的数字。",
       "在你自己的设备上生成：你的数字不会被发送到任何地方。",
-      "使用演示数据的月度报告 PDF"
+      "使用演示数据的月度报告 PDF",
+      "将你的月度和年度下载为精美的 PDF 报告，附报税所需的数字（Premium）。",
+      "首页新增：把你的月度印在纸上。"
     ]
   };
 
