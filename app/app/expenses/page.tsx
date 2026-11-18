@@ -1,5 +1,7 @@
 "use client";
 
+import { FileText } from "lucide-react";
+import Link from "next/link";
 import { FillMonth, monthFromUrl } from "@/components/finance/EarlierMonths";
 import { isEmptyMonth } from "@/lib/finance/estimate";
 import { intlLocale, t } from "@/lib/i18n";
@@ -106,6 +108,9 @@ export default function ExpensesPage() {
           )}
           <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
           <ReadWithAI kind="bank" />
+          <Link href={`/app/report?month=${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}`} className="pf-chip" title={t("Monthly report")} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 12px", textDecoration: "none" }}>
+            <FileText size={15} /> PDF
+          </Link>
         </div>
       </header>
 

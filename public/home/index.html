@@ -368,6 +368,20 @@
   .pb__times { justify-self: start; font: 600 13px var(--mono); color: #052e16; background: #4ade80; padding: 6px 12px; border-radius: 999px; }
   .pb__note { color: var(--c-muted); font-size: 12px; }
   .pb__row[hidden], .pb__times[hidden] { display: none; }
+  /* Premium reports: the real month report (live, demo data) on a sheet of paper. */
+  .paper { max-width: 1440px; margin: 0 auto; padding: clamp(70px, 12vh, 140px) var(--g); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 90px); align-items: center; }
+  .paper h2 { margin: 18px 0 16px; font: 700 clamp(34px, 4vw, 62px)/1.02 var(--f); letter-spacing: -0.035em; }
+  .paper__text p { margin: 0 0 22px; max-width: 46ch; font-size: 18px; color: var(--c-ink-2); }
+  .paper__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; max-width: 48ch; }
+  .paper__list li { position: relative; padding-inline-start: 28px; color: var(--c-ink-2); }
+  .paper__list li::before { content: ""; position: absolute; inset-inline-start: 0; top: 7px; width: 14px; height: 14px; border-radius: 4px; background: linear-gradient(135deg, #7c6cf2, #14b8a6); }
+  .paper__stage { position: relative; justify-self: center; width: min(100%, 470px); aspect-ratio: 210 / 297; perspective: 1600px; }
+  .paper__sheet { position: absolute; inset: 0; border-radius: 6px; overflow: hidden; background: #fbfbfd; transform: rotateY(-8deg) rotateX(4deg) rotateZ(1.5deg); box-shadow: 0 50px 90px -30px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05); transition: transform 1s var(--ease); }
+  .paper__stage:hover .paper__sheet:not(.paper__sheet--back) { transform: rotateY(-3deg) rotateX(2deg) rotateZ(0.5deg) translateY(-6px); }
+  .paper__sheet--back { transform: rotateY(-8deg) rotateX(4deg) rotateZ(-4deg) translate(-18px, 14px); background: #e9e9f0; opacity: 0.55; }
+  .paper__sheet iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; pointer-events: none; background: #fbfbfd; }
+  @media (max-width: 900px) { .paper { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .paper__sheet { transition: none; } }
   .faq { max-width: 860px; margin: 0 auto; padding: clamp(60px, 10vh, 120px) var(--g); display: grid; justify-items: start; gap: 14px; }
   .faq h2 { margin: 4px 0 10px; font: 700 clamp(32px, 4vw, 52px)/1.05 var(--f); letter-spacing: -0.035em; }
   .faq__list { width: 100%; border-block-start: 1px solid var(--c-rule); }
@@ -434,6 +448,7 @@
   <a href="#apparaten"><span>Op al je apparaten, altijd gelijk.</span><i></i></a>
   <a href="#phoneSec"><span>Altijd bij je.</span><i></i></a>
   <a href="#terugverdiend"><span>Verdient zichzelf terug</span><i></i></a>
+  <a href="#rapport"><span>Je maand op papier.</span><i></i></a>
   <a href="#faq"><span>Vragen</span><i></i></a>
   <a href="#probeer"><span>Probeer nu gratis!</span><i></i></a>
 </nav>
@@ -673,6 +688,22 @@
     </div>
   </section>
 
+  <section class="paper" id="rapport">
+    <div class="paper__text">
+      <span class="pb__eyebrow">Premium · PDF</span>
+      <h2>Je maand op papier.</h2>
+      <p>Elke maand en elk jaar als een prachtig overzicht: je cijfers, je grafieken en je vermogen. Om te bewaren, te printen of te delen met je partner of boekhouder.</p>
+      <ul class="paper__list">
+        <li>Je maand op één A4: wat binnenkwam, wat eruit ging en wat je overhield.</li>
+        <li>Je jaar op twee pagina's, met de cijfers voor je belastingaangifte.</li>
+        <li>Gemaakt op je eigen apparaat: je cijfers gaan nergens heen.</li>
+      </ul>
+    </div>
+    <div class="paper__stage">
+      <div class="paper__sheet paper__sheet--back" aria-hidden="true"></div>
+      <div class="paper__sheet" id="paperSheet"><iframe data-src="/app/report?month=prev&amp;demo=1&amp;embed=1" width="794" height="1123" title="Een maandoverzicht als PDF, met demodata" loading="lazy" tabindex="-1"></iframe></div>
+    </div>
+  </section>
   <section class="faq" id="faq">
     <span class="pb__eyebrow">Vragen</span>
     <h2>Veelgestelde vragen</h2>
@@ -1020,6 +1051,16 @@
       });
     });
     update();
+  })();
+</script>
+<script>
+  // The report on the sheet: load it when it comes near, scale it to fit.
+  (function () {
+    var sheet = document.getElementById('paperSheet'), f = sheet && sheet.querySelector('iframe');
+    if (!f) return;
+    function fit() { f.style.transform = 'scale(' + (sheet.clientWidth / 794) + ')'; }
+    fit(); addEventListener('resize', fit);
+    new IntersectionObserver(function (es) { if (es[0].isIntersecting && !f.src) f.src = f.dataset.src; }, { rootMargin: '700px' }).observe(sheet);
   })();
 </script>
 </body>

@@ -127,7 +127,13 @@
       "Kan ik mijn gegevens meenemen of verwijderen?",
       "Ja. In Instellingen › Je gegevens download je alles als bestand, of verwijder je je account met alles erin.",
     /*live 18 Nov*/ "Download al je gegevens als bestand, of verwijder je account met alles erin (Instellingen › Je gegevens).",
-      "Veelgestelde vragen op de homepage."
+      "Veelgestelde vragen op de homepage.",
+    /*report*/ "Je maand op papier.",
+    "Elke maand en elk jaar als een prachtig overzicht: je cijfers, je grafieken en je vermogen. Om te bewaren, te printen of te delen met je partner of boekhouder.",
+    "Je maand op één A4: wat binnenkwam, wat eruit ging en wat je overhield.",
+    "Je jaar op twee pagina's, met de cijfers voor je belastingaangifte.",
+    "Gemaakt op je eigen apparaat: je cijfers gaan nergens heen.",
+    "Een maandoverzicht als PDF, met demodata"
   ];
 
   var L = {
@@ -243,7 +249,13 @@
       "Can I take my data with me or delete it?",
       "Yes. In Settings › Your data you download everything as a file, or delete your account with everything in it.",
       /*live 18 Nov*/ "Download all your data as a file, or delete your account with everything in it (Settings › Your data).",
-      "Frequently asked questions on the homepage."
+      "Frequently asked questions on the homepage.",
+      "Your month on paper.",
+      "Every month and every year as a beautiful report: your numbers, your charts and your equity. To keep, print or share with your partner or accountant.",
+      "Your month on one A4: what came in, what went out and what you kept.",
+      "Your year on two pages, with the figures for your tax return.",
+      "Made on your own device: your numbers go nowhere.",
+      "A monthly report as a PDF, with demo data"
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -357,7 +369,13 @@
       "Kann ich meine Daten mitnehmen oder löschen?",
       "Ja. Unter Einstellungen › Deine Daten lädst du alles als Datei herunter oder löschst dein Konto mit allem darin.",
       /*live 18 Nov*/ "Lade alle deine Daten als Datei herunter oder lösche dein Konto mit allem darin (Einstellungen › Deine Daten).",
-      "Häufige Fragen auf der Startseite."
+      "Häufige Fragen auf der Startseite.",
+      "Dein Monat auf Papier.",
+      "Jeden Monat und jedes Jahr als schöner Bericht: deine Zahlen, deine Diagramme und dein Eigenkapital. Zum Aufbewahren, Drucken oder Teilen mit Partner oder Steuerberater.",
+      "Dein Monat auf einer A4-Seite: was reinkam, was rausging und was übrig blieb.",
+      "Dein Jahr auf zwei Seiten, mit den Zahlen für deine Steuererklärung.",
+      "Erstellt auf deinem eigenen Gerät: deine Zahlen gehen nirgendwohin.",
+      "Ein Monatsbericht als PDF, mit Demodaten"
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -471,7 +489,13 @@
       "Puis-je emporter ou supprimer mes données ?",
       "Oui. Dans Réglages › Tes données, tu télécharges tout dans un fichier, ou tu supprimes ton compte avec tout son contenu.",
       /*live 18 Nov*/ "Télécharge toutes tes données dans un fichier, ou supprime ton compte avec tout son contenu (Réglages › Tes données).",
-      "Questions fréquentes sur la page d'accueil."
+      "Questions fréquentes sur la page d'accueil.",
+      "Votre mois sur papier.",
+      "Chaque mois et chaque année dans un beau rapport : vos chiffres, vos graphiques et vos capitaux propres. À garder, imprimer ou partager avec votre partenaire ou votre comptable.",
+      "Votre mois sur un A4 : ce qui est entré, ce qui est sorti et ce qu'il vous reste.",
+      "Votre année sur deux pages, avec les chiffres pour votre déclaration d'impôts.",
+      "Créé sur votre propre appareil : vos chiffres ne vont nulle part.",
+      "Un rapport mensuel en PDF, avec des données de démo"
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -585,7 +609,13 @@
       "¿Puedo llevarme o eliminar mis datos?",
       "Sí. En Ajustes › Tus datos descargas todo en un archivo o eliminas tu cuenta con todo su contenido.",
       /*live 18 Nov*/ "Descarga todos tus datos en un archivo o elimina tu cuenta con todo su contenido (Ajustes › Tus datos).",
-      "Preguntas frecuentes en la página de inicio."
+      "Preguntas frecuentes en la página de inicio.",
+      "Tu mes en papel.",
+      "Cada mes y cada año en un informe precioso: tus cifras, tus gráficos y tu patrimonio. Para guardar, imprimir o compartir con tu pareja o tu asesor.",
+      "Tu mes en un A4: lo que entró, lo que salió y lo que te quedó.",
+      "Tu año en dos páginas, con las cifras para tu declaración de la renta.",
+      "Hecho en tu propio dispositivo: tus cifras no van a ninguna parte.",
+      "Un informe mensual en PDF, con datos de demo"
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -699,7 +729,13 @@
       "Posso portare via o cancellare i miei dati?",
       "Sì. In Impostazioni › I tuoi dati scarichi tutto in un file oppure elimini l'account con tutto il contenuto.",
       /*live 18 Nov*/ "Scarica tutti i tuoi dati in un file oppure elimina l'account con tutto il contenuto (Impostazioni › I tuoi dati).",
-      "Domande frequenti nella home."
+      "Domande frequenti nella home.",
+      "Il tuo mese su carta.",
+      "Ogni mese e ogni anno in un bel report: i tuoi numeri, i tuoi grafici e il tuo patrimonio. Da conservare, stampare o condividere con il partner o il commercialista.",
+      "Il tuo mese su un A4: cosa è entrato, cosa è uscito e cosa ti è rimasto.",
+      "Il tuo anno su due pagine, con i numeri per la dichiarazione dei redditi.",
+      "Creato sul tuo dispositivo: i tuoi numeri non vanno da nessuna parte.",
+      "Un report mensile in PDF, con dati demo"
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -813,7 +849,13 @@
       "Posso levar ou excluir meus dados?",
       "Sim. Em Ajustes › Seus dados você baixa tudo em um arquivo ou exclui sua conta com tudo dentro.",
       /*live 18 Nov*/ "Baixe todos os seus dados em um arquivo ou exclua sua conta com tudo dentro (Ajustes › Seus dados).",
-      "Perguntas frequentes na página inicial."
+      "Perguntas frequentes na página inicial.",
+      "Seu mês no papel.",
+      "Cada mês e cada ano em um relatório bonito: seus números, seus gráficos e seu patrimônio. Para guardar, imprimir ou compartilhar com seu parceiro ou contador.",
+      "Seu mês em uma folha A4: o que entrou, o que saiu e o que sobrou.",
+      "Seu ano em duas páginas, com os números para a sua declaração de imposto.",
+      "Feito no seu próprio aparelho: seus números não vão a lugar nenhum.",
+      "Um relatório mensal em PDF, com dados de demonstração"
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -927,7 +969,13 @@
       "Czy mogę zabrać lub usunąć swoje dane?",
       "Tak. W Ustawienia › Twoje dane pobierzesz wszystko jako plik albo usuniesz konto ze wszystkim w środku.",
       /*live 18 Nov*/ "Pobierz wszystkie dane jako plik albo usuń konto ze wszystkim w środku (Ustawienia › Twoje dane).",
-      "Najczęstsze pytania na stronie głównej."
+      "Najczęstsze pytania na stronie głównej.",
+      "Twój miesiąc na papierze.",
+      "Każdy miesiąc i każdy rok jako piękny raport: Twoje liczby, wykresy i kapitał. Do zachowania, wydruku lub podzielenia się z partnerem albo księgowym.",
+      "Twój miesiąc na jednej stronie A4: co wpłynęło, co wyszło i co zostało.",
+      "Twój rok na dwóch stronach, z liczbami do zeznania podatkowego.",
+      "Tworzone na Twoim urządzeniu: Twoje liczby nigdzie nie trafiają.",
+      "Raport miesięczny w PDF, z danymi demo"
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1041,7 +1089,13 @@
       "Verilerimi yanıma alabilir veya silebilir miyim?",
       "Evet. Ayarlar › Verilerin bölümünde her şeyi dosya olarak indirir ya da hesabını içindekilerle birlikte silersin.",
       /*live 18 Nov*/ "Tüm verilerini dosya olarak indir ya da hesabını içindekilerle birlikte sil (Ayarlar › Verilerin).",
-      "Ana sayfada sık sorulan sorular."
+      "Ana sayfada sık sorulan sorular.",
+      "Ayınız kâğıtta.",
+      "Her ay ve her yıl şık bir rapor olarak: rakamlarınız, grafikleriniz ve öz sermayeniz. Saklamak, yazdırmak veya partnerinizle ya da muhasebecinizle paylaşmak için.",
+      "Ayınız tek bir A4'te: ne geldi, ne gitti ve ne kaldı.",
+      "Yılınız iki sayfada, vergi beyannameniz için rakamlarla.",
+      "Kendi cihazınızda oluşturulur: rakamlarınız hiçbir yere gitmez.",
+      "Demo verilerle PDF olarak aylık rapor"
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1155,7 +1209,13 @@
       "Можно забрать или удалить свои данные?",
       "Да. В разделе Настройки › Ваши данные можно скачать всё одним файлом или удалить аккаунт со всем содержимым.",
       /*live 18 Nov*/ "Скачайте все данные одним файлом или удалите аккаунт со всем содержимым (Настройки › Ваши данные).",
-      "Частые вопросы на главной странице."
+      "Частые вопросы на главной странице.",
+      "Ваш месяц на бумаге.",
+      "Каждый месяц и каждый год в красивом отчёте: ваши цифры, графики и капитал. Чтобы хранить, печатать или делиться с партнёром или бухгалтером.",
+      "Ваш месяц на одном листе A4: что пришло, что ушло и что осталось.",
+      "Ваш год на двух страницах, с цифрами для налоговой декларации.",
+      "Создаётся на вашем устройстве: ваши цифры никуда не уходят.",
+      "Месячный отчёт в PDF с демоданными"
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1269,7 +1329,13 @@
       "هل يمكنني أخذ بياناتي معي أو حذفها؟",
       "نعم. من الإعدادات › بياناتك تنزّل كل شيء في ملف، أو تحذف حسابك بكل ما فيه.",
       /*live 18 Nov*/ "نزّل كل بياناتك في ملف، أو احذف حسابك بكل ما فيه (الإعدادات › بياناتك).",
-      "الأسئلة الشائعة في الصفحة الرئيسية."
+      "الأسئلة الشائعة في الصفحة الرئيسية.",
+      "شهرك على الورق.",
+      "كل شهر وكل عام في تقرير أنيق: أرقامك ورسومك البيانية وحقوق ملكيتك. للاحتفاظ به أو طباعته أو مشاركته مع شريكك أو محاسبك.",
+      "شهرك على ورقة A4 واحدة: ما دخل وما خرج وما تبقّى لك.",
+      "عامك على صفحتين، مع أرقام إقرارك الضريبي.",
+      "يُنشأ على جهازك: أرقامك لا تذهب إلى أي مكان.",
+      "تقرير شهري بصيغة PDF مع بيانات تجريبية"
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1383,7 +1449,13 @@
       "क्या मैं अपना डेटा साथ ले जा या मिटा सकता हूँ?",
       "हाँ। सेटिंग्स › आपका डेटा में सब कुछ फ़ाइल के रूप में डाउनलोड करें, या अपना अकाउंट सब कुछ समेत मिटा दें।",
       /*live 18 Nov*/ "अपना सारा डेटा फ़ाइल के रूप में डाउनलोड करें, या अपना अकाउंट सब कुछ समेत मिटा दें (सेटिंग्स › आपका डेटा)।",
-      "होमपेज पर अक्सर पूछे जाने वाले सवाल।"
+      "होमपेज पर अक्सर पूछे जाने वाले सवाल।",
+      "आपका महीना काग़ज़ पर।",
+      "हर महीना और हर साल एक सुंदर रिपोर्ट में: आपके आंकड़े, आपके चार्ट और आपकी इक्विटी। रखने, प्रिंट करने या अपने साथी या अकाउंटेंट के साथ साझा करने के लिए।",
+      "आपका महीना एक A4 पर: क्या आया, क्या गया और क्या बचा।",
+      "आपका साल दो पेजों पर, आपके टैक्स रिटर्न के आंकड़ों के साथ।",
+      "आपके अपने डिवाइस पर बना: आपके आंकड़े कहीं नहीं जाते।",
+      "डेमो डेटा के साथ PDF में मासिक रिपोर्ट"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -1497,7 +1569,13 @@
       "Bisakah saya membawa atau menghapus data saya?",
       "Bisa. Di Pengaturan › Datamu kamu mengunduh semuanya sebagai file, atau menghapus akunmu beserta isinya.",
       /*live 18 Nov*/ "Unduh semua datamu sebagai file, atau hapus akunmu beserta isinya (Pengaturan › Datamu).",
-      "Pertanyaan umum di beranda."
+      "Pertanyaan umum di beranda.",
+      "Bulan Anda di atas kertas.",
+      "Setiap bulan dan setiap tahun dalam laporan yang indah: angka, grafik, dan ekuitas Anda. Untuk disimpan, dicetak, atau dibagikan dengan pasangan atau akuntan Anda.",
+      "Bulan Anda dalam satu A4: apa yang masuk, apa yang keluar, dan apa yang tersisa.",
+      "Tahun Anda dalam dua halaman, dengan angka untuk SPT pajak Anda.",
+      "Dibuat di perangkat Anda sendiri: angka Anda tidak dikirim ke mana pun.",
+      "Laporan bulanan sebagai PDF, dengan data demo"
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -1611,7 +1689,13 @@
       "データを持ち出したり削除したりできますか？",
       "はい。設定 › あなたのデータ から、すべてをファイルでダウンロードしたり、アカウントを丸ごと削除したりできます。",
       /*live 18 Nov*/ "すべてのデータをファイルでダウンロード、またはアカウントを丸ごと削除できます（設定 › あなたのデータ）。",
-      "ホームページによくある質問を追加。"
+      "ホームページによくある質問を追加。",
+      "あなたの月を紙に。",
+      "毎月、毎年を美しいレポートに：数字、グラフ、純資産。保存、印刷、パートナーや税理士との共有に。",
+      "1か月をA4一枚に：入ったお金、出たお金、残ったお金。",
+      "1年を2ページに。確定申告に使える数字つき。",
+      "あなたの端末で作成：数字はどこにも送られません。",
+      "デモデータによる月間レポートのPDF"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -1725,7 +1809,13 @@
       "데이터를 가져가거나 삭제할 수 있나요?",
       "네. 설정 › 내 데이터에서 모든 것을 파일로 다운로드하거나, 계정을 모든 내용과 함께 삭제할 수 있어요.",
       /*live 18 Nov*/ "모든 데이터를 파일로 다운로드하거나, 계정을 모든 내용과 함께 삭제할 수 있어요(설정 › 내 데이터).",
-      "홈페이지에 자주 묻는 질문."
+      "홈페이지에 자주 묻는 질문.",
+      "나의 한 달을 종이로.",
+      "매달, 매년을 멋진 리포트로: 나의 숫자, 차트, 자본. 보관, 인쇄하거나 파트너나 세무사와 공유하세요.",
+      "한 달을 A4 한 장에: 들어온 돈, 나간 돈, 남은 돈.",
+      "한 해를 두 페이지에, 세금 신고에 필요한 숫자와 함께.",
+      "내 기기에서 만들어집니다: 숫자는 어디로도 전송되지 않습니다.",
+      "데모 데이터로 만든 월간 리포트 PDF"
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -1839,7 +1929,13 @@
       "Tôi có thể mang theo hoặc xóa dữ liệu của mình không?",
       "Có. Trong Cài đặt › Dữ liệu của bạn, bạn tải tất cả về dưới dạng tệp, hoặc xóa tài khoản cùng toàn bộ nội dung.",
       /*live 18 Nov*/ "Tải toàn bộ dữ liệu về dưới dạng tệp, hoặc xóa tài khoản cùng mọi nội dung (Cài đặt › Dữ liệu của bạn).",
-      "Câu hỏi thường gặp trên trang chủ."
+      "Câu hỏi thường gặp trên trang chủ.",
+      "Tháng của bạn trên giấy.",
+      "Mỗi tháng và mỗi năm thành một báo cáo đẹp: số liệu, biểu đồ và vốn chủ của bạn. Để lưu, in hoặc chia sẻ với người bạn đời hay kế toán.",
+      "Tháng của bạn trên một trang A4: tiền vào, tiền ra và phần còn lại.",
+      "Năm của bạn trên hai trang, kèm số liệu cho tờ khai thuế.",
+      "Tạo ngay trên thiết bị của bạn: số liệu không đi đâu cả.",
+      "Báo cáo tháng dạng PDF, với dữ liệu demo"
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -1953,7 +2049,13 @@
       "我可以带走或删除我的数据吗？",
       "可以。在 设置 › 你的数据 中，你可以把所有内容下载为文件，或连同所有内容删除账户。",
       /*live 18 Nov*/ "将你的全部数据下载为文件，或连同所有内容删除账户（设置 › 你的数据）。",
-      "首页新增常见问题。"
+      "首页新增常见问题。",
+      "把你的月度印在纸上。",
+      "每个月、每一年都是一份精美报告：你的数字、图表和净资产。用于保存、打印，或与伴侣、会计分享。",
+      "一张 A4 看完一个月：收入、支出和结余。",
+      "两页看完一年，附报税所需的数字。",
+      "在你自己的设备上生成：你的数字不会被发送到任何地方。",
+      "使用演示数据的月度报告 PDF"
     ]
   };
 

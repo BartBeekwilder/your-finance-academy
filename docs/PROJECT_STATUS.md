@@ -1427,3 +1427,20 @@ on each live price; Stripe picks the currency from the customer's location):
 - Homepage FAQ (7 questions, <details>, 17 languages, rail dot "Vragen").
 - Dev note: if `next dev` shows "Can't resolve …/font/google/font", move
   .next.nosync aside (a failed font fetch got cached); run dev with network.
+
+## 2026-11-18 — PDF reports, Premium (web-app, NOT live)
+- /app/report: monthly report (one A4) and annual report (two A4 pages, the
+  second "For your tax return": own/owe, equity on 31 Dec, accounts, fixed
+  costs per category vs last year, disclaimer). ?month=YYYY-MM|prev,
+  ?year=YYYY, ?embed=1 (sheet only, for the homepage). Download PDF =
+  window.print() with A4 print CSS (vector, every script, data stays local).
+- Premium only (components/finance/usePremium.ts; the demo counts as Premium);
+  non-Premium sees the sheets blurred with a gate to Settings › Subscription.
+- Data: lib/finance/monthReport.ts; sheets: components/finance/ReportSheets.tsx
+  (.rp-* in finance.css). Entry points: Settings › Reports card, "PDF" chip on
+  Expenses for the viewed month.
+- Homepage section "Je maand op papier." (#rapport, rail dot): the live
+  report with demo data in a tilted paper sheet, iframe loads near view.
+- All texts in 17 languages. Check: headless Chrome --print-to-pdf of
+  /app/report?month=prev&demo=1&lang=nl → 1 page; ?year=2026 → 2 pages.
+- To port to the apps later.

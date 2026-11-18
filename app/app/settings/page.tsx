@@ -13,6 +13,7 @@ import Segmented from "@/components/finance/Segmented";
 import VaultSection from "@/components/finance/VaultSection";
 import SubscriptionCard from "@/components/finance/SubscriptionCard";
 import YourDataSection from "@/components/finance/YourDataSection";
+import ReportsSection from "@/components/finance/ReportsSection";
 import PassphraseSection from "@/components/finance/PassphraseSection";
 import SetupUndo from "@/components/finance/SetupUndo";
 import HouseholdSection from "@/components/finance/HouseholdSection";
@@ -51,6 +52,8 @@ export default function SettingsPage() {
       {process.env.NODE_ENV === "development" && <SetupUndo />}
 
       <SubscriptionCard />
+
+      <ReportsSection />
 
       <Section title={t("Currency")} hint={t("How amounts are shown everywhere. Existing amounts aren't converted.")}>
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
