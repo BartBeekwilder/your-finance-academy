@@ -1664,7 +1664,7 @@ what the compiler finds, run the tests, then look at it in the simulator.
   3. Read with AI (Expenses / Income / Real estate).
   4. PDF reports (Settings › Reports, report button on Expenses).
   5. "+ Credit card" / "+ Cash" in the transaction form.
-- Next on iOS after that (not started): "+ Add account" on the iOS balance
-  sheet (Views/Balance/BalanceSheetView.swift — like the web), then the
-  month picker on Expenses / Income (web MonthPicker; the report button
-  should follow the picked month).
+  6. Balance sheet "+ Add account" next to "+ Add asset" (AddAccountSheet in
+     Views/Balance/BalanceSheetView.swift: kind, name, balance today) — ada7cb6.
+- Next on iOS after that (not started): the month picker on Expenses /
+  Income (web MonthPicker; the report button should follow the picked month).
