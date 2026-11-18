@@ -1755,7 +1755,7 @@ what the compiler finds, run the tests, then look at it in the simulator.
   paywall + trial purchase, restore, web-Premium account, Read with AI,
   + Creditcard / + Contant, + Rekening toevoegen. Do it in TestFlight.
 
-## 2026-11-18 (late) — new app icon everywhere (web-app, NOT live; iOS ce5e116)
+## LIVE 2026-11-18 (late) — new app icon everywhere (main 25a8384; iOS ce5e116)
 - Bart: "het iOS logo overal". Source: the iOS AppIcon.png (Neon D2, 1024).
 - Website: public/brand/icon-{32,64,180,192,256,512}.png; app/icon.png +
   app/apple-icon.png (browser tab, home screen; old app/icon.svg removed);
@@ -1768,3 +1768,7 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - Checked: homepage (desktop + phone), app sidebar, Settings › Valuta,
   report, privacy page; iOS sign-in, Settings, launch screen.
 - No /updates entry (looks, not function — Bart's rule).
+- iOS build 2 (31b1f9f) uploaded 20:38 with the new icon everywhere and
+  ITSAppUsesNonExemptEncryption = NO (only Apple's CryptoKit/CommonCrypto,
+  Keychain and HTTPS → exempt), so builds no longer stop at "Missing
+  Compliance". Build 1 still shows Missing Compliance — ignore it, use 2+.
