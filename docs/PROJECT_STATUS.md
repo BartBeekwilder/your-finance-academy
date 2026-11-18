@@ -1618,3 +1618,18 @@ what the compiler finds, run the tests, then look at it in the simulator.
   of the Premium list above); a web/gift Premium works already.
 - Windows note: Python's text mode writes CRLF — use node or open(...,
   newline="") when editing the iOS files from Windows.
+
+### iOS ios-port-nov18 — PDF reports (18 Nov, Windows, NOT YET BUILT)
+- Services/MonthReport.swift (= lib/finance/monthReport.ts; equity per month
+  from YearClose.data) + ReportMonth.year (this month live via
+  FinanceFigures.monthToDate, months ahead from figures.forecast).
+- Views/Reports/ReportView.swift: A4 pages in SwiftUI (MonthSheet, YearSheet,
+  TaxSheet; light paper, gradient top), picker for any month/year, "Download
+  PDF" = ShareLink of a vector PDF (ImageRenderer into a CGContext PDF in the
+  temp folder). Settings › Reports (last month, this year). No @Query inside
+  the pages (the renderer has no model container).
+- 56 texts from the website (16 languages).
+- On the Mac: build, open Settings › Reports, check page layout (595×842 pt)
+  and the shared PDF; the compact axis label uses
+  .currency(...).notation(.compactName) (iOS 16+). Not yet: a "PDF" button
+  on Expenses for the viewed month (the website has one).
