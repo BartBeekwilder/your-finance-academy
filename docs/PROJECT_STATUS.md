@@ -1444,3 +1444,23 @@ on each live price; Stripe picks the currency from the customer's location):
 - All texts in 17 languages. Check: headless Chrome --print-to-pdf of
   /app/report?month=prev&demo=1&lang=nl → 1 page; ?year=2026 → 2 pages.
 - To port to the apps later.
+
+## WHERE WE LEFT OFF — 2026-11-18 morning (Mac → work laptop)
+- Pushed to main (dea172a) = PDF reports + homepage "Je maand op papier." +
+  /updates entry for 18 Nov. web-app is at the same point (+ this note).
+- NOT YET CHECKED on the live site after the Vercel deploy: open
+  yourfinanceacademy.com → section #rapport shows the report sheet;
+  /app/report?month=prev&demo=1 works; /updates shows the two new lines.
+- Not yet tried with a real (non-demo) Premium account: the Download PDF
+  button (browser print dialog → Save as PDF) and the gate for a free account.
+- Local working branch on the Mac is `web-app-demo` (push with
+  `git push origin HEAD:web-app`). On the work laptop: `git fetch` and work
+  on `web-app`.
+- Open items (also in the Apple Note "Personal Finance: naar live + reclame"):
+  Bart replaces his Claude key (local before 20 Nov, Vercel
+  ANTHROPIC_API_KEY before 10 Dec); 2FA everywhere; Supabase Pro at the first
+  paying customer; Vercel Pro when advertising; accountant on VAT/KOR;
+  review the privacy text; try delete-account with a real account;
+  support@ address; Sentry; real credit-card statement test.
+- Later: port the reports (and everything since 13 Nov) to the iOS/Android
+  apps, only when Bart says the web is done.
