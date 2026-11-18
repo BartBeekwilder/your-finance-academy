@@ -1648,3 +1648,23 @@ what the compiler finds, run the tests, then look at it in the simulator.
   transaction form; the "Paid with" section labels now localise.
 - Note for users who kept cash as a balance post: after adding a Cash
   account, remove the post or it counts twice.
+
+## WHERE WE LEFT OFF — 2026-11-18 evening (work laptop → Mac)
+- Website: `main` = `web-app` (live, nothing pending). Last live: accounts
+  to pay with (+ Add account on the balance sheet, + Credit card / + Cash in
+  Quick Add) and the homepage phone polish.
+- iOS branch `ios-port-nov18` (pushed) has a lot of UNBUILT code from
+  Windows — on the Mac, first: `git fetch && git checkout ios-port-nov18`,
+  build iPhone + Mac Catalyst, fix compile errors, run tests, then check in
+  the simulator, in this order:
+  1. App icon D2, Settings › Your data (export, delete account), Legal.
+  2. Premium paywall (7 days free → yearly/monthly) + Settings › Premium;
+     then RevenueCat SPM + RevenueCat.json + App Store Connect (see
+     "iOS ios-port-nov18 — Premium").
+  3. Read with AI (Expenses / Income / Real estate).
+  4. PDF reports (Settings › Reports, report button on Expenses).
+  5. "+ Credit card" / "+ Cash" in the transaction form.
+- Next on iOS after that (not started): "+ Add account" on the iOS balance
+  sheet (Views/Balance/BalanceSheetView.swift — like the web), then the
+  month picker on Expenses / Income (web MonthPicker; the report button
+  should follow the picked month).
