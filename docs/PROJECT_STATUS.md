@@ -1694,3 +1694,29 @@ what the compiler finds, run the tests, then look at it in the simulator.
   time limit.
 - Next on iOS: the rest of the check above, then RevenueCat SPM +
   RevenueCat.json + App Store Connect (see "iOS ios-port-nov18 — Premium").
+
+## 2026-11-18 (evening, Mac) — iOS RevenueCat step done (ios-port-nov18 e1f9ff2)
+- RevenueCat SPM package purchases-ios-spm 5.103.1 in the app target
+  (added in project.pbxproj + Package.resolved); builds iPhone + Mac
+  Catalyst; the app starts with the SDK configured.
+- RevenueCat › Personal Finance › Apps: "Personal Finance (App Store)"
+  (app6de700e43a) already existed, bundle com.misura.perfin.Personal-Finance
+  (= the app's real bundle id, NOT com.misura.perfin). Its public iOS key
+  (appl_…) is in `Personal Finance/RevenueCat.json` on the Mac (git-ignored —
+  on another computer copy it again from RevenueCat › Apps, copy button).
+- Products created in RevenueCat for the App Store app and attached to
+  entitlement personal_finance_premium: com.misura.perfin.pro.monthly and
+  com.misura.perfin.pro.yearly (store status "could not check" until App
+  Store Connect is linked).
+- STILL TO DO (Bart in App Store Connect, Claude guides in the browser):
+  1. Paid Apps agreement + bank + tax; Small Business Program (15%).
+  2. Subscription group with the two products, same ids; prices EUR 14.99 /
+     99 (USD 14.99/99, GBP 12.99/89 like the web); 1-week free intro offer
+     on both; review screenshot of the paywall.
+  3. Users and Access › Integrations › In-App Purchase key (.p8) → upload in
+     RevenueCat › Apps › Personal Finance (App Store) › In-app purchase key
+     (Bart uploads; it's a secret). Optionally the App Store Connect API key
+     for product import.
+  4. RevenueCat Offering "default" with the two packages (monthly, annual)
+     — only if the app reads offerings; check SubscriptionManager first.
+  5. Sandbox test: trial, restore, web-Premium account opens without paying.
