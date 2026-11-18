@@ -1598,3 +1598,23 @@ what the compiler finds, run the tests, then look at it in the simulator.
   hint (#phoneNudge) that leaves once the visitor scrolls or taps the app.
   The "blue strip" Bart saw was the Windows scrollbar narrowing the app;
   the teal/purple rims are the photo's own neon edge light (left as is).
+
+### iOS ios-port-nov18 — Read with AI (18 Nov, Windows, NOT YET BUILT)
+- Services/AIReader.swift: POST/GET website api/ai/read with the account's
+  token (same route, same 2-a-day limit); images → 1800 px JPEG, PDF ≤ 3 MB;
+  ImportMatch = lib/finance/importMatch.ts 1:1 (history category first,
+  already booked / own transfer unticked).
+- Views/FinanceAI/ReadWithAISheet.swift: consent (once per device,
+  UserDefaults ai.consent), Photos (up to 8) or Files (PDF), reading bar,
+  review — bank rows (tick, date, description, category, "Booked on"; a
+  credit card statement defaults to the card), payslip (month, gross, net →
+  IncomeManager.confirm), mortgage parts (added to the home). Buttons
+  (sparkles) top-left on Expenses and Income, in Real estate's toolbar when
+  there is a home; only signed in, not in the demo.
+- 65 texts in 16 languages (website translations via tools/web-i18n.mjs).
+- On the Mac: build; check the ternary Text(...) keys localise; try a
+  screenshot on a signed-in account. The website only lets Premium accounts
+  read: an App Store subscriber counts once RevenueCat is set up (step 2–3
+  of the Premium list above); a web/gift Premium works already.
+- Windows note: Python's text mode writes CRLF — use node or open(...,
+  newline="") when editing the iOS files from Windows.
