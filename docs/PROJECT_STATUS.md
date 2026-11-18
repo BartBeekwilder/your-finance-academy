@@ -1448,9 +1448,9 @@ on each live price; Stripe picks the currency from the customer's location):
 ## WHERE WE LEFT OFF — 2026-11-18 morning (Mac → work laptop)
 - Pushed to main (dea172a) = PDF reports + homepage "Je maand op papier." +
   /updates entry for 18 Nov. web-app is at the same point (+ this note).
-- NOT YET CHECKED on the live site after the Vercel deploy: open
-  yourfinanceacademy.com → section #rapport shows the report sheet;
-  /app/report?month=prev&demo=1 works; /updates shows the two new lines.
+- CHECKED live on 18 Nov: homepage #rapport shows the report sheet,
+  /updates has the two new lines, /app/report?year=2026&demo=1 = 2 pages
+  with a working Download PDF button.
 - Not yet tried with a real (non-demo) Premium account: the Download PDF
   button (browser print dialog → Save as PDF) and the gate for a free account.
 - Local working branch on the Mac is `web-app-demo` (push with
