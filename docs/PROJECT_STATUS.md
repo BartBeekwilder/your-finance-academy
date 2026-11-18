@@ -1668,3 +1668,29 @@ what the compiler finds, run the tests, then look at it in the simulator.
      Views/Balance/BalanceSheetView.swift: kind, name, balance today) — ada7cb6.
 - Next on iOS after that (not started): the month picker on Expenses /
   Income (web MonthPicker; the report button should follow the picked month).
+
+## 2026-11-18 (evening, Mac) — ios-port-nov18 BUILT (c7e7fcc, pushed)
+- Builds for iPhone (simulator iOS 26.2 — the app targets iOS 26.2, so use
+  the "iPhone 17 Pro" 26.2 simulator) and Mac Catalyst. Only fix needed:
+  ReportView's equity line (type checker timeout). 161 warnings, all old
+  Swift-6-mode / Text + style, none new.
+- Tests: 76/76 (figuresAreFast is a timing test: 36 ms > 30 ms when all run
+  in parallel, passes alone).
+- CHECKED in the simulator (demo): app starts, new icon on the sign-in card
+  and in Settings, Settings › Overzichten (Maandoverzicht · Oktober 2026,
+  Jaaroverzicht · 2026), report button top-left on Expenses (Read with AI
+  hidden in the demo, as meant). PDFs (month 1 page, year 2 pages) render
+  well in Dutch; fixed: KPI/highlight cards now equal height.
+  Debug: launch with `-demo -report 2026` or `-report 2026-10`; the PDF lands
+  in the app's tmp folder (`xcrun simctl get_app_container … data`/tmp).
+- NOT YET CHECKED (the simulator wouldn't take scroll gestures): Settings ›
+  Je gegevens / Premium / Juridisch, Quick Add "+ Creditcard / + Contant",
+  balance sheet "+ Rekening toevoegen", the paywall (needs a signed-in
+  account; StoreKit file in Xcode), Read with AI (signed in). Easiest in
+  Xcode on the Mac: Run, then scroll by hand.
+- Seen in passing (old, not from this branch): dashboard "Dit jaar
+  +€ 19.184,34" wraps over four lines; the points pill shows "1.5…"; the
+  sign-in card still says "demo (10 minuten)" while the website dropped the
+  time limit.
+- Next on iOS: the rest of the check above, then RevenueCat SPM +
+  RevenueCat.json + App Store Connect (see "iOS ios-port-nov18 — Premium").
