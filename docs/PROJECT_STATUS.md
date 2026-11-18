@@ -1772,3 +1772,6 @@ what the compiler finds, run the tests, then look at it in the simulator.
   ITSAppUsesNonExemptEncryption = NO (only Apple's CryptoKit/CommonCrypto,
   Keychain and HTTPS → exempt), so builds no longer stop at "Missing
   Compliance". Build 1 still shows Missing Compliance — ignore it, use 2+.
+- 18 Nov 21:00: TestFlight build 2 READY (group Team, Bart invited, expires
+  in 90 days). Bart: install the TestFlight app on an iPhone with iOS 26.2+,
+  accept the invite (email / TestFlight), sign in with his own account.
