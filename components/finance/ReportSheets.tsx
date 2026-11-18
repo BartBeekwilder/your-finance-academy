@@ -226,7 +226,7 @@ export function MonthSheet({ r, data, who }: { r: MonthReport; data: FinanceData
 }
 
 /** Grouped bars: income and spending per month. */
-function MonthsChart({ months, currency }: { months: { income: number; spent: number }[]; currency: string }) {
+function MonthsChart({ months, currency }: { months: ReportMonth[]; currency: string }) {
   const W = 1000, H = 165, top = 16, bottom = 24;
   const max = Math.max(1, ...months.flatMap((m) => [m.income, m.spent]));
   const slot = W / 12, bw = slot * 0.3;
@@ -240,7 +240,7 @@ function MonthsChart({ months, currency }: { months: { income: number; spent: nu
       {months.map((m, i) => {
         const x = i * slot + slot / 2, base = H - bottom;
         return (
-          <g key={i}>
+          <g key={i} opacity={m.kind === "forecast" ? 0.35 : 1}>
             <rect x={x - bw - 1.5} y={y(m.income)} width={bw} height={Math.max(base - y(m.income), 0)} rx="3" className="rp-bar-in" />
             <rect x={x + 1.5} y={y(m.spent)} width={bw} height={Math.max(base - y(m.spent), 0)} rx="3" className="rp-bar-out" />
             <text x={x} y={H - 4} textAnchor="middle" className="rp-axis">{shortMonth(new Date(2026, i, 1))}</text>
@@ -277,7 +277,11 @@ function EquityLine({ start, months }: { start: number; months: number[] }) {
   );
 }
 
-export function YearSheets({ y, months, data, who }: { y: YearCloseData; months: { income: number; spent: number }[]; data: FinanceData; who: string }) {
+/** A month on the annual report: booked, this month live (so far), or a
+ *  month ahead as the forecast. */
+export type ReportMonth = { income: number; spent: number; kind?: "booked" | "live" | "forecast" };
+
+export function YearSheets({ y, months, data, who }: { y: YearCloseData; months: ReportMonth[]; data: FinanceData; who: string }) {
   const currency = data.profile.currency_code;
   const w = y.wrap;
   const cats = new Map(data.categories.map((c) => [c.id, c]));
@@ -378,8 +382,12 @@ export function YearSheets({ y, months, data, who }: { y: YearCloseData; months:
                 {months.map((m, i) => {
                   const kept = m.income - m.spent, any = m.income > 0 || m.spent > 0;
                   return (
-                    <tr key={i} data-empty={any ? "0" : "1"}>
-                      <td>{monthOf(i)}</td>
+                    <tr key={i} data-empty={any ? "0" : "1"} data-kind={m.kind ?? "booked"}>
+                      <td>
+                        {monthOf(i)}
+                        {m.kind === "live" && <span className="rp-tag">{t("so far")}</span>}
+                        {m.kind === "forecast" && <span className="rp-tag">{t("expected")}</span>}
+                      </td>
                       <td>{any ? money(m.income, currency) : "—"}</td>
                       <td>{any ? money(m.spent, currency) : "—"}</td>
                       <td data-good={kept >= 0 ? "1" : "0"}>{any ? money(kept, currency, { signed: true }) : "—"}</td>

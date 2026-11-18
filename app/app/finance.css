@@ -6454,6 +6454,8 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .rp-table td[data-good="1"] { color: #15803d; font-weight: 650; }
 .rp-table td[data-good="0"] { color: #c2410c; font-weight: 650; }
 .rp-table tr[data-empty="1"] td { color: #b5b8c6; font-weight: 400; }
+.rp-table tr[data-kind="forecast"] td { color: #9a9db0; font-style: italic; font-weight: 400; }
+.rp-tag { margin-inline-start: 1.5mm; font-size: 6.4pt; font-style: normal; font-weight: 600; color: #8a8ea0; text-transform: lowercase; }
 .rp-list-2 { grid-template-columns: 1fr 1fr; column-gap: 7mm; }
 .rp-highlights { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
 .rp-highlights > div { display: grid; gap: 0.6mm; padding: 2.8mm 4mm; border-radius: 3.5mm; background: linear-gradient(135deg, rgba(124, 108, 242, 0.09), rgba(20, 184, 166, 0.09)); box-shadow: 0 0 0 1px rgba(124, 108, 242, 0.14); }

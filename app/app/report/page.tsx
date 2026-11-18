@@ -6,12 +6,12 @@ import Link from "next/link";
 import { ArrowLeft, Crown, Download } from "lucide-react";
 import { isRtl, t } from "@/lib/i18n";
 import { monthYear } from "@/lib/finance/format";
-import { live, summarize } from "@/lib/finance/calc";
+import { live, monthToDate, summarize, yearForecast } from "@/lib/finance/calc";
 import { monthReport } from "@/lib/finance/monthReport";
 import { yearCloseData } from "@/lib/finance/yearCloseModel";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { usePremium } from "@/components/finance/usePremium";
-import { MonthSheet, YearSheets } from "@/components/finance/ReportSheets";
+import { MonthSheet, YearSheets, type ReportMonth } from "@/components/finance/ReportSheets";
 
 // Premium › reports: a month (?month=YYYY-MM, or "prev") or a year
 // (?year=YYYY) as A4 sheets. "Download PDF" prints just the sheets — the
@@ -61,9 +61,20 @@ export default function ReportPage() {
   const sheets = useMemo(() => {
     if (!pick) return null;
     if (pick.kind === "month") return <MonthSheet r={monthReport(data, pick.month, now)} data={data} who={who} />;
-    const months = Array.from({ length: 12 }, (_, m) => {
+    // The running year: this month as it stands right now on the live model
+    // (salary earned so far, fixed costs used up so far, as on the tiles), the
+    // months ahead as the forecast. Finished months: what was booked.
+    const isThisYear = pick.year === now.getFullYear();
+    const forecast = isThisYear ? yearForecast(data, now) : [];
+    const sofar = isThisYear ? monthToDate(data, now).points.at(-1) : undefined;
+    const months = Array.from({ length: 12 }, (_, m): ReportMonth => {
+      if (isThisYear && m === now.getMonth() && sofar) return { income: sofar.income, spent: sofar.spent, kind: "live" };
+      if (isThisYear && m > now.getMonth()) {
+        const f = forecast.find((x) => x.month === m);
+        return { income: f?.income ?? 0, spent: f?.spent ?? 0, kind: "forecast" };
+      }
       const s = summarize(data.transactions, new Date(pick.year, m, 1));
-      return { income: s.income, spent: s.spent };
+      return { income: s.income, spent: s.spent, kind: "booked" };
     });
     return <YearSheets y={yearCloseData(data, pick.year, now)} months={months} data={data} who={who} />;
   }, [pick, data, now, who]);
