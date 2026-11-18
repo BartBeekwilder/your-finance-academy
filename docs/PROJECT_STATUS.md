@@ -1775,3 +1775,18 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - 18 Nov 21:00: TestFlight build 2 READY (group Team, Bart invited, expires
   in 90 days). Bart: install the TestFlight app on an iPhone with iOS 26.2+,
   accept the invite (email / TestFlight), sign in with his own account.
+
+## TO DO — iOS (Bart, 18 Nov night) — START HERE TOMORROW
+- [ ] Data on the iPhone (TestFlight build 2) "klopt geen reet van" after
+      downloading: compare the app with the website for the same account,
+      find what is lost or computed differently.
+- [ ] Existing account → the iOS app must download the account's data
+      automatically after sign-in. Now it starts the setup from scratch.
+- [ ] Bart's real data is still only local (.private/finance.json); upload it
+      once (Settings › Encrypted copy, Bart sets the passphrase) before
+      testing with real numbers.
+- [ ] Open from the November reconciliation: which account paid Hypotheek
+      €1,118.86, Auto €58.33, Fellows Krollenloop €43.75, €34.71 (no note),
+      Kaartje €18 — then 1 Nov matches ING (€3,138.63) to within €62.88.
+- [ ] Not live yet on the web (web-app): balance sheet month view from the
+      1st of the month; import duplicate window 3 days.
