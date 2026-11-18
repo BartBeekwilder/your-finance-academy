@@ -1708,14 +1708,23 @@ what the compiler finds, run the tests, then look at it in the simulator.
   entitlement personal_finance_premium: com.misura.perfin.pro.monthly and
   com.misura.perfin.pro.yearly (store status "could not check" until App
   Store Connect is linked).
-- STILL TO DO (Bart in App Store Connect, Claude guides in the browser):
-  1. Paid Apps agreement + bank + tax; Small Business Program (15%).
-  2. Subscription group with the two products, same ids; prices EUR 14.99 /
-     99 (USD 14.99/99, GBP 12.99/89 like the web); 1-week free intro offer
-     on both; review screenshot of the paywall.
-  3. Users and Access › Integrations › In-App Purchase key (.p8) → upload in
-     RevenueCat › Apps › Personal Finance (App Store) › In-app purchase key
-     (Bart uploads; it's a secret). Optionally the App Store Connect API key
-     for product import.
-  (No RevenueCat Offering needed: the app loads the two products itself.)
+- App Store Connect DONE (18 Nov evening, with Bart): new Apple Developer
+  Program License Agreement + new Paid Apps agreement accepted (Bart); bank
+  (ING) and tax forms were already active. App "The Personal Finance
+  Dashboard" (Apple id 6832963643, bundle com.misura.perfin.Personal-Finance).
+  Subscription group "Personal Finance Premium" (22593326):
+  1. Premium yearly — com.misura.perfin.pro.yearly (6836482334): €99,00 base
+     (NL), US $99,00, UK £89,00, rest auto; all 175 countries; 1 week free
+     (from 18 Nov, no end date); display name en-US "Premium — yearly".
+  2. Premium monthly — com.misura.perfin.pro.monthly (6836484584): €14,99,
+     US $14,99, UK £12,99, rest auto; all countries; 1 week free; en-US name.
+  In-App Purchase key "RevenueCat" (N49DMCUK8V) was already made on 10 Nov
+  and is in RevenueCat with "Valid credentials".
+- STILL OPEN for the App Store:
+  - Small Business Program (15%): check/enrol at
+    developer.apple.com/app-store/small-business-program (Bart).
+  - Display names in the other languages (only en-US now); review
+    screenshot of the paywall per subscription; both subscriptions go to
+    review with the first app version (Apple's rule).
+  - China mainland needs extra declarations — consider leaving it out.
   4. Sandbox test: trial, restore, web-Premium account opens without paying.
