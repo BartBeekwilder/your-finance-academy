@@ -1632,4 +1632,4 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - On the Mac: build, open Settings › Reports, check page layout (595×842 pt)
   and the shared PDF; the compact axis label uses
   .currency(...).notation(.compactName) (iOS 16+). Not yet: a "PDF" button
-  on Expenses for the viewed month (the website has one).
+  on Expenses: DONE (toolbar, this month or in Year view this year; iOS Expenses has no month picker yet).
