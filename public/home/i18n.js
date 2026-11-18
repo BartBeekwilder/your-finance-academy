@@ -135,7 +135,8 @@
     "Gemaakt op je eigen apparaat: je cijfers gaan nergens heen.",
     "Een maandoverzicht als PDF, met demodata",
     /*live 18 Nov reports*/ "Download je maand en je jaar als prachtig PDF-overzicht, met de cijfers voor je belastingaangifte (Premium).",
-    "Op de homepage: je maand op papier."
+    "Op de homepage: je maand op papier.",
+    /*live 18 Nov report fix*/ "Het jaaroverzicht toont de lopende maand live en de maanden die nog komen als verwachting."
   ];
 
   var L = {
@@ -259,7 +260,8 @@
       "Made on your own device: your numbers go nowhere.",
       "A monthly report as a PDF, with demo data",
       "Download your month and your year as a beautiful PDF report, with the figures for your tax return (Premium).",
-      "On the homepage: your month on paper."
+      "On the homepage: your month on paper.",
+      "The annual report shows the current month live and the months still to come as expected."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -381,7 +383,8 @@
       "Erstellt auf deinem eigenen Gerät: deine Zahlen gehen nirgendwohin.",
       "Ein Monatsbericht als PDF, mit Demodaten",
       "Lade deinen Monat und dein Jahr als schönen PDF-Bericht herunter, mit den Zahlen für deine Steuererklärung (Premium).",
-      "Auf der Startseite: dein Monat auf Papier."
+      "Auf der Startseite: dein Monat auf Papier.",
+      "Der Jahresbericht zeigt den laufenden Monat live und die kommenden Monate als Erwartung."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -503,7 +506,8 @@
       "Créé sur votre propre appareil : vos chiffres ne vont nulle part.",
       "Un rapport mensuel en PDF, avec des données de démo",
       "Téléchargez votre mois et votre année dans un beau rapport PDF, avec les chiffres pour votre déclaration d'impôts (Premium).",
-      "Sur la page d'accueil : votre mois sur papier."
+      "Sur la page d'accueil : votre mois sur papier.",
+      "Le rapport annuel affiche le mois en cours en direct et les mois à venir en prévision."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -625,7 +629,8 @@
       "Hecho en tu propio dispositivo: tus cifras no van a ninguna parte.",
       "Un informe mensual en PDF, con datos de demo",
       "Descarga tu mes y tu año en un informe PDF precioso, con las cifras para tu declaración de la renta (Premium).",
-      "En la página de inicio: tu mes en papel."
+      "En la página de inicio: tu mes en papel.",
+      "El informe anual muestra el mes en curso en directo y los meses que faltan como previsión."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -747,7 +752,8 @@
       "Creato sul tuo dispositivo: i tuoi numeri non vanno da nessuna parte.",
       "Un report mensile in PDF, con dati demo",
       "Scarica il tuo mese e il tuo anno in un bel report PDF, con i numeri per la dichiarazione dei redditi (Premium).",
-      "Sulla homepage: il tuo mese su carta."
+      "Sulla homepage: il tuo mese su carta.",
+      "Il report annuale mostra il mese in corso in tempo reale e i mesi a venire come previsione."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -869,7 +875,8 @@
       "Feito no seu próprio aparelho: seus números não vão a lugar nenhum.",
       "Um relatório mensal em PDF, com dados de demonstração",
       "Baixe seu mês e seu ano em um relatório PDF bonito, com os números para a sua declaração de imposto (Premium).",
-      "Na página inicial: seu mês no papel."
+      "Na página inicial: seu mês no papel.",
+      "O relatório anual mostra o mês atual ao vivo e os meses que ainda virão como previsão."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -991,7 +998,8 @@
       "Tworzone na Twoim urządzeniu: Twoje liczby nigdzie nie trafiają.",
       "Raport miesięczny w PDF, z danymi demo",
       "Pobierz swój miesiąc i rok jako piękny raport PDF, z liczbami do zeznania podatkowego (Premium).",
-      "Na stronie głównej: Twój miesiąc na papierze."
+      "Na stronie głównej: Twój miesiąc na papierze.",
+      "Raport roczny pokazuje bieżący miesiąc na żywo, a nadchodzące miesiące jako prognozę."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1113,7 +1121,8 @@
       "Kendi cihazınızda oluşturulur: rakamlarınız hiçbir yere gitmez.",
       "Demo verilerle PDF olarak aylık rapor",
       "Ayınızı ve yılınızı vergi beyannameniz için rakamlarla birlikte şık bir PDF raporu olarak indirin (Premium).",
-      "Ana sayfada: ayınız kâğıtta."
+      "Ana sayfada: ayınız kâğıtta.",
+      "Yıllık rapor içinde bulunulan ayı canlı, gelecek ayları ise tahmin olarak gösterir."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1235,7 +1244,8 @@
       "Создаётся на вашем устройстве: ваши цифры никуда не уходят.",
       "Месячный отчёт в PDF с демоданными",
       "Скачайте свой месяц и год в виде красивого PDF-отчёта с цифрами для налоговой декларации (Premium).",
-      "На главной: ваш месяц на бумаге."
+      "На главной: ваш месяц на бумаге.",
+      "Годовой отчёт показывает текущий месяц в реальном времени, а будущие месяцы — как прогноз."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1357,7 +1367,8 @@
       "يُنشأ على جهازك: أرقامك لا تذهب إلى أي مكان.",
       "تقرير شهري بصيغة PDF مع بيانات تجريبية",
       "نزّل شهرك وعامك في تقرير PDF أنيق، مع أرقام إقرارك الضريبي (Premium).",
-      "في الصفحة الرئيسية: شهرك على الورق."
+      "في الصفحة الرئيسية: شهرك على الورق.",
+      "يعرض التقرير السنوي الشهر الحالي مباشرةً والأشهر القادمة كتوقعات."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1479,7 +1490,8 @@
       "आपके अपने डिवाइस पर बना: आपके आंकड़े कहीं नहीं जाते।",
       "डेमो डेटा के साथ PDF में मासिक रिपोर्ट",
       "अपना महीना और अपना साल एक सुंदर PDF रिपोर्ट में डाउनलोड करें, टैक्स रिटर्न के आंकड़ों के साथ (Premium)।",
-      "होमपेज पर: आपका महीना काग़ज़ पर।"
+      "होमपेज पर: आपका महीना काग़ज़ पर।",
+      "वार्षिक रिपोर्ट चालू महीने को लाइव और आने वाले महीनों को अनुमान के रूप में दिखाती है।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -1601,7 +1613,8 @@
       "Dibuat di perangkat Anda sendiri: angka Anda tidak dikirim ke mana pun.",
       "Laporan bulanan sebagai PDF, dengan data demo",
       "Unduh bulan dan tahun Anda sebagai laporan PDF yang indah, dengan angka untuk SPT pajak Anda (Premium).",
-      "Di beranda: bulan Anda di atas kertas."
+      "Di beranda: bulan Anda di atas kertas.",
+      "Laporan tahunan menampilkan bulan berjalan secara langsung dan bulan-bulan berikutnya sebagai perkiraan."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -1723,7 +1736,8 @@
       "あなたの端末で作成：数字はどこにも送られません。",
       "デモデータによる月間レポートのPDF",
       "月と年を美しいPDFレポートでダウンロード。確定申告に使える数字つき（Premium）。",
-      "ホームページに：あなたの月を紙に。"
+      "ホームページに：あなたの月を紙に。",
+      "年間レポートで、今月をリアルタイムで、これからの月を見込みとして表示します。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -1845,7 +1859,8 @@
       "내 기기에서 만들어집니다: 숫자는 어디로도 전송되지 않습니다.",
       "데모 데이터로 만든 월간 리포트 PDF",
       "한 달과 한 해를 세금 신고용 숫자와 함께 멋진 PDF 리포트로 다운로드하세요 (Premium).",
-      "홈페이지에: 나의 한 달을 종이로."
+      "홈페이지에: 나의 한 달을 종이로.",
+      "연간 보고서가 이번 달은 실시간으로, 남은 달은 예상치로 보여줍니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -1967,7 +1982,8 @@
       "Tạo ngay trên thiết bị của bạn: số liệu không đi đâu cả.",
       "Báo cáo tháng dạng PDF, với dữ liệu demo",
       "Tải tháng và năm của bạn dưới dạng báo cáo PDF đẹp, kèm số liệu cho tờ khai thuế (Premium).",
-      "Trên trang chủ: tháng của bạn trên giấy."
+      "Trên trang chủ: tháng của bạn trên giấy.",
+      "Báo cáo năm hiển thị tháng hiện tại theo thời gian thực và các tháng sắp tới dưới dạng dự kiến."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -2089,7 +2105,8 @@
       "在你自己的设备上生成：你的数字不会被发送到任何地方。",
       "使用演示数据的月度报告 PDF",
       "将你的月度和年度下载为精美的 PDF 报告，附报税所需的数字（Premium）。",
-      "首页新增：把你的月度印在纸上。"
+      "首页新增：把你的月度印在纸上。",
+      "年度报告实时显示本月，并将剩余月份显示为预计值。"
     ]
   };
 
