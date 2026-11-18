@@ -238,6 +238,12 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const [now] = useState(() => new Date());
   const supabase = getSupabase();
 
+  // Inside the homepage's device frames: no scrollbars (a phone has none;
+  // the homepage shows its own scroll hint). See html[data-framed] in finance.css.
+  useEffect(() => {
+    if (window.self !== window.top) document.documentElement.dataset.framed = "1";
+  }, []);
+
   const startDemo = useCallback(() => {
     try {
       // Not from inside the homepage's device frames (they share the tab's storage).

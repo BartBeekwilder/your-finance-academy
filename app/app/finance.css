@@ -118,6 +118,11 @@
 }
 .pf-nav > * { flex-shrink: 0; }
 
+/* Inside the homepage's device frames (FinanceProvider sets data-framed):
+   no scrollbars — a phone or iPad has none; the homepage hints at scrolling. */
+html[data-framed], html[data-framed] * { scrollbar-width: none; }
+html[data-framed] ::-webkit-scrollbar { display: none; }
+
 .pf-brand {
   display: flex;
   align-items: center;

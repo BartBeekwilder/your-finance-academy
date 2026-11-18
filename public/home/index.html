@@ -201,6 +201,15 @@
   .phone__screen { position: absolute; left: 0; top: 0; width: 390px; height: 884px; overflow: hidden; background: #000; transform-origin: 0 0; }
   .phone__screen iframe { position: absolute; left: 0; top: 46px; width: 390px; height: 812px; border: 0; background: #000; }
   .phone__home { position: absolute; left: 50%; bottom: 9px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: rgba(255, 255, 255, 0.55); }
+  /* "There's more below": two chevrons drifting up in a glass pill over the
+     app; gone for good once the visitor scrolls the phone. */
+  .phone__nudge { position: absolute; left: 50%; bottom: 150px; width: 54px; height: 76px; margin-left: -27px; border-radius: 27px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; background: rgba(20, 22, 40, 0.55); border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 0 24px rgba(108, 92, 231, 0.35); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); pointer-events: none; opacity: 0; transform: translateY(12px) scale(0.9); transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .phone__nudge.is-on { opacity: 1; transform: none; }
+  .phone__nudge.is-gone { opacity: 0; transform: translateY(-16px) scale(0.85); transition-duration: 0.35s, 0.35s; }
+  .phone__nudge svg { margin: -5px 0; animation: nudge 1.6s ease-in-out infinite; }
+  .phone__nudge svg:last-child { animation-delay: 0.18s; opacity: 0.55; }
+  @keyframes nudge { 0%, 100% { transform: translateY(6px); opacity: 0.35; } 50% { transform: translateY(-4px); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .phone__nudge svg { animation: none; } }
   .phone__copy { position: absolute; z-index: 2; inset-inline-start: var(--g); bottom: 12vh; max-width: 420px; }
   /* squarer screens (iPad): the hand comes closer to the edge, so the copy sits higher and narrower */
   @media (max-aspect-ratio: 17/10) and (min-width: 901px) {
@@ -667,6 +676,7 @@
     <div class="phone__screen" id="phoneScreen">
       <iframe id="phone" data-src="/app?demo=1" width="390" height="812" title="De app op een telefoon, live, met demodata"></iframe>
       <span class="phone__home" aria-hidden="true"></span>
+      <span class="phone__nudge" id="phoneNudge" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span>
     </div>
     <div class="phone__copy"><h2>Altijd bij je.</h2><p>Dezelfde cijfers op je telefoon, je iPad en het web. Altijd bij, altijd gelijk.</p><a class="btn btn--lg" href="/app?demo=1">Bekijk de live demo<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
   </section>
@@ -773,6 +783,23 @@
   new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.querySelectorAll('iframe[data-src]').forEach(function (f) { if (!f.src) f.src = f.dataset.src; }); }); }, { rootMargin: '600px' }).observe(document.getElementById('apparaten'));
   // The phone's app loads when it comes near.
   new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && !phone.src) phone.src = phone.dataset.src; }); }, { rootMargin: '400px' }).observe(phoneSec);
+  // The scroll hint on the phone: shows once the app is in and the phone is
+  // in view, leaves for good when the visitor scrolls or taps the app.
+  (function () {
+    var nudge = document.getElementById('phoneNudge'), loaded = false, seen = false, done = false;
+    function gone() { if (done) return; done = true; nudge.classList.add('is-gone'); }
+    function maybe() { if (loaded && seen && !done) setTimeout(function () { if (!done) nudge.classList.add('is-on'); }, 1200); }
+    phone.addEventListener('load', function () {
+      loaded = true; maybe();
+      try {
+        var w = phone.contentWindow;
+        w.addEventListener('scroll', function () { if (w.scrollY > 24) gone(); }, { passive: true, capture: true });
+        w.addEventListener('pointerdown', gone, { passive: true });
+        w.addEventListener('wheel', gone, { passive: true });
+      } catch (e) {}
+    });
+    new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && !seen) { seen = true; maybe(); } }); }, { threshold: 0.5 }).observe(phoneSec);
+  })();
 
   // The stand pages through the app with the scroll; the step list follows.
   var stand = document.getElementById('functies'), shots = standScreen.querySelectorAll('img'), steps = document.querySelectorAll('#steps .step'), cur = 0;
