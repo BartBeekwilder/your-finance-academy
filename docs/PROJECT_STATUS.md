@@ -1721,8 +1721,9 @@ what the compiler finds, run the tests, then look at it in the simulator.
   In-App Purchase key "RevenueCat" (N49DMCUK8V) was already made on 10 Nov
   and is in RevenueCat with "Valid credentials".
 - STILL OPEN for the App Store:
-  - Small Business Program (15%): check/enrol at
-    developer.apple.com/app-store/small-business-program (Bart).
+  - Small Business Program (15%): enrolment SUBMITTED 18 Nov (no associated
+    accounts, under $1M); Apple emails the result — then 15% from the
+    following month.
   - Display names in the other languages (only en-US now); review
     screenshot of the paywall per subscription; both subscriptions go to
     review with the first app version (Apple's rule).
