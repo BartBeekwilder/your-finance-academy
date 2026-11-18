@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Personal Finance · je hele financiële leven, live</title>
+<link rel="icon" type="image/png" sizes="64x64" href="/brand/icon-64.png"><link rel="apple-touch-icon" href="/brand/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -24,7 +25,9 @@
   .status { position: fixed; z-index: 40; inset: 0 0 auto 0; height: 48px; display: flex; align-items: center; gap: 20px; padding: 0 var(--g); background: color-mix(in oklch, var(--c-canvas) 88%, transparent); border-block-end: 1px solid color-mix(in oklch, var(--c-rule) 70%, transparent); font-size: 13px; }
   .status b { font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
   /* Brand lockup: product name with the company underneath (stays English, like a logo). */
-  .brand { display: grid; line-height: 1.1; text-decoration: none; color: inherit; }
+  .brand { display: flex; align-items: center; gap: 10px; line-height: 1.1; text-decoration: none; color: inherit; }
+  .brand > span { display: grid; }
+  .brand__icon { flex: none; width: 32px; height: 32px; border-radius: 7px; }
   .brand small { font: 400 10.5px var(--mono); color: var(--c-muted); letter-spacing: 0.01em; white-space: nowrap; }
   .state { display: inline-flex; align-items: center; gap: 8px; font: 400 12px var(--mono); color: var(--c-muted); white-space: nowrap; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-live); box-shadow: 0 0 0 3px color-mix(in oklch, var(--c-live) 22%, transparent); }
@@ -442,7 +445,7 @@
 </head>
 <body>
 <header class="status">
-  <a class="brand" href="/" translate="no"><b>Personal Finance</b><small>by YourFinanceAcademy.com</small></a>
+  <a class="brand" href="/" translate="no"><img class="brand__icon" src="/brand/icon-64.png" width="32" height="32" alt=""><span><b>Personal Finance</b><small>by YourFinanceAcademy.com</small></span></a>
   <span class="state"><span class="dot"></span><span id="clock">live</span></span>
   <nav aria-label="Hoofdmenu"><select id="langSel" class="langsel" aria-label="Taal / Language"></select><a href="#functies">Functies</a><a href="/updates">Updates</a><a href="/app?demo=1" class="navdemo">Live demo</a><a href="/app">Inloggen</a><a class="btn btn--trial" href="/app?trial=1">Probeer nu gratis!</a></nav>
 </header>

@@ -57,7 +57,7 @@ export default function SettingsPage() {
 
       <Section title={t("Currency")} hint={t("How amounts are shown everywhere. Existing amounts aren't converted.")}>
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
-          <BrandMark size={56} currency={current} />
+          <BrandMark size={56} currency={current} coin />
           <div>
             <div className="pf-rounded" style={{ fontSize: "1.5rem", fontWeight: 700 }}>{money(1234.56, current)}</div>
             <div key={status?.text ?? "idle"} className="pf-readout" style={{ fontSize: "0.8rem", color: status?.kind === "error" ? "var(--pf-red)" : "var(--pf-ink-3)" }}>

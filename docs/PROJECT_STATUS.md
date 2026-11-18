@@ -1754,3 +1754,17 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - Not yet checked on a device: Settings › Je gegevens / Premium / Juridisch,
   paywall + trial purchase, restore, web-Premium account, Read with AI,
   + Creditcard / + Contant, + Rekening toevoegen. Do it in TestFlight.
+
+## 2026-11-18 (late) — new app icon everywhere (web-app, NOT live; iOS ce5e116)
+- Bart: "het iOS logo overal". Source: the iOS AppIcon.png (Neon D2, 1024).
+- Website: public/brand/icon-{32,64,180,192,256,512}.png; app/icon.png +
+  app/apple-icon.png (browser tab, home screen; old app/icon.svg removed);
+  BrandMark.tsx draws the icon (sidebar, sign-in, setup, PDF reports) — with
+  `coin` a currency coin in the corner where it shows the currency (setup's
+  currency step, Settings › Currency); homepage, /updates and the legal pages
+  got the icon next to "Personal Finance" + a favicon link.
+- iOS: BrandMark = Image("AppIconPreview") (+ coin: Settings, setup currency
+  grid); LaunchMark (launch screen) = the icon with rounded corners.
+- Checked: homepage (desktop + phone), app sidebar, Settings › Valuta,
+  report, privacy page; iOS sign-in, Settings, launch screen.
+- No /updates entry (looks, not function — Bart's rule).

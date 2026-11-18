@@ -17,7 +17,9 @@ const CSS = `
   .pp { background: var(--c-canvas); color: var(--c-ink); font: 400 16px/1.6 var(--f); -webkit-font-smoothing: antialiased; min-height: 100vh; }
   .pp a { color: inherit; }
   .pp .status { position: fixed; z-index: 40; inset: 0 0 auto 0; height: 48px; display: flex; align-items: center; gap: 20px; padding: 0 var(--g); background: color-mix(in oklch, var(--c-canvas) 88%, transparent); border-block-end: 1px solid var(--c-rule); backdrop-filter: blur(8px); }
-  .pp .brand { display: grid; line-height: 1.1; text-decoration: none; }
+  .pp .brand { display: flex; align-items: center; gap: 10px; line-height: 1.1; text-decoration: none; }
+  .pp .brand > span { display: grid; }
+  .pp .brand img { flex: none; width: 32px; height: 32px; border-radius: 7px; }
   .pp .brand b { font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
   .pp .brand small { font: 400 10.5px var(--mono); color: var(--c-muted); white-space: nowrap; }
   .pp .status nav { margin-inline-start: auto; display: flex; align-items: center; gap: 18px; }
@@ -81,8 +83,12 @@ export default function LegalPage({ title, updated, lede, children }: { title: s
       <style>{CSS}</style>
       <header className="status">
         <Link className="brand" href="/" translate="no">
-          <b>Personal Finance</b>
-          <small>by YourFinanceAcademy.com</small>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/icon-64.png" width={32} height={32} alt="" />
+          <span>
+            <b>Personal Finance</b>
+            <small>by YourFinanceAcademy.com</small>
+          </span>
         </Link>
         <nav aria-label={t("Menu")}>
           <select className="lang" aria-label={t("Language")} value={lang} onChange={(e) => setLang(e.target.value as Lang)}>

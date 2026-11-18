@@ -950,7 +950,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                 <div className="pf-ob-grid">
                   {CURRENCIES.map((c) => (
                     <button key={c.code} className="pf-ob-choice" aria-pressed={currency === c.code} onClick={() => setCurrency(c.code)}>
-                      <BrandMark size={34} currency={c.code} />
+                      <BrandMark size={34} currency={c.code} coin />
                       <span>
                         <b>{c.code}</b>
                         <small>{currencyName(c.code, intlLocale(), c.name)}</small>
