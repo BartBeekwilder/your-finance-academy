@@ -2097,5 +2097,7 @@
  "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "나의 한 달과 한 해를 멋진 PDF로 — 보관, 인쇄하거나 파트너나 세무사와 공유하세요.",
  "Savings account": "저축 계좌",
  "Adds this account to your balance sheet": "이 계좌를 대차대조표에 추가합니다",
- "Still to pay on the card? Enter it as a minus amount.": "카드에 아직 갚을 금액이 있나요? 마이너스 금액으로 입력하세요."
+ "Still to pay on the card? Enter it as a minus amount.": "카드에 아직 갚을 금액이 있나요? 마이너스 금액으로 입력하세요.",
+ "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · 입금 {inflow} · 출금 {outflow}",
+ "{date} {start} · nothing booked on it this month": "{date} {start} · 이번 달 기록 없음"
 }

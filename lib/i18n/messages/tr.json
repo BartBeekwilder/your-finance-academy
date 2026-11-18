@@ -2097,5 +2097,7 @@
  "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "Ayınız ve yılınız şık bir PDF olarak — saklamak, yazdırmak veya partnerinizle ya da muhasebecinizle paylaşmak için.",
  "Savings account": "Tasarruf hesabı",
  "Adds this account to your balance sheet": "Bu hesabı bilançona ekler",
- "Still to pay on the card? Enter it as a minus amount.": "Kartta hâlâ ödenecek tutar mı var? Eksi tutar olarak gir."
+ "Still to pay on the card? Enter it as a minus amount.": "Kartta hâlâ ödenecek tutar mı var? Eksi tutar olarak gir.",
+ "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · giren {inflow} · çıkan {outflow}",
+ "{date} {start} · nothing booked on it this month": "{date} {start} · bu ay kayıt yok"
 }

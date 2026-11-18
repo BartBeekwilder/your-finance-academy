@@ -2097,5 +2097,7 @@
  "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "Dein Monat und dein Jahr als schönes PDF — zum Aufbewahren, Drucken oder Teilen mit Partner oder Steuerberater.",
  "Savings account": "Sparkonto",
  "Adds this account to your balance sheet": "Fügt dieses Konto deiner Bilanz hinzu",
- "Still to pay on the card? Enter it as a minus amount.": "Ist auf der Karte noch etwas offen? Gib es als Minusbetrag ein."
+ "Still to pay on the card? Enter it as a minus amount.": "Ist auf der Karte noch etwas offen? Gib es als Minusbetrag ein.",
+ "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · rein {inflow} · raus {outflow}",
+ "{date} {start} · nothing booked on it this month": "{date} {start} · diesen Monat nichts gebucht"
 }

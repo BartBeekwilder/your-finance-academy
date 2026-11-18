@@ -32,7 +32,7 @@ export default function BalancePage() {
   const [sel, setSel] = useState(now.getMonth());
   const [view, setView] = useState<"months" | "years">("months");
   const month = new Date(now.getFullYear(), sel, 1);
-  const sheet = balanceSheet(data, now, month);
+  const sheet = balanceSheet(data, now, month, view === "years" ? "year" : "month");
   const prev = balanceSheet(data, now, new Date(now.getFullYear(), sel - 1, 1));
   const name = monthName(month);
   const label = sheet.isCurrent ? t("today") : t("end of {month}", { month: name });

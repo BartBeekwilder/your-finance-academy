@@ -2103,5 +2103,7 @@
  "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "Je maand en je jaar als prachtige PDF — om te bewaren, te printen of te delen met je partner of boekhouder.",
  "Savings account": "Spaarrekening",
  "Adds this account to your balance sheet": "Zet deze rekening op je balans",
- "Still to pay on the card? Enter it as a minus amount.": "Moet er nog iets van de kaart betaald worden? Vul het in als minbedrag."
+ "Still to pay on the card? Enter it as a minus amount.": "Moet er nog iets van de kaart betaald worden? Vul het in als minbedrag.",
+ "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · erbij {inflow} · eraf {outflow}",
+ "{date} {start} · nothing booked on it this month": "{date} {start} · deze maand niets op geboekt"
 }

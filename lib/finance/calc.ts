@@ -7,7 +7,7 @@ import { intlLocale, t } from "@/lib/i18n";
 import { summarize as summarizePart } from "./mortgage";
 import { homes } from "./realEstate";
 import { liveLoans, loanAt } from "./loans";
-import { money } from "./format";
+import { money, shortMonth } from "./format";
 import { isSalaryName } from "./salary";
 import { upcomingFixedCosts } from "./recurring";
 import type { Account, Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
@@ -436,7 +436,9 @@ export type BalanceLine = {
  *  liabilities. A post's month value is that month's stand, else the latest
  *  earlier one (before its first stand: the first one); the current month
  *  uses its current value. */
-export function balanceSheet(data: FinanceData, now: Date, month: Date) {
+/** `context`: what the accounts' hint lines start from — the selected
+ *  month's first day (the month view) or 1 January (the years view). */
+export function balanceSheet(data: FinanceData, now: Date, month: Date, context: "month" | "year" = "month") {
   const year = now.getFullYear(), current = now.getMonth();
   const m = month.getFullYear() < year ? -1 : month.getMonth();
   const isCurrent = month.getFullYear() === year && m === current;
@@ -560,6 +562,14 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
   if (acc) {
     const flows = accountFlows(data, at);
     const inOut = accountInOut(data, at);
+    // The month view's hints start on the month's first day (Bart, 18 Nov):
+    // the balance at the end of the month before, and this month's in/out.
+    // January (and the years view) start on 1 January.
+    const fromMonth = context === "month" && month.getFullYear() === year && month.getMonth() > 0;
+    const before = new Date(month.getFullYear(), month.getMonth(), 0, 23, 59, 59, 999);
+    const flowsBefore = fromMonth ? accountFlows(data, before) : null;
+    const inOutBefore = fromMonth ? accountInOut(data, before) : null;
+    const firstDay = `1 ${shortMonth(new Date(month.getFullYear(), month.getMonth(), 1))}`;
     // Grouped by kind in a bank's order (current, savings, credit, cash),
     // each group in the order the accounts were added — so it reads like
     // the bank's own overview.
@@ -569,12 +579,23 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date) {
       live(data.accounts)
         .filter((a) => a.type === kind)
         .map((a) => {
-          // Context: the 1 January balance, and what came in and went out.
-          const io = inOut.get(a.id) ?? { in: 0, out: 0 };
+          // Context: the balance the period started with, and what came in
+          // and went out since.
           const cur = data.profile.currency_code;
-          const hint = io.in + io.out < 0.005
-            ? t("1 Jan {start} · nothing booked on it this year", { start: money(num(a.balance), cur) })
-            : t("1 Jan {start} · in {inflow} · out {outflow}", { start: money(num(a.balance), cur), inflow: money(io.in, cur), outflow: money(io.out, cur) });
+          const ytd = inOut.get(a.id) ?? { in: 0, out: 0 };
+          let hint: string;
+          if (flowsBefore && inOutBefore) {
+            const b = inOutBefore.get(a.id) ?? { in: 0, out: 0 };
+            const io = { in: ytd.in - b.in, out: ytd.out - b.out };
+            const start = money(num(a.balance) + (flowsBefore.get(a.id) ?? 0), cur);
+            hint = io.in + io.out < 0.005
+              ? t("{date} {start} · nothing booked on it this month", { date: firstDay, start })
+              : t("{date} {start} · in {inflow} · out {outflow}", { date: firstDay, start, inflow: money(io.in, cur), outflow: money(io.out, cur) });
+          } else {
+            hint = ytd.in + ytd.out < 0.005
+              ? t("1 Jan {start} · nothing booked on it this year", { start: money(num(a.balance), cur) })
+              : t("1 Jan {start} · in {inflow} · out {outflow}", { start: money(num(a.balance), cur), inflow: money(ytd.in, cur), outflow: money(ytd.out, cur) });
+          }
           return { id: a.id, name: a.name || t("Account"), value: num(a.balance) + (flows.get(a.id) ?? 0), flow: flows.get(a.id) ?? 0, group: GROUP[kind], hint };
         })
         // An empty savings pot isn't worth a line (it shows again once it

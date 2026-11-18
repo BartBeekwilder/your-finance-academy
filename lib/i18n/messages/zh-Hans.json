@@ -2097,5 +2097,7 @@
  "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "把你的月度和年度做成精美的 PDF — 用于保存、打印，或与伴侣、会计分享。",
  "Savings account": "储蓄账户",
  "Adds this account to your balance sheet": "将此账户加入你的资产负债表",
- "Still to pay on the card? Enter it as a minus amount.": "卡上还有待还款？请以负数输入。"
+ "Still to pay on the card? Enter it as a minus amount.": "卡上还有待还款？请以负数输入。",
+ "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · 流入 {inflow} · 流出 {outflow}",
+ "{date} {start} · nothing booked on it this month": "{date} {start} · 本月无记账"
 }

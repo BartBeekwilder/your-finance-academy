@@ -2097,5 +2097,7 @@
  "Your month and your year as a beautiful PDF — to keep, print or share with your partner or accountant.": "Votre mois et votre année dans un beau PDF — à garder, imprimer ou partager avec votre partenaire ou votre comptable.",
  "Savings account": "Compte d'épargne",
  "Adds this account to your balance sheet": "Ajoute ce compte à ton bilan",
- "Still to pay on the card? Enter it as a minus amount.": "Il reste à payer sur la carte ? Saisis-le en montant négatif."
+ "Still to pay on the card? Enter it as a minus amount.": "Il reste à payer sur la carte ? Saisis-le en montant négatif.",
+ "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · entrées {inflow} · sorties {outflow}",
+ "{date} {start} · nothing booked on it this month": "{date} {start} · rien de saisi ce mois-ci"
 }
