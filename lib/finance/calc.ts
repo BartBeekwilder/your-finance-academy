@@ -480,13 +480,17 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date, context:
   const inv = investmentsValue(data, isCurrent ? now : new Date(month.getFullYear(), month.getMonth() + 1, 0, 23, 59));
   let cash = nw.accountsTotal + nw.finished.slice(0, Math.max(m + 1, 0)).reduce((a, b) => a + b, 0);
   if (isCurrent) {
-    const s = nw.thisMonth;
+    // Only what has happened by now: a fixed cost booked for later this
+    // month (the mortgage on the 27th) hasn't left the accounts yet — so
+    // Accounts matches the accounts one by one, with no Correction line.
+    const upToNow = { ...data, transactions: live(data.transactions).filter((x) => new Date(x.date) <= now) };
+    const s = summarize(upToNow.transactions, new Date(year, current, 1));
     const f = Math.min(Math.max((now.getTime() - new Date(year, current, 1).getTime()) / (nw.days * 86_400_000), 0), 1);
     cash = nw.base - nw.holdingsTotal + s.income - s.spent;
     const prepaid = s.fixed * (1 - f);
     // Receivable: the salary earned so far minus the salary entered (other
     // income isn't earned day by day — it's in Accounts or Amounts to receive).
-    const earned = nw.projected * f - (s.income - otherIncome(data, new Date(year, current, 1)));
+    const earned = nw.projected * f - (s.income - otherIncome(upToNow, new Date(year, current, 1)));
     const book = spreadBookValue(data, now);
     assets.push({ id: "accounts", name: t("Accounts"), value: cash - book.total, kind: "auto", hint: t("Start of the year + what each month added") });
     assets.push({ id: "investments", name: t("Investments"), value: inv.total, kind: "auto", hint: inv.real ? t("Market value") : t("Holdings at cost") });
@@ -496,7 +500,7 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date, context:
     const fixedParts = new Map<string, { name: string; value: number; paid: number }>();
     const catName = new Map(data.categories.map((c) => [c.id, c.name]));
     for (const tx of live(data.transactions)) {
-      if (tx.type !== "expense" || !tx.is_fixed_expense || tx.advance || !inMonth(tx, new Date(year, current, 1))) continue;
+      if (tx.type !== "expense" || !tx.is_fixed_expense || tx.advance || !inMonth(tx, new Date(year, current, 1)) || new Date(tx.date) > now) continue;
       const key = tx.category_id ?? tx.note ?? tx.id;
       const e = fixedParts.get(key) ?? { name: (tx.category_id && catName.get(tx.category_id)) || tx.note || t("Fixed costs"), value: 0, paid: 0 };
       e.paid += num(tx.amount);
@@ -507,7 +511,7 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date, context:
     if (prepaid > 0.005) assets.push({ id: "prepaid", name: t("Prepaid"), value: prepaid, kind: "auto", hint: t("Fixed costs paid for the rest of the month"), ...(prepaidParts.length > 1 ? { parts: prepaidParts } : {}) });
     if (earned > 0.005) assets.push({ id: "receivable", name: t("Receivable"), value: earned, kind: "auto", hint: t("Income earned so far, not yet received"), parts: [
       { id: "receivable-earned", name: t("Salary earned so far"), value: nw.projected * f, hint: t("{net} net × {day} of {days} days", { net: money(nw.projected, data.profile.currency_code), day: (Math.round(f * nw.days * 10) / 10).toLocaleString(intlLocale()), days: nw.days }) },
-      ...(s.income - otherIncome(data, new Date(year, current, 1)) > 0.005 ? [{ id: "receivable-in", name: t("Salary already received"), value: -(s.income - otherIncome(data, new Date(year, current, 1))) }] : []),
+      ...(s.income - otherIncome(upToNow, new Date(year, current, 1)) > 0.005 ? [{ id: "receivable-in", name: t("Salary already received"), value: -(s.income - otherIncome(upToNow, new Date(year, current, 1))) }] : []),
     ] });
     if (earned < -0.005) liabilities.push({ id: "advance", name: t("Income received in advance"), value: -earned, kind: "auto", hint: t("Received, not yet earned this month") });
   } else {
