@@ -1812,3 +1812,13 @@ what the compiler finds, run the tests, then look at it in the simulator.
   showed the wipe) — the history now makes it recoverable; a web-side
   mass-deletion guard is still a good idea. Restoring from history is by SQL
   for now (copy a history row back into encrypted_vaults).
+
+## 2026-11-19 — money clock (web-app, NOT live)
+- Key figures: "Je geldklok" at the TOP (Bart: more relevant than the
+  freedom number) — a month's income as one day of 24 h, biggest costs
+  first, then time for yourself; animated dial, month picker; also a Month
+  Wrapped card. lib/finance/moneyClock.ts (pure, tested),
+  components/finance/MoneyClock.tsx. "Een uur van je werk" also shows the
+  amount per hour around the clock (income / 730.5).
+- TO DO (Bart): feature the money clock on the homepage later (like "Je
+  maand op papier"), and as a share card; port to the apps later.

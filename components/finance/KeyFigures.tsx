@@ -71,6 +71,9 @@ export function KeyFiguresPage() {
         <p style={{ margin: "4px 0 0", color: "var(--pf-ink-2)" }}>{t("How you're doing, in a few numbers — live from your books.")}</p>
       </header>
 
+      {/* The money clock first (Bart, 19 Nov): more telling day to day than the freedom number. */}
+      <MoneyClockCard data={data} now={new Date(now)} currency={currency} />
+
       <div className="pf-kf-hero">
         <section className="pf-card pf-kf-fi">
           <svg viewBox="0 0 128 128" width="128" height="128" aria-hidden>
@@ -113,7 +116,6 @@ export function KeyFiguresPage() {
         {k.metrics.map((m, i) => <MetricCard key={m.key} m={m} currency={currency} i={i} />)}
       </div>
 
-      <MoneyClockCard data={data} now={new Date(now)} currency={currency} />
 
       <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--pf-ink-3)" }}>
         {t("This month as expected (the same forecast as Budgets); accounts and investments as they are now, investments at market value.")}
