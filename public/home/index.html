@@ -354,6 +354,37 @@
   @media (max-width: 900px) { .rw { grid-template-columns: minmax(0, 1fr); } .rw__text { order: 0; } }
   @media (max-width: 520px) { .rw__sum { grid-template-columns: auto auto; } .rw__sum em { display: none; } .rw__plot { height: 120px; gap: 5px; } }
   @media (prefers-reduced-motion: reduce) { .rwcard * { transition: none !important; } }
+  /* Money clock. */
+  .gk { max-width: 1440px; margin: 0 auto; padding: clamp(70px, 12vh, 140px) var(--g); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+  .gk__eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 500 12px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #4ade80; padding: 6px 12px; border-radius: 999px; background: oklch(35% 0.08 150 / 0.35); box-shadow: inset 0 0 0 1px oklch(72% 0.15 150 / 0.45); }
+  .gk h2 { margin: 18px 0 16px; font: 700 clamp(34px, 4vw, 62px)/1.02 var(--f); letter-spacing: -0.035em; text-wrap: balance; }
+  .gk .ai__points i { color: #4ade80; }
+  .gkin { background: color-mix(in oklch, #4ade80 9%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, #4ade80 35%, transparent); }
+  .gkin .netin__box:focus-within { box-shadow: inset 0 0 0 1px #4ade80, 0 0 0 3px color-mix(in oklch, #4ade80 25%, transparent); }
+  .gkin input { color: #4ade80; }
+  .gkcard { position: relative; border-radius: 26px; padding: clamp(22px, 3vw, 34px); min-width: 0; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px 26px; align-items: center; background: radial-gradient(120% 90% at 100% 0%, oklch(50% 0.1 155 / 0.45), transparent 60%), linear-gradient(170deg, oklch(30% 0.05 165), oklch(19% 0.025 170) 70%); box-shadow: inset 0 0 0 1px oklch(80% 0.1 155 / 0.18), 0 40px 80px -40px oklch(0% 0 0 / 0.8); }
+  .gk__dial { position: relative; width: 100%; max-width: 340px; justify-self: center; }
+  .gk__dial svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .gk__mid { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 4px; pointer-events: none; }
+  .gk__mid b { font: 700 clamp(34px, 4vw, 48px)/1 var(--f); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #4ade80; }
+  .gk__mid span { font-size: 12.5px; color: oklch(92% 0.02 160 / 0.75); max-width: 15ch; margin: 0 auto; }
+  .gk__arc { fill: none; stroke-width: 26; transition: stroke-dasharray 900ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms); }
+  .gk__hand { transform-origin: 150px 150px; transition: transform 1200ms cubic-bezier(.22, 1, .36, 1) 300ms; }
+  .gkcard:not(.shown) .gk__hand { transform: rotate(0deg) !important; }
+  .gk__tick { stroke: oklch(100% 0 0 / 0.28); stroke-width: 1.5; }
+  .gk__num { font: 500 11px var(--mono); fill: oklch(92% 0.02 160 / 0.6); }
+  .gk__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14px; }
+  .gk__rows li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 10px; align-items: center; opacity: 0; transform: translateY(6px); transition: opacity 500ms ease var(--d, 0ms), transform 500ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms); }
+  .gkcard.shown .gk__rows li { opacity: 1; transform: none; }
+  .gk__rows i { width: 10px; height: 10px; border-radius: 50%; }
+  .gk__rows span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .gk__rows small { font: 500 12px var(--mono); color: oklch(92% 0.02 160 / 0.7); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .gk__rows li.gk__kept span { color: #4ade80; font-weight: 600; }
+  .gkcard .rw__note { grid-column: 1 / -1; color: #fca5a5; }
+  .gk__hint { grid-column: 1 / -1; font-size: 12px; color: oklch(90% 0.02 160 / 0.55); }
+  @media (max-width: 1100px) { .gkcard { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 900px) { .gk { grid-template-columns: minmax(0, 1fr); } }
+  @media (prefers-reduced-motion: reduce) { .gkcard * { transition: none !important; } }
   /* Try for free (top and bottom) and "pays for itself". */
   .btn--trial { font-weight: 600; }
   .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
@@ -454,6 +485,7 @@
   <a href="#inlezen"><span>Bankafschrift inlezen</span><i></i></a>
   <a href="#anders"><span>Wat ons anders maakt.</span><i></i></a>
   <a href="#wrapped"><span>Elke maand je eigen Wrapped.</span><i></i></a>
+  <a href="#geldklok"><span>Je geldklok</span><i></i></a>
   <a href="#runway"><span>Je runway</span><i></i></a>
   <a href="#functies"><span>Functies</span><i></i></a>
   <a href="#onboarding"><span>Helemaal op jou afgestemd.</span><i></i></a>
@@ -589,6 +621,33 @@
     </div>
   </section>
 
+  <!-- Money clock: a month's net pay as one day of 24 hours (as on Key figures). -->
+  <section class="gk" id="geldklok">
+    <div class="gk__text">
+      <span class="gk__eyebrow">Je geldklok</span>
+      <h2>Je loon is je dag van 24 uur.</h2>
+      <p class="rw__lead">Zet je netto loon op een klok van 24 uur. Je grootste kosten komen eerst, en de tijd die overblijft is van jou. Zo zie je in één oogopslag hoeveel uur van je dag je voor je huis werkt.</p>
+      <ul class="ai__points">
+        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></i><div><b>Je grootste kosten eerst</b><p>Zie tot hoe laat je voor je huis, je boodschappen en je auto werkt.</p></div></li>
+        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg></i><div><b>Per maand en per jaar</b><p>Bij je kerncijfers, live uit je eigen cijfers, en als kaart in je Month Wrapped.</p></div></li>
+        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></i><div><b>Tijd voor jezelf</b><p>Wat overblijft kleurt groen: de uren van je dag die je voor jezelf werkt.</p></div></li>
+      </ul>
+      <div class="rwin gkin">
+        <span class="rwin__hint">Probeer het met je eigen netto loon</span>
+        <label for="gkPayIn"><span>Netto loon per maand</span><span class="netin__box">€ <input id="gkPayIn" type="text" inputmode="decimal" value="3.800" autocomplete="off"></span></label>
+      </div>
+    </div>
+    <div class="gkcard" id="gkCard" role="img" aria-label="Je geldklok: je netto loon als een dag van 24 uur">
+      <div class="gk__dial">
+        <svg viewBox="0 0 300 300" id="gkDial" aria-hidden="true"></svg>
+        <div class="gk__mid"><b id="gkFrom">16:00</b><span id="gkFromLbl">Vanaf {t} werk je voor jezelf</span></div>
+      </div>
+      <ul class="gk__rows" id="gkRows" aria-hidden="true"></ul>
+      <p class="rw__note" id="gkNote" hidden></p>
+      <small class="gk__hint">Voorbeeld met vaste bedragen; in de app zijn het je eigen uitgaven.</small>
+    </div>
+  </section>
+
   <!-- Runway: how many months the accounts would last without income. -->
   <section class="rw" id="runway">
     <div class="rw__text">
@@ -707,8 +766,10 @@
       <h2>Je maand op papier.</h2>
       <p>Elke maand en elk jaar als een prachtig overzicht: je cijfers, je grafieken en je vermogen. Om te bewaren, te printen of te delen met je partner of boekhouder.</p>
       <ul class="paper__list">
-        <li>Je maand op één A4: wat binnenkwam, wat eruit ging en wat je overhield.</li>
-        <li>Je jaar op twee pagina's, met de cijfers voor je belastingaangifte.</li>
+        <li>Je maand op twee pagina's: wat binnenkwam, wat eruit ging en hoe je vermogen groeide.</li>
+        <li>Je beleggingen met kleine grafiekjes, je liquiditeit en je balans.</li>
+        <li>Benchmarks: je vermogen en beleggingen naast de wereldmarkt, per maand en voor het jaar.</li>
+        <li>Je jaar op drie pagina's, met de cijfers voor je belastingaangifte.</li>
         <li>Gemaakt op je eigen apparaat: je cijfers gaan nergens heen.</li>
       </ul>
     </div>
@@ -910,6 +971,83 @@
     inp.addEventListener('input', upd);
     inp.addEventListener('focus', function () { inp.closest('.netin').classList.add('used'); inp.select(); });
     inp.addEventListener('blur', function () { var v = num(inp.value); if (v >= 0) inp.value = new Intl.NumberFormat(PF_LOCALE, { maximumFractionDigits: 0 }).format(v); });
+  })();
+  // Money clock: the visitor's net pay as 24 hours, biggest costs first (as on Key figures).
+  (function () {
+    var card = document.getElementById('gkCard'); if (!card) return;
+    var inp = document.getElementById('gkPayIn'), svg = document.getElementById('gkDial'), rows = document.getElementById('gkRows');
+    var parts = new Intl.NumberFormat(PF_LOCALE).formatToParts(1234.5), dsep = '.';
+    parts.forEach(function (p) { if (p.type === 'decimal') dsep = p.value; });
+    function num(t) { t = String(t).replace(/[^\d.,]/g, ''); t = dsep === ',' ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, ''); return parseFloat(t); }
+    var int0 = new Intl.NumberFormat(PF_LOCALE, { maximumFractionDigits: 0 });
+    var eur = new Intl.NumberFormat(PF_LOCALE, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    // Example costs per month: home, groceries, car, insurance, going out, subscriptions.
+    var COSTS = [[238, 1150, '#5b8def'], [239, 520, '#ff9f0a'], [240, 310, '#bf5af2'], [243, 240, '#ff375f'], [241, 210, '#64d2ff'], [242, 95, '#ffd60a']];
+    var R = 118, NS = 'http://www.w3.org/2000/svg';
+    function el(tag, at) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); return e; }
+    function time(h) { var m = Math.round(h * 60); return String(Math.floor(m / 60) % 24).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+    // The face: a track, 24 hour ticks and 0 · 6 · 12 · 18.
+    svg.appendChild(el('circle', { cx: 150, cy: 150, r: R, fill: 'none', stroke: 'oklch(100% 0 0 / 0.07)', 'stroke-width': 26 }));
+    for (var h = 0; h < 24; h++) {
+      var a = (h / 24) * 2 * Math.PI - Math.PI / 2, r1 = R + 17, r2 = R + (h % 6 ? 21 : 25);
+      svg.appendChild(el('line', { x1: 150 + r1 * Math.cos(a), y1: 150 + r1 * Math.sin(a), x2: 150 + r2 * Math.cos(a), y2: 150 + r2 * Math.sin(a), class: 'gk__tick' }));
+      if (h % 6 === 0) { var t = el('text', { x: 150 + (R + 36) * Math.cos(a), y: 150 + (R + 36) * Math.sin(a) + 4, 'text-anchor': 'middle', class: 'gk__num' }); t.textContent = String(h).padStart(2, '0'); svg.appendChild(t); }
+    }
+    var arcs = el('g', {}); svg.appendChild(arcs);
+    var hand = el('g', { class: 'gk__hand' });
+    // A short pointer just inside the ring, so the time in the middle stays clear.
+    hand.appendChild(el('line', { x1: 150, y1: 150 - 78, x2: 150, y2: 150 - R + 9, stroke: '#fff', 'stroke-width': 3, 'stroke-linecap': 'round' }));
+    hand.appendChild(el('circle', { cx: 150, cy: 150 - 78, r: 4, fill: '#fff' }));
+    svg.appendChild(hand);
+    function arc(from, hours, color, k) {
+      var c = el('circle', { cx: 150, cy: 150, r: R, class: 'gk__arc', stroke: color, pathLength: 24, transform: 'rotate(' + (from * 15 - 90) + ' 150 150)' });
+      c.style.setProperty('--d', k * 110 + 'ms');
+      c.setAttribute('stroke-dasharray', (card.classList.contains('shown') ? Math.max(hours - 0.06, 0.02) : 0) + ' 24');
+      c.dataset.h = Math.max(hours - 0.06, 0.02);
+      arcs.appendChild(c);
+    }
+    function draw() {
+      var pay = Math.max(num(inp.value) || 0, 1), at = 0;
+      arcs.textContent = ''; rows.textContent = '';
+      var list = COSTS.slice().sort(function (a, b) { return b[1] - a[1]; });
+      list.forEach(function (c, k) {
+        var hours = Math.min(c[1] / pay * 24, Math.max(24 - at, 0));
+        if (hours > 0) arc(at, hours, c[2], k);
+        var li = document.createElement('li'); li.style.setProperty('--d', 200 + k * 70 + 'ms');
+        li.innerHTML = '<i></i><span></span><small></small>';
+        li.firstChild.style.background = c[2];
+        li.children[1].textContent = PFT(c[0], {});
+        li.children[2].textContent = at < 24 ? time(at) + '–' + time(Math.min(at + c[1] / pay * 24, 24)) : '—';
+        rows.appendChild(li);
+        at += c[1] / pay * 24;
+      });
+      var kept = at < 24, from = Math.min(at, 24);
+      if (kept) arc(from, 24 - from, '#30d158', list.length);
+      var li = document.createElement('li'); li.className = 'gk__kept'; li.style.setProperty('--d', 200 + list.length * 70 + 'ms');
+      li.innerHTML = '<i style="background:#30d158"></i><span></span><small></small>';
+      li.children[1].textContent = PFT(244, {}) + (kept ? ' · ' + eur.format(pay - pay * at / 24) : '');
+      li.children[2].textContent = kept ? time(from) + '–24:00' : '—';
+      rows.appendChild(li);
+      // Spending more than the pay: the middle shows how far past midnight, in red.
+      var big = document.getElementById('gkFrom'), lbl = document.getElementById('gkFromLbl');
+      big.textContent = kept ? time(from) : '+' + time(at - 24);
+      big.style.color = kept ? '' : '#ff6b6b';
+      lbl.hidden = !kept;
+      if (kept) lbl.textContent = PFT(245, { t: time(from) });
+      var note = document.getElementById('gkNote');
+      note.hidden = kept;
+      if (!kept) note.textContent = PFT(246, { t: time(at - 24) });
+      hand.style.transform = 'rotate(' + from * 15 + 'deg)';
+    }
+    function grow() { arcs.querySelectorAll('circle').forEach(function (c) { c.setAttribute('stroke-dasharray', c.dataset.h + ' 24'); }); }
+    inp.value = int0.format(3800);
+    draw();
+    inp.addEventListener('input', function () { draw(); });
+    inp.addEventListener('focus', function () { inp.select(); });
+    inp.addEventListener('blur', function () { var v = num(inp.value); if (v >= 0) inp.value = int0.format(v); });
+    if (!('IntersectionObserver' in window)) { card.classList.add('shown'); grow(); return; }
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { card.classList.add('shown'); requestAnimationFrame(grow); io.disconnect(); } }); }, { threshold: 0.35 });
+    io.observe(card);
   })();
   // Runway: the visitor's own accounts ÷ what a month costs, as in the app's tour.
   (function () {
