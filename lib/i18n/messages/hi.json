@@ -2159,5 +2159,6 @@
  "The version of {when} is back.": "{when} का संस्करण वापस आ गया।",
  "This version was saved with another passphrase and can't be opened here.": "यह संस्करण किसी दूसरे पासफ़्रेज़ से सहेजा गया था और यहाँ नहीं खुल सकता।",
  "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "विश्व बाज़ार: यूरो में iShares MSCI World ETF (IWDA) — इसे अपने शेयरों से तुलना करें (क्रिप्टो और धातुएँ शामिल नहीं)। एक तुलना, सलाह नहीं।",
- "Your shares": "आपके शेयर"
+ "Your shares": "आपके शेयर",
+ "Income (net)": "आय (शुद्ध)"
 }

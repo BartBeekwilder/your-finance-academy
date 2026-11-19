@@ -905,6 +905,7 @@
  "Included: {amount} in investments at today's market value; price moves change it straight away.",
  "Income",
  "Income (accruing)",
+ "Income (net)",
  "Income and spending per month in {year}",
  "Income and spending so far this month, day by day",
  "Income earned so far, not yet received",

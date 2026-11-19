@@ -152,7 +152,7 @@ export function MonthSheet({ r, data, who }: { r: MonthReport; data: FinanceData
       <Head kicker={r.inProgress ? t("Monthly report · so far") : t("Monthly report")} title={monthYear(r.month)} who={who} currency={currency} />
       <div className="rp-body">
         <div className="rp-kpis">
-          <Kpi label={t("Income")} value={money(r.income, currency)} tone="in" delta={r.prev.has ? delta(r.income, r.prev.income, currency, before) : null} deltaGood={r.income >= r.prev.income} />
+          <Kpi label={t("Income (net)")} value={money(r.income, currency)} tone="in" delta={r.prev.has ? delta(r.income, r.prev.income, currency, before) : null} deltaGood={r.income >= r.prev.income} />
           <Kpi label={t("Spent")} value={money(r.spent, currency)} tone="out" delta={r.prev.has ? delta(r.spent, r.prev.spent, currency, before) : null} deltaGood={r.spent <= r.prev.spent} note={t("{fixed} fixed · {other} other", { fixed: money(r.fixedTotal, currency), other: money(r.variableTotal, currency) })} />
           <Kpi label={t("Kept aside")} value={money(r.saved, currency, { signed: true })} tone="kept" delta={r.prev.has ? delta(r.saved, r.prev.saved, currency, before) : null} deltaGood={r.saved >= r.prev.saved} />
         </div>
@@ -753,7 +753,7 @@ export function YearSheets({ y, months, data, who, wealth }: { y: YearCloseData;
         <Head kicker={t("Annual report")} title={String(y.year)} who={who} currency={currency} />
         <div className="rp-body">
           <div className="rp-kpis rp-kpis-4">
-            <Kpi label={t("Income")} value={money(w.income, currency)} tone="in" delta={last ? delta(w.income, last.income, currency, String(y.year - 1)) : null} deltaGood={!last || w.income >= last.income} />
+            <Kpi label={t("Income (net)")} value={money(w.income, currency)} tone="in" delta={last ? delta(w.income, last.income, currency, String(y.year - 1)) : null} deltaGood={!last || w.income >= last.income} />
             <Kpi label={t("Spent")} value={money(w.spent, currency)} tone="out" delta={last ? delta(w.spent, last.spent, currency, String(y.year - 1)) : null} deltaGood={!last || w.spent <= last.spent} />
             <Kpi label={t("Kept aside")} value={money(w.saved, currency, { signed: true })} tone="kept" delta={last ? delta(w.saved, last.saved, currency, String(y.year - 1)) : null} deltaGood={!last || w.saved >= last.saved} />
             <Kpi label={t("Savings rate")} value={pct(Math.max(w.savingsRate, 0))} tone="plain" note={t("goal {pct}", { pct: pct(SAVINGS_GOAL) })} />
@@ -763,7 +763,7 @@ export function YearSheets({ y, months, data, who, wealth }: { y: YearCloseData;
             <div className="rp-block-head">
               <h3>{t("Month by month")}</h3>
               <span className="rp-legend">
-                <i className="rp-l-in" /> {t("Income")} <i className="rp-l-out" /> {t("Spent")}
+                <i className="rp-l-in" /> {t("Income (net)")} <i className="rp-l-out" /> {t("Spent")}
               </span>
             </div>
             <MonthsChart months={months} currency={currency} />
@@ -832,7 +832,7 @@ export function YearSheets({ y, months, data, who, wealth }: { y: YearCloseData;
               <thead>
                 <tr>
                   <th />
-                  <th>{t("Income")}</th>
+                  <th>{t("Income (net)")}</th>
                   <th>{t("Spent")}</th>
                   <th>{t("Kept aside")}</th>
                   <th>{t("Savings rate")}</th>
