@@ -4,7 +4,7 @@ import { OPEN_SIGNUP } from "./SignIn";
 import { t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
 import { dueFixedCosts } from "@/lib/finance/recurring";
-import { liveOnly, mergeData, trackChanges } from "@/lib/finance/vaultMerge";
+import { liveOnly, safeMerge, trackChanges } from "@/lib/finance/vaultMerge";
 import { fromKeys, NeedsPassphrase, plain, unlock, type Sealed, type Unlocked } from "@/lib/finance/vault";
 import { forgetKeys, recallKeys, rememberKeys } from "@/lib/finance/vaultKeys";
 import { useMarket } from "@/lib/finance/useMarket";
@@ -543,7 +543,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     const user = sessionRef.current?.user.id;
     if (rememberedRef.current && user) void v.vault.keys().then((k) => rememberKeys(user, k));
     const local = latest.current;
-    const merged = local ? liveOnly(mergeData(local, remote)) : liveOnly(remote);
+    // safeMerge: a side carrying a wipe (old deletion marks) never empties the other.
+    const { data: merged, guarded } = local ? safeMerge(local, remote) : { data: liveOnly(remote), guarded: false };
+    if (guarded) console.warn("Vault merge would have wiped many rows; kept both sides' rows instead");
     v.at = row.updated_at;
     // Nothing changed here since: the vault's copy is what's saved.
     if (JSON.stringify(merged) === JSON.stringify(liveOnly(remote))) v.saved = JSON.stringify(merged);

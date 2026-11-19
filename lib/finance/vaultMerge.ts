@@ -60,6 +60,31 @@ export function mergeData<T extends Doc>(local: T, remote: Doc): T {
   return out as T;
 }
 
+const live = (d: Doc) => collections(d).reduce((n, c) => n + (d[c] as Row[]).filter((r) => !r.deleted_at).length, 0);
+
+/** Whether a merge wipes a large share of one side's live rows: real
+ *  deleting goes a row at a time. 19 Nov 2026: a browser tab still holding
+ *  the 18 Nov wipe's deletion marks merged them into the restored copy. */
+export function wipes(before: Doc, after: Doc): boolean {
+  const had = live(before), has = live(after);
+  return had - has >= 20 && had - has >= had * 0.25;
+}
+
+/** mergeData, unless that wipes either side: then nothing is deleted — every
+ *  live row of both sides stays (newest wins per id), and deletion marks that
+ *  would remove one of them are dropped. At worst a deleted row comes back. */
+export function safeMerge<T extends Doc>(local: T, remote: Doc): { data: T; guarded: boolean } {
+  const merged = liveOnly(mergeData(local, remote));
+  if (!wipes(liveOnly(local), merged) && !wipes(liveOnly(remote), merged)) return { data: merged, guarded: false };
+  const keep = (d: Doc): Doc => ({ ...liveOnly(d), deletions: [] });
+  const union = mergeData(keep(local), keep(remote));
+  const alive = new Set(collections(union).flatMap((c) => (union[c] as Row[]).map((r) => `${c}/${r.id}`)));
+  const deletions = [...(local.deletions ?? []), ...(remote.deletions ?? [])].filter((x) => !alive.has(`${x.collection}/${x.id}`));
+  const seen = new Set<string>();
+  union.deletions = deletions.filter((x) => !seen.has(`${x.collection}/${x.id}`) && seen.add(`${x.collection}/${x.id}`));
+  return { data: union as T, guarded: true };
+}
+
 /** Without the deleted rows (what the web keeps in memory). */
 export function liveOnly<T extends Doc>(d: T): T {
   const out: Doc = { ...d };

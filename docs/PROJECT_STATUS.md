@@ -1871,3 +1871,20 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - PDF page 3: "Wat het je kostte" block (KPIs + table: amount, work hours, around the clock).
 - App tests nl+en: 0 issues. iOS/Android: port later. Possible next: show it when
   entering an expense, and on budgets.
+
+## 2026-11-19 — INCIDENT 2: the 18 Nov wipe came back (07:13) — fixed on web-app
+- What happened: a browser tab still open since 18 Nov held the wiped data
+  in memory, with ~860 deletion marks. After the clean upload (05:44Z) it
+  merged that copy at 06:13Z: the marks were newer than the rows, so the
+  rows went, and the tab saved the empty result. Bart then restored that
+  copy onto the Mac (12:39), which emptied the Mac file too.
+- Recovery: the Mac file was put back from
+  .private/finance.safe-before-ipad-20261119.json (the wiped copy is kept as
+  .private/finance.remote-wiped-0713.json); Bart uploaded the Mac's books.
+- Fix: lib/finance/vaultMerge.ts `safeMerge` + `wipes`: if a merge would
+  drop ≥20 rows and ≥25% of either side's live rows, nothing is deleted
+  (every live row of both sides stays, newest wins; marks that would remove
+  one are dropped). Used by the website's vault sync (FinanceProvider
+  pullVault) and the Mac upload (VaultSection). Tests in vaultMerge.test.mjs.
+- To port: the same safeMerge in iOS (VaultMerge.merge in VaultSync.swift)
+  and Android, before the next TestFlight build.
