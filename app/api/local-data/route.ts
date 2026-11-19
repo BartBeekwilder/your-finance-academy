@@ -9,8 +9,14 @@ import path from "path";
 
 export const dynamic = "force-dynamic";
 
-const DIR = path.join(process.cwd(), ".private");
-const FILE = path.join(DIR, "finance.json");
+// The automated app tests (scripts/app-test.mjs) set the cookie
+// pf-local-file=test: they get a file of their own with fictional data,
+// .private/test/finance.json, so a test run never touches the real one.
+function where(req: Request) {
+  const test = /(?:^|;\s*)pf-local-file=test(?:;|$)/.test(req.headers.get("cookie") ?? "");
+  const DIR = path.join(process.cwd(), ".private", ...(test ? ["test"] : []));
+  return { DIR, FILE: path.join(DIR, "finance.json") };
+}
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 
 function allowed(req: Request) {
@@ -30,6 +36,7 @@ const versionOf = (text: string) => createHash("sha256").update(text).digest("he
 
 export async function GET(req: Request) {
   if (!allowed(req)) return notFound();
+  const { FILE } = where(req);
   try {
     const text = await fs.readFile(FILE, "utf8");
     return new Response(text, { headers: { "content-type": "application/json", "cache-control": "no-store", [VERSION]: versionOf(text) } });
@@ -40,6 +47,7 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
   if (!allowed(req)) return notFound();
+  const { DIR, FILE } = where(req);
   let data: Record<string, unknown>;
   try {
     data = JSON.parse(await req.text());

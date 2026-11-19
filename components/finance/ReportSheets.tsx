@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useMemo } from "react";
+import { Fragment } from "react";
 import { intlLocale, t } from "@/lib/i18n";
 import { money, monthName, monthYear, shortMonth } from "@/lib/finance/format";
 import type { MonthReport } from "@/lib/finance/monthReport";
@@ -12,9 +12,9 @@ import { useMoneyClock } from "./MoneyClock";
 import type { WealthMonth, WealthYear } from "@/lib/finance/wealthReport";
 import BrandMark from "./BrandMark";
 
-// The Premium reports as A4 sheets (app/app/report): a month on three pages
-// (the month; your wealth and benchmarks; your money clock, accounts and
-// balance sheet), a year on three (the year in numbers, the figures for the
+// The Premium reports as A4 sheets (app/app/report): a month on four pages
+// (the month; your wealth and benchmarks; your money clock and accounts; the
+// balance sheet line by line), a year on three (the year in numbers, the figures for the
 // tax return, your wealth against the world market).
 // Light paper with the brand's gradient on top, so they read well on a
 // screen and when printed; charts are plain SVG, so the PDF stays sharp.
@@ -223,7 +223,7 @@ export function MonthSheet({ r, data, who }: { r: MonthReport; data: FinanceData
           </div>
         </div>
       </div>
-      <Foot page={1} pages={3}>
+      <Foot page={1} pages={4}>
         <span>{t("Equity at the end of {month}", { month: monthName(r.month) })}</span>
         <b>{money(r.equity, currency)}</b>
         {Math.abs(r.equityChange) >= 0.5 && <small data-good={r.equityChange >= 0 ? "1" : "0"}>{money(r.equityChange, currency, { signed: true })}</small>}
@@ -329,7 +329,7 @@ export function WealthSheet({ w, month, data, who }: { w: WealthMonth; month: Da
           <p className="rp-caption">{t("World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.")}</p>
         </div>
       </div>
-      <Foot page={2} pages={3}>
+      <Foot page={2} pages={4}>
         <span>{t("Equity at the end of {month}", { month: monthName(month) })}</span>
         <b>{money(w.sheet.equity, currency)}</b>
         {w.equityPct != null && <small data-good={w.sheet.equity >= w.prev.equity ? "1" : "0"}>{signedPct(w.equityPct)}</small>}
@@ -340,7 +340,7 @@ export function WealthSheet({ w, month, data, who }: { w: WealthMonth; month: Da
 
 /** The money on the accounts through the month: amounts up the side, days along the bottom, the lowest day marked. */
 function LiquidityLine({ start, days, total, currency }: { start: number; days: number[]; total: number; currency: string }) {
-  const W = 700, H = 125, left = 78, right = 10, top = 10, bottom = 24;
+  const W = 700, H = 170, left = 78, right = 10, top = 10, bottom = 24;
   const vals = [start, ...days];
   const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
   const x = (i: number) => left + (i / total) * (W - left - right);
@@ -457,42 +457,57 @@ function PrintClock({ clock, currency }: { clock: MoneyClockData; currency: stri
 }
 
 /** One side of the balance sheet, each line with what it is made of. */
-function BalanceSide({ title, lines, total, currency }: { title: string; lines: BalanceLine[]; total: number; currency: string }) {
+function BalanceSide({ title, lines, before, total, totalBefore, prevLabel, debt, currency }: { title: string; lines: BalanceLine[]; before: BalanceLine[]; total: number; totalBefore: number; prevLabel: string; debt?: boolean; currency: string }) {
   // Lines at zero (an empty post, nothing prepaid) say nothing on paper.
   const shown = lines.filter((l) => Math.abs(l.value) > 0.005);
+  const was = new Map(before.map((l) => [l.id, l]));
+  // Up is good for what you own, down is good for what you owe.
+  const good = (d: number) => (Math.abs(d) < 0.005 ? undefined : (d > 0) !== !!debt ? "1" : "0");
+  const change = (now: number, then: number | undefined) => {
+    if (then == null) return <em />;
+    const d = now - then;
+    return <em data-good={good(d)}>{Math.abs(d) < 0.005 ? "—" : money(d, currency, { signed: true })}</em>;
+  };
   return (
     <div className="rp-block">
       <h3>{title}</h3>
       <ul className="rp-list rp-bal">
+        <li className="rp-bal-head"><span /><small>{t("Now")}</small><small>{t("vs {month}", { month: prevLabel })}</small></li>
         {shown.length === 0 && <li className="rp-more">{t("No debts")}</li>}
-        {shown.map((l) => (
-          <Fragment key={l.id}>
-            <li>
-              <span>{l.name}</span>
-              <b>{money(l.value, currency)}</b>
-            </li>
-            {(l.parts ?? []).filter((p) => Math.abs(p.value) > 0.005).map((p) => (
-              <li key={p.id} className="rp-bal-part">
-                <span>{p.name}</span>
-                <small>{money(p.value, currency)}</small>
+        {shown.map((l) => {
+          const prev = was.get(l.id);
+          const parts = new Map((prev?.parts ?? []).map((p) => [p.id, p.value]));
+          return (
+            <Fragment key={l.id}>
+              <li>
+                <span>{l.name}</span>
+                <b>{money(l.value, currency)}</b>
+                {change(l.value, prev?.value ?? 0)}
               </li>
-            ))}
-          </Fragment>
-        ))}
+              {(l.parts ?? []).filter((p) => Math.abs(p.value) > 0.005).map((p) => (
+                <li key={p.id} className="rp-bal-part">
+                  <span>{p.name}</span>
+                  <small>{money(p.value, currency)}</small>
+                  {change(p.value, parts.get(p.id))}
+                </li>
+              ))}
+            </Fragment>
+          );
+        })}
         <li className="rp-total">
           <span>{t("Total")}</span>
           <b>{money(total, currency)}</b>
+          {change(total, totalBefore)}
         </li>
       </ul>
     </div>
   );
 }
 
-/** Page 3 of the monthly report: your money clock, your accounts through the month and your balance sheet. */
-export function MoneySheet({ w, month, data, now, who }: { w: WealthMonth; month: Date; data: FinanceData; now: Date; who: string }) {
+/** Page 3 of the monthly report: your money clock and your accounts through the month. */
+export function MoneySheet({ w, month, data, who }: { w: WealthMonth; month: Date; data: FinanceData; who: string }) {
   const currency = data.profile.currency_code;
   const clock = useMoneyClock(data, month);
-  const sheet = useMemo(() => balanceSheet(data, now, month), [data, now, month]);
   return (
     <section className="rp-page">
       <Head kicker={t("Monthly report")} title={t("Your money · {month}", { month: monthYear(month) })} who={who} currency={currency} />
@@ -510,16 +525,33 @@ export function MoneySheet({ w, month, data, now, who }: { w: WealthMonth; month
           <LiquidityLine start={w.liqStart} days={w.liquidity} total={w.days} currency={currency} />
         </div>
 
-        <div className="rp-cols">
-          <BalanceSide title={t("What you own")} lines={sheet.assets} total={sheet.totalAssets} currency={currency} />
-          <BalanceSide title={t("What you owe")} lines={sheet.liabilities} total={sheet.totalDebt} currency={currency} />
-        </div>
+      </div>
+      <Foot page={3} pages={4} />
+    </section>
+  );
+}
+
+/** Page 4 of the monthly report: the balance sheet line by line, against the month before. */
+export function BalanceSheetPage({ month, data, now, who }: { month: Date; data: FinanceData; now: Date; who: string }) {
+  const currency = data.profile.currency_code;
+  const prevMonth = new Date(month.getFullYear(), month.getMonth() - 1, 1);
+  const sheet = balanceSheet(data, now, month);
+  const prev = balanceSheet(data, now, prevMonth);
+  const prevLabel = monthName(prevMonth);
+  const d = sheet.equity - prev.equity;
+  return (
+    <section className="rp-page">
+      <Head kicker={t("Monthly report")} title={t("Balance sheet · {month}", { month: monthYear(month) })} who={who} currency={currency} />
+      <div className="rp-body">
+        <BalanceSide title={t("What you own")} lines={sheet.assets} before={prev.assets} total={sheet.totalAssets} totalBefore={prev.totalAssets} prevLabel={prevLabel} currency={currency} />
+        <BalanceSide title={t("What you owe")} lines={sheet.liabilities} before={prev.liabilities} total={sheet.totalDebt} totalBefore={prev.totalDebt} prevLabel={prevLabel} debt currency={currency} />
         <div className="rp-equity-band">
           <span>{t("Equity at the end of {month}", { month: monthName(month) })}</span>
           <b>{money(sheet.equity, currency)}</b>
         </div>
+        <p className="rp-caption">{t("Change since the end of {month}", { month: prevLabel })}: <b className="rp-chg" data-good={d >= 0 ? "1" : "0"}>{money(d, currency, { signed: true })}</b></p>
       </div>
-      <Foot page={3} pages={3} />
+      <Foot page={4} pages={4} />
     </section>
   );
 }

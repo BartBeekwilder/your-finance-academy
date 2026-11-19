@@ -11,7 +11,7 @@ import { monthReport } from "@/lib/finance/monthReport";
 import { yearCloseData } from "@/lib/finance/yearCloseModel";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { usePremium } from "@/components/finance/usePremium";
-import { MonthSheet, MoneySheet, WealthSheet, YearSheets, type ReportMonth } from "@/components/finance/ReportSheets";
+import { BalanceSheetPage, MonthSheet, MoneySheet, WealthSheet, YearSheets, type ReportMonth } from "@/components/finance/ReportSheets";
 import { wealthMonth, wealthYear, type BenchPoints } from "@/lib/finance/wealthReport";
 
 // Premium › reports: a month (?month=YYYY-MM, or "prev") or a year
@@ -88,7 +88,8 @@ export default function ReportPage() {
         <>
           <MonthSheet r={monthReport(data, pick.month, now)} data={data} who={who} />
           <WealthSheet w={w} month={pick.month} data={data} who={who} />
-          <MoneySheet w={w} month={pick.month} data={data} now={now} who={who} />
+          <MoneySheet w={w} month={pick.month} data={data} who={who} />
+          <BalanceSheetPage month={pick.month} data={data} now={now} who={who} />
         </>
       );
     }

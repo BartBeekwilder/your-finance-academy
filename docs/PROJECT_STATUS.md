@@ -1840,3 +1840,22 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - Homepage (LIVE 19 Nov): new section #geldklok after Wrapped (visitor's own net
   pay on the 24h dial, example costs), PDF section lists the wealth pages and
   benchmarks, /updates entry 2026-11-19. Texts in public/home/i18n.js (K 228–260).
+
+## 2026-11-19 — monthly PDF on 4 pages + automated app tests (web-app, NOT live)
+- Bart: "print all investments", "liquidity chart needs axes", "the clock for that
+  month", "a print of the balance sheet", "longer is fine — more accurate".
+  Monthly report: 1 the month · 2 wealth (KPIs, ALL holdings, benchmarks) ·
+  3 money clock (PrintClock, static) + accounts through the month with axes ·
+  4 balance sheet line by line (accounts per account etc.) vs the month before.
+- Automated tests on FICTIONAL data (never Bart's file):
+  `node scripts/app-test-data.mjs` → .private/test/finance.json (demo household);
+  `node scripts/app-test.mjs nl en ar ja` → out/app-test/ (report.json, screenshots,
+  PDFs). The browser carries cookie pf-local-file=test; /api/local-data then
+  reads/writes .private/test/ instead of .private/finance.json (dev only).
+  Checks: script/console errors, failed requests, sideways overflow, raw
+  {placeholders}, NaN/undefined in text, PDF pages overflowing, a full month close.
+- First run (4 languages × laptop/phone × 17 pages): clean. Found + fixed: Arabic
+  annual report page 1 ran 14px over (table rows tighter). Billing 503s are expected
+  locally (no Stripe keys). Not yet: a test account (layer 2: sign-in, vault sync,
+  wipe guard) — Bart creates it himself (real Supabase; no local Supabase/Docker).
+- Local data mode counts as Premium (dev only) so Bart can test the PDFs.

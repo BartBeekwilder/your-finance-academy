@@ -6481,15 +6481,15 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .rp-bs tr.rp-bs-eq td[data-good="0"] { color: #c2410c; }
 .rp-bench td { padding: 0.8mm 0; font-size: 8pt; }
 /* Monthly report page 3: the money clock on paper, the balance sheet line by line. */
-.rp-clock { display: grid; grid-template-columns: 52mm 1fr; gap: 7mm; align-items: center; }
+.rp-clock { display: grid; grid-template-columns: 72mm 1fr; gap: 8mm; align-items: center; }
 .rp-clock-dial { position: relative; }
 .rp-clock-dial svg { display: block; width: 100%; height: auto; }
 .rp-clock-mid { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 0.6mm; }
 .rp-clock-mid small { font-size: 6.5pt; color: #6b6f80; max-width: 26mm; }
-.rp-clock-mid b { font-size: 15pt; font-weight: 800; letter-spacing: -0.02em; color: #15803d; }
+.rp-clock-mid b { font-size: 19pt; font-weight: 800; letter-spacing: -0.02em; color: #15803d; }
 .rp-clock-mid span { font-size: 6.5pt; color: #6b6f80; max-width: 26mm; }
 .rp-clock-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4mm; }
-.rp-clock-list li { display: grid; grid-template-columns: 2.6mm 1fr 22mm 18mm 20mm; gap: 2.5mm; align-items: center; padding: 0.55mm 0; border-bottom: 1px solid #ececf2; font-size: 8pt; color: #2b2e3a; }
+.rp-clock-list li { display: grid; grid-template-columns: 2.6mm 1fr 22mm 18mm 20mm; gap: 2.5mm; align-items: center; padding: 1.1mm 0; border-bottom: 1px solid #ececf2; font-size: 8pt; color: #2b2e3a; }
 .rp-clock-list i { width: 2.6mm; height: 2.6mm; border-radius: 50%; }
 .rp-clock-list span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rp-clock-list small { font-size: 7pt; color: #8a8ea0; font-variant-numeric: tabular-nums; }
@@ -6497,14 +6497,22 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .rp-clock-list em { font-style: normal; color: #6b6f80; }
 .rp-clock-list li.rp-clock-kept { border-bottom: 0; color: #15803d; font-weight: 700; }
 .rp-clock-list li.rp-clock-kept em { color: #15803d; }
-.rp-bal li.rp-bal-part { padding: 0.2mm 0 0.2mm 4mm; border-bottom: 0; font-size: 7.5pt; color: #6b6f80; }
+.rp-bal li { display: grid; grid-template-columns: 1fr 32mm 30mm; align-items: baseline; }
+.rp-bal li b, .rp-bal li small, .rp-bal li em { text-align: end; }
+.rp-bal li em { font-style: normal; font-size: 8pt; color: #8a8ea0; }
+.rp-bal li em[data-good="1"] { color: #15803d; }
+.rp-bal li em[data-good="0"] { color: #c2410c; }
+.rp-bal li.rp-bal-head { padding: 0 0 1mm; border-bottom: 1.5px solid #12131a; }
+.rp-bal li.rp-bal-head small { margin: 0; font-size: 7pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8ea0; }
+.rp-bal li.rp-bal-part { padding: 0.5mm 0 0.5mm 4mm; border-bottom: 0; font-size: 7.5pt; color: #6b6f80; }
+.rp-bal li.rp-bal-part em { font-size: 7.5pt; }
 .rp-bal li.rp-bal-part small { margin: 0; font-size: 7.5pt; color: #6b6f80; }
 .rp-low { fill: #c2410c; }
-.rp-bal li { padding: 0.8mm 0; }
+.rp-bal li { padding: 1.1mm 0; }
 
 .rp-table { width: 100%; border-collapse: collapse; font-size: 7.6pt; }
 .rp-table th { text-align: end; font-size: 7pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8ea0; padding: 0 0 1.2mm; border-bottom: 1.5px solid #12131a; }
-.rp-table td { text-align: end; padding: 0.75mm 0; border-bottom: 1px solid #ececf2; color: #2b2e3a; }
+.rp-table td { text-align: end; padding: 0.6mm 0; border-bottom: 1px solid #ececf2; color: #2b2e3a; }
 .rp-table td:first-child, .rp-table th:first-child { text-align: start; }
 .rp-table td[data-good="1"] { color: #15803d; font-weight: 650; }
 .rp-table td[data-good="0"] { color: #c2410c; font-weight: 650; }
