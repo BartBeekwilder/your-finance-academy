@@ -79,9 +79,13 @@ function delta(now: number, before: number, currency: string, against: string) {
 /** Spending per day: the bars are day-to-day spending; fixed costs (rent on
  *  the 1st would flatten everything else) and paydays are marks underneath. */
 function DayChart({ r, currency }: { r: MonthReport; currency: string }) {
-  const W = 1000, H = 200, top = 18, bottom = 52;
-  const max = Math.max(1, ...r.perDay.map((d) => d.variable));
-  const n = r.perDay.length, slot = W / n, bw = Math.max(4, slot * 0.62);
+  const W = 1000, H = 200, top = 18, bottom = 52, left = 78;
+  const peak = Math.max(1, ...r.perDay.map((d) => d.variable));
+  // Four round steps up the y-axis (0, 250, 500, 750, 1000), each labelled.
+  const raw = peak / 4, mag = 10 ** Math.floor(Math.log10(raw));
+  const step = ([1, 2, 2.5, 5, 10].find((f) => f * mag >= raw) ?? 10) * mag;
+  const max = step * 4;
+  const n = r.perDay.length, slot = (W - left) / n, bw = Math.max(4, slot * 0.62);
   const y = (v: number) => top + (H - top - bottom) * (1 - v / max);
   const base = H - bottom;
   return (
@@ -92,17 +96,19 @@ function DayChart({ r, currency }: { r: MonthReport; currency: string }) {
           <stop offset="1" stopColor="#e5484d" />
         </linearGradient>
       </defs>
-      {[0.25, 0.5, 0.75, 1].map((f) => (
-        <line key={f} x1="0" x2={W} y1={y(max * f)} y2={y(max * f)} className="rp-grid" />
+      {[1, 2, 3, 4].map((k) => (
+        <line key={k} x1={left} x2={W} y1={y(step * k)} y2={y(step * k)} className="rp-grid" />
       ))}
-      <line x1="0" x2={W} y1={base} y2={base} className="rp-base" />
-      <text x="0" y={y(max) - 5} className="rp-axis">{money(max, currency, { compact: true })}</text>
+      <line x1={left} x2={W} y1={base} y2={base} className="rp-base" />
+      {[0, 1, 2, 3, 4].map((k) => (
+        <text key={k} x={left - 10} y={y(step * k) + 4} textAnchor="end" className="rp-axis">{money(step * k, currency, { compact: true })}</text>
+      ))}
       {r.perDay.map((d, i) => {
-        const x = i * slot + (slot - bw) / 2, h = (base - top) * (d.variable / max);
-        const peak = r.peak?.day === d.day;
+        const x = left + i * slot + (slot - bw) / 2, h = (base - top) * (d.variable / max);
+        const isPeak = r.peak?.day === d.day;
         return (
           <g key={d.day}>
-            {d.variable > 0 && <rect x={x} y={base - h} width={bw} height={h} rx="3" fill="url(#rp-var)" opacity={peak ? 1 : 0.82} />}
+            {d.variable > 0 && <rect x={x} y={base - h} width={bw} height={h} rx="3" fill="url(#rp-var)" opacity={isPeak ? 1 : 0.82} />}
             {d.fixed > 0 && <rect x={x + bw / 2 - 5} y={base + 7} width="10" height="10" rx="3" className="rp-bar-fixed" />}
             {d.income > 0 && <circle cx={x + bw / 2} cy={base + 27} r="5" className="rp-pay" />}
             {(d.day === 1 || d.day % 5 === 0) && (
