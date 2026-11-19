@@ -1912,3 +1912,47 @@ what the compiler finds, run the tests, then look at it in the simulator.
   fold (Kotlin UUID.toString() is lower case, but fold anyway).
 - If anything looks wrong: Supabase keeps the last 10 replaced copies
   (migration 0016) — restore by SQL.
+
+## LIVE 2026-11-19 (evening, Windows) — sync safety, earlier versions, PDF polish (main = 2fd4e9c)
+- iOS (ios-port-nov18 25dca1a, NOT BUILT): safeMerge / wipes ported 1:1
+  (VaultMerge.safeMerge, used by sync) + tests. With f92bca6 (ids in one
+  case) the app can neither wipe nor double the account's copy. Needs a Mac
+  build + TestFlight build 3 before the app goes back on a device.
+- Web: Settings › Earlier versions (components/finance/VaultHistorySection.tsx;
+  provider vaultHistory / openVaultVersion / restoreVaultVersion): the last
+  10 replaced copies (encrypted_vault_history, 0016) — look (counts, newest
+  booking) and put back; today's copy goes into the history too. NOT tried
+  signed in yet (needs Bart).
+- PDF: axes on equity (annual p1), investments + accounts (annual p4)
+  (YearAxisLine); "Your shares" against MSCI World (stock holdings only —
+  crypto/metals left out; wealthReport sharesPct/sharesYear); every category
+  (month: two columns > 8; year: yearWrapped.all next to the equity line);
+  "Income (net)"; annual report page 2 "Your money" = the year's money clock +
+  what it cost in work hours (workCost takes the period's work hours,
+  workHoursIn(days)). Annual report: year · money · tax · wealth.
+- Dev: signed in on the dev server (billing 503) counts as Premium.
+- /updates: two lines for 19 Nov (17 languages).
+
+## 2026-11-19 (evening) — Year Wrapped share card (web-app 98bf31f, NOT live)
+- components/finance/YearShare.tsx: "Share your year" under Year Wrapped
+  (close-year page): canvas 1080×1920 — savings rate, months in the plus,
+  equity growth %, the year month by month (no amounts), app name, link
+  https://www.yourfinanceacademy.com/?ref=wrapped. "Show amounts" adds € (off
+  by default). navigator.share with the file, else Download. 9 texts × 16.
+- Not yet: record ?ref per account at sign-up (marketing plan: source per
+  account); Month Wrapped share card; a share entry on the dashboard in
+  January.
+
+## Sign in with Apple — website AND app (Bart, 19 Nov: "kan dat ook in de app?")
+- Same setup serves both: Apple Developer › Identifiers: App ID
+  com.misura.perfin.Personal-Finance gets the "Sign in with Apple"
+  capability; a Services ID for the web (e.g. com.yourfinanceacademy.web)
+  with domain yourfinanceacademy.com + return URL
+  https://cjdmrrwsyzpoiemiyyyu.supabase.co/auth/v1/callback; a Sign in with
+  Apple key (.p8). Supabase › Auth › Providers › Apple: client IDs = the
+  Services ID AND the bundle id (comma separated), secret = JWT from the key
+  (expires every 6 months!). Email relay: register noreply@yourfinanceacademy.com.
+- Web: flip NEXT_PUBLIC_PF_APPLE=on in Vercel.
+- iOS: SignInWithAppleButton (AuthenticationServices) → identityToken + nonce
+  → POST /auth/v1/token?grant_type=id_token {provider: apple, id_token,
+  nonce}; entitlement com.apple.developer.applesignin. Code not written yet.
