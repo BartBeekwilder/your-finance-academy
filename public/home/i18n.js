@@ -171,7 +171,9 @@
       "Bankafschrift inlezen herkent kaartbetalingen die een paar dagen later bij de bank binnenkomen.",
       "Op de homepage: de geldklok, met je eigen netto loon.",
     /*pdf 4 pages, live 19 Nov*/ "Het maandoverzicht als PDF op vier pagina's: al je beleggingen, je geldklok van die maand, je rekeningen door de maand heen en je balans regel voor regel tegen de vorige maand.",
-    /*work hours, live 19 Nov*/ "Wat het je kostte: je uitgaven in werkuren en in echte uren, in je Month Wrapped, onder elke uitgave en in je PDF-overzicht."
+    /*work hours, live 19 Nov*/ "Wat het je kostte: je uitgaven in werkuren en in echte uren, in je Month Wrapped, onder elke uitgave en in je PDF-overzicht.",
+    /*earlier versions + pdf, live 19 Nov evening*/ "Instellingen › Eerdere versies: ging er iets mis na een synchronisatie? Zet je boeken met één klik terug naar een eerdere versie.",
+    "PDF-overzichten: grafieken met assen, alle categorieën, inkomsten als netto, je aandelen naast de wereldmarkt en de geldklok ook in het jaaroverzicht."
   ];
 
   var L = {
@@ -331,7 +333,9 @@
       "Reading bank statements recognises card payments that reach the bank a few days later.",
       "On the homepage: the money clock, with your own net pay.",
       "The monthly PDF report on four pages: all your investments, that month's money clock, your accounts through the month and your balance sheet line by line against the month before.",
-      "What it cost you: your spending in work hours and in real hours, in your Month Wrapped, under each expense and in your PDF report."
+      "What it cost you: your spending in work hours and in real hours, in your Month Wrapped, under each expense and in your PDF report.",
+      "Settings › Earlier versions: something went wrong after a sync? Put your books back to an earlier version with one click.",
+      "PDF reports: charts with axes, every category, income shown as net, your shares next to the world market and the money clock in the annual report too."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -489,7 +493,9 @@
       "Das Einlesen von Kontoauszügen erkennt Kartenzahlungen, die ein paar Tage später bei der Bank ankommen.",
       "Auf der Startseite: die Geld-Uhr, mit deinem eigenen Nettogehalt.",
       "Der Monatsbericht als PDF auf vier Seiten: alle deine Anlagen, die Geld-Uhr des Monats, deine Konten im Lauf des Monats und deine Bilanz Zeile für Zeile gegenüber dem Vormonat.",
-      "Was es dich gekostet hat: deine Ausgaben in Arbeitsstunden und echten Stunden, in deinem Month Wrapped, unter jeder Ausgabe und im PDF-Bericht."
+      "Was es dich gekostet hat: deine Ausgaben in Arbeitsstunden und echten Stunden, in deinem Month Wrapped, unter jeder Ausgabe und im PDF-Bericht.",
+      "Einstellungen › Frühere Versionen: Nach einer Synchronisierung lief etwas schief? Setze deine Bücher mit einem Klick auf eine frühere Version zurück.",
+      "PDF-Berichte: Diagramme mit Achsen, alle Kategorien, Einnahmen als netto, deine Aktien neben dem Weltmarkt und die Geld-Uhr jetzt auch im Jahresbericht."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -647,7 +653,9 @@
       "La lecture des relevés bancaires reconnaît les paiements par carte qui arrivent à la banque quelques jours plus tard.",
       "Sur la page d'accueil : l'horloge de l'argent, avec votre propre salaire net.",
       "Le rapport mensuel en PDF sur quatre pages : tous vos placements, l'horloge de l'argent du mois, vos comptes au fil du mois et votre bilan ligne par ligne face au mois précédent.",
-      "Ce que ça vous a coûté : vos dépenses en heures de travail et en heures réelles, dans votre Month Wrapped, sous chaque dépense et dans votre rapport PDF."
+      "Ce que ça vous a coûté : vos dépenses en heures de travail et en heures réelles, dans votre Month Wrapped, sous chaque dépense et dans votre rapport PDF.",
+      "Réglages › Versions précédentes : un souci après une synchronisation ? Remets tes comptes à une version précédente en un clic.",
+      "Rapports PDF : graphiques avec axes, toutes les catégories, revenus en net, tes actions face au marché mondial et l’horloge de l’argent aussi dans le rapport annuel."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -805,7 +813,9 @@
       "La lectura de extractos reconoce pagos con tarjeta que llegan al banco unos días después.",
       "En la página de inicio: el reloj del dinero, con tu propio sueldo neto.",
       "El informe mensual en PDF en cuatro páginas: todas tus inversiones, el reloj del dinero de ese mes, tus cuentas a lo largo del mes y tu balance línea por línea frente al mes anterior.",
-      "Lo que te costó: tus gastos en horas de trabajo y en horas reales, en tu Month Wrapped, bajo cada gasto y en tu informe PDF."
+      "Lo que te costó: tus gastos en horas de trabajo y en horas reales, en tu Month Wrapped, bajo cada gasto y en tu informe PDF.",
+      "Ajustes › Versiones anteriores: ¿algo salió mal tras una sincronización? Vuelve a una versión anterior de tus cuentas con un clic.",
+      "Informes PDF: gráficos con ejes, todas las categorías, ingresos en neto, tus acciones frente al mercado mundial y el reloj del dinero también en el informe anual."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -963,7 +973,9 @@
       "La lettura degli estratti conto riconosce i pagamenti con carta che arrivano in banca qualche giorno dopo.",
       "Sulla homepage: l'orologio dei soldi, con il tuo stipendio netto.",
       "Il report mensile in PDF su quattro pagine: tutti i tuoi investimenti, l'orologio dei soldi del mese, i tuoi conti nel corso del mese e il bilancio voce per voce rispetto al mese prima.",
-      "Quanto ti è costato: le tue spese in ore di lavoro e in ore reali, nel tuo Month Wrapped, sotto ogni spesa e nel report PDF."
+      "Quanto ti è costato: le tue spese in ore di lavoro e in ore reali, nel tuo Month Wrapped, sotto ogni spesa e nel report PDF.",
+      "Impostazioni › Versioni precedenti: qualcosa è andato storto dopo una sincronizzazione? Riporta i tuoi conti a una versione precedente con un clic.",
+      "Report PDF: grafici con assi, tutte le categorie, entrate al netto, le tue azioni accanto al mercato mondiale e l’orologio del denaro anche nel report annuale."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1121,7 +1133,9 @@
       "A leitura de extratos reconhece pagamentos com cartão que chegam ao banco alguns dias depois.",
       "Na página inicial: o relógio do dinheiro, com seu próprio salário líquido.",
       "O relatório mensal em PDF em quatro páginas: todos os seus investimentos, o relógio do dinheiro do mês, suas contas ao longo do mês e seu balanço linha a linha frente ao mês anterior.",
-      "Quanto custou: seus gastos em horas de trabalho e em horas reais, no seu Month Wrapped, abaixo de cada gasto e no relatório em PDF."
+      "Quanto custou: seus gastos em horas de trabalho e em horas reais, no seu Month Wrapped, abaixo de cada gasto e no relatório em PDF.",
+      "Configurações › Versões anteriores: algo deu errado após uma sincronização? Volte suas finanças para uma versão anterior com um clique.",
+      "Relatórios em PDF: gráficos com eixos, todas as categorias, receitas como líquidas, suas ações ao lado do mercado mundial e o relógio do dinheiro também no relatório anual."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1279,7 +1293,9 @@
       "Wczytywanie wyciągów rozpoznaje płatności kartą, które docierają do banku kilka dni później.",
       "Na stronie głównej: zegar pieniędzy z Twoją pensją netto.",
       "Raport miesięczny w PDF na czterech stronach: wszystkie inwestycje, zegar pieniędzy z tego miesiąca, konta w ciągu miesiąca i bilans pozycja po pozycji wobec poprzedniego miesiąca.",
-      "Ile cię to kosztowało: wydatki w godzinach pracy i w prawdziwych godzinach, w Month Wrapped, pod każdym wydatkiem i w raporcie PDF."
+      "Ile cię to kosztowało: wydatki w godzinach pracy i w prawdziwych godzinach, w Month Wrapped, pod każdym wydatkiem i w raporcie PDF.",
+      "Ustawienia › Wcześniejsze wersje: coś poszło nie tak po synchronizacji? Przywróć wcześniejszą wersję jednym kliknięciem.",
+      "Raporty PDF: wykresy z osiami, wszystkie kategorie, dochody netto, twoje akcje obok rynku światowego i zegar pieniędzy także w raporcie rocznym."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1437,7 +1453,9 @@
       "Hesap özeti okuma, bankaya birkaç gün sonra ulaşan kart ödemelerini tanır.",
       "Ana sayfada: kendi net maaşınla para saati.",
       "Dört sayfalık aylık PDF raporu: tüm yatırımların, o ayın para saati, ay boyunca hesapların ve önceki aya göre satır satır bilançon.",
-      "Sana maliyeti: harcamaların çalışma saati ve gerçek saat olarak; Month Wrapped'inde, her harcamanın altında ve PDF raporunda."
+      "Sana maliyeti: harcamaların çalışma saati ve gerçek saat olarak; Month Wrapped'inde, her harcamanın altında ve PDF raporunda.",
+      "Ayarlar › Önceki sürümler: senkronizasyondan sonra bir sorun mu oldu? Kayıtlarını tek tıkla önceki bir sürüme döndür.",
+      "PDF raporları: eksenli grafikler, tüm kategoriler, net gelir, dünya piyasasının yanında hisselerin ve yıllık raporda da para saati."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1595,7 +1613,9 @@
       "Чтение выписок распознаёт платежи картой, которые доходят до банка через несколько дней.",
       "На главной странице: денежные часы с вашей зарплатой.",
       "Месячный PDF-отчёт на четырёх страницах: все ваши инвестиции, денежные часы за месяц, счета в течение месяца и баланс построчно по сравнению с прошлым месяцем.",
-      "Во что это обошлось: ваши расходы в рабочих и реальных часах — в Month Wrapped, под каждым расходом и в PDF-отчёте."
+      "Во что это обошлось: ваши расходы в рабочих и реальных часах — в Month Wrapped, под каждым расходом и в PDF-отчёте.",
+      "Настройки › Предыдущие версии: что-то пошло не так после синхронизации? Верни данные к более ранней версии одним нажатием.",
+      "PDF-отчёты: графики с осями, все категории, доходы указаны чистыми, твои акции рядом с мировым рынком и денежные часы теперь и в годовом отчёте."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1753,7 +1773,9 @@
       "قراءة كشوف الحساب تتعرّف على مدفوعات البطاقة التي تصل إلى البنك بعد أيام.",
       "في الصفحة الرئيسية: ساعة الأموال، مع صافي راتبك.",
       "تقرير PDF الشهري في أربع صفحات: كل استثماراتك، وساعة أموال ذلك الشهر، وحساباتك خلال الشهر، وميزانيتك بندًا بندًا مقارنة بالشهر السابق.",
-      "ما كلّفك: مصاريفك بساعات العمل وبالساعات الفعلية، في Month Wrapped وتحت كل مصروف وفي تقرير PDF."
+      "ما كلّفك: مصاريفك بساعات العمل وبالساعات الفعلية، في Month Wrapped وتحت كل مصروف وفي تقرير PDF.",
+      "الإعدادات › الإصدارات السابقة: حدث خطأ بعد المزامنة؟ أعد بياناتك إلى إصدار سابق بنقرة واحدة.",
+      "تقارير PDF: رسوم بيانية بمحاور، كل الفئات، الدخل بالصافي، أسهمك بجانب السوق العالمية وساعة المال في التقرير السنوي أيضًا."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1911,7 +1933,9 @@
       "बैंक स्टेटमेंट पढ़ना उन कार्ड भुगतानों को पहचानता है जो कुछ दिन बाद बैंक पहुँचते हैं।",
       "होमपेज पर: आपकी अपनी शुद्ध तनख़्वाह के साथ मनी क्लॉक।",
       "चार पन्नों की मासिक PDF रिपोर्ट: आपके सभी निवेश, उस महीने की मनी क्लॉक, महीने भर आपके खाते और पिछले महीने की तुलना में पंक्ति-दर-पंक्ति बैलेंस शीट।",
-      "इसकी कीमत: आपके खर्च काम के घंटों और असली घंटों में — Month Wrapped में, हर खर्च के नीचे और PDF रिपोर्ट में।"
+      "इसकी कीमत: आपके खर्च काम के घंटों और असली घंटों में — Month Wrapped में, हर खर्च के नीचे और PDF रिपोर्ट में।",
+      "सेटिंग्स › पिछले संस्करण: सिंक के बाद कुछ गड़बड़ हुई? एक क्लिक में अपनी किताबें पिछले संस्करण पर लौटाएँ।",
+      "PDF रिपोर्ट: अक्षों वाले चार्ट, सभी श्रेणियाँ, शुद्ध आय, विश्व बाज़ार के साथ आपके शेयर और वार्षिक रिपोर्ट में भी पैसों की घड़ी।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2069,7 +2093,9 @@
       "Membaca mutasi rekening mengenali pembayaran kartu yang masuk ke bank beberapa hari kemudian.",
       "Di beranda: jam uang, dengan gaji bersihmu sendiri.",
       "Laporan bulanan PDF dalam empat halaman: semua investasimu, jam uang bulan itu, rekeningmu sepanjang bulan, dan neracamu baris demi baris dibanding bulan sebelumnya.",
-      "Biayanya bagimu: pengeluaranmu dalam jam kerja dan jam nyata, di Month Wrapped, di bawah setiap pengeluaran, dan di laporan PDF."
+      "Biayanya bagimu: pengeluaranmu dalam jam kerja dan jam nyata, di Month Wrapped, di bawah setiap pengeluaran, dan di laporan PDF.",
+      "Pengaturan › Versi sebelumnya: ada yang salah setelah sinkronisasi? Kembalikan catatanmu ke versi sebelumnya dengan satu klik.",
+      "Laporan PDF: grafik dengan sumbu, semua kategori, pemasukan bersih, sahammu di samping pasar dunia, dan jam uang juga di laporan tahunan."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2227,7 +2253,9 @@
       "明細の読み取りで、数日遅れて銀行に届くカード払いも認識します。",
       "ホームページに：あなたの手取りで試せるマネークロック。",
       "月次PDFレポートが4ページに：すべての投資、その月のマネークロック、月を通じた口座残高、前月と比べた項目ごとのバランスシート。",
-      "かかった時間：支出を労働時間と実際の時間で表示。Month Wrapped、各支出の下、PDFレポートで。"
+      "かかった時間：支出を労働時間と実際の時間で表示。Month Wrapped、各支出の下、PDFレポートで。",
+      "設定 › 以前のバージョン:同期のあとで問題が起きたら、ワンクリックで帳簿を以前のバージョンに戻せます。",
+      "PDFレポート:軸付きのグラフ、すべてのカテゴリー、収入は手取りで表示、株式を世界市場と比較、年次レポートにもお金の時計。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -2385,7 +2413,9 @@
       "거래 내역 읽기가 며칠 늦게 은행에 도착하는 카드 결제도 인식해요.",
       "홈페이지에: 내 실수령액으로 해보는 머니 클록.",
       "월간 PDF 보고서가 4페이지로: 모든 투자, 그달의 머니 클록, 한 달 동안의 계좌, 전월 대비 항목별 대차대조표.",
-      "들어간 시간: 지출을 근무 시간과 실제 시간으로 — Month Wrapped, 각 지출 아래, PDF 보고서에서."
+      "들어간 시간: 지출을 근무 시간과 실제 시간으로 — Month Wrapped, 각 지출 아래, PDF 보고서에서.",
+      "설정 › 이전 버전: 동기화 후 문제가 생겼나요? 클릭 한 번으로 장부를 이전 버전으로 되돌리세요.",
+      "PDF 보고서: 축이 있는 차트, 모든 카테고리, 수입은 실수령 기준, 세계 시장과 비교한 내 주식, 연간 보고서에도 머니 시계."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -2543,7 +2573,9 @@
       "Đọc sao kê nhận ra thanh toán thẻ đến ngân hàng muộn vài ngày.",
       "Trên trang chủ: đồng hồ tiền, với lương thực nhận của bạn.",
       "Báo cáo PDF hằng tháng gồm bốn trang: tất cả khoản đầu tư, đồng hồ tiền của tháng, tài khoản suốt tháng và bảng cân đối từng dòng so với tháng trước.",
-      "Bạn đã tốn gì: chi tiêu tính bằng giờ làm việc và giờ thực, trong Month Wrapped, dưới mỗi khoản chi và trong báo cáo PDF."
+      "Bạn đã tốn gì: chi tiêu tính bằng giờ làm việc và giờ thực, trong Month Wrapped, dưới mỗi khoản chi và trong báo cáo PDF.",
+      "Cài đặt › Phiên bản trước: có lỗi sau khi đồng bộ? Khôi phục sổ sách về phiên bản trước chỉ với một cú nhấp.",
+      "Báo cáo PDF: biểu đồ có trục, mọi danh mục, thu nhập ròng, cổ phiếu của bạn cạnh thị trường thế giới và đồng hồ tiền cả trong báo cáo năm."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -2701,7 +2733,9 @@
       "读取银行流水时会识别几天后才到账的刷卡支付。",
       "在主页上：用你自己的税后工资体验金钱时钟。",
       "月度 PDF 报告扩展为四页：你的全部投资、当月的金钱时钟、本月账户走势，以及与上月逐项对比的资产负债表。",
-      "它花掉了你什么：用工作小时和真实小时衡量你的支出——在 Month Wrapped、每笔支出下方以及 PDF 报告中。"
+      "它花掉了你什么：用工作小时和真实小时衡量你的支出——在 Month Wrapped、每笔支出下方以及 PDF 报告中。",
+      "设置 › 早期版本：同步后出了问题？一键把账本恢复到早期版本。",
+      "PDF 报告：带坐标轴的图表、所有类别、收入按净额显示、你的股票与世界市场对比，年度报告中也有金钱时钟。"
     ]
   };
 
