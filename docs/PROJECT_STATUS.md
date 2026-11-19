@@ -1860,7 +1860,7 @@ what the compiler finds, run the tests, then look at it in the simulator.
   wipe guard) — Bart creates it himself (real Supabase; no local Supabase/Docker).
 - Local data mode counts as Premium (dev only) so Bart can test the PDFs.
 
-## 2026-11-19 — what it cost you in time (web-app, NOT live)
+## 2026-11-19 — what it cost you in time (LIVE 19 Nov)
 - Bart: work hours vs real hours for spending, "per expense really cool", also on the PDF.
 - lib/finance/workHours.ts (pure, tested): workHoursFor(amount, monthlyIncome) at
   173.3 work hours a month (40 h/week, as the "An hour of your work" tile);

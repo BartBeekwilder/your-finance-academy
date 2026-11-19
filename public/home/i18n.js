@@ -170,7 +170,8 @@
       "Balans per maand: elke rekening start op de eerste van de maand, en een vaste last later in de maand telt pas als hij geweest is.",
       "Bankafschrift inlezen herkent kaartbetalingen die een paar dagen later bij de bank binnenkomen.",
       "Op de homepage: de geldklok, met je eigen netto loon.",
-    /*pdf 4 pages, live 19 Nov*/ "Het maandoverzicht als PDF op vier pagina's: al je beleggingen, je geldklok van die maand, je rekeningen door de maand heen en je balans regel voor regel tegen de vorige maand."
+    /*pdf 4 pages, live 19 Nov*/ "Het maandoverzicht als PDF op vier pagina's: al je beleggingen, je geldklok van die maand, je rekeningen door de maand heen en je balans regel voor regel tegen de vorige maand.",
+    /*work hours, live 19 Nov*/ "Wat het je kostte: je uitgaven in werkuren en in echte uren, in je Month Wrapped, onder elke uitgave en in je PDF-overzicht."
   ];
 
   var L = {
@@ -329,7 +330,8 @@
       "Balance sheet per month: each account starts on the first of the month, and a fixed cost later in the month only counts once it has happened.",
       "Reading bank statements recognises card payments that reach the bank a few days later.",
       "On the homepage: the money clock, with your own net pay.",
-      "The monthly PDF report on four pages: all your investments, that month's money clock, your accounts through the month and your balance sheet line by line against the month before."
+      "The monthly PDF report on four pages: all your investments, that month's money clock, your accounts through the month and your balance sheet line by line against the month before.",
+      "What it cost you: your spending in work hours and in real hours, in your Month Wrapped, under each expense and in your PDF report."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -486,7 +488,8 @@
       "Bilanz pro Monat: Jedes Konto startet am Monatsersten, und Fixkosten später im Monat zählen erst, wenn sie angefallen sind.",
       "Das Einlesen von Kontoauszügen erkennt Kartenzahlungen, die ein paar Tage später bei der Bank ankommen.",
       "Auf der Startseite: die Geld-Uhr, mit deinem eigenen Nettogehalt.",
-      "Der Monatsbericht als PDF auf vier Seiten: alle deine Anlagen, die Geld-Uhr des Monats, deine Konten im Lauf des Monats und deine Bilanz Zeile für Zeile gegenüber dem Vormonat."
+      "Der Monatsbericht als PDF auf vier Seiten: alle deine Anlagen, die Geld-Uhr des Monats, deine Konten im Lauf des Monats und deine Bilanz Zeile für Zeile gegenüber dem Vormonat.",
+      "Was es dich gekostet hat: deine Ausgaben in Arbeitsstunden und echten Stunden, in deinem Month Wrapped, unter jeder Ausgabe und im PDF-Bericht."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -643,7 +646,8 @@
       "Bilan par mois : chaque compte démarre le premier du mois, et une charge fixe plus tard dans le mois ne compte qu'une fois passée.",
       "La lecture des relevés bancaires reconnaît les paiements par carte qui arrivent à la banque quelques jours plus tard.",
       "Sur la page d'accueil : l'horloge de l'argent, avec votre propre salaire net.",
-      "Le rapport mensuel en PDF sur quatre pages : tous vos placements, l'horloge de l'argent du mois, vos comptes au fil du mois et votre bilan ligne par ligne face au mois précédent."
+      "Le rapport mensuel en PDF sur quatre pages : tous vos placements, l'horloge de l'argent du mois, vos comptes au fil du mois et votre bilan ligne par ligne face au mois précédent.",
+      "Ce que ça vous a coûté : vos dépenses en heures de travail et en heures réelles, dans votre Month Wrapped, sous chaque dépense et dans votre rapport PDF."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -800,7 +804,8 @@
       "Balance por mes: cada cuenta empieza el día uno, y un gasto fijo más adelante en el mes solo cuenta cuando ya ha pasado.",
       "La lectura de extractos reconoce pagos con tarjeta que llegan al banco unos días después.",
       "En la página de inicio: el reloj del dinero, con tu propio sueldo neto.",
-      "El informe mensual en PDF en cuatro páginas: todas tus inversiones, el reloj del dinero de ese mes, tus cuentas a lo largo del mes y tu balance línea por línea frente al mes anterior."
+      "El informe mensual en PDF en cuatro páginas: todas tus inversiones, el reloj del dinero de ese mes, tus cuentas a lo largo del mes y tu balance línea por línea frente al mes anterior.",
+      "Lo que te costó: tus gastos en horas de trabajo y en horas reales, en tu Month Wrapped, bajo cada gasto y en tu informe PDF."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -957,7 +962,8 @@
       "Bilancio mensile: ogni conto parte dal primo del mese, e una spesa fissa più avanti nel mese conta solo quando è avvenuta.",
       "La lettura degli estratti conto riconosce i pagamenti con carta che arrivano in banca qualche giorno dopo.",
       "Sulla homepage: l'orologio dei soldi, con il tuo stipendio netto.",
-      "Il report mensile in PDF su quattro pagine: tutti i tuoi investimenti, l'orologio dei soldi del mese, i tuoi conti nel corso del mese e il bilancio voce per voce rispetto al mese prima."
+      "Il report mensile in PDF su quattro pagine: tutti i tuoi investimenti, l'orologio dei soldi del mese, i tuoi conti nel corso del mese e il bilancio voce per voce rispetto al mese prima.",
+      "Quanto ti è costato: le tue spese in ore di lavoro e in ore reali, nel tuo Month Wrapped, sotto ogni spesa e nel report PDF."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1114,7 +1120,8 @@
       "Balanço por mês: cada conta começa no dia primeiro, e um custo fixo mais tarde no mês só conta quando já aconteceu.",
       "A leitura de extratos reconhece pagamentos com cartão que chegam ao banco alguns dias depois.",
       "Na página inicial: o relógio do dinheiro, com seu próprio salário líquido.",
-      "O relatório mensal em PDF em quatro páginas: todos os seus investimentos, o relógio do dinheiro do mês, suas contas ao longo do mês e seu balanço linha a linha frente ao mês anterior."
+      "O relatório mensal em PDF em quatro páginas: todos os seus investimentos, o relógio do dinheiro do mês, suas contas ao longo do mês e seu balanço linha a linha frente ao mês anterior.",
+      "Quanto custou: seus gastos em horas de trabalho e em horas reais, no seu Month Wrapped, abaixo de cada gasto e no relatório em PDF."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1271,7 +1278,8 @@
       "Bilans miesięczny: każde konto startuje pierwszego dnia miesiąca, a stały koszt później w miesiącu liczy się dopiero, gdy nastąpi.",
       "Wczytywanie wyciągów rozpoznaje płatności kartą, które docierają do banku kilka dni później.",
       "Na stronie głównej: zegar pieniędzy z Twoją pensją netto.",
-      "Raport miesięczny w PDF na czterech stronach: wszystkie inwestycje, zegar pieniędzy z tego miesiąca, konta w ciągu miesiąca i bilans pozycja po pozycji wobec poprzedniego miesiąca."
+      "Raport miesięczny w PDF na czterech stronach: wszystkie inwestycje, zegar pieniędzy z tego miesiąca, konta w ciągu miesiąca i bilans pozycja po pozycji wobec poprzedniego miesiąca.",
+      "Ile cię to kosztowało: wydatki w godzinach pracy i w prawdziwych godzinach, w Month Wrapped, pod każdym wydatkiem i w raporcie PDF."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1428,7 +1436,8 @@
       "Aylık bilanço: her hesap ayın ilk gününde başlar, ay içinde sonra gelen sabit gider ancak gerçekleşince sayılır.",
       "Hesap özeti okuma, bankaya birkaç gün sonra ulaşan kart ödemelerini tanır.",
       "Ana sayfada: kendi net maaşınla para saati.",
-      "Dört sayfalık aylık PDF raporu: tüm yatırımların, o ayın para saati, ay boyunca hesapların ve önceki aya göre satır satır bilançon."
+      "Dört sayfalık aylık PDF raporu: tüm yatırımların, o ayın para saati, ay boyunca hesapların ve önceki aya göre satır satır bilançon.",
+      "Sana maliyeti: harcamaların çalışma saati ve gerçek saat olarak; Month Wrapped'inde, her harcamanın altında ve PDF raporunda."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1585,7 +1594,8 @@
       "Баланс за месяц: каждый счёт начинается с первого числа, а постоянный расход позже в месяце учитывается только после списания.",
       "Чтение выписок распознаёт платежи картой, которые доходят до банка через несколько дней.",
       "На главной странице: денежные часы с вашей зарплатой.",
-      "Месячный PDF-отчёт на четырёх страницах: все ваши инвестиции, денежные часы за месяц, счета в течение месяца и баланс построчно по сравнению с прошлым месяцем."
+      "Месячный PDF-отчёт на четырёх страницах: все ваши инвестиции, денежные часы за месяц, счета в течение месяца и баланс построчно по сравнению с прошлым месяцем.",
+      "Во что это обошлось: ваши расходы в рабочих и реальных часах — в Month Wrapped, под каждым расходом и в PDF-отчёте."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1742,7 +1752,8 @@
       "الميزانية الشهرية: كل حساب يبدأ من أول الشهر، والتكلفة الثابتة لاحقًا في الشهر لا تُحتسب إلا بعد حدوثها.",
       "قراءة كشوف الحساب تتعرّف على مدفوعات البطاقة التي تصل إلى البنك بعد أيام.",
       "في الصفحة الرئيسية: ساعة الأموال، مع صافي راتبك.",
-      "تقرير PDF الشهري في أربع صفحات: كل استثماراتك، وساعة أموال ذلك الشهر، وحساباتك خلال الشهر، وميزانيتك بندًا بندًا مقارنة بالشهر السابق."
+      "تقرير PDF الشهري في أربع صفحات: كل استثماراتك، وساعة أموال ذلك الشهر، وحساباتك خلال الشهر، وميزانيتك بندًا بندًا مقارنة بالشهر السابق.",
+      "ما كلّفك: مصاريفك بساعات العمل وبالساعات الفعلية، في Month Wrapped وتحت كل مصروف وفي تقرير PDF."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1899,7 +1910,8 @@
       "महीने की बैलेंस शीट: हर खाता महीने की पहली तारीख से शुरू होता है, और महीने में बाद का तय खर्च तभी गिना जाता है जब वह हो चुका हो।",
       "बैंक स्टेटमेंट पढ़ना उन कार्ड भुगतानों को पहचानता है जो कुछ दिन बाद बैंक पहुँचते हैं।",
       "होमपेज पर: आपकी अपनी शुद्ध तनख़्वाह के साथ मनी क्लॉक।",
-      "चार पन्नों की मासिक PDF रिपोर्ट: आपके सभी निवेश, उस महीने की मनी क्लॉक, महीने भर आपके खाते और पिछले महीने की तुलना में पंक्ति-दर-पंक्ति बैलेंस शीट।"
+      "चार पन्नों की मासिक PDF रिपोर्ट: आपके सभी निवेश, उस महीने की मनी क्लॉक, महीने भर आपके खाते और पिछले महीने की तुलना में पंक्ति-दर-पंक्ति बैलेंस शीट।",
+      "इसकी कीमत: आपके खर्च काम के घंटों और असली घंटों में — Month Wrapped में, हर खर्च के नीचे और PDF रिपोर्ट में।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2056,7 +2068,8 @@
       "Neraca per bulan: setiap rekening mulai di tanggal satu, dan biaya tetap di akhir bulan baru dihitung setelah terjadi.",
       "Membaca mutasi rekening mengenali pembayaran kartu yang masuk ke bank beberapa hari kemudian.",
       "Di beranda: jam uang, dengan gaji bersihmu sendiri.",
-      "Laporan bulanan PDF dalam empat halaman: semua investasimu, jam uang bulan itu, rekeningmu sepanjang bulan, dan neracamu baris demi baris dibanding bulan sebelumnya."
+      "Laporan bulanan PDF dalam empat halaman: semua investasimu, jam uang bulan itu, rekeningmu sepanjang bulan, dan neracamu baris demi baris dibanding bulan sebelumnya.",
+      "Biayanya bagimu: pengeluaranmu dalam jam kerja dan jam nyata, di Month Wrapped, di bawah setiap pengeluaran, dan di laporan PDF."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2213,7 +2226,8 @@
       "月別バランスシート：各口座は月初から始まり、月の後半の固定費は発生してから計上されます。",
       "明細の読み取りで、数日遅れて銀行に届くカード払いも認識します。",
       "ホームページに：あなたの手取りで試せるマネークロック。",
-      "月次PDFレポートが4ページに：すべての投資、その月のマネークロック、月を通じた口座残高、前月と比べた項目ごとのバランスシート。"
+      "月次PDFレポートが4ページに：すべての投資、その月のマネークロック、月を通じた口座残高、前月と比べた項目ごとのバランスシート。",
+      "かかった時間：支出を労働時間と実際の時間で表示。Month Wrapped、各支出の下、PDFレポートで。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -2370,7 +2384,8 @@
       "월별 대차대조표: 각 계좌는 1일부터 시작하고, 월 후반의 고정비는 발생한 뒤에만 반영돼요.",
       "거래 내역 읽기가 며칠 늦게 은행에 도착하는 카드 결제도 인식해요.",
       "홈페이지에: 내 실수령액으로 해보는 머니 클록.",
-      "월간 PDF 보고서가 4페이지로: 모든 투자, 그달의 머니 클록, 한 달 동안의 계좌, 전월 대비 항목별 대차대조표."
+      "월간 PDF 보고서가 4페이지로: 모든 투자, 그달의 머니 클록, 한 달 동안의 계좌, 전월 대비 항목별 대차대조표.",
+      "들어간 시간: 지출을 근무 시간과 실제 시간으로 — Month Wrapped, 각 지출 아래, PDF 보고서에서."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -2527,7 +2542,8 @@
       "Bảng cân đối theo tháng: mỗi tài khoản bắt đầu từ ngày 1, và chi phí cố định cuối tháng chỉ tính khi đã xảy ra.",
       "Đọc sao kê nhận ra thanh toán thẻ đến ngân hàng muộn vài ngày.",
       "Trên trang chủ: đồng hồ tiền, với lương thực nhận của bạn.",
-      "Báo cáo PDF hằng tháng gồm bốn trang: tất cả khoản đầu tư, đồng hồ tiền của tháng, tài khoản suốt tháng và bảng cân đối từng dòng so với tháng trước."
+      "Báo cáo PDF hằng tháng gồm bốn trang: tất cả khoản đầu tư, đồng hồ tiền của tháng, tài khoản suốt tháng và bảng cân đối từng dòng so với tháng trước.",
+      "Bạn đã tốn gì: chi tiêu tính bằng giờ làm việc và giờ thực, trong Month Wrapped, dưới mỗi khoản chi và trong báo cáo PDF."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -2684,7 +2700,8 @@
       "按月资产负债表：每个账户从月初开始，月内较晚的固定支出发生后才计入。",
       "读取银行流水时会识别几天后才到账的刷卡支付。",
       "在主页上：用你自己的税后工资体验金钱时钟。",
-      "月度 PDF 报告扩展为四页：你的全部投资、当月的金钱时钟、本月账户走势，以及与上月逐项对比的资产负债表。"
+      "月度 PDF 报告扩展为四页：你的全部投资、当月的金钱时钟、本月账户走势，以及与上月逐项对比的资产负债表。",
+      "它花掉了你什么：用工作小时和真实小时衡量你的支出——在 Month Wrapped、每笔支出下方以及 PDF 报告中。"
     ]
   };
 
