@@ -2099,5 +2099,7 @@
  "Adds this account to your balance sheet": "Добавляет этот счёт в твой баланс",
  "Still to pay on the card? Enter it as a minus amount.": "На карте ещё есть долг? Введи его со знаком минус.",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · приход {inflow} · расход {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start} · в этом месяце ничего не записано"
+ "{date} {start} · nothing booked on it this month": "{date} {start} · в этом месяце ничего не записано",
+ "Change since the end of {month}": "Изменение с конца месяца: {month}",
+ "Change since the end of last month": "Изменение с конца прошлого месяца"
 }

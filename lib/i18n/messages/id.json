@@ -2099,5 +2099,7 @@
  "Adds this account to your balance sheet": "Menambahkan rekening ini ke neracamu",
  "Still to pay on the card? Enter it as a minus amount.": "Masih ada tagihan di kartu? Masukkan sebagai jumlah minus.",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · masuk {inflow} · keluar {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start} · bulan ini belum ada catatan"
+ "{date} {start} · nothing booked on it this month": "{date} {start} · bulan ini belum ada catatan",
+ "Change since the end of {month}": "Perubahan sejak akhir {month}",
+ "Change since the end of last month": "Perubahan sejak akhir bulan lalu"
 }

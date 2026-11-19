@@ -2105,5 +2105,7 @@
  "Adds this account to your balance sheet": "Zet deze rekening op je balans",
  "Still to pay on the card? Enter it as a minus amount.": "Moet er nog iets van de kaart betaald worden? Vul het in als minbedrag.",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · erbij {inflow} · eraf {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start} · deze maand niets op geboekt"
+ "{date} {start} · nothing booked on it this month": "{date} {start} · deze maand niets op geboekt",
+ "Change since the end of {month}": "Verandering sinds eind {month}",
+ "Change since the end of last month": "Verandering sinds eind vorige maand"
 }

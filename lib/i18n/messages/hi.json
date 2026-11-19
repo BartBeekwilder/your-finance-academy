@@ -2099,5 +2099,7 @@
  "Adds this account to your balance sheet": "यह खाता आपकी बैलेंस शीट में जोड़ता है",
  "Still to pay on the card? Enter it as a minus amount.": "कार्ड पर अभी भुगतान बाकी है? उसे माइनस राशि के रूप में दर्ज करें।",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · आया {inflow} · गया {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start} · इस महीने कुछ दर्ज नहीं"
+ "{date} {start} · nothing booked on it this month": "{date} {start} · इस महीने कुछ दर्ज नहीं",
+ "Change since the end of {month}": "{month} के अंत से बदलाव",
+ "Change since the end of last month": "पिछले महीने के अंत से बदलाव"
 }

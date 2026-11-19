@@ -2099,5 +2099,7 @@
  "Adds this account to your balance sheet": "将此账户加入你的资产负债表",
  "Still to pay on the card? Enter it as a minus amount.": "卡上还有待还款？请以负数输入。",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · 流入 {inflow} · 流出 {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start} · 本月无记账"
+ "{date} {start} · nothing booked on it this month": "{date} {start} · 本月无记账",
+ "Change since the end of {month}": "自{month}底以来的变化",
+ "Change since the end of last month": "自上月底以来的变化"
 }

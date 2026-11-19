@@ -2099,5 +2099,7 @@
  "Adds this account to your balance sheet": "Thêm tài khoản này vào bảng cân đối của bạn",
  "Still to pay on the card? Enter it as a minus amount.": "Thẻ vẫn còn phải trả? Hãy nhập dưới dạng số âm.",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · vào {inflow} · ra {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start} · tháng này chưa ghi gì"
+ "{date} {start} · nothing booked on it this month": "{date} {start} · tháng này chưa ghi gì",
+ "Change since the end of {month}": "Thay đổi từ cuối {month}",
+ "Change since the end of last month": "Thay đổi từ cuối tháng trước"
 }

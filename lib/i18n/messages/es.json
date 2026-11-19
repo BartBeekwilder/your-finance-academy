@@ -2099,5 +2099,7 @@
  "Adds this account to your balance sheet": "Añade esta cuenta a tu balance",
  "Still to pay on the card? Enter it as a minus amount.": "¿Queda algo por pagar en la tarjeta? Introdúcelo como importe negativo.",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · entradas {inflow} · salidas {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start} · nada registrado este mes"
+ "{date} {start} · nothing booked on it this month": "{date} {start} · nada registrado este mes",
+ "Change since the end of {month}": "Cambio desde finales de {month}",
+ "Change since the end of last month": "Cambio desde finales del mes pasado"
 }

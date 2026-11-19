@@ -2099,5 +2099,7 @@
  "Adds this account to your balance sheet": "이 계좌를 대차대조표에 추가합니다",
  "Still to pay on the card? Enter it as a minus amount.": "카드에 아직 갚을 금액이 있나요? 마이너스 금액으로 입력하세요.",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · 입금 {inflow} · 출금 {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start} · 이번 달 기록 없음"
+ "{date} {start} · nothing booked on it this month": "{date} {start} · 이번 달 기록 없음",
+ "Change since the end of {month}": "{month} 말 대비 변화",
+ "Change since the end of last month": "지난달 말 대비 변화"
 }

@@ -197,6 +197,7 @@ export default function BalancePage() {
                   sheet={sheet}
                   prev={prev}
                   currency={currency}
+                  since={monthName(new Date(now.getFullYear(), sel - 1, 1))}
                   edit={{
                     onValue: (id, v) => run(setBalanceValue(id, month, v)),
                     onRename: (id, n) => run(renameBalanceItem(id, n)),

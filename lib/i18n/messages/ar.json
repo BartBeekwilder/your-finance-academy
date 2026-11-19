@@ -2099,5 +2099,7 @@
  "Adds this account to your balance sheet": "يضيف هذا الحساب إلى ميزانيتك",
  "Still to pay on the card? Enter it as a minus amount.": "هل ما زال هناك مبلغ مستحق على البطاقة؟ أدخله كمبلغ سالب.",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · وارد {inflow} · صادر {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start} · لا قيود هذا الشهر"
+ "{date} {start} · nothing booked on it this month": "{date} {start} · لا قيود هذا الشهر",
+ "Change since the end of {month}": "التغيّر منذ نهاية {month}",
+ "Change since the end of last month": "التغيّر منذ نهاية الشهر الماضي"
 }

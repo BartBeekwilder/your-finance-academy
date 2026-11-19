@@ -335,7 +335,10 @@ type Order = "own" | "desc" | "asc";
 // Auto lines with a Glossary entry (their ⓘ).
 const TIP: Record<string, string> = { pending: "pending", receivable: "receivable", advance: "advance", prepaid: "prepaid", spread: "spread", investments: "real", unassigned: "correction" };
 
-export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; prev?: Sheet; currency: string; edit?: Edit }) {
+/** [since]: the month the grey change compares with ("October"), for its
+ *  hover text; without it, "the end of last month". */
+export function BalanceTable({ sheet, prev, currency, edit, since }: { sheet: Sheet; prev?: Sheet; currency: string; edit?: Edit; since?: string }) {
+  const sinceText = since ? t("Change since the end of {month}", { month: since }) : t("Change since the end of last month");
   const balanced = Math.abs(sheet.totalAssets - (sheet.totalDebt + sheet.equity)) < 0.01;
   // Order of the posts: your own, or by amount either way (kept per browser);
   // switching glides every row to its new place.
@@ -377,7 +380,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
         <h3 className="pf-bal-head">{t("Assets")} <InfoTip id="assets" /></h3>
         {sorted(sheet.assets).map((l) => (
           <div key={l.id} data-flip-key={`a-${l.id}`}>
-            <Line line={l} d={delta(l, prev?.assets)} color={colorFor("asset", sheet.assets.filter((a) => a.value > 0).indexOf(l), l.id)} currency={currency} edit={edit} />
+            <Line line={l} d={delta(l, prev?.assets)} color={colorFor("asset", sheet.assets.filter((a) => a.value > 0).indexOf(l), l.id)} currency={currency} edit={edit} since={sinceText} />
           </div>
         ))}
         {edit && <AddRow onAdd={() => edit.onAdd("asset")} label={t("Add asset")} />}
@@ -388,7 +391,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
         <h3 className="pf-bal-head">{t("Liabilities")} <InfoTip id="liabilities" /></h3>
         {sorted(sheet.liabilities).map((l) => (
           <div key={l.id} data-flip-key={`l-${l.id}`}>
-            <Line line={l} d={delta(l, prev?.liabilities)} color={colorFor("debt", sheet.liabilities.filter((a) => a.value > 0).indexOf(l))} currency={currency} edit={edit} />
+            <Line line={l} d={delta(l, prev?.liabilities)} color={colorFor("debt", sheet.liabilities.filter((a) => a.value > 0).indexOf(l))} currency={currency} edit={edit} since={sinceText} />
           </div>
         ))}
         {edit && <AddRow onAdd={() => edit.onAdd("liability")} label={t("Add liability")} />}
@@ -401,7 +404,7 @@ export function BalanceTable({ sheet, prev, currency, edit }: { sheet: Sheet; pr
           <span className="pf-rounded" style={{ color: sheet.equity >= 0 ? EQUITY : "var(--pf-red)" }}>
             {money(sheet.equity, currency)}
             {prev && Math.abs(sheet.equity - prev.equity) >= 0.005 && (
-              <small style={{ color: sheet.equity >= prev.equity ? "var(--pf-green)" : "var(--pf-red)" }}>{money(sheet.equity - prev.equity, currency, { signed: true })}</small>
+              <small title={sinceText} style={{ color: sheet.equity >= prev.equity ? "var(--pf-green)" : "var(--pf-red)" }}>{money(sheet.equity - prev.equity, currency, { signed: true })}</small>
             )}
           </span>
         </div>
@@ -429,7 +432,7 @@ function Total({ label, value, currency, balanced }: { label: string; value: num
   );
 }
 
-function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number | null; color: string; currency: string; edit?: Edit }) {
+function Line({ line, d, color, currency, edit, since }: { line: BalanceLine; d: number | null; color: string; currency: string; edit?: Edit; since?: string }) {
   const editable = edit && line.kind === "manual";
   const [open, setOpen] = useState(false);
   // Accounts always unfold (with "+ Add account" at the end), even with none yet.
@@ -460,7 +463,7 @@ function Line({ line, d, color, currency, edit }: { line: BalanceLine; d: number
         </span>
       )}
       {/* Always present, so the amount columns line up row to row. */}
-      <small className="pf-bal-delta">{d !== null ? money(d, currency, { signed: true }) : ""}</small>
+      <small className="pf-bal-delta" title={d !== null ? since : undefined}>{d !== null ? money(d, currency, { signed: true }) : ""}</small>
       {editable ? (
         <AmountField value={line.value} currency={currency} onCommit={(v) => v !== line.value && edit.onValue(line.id, v)} />
       ) : (

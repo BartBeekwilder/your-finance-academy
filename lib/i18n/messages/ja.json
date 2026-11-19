@@ -2099,5 +2099,7 @@
  "Adds this account to your balance sheet": "この口座を貸借対照表に追加します",
  "Still to pay on the card? Enter it as a minus amount.": "カードにまだ未払いがありますか？マイナスの金額で入力してください。",
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start}・入金 {inflow}・出金 {outflow}",
- "{date} {start} · nothing booked on it this month": "{date} {start}・今月の記帳なし"
+ "{date} {start} · nothing booked on it this month": "{date} {start}・今月の記帳なし",
+ "Change since the end of {month}": "{month}末からの変化",
+ "Change since the end of last month": "先月末からの変化"
 }
