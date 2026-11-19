@@ -51,7 +51,8 @@ export function yearWrapped(y: YearInput, now: Date) {
 
   // Where it went: the top categories of variable spending, and the biggest
   // single variable expense (a mortgage would always win otherwise).
-  const top = y.categories.slice(0, 5).map((c) => ({ ...c, share: tot.variable ? c.spent / tot.variable : 0 }));
+  const all = y.categories.map((c) => ({ ...c, share: tot.variable ? c.spent / tot.variable : 0 }));
+  const top = all.slice(0, 5);
   const variable = y.expenses.filter((e) => !e.fixed);
   const biggest = variable.reduce<YearExpense | null>((a, e) => (!a || e.amount > a.amount ? e : a), null);
 
@@ -84,6 +85,7 @@ export function yearWrapped(y: YearInput, now: Date) {
     plusMonths,
     activeMonths: used.length,
     top,
+    all,
     biggest,
     equityStart: y.equityStart,
     equityEnd,

@@ -2146,5 +2146,18 @@
  "of the month's {days} days — the rest was yours": "ayın {days} gününden — gerisi senindi",
  "of work, at 40 hours a week": "çalışma, haftada 40 saatle",
  "What it cost you": "Sana maliyeti",
- "Work hours": "Çalışma saatleri"
+ "Work hours": "Çalışma saatleri",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "{tx} işlem · {acc} hesap · {cat} kategori · {inv} yatırım",
+ "Earlier versions": "Önceki sürümler",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "Kayıtların her üzerine yazıldığında önceki sürüm saklanır — son 10 sürüm. Senkronizasyondan sonra bir sorun mu oldu? Önceki bir sürümü geri yükle.",
+ "Look": "Göster",
+ "newest booking {date}": "en yeni kayıt {date}",
+ "No earlier versions yet.": "Henüz önceki sürüm yok.",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "{when} tarihli sürüm geri yüklensin mi? Kayıtların bu sürüm olur; şimdiki kopya bu listede kalır, yani geri alabilirsin.",
+ "Put this version back": "Bu sürümü geri yükle",
+ "Show earlier versions": "Önceki sürümleri göster",
+ "The version of {when} is back.": "{when} tarihli sürüm geri yüklendi.",
+ "This version was saved with another passphrase and can't be opened here.": "Bu sürüm başka bir parolayla kaydedildi ve burada açılamaz.",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "Dünya piyasası: euro cinsinden iShares MSCI World ETF (IWDA) — hisselerinle karşılaştır (kripto ve metaller hariç). Bir karşılaştırma, tavsiye değil.",
+ "Your shares": "Hisselerin"
 }

@@ -6601,3 +6601,21 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .pf-wr-body .pf-clk-compact { width: min(100%, 280px); margin: 4px auto 0; }
 .pf-kf-sub { font-size: 0.85rem; font-weight: 600; color: var(--c, var(--pf-ink-2)); opacity: 0.8; margin-top: -2px; font-variant-numeric: tabular-nums; }
 .pf-clk-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+
+/* Settings › Earlier versions */
+.pf-vh { display: grid; gap: 6px; }
+.pf-vh-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--pf-line); transition: background 0.2s, border-color 0.2s; }
+.pf-vh-row > div:first-child { display: grid; gap: 2px; min-width: 0; }
+.pf-vh-row b { font-size: 0.86rem; font-weight: 600; }
+.pf-vh-row small { font-size: 0.76rem; color: var(--pf-ink-3); }
+.pf-vh-row[data-open] { border-color: rgba(94, 92, 230, 0.5); background: rgba(94, 92, 230, 0.08); }
+.pf-vh-now { border-style: dashed; }
+.pf-vh-actions { flex: none; }
+.pf-vh-actions .pf-button { display: inline-flex; align-items: center; gap: 6px; }
+@media (max-width: 520px) { .pf-vh-row { flex-direction: column; align-items: stretch; } }
+
+/* Reports: every category (Bart, 19 Nov) — two columns once there are many */
+.rp-cats[data-many] { grid-template-columns: 1fr 1fr; column-gap: 8mm; row-gap: 1.6mm; }
+.rp-shares[data-many] { row-gap: 1.1mm; }
+.rp-cats[data-many] .rp-cat { grid-template-columns: 26mm 1fr 24mm; gap: 2.5mm; font-size: 8pt; }
+.rp-shares[data-many] .rp-share { font-size: 7.6pt; }

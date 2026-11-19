@@ -75,6 +75,16 @@ export function wealthMonth(data: FinanceData, month: Date, now: Date, bench: Be
     const v = added > yearStart ? (h.cost_basis != null ? num(h.cost_basis) : valueAt(data, h, added.getTime())) : valueAt(data, h, yearStart.getTime());
     return sum + (v ?? 0);
   }, 0);
+  // Against the world market (an index of shares) only the shares count —
+  // crypto and metals move on their own (Bart, 19 Nov).
+  const shares = holdings.filter((x) => x.holding.asset_type === "stock");
+  const sharesStart = shares.reduce((s2, x) => s2 + (x.start ?? 0), 0);
+  const sharesEnd = shares.reduce((s2, x) => s2 + (x.end ?? 0), 0);
+  const ytdSharesStart = live(data.holdings).filter((h) => h.asset_type === "stock").reduce((sum, h) => {
+    const added = new Date(h.date_added);
+    const v = added > yearStart ? (h.cost_basis != null ? num(h.cost_basis) : valueAt(data, h, added.getTime())) : valueAt(data, h, yearStart.getTime());
+    return sum + (v ?? 0);
+  }, 0);
   const market = bench?.length
     ? { month: change(priceAt(bench, before.getTime()), priceAt(bench, end.getTime())), year: change(priceAt(bench, yearStart.getTime()), priceAt(bench, end.getTime())) }
     : null;
@@ -93,6 +103,10 @@ export function wealthMonth(data: FinanceData, month: Date, now: Date, bench: Be
     equityPct: change(prev.equity, sheet.equity),
     equityYear: change(lastYear.equity, sheet.equity),
     invYear: change(ytdInvStart, invEnd),
+    hasShares: shares.length > 0,
+    sharesEnd,
+    sharesPct: change(sharesStart, sharesEnd),
+    sharesYear: change(ytdSharesStart, sharesEnd),
     savingsRate: s.income > 0 ? (s.income - s.spent) / s.income : null,
     work,
     invGain,
@@ -109,7 +123,7 @@ export function wealthYear(data: FinanceData, year: number, now: Date, bench: Be
   const last = year < now.getFullYear() ? 11 : year === now.getFullYear() ? now.getMonth() : -1;
   const months = Array.from({ length: last + 1 }, (_, m) => {
     const w = wealthMonth(data, new Date(year, m, 1), now, bench);
-    return { m, equity: w.sheet.equity, equityPct: w.equityPct, inv: w.invEnd, invPct: w.invPct, market: w.market?.month ?? null, liq: w.liqEnd, liqStart: w.liqStart, hasInv: w.holdings.length > 0 };
+    return { m, equity: w.sheet.equity, equityPct: w.equityPct, inv: w.invEnd, invPct: w.invPct, sharesPct: w.sharesPct, hasShares: w.hasShares, market: w.market?.month ?? null, liq: w.liqEnd, liqStart: w.liqStart, hasInv: w.holdings.length > 0 };
   });
   const end = months.at(-1);
   const final = end ? wealthMonth(data, new Date(year, end.m, 1), now, bench) : null;
@@ -118,6 +132,8 @@ export function wealthYear(data: FinanceData, year: number, now: Date, bench: Be
     hasInv: months.some((x) => x.hasInv),
     equityYear: final?.equityYear ?? null,
     invYear: final?.invYear ?? null,
+    hasShares: months.some((x) => x.hasShares),
+    sharesYear: final?.sharesYear ?? null,
     marketYear: final?.market?.year ?? null,
     liqStart: months[0]?.liqStart ?? 0,
   };

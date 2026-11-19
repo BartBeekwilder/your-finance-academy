@@ -41,6 +41,12 @@ type FinanceState = {
   /** Vault mode: add a passphrase (`next`), or take it off (`next` null —
    *  `current` must open the copy). Saved straight away. */
   setPassphrase: (next: string | null, current?: string) => Promise<void>;
+  /** Signed in: the account's earlier copies (the last 10 that were replaced, newest first). */
+  vaultHistory: () => Promise<VaultVersion[]>;
+  /** Opens one earlier copy (to look at it before putting it back). */
+  openVaultVersion: (id: number) => Promise<FinanceData>;
+  /** Puts an earlier copy back as the account's copy (the one it replaces goes into the history too). */
+  restoreVaultVersion: (id: number) => Promise<void>;
   addTransaction: (t: NewTransaction) => Promise<void>;
   /** Many at once (Read with AI): one save, one redraw. */
   addTransactions: (list: NewTransaction[]) => Promise<void>;
@@ -182,6 +188,8 @@ async function loadAll(supabase: SupabaseClient): Promise<FinanceData> {
 /** `remembered`: a protected copy whose keys this device keeps (vaultKeys). */
 /** `repaired`: the copy had the same row twice (ids in another case, see
  *  foldIds) — it was folded on opening and is saved back at once. */
+export type VaultVersion = { id: number; saved_at: string; replaced_at: string; bytes: number };
+
 type Opened = { data: FinanceData; vault: Unlocked; at: string; remembered?: boolean; repaired?: boolean };
 
 /** The signed-in account's copy: opened when it has no passphrase (a first
@@ -666,6 +674,40 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     setVaultRemembered(vault.protected);
   }, [supabase, pushVault]);
 
+  // Earlier copies (migration 0016: the last 10 replaced copies per account).
+  const vaultHistory = useCallback(async (): Promise<VaultVersion[]> => {
+    if (!supabase) return [];
+    const { data, error } = await supabase.from("encrypted_vault_history").select("id, saved_at, replaced_at, bytes").order("replaced_at", { ascending: false }).limit(10);
+    if (error) throw error;
+    return (data ?? []) as VaultVersion[];
+  }, [supabase]);
+  const openVaultVersion = useCallback(async (id: number): Promise<FinanceData> => {
+    const v = vaultRef.current;
+    if (!supabase || !v) throw new Error("Not signed in.");
+    const { data: row, error } = await supabase.from("encrypted_vault_history").select("ciphertext, iv, salt, kdf").eq("id", id).single();
+    if (error) throw error;
+    try {
+      return liveOnly(await v.vault.open<FinanceData>(row as Sealed));
+    } catch {
+      // Saved under another passphrase (or without one) than this tab uses now.
+      throw new Error(t("This version was saved with another passphrase and can't be opened here."));
+    }
+  }, [supabase]);
+  const restoreVaultVersion = useCallback(async (id: number) => {
+    const data = await openVaultVersion(id);
+    const v = vaultRef.current;
+    if (!v) throw new Error("Not signed in.");
+    // Wait for any save in flight; then this copy becomes the tab's data and is
+    // saved as the account's copy (nothing merged into it, so it's exactly the old one).
+    await vaultBusy.current.catch(() => {});
+    v.saved = "";
+    latest.current = data;
+    setPhase((p) => (p.kind === "ready" && p.source === "vault" ? { ...p, data } : p));
+    const run = vaultBusy.current.then(pushVault);
+    vaultBusy.current = run.catch(() => {});
+    await run;
+  }, [openVaultVersion, pushVault]);
+
   // What every screen sees: spread expenses as their monthly parts, advances
   // apart from the spending (data.advances), and investments with their live
   // market value (for the balance sheet).
@@ -1101,7 +1143,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   return (
     <FinanceContext.Provider
-      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, addTransaction, addTransactions, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, updateHolding, deleteHolding, rewrite: update, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, deleteAccount, storedData, restoreLocal, addDocument, removeDocument }}
+      value={{ data: shown ?? phase.data, source: phase.source, now, email: phase.email, vaultStatus, vaultProtected, lock, setPassphrase, vaultHistory, openVaultVersion, restoreVaultVersion, addTransaction, addTransactions, updateTransaction, addCategory, updateCategory, deleteCategory, updateProfile, addBalanceItem, setBalanceValue, saveAccount, setBudget, saveProperty, deleteProperty, saveMortgagePart, deleteMortgagePart, closeMonth, awardBadges, undoCheckin, saveGoal, deleteGoal, savePolicy, deletePolicy, saveLoan, deleteLoan, addHolding, updateHolding, deleteHolding, rewrite: update, renameBalanceItem, deleteBalanceItem, deleteTransaction, reorderCategories, signOut, deleteAccount, storedData, restoreLocal, addDocument, removeDocument }}
     >
       {children}
       {stale && (

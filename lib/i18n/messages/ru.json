@@ -2146,5 +2146,18 @@
  "of the month's {days} days — the rest was yours": "из {days} дней месяца — остальное было ваше",
  "of work, at 40 hours a week": "работы при 40 часах в неделю",
  "What it cost you": "Во что это обошлось",
- "Work hours": "Рабочие часы"
+ "Work hours": "Рабочие часы",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "{tx} операций · {acc} счетов · {cat} категорий · {inv} инвестиций",
+ "Earlier versions": "Предыдущие версии",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "Каждый раз, когда твои данные перезаписываются, предыдущая версия сохраняется — последние 10. Что-то пошло не так после синхронизации? Верни более раннюю версию.",
+ "Look": "Посмотреть",
+ "newest booking {date}": "последняя операция {date}",
+ "No earlier versions yet.": "Предыдущих версий пока нет.",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "Вернуть версию от {when}? Твои данные станут этой версией; текущая копия останется в этом списке, так что это можно отменить.",
+ "Put this version back": "Вернуть эту версию",
+ "Show earlier versions": "Показать предыдущие версии",
+ "The version of {when} is back.": "Версия от {when} возвращена.",
+ "This version was saved with another passphrase and can't be opened here.": "Эта версия сохранена с другой парольной фразой и не может быть открыта здесь.",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "Мировой рынок: ETF iShares MSCI World (IWDA) в евро — сравни его со своими акциями (без криптовалют и металлов). Это сравнение, а не совет.",
+ "Your shares": "Твои акции"
 }

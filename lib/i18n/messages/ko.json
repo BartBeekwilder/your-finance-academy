@@ -2146,5 +2146,18 @@
  "of the month's {days} days — the rest was yours": "이달 {days}일 중 — 나머지는 내 시간",
  "of work, at 40 hours a week": "근무, 주 40시간 기준",
  "What it cost you": "들어간 시간",
- "Work hours": "근무 시간"
+ "Work hours": "근무 시간",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "거래 {tx}건 · 계좌 {acc}개 · 카테고리 {cat}개 · 투자 {inv}개",
+ "Earlier versions": "이전 버전",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "장부가 덮어쓰일 때마다 이전 버전이 보관됩니다(최근 10개). 동기화 후 문제가 생겼나요? 이전 버전으로 되돌리세요.",
+ "Look": "보기",
+ "newest booking {date}": "최근 거래 {date}",
+ "No earlier versions yet.": "아직 이전 버전이 없습니다.",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "{when} 버전으로 되돌릴까요? 장부가 그 버전이 됩니다. 현재 사본은 이 목록에 남으므로 되돌릴 수 있습니다.",
+ "Put this version back": "이 버전으로 되돌리기",
+ "Show earlier versions": "이전 버전 보기",
+ "The version of {when} is back.": "{when} 버전으로 되돌렸습니다.",
+ "This version was saved with another passphrase and can't be opened here.": "이 버전은 다른 암호 문구로 저장되어 여기서 열 수 없습니다.",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "세계 시장: 유로 기준 iShares MSCI World ETF(IWDA) — 보유 주식과 비교하세요(암호화폐·귀금속 제외). 비교일 뿐 조언이 아닙니다.",
+ "Your shares": "내 주식"
 }

@@ -2146,5 +2146,18 @@
  "of the month's {days} days — the rest was yours": "trong {days} ngày của tháng — phần còn lại là của bạn",
  "of work, at 40 hours a week": "làm việc, với 40 giờ mỗi tuần",
  "What it cost you": "Bạn đã tốn gì",
- "Work hours": "Giờ làm việc"
+ "Work hours": "Giờ làm việc",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "{tx} giao dịch · {acc} tài khoản · {cat} danh mục · {inv} khoản đầu tư",
+ "Earlier versions": "Phiên bản trước",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "Mỗi lần sổ sách của bạn bị ghi đè, phiên bản trước đó được giữ lại — 10 bản gần nhất. Có lỗi sau khi đồng bộ? Hãy khôi phục một phiên bản trước.",
+ "Look": "Xem",
+ "newest booking {date}": "giao dịch mới nhất {date}",
+ "No earlier versions yet.": "Chưa có phiên bản trước.",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "Khôi phục phiên bản {when}? Sổ sách của bạn sẽ thành phiên bản đó; bản hiện tại vẫn nằm trong danh sách này, nên bạn có thể hoàn tác.",
+ "Put this version back": "Khôi phục phiên bản này",
+ "Show earlier versions": "Hiện phiên bản trước",
+ "The version of {when} is back.": "Phiên bản {when} đã được khôi phục.",
+ "This version was saved with another passphrase and can't be opened here.": "Phiên bản này được lưu bằng cụm mật khẩu khác và không thể mở ở đây.",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "Thị trường thế giới: quỹ iShares MSCI World ETF (IWDA) tính bằng euro — so sánh với cổ phiếu của bạn (không tính tiền mã hóa và kim loại). Chỉ là so sánh, không phải lời khuyên.",
+ "Your shares": "Cổ phiếu của bạn"
 }

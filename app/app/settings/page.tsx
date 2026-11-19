@@ -15,6 +15,7 @@ import SubscriptionCard from "@/components/finance/SubscriptionCard";
 import YourDataSection from "@/components/finance/YourDataSection";
 import ReportsSection from "@/components/finance/ReportsSection";
 import PassphraseSection from "@/components/finance/PassphraseSection";
+import VaultHistorySection from "@/components/finance/VaultHistorySection";
 import SetupUndo from "@/components/finance/SetupUndo";
 import HouseholdSection from "@/components/finance/HouseholdSection";
 import { resetNavOrder } from "@/components/finance/AppNav";
@@ -153,6 +154,8 @@ export default function SettingsPage() {
       </Section>
 
       <PassphraseSection />
+
+      <VaultHistorySection />
 
       <PaydaySection />
 

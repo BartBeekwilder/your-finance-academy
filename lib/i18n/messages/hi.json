@@ -2146,5 +2146,18 @@
  "of the month's {days} days — the rest was yours": "महीने के {days} दिनों में से — बाकी आपके थे",
  "of work, at 40 hours a week": "काम, हफ़्ते में 40 घंटे के हिसाब से",
  "What it cost you": "इसकी कीमत",
- "Work hours": "काम के घंटे"
+ "Work hours": "काम के घंटे",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "{tx} लेनदेन · {acc} खाते · {cat} श्रेणियाँ · {inv} निवेश",
+ "Earlier versions": "पिछले संस्करण",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "हर बार जब आपकी किताबें बदली जाती हैं, पिछला संस्करण रखा जाता है — आख़िरी 10। सिंक के बाद कुछ गड़बड़ हुई? पिछला संस्करण वापस लाएँ।",
+ "Look": "देखें",
+ "newest booking {date}": "नवीनतम प्रविष्टि {date}",
+ "No earlier versions yet.": "अभी कोई पिछला संस्करण नहीं।",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "{when} का संस्करण वापस लाएँ? आपकी किताबें वही संस्करण बन जाएँगी; आज की प्रति इस सूची में रहेगी, इसलिए आप इसे पूर्ववत कर सकते हैं।",
+ "Put this version back": "यह संस्करण वापस लाएँ",
+ "Show earlier versions": "पिछले संस्करण दिखाएँ",
+ "The version of {when} is back.": "{when} का संस्करण वापस आ गया।",
+ "This version was saved with another passphrase and can't be opened here.": "यह संस्करण किसी दूसरे पासफ़्रेज़ से सहेजा गया था और यहाँ नहीं खुल सकता।",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "विश्व बाज़ार: यूरो में iShares MSCI World ETF (IWDA) — इसे अपने शेयरों से तुलना करें (क्रिप्टो और धातुएँ शामिल नहीं)। एक तुलना, सलाह नहीं।",
+ "Your shares": "आपके शेयर"
 }

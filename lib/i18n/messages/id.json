@@ -2146,5 +2146,18 @@
  "of the month's {days} days — the rest was yours": "dari {days} hari dalam bulan ini — sisanya milikmu",
  "of work, at 40 hours a week": "kerja, dengan 40 jam per minggu",
  "What it cost you": "Biayanya bagimu",
- "Work hours": "Jam kerja"
+ "Work hours": "Jam kerja",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "{tx} transaksi · {acc} rekening · {cat} kategori · {inv} investasi",
+ "Earlier versions": "Versi sebelumnya",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "Setiap kali catatanmu ditimpa, versi sebelumnya disimpan — 10 terakhir. Ada yang salah setelah sinkronisasi? Kembalikan versi sebelumnya.",
+ "Look": "Lihat",
+ "newest booking {date}": "transaksi terbaru {date}",
+ "No earlier versions yet.": "Belum ada versi sebelumnya.",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "Kembalikan versi {when}? Catatanmu menjadi versi itu; salinan saat ini tetap ada di daftar ini, jadi bisa dibatalkan.",
+ "Put this version back": "Kembalikan versi ini",
+ "Show earlier versions": "Tampilkan versi sebelumnya",
+ "The version of {when} is back.": "Versi {when} sudah kembali.",
+ "This version was saved with another passphrase and can't be opened here.": "Versi ini disimpan dengan frasa sandi lain dan tidak bisa dibuka di sini.",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "Pasar dunia: ETF iShares MSCI World (IWDA) dalam euro — bandingkan dengan sahammu (kripto dan logam tidak dihitung). Perbandingan, bukan saran.",
+ "Your shares": "Sahammu"
 }

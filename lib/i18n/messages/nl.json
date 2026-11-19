@@ -2152,5 +2152,18 @@
  "of the month's {days} days — the rest was yours": "van de {days} dagen van de maand — de rest was van jou",
  "of work, at 40 hours a week": "werk, bij 40 uur per week",
  "What it cost you": "Wat het je kostte",
- "Work hours": "Werkuren"
+ "Work hours": "Werkuren",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "{tx} transacties · {acc} rekeningen · {cat} categorieën · {inv} beleggingen",
+ "Earlier versions": "Eerdere versies",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "Elke keer dat je boeken worden overschreven, bewaren we de versie daarvoor — de laatste 10. Ging er iets mis na een synchronisatie? Zet een eerdere versie terug.",
+ "Look": "Bekijken",
+ "newest booking {date}": "nieuwste boeking {date}",
+ "No earlier versions yet.": "Nog geen eerdere versies.",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "De versie van {when} terugzetten? Je boeken worden die versie; de kopie van nu blijft in deze lijst, dus je kunt het ongedaan maken.",
+ "Put this version back": "Deze versie terugzetten",
+ "Show earlier versions": "Eerdere versies tonen",
+ "The version of {when} is back.": "De versie van {when} staat er weer.",
+ "This version was saved with another passphrase and can't be opened here.": "Deze versie is met een andere wachtzin opgeslagen en kan hier niet worden geopend.",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "Wereldmarkt: de iShares MSCI World ETF (IWDA) in euro's — vergelijk die met je aandelen (crypto en edelmetalen tellen niet mee). Een vergelijking, geen advies.",
+ "Your shares": "Je aandelen"
 }

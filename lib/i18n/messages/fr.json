@@ -2146,5 +2146,18 @@
  "of the month's {days} days — the rest was yours": "sur les {days} jours du mois — le reste était à vous",
  "of work, at 40 hours a week": "de travail, à 40 heures par semaine",
  "What it cost you": "Ce que ça vous a coûté",
- "Work hours": "Heures de travail"
+ "Work hours": "Heures de travail",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "{tx} transactions · {acc} comptes · {cat} catégories · {inv} placements",
+ "Earlier versions": "Versions précédentes",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "Chaque fois que tes comptes sont remplacés, la version précédente est conservée — les 10 dernières. Un souci après une synchronisation ? Remets une version précédente.",
+ "Look": "Voir",
+ "newest booking {date}": "dernière opération {date}",
+ "No earlier versions yet.": "Pas encore de version précédente.",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "Remettre la version du {when} ? Tes comptes deviennent cette version ; la copie actuelle reste dans cette liste, tu peux donc annuler.",
+ "Put this version back": "Remettre cette version",
+ "Show earlier versions": "Afficher les versions précédentes",
+ "The version of {when} is back.": "La version du {when} est de retour.",
+ "This version was saved with another passphrase and can't be opened here.": "Cette version a été enregistrée avec une autre phrase secrète et ne peut pas être ouverte ici.",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "Marché mondial : l'ETF iShares MSCI World (IWDA) en euros — compare-le à tes actions (hors crypto et métaux). Une comparaison, pas un conseil.",
+ "Your shares": "Tes actions"
 }

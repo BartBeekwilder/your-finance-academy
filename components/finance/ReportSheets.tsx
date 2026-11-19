@@ -118,8 +118,8 @@ function DayChart({ r, currency }: { r: MonthReport; currency: string }) {
 function CategoryRows({ rows, currency }: { rows: MonthReport["categories"]; currency: string }) {
   const max = Math.max(1, ...rows.map((r) => Math.max(r.spent, r.budget ?? 0)));
   return (
-    <div className="rp-cats">
-      {rows.slice(0, 7).map((r) => {
+    <div className="rp-cats" data-many={rows.length > 8 || undefined}>
+      {rows.map((r) => {
         const color = `#${r.category.color_hex}`;
         return (
           <div className="rp-cat" key={r.category.id}>
@@ -324,11 +324,12 @@ export function WealthSheet({ w, month, data, who }: { w: WealthMonth; month: Da
             <tbody>
               <tr><td>{t("Your equity")}</td><td data-good={tone(w.equityPct)}>{signedPct(w.equityPct)}</td><td data-good={tone(w.equityYear)}>{signedPct(w.equityYear)}</td></tr>
               {w.holdings.length > 0 && <tr><td>{t("Your investments")}</td><td data-good={tone(w.invPct)}>{signedPct(w.invPct)}</td><td data-good={tone(w.invYear)}>{signedPct(w.invYear)}</td></tr>}
+              {w.hasShares && <tr><td>{t("Your shares")}</td><td data-good={tone(w.sharesPct)}>{signedPct(w.sharesPct)}</td><td data-good={tone(w.sharesYear)}>{signedPct(w.sharesYear)}</td></tr>}
               <tr><td>{t("World market (MSCI World)")}</td><td data-good={tone(w.market?.month ?? null)}>{signedPct(w.market?.month ?? null)}</td><td data-good={tone(w.market?.year ?? null)}>{signedPct(w.market?.year ?? null)}</td></tr>
               <tr><td>{t("Savings rate")}</td><td>{w.savingsRate == null ? "—" : pct(w.savingsRate)}</td><td /></tr>
             </tbody>
           </table>
-          <p className="rp-caption">{t("World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.")}</p>
+          <p className="rp-caption">{t("World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.")}</p>
         </div>
       </div>
       <Foot page={2} pages={4}>
@@ -586,27 +587,39 @@ export function BalanceSheetPage({ month, data, now, who }: { month: Date; data:
 }
 
 /** Equity through the year, from where it started. */
-function EquityLine({ start, months }: { start: number; months: number[] }) {
-  const W = 500, H = 105, pad = 8;
-  const vals = [start, ...months];
+/** A value at the end of each month of the year, from where it started (31
+ *  December before): amounts up the side, months along the bottom — like the
+ *  monthly report's accounts chart (Bart, 19 Nov: "these need an x-y axis"). */
+function YearAxisLine({ start, values, color, currency, id }: { start: number; values: number[]; color: string; currency: string; id: string }) {
+  const W = 330, H = 112, left = 56, right = 8, top = 8, bottom = 18;
+  const vals = [start, ...values];
   const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
-  const pts = vals.map((v, i) => [pad + (i / (vals.length - 1)) * (W - pad * 2), pad + (H - pad * 2) * (1 - (v - lo) / span)] as const);
-  const line = pts.map(([x, yy], i) => `${i ? "L" : "M"}${x.toFixed(1)},${yy.toFixed(1)}`).join(" ");
+  const x = (i: number) => left + (i / 12) * (W - left - right);
+  const y = (v: number) => top + (H - top - bottom) * (1 - (v - lo) / span);
+  const line = vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const ticks = hi - lo < 0.5 ? [hi] : [hi, (hi + lo) / 2, lo, ...(lo < 0 && hi > 0 ? [0] : [])];
+  const short = (v: number) => money(Math.round(v), currency).replace(/[.,]00(?=\D*$)/, "");
   return (
-    <svg className="rp-chart rp-eq" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t("Equity")}>
+    <svg className="rp-chart" viewBox={`0 0 ${W} ${H}`} role="img">
       <defs>
-        <linearGradient id="rp-eq-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#14b8a6" stopOpacity="0.28" />
-          <stop offset="1" stopColor="#14b8a6" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id="rp-eq-line" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#6e5bea" />
-          <stop offset="1" stopColor="#14b8a6" />
+        <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={color} stopOpacity="0.25" />
+          <stop offset="1" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path d={`${line} L${pts[pts.length - 1][0]},${H} L${pts[0][0]},${H} Z`} fill="url(#rp-eq-fill)" />
-      <path d={line} fill="none" stroke="url(#rp-eq-line)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r="5" fill="#14b8a6" />
+      {ticks.map((v, i) => (
+        <g key={i}>
+          <line x1={left} x2={W - right} y1={y(v)} y2={y(v)} className="rp-grid" stroke={v === 0 ? "#e5484d" : undefined} strokeDasharray={v === 0 ? "3 3" : undefined} />
+          <text x={left - 6} y={y(v) + 4} textAnchor="end" className="rp-axis rp-axis-s">{short(v)}</text>
+        </g>
+      ))}
+      <path d={`${line} L${x(vals.length - 1)},${H - bottom} L${x(0)},${H - bottom} Z`} fill={`url(#${id})`} />
+      <path d={line} fill="none" stroke={color} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+      <line x1={left} x2={W - right} y1={H - bottom} y2={H - bottom} className="rp-base" />
+      {[0, 2, 4, 6, 8, 10].map((m) => (
+        <text key={m} x={x(m + 1)} y={H - 6} textAnchor="middle" className="rp-axis rp-axis-s">{shortMonth(new Date(2000, m, 1))}</text>
+      ))}
+      <circle cx={x(vals.length - 1)} cy={y(vals[vals.length - 1])} r="4" fill={color} />
     </svg>
   );
 }
@@ -639,31 +652,6 @@ function GrowthBars({ rows }: { rows: { a: number | null; b: number | null }[] }
   );
 }
 
-/** A value at the end of each month of the year so far, from where it started. */
-function YearLine({ start, values, color }: { start: number; values: number[]; color: string }) {
-  const W = 500, H = 100, pad = 8;
-  const vals = [start, ...values];
-  const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
-  const x = (i: number) => pad + (i / 12) * (W - pad * 2);
-  const y = (v: number) => pad + (H - pad * 2) * (1 - (v - lo) / span);
-  const line = vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
-  const id = `rp-yl-${color.slice(1)}`;
-  return (
-    <svg className="rp-chart" viewBox={`0 0 ${W} ${H}`} aria-hidden>
-      <defs>
-        <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor={color} stopOpacity="0.25" />
-          <stop offset="1" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {lo < 0 && hi > 0 && <line x1={pad} x2={W - pad} y1={y(0)} y2={y(0)} stroke="#e5484d" strokeDasharray="3 3" strokeWidth="1" opacity="0.6" />}
-      <path d={`${line} L${x(vals.length - 1)},${H} L${x(0)},${H} Z`} fill={`url(#${id})`} />
-      <path d={line} fill="none" stroke={color} strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
-      <circle cx={x(vals.length - 1)} cy={y(vals[vals.length - 1])} r="4.5" fill={color} />
-    </svg>
-  );
-}
-
 /** Page 3 of the annual report: your wealth month by month against the world market. */
 function YearWealthSheet({ w, year, currency, who }: { w: WealthYear; year: number; currency: string; who: string }) {
   const tone = (v: number | null) => (v == null ? undefined : v >= 0 ? "1" : "0");
@@ -674,7 +662,7 @@ function YearWealthSheet({ w, year, currency, who }: { w: WealthYear; year: numb
       <div className="rp-body">
         <div className="rp-kpis rp-kpis-4">
           <Kpi label={t("Your equity")} value={signedPct(w.equityYear)} tone="kept" note={t("{year} so far", { year: String(year) })} />
-          <Kpi label={t("Your investments")} value={w.hasInv ? signedPct(w.invYear) : "—"} tone="plain" note={t("{year} so far", { year: String(year) })} />
+          <Kpi label={w.hasShares ? t("Your shares") : t("Your investments")} value={w.hasShares ? signedPct(w.sharesYear) : w.hasInv ? signedPct(w.invYear) : "—"} tone="plain" note={t("{year} so far", { year: String(year) })} />
           <Kpi label={t("World market (MSCI World)")} value={signedPct(w.marketYear)} tone="plain" note={t("{year} so far", { year: String(year) })} />
           <Kpi label={t("On your accounts")} value={money(w.months.at(-1)?.liq ?? w.liqStart, currency)} tone="in" delta={w.months.length ? delta(w.months.at(-1)!.liq, w.liqStart, currency, monthName(new Date(year, 0, 1))) : null} deltaGood={(w.months.at(-1)?.liq ?? 0) >= w.liqStart} />
         </div>
@@ -693,12 +681,12 @@ function YearWealthSheet({ w, year, currency, who }: { w: WealthYear; year: numb
           {w.hasInv && (
             <div className="rp-block">
               <h3>{t("Your investments")}</h3>
-              <YearLine start={invStart} values={w.months.map((m) => m.inv)} color="#6e5bea" />
+              <YearAxisLine start={invStart} values={w.months.map((m) => m.inv)} color="#6e5bea" currency={currency} id="rp-yl-inv" />
             </div>
           )}
           <div className="rp-block">
             <h3>{t("On your accounts")}</h3>
-            <YearLine start={w.liqStart} values={w.months.map((m) => m.liq)} color="#1592ad" />
+            <YearAxisLine start={w.liqStart} values={w.months.map((m) => m.liq)} color="#1592ad" currency={currency} id="rp-yl-liq" />
           </div>
         </div>
 
@@ -711,6 +699,7 @@ function YearWealthSheet({ w, year, currency, who }: { w: WealthYear; year: numb
                 <th>{t("Equity")}</th>
                 <th>{t("Your equity")}</th>
                 {w.hasInv && <th>{t("Your investments")}</th>}
+                {w.hasShares && <th>{t("Your shares")}</th>}
                 <th>{t("World market (MSCI World)")}</th>
                 <th>{t("On your accounts")}</th>
               </tr>
@@ -722,6 +711,7 @@ function YearWealthSheet({ w, year, currency, who }: { w: WealthYear; year: numb
                   <td>{money(m.equity, currency)}</td>
                   <td data-good={tone(m.equityPct)}>{signedPct(m.equityPct)}</td>
                   {w.hasInv && <td data-good={tone(m.invPct)}>{signedPct(m.invPct)}</td>}
+                  {w.hasShares && <td data-good={tone(m.sharesPct)}>{signedPct(m.sharesPct)}</td>}
                   <td data-good={tone(m.market)}>{signedPct(m.market)}</td>
                   <td>{money(m.liq, currency)}</td>
                 </tr>
@@ -731,6 +721,7 @@ function YearWealthSheet({ w, year, currency, who }: { w: WealthYear; year: numb
                 <td>{money(w.months.at(-1)?.equity ?? 0, currency)}</td>
                 <td data-good={tone(w.equityYear)}>{signedPct(w.equityYear)}</td>
                 {w.hasInv && <td data-good={tone(w.invYear)}>{signedPct(w.invYear)}</td>}
+                {w.hasShares && <td data-good={tone(w.sharesYear)}>{signedPct(w.sharesYear)}</td>}
                 <td data-good={tone(w.marketYear)}>{signedPct(w.marketYear)}</td>
                 <td>{money(w.months.at(-1)?.liq ?? w.liqStart, currency)}</td>
               </tr>
@@ -781,32 +772,33 @@ export function YearSheets({ y, months, data, who, wealth }: { y: YearCloseData;
           <div className="rp-cols">
             <div className="rp-block">
               <h3>{t("Equity")}</h3>
-              <EquityLine start={w.equityStart} months={w.equityByMonth} />
+              <YearAxisLine start={w.equityStart} values={w.equityByMonth} color="#14b8a6" currency={currency} id="rp-yl-eq" />
               <p className="rp-caption">
                 {money(w.equityStart, currency)} → <b>{money(w.equityEnd, currency)}</b>{" "}
                 <span data-good={w.equityChange >= 0 ? "1" : "0"} className="rp-chg">({money(w.equityChange, currency, { signed: true })})</span>
               </p>
             </div>
             <div className="rp-block">
-              <h3>{t("Where it went")}</h3>
-              <div className="rp-shares">
-                {w.top.map((c) => {
-                  const cat = cats.get(c.id);
-                  return (
-                    <div key={c.id} className="rp-share">
-                      <span className="rp-cat-name">
-                        <i style={{ background: `#${cat?.color_hex ?? "888888"}` }} />
-                        {cat?.name ?? "—"}
-                      </span>
-                      <span className="rp-cat-track">
-                        <span className="rp-cat-fill" style={{ width: `${Math.max(c.share, 0.02) * 100}%`, background: `#${cat?.color_hex ?? "888888"}` }} />
-                      </span>
-                      <b>{money(c.spent, currency)}</b>
-                    </div>
-                  );
-                })}
-              </div>
+            <h3>{t("Where it went")}</h3>
+            <div className="rp-shares" data-many={(w.all ?? w.top).length > 6 || undefined}>
+              {(w.all ?? w.top).map((c) => {
+                const cat = cats.get(c.id);
+                return (
+                  <div key={c.id} className="rp-share">
+                    <span className="rp-cat-name">
+                      <i style={{ background: `#${cat?.color_hex ?? "888888"}` }} />
+                      {cat?.name ?? "—"}
+                    </span>
+                    <span className="rp-cat-track">
+                      <span className="rp-cat-fill" style={{ width: `${Math.max(c.share, 0.02) * 100}%`, background: `#${cat?.color_hex ?? "888888"}` }} />
+                    </span>
+                    <b>{money(c.spent, currency)}</b>
+                  </div>
+                );
+              })}
             </div>
+          </div>
+
           </div>
 
           <div className="rp-highlights">

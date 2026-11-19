@@ -2146,5 +2146,18 @@
  "of the month's {days} days — the rest was yours": "その月の{days}日のうち — 残りは自分のため",
  "of work, at 40 hours a week": "労働（週40時間）",
  "What it cost you": "かかった時間",
- "Work hours": "労働時間"
+ "Work hours": "労働時間",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "取引 {tx} 件 · 口座 {acc} · カテゴリー {cat} · 投資 {inv}",
+ "Earlier versions": "以前のバージョン",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "帳簿が上書きされるたびに、その前のバージョンが保存されます(最新の10件)。同期のあとで問題が起きたら、以前のバージョンに戻せます。",
+ "Look": "表示",
+ "newest booking {date}": "最新の取引 {date}",
+ "No earlier versions yet.": "以前のバージョンはまだありません。",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "{when} のバージョンに戻しますか?帳簿はそのバージョンになります。今のコピーはこの一覧に残るので、元に戻せます。",
+ "Put this version back": "このバージョンに戻す",
+ "Show earlier versions": "以前のバージョンを表示",
+ "The version of {when} is back.": "{when} のバージョンに戻しました。",
+ "This version was saved with another passphrase and can't be opened here.": "このバージョンは別のパスフレーズで保存されているため、ここでは開けません。",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "世界市場:ユーロ建ての iShares MSCI World ETF(IWDA)— あなたの株式と比べてください(暗号資産と貴金属は除く)。比較であり、助言ではありません。",
+ "Your shares": "あなたの株式"
 }

@@ -2146,5 +2146,18 @@
  "of the month's {days} days — the rest was yours": "من أيام الشهر البالغة {days} — والباقي كان لك",
  "of work, at 40 hours a week": "من العمل، بواقع 40 ساعة أسبوعيًا",
  "What it cost you": "ما كلّفك",
- "Work hours": "ساعات العمل"
+ "Work hours": "ساعات العمل",
+ "{tx} transactions · {acc} accounts · {cat} categories · {inv} investments": "{tx} معاملة · {acc} حساب · {cat} فئة · {inv} استثمار",
+ "Earlier versions": "الإصدارات السابقة",
+ "Every time your books are saved over, the version before is kept — the last 10. Something went wrong after a sync? Put an earlier version back.": "في كل مرة تُستبدل فيها بياناتك، نحتفظ بالنسخة السابقة — آخر 10 نسخ. حدث خطأ بعد المزامنة؟ أعد نسخة سابقة.",
+ "Look": "عرض",
+ "newest booking {date}": "أحدث قيد {date}",
+ "No earlier versions yet.": "لا توجد إصدارات سابقة بعد.",
+ "Put back the version of {when}? Your books become that version; today's copy is kept in this list, so you can undo it.": "استعادة إصدار {when}؟ ستصبح بياناتك هذا الإصدار؛ وتبقى النسخة الحالية في هذه القائمة، لذا يمكنك التراجع.",
+ "Put this version back": "استعادة هذا الإصدار",
+ "Show earlier versions": "عرض الإصدارات السابقة",
+ "The version of {when} is back.": "عاد إصدار {when}.",
+ "This version was saved with another passphrase and can't be opened here.": "حُفظ هذا الإصدار بعبارة مرور أخرى ولا يمكن فتحه هنا.",
+ "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "السوق العالمية: صندوق iShares MSCI World ETF (IWDA) باليورو — قارنه بأسهمك (دون العملات المشفرة والمعادن). مقارنة وليست نصيحة.",
+ "Your shares": "أسهمك"
 }
