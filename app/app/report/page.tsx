@@ -11,7 +11,7 @@ import { monthReport } from "@/lib/finance/monthReport";
 import { yearCloseData } from "@/lib/finance/yearCloseModel";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { usePremium } from "@/components/finance/usePremium";
-import { MonthSheet, WealthSheet, YearSheets, type ReportMonth } from "@/components/finance/ReportSheets";
+import { MonthSheet, MoneySheet, WealthSheet, YearSheets, type ReportMonth } from "@/components/finance/ReportSheets";
 import { wealthMonth, wealthYear, type BenchPoints } from "@/lib/finance/wealthReport";
 
 // Premium › reports: a month (?month=YYYY-MM, or "prev") or a year
@@ -82,13 +82,16 @@ export default function ReportPage() {
   }, []);
   const sheets = useMemo(() => {
     if (!pick) return null;
-    if (pick.kind === "month")
+    if (pick.kind === "month") {
+      const w = wealthMonth(data, pick.month, now, bench);
       return (
         <>
           <MonthSheet r={monthReport(data, pick.month, now)} data={data} who={who} />
-          <WealthSheet w={wealthMonth(data, pick.month, now, bench)} month={pick.month} data={data} who={who} />
+          <WealthSheet w={w} month={pick.month} data={data} who={who} />
+          <MoneySheet w={w} month={pick.month} data={data} now={now} who={who} />
         </>
       );
+    }
     // The running year: this month as it stands right now on the live model
     // (salary earned so far, fixed costs used up so far, as on the tiles), the
     // months ahead as the forecast. Finished months: what was booked.

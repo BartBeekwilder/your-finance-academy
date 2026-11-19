@@ -1,16 +1,21 @@
 "use client";
 
+import { Fragment, useMemo } from "react";
 import { intlLocale, t } from "@/lib/i18n";
 import { money, monthName, monthYear, shortMonth } from "@/lib/finance/format";
 import type { MonthReport } from "@/lib/finance/monthReport";
 import type { YearCloseData } from "@/lib/finance/yearCloseModel";
 import type { FinanceData } from "@/lib/finance/types";
+import { balanceSheet, type BalanceLine } from "@/lib/finance/calc";
+import { clockTime, duration, type MoneyClock as MoneyClockData } from "@/lib/finance/moneyClock";
+import { useMoneyClock } from "./MoneyClock";
 import type { WealthMonth, WealthYear } from "@/lib/finance/wealthReport";
 import BrandMark from "./BrandMark";
 
-// The Premium reports as A4 sheets (app/app/report): a month on one page, a
-// year on two (the year in numbers, then the figures for the tax return),
-// each followed by your wealth against the world market.
+// The Premium reports as A4 sheets (app/app/report): a month on three pages
+// (the month; your wealth and benchmarks; your money clock, accounts and
+// balance sheet), a year on three (the year in numbers, the figures for the
+// tax return, your wealth against the world market).
 // Light paper with the brand's gradient on top, so they read well on a
 // screen and when printed; charts are plain SVG, so the PDF stays sharp.
 
@@ -218,7 +223,7 @@ export function MonthSheet({ r, data, who }: { r: MonthReport; data: FinanceData
           </div>
         </div>
       </div>
-      <Foot page={1} pages={2}>
+      <Foot page={1} pages={3}>
         <span>{t("Equity at the end of {month}", { month: monthName(r.month) })}</span>
         <b>{money(r.equity, currency)}</b>
         {Math.abs(r.equityChange) >= 0.5 && <small data-good={r.equityChange >= 0 ? "1" : "0"}>{money(r.equityChange, currency, { signed: true })}</small>}
@@ -269,46 +274,11 @@ function Spark({ values, up }: { values: number[]; up: boolean }) {
   );
 }
 
-/** The money on the accounts through the month, with its lowest day. */
-function LiquidityLine({ start, days, total, currency }: { start: number; days: number[]; total: number; currency: string }) {
-  const W = 500, H = 120, pad = 10;
-  const vals = [start, ...days];
-  const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
-  const x = (i: number) => pad + (i / total) * (W - pad * 2);
-  const y = (v: number) => pad + (H - pad * 2) * (1 - (v - lo) / span);
-  const line = vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
-  const low = days.reduce((m, v, i) => (v < days[m] ? i : m), 0);
-  return (
-    <svg className="rp-chart" viewBox={`0 0 ${W} ${H + 14}`} role="img" aria-label={t("Liquidity")}>
-      <defs>
-        <linearGradient id="rp-liq-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#40c8e0" stopOpacity="0.3" />
-          <stop offset="1" stopColor="#40c8e0" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {lo < 0 && hi > 0 && <line x1={pad} x2={W - pad} y1={y(0)} y2={y(0)} stroke="#e5484d" strokeDasharray="3 3" strokeWidth="1" opacity="0.6" />}
-      <path d={`${line} L${x(vals.length - 1)},${H - pad} L${x(0)},${H - pad} Z`} fill="url(#rp-liq-fill)" />
-      <path d={line} fill="none" stroke="#1592ad" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
-      {days.length > 1 && (
-        <>
-          <circle cx={x(low + 1)} cy={y(days[low])} r="4" fill="#fff" stroke="#e5484d" strokeWidth="2" />
-          <text x={Math.min(Math.max(x(low + 1), 50), W - 50)} y={Math.min(y(days[low]) + 17, H + 12)} textAnchor="middle" className="rp-axis">{t("lowest {amount}", { amount: money(days[low], currency) })}</text>
-        </>
-      )}
-    </svg>
-  );
-}
-
 /** Page 2 of the monthly report: your wealth — investments, accounts, balance sheet, benchmarks. */
 export function WealthSheet({ w, month, data, who }: { w: WealthMonth; month: Date; data: FinanceData; who: string }) {
   const currency = data.profile.currency_code;
   const before = monthName(new Date(month.getFullYear(), month.getMonth() - 1, 1));
   const tone = (v: number | null) => (v == null ? undefined : v >= 0 ? "1" : "0");
-  const rows: { label: string; now: number; then: number }[] = [
-    { label: t("What you own"), now: w.sheet.assets, then: w.prev.assets },
-    { label: t("What you owe"), now: w.sheet.debts, then: w.prev.debts },
-    { label: t("Equity"), now: w.sheet.equity, then: w.prev.equity },
-  ];
   return (
     <section className="rp-page">
       <Head kicker={t("Monthly report")} title={t("Your wealth · {month}", { month: monthYear(month) })} who={who} currency={currency} />
@@ -327,7 +297,7 @@ export function WealthSheet({ w, month, data, who }: { w: WealthMonth; month: Da
               {w.market?.month != null && <span className="rp-legend">{t("World market (MSCI World) {pct}", { pct: signedPct(w.market.month) })}</span>}
             </div>
             <ul className="rp-list rp-holdings">
-              {w.holdings.slice(0, 6).map((x) => (
+              {w.holdings.map((x) => (
                 <li key={x.holding.id}>
                   <span className="rp-h-name">{x.holding.name || x.holding.symbol} <small>{x.holding.symbol}</small></span>
                   <Spark values={x.series} up={(x.pct ?? 0) >= 0} />
@@ -335,7 +305,6 @@ export function WealthSheet({ w, month, data, who }: { w: WealthMonth; month: Da
                   <em data-good={tone(x.pct)}>{signedPct(x.pct)}</em>
                 </li>
               ))}
-              {w.holdings.length > 6 && <li className="rp-more">{t("+{n} more", { n: w.holdings.length - 6 })}</li>}
               <li className="rp-total">
                 <span>{t("Total")}</span>
                 <span />
@@ -345,28 +314,6 @@ export function WealthSheet({ w, month, data, who }: { w: WealthMonth; month: Da
             </ul>
           </div>
         )}
-
-        <div className="rp-cols">
-          <div className="rp-block">
-            <div className="rp-block-head"><h3>{t("On your accounts through the month")}</h3></div>
-            <LiquidityLine start={w.liqStart} days={w.liquidity} total={w.days} currency={currency} />
-          </div>
-          <div className="rp-block">
-            <h3>{t("Balance sheet")}</h3>
-            <table className="rp-table rp-bs">
-              <thead><tr><th /><th>{monthName(month)}</th><th>{t("vs {month}", { month: before })}</th></tr></thead>
-              <tbody>
-                {rows.map((r, i) => (
-                  <tr key={r.label} className={i === 2 ? "rp-bs-eq" : undefined}>
-                    <td>{r.label}</td>
-                    <td>{money(r.now, currency)}</td>
-                    <td data-good={i === 1 ? (r.now <= r.then ? "1" : "0") : r.now >= r.then ? "1" : "0"}>{money(r.now - r.then, currency, { signed: true })}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
 
         <div className="rp-block">
           <div className="rp-block-head"><h3>{t("Benchmarks")}</h3></div>
@@ -382,11 +329,197 @@ export function WealthSheet({ w, month, data, who }: { w: WealthMonth; month: Da
           <p className="rp-caption">{t("World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.")}</p>
         </div>
       </div>
-      <Foot page={2} pages={2}>
+      <Foot page={2} pages={3}>
         <span>{t("Equity at the end of {month}", { month: monthName(month) })}</span>
         <b>{money(w.sheet.equity, currency)}</b>
         {w.equityPct != null && <small data-good={w.sheet.equity >= w.prev.equity ? "1" : "0"}>{signedPct(w.equityPct)}</small>}
       </Foot>
+    </section>
+  );
+}
+
+/** The money on the accounts through the month: amounts up the side, days along the bottom, the lowest day marked. */
+function LiquidityLine({ start, days, total, currency }: { start: number; days: number[]; total: number; currency: string }) {
+  const W = 700, H = 125, left = 78, right = 10, top = 10, bottom = 24;
+  const vals = [start, ...days];
+  const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
+  const x = (i: number) => left + (i / total) * (W - left - right);
+  const y = (v: number) => top + (H - top - bottom) * (1 - (v - lo) / span);
+  const line = vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const low = days.reduce((m, v, i) => (v < days[m] ? i : m), 0);
+  // Gridlines: the highest, the lowest, the middle — and zero when the line crosses it.
+  const ticks = [hi, (hi + lo) / 2, lo, ...(lo < 0 && hi > 0 ? [0] : [])];
+  const dayTicks = [1, 8, 15, 22, total].filter((d, i, a) => a.indexOf(d) === i && d <= total);
+  const short = (v: number) => money(Math.round(v), currency).replace(/[.,]00(?=\D*$)/, "");
+  return (
+    <svg className="rp-chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t("On your accounts through the month")}>
+      <defs>
+        <linearGradient id="rp-liq-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#40c8e0" stopOpacity="0.3" />
+          <stop offset="1" stopColor="#40c8e0" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {ticks.map((v, i) => (
+        <g key={i}>
+          <line x1={left} x2={W - right} y1={y(v)} y2={y(v)} className="rp-grid" stroke={v === 0 ? "#e5484d" : undefined} strokeDasharray={v === 0 ? "3 3" : undefined} />
+          <text x={left - 8} y={y(v) + 4} textAnchor="end" className="rp-axis rp-axis-s">{short(v)}</text>
+        </g>
+      ))}
+      <path d={`${line} L${x(vals.length - 1)},${H - bottom} L${x(0)},${H - bottom} Z`} fill="url(#rp-liq-fill)" />
+      <path d={line} fill="none" stroke="#1592ad" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+      <line x1={left} x2={W - right} y1={H - bottom} y2={H - bottom} className="rp-base" />
+      {dayTicks.map((d) => (
+        <text key={d} x={x(d)} y={H - 6} textAnchor="middle" className="rp-axis rp-axis-s">{d}</text>
+      ))}
+      {days.length > 1 && (
+        <>
+          <circle cx={x(low + 1)} cy={y(days[low])} r="4" fill="#fff" stroke="#e5484d" strokeWidth="2" />
+          <text x={Math.min(Math.max(x(low + 1), left + 50), W - 60)} y={Math.max(y(days[low]) - 9, 12)} textAnchor="middle" className="rp-axis rp-axis-s rp-low">{t("lowest {amount}", { amount: money(days[low], currency) })}</text>
+        </>
+      )}
+    </svg>
+  );
+}
+
+/** The money clock, still and on paper: the month's income as 24 hours. */
+function PrintClock({ clock, currency }: { clock: MoneyClockData; currency: string }) {
+  const R = 100, Wd = 24, M = 130;
+  const pt = (h: number, r: number) => {
+    const a = ((h / 24) * 360 - 90) * (Math.PI / 180);
+    return [M + r * Math.cos(a), M + r * Math.sin(a)];
+  };
+  const c = 2 * Math.PI * R;
+  const arc = (key: string, from: number, hours: number, color: string) => (
+    <circle key={key} cx={M} cy={M} r={R} fill="none" stroke={color} strokeWidth={Wd} strokeDasharray={`${Math.max((hours / 24) * c - 1.2, 0.1)} ${c}`} strokeDashoffset={-(from / 24) * c} transform={`rotate(-90 ${M} ${M})`} />
+  );
+  const kept = clock.keptFrom != null ? 24 - clock.keptFrom : 0;
+  const end = clock.keptFrom ?? 24;
+  const [hx1, hy1] = pt(end, R - Wd / 2 - 6), [hx2, hy2] = pt(end, R + Wd / 2 + 4);
+  const dur = (h: number) => {
+    const d = duration(h);
+    return d.h ? t("{h} h {m} min", { h: d.h, m: d.m }) : t("{m} min", { m: d.m });
+  };
+  return (
+    <div className="rp-clock">
+      <div className="rp-clock-dial">
+        <svg viewBox="0 0 260 260" aria-hidden>
+          <circle cx={M} cy={M} r={R} fill="none" stroke="#f0f0f5" strokeWidth={Wd} />
+          {Array.from({ length: 24 }, (_, h) => {
+            const [x1, y1] = pt(h, R + Wd / 2 + 3), [x2, y2] = pt(h, R + Wd / 2 + (h % 6 ? 6 : 10));
+            return <line key={h} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#b5b8c6" strokeWidth={h % 6 ? 0.8 : 1.6} />;
+          })}
+          {[0, 6, 12, 18].map((h) => {
+            const [x, y] = pt(h, R - Wd / 2 - 17);
+            return <text key={h} x={x} y={y + 4} textAnchor="middle" className="rp-axis rp-axis-s">{clockTime(h)}</text>;
+          })}
+          {clock.slices.map((s) => arc(s.key, s.from, Math.min(s.hours, 24 - Math.min(s.from, 24)), s.color))}
+          {kept > 0 && arc("kept", clock.keptFrom!, kept, "#22c55e")}
+          <line x1={hx1} y1={hy1} x2={hx2} y2={hy2} stroke="#12131a" strokeWidth="2.5" strokeLinecap="round" />
+        </svg>
+        <div className="rp-clock-mid">
+          {clock.keptFrom != null ? (
+            <>
+              <small>{t("You work for yourself from")}</small>
+              <b>{clockTime(clock.keptFrom)}</b>
+              <span>{t("{time} a day is yours", { time: dur(kept) })}</span>
+            </>
+          ) : (
+            <>
+              <small>{t("Your day ran out")}</small>
+              <b style={{ color: "#d0353a" }}>+{dur(clock.overHours)}</b>
+              <span>{t("spent beyond your income")}</span>
+            </>
+          )}
+        </div>
+      </div>
+      <ul className="rp-clock-list">
+        {clock.slices.map((s) => (
+          <li key={s.key}>
+            <i style={{ background: s.color }} />
+            <span>{s.name}</span>
+            <small>{clockTime(s.from)}–{clockTime(s.to)}</small>
+            <b>{dur(s.hours)}</b>
+            <em>{money(s.amount, currency)}</em>
+          </li>
+        ))}
+        {kept > 0 && (
+          <li className="rp-clock-kept">
+            <i style={{ background: "#22c55e" }} />
+            <span>{t("For yourself")}</span>
+            <small>{clockTime(clock.keptFrom!)}–24:00</small>
+            <b>{dur(kept)}</b>
+            <em>{money(clock.kept, currency)}</em>
+          </li>
+        )}
+      </ul>
+    </div>
+  );
+}
+
+/** One side of the balance sheet, each line with what it is made of. */
+function BalanceSide({ title, lines, total, currency }: { title: string; lines: BalanceLine[]; total: number; currency: string }) {
+  // Lines at zero (an empty post, nothing prepaid) say nothing on paper.
+  const shown = lines.filter((l) => Math.abs(l.value) > 0.005);
+  return (
+    <div className="rp-block">
+      <h3>{title}</h3>
+      <ul className="rp-list rp-bal">
+        {shown.length === 0 && <li className="rp-more">{t("No debts")}</li>}
+        {shown.map((l) => (
+          <Fragment key={l.id}>
+            <li>
+              <span>{l.name}</span>
+              <b>{money(l.value, currency)}</b>
+            </li>
+            {(l.parts ?? []).filter((p) => Math.abs(p.value) > 0.005).map((p) => (
+              <li key={p.id} className="rp-bal-part">
+                <span>{p.name}</span>
+                <small>{money(p.value, currency)}</small>
+              </li>
+            ))}
+          </Fragment>
+        ))}
+        <li className="rp-total">
+          <span>{t("Total")}</span>
+          <b>{money(total, currency)}</b>
+        </li>
+      </ul>
+    </div>
+  );
+}
+
+/** Page 3 of the monthly report: your money clock, your accounts through the month and your balance sheet. */
+export function MoneySheet({ w, month, data, now, who }: { w: WealthMonth; month: Date; data: FinanceData; now: Date; who: string }) {
+  const currency = data.profile.currency_code;
+  const clock = useMoneyClock(data, month);
+  const sheet = useMemo(() => balanceSheet(data, now, month), [data, now, month]);
+  return (
+    <section className="rp-page">
+      <Head kicker={t("Monthly report")} title={t("Your money · {month}", { month: monthYear(month) })} who={who} currency={currency} />
+      <div className="rp-body">
+        <div className="rp-block">
+          <div className="rp-block-head">
+            <h3>{t("Your money clock")}</h3>
+            {clock && <span className="rp-legend">{t("{income} came in: {perDay} a day.", { income: money(clock.income, currency), perDay: money(clock.income / w.days, currency) })}</span>}
+          </div>
+          {clock ? <PrintClock clock={clock} currency={currency} /> : <p className="rp-caption">{t("No income booked in {month} — the clock needs your income to fill the day.", { month: monthYear(month) })}</p>}
+        </div>
+
+        <div className="rp-block">
+          <div className="rp-block-head"><h3>{t("On your accounts through the month")}</h3></div>
+          <LiquidityLine start={w.liqStart} days={w.liquidity} total={w.days} currency={currency} />
+        </div>
+
+        <div className="rp-cols">
+          <BalanceSide title={t("What you own")} lines={sheet.assets} total={sheet.totalAssets} currency={currency} />
+          <BalanceSide title={t("What you owe")} lines={sheet.liabilities} total={sheet.totalDebt} currency={currency} />
+        </div>
+        <div className="rp-equity-band">
+          <span>{t("Equity at the end of {month}", { month: monthName(month) })}</span>
+          <b>{money(sheet.equity, currency)}</b>
+        </div>
+      </div>
+      <Foot page={3} pages={3} />
     </section>
   );
 }
