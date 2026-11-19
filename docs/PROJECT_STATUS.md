@@ -1933,7 +1933,7 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - Dev: signed in on the dev server (billing 503) counts as Premium.
 - /updates: two lines for 19 Nov (17 languages).
 
-## 2026-11-19 (evening) — Year Wrapped share card (web-app 98bf31f, NOT live)
+## 2026-11-19 (evening) — Year Wrapped share card (LIVE, main = d082d6d, /updates line)
 - components/finance/YearShare.tsx: "Share your year" under Year Wrapped
   (close-year page): canvas 1080×1920 — savings rate, months in the plus,
   equity growth %, the year month by month (no amounts), app name, link
@@ -1955,4 +1955,10 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - Web: flip NEXT_PUBLIC_PF_APPLE=on in Vercel.
 - iOS: SignInWithAppleButton (AuthenticationServices) → identityToken + nonce
   → POST /auth/v1/token?grant_type=id_token {provider: apple, id_token,
-  nonce}; entitlement com.apple.developer.applesignin. Code not written yet.
+  nonce}; entitlement com.apple.developer.applesignin. CODE WRITTEN
+  (ios-port-nov18 2b86196, NOT BUILT): VaultCloud.signInWithApple(idToken:nonce:),
+  SignInView "Continue with Apple" (white) under the sign-in button, shown
+  only with "apple": true in Personal Finance/Supabase.json; entitlement added.
+- To switch it on, with Bart signed in (Apple Developer + Supabase): the
+  steps above, then "apple": true in Supabase.json on the Mac and
+  NEXT_PUBLIC_PF_APPLE=on in Vercel; test both; /updates entry.
