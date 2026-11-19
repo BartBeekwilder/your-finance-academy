@@ -8,8 +8,8 @@ import type { YearCloseData } from "@/lib/finance/yearCloseModel";
 import type { FinanceData } from "@/lib/finance/types";
 import { balanceSheet, type BalanceLine } from "@/lib/finance/calc";
 import { clockTime, duration, type MoneyClock as MoneyClockData } from "@/lib/finance/moneyClock";
-import { useMoneyClock } from "./MoneyClock";
-import { workCost } from "@/lib/finance/workHours";
+import { useMoneyClock, useYearClock } from "./MoneyClock";
+import { workCost, workHoursIn } from "@/lib/finance/workHours";
 import { days1, workTime } from "./workTime";
 import type { WealthMonth, WealthYear } from "@/lib/finance/wealthReport";
 import BrandMark from "./BrandMark";
@@ -561,6 +561,58 @@ export function MoneySheet({ w, month, data, who }: { w: WealthMonth; month: Dat
   );
 }
 
+/** Page 2 of the annual report: the year's money clock — a year's income as
+ *  one day of 24 hours — and what the year's spending cost in work hours
+ *  (Bart, 19 Nov: "I don't see the clock" in the annual report). */
+function YearMoneySheet({ data, year, now, who, page, pages }: { data: FinanceData; year: number; now: Date; who: string; page: number; pages: number }) {
+  const currency = data.profile.currency_code;
+  const { clock, days } = useYearClock(data, year, now);
+  // A year's income: the work hours are the year's (so far), not a month's.
+  const cost = clock ? workCost(clock.income, days, clock.slices, workHoursIn(days)) : null;
+  return (
+    <section className="rp-page">
+      <Head kicker={t("Annual report")} title={t("Your money · {month}", { month: String(year) })} who={who} currency={currency} />
+      <div className="rp-body">
+        <div className="rp-block">
+          <div className="rp-block-head">
+            <h3>{t("Your money clock")}</h3>
+            {clock && <span className="rp-legend">{t("{income} came in: {perDay} a day.", { income: money(clock.income, currency), perDay: money(clock.income / days, currency) })}</span>}
+          </div>
+          {clock ? <PrintClock clock={clock} currency={currency} /> : <p className="rp-caption">{t("No income booked in {month} — the clock needs your income to fill the day.", { month: String(year) })}</p>}
+        </div>
+
+        {cost && cost.rows.length > 0 && (
+          <div className="rp-block">
+            <div className="rp-block-head">
+              <h3>{t("What it cost you")}</h3>
+              <span className="rp-legend">{t("An hour of your work: {work} net · an hour around the clock: {real}.", { work: money(cost.perWorkHour, currency), real: money(cost.perRealHour, currency) })}</span>
+            </div>
+            <div className="rp-kpis">
+              <Kpi label={t("Work hours")} value={workTime(cost.total.workHours)} tone="out" note={t("{n} working days, at 40 hours a week", { n: days1(cost.total.workDays) })} />
+              <Kpi label={t("Around the clock")} value={t("{n} days", { n: days1(cost.total.realDays) })} tone="plain" note={t("of the year's {days} days", { days })} />
+              <Kpi label={t("For yourself")} value={t("{n} days", { n: days1(cost.freeDays) })} tone="in" />
+            </div>
+            <table className="rp-table">
+              <thead><tr><th /><th>{t("Amount")}</th><th>{t("Work hours")}</th><th>{t("Around the clock")}</th></tr></thead>
+              <tbody>
+                {cost.rows.map((r) => (
+                  <tr key={r.key}>
+                    <td><i className="rp-dot" style={{ background: r.color }} />{r.name}</td>
+                    <td>{money(r.amount, currency)}</td>
+                    <td>{workTime(r.workHours)}</td>
+                    <td>{workTime(r.realHours)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+      <Foot page={page} pages={pages} />
+    </section>
+  );
+}
+
 /** Page 4 of the monthly report: the balance sheet line by line, against the month before. */
 export function BalanceSheetPage({ month, data, now, who }: { month: Date; data: FinanceData; now: Date; who: string }) {
   const currency = data.profile.currency_code;
@@ -653,7 +705,7 @@ function GrowthBars({ rows }: { rows: { a: number | null; b: number | null }[] }
 }
 
 /** Page 3 of the annual report: your wealth month by month against the world market. */
-function YearWealthSheet({ w, year, currency, who }: { w: WealthYear; year: number; currency: string; who: string }) {
+function YearWealthSheet({ w, year, currency, who, page, pages }: { w: WealthYear; year: number; currency: string; who: string; page: number; pages: number }) {
   const tone = (v: number | null) => (v == null ? undefined : v >= 0 ? "1" : "0");
   const invStart = w.months[0] ? w.months[0].inv / (1 + (w.months[0].invPct ?? 0)) : 0;
   return (
@@ -730,7 +782,7 @@ function YearWealthSheet({ w, year, currency, who }: { w: WealthYear; year: numb
           <p className="rp-caption">{t("World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.")}</p>
         </div>
       </div>
-      <Foot page={3} pages={3} />
+      <Foot page={page} pages={pages} />
     </section>
   );
 }
@@ -739,8 +791,9 @@ function YearWealthSheet({ w, year, currency, who }: { w: WealthYear; year: numb
  *  month ahead as the forecast. */
 export type ReportMonth = { income: number; spent: number; kind?: "booked" | "live" | "forecast" };
 
-export function YearSheets({ y, months, data, who, wealth }: { y: YearCloseData; months: ReportMonth[]; data: FinanceData; who: string; wealth?: WealthYear }) {
-  const pages = wealth?.months.length ? 3 : 2;
+export function YearSheets({ y, months, data, who, wealth, now }: { y: YearCloseData; months: ReportMonth[]; data: FinanceData; who: string; wealth?: WealthYear; now: Date }) {
+  // 1 the year · 2 your money (clock) · 3 for your tax return · 4 your wealth (when there is any)
+  const pages = wealth?.months.length ? 4 : 3;
   const currency = data.profile.currency_code;
   const w = y.wrap;
   const cats = new Map(data.categories.map((c) => [c.id, c]));
@@ -865,6 +918,8 @@ export function YearSheets({ y, months, data, who, wealth }: { y: YearCloseData;
         </Foot>
       </section>
 
+      <YearMoneySheet data={data} year={y.year} now={now} who={who} page={2} pages={pages} />
+
       <section className="rp-page">
         <header className="rp-head rp-head-slim">
           <div className="rp-head-l">
@@ -972,9 +1027,9 @@ export function YearSheets({ y, months, data, who, wealth }: { y: YearCloseData;
 
           <p className="rp-disclaimer">{t("Not tax advice: these are the figures from your own books. Check them against your bank's annual statements and your annual salary statement.")}</p>
         </div>
-        <Foot page={2} pages={pages} />
+        <Foot page={3} pages={pages} />
       </section>
-      {wealth && pages === 3 && <YearWealthSheet w={wealth} year={y.year} currency={currency} who={who} />}
+      {wealth && pages === 4 && <YearWealthSheet w={wealth} year={y.year} currency={currency} who={who} page={4} pages={4} />}
     </>
   );
 }

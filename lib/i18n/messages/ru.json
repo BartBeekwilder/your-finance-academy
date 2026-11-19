@@ -2160,5 +2160,6 @@
  "This version was saved with another passphrase and can't be opened here.": "Эта версия сохранена с другой парольной фразой и не может быть открыта здесь.",
  "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "Мировой рынок: ETF iShares MSCI World (IWDA) в евро — сравни его со своими акциями (без криптовалют и металлов). Это сравнение, а не совет.",
  "Your shares": "Твои акции",
- "Income (net)": "Доходы (чистые)"
+ "Income (net)": "Доходы (чистые)",
+ "of the year's {days} days": "из {days} дней года"
 }

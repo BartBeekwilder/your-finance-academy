@@ -16,10 +16,15 @@ export function workHoursFor(amount: number, monthlyIncome: number): number | nu
   return monthlyIncome > 0 ? (amount / monthlyIncome) * WORK_HOURS_MONTH : null;
 }
 
-/** The month's spending in time: in total and per row, biggest first. */
-export function workCost(income: number, days: number, rows: WorkCostRow[]) {
+/** Work hours in a stretch of [days] (a year so far, say) at 40 hours a week. */
+export const workHoursIn = (days: number) => WORK_HOURS_MONTH * (days / (365.25 / 12));
+
+/** The month's spending in time: in total and per row, biggest first.
+ *  [workHours]: the hours worked in the period the income is for — a month
+ *  by default; for a year (so far) pass workHoursIn(days). */
+export function workCost(income: number, days: number, rows: WorkCostRow[], workHours = WORK_HOURS_MONTH) {
   if (!(income > 0)) return null;
-  const perWorkHour = income / WORK_HOURS_MONTH;
+  const perWorkHour = income / workHours;
   const realHoursMonth = days * 24;
   const perRealHour = income / realHoursMonth;
   const of = (amount: number) => ({ amount, workHours: amount / perWorkHour, realHours: amount / perRealHour });

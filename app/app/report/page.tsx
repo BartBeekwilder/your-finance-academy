@@ -108,7 +108,7 @@ export default function ReportPage() {
       const s = summarize(data.transactions, new Date(pick.year, m, 1));
       return { income: s.income, spent: s.spent, kind: "booked" };
     });
-    return <YearSheets y={yearCloseData(data, pick.year, now)} months={months} data={data} who={who} wealth={wealthYear(data, pick.year, now, bench)} />;
+    return <YearSheets y={yearCloseData(data, pick.year, now)} months={months} data={data} who={who} wealth={wealthYear(data, pick.year, now, bench)} now={now} />;
   }, [pick, data, now, who, bench]);
 
   // The PDF's file name: the browser takes it from the title.

@@ -2160,5 +2160,6 @@
  "This version was saved with another passphrase and can't be opened here.": "このバージョンは別のパスフレーズで保存されているため、ここでは開けません。",
  "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "世界市場:ユーロ建ての iShares MSCI World ETF(IWDA)— あなたの株式と比べてください(暗号資産と貴金属は除く)。比較であり、助言ではありません。",
  "Your shares": "あなたの株式",
- "Income (net)": "収入(手取り)"
+ "Income (net)": "収入(手取り)",
+ "of the year's {days} days": "1年の{days}日のうち"
 }
