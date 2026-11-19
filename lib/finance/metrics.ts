@@ -36,10 +36,15 @@ export type Metric = {
   /** 0–1 for a bar (null: no bar). */
   bar: number | null;
   tone: Tone;
+  /** A second amount under the value (English key for t(), {amount} filled in). */
+  sub?: { label: string; value: number };
 };
 
 /** Net hours worked in a month at 40 hours a week (52 × 40 / 12). */
 export const WORK_HOURS = 173.3;
+
+/** Every hour of a month, day and night (365.25 × 24 / 12) — the money clock's day. */
+export const CLOCK_HOURS = 730.5;
 
 /** The freedom number (25 × a year's spending — the 4% rule), the share of
  *  it already there (cash + investments), and the years to get there saving
@@ -82,7 +87,7 @@ export function keyMetrics(x: MetricInput): Metric[] {
   if (x.income > 0) {
     const share = x.fixed / x.income;
     out.push({ key: "fixed", label: "Fixed costs of income", note: "Under 50% leaves room to breathe.", value: share, unit: "pct", bar: share, tone: share <= 0.5 ? "good" : share <= 0.65 ? "ok" : "bad" });
-    out.push({ key: "hour", label: "An hour of your work", note: "Net, at 40 hours a week.", value: x.income / WORK_HOURS, unit: "money", bar: null, tone: "neutral" });
+    out.push({ key: "hour", label: "An hour of your work", note: "Net, at 40 hours a week.", value: x.income / WORK_HOURS, unit: "money", bar: null, tone: "neutral", sub: { label: "{amount} an hour around the clock (24 h a day)", value: x.income / CLOCK_HOURS } });
   }
   if (x.freeThisMonth != null && (x.daysLeft ?? 0) > 0) {
     const perDay = x.freeThisMonth / (x.daysLeft as number);

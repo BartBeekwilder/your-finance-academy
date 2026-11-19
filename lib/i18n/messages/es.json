@@ -2115,5 +2115,6 @@
  "You work for yourself from": "Trabajas para ti desde las",
  "Your day ran out": "Tu día se acabó",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Tus ingresos como un día de 24 horas: hasta cuándo trabajas para cada gasto, el mayor primero, y desde cuándo para ti.",
- "Your money clock": "Tu reloj del dinero"
+ "Your money clock": "Tu reloj del dinero",
+ "{amount} an hour around the clock (24 h a day)": "{amount} por hora las 24 horas del día"
 }

@@ -44,6 +44,7 @@ function MetricCard({ m, currency, i }: { m: Metric; currency: string; i: number
     <div className="pf-kf-card" style={{ ["--c" as string]: TONE[m.tone], ["--d" as string]: `${i * 60}ms` }}>
       <span className="pf-kf-label">{t(m.label)}</span>
       <b className="pf-rounded pf-kf-value">{fmt(m, currency)}</b>
+      {m.sub && <span className="pf-kf-sub">{t(m.sub.label, { amount: money(m.sub.value, currency) })}</span>}
       {m.bar != null && <i className="pf-kf-bar"><em style={{ ["--f" as string]: Math.max(0, Math.min(1, m.bar)) }} /></i>}
       <small>{t(m.note)}</small>
     </div>

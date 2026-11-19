@@ -2115,5 +2115,6 @@
  "You work for yourself from": "Kendin için çalışmaya başladığın saat",
  "Your day ran out": "Günün bitti",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Gelirin 24 saatlik tek bir gün olarak: her gider için ne zamana kadar çalıştığın, en büyüğü önce — ve ne zamandan itibaren kendin için.",
- "Your money clock": "Para saatin"
+ "Your money clock": "Para saatin",
+ "{amount} an hour around the clock (24 h a day)": "Günün 24 saati boyunca saatte {amount}"
 }

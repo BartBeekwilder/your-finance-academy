@@ -2115,5 +2115,6 @@
  "You work for yourself from": "你从这个时间开始为自己工作",
  "Your day ran out": "你的一天用完了",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "把你的收入看作 24 小时的一天：为每项支出工作到几点（从大到小）——以及从几点开始为自己工作。",
- "Your money clock": "你的金钱时钟"
+ "Your money clock": "你的金钱时钟",
+ "{amount} an hour around the clock (24 h a day)": "按全天 24 小时计每小时 {amount}"
 }

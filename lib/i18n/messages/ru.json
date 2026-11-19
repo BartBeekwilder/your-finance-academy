@@ -2115,5 +2115,6 @@
  "You work for yourself from": "Вы работаете на себя с",
  "Your day ran out": "Ваш день закончился",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Ваш доход как один день из 24 часов: до какого часа вы работаете на каждую статью, начиная с самой крупной, — и с какого на себя.",
- "Your money clock": "Ваши денежные часы"
+ "Your money clock": "Ваши денежные часы",
+ "{amount} an hour around the clock (24 h a day)": "{amount} в час круглые сутки (24 ч)"
 }
