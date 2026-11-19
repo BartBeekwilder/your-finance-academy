@@ -6546,3 +6546,4 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 @media (prefers-reduced-motion: reduce) { .pf-clk-arc, .pf-clk-hand, .pf-clk-center, .pf-clk-list li { animation: none; } }
 .pf-wr-body .pf-clk-compact { width: min(100%, 280px); margin: 4px auto 0; }
 .pf-kf-sub { font-size: 0.85rem; font-weight: 600; color: var(--c, var(--pf-ink-2)); opacity: 0.8; margin-top: -2px; font-variant-numeric: tabular-nums; }
+.pf-clk-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }

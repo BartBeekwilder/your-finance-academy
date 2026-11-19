@@ -4,10 +4,11 @@ import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { money, monthYear } from "@/lib/finance/format";
-import { live, spendByCategory, summarize } from "@/lib/finance/calc";
+import { live, num, spendByCategory, spendByCategoryYear, summarize } from "@/lib/finance/calc";
 import { clockTime, duration, moneyClock, type ClockRow, type MoneyClock as Clock } from "@/lib/finance/moneyClock";
 import type { FinanceData } from "@/lib/finance/types";
 import CategoryIcon from "./CategoryIcon";
+import Segmented from "./Segmented";
 
 // The money clock (Bart, 19 Nov): a month's income as one day of 24 hours,
 // the biggest costs first, the rest is time for yourself. The dial draws
@@ -161,18 +162,49 @@ function fmtDur(h: number) {
   return d.h ? t("{h} h {m} min", { h: d.h, m: d.m }) : t("{m} min", { m: d.m });
 }
 
-/** Key figures: the clock of a month (the last full month to start with). */
+/** A year's clock: the year so far (up to [now]) or a past year in full. */
+export function useYearClock(data: FinanceData, year: number, now: Date): { clock: Clock | null; days: number } {
+  return useMemo(() => {
+    const current = year === now.getFullYear();
+    const end = current ? now : new Date(year, 11, 31, 23, 59, 59);
+    const tx = live(data.transactions).filter((x) => { const d = new Date(x.date); return d.getFullYear() === year && d <= end; });
+    let income = 0, spent = 0;
+    for (const x of tx) {
+      if (x.type === "income") income += num(x.amount);
+      else if (!x.advance) spent += num(x.amount);
+    }
+    const cats = spendByCategoryYear({ ...data, transactions: tx }, year);
+    const rows: ClockRow[] = cats.map((c) => ({ key: c.category.id, name: c.category.name, color: hex(c.category.color_hex), amount: c.spent }));
+    const loose = spent - cats.reduce((a, c) => a + c.spent, 0);
+    if (loose > 0.5) rows.push({ key: "uncategorized", name: t("No category"), color: "#636366", amount: loose });
+    const days = Math.max(Math.round((end.getTime() - new Date(year, 0, 1).getTime()) / 86_400_000), 1);
+    return { clock: moneyClock(income, rows, days, { key: "rest", name: t("Small costs"), color: "#8e8e93" }), days };
+  }, [data, year, now]);
+}
+
+/** Key figures: the clock of a month (the last full month to start with)
+ *  or of a year (this year so far to start with). */
 export function MoneyClockCard({ data, now, currency }: { data: FinanceData; now: Date; currency: string }) {
+  const [view, setView] = useState<"month" | "year">("month");
   const [back, setBack] = useState(1);
-  const y = now.getFullYear(), m = now.getMonth();
+  const [yearBack, setYearBack] = useState(0);
+  const y = now.getFullYear(), m = now.getMonth(), dd = now.getDate();
   const month = useMemo(() => new Date(y, m - back, 1), [y, m, back]);
-  const clock = useMoneyClock(data, month);
+  // Today (end of day): the year so far, stable while the page ticks.
+  const day = useMemo(() => new Date(y, m, dd, 23, 59, 59), [y, m, dd]);
+  const monthClock = useMoneyClock(data, month);
+  const year = y - yearBack;
+  const yearly = useYearClock(data, year, day);
+  const clock = view === "month" ? monthClock : yearly.clock;
+  const days = view === "month" ? new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate() : yearly.days;
   const icons = useMemo(() => new Map(live(data.categories).map((c) => [c.id, { icon: c.icon, color_hex: c.color_hex }])), [data.categories]);
   const first = useMemo(() => {
     const d = live(data.transactions).map((x) => x.date).sort()[0];
     return d ? new Date(d) : null;
   }, [data.transactions]);
-  const canBack = !!first && month > new Date(first.getFullYear(), first.getMonth(), 1);
+  const canBack = view === "month" ? !!first && month > new Date(first.getFullYear(), first.getMonth(), 1) : !!first && year > first.getFullYear();
+  const canForward = view === "month" ? back > 1 : yearBack > 0;
+  const label = view === "month" ? monthYear(month) : year === y ? t("{year} so far", { year: String(year) }) : String(year);
   return (
     <section className="pf-card pf-clk-card">
       <div className="pf-clk-head">
@@ -180,23 +212,25 @@ export function MoneyClockCard({ data, now, currency }: { data: FinanceData; now
           <h2 className="pf-section-title" style={{ margin: 0 }}>{t("Your money clock")}</h2>
           <p>{t("Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.")}</p>
         </div>
-        <div className="pf-clk-month">
-          <button type="button" aria-label={t("Previous month")} disabled={!canBack} onClick={() => setBack((b) => b + 1)}><ChevronLeft size={16} /></button>
-          <span>{monthYear(month)}</span>
-          <button type="button" aria-label={t("Next month")} disabled={back <= 1} onClick={() => setBack((b) => Math.max(b - 1, 1))}><ChevronRight size={16} /></button>
+        <div className="pf-clk-controls">
+          <Segmented label={t("Period")} value={view} onChange={setView} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
+          <div className="pf-clk-month">
+            <button type="button" aria-label={view === "month" ? t("Previous month") : t("Previous year")} disabled={!canBack} onClick={() => (view === "month" ? setBack((b) => b + 1) : setYearBack((b) => b + 1))}><ChevronLeft size={16} /></button>
+            <span>{label}</span>
+            <button type="button" aria-label={view === "month" ? t("Next month") : t("Next year")} disabled={!canForward} onClick={() => (view === "month" ? setBack((b) => Math.max(b - 1, 1)) : setYearBack((b) => Math.max(b - 1, 0)))}><ChevronRight size={16} /></button>
+          </div>
         </div>
       </div>
       {clock ? (
-        <ClockDial key={`${month.getTime()}`} clock={clock} currency={currency} icons={icons} />
+        <ClockDial key={`${view}-${view === "month" ? month.getTime() : year}`} clock={clock} currency={currency} icons={icons} />
       ) : (
-        <p className="pf-clk-empty">{t("No income booked in {month} — the clock needs your income to fill the day.", { month: monthYear(month) })}</p>
+        <p className="pf-clk-empty">{t("No income booked in {month} — the clock needs your income to fill the day.", { month: label })}</p>
       )}
       {clock && (
         <small className="pf-clk-foot">
-          {t("{income} came in: {perDay} a day.", { income: money(clock.income, currency), perDay: money(clock.income / new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate(), currency) })}
+          {t("{income} came in: {perDay} a day.", { income: money(clock.income, currency), perDay: money(clock.income / days, currency) })}
         </small>
       )}
     </section>
   );
 }
-
