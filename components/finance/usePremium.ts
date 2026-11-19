@@ -21,6 +21,9 @@ export function usePremium(): boolean | null {
         const token = data.session?.access_token;
         if (!token) return alive && setActive(false);
         const r = await fetch("/api/billing/status", { headers: { Authorization: `Bearer ${token}` } });
+        // The dev server has no billing keys (503 "not set up"): signed in
+        // locally counts as Premium, so the reports can be tried there.
+        if (r.status === 503 && process.env.NODE_ENV === "development") return alive && setActive(true);
         const j = (await r.json()) as { active?: boolean };
         if (alive) setActive(!!j.active);
       } catch {
