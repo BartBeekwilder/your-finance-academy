@@ -4,7 +4,42 @@ Read this first on any computer. It says where the project stands, how to
 run it, and what's next. Keep it up to date at the end of every session
 (Claude: update this file and commit it before finishing).
 
-Last updated: 2026-11-05 (late evening).
+Last updated: 2026-11-19 (evening, Windows → Mac).
+
+## >>> START HERE ON THE MAC (Bart: "zeg waar we gebleven waren") <<<
+When Bart says he wants to start, first tell him in a few lines where we
+left off (this block), then begin with step 1.
+
+Where it stands (19 Nov evening):
+- Website: `main` = live and up to date (sync safety: ids in one case +
+  wipe guard; Settings › Earlier versions; PDF axes / shares / all
+  categories / net income / money clock in the annual report; Year Wrapped
+  share card). Sign in with Apple is LIVE on the website (Apple Developer,
+  Supabase provider, Vercel NEXT_PUBLIC_PF_APPLE=on) — the button is in the
+  live build, but NOT yet tried with a real sign-in (do it in a private
+  window, signed out).
+- Apple key file AuthKey_PAX56CJDHJ.p8: Bart mails it to himself (personal
+  mailbox / password manager). Supabase Apple secret EXPIRES ~19 May 2027.
+- iOS branch `ios-port-nov18`: lots of code written on Windows and NOT
+  BUILT: f92bca6 (ids in one case), 25dca1a (safeMerge wipe guard),
+  2b86196 (Sign in with Apple), plus Read with AI, PDF reports, Your data /
+  delete account, + Add account, + Cash / + Credit card. Keep the app OFF
+  the iPhone/iPad until a new TestFlight build with these is installed.
+
+On the Mac, in order:
+1. `git pull` in both repos; iOS: `git checkout ios-port-nov18`.
+2. Set `"apple": true` in `Personal Finance/Supabase.json` (git-ignored).
+3. Build iPhone (iOS 26.2 simulator) + Mac Catalyst, fix compile errors,
+   run the tests (VaultSyncTests: fold + safeMerge).
+4. Check in the simulator: sign in (password + Apple), sync with the
+   account's copy (no doubling, no wipe), Settings › Your data / Premium /
+   Legal, + Add account, Quick Add chips, Reports.
+5. Raise CURRENT_PROJECT_VERSION to 3, archive + upload TestFlight build 3;
+   only then the app back on a device.
+6. Web: try Sign in with Apple live (signed out) and Settings › Earlier
+   versions signed in.
+Later: ANTHROPIC_API_KEY expires 2026-12-10; record ?ref per account;
+iOS ports (money clock, work hours, wealth pages, month picker).
 
 TRANSLATIONS: all 16 languages complete again (5 Nov evening, on the Mac:
 1593/1593). Keep it that way — translate new t() texts in the same commit
