@@ -26,6 +26,12 @@ Where it stands (19 Nov evening):
   delete account, + Add account, + Cash / + Credit card. Keep the app OFF
   the iPhone/iPad until a new TestFlight build with these is installed.
 
+Done on the Mac (19 Nov, late): steps 1–3 — both repos pulled, apple=true,
+iPhone + Mac Catalyst build clean, 78/78 iOS tests pass (c672ddc moved the
+19 Nov sync tests into VaultSyncTests). Web: PDF daily chart y-axis labels
+LIVE (d300dc5); safeMerge confirmed in the live JS. NEXT: step 4 (Bart signs
+in in the simulator himself), then step 5 (TestFlight build 3).
+
 On the Mac, in order:
 1. `git pull` in both repos; iOS: `git checkout ios-port-nov18`.
 2. Set `"apple": true` in `Personal Finance/Supabase.json` (git-ignored).
