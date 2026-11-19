@@ -1841,7 +1841,7 @@ what the compiler finds, run the tests, then look at it in the simulator.
   pay on the 24h dial, example costs), PDF section lists the wealth pages and
   benchmarks, /updates entry 2026-11-19. Texts in public/home/i18n.js (K 228–260).
 
-## 2026-11-19 — monthly PDF on 4 pages + automated app tests (web-app, NOT live)
+## 2026-11-19 — monthly PDF on 4 pages + automated app tests (LIVE 19 Nov, 1a4d7f6)
 - Bart: "print all investments", "liquidity chart needs axes", "the clock for that
   month", "a print of the balance sheet", "longer is fine — more accurate".
   Monthly report: 1 the month · 2 wealth (KPIs, ALL holdings, benchmarks) ·
