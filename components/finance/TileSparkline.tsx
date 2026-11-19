@@ -218,6 +218,8 @@ export default memo(function TileSparkline({
   const base = series === "balance" ? Math.min(Math.max(y(before * z), 0), H) : H - 4;
 
   const id = `pf-tsl-${series}`;
+  // A value under zero reads red in the tooltip too, like its bar (Bart, 19 Nov).
+  const tone = (v: number) => (v < 0 && series !== "spent" ? "#ff453a" : color);
 
   // ---- Scrub -----------------------------------------------------------------
   // Month view: every day this month, the days ahead at their forecast.
@@ -359,7 +361,7 @@ export default memo(function TileSparkline({
       {!absolute && <span className="pf-tsl-now" style={{ left: `${lastX}%`, top: lastY, ["--dot" as string]: series === "balance" && lastY > base ? "#ff453a" : color }} />}
       {pickedBar && (
         <>
-          <span className="pf-tsl-pick" style={{ left: `${pickedX}%`, top: pickedY, ["--dot" as string]: color }} />
+          <span className="pf-tsl-pick" style={{ left: `${pickedX}%`, top: pickedY, ["--dot" as string]: tone(pickedBar.v) }} />
           <span
             className="pf-tsl-tip"
             style={{
@@ -369,7 +371,7 @@ export default memo(function TileSparkline({
             }}
           >
             <span style={{ color: "var(--pf-ink-2)" }}>{pickedBar.label}</span>{" "}
-            <b style={{ color }}>{money(pickedBar.v, currency, { signed: series === "balance" || stock })}</b>
+            <b style={{ color: tone(pickedBar.v) }}>{money(pickedBar.v, currency, { signed: series === "balance" || stock })}</b>
             {pickedBar.fx !== undefined && !pickedBar.forecast && (
               <span style={{ color: "var(--pf-ink-3)" }}> · {tr("Fixed {fixed} · Variable {variable}", { fixed: `${money(pickedBar.fx, currency)} (${Math.round((Math.min(pickedBar.fx, pickedBar.v) / Math.max(pickedBar.v, 0.01)) * 100)}%)`, variable: `${money(Math.max(pickedBar.v - pickedBar.fx, 0), currency)} (${Math.round((Math.max(pickedBar.v - pickedBar.fx, 0) / Math.max(pickedBar.v, 0.01)) * 100)}%)` })}</span>
             )}
@@ -378,7 +380,7 @@ export default memo(function TileSparkline({
       )}
       {picked && (
         <>
-          <span className="pf-tsl-pick" style={{ left: `${pickedX}%`, top: pickedY, ["--dot" as string]: color }} />
+          <span className="pf-tsl-pick" style={{ left: `${pickedX}%`, top: pickedY, ["--dot" as string]: tone(inMonth && !stock ? picked.v - before : picked.v) }} />
           {/* Above the point, or below it near the top; kept inside the tile. */}
           <span
             className="pf-tsl-tip"
@@ -392,7 +394,7 @@ export default memo(function TileSparkline({
             }}
           >
             <span style={{ color: "var(--pf-ink-2)" }}>{picked.label}</span>{" "}
-            <b style={{ color }}>{money(inMonth && !stock ? picked.v - before : picked.v, currency)}</b>
+            <b style={{ color: tone(inMonth && !stock ? picked.v - before : picked.v) }}>{money(inMonth && !stock ? picked.v - before : picked.v, currency)}</b>
             {series === "spent" && !picked.forecast && picked.v > 0 && (
               <span style={{ display: "block", color: "var(--pf-ink-3)" }}>
                 {(() => {
