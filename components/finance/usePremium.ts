@@ -11,7 +11,9 @@ export function usePremium(): boolean | null {
   const { source } = useFinance();
   const [active, setActive] = useState<boolean | null>(null);
   useEffect(() => {
-    if (source === "demo") return;
+    // The demo, and your own local data (dev server, this computer only:
+    // no sign-in, so nothing to ask the server), have everything.
+    if (source === "demo" || source === "local") return;
     let alive = true;
     (async () => {
       try {
@@ -29,5 +31,5 @@ export function usePremium(): boolean | null {
       alive = false;
     };
   }, [source]);
-  return source === "demo" ? true : active;
+  return source === "demo" || source === "local" ? true : active;
 }

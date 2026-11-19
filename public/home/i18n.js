@@ -2752,7 +2752,7 @@
   }
   // The app screenshots (Wrapped cards, iPad stand, laptop setup) in this language.
   document.querySelectorAll('#wrTrack img, #standScreen img, #obScreen img').forEach(function (img) {
-    img.src = img.getAttribute('src').replace('/home/img/', '/home/img/' + lang + '/').replace(/\?v=\d+/, '?v=7');
+    img.src = img.getAttribute('src').replace('/home/img/', '/home/img/' + lang + '/').replace(/\?v=\d+/, '?v=8');
   });
 
   // The language chips in "Alleen van jou" and the picker in the bar switch
