@@ -11,7 +11,8 @@ import { monthReport } from "@/lib/finance/monthReport";
 import { yearCloseData } from "@/lib/finance/yearCloseModel";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import { usePremium } from "@/components/finance/usePremium";
-import { MonthSheet, YearSheets, type ReportMonth } from "@/components/finance/ReportSheets";
+import { MonthSheet, WealthSheet, YearSheets, type ReportMonth } from "@/components/finance/ReportSheets";
+import { wealthMonth, wealthYear, type BenchPoints } from "@/lib/finance/wealthReport";
 
 // Premium › reports: a month (?month=YYYY-MM, or "prev") or a year
 // (?year=YYYY) as A4 sheets. "Download PDF" prints just the sheets — the
@@ -28,6 +29,9 @@ export default function ReportPage() {
   const [pick, setPick] = useState<Pick | null>(null);
   const [embed, setEmbed] = useState(false);
   const [fit, setFit] = useState(1);
+  // Opened from the celebration after closing a month or year (?print=1):
+  // the print dialog opens by itself once the sheets are ready.
+  const [autoPrint, setAutoPrint] = useState(false);
 
   useEffect(() => {
     const q = new URLSearchParams(location.search);
@@ -35,6 +39,11 @@ export default function ReportPage() {
     const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     // eslint-disable-next-line react-hooks/set-state-in-effect -- read once from the address
     setEmbed(q.get("embed") === "1");
+    if (q.get("print") === "1") {
+      setAutoPrint(true);
+      q.delete("print");
+      history.replaceState(null, "", `${location.pathname}?${q}`);
+    }
     if (y && /^\d{4}$/.test(y)) setPick({ kind: "year", year: Number(y) });
     else if (m && /^\d{4}-\d{2}$/.test(m)) setPick({ kind: "month", month: new Date(Number(m.slice(0, 4)), Number(m.slice(5, 7)) - 1, 1) });
     else setPick({ kind: "month", month: m === "prev" ? new Date(now.getFullYear(), now.getMonth() - 1, 1) : thisMonth });
@@ -58,9 +67,28 @@ export default function ReportPage() {
   }, [data.transactions, now]);
 
   const who = source === "demo" ? t("Demo data") : (email ?? "");
+  // The world market for the benchmarks: an MSCI World ETF in euros (a
+  // year of daily closes; the ticker is all that goes out).
+  const [bench, setBench] = useState<BenchPoints>(null);
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/quotes?symbols=IWDA.AS&range=5y")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => alive && setBench(j?.quotes?.["IWDA.AS"]?.points ?? null))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
   const sheets = useMemo(() => {
     if (!pick) return null;
-    if (pick.kind === "month") return <MonthSheet r={monthReport(data, pick.month, now)} data={data} who={who} />;
+    if (pick.kind === "month")
+      return (
+        <>
+          <MonthSheet r={monthReport(data, pick.month, now)} data={data} who={who} />
+          <WealthSheet w={wealthMonth(data, pick.month, now, bench)} month={pick.month} data={data} who={who} />
+        </>
+      );
     // The running year: this month as it stands right now on the live model
     // (salary earned so far, fixed costs used up so far, as on the tiles), the
     // months ahead as the forecast. Finished months: what was booked.
@@ -76,8 +104,8 @@ export default function ReportPage() {
       const s = summarize(data.transactions, new Date(pick.year, m, 1));
       return { income: s.income, spent: s.spent, kind: "booked" };
     });
-    return <YearSheets y={yearCloseData(data, pick.year, now)} months={months} data={data} who={who} />;
-  }, [pick, data, now, who]);
+    return <YearSheets y={yearCloseData(data, pick.year, now)} months={months} data={data} who={who} wealth={wealthYear(data, pick.year, now, bench)} />;
+  }, [pick, data, now, who, bench]);
 
   // The PDF's file name: the browser takes it from the title.
   useEffect(() => {
@@ -88,6 +116,17 @@ export default function ReportPage() {
       document.title = before;
     };
   }, [pick]);
+
+  // Print once the sheets can be shown (Premium) and the world-market
+  // benchmark is in, or after a few seconds without it.
+  useEffect(() => {
+    if (!autoPrint || premium !== true || !sheets) return;
+    const id = setTimeout(() => {
+      setAutoPrint(false);
+      window.print();
+    }, bench ? 600 : 3500);
+    return () => clearTimeout(id);
+  }, [autoPrint, premium, sheets, bench]);
 
   const [mounted, setMounted] = useState(false);
   // eslint-disable-next-line react-hooks/set-state-in-effect -- portal target exists after mount

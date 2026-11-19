@@ -2118,5 +2118,20 @@
  "Your money clock": "你的金钱时钟",
  "{amount} an hour around the clock (24 h a day)": "按全天 24 小时计每小时 {amount}",
  "Equity growth from work": "来自工作的净资产增长",
- "{work} from work · {investments} from investments, this year.": "今年：工作 {work} · 投资 {investments}。"
+ "{work} from work · {investments} from investments, this year.": "今年：工作 {work} · 投资 {investments}。",
+ "{work} from work · {investments} from investments": "来自工作 {work} · 来自投资 {investments}",
+ "Benchmarks": "基准对比",
+ "lowest {amount}": "最低 {amount}",
+ "On your accounts": "账户余额",
+ "On your accounts through the month": "本月账户余额走势",
+ "World market (MSCI World)": "全球市场（MSCI World）",
+ "World market (MSCI World) {pct}": "全球市场（MSCI World）{pct}",
+ "World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.": "全球市场：以欧元计价的 iShares MSCI World ETF（IWDA）。仅作比较，不构成建议。",
+ "Your equity": "你的净资产",
+ "Your equity against the world market, per month": "你的净资产与全球市场对比（按月）",
+ "Your investments": "你的投资",
+ "Your investments this month": "本月你的投资",
+ "Your wealth · {month}": "你的财富 · {month}",
+ "Print the report": "打印报告",
+ "Print the annual report": "打印年度报告"
 }

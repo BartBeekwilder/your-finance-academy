@@ -2118,5 +2118,20 @@
  "Your money clock": "ساعة أموالك",
  "{amount} an hour around the clock (24 h a day)": "{amount} في الساعة على مدار اليوم (24 ساعة)",
  "Equity growth from work": "نمو الثروة من العمل",
- "{work} from work · {investments} from investments, this year.": "{work} من العمل · {investments} من الاستثمارات، هذا العام."
+ "{work} from work · {investments} from investments, this year.": "{work} من العمل · {investments} من الاستثمارات، هذا العام.",
+ "{work} from work · {investments} from investments": "{work} من العمل · {investments} من الاستثمارات",
+ "Benchmarks": "مقارنات",
+ "lowest {amount}": "الأدنى {amount}",
+ "On your accounts": "في حساباتك",
+ "On your accounts through the month": "في حساباتك خلال الشهر",
+ "World market (MSCI World)": "السوق العالمية (MSCI World)",
+ "World market (MSCI World) {pct}": "السوق العالمية (MSCI World) {pct}",
+ "World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.": "السوق العالمية: صندوق iShares MSCI World ETF (IWDA) باليورو. مقارنة وليست نصيحة.",
+ "Your equity": "صافي ثروتك",
+ "Your equity against the world market, per month": "صافي ثروتك مقابل السوق العالمية، شهريًا",
+ "Your investments": "استثماراتك",
+ "Your investments this month": "استثماراتك هذا الشهر",
+ "Your wealth · {month}": "ثروتك · {month}",
+ "Print the report": "طباعة التقرير",
+ "Print the annual report": "طباعة التقرير السنوي"
 }

@@ -2118,5 +2118,20 @@
  "Your money clock": "Para saatin",
  "{amount} an hour around the clock (24 h a day)": "Günün 24 saati boyunca saatte {amount}",
  "Equity growth from work": "Emekten gelen servet artışı",
- "{work} from work · {investments} from investments, this year.": "Bu yıl {work} emekten · {investments} yatırımlardan."
+ "{work} from work · {investments} from investments, this year.": "Bu yıl {work} emekten · {investments} yatırımlardan.",
+ "{work} from work · {investments} from investments": "{work} çalışmadan · {investments} yatırımlardan",
+ "Benchmarks": "Karşılaştırmalar",
+ "lowest {amount}": "en düşük {amount}",
+ "On your accounts": "Hesaplarında",
+ "On your accounts through the month": "Ay boyunca hesaplarında",
+ "World market (MSCI World)": "Dünya piyasası (MSCI World)",
+ "World market (MSCI World) {pct}": "Dünya piyasası (MSCI World) {pct}",
+ "World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.": "Dünya piyasası: euro cinsinden iShares MSCI World ETF (IWDA). Bir karşılaştırma, tavsiye değil.",
+ "Your equity": "Servetin",
+ "Your equity against the world market, per month": "Servetin dünya piyasasına karşı, aylık",
+ "Your investments": "Yatırımların",
+ "Your investments this month": "Bu ayki yatırımların",
+ "Your wealth · {month}": "Servetin · {month}",
+ "Print the report": "Raporu yazdır",
+ "Print the annual report": "Yıllık raporu yazdır"
 }

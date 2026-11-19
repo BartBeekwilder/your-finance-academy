@@ -2118,5 +2118,20 @@
  "Your money clock": "Jam uangmu",
  "{amount} an hour around the clock (24 h a day)": "{amount} per jam sepanjang hari (24 jam)",
  "Equity growth from work": "Pertumbuhan kekayaan dari kerja",
- "{work} from work · {investments} from investments, this year.": "{work} dari kerja · {investments} dari investasi, tahun ini."
+ "{work} from work · {investments} from investments, this year.": "{work} dari kerja · {investments} dari investasi, tahun ini.",
+ "{work} from work · {investments} from investments": "{work} dari kerja · {investments} dari investasi",
+ "Benchmarks": "Pembanding",
+ "lowest {amount}": "terendah {amount}",
+ "On your accounts": "Di rekeningmu",
+ "On your accounts through the month": "Di rekeningmu sepanjang bulan",
+ "World market (MSCI World)": "Pasar dunia (MSCI World)",
+ "World market (MSCI World) {pct}": "Pasar dunia (MSCI World) {pct}",
+ "World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.": "Pasar dunia: ETF iShares MSCI World (IWDA) dalam euro. Sebuah perbandingan, bukan saran.",
+ "Your equity": "Kekayaanmu",
+ "Your equity against the world market, per month": "Kekayaanmu dibanding pasar dunia, per bulan",
+ "Your investments": "Investasimu",
+ "Your investments this month": "Investasimu bulan ini",
+ "Your wealth · {month}": "Kekayaanmu · {month}",
+ "Print the report": "Cetak laporan",
+ "Print the annual report": "Cetak laporan tahunan"
 }

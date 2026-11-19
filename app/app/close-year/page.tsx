@@ -272,6 +272,7 @@ function CloseYear() {
           title={t("{year} is in the books!", { year: String(year) })}
           lines={[{ icon: "trophy", text: t("Year closed"), points: YEAR_CLOSE_POINTS }, ...(goalAmount && goalAmount > 0 ? [{ icon: "flag", text: t("Goal for {year}: {amount}", { year: String(nextYear), amount: money(goalAmount, currency) }) }] : [])]}
           onClose={() => router.push("/app/progress")}
+          action={{ label: t("Print the annual report"), onClick: () => router.push(`/app/report?year=${year}&print=1`) }}
         />
       )}
     </div>

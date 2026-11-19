@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarCheck, ChevronDown, CalendarRange, Flag, Flame, Gem, House, HousePlus, Landmark, Lock, Medal, PartyPopper, Percent, PiggyBank, Scale, ShieldCheck, Sprout, Target, TrendingUp, Trophy, FileText, FolderCheck, History, type LucideIcon } from "lucide-react";
+import { CalendarCheck, ChevronDown, CalendarRange, Flag, Flame, Gem, House, HousePlus, Landmark, Lock, Medal, PartyPopper, Percent, PiggyBank, Scale, ShieldCheck, Sprout, Target, TrendingUp, Trophy, FileText, FolderCheck, History, type LucideIcon , Printer } from "lucide-react";
 import { useEffect, useId, useState } from "react";
 import { t } from "@/lib/i18n";
 import type { Badge } from "@/lib/finance/progress";
@@ -190,7 +190,8 @@ export function BadgeTile({ badge, earnedAt, locale }: { badge: Badge; earnedAt?
 }
 
 /** Full-screen moment for new badges or a closed month. */
-export function Celebration({ title, lines, onClose }: { title: string; lines: { icon?: string; text: string; points?: number }[]; onClose: () => void }) {
+/** [action]: one more thing to do from here, e.g. print the report of what was just closed. */
+export function Celebration({ title, lines, onClose, action }: { title: string; lines: { icon?: string; text: string; points?: number }[]; onClose: () => void; action?: { label: string; onClick: () => void } }) {
   // The first five straight away; the rest unfold from "+N more".
   const [all, setAll] = useState(false);
   const shown = all ? lines : lines.slice(0, 5);
@@ -226,7 +227,14 @@ export function Celebration({ title, lines, onClose }: { title: string; lines: {
             </div>
           )}
         </div>
-        <button className="pf-button" onClick={onClose}>{t("Continue")}</button>
+        <div className="pf-celebrate-actions">
+          {action && (
+            <button type="button" className="pf-chip pf-celebrate-action" onClick={action.onClick}>
+              <Printer size={16} /> {action.label}
+            </button>
+          )}
+          <button className="pf-button" onClick={onClose}>{t("Continue")}</button>
+        </div>
       </div>
     </div>
   );

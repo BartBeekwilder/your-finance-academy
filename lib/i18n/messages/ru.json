@@ -2118,5 +2118,20 @@
  "Your money clock": "Ваши денежные часы",
  "{amount} an hour around the clock (24 h a day)": "{amount} в час круглые сутки (24 ч)",
  "Equity growth from work": "Рост капитала от труда",
- "{work} from work · {investments} from investments, this year.": "{work} от труда · {investments} от инвестиций, в этом году."
+ "{work} from work · {investments} from investments, this year.": "{work} от труда · {investments} от инвестиций, в этом году.",
+ "{work} from work · {investments} from investments": "{work} от работы · {investments} от инвестиций",
+ "Benchmarks": "Сравнение",
+ "lowest {amount}": "минимум {amount}",
+ "On your accounts": "На ваших счетах",
+ "On your accounts through the month": "На ваших счетах в течение месяца",
+ "World market (MSCI World)": "Мировой рынок (MSCI World)",
+ "World market (MSCI World) {pct}": "Мировой рынок (MSCI World) {pct}",
+ "World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.": "Мировой рынок: ETF iShares MSCI World (IWDA) в евро. Сравнение, а не совет.",
+ "Your equity": "Ваш капитал",
+ "Your equity against the world market, per month": "Ваш капитал против мирового рынка, по месяцам",
+ "Your investments": "Ваши инвестиции",
+ "Your investments this month": "Ваши инвестиции в этом месяце",
+ "Your wealth · {month}": "Ваш капитал · {month}",
+ "Print the report": "Распечатать отчёт",
+ "Print the annual report": "Распечатать годовой отчёт"
 }

@@ -2118,5 +2118,20 @@
  "Your money clock": "お金の時計",
  "{amount} an hour around the clock (24 h a day)": "24時間換算で1時間あたり{amount}",
  "Equity growth from work": "労働による純資産の増加",
- "{work} from work · {investments} from investments, this year.": "今年：労働から{work}・投資から{investments}。"
+ "{work} from work · {investments} from investments, this year.": "今年：労働から{work}・投資から{investments}。",
+ "{work} from work · {investments} from investments": "仕事から {work} · 投資から {investments}",
+ "Benchmarks": "ベンチマーク",
+ "lowest {amount}": "最低 {amount}",
+ "On your accounts": "口座の残高",
+ "On your accounts through the month": "月を通じた口座の残高",
+ "World market (MSCI World)": "世界市場（MSCI World）",
+ "World market (MSCI World) {pct}": "世界市場（MSCI World）{pct}",
+ "World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.": "世界市場：ユーロ建て iShares MSCI World ETF（IWDA）。比較であり、助言ではありません。",
+ "Your equity": "あなたの純資産",
+ "Your equity against the world market, per month": "あなたの純資産と世界市場の比較（月別）",
+ "Your investments": "あなたの投資",
+ "Your investments this month": "今月のあなたの投資",
+ "Your wealth · {month}": "あなたの資産 · {month}",
+ "Print the report": "レポートを印刷",
+ "Print the annual report": "年次レポートを印刷"
 }

@@ -2118,5 +2118,20 @@
  "Your money clock": "आपकी पैसों की घड़ी",
  "{amount} an hour around the clock (24 h a day)": "चौबीसों घंटे {amount} प्रति घंटा (24 घंटे)",
  "Equity growth from work": "काम से संपत्ति वृद्धि",
- "{work} from work · {investments} from investments, this year.": "इस साल {work} काम से · {investments} निवेश से।"
+ "{work} from work · {investments} from investments, this year.": "इस साल {work} काम से · {investments} निवेश से।",
+ "{work} from work · {investments} from investments": "{work} काम से · {investments} निवेश से",
+ "Benchmarks": "तुलना",
+ "lowest {amount}": "न्यूनतम {amount}",
+ "On your accounts": "आपके खातों में",
+ "On your accounts through the month": "महीने भर आपके खातों में",
+ "World market (MSCI World)": "विश्व बाज़ार (MSCI World)",
+ "World market (MSCI World) {pct}": "विश्व बाज़ार (MSCI World) {pct}",
+ "World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.": "विश्व बाज़ार: यूरो में iShares MSCI World ETF (IWDA)। यह तुलना है, सलाह नहीं।",
+ "Your equity": "आपकी संपत्ति",
+ "Your equity against the world market, per month": "विश्व बाज़ार की तुलना में आपकी संपत्ति, हर महीने",
+ "Your investments": "आपके निवेश",
+ "Your investments this month": "इस महीने आपके निवेश",
+ "Your wealth · {month}": "आपकी संपत्ति · {month}",
+ "Print the report": "रिपोर्ट प्रिंट करें",
+ "Print the annual report": "वार्षिक रिपोर्ट प्रिंट करें"
 }

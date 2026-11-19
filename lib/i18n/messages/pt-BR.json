@@ -2118,5 +2118,20 @@
  "Your money clock": "Seu relógio do dinheiro",
  "{amount} an hour around the clock (24 h a day)": "{amount} por hora, 24 h por dia",
  "Equity growth from work": "Crescimento do patrimônio pelo trabalho",
- "{work} from work · {investments} from investments, this year.": "{work} do trabalho · {investments} dos investimentos, neste ano."
+ "{work} from work · {investments} from investments, this year.": "{work} do trabalho · {investments} dos investimentos, neste ano.",
+ "{work} from work · {investments} from investments": "{work} do trabalho · {investments} dos investimentos",
+ "Benchmarks": "Comparativos",
+ "lowest {amount}": "mínimo {amount}",
+ "On your accounts": "Nas suas contas",
+ "On your accounts through the month": "Nas suas contas ao longo do mês",
+ "World market (MSCI World)": "Mercado mundial (MSCI World)",
+ "World market (MSCI World) {pct}": "Mercado mundial (MSCI World) {pct}",
+ "World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.": "Mercado mundial: o ETF iShares MSCI World (IWDA) em euros. Uma comparação, não um conselho.",
+ "Your equity": "Seu patrimônio",
+ "Your equity against the world market, per month": "Seu patrimônio frente ao mercado mundial, por mês",
+ "Your investments": "Seus investimentos",
+ "Your investments this month": "Seus investimentos este mês",
+ "Your wealth · {month}": "Seu patrimônio · {month}",
+ "Print the report": "Imprimir o relatório",
+ "Print the annual report": "Imprimir o relatório anual"
 }

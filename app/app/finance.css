@@ -3646,6 +3646,8 @@ html[data-pf-motion="light"] *::after {
   animation: pf-celebrate-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 .pf-celebrate-card h2 { font-size: 1.4rem; font-weight: 800; }
+.pf-celebrate-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.pf-celebrate-action { display: inline-flex; align-items: center; gap: 7px; padding: 10px 16px; }
 @keyframes pf-celebrate-pop {
   from { opacity: 0; transform: scale(0.7) translateY(20px); }
 }
@@ -6433,6 +6435,7 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .rp-chart { width: 100%; height: auto; display: block; overflow: visible; }
 .rp-grid { stroke: #ececf2; stroke-width: 1.2; }
 .rp-axis { font-size: 15px; fill: #8a8ea0; font-family: inherit; }
+.rp-axis-s { font-size: 10.5px; }
 .rp-bar-fixed { fill: #b9b4f5; }
 .rp-bar-in { fill: #22c55e; }
 .rp-bar-out { fill: #ff6b6b; }
@@ -6465,6 +6468,18 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .rp-list-3 small[data-good="1"] { color: #15803d; }
 .rp-list li.rp-total { border-bottom: 0; border-top: 1.5px solid #12131a; margin-top: 0.5mm; font-weight: 750; color: #12131a; }
 .rp-list li.rp-more { color: #8a8ea0; font-style: italic; }
+/* Monthly report page 2, "Your wealth": holdings with a month sparkline. */
+.rp-holdings li { display: grid; grid-template-columns: 1fr 30mm 28mm 16mm; align-items: center; padding: 0.5mm 0; }
+.rp-holdings li b, .rp-holdings li em { text-align: end; }
+.rp-holdings em { font-style: normal; font-weight: 700; font-size: 8pt; color: #6b6f80; }
+.rp-holdings em[data-good="1"] { color: #15803d; }
+.rp-holdings em[data-good="0"] { color: #c2410c; }
+.rp-holdings li.rp-more { display: block; }
+.rp-spark { width: 30mm; height: 5.5mm; display: block; }
+.rp-bs tr.rp-bs-eq td { border-top: 1.5px solid #12131a; border-bottom: 0; font-weight: 750; color: #12131a; }
+.rp-bs tr.rp-bs-eq td[data-good="1"] { color: #15803d; }
+.rp-bs tr.rp-bs-eq td[data-good="0"] { color: #c2410c; }
+.rp-bench td { padding: 0.8mm 0; font-size: 8pt; }
 
 .rp-table { width: 100%; border-collapse: collapse; font-size: 7.6pt; }
 .rp-table th { text-align: end; font-size: 7pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8ea0; padding: 0 0 1.2mm; border-bottom: 1.5px solid #12131a; }

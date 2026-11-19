@@ -1822,3 +1822,18 @@ what the compiler finds, run the tests, then look at it in the simulator.
   amount per hour around the clock (income / 730.5).
 - TO DO (Bart): feature the money clock on the homepage later (like "Je
   maand op papier"), and as a share card; port to the apps later.
+
+## 2026-11-19 — PDF: "Your wealth" pages + print after closing (web-app, NOT live)
+- Monthly report is now 2 pages. Page 2 "Je vermogen · {maand}": KPIs (equity,
+  investments, on your accounts, growth from work), each holding with a month
+  sparkline + %, liquidity through the month (lowest day), balance sheet vs the
+  month before, benchmarks (equity / investments / MSCI World / savings rate,
+  month and year so far). Logic: lib/finance/wealthReport.ts (wealthMonth, wealthYear).
+- Annual report gets page 3: equity vs world market per month (bars), YTD lines
+  for investments and accounts, a per-month table with a "year so far" row.
+- Benchmark = IWDA.AS (iShares MSCI World, EUR) via /api/quotes, range 5y.
+- After closing a month/year the celebration has "Rapport afdrukken" →
+  /app/report?...&print=1, which opens the print dialog by itself (Premium only).
+- Check: Bart's investments show large monthly swings (e.g. ROP +35% in Oct);
+  for holdings bought in a month the start value is the cost basis — verify.
+- iOS/Android: port later.

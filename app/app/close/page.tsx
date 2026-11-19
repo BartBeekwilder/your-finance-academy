@@ -284,6 +284,7 @@ export default function ClosePage() {
           title={t("{month} is in the books!", { month: monthYear(month) })}
           lines={[{ icon: "calendar-check", text: t("Month closed"), points: POINTS.monthClose }, ...(summary.rings ? [{ icon: "target", text: t("{n} of 3 rings closed", { n: summary.rings }), points: POINTS.ring * summary.rings }] : []), ...done.badges.map((b) => ({ icon: b.icon, text: t(b.title), points: b.points }))]}
           onClose={() => router.push(month.getMonth() === 11 ? `/app/close-year?year=${month.getFullYear()}` : "/app/progress")}
+          action={{ label: t("Print the report"), onClick: () => router.push(`/app/report?month=${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}&print=1`) }}
         />
       )}
     </div>

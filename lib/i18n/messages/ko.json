@@ -2118,5 +2118,20 @@
  "Your money clock": "내 돈 시계",
  "{amount} an hour around the clock (24 h a day)": "하루 24시간 기준 시간당 {amount}",
  "Equity growth from work": "노동으로 늘어난 자산",
- "{work} from work · {investments} from investments, this year.": "올해 노동 {work} · 투자 {investments}."
+ "{work} from work · {investments} from investments, this year.": "올해 노동 {work} · 투자 {investments}.",
+ "{work} from work · {investments} from investments": "일에서 {work} · 투자에서 {investments}",
+ "Benchmarks": "벤치마크",
+ "lowest {amount}": "최저 {amount}",
+ "On your accounts": "계좌 잔액",
+ "On your accounts through the month": "한 달 동안의 계좌 잔액",
+ "World market (MSCI World)": "세계 시장(MSCI World)",
+ "World market (MSCI World) {pct}": "세계 시장(MSCI World) {pct}",
+ "World market: the iShares MSCI World ETF (IWDA) in euros. A comparison, not advice.": "세계 시장: 유로 기준 iShares MSCI World ETF(IWDA). 비교일 뿐 조언이 아닙니다.",
+ "Your equity": "내 순자산",
+ "Your equity against the world market, per month": "세계 시장 대비 내 순자산, 월별",
+ "Your investments": "내 투자",
+ "Your investments this month": "이번 달 내 투자",
+ "Your wealth · {month}": "내 자산 · {month}",
+ "Print the report": "보고서 인쇄",
+ "Print the annual report": "연간 보고서 인쇄"
 }
