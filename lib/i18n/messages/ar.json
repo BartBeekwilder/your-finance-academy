@@ -2116,5 +2116,7 @@
  "Your day ran out": "انتهى يومك",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "دخلك كيوم واحد من 24 ساعة: حتى متى تعمل لكل بند، الأكبر أولًا — ومن متى لنفسك.",
  "Your money clock": "ساعة أموالك",
- "{amount} an hour around the clock (24 h a day)": "{amount} في الساعة على مدار اليوم (24 ساعة)"
+ "{amount} an hour around the clock (24 h a day)": "{amount} في الساعة على مدار اليوم (24 ساعة)",
+ "Equity growth from work": "نمو الثروة من العمل",
+ "{work} from work · {investments} from investments, this year.": "{work} من العمل · {investments} من الاستثمارات، هذا العام."
 }

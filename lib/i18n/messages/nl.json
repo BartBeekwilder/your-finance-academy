@@ -2122,5 +2122,7 @@
  "Your day ran out": "Je dag was op",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Je inkomen als één dag van 24 uur: tot wanneer je werkt voor elke kostenpost, de grootste eerst — en vanaf wanneer voor jezelf.",
  "Your money clock": "Je geldklok",
- "{amount} an hour around the clock (24 h a day)": "{amount} per uur rond de klok (24 u per dag)"
+ "{amount} an hour around the clock (24 h a day)": "{amount} per uur rond de klok (24 u per dag)",
+ "Equity growth from work": "Vermogensgroei uit werk",
+ "{work} from work · {investments} from investments, this year.": "{work} uit werk · {investments} uit beleggingen, dit jaar."
 }

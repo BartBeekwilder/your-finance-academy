@@ -46,7 +46,7 @@ function MetricCard({ m, currency, i }: { m: Metric; currency: string; i: number
       <b className="pf-rounded pf-kf-value">{fmt(m, currency)}</b>
       {m.sub && <span className="pf-kf-sub">{t(m.sub.label, { amount: money(m.sub.value, currency) })}</span>}
       {m.bar != null && <i className="pf-kf-bar"><em style={{ ["--f" as string]: Math.max(0, Math.min(1, m.bar)) }} /></i>}
-      <small>{t(m.note)}</small>
+      <small>{t(m.note, m.noteMoney ? Object.fromEntries(Object.entries(m.noteMoney).map(([k, v]) => [k, money(v, currency)])) : undefined)}</small>
     </div>
   );
 }

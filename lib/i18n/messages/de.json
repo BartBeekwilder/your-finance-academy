@@ -2116,5 +2116,7 @@
  "Your day ran out": "Dein Tag war aufgebraucht",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Dein Einkommen als ein Tag mit 24 Stunden: bis wann du für jede Ausgabe arbeitest, die größte zuerst — und ab wann für dich selbst.",
  "Your money clock": "Deine Geld-Uhr",
- "{amount} an hour around the clock (24 h a day)": "{amount} pro Stunde rund um die Uhr (24 h am Tag)"
+ "{amount} an hour around the clock (24 h a day)": "{amount} pro Stunde rund um die Uhr (24 h am Tag)",
+ "Equity growth from work": "Vermögenszuwachs aus Arbeit",
+ "{work} from work · {investments} from investments, this year.": "{work} aus Arbeit · {investments} aus Anlagen, dieses Jahr."
 }

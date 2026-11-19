@@ -2116,5 +2116,7 @@
  "Your day ran out": "Harimu habis",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Pemasukanmu sebagai satu hari 24 jam: sampai kapan kamu bekerja untuk setiap biaya, yang terbesar dulu — dan sejak kapan untuk dirimu.",
  "Your money clock": "Jam uangmu",
- "{amount} an hour around the clock (24 h a day)": "{amount} per jam sepanjang hari (24 jam)"
+ "{amount} an hour around the clock (24 h a day)": "{amount} per jam sepanjang hari (24 jam)",
+ "Equity growth from work": "Pertumbuhan kekayaan dari kerja",
+ "{work} from work · {investments} from investments, this year.": "{work} dari kerja · {investments} dari investasi, tahun ini."
 }

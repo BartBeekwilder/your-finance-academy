@@ -2116,5 +2116,7 @@
  "Your day ran out": "1日が終わりました",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "収入を24時間の1日として：各支出のために何時まで働くか（大きい順）、そして何時から自分のためか。",
  "Your money clock": "お金の時計",
- "{amount} an hour around the clock (24 h a day)": "24時間換算で1時間あたり{amount}"
+ "{amount} an hour around the clock (24 h a day)": "24時間換算で1時間あたり{amount}",
+ "Equity growth from work": "労働による純資産の増加",
+ "{work} from work · {investments} from investments, this year.": "今年：労働から{work}・投資から{investments}。"
 }

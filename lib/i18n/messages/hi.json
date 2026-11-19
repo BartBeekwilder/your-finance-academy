@@ -2116,5 +2116,7 @@
  "Your day ran out": "आपका दिन खत्म हो गया",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "आपकी आय 24 घंटे के एक दिन के रूप में: हर ख़र्च के लिए कब तक काम करते हैं, सबसे बड़ा पहले — और कब से अपने लिए।",
  "Your money clock": "आपकी पैसों की घड़ी",
- "{amount} an hour around the clock (24 h a day)": "चौबीसों घंटे {amount} प्रति घंटा (24 घंटे)"
+ "{amount} an hour around the clock (24 h a day)": "चौबीसों घंटे {amount} प्रति घंटा (24 घंटे)",
+ "Equity growth from work": "काम से संपत्ति वृद्धि",
+ "{work} from work · {investments} from investments, this year.": "इस साल {work} काम से · {investments} निवेश से।"
 }

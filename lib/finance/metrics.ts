@@ -18,6 +18,8 @@ export type MetricInput = {
   /** Balance sheet totals now. */
   assets: number;
   debts: number;
+  /** This year so far: kept from income + debt paid off, and the investments' market gain. */
+  growth?: { work: number; investments: number } | null;
   /** Budgets still free this month, and the days left in it (incl. today). */
   freeThisMonth?: number | null;
   daysLeft?: number;
@@ -36,6 +38,8 @@ export type Metric = {
   /** 0–1 for a bar (null: no bar). */
   bar: number | null;
   tone: Tone;
+  /** Amounts for the note's {placeholders}, formatted as money when shown. */
+  noteMoney?: Record<string, number>;
   /** A second amount under the value (English key for t(), {amount} filled in). */
   sub?: { label: string; value: number };
 };
@@ -71,6 +75,15 @@ export function monthsToPositive(equity: number, left: number) {
   return Math.ceil(-equity / left);
 }
 
+/** Where this year's equity growth came from (Bart, 19 Nov): what was kept
+ *  from income plus debt paid off ("work"), against the investments' market
+ *  gain. The share from work of what grew (losses count as nothing grown);
+ *  null when nothing grew. */
+export function growthFromWork(work: number, investments: number) {
+  const w = Math.max(work, 0), i = Math.max(investments, 0);
+  return w + i > 0.005 ? w / (w + i) : null;
+}
+
 export function keyMetrics(x: MetricInput): Metric[] {
   const out: Metric[] = [];
   const left = x.income - x.spending;
@@ -92,6 +105,10 @@ export function keyMetrics(x: MetricInput): Metric[] {
   if (x.freeThisMonth != null && (x.daysLeft ?? 0) > 0) {
     const perDay = x.freeThisMonth / (x.daysLeft as number);
     out.push({ key: "day", label: "Free to spend per day", note: "What's left of your budgets, over the days left this month.", value: perDay, unit: "money", bar: null, tone: perDay >= 0 ? "neutral" : "bad" });
+  }
+  const fromWork = x.growth ? growthFromWork(x.growth.work, x.growth.investments) : null;
+  if (x.growth && fromWork != null) {
+    out.push({ key: "growth", label: "Equity growth from work", note: "{work} from work · {investments} from investments, this year.", noteMoney: { work: x.growth.work, investments: x.growth.investments }, value: fromWork, unit: "pct", bar: fromWork, tone: "neutral" });
   }
   if (x.spending > 0) {
     const months = equity / x.spending;

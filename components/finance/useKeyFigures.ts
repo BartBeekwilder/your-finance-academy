@@ -4,6 +4,8 @@ import { useMemo } from "react";
 import { accountFlows, balanceSheet, expectedByCategory, live, netWorthFigures, num, projectedNetIncome, summarize } from "@/lib/finance/calc";
 import { budgetIn } from "@/lib/finance/budgetPlan";
 import { freedom, keyMetrics, monthsToPositive } from "@/lib/finance/metrics";
+import { valueAt } from "@/lib/finance/wrapped";
+import type { FinanceData } from "@/lib/finance/types";
 import { useFinance } from "./FinanceProvider";
 
 // The key figures from the books as they are now: this month's expected
@@ -41,6 +43,7 @@ export function useKeyFigures() {
       assets: sheet.totalAssets, debts: sheet.totalDebt,
       freeThisMonth: budgetTotal > 0 ? budgetTotal - variableSpent : null, daysLeft,
       runwayGoal: data.profile.runway_goal,
+      growth: growthThisYear(data, now),
     };
     const left = income - spending;
     return {
@@ -54,4 +57,34 @@ export function useKeyFigures() {
       perSecond: left / (daysIn * 86_400),
     };
   }, [data, now]);
+}
+
+/** This year so far: kept from income (income − spending, booked by now)
+ *  plus debt paid off — that's "work" — and the investments' market gain
+ *  (value now against 1 January, or against the price paid when bought this
+ *  year). The home's value change counts as neither. */
+function growthThisYear(data: FinanceData, now: Date) {
+  const y0 = new Date(now.getFullYear(), 0, 1);
+  let kept = 0;
+  for (const x of live(data.transactions)) {
+    const d = new Date(x.date);
+    if (d < y0 || d > now || x.advance) continue;
+    kept += (x.type === "income" ? 1 : -1) * num(x.amount);
+  }
+  // Debt at the end of last year against now (mortgage and loans follow their schedules).
+  const debtThen = balanceSheet(data, now, new Date(now.getFullYear() - 1, 11, 1)).totalDebt;
+  const debtNow = balanceSheet(data, now, new Date(now.getFullYear(), now.getMonth(), 1)).totalDebt;
+  const paidOff = Math.max(debtThen - debtNow, 0);
+  let gain = 0, priced = false;
+  for (const h of live(data.holdings)) {
+    const end = valueAt(data, h, now.getTime());
+    if (end == null) continue;
+    const added = new Date(h.date_added);
+    const start = added < y0 ? valueAt(data, h, y0.getTime()) : h.cost_basis != null ? num(h.cost_basis) : valueAt(data, h, added.getTime());
+    if (start == null) continue;
+    gain += end - start;
+    priced = true;
+  }
+  if (!priced && Math.abs(kept + paidOff) < 0.005) return null;
+  return { work: kept + paidOff, investments: gain };
 }

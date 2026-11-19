@@ -2116,5 +2116,7 @@
  "Your day ran out": "Seu dia acabou",
  "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Sua renda como um dia de 24 horas: até quando você trabalha para cada gasto, o maior primeiro — e a partir de quando para você.",
  "Your money clock": "Seu relógio do dinheiro",
- "{amount} an hour around the clock (24 h a day)": "{amount} por hora, 24 h por dia"
+ "{amount} an hour around the clock (24 h a day)": "{amount} por hora, 24 h por dia",
+ "Equity growth from work": "Crescimento do patrimônio pelo trabalho",
+ "{work} from work · {investments} from investments, this year.": "{work} do trabalho · {investments} dos investimentos, neste ano."
 }
