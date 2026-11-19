@@ -173,7 +173,8 @@
     /*pdf 4 pages, live 19 Nov*/ "Het maandoverzicht als PDF op vier pagina's: al je beleggingen, je geldklok van die maand, je rekeningen door de maand heen en je balans regel voor regel tegen de vorige maand.",
     /*work hours, live 19 Nov*/ "Wat het je kostte: je uitgaven in werkuren en in echte uren, in je Month Wrapped, onder elke uitgave en in je PDF-overzicht.",
     /*earlier versions + pdf, live 19 Nov evening*/ "Instellingen › Eerdere versies: ging er iets mis na een synchronisatie? Zet je boeken met één klik terug naar een eerdere versie.",
-    "PDF-overzichten: grafieken met assen, alle categorieën, inkomsten als netto, je aandelen naast de wereldmarkt en de geldklok ook in het jaaroverzicht."
+    "PDF-overzichten: grafieken met assen, alle categorieën, inkomsten als netto, je aandelen naast de wereldmarkt en de geldklok ook in het jaaroverzicht.",
+    /*share card, live 19 Nov*/ "Deel je jaar: je Year Wrapped als afbeelding voor je story of een chat, met alleen percentages tenzij je de bedragen aanzet."
   ];
 
   var L = {
@@ -335,7 +336,8 @@
       "The monthly PDF report on four pages: all your investments, that month's money clock, your accounts through the month and your balance sheet line by line against the month before.",
       "What it cost you: your spending in work hours and in real hours, in your Month Wrapped, under each expense and in your PDF report.",
       "Settings › Earlier versions: something went wrong after a sync? Put your books back to an earlier version with one click.",
-      "PDF reports: charts with axes, every category, income shown as net, your shares next to the world market and the money clock in the annual report too."
+      "PDF reports: charts with axes, every category, income shown as net, your shares next to the world market and the money clock in the annual report too.",
+      "Share your year: your Year Wrapped as a picture for your story or a chat, with only percentages unless you switch the amounts on."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -495,7 +497,8 @@
       "Der Monatsbericht als PDF auf vier Seiten: alle deine Anlagen, die Geld-Uhr des Monats, deine Konten im Lauf des Monats und deine Bilanz Zeile für Zeile gegenüber dem Vormonat.",
       "Was es dich gekostet hat: deine Ausgaben in Arbeitsstunden und echten Stunden, in deinem Month Wrapped, unter jeder Ausgabe und im PDF-Bericht.",
       "Einstellungen › Frühere Versionen: Nach einer Synchronisierung lief etwas schief? Setze deine Bücher mit einem Klick auf eine frühere Version zurück.",
-      "PDF-Berichte: Diagramme mit Achsen, alle Kategorien, Einnahmen als netto, deine Aktien neben dem Weltmarkt und die Geld-Uhr jetzt auch im Jahresbericht."
+      "PDF-Berichte: Diagramme mit Achsen, alle Kategorien, Einnahmen als netto, deine Aktien neben dem Weltmarkt und die Geld-Uhr jetzt auch im Jahresbericht.",
+      "Teile dein Jahr: dein Year Wrapped als Bild für deine Story oder einen Chat, nur mit Prozenten, außer du schaltest die Beträge ein."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -655,7 +658,8 @@
       "Le rapport mensuel en PDF sur quatre pages : tous vos placements, l'horloge de l'argent du mois, vos comptes au fil du mois et votre bilan ligne par ligne face au mois précédent.",
       "Ce que ça vous a coûté : vos dépenses en heures de travail et en heures réelles, dans votre Month Wrapped, sous chaque dépense et dans votre rapport PDF.",
       "Réglages › Versions précédentes : un souci après une synchronisation ? Remets tes comptes à une version précédente en un clic.",
-      "Rapports PDF : graphiques avec axes, toutes les catégories, revenus en net, tes actions face au marché mondial et l’horloge de l’argent aussi dans le rapport annuel."
+      "Rapports PDF : graphiques avec axes, toutes les catégories, revenus en net, tes actions face au marché mondial et l’horloge de l’argent aussi dans le rapport annuel.",
+      "Partage ton année : ton Year Wrapped en image pour ta story ou une discussion, avec seulement des pourcentages sauf si tu actives les montants."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -815,7 +819,8 @@
       "El informe mensual en PDF en cuatro páginas: todas tus inversiones, el reloj del dinero de ese mes, tus cuentas a lo largo del mes y tu balance línea por línea frente al mes anterior.",
       "Lo que te costó: tus gastos en horas de trabajo y en horas reales, en tu Month Wrapped, bajo cada gasto y en tu informe PDF.",
       "Ajustes › Versiones anteriores: ¿algo salió mal tras una sincronización? Vuelve a una versión anterior de tus cuentas con un clic.",
-      "Informes PDF: gráficos con ejes, todas las categorías, ingresos en neto, tus acciones frente al mercado mundial y el reloj del dinero también en el informe anual."
+      "Informes PDF: gráficos con ejes, todas las categorías, ingresos en neto, tus acciones frente al mercado mundial y el reloj del dinero también en el informe anual.",
+      "Comparte tu año: tu Year Wrapped como imagen para tu historia o un chat, solo con porcentajes salvo que actives los importes."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -975,7 +980,8 @@
       "Il report mensile in PDF su quattro pagine: tutti i tuoi investimenti, l'orologio dei soldi del mese, i tuoi conti nel corso del mese e il bilancio voce per voce rispetto al mese prima.",
       "Quanto ti è costato: le tue spese in ore di lavoro e in ore reali, nel tuo Month Wrapped, sotto ogni spesa e nel report PDF.",
       "Impostazioni › Versioni precedenti: qualcosa è andato storto dopo una sincronizzazione? Riporta i tuoi conti a una versione precedente con un clic.",
-      "Report PDF: grafici con assi, tutte le categorie, entrate al netto, le tue azioni accanto al mercato mondiale e l’orologio del denaro anche nel report annuale."
+      "Report PDF: grafici con assi, tutte le categorie, entrate al netto, le tue azioni accanto al mercato mondiale e l’orologio del denaro anche nel report annuale.",
+      "Condividi il tuo anno: il tuo Year Wrapped come immagine per la tua storia o una chat, solo con percentuali a meno che non attivi gli importi."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1135,7 +1141,8 @@
       "O relatório mensal em PDF em quatro páginas: todos os seus investimentos, o relógio do dinheiro do mês, suas contas ao longo do mês e seu balanço linha a linha frente ao mês anterior.",
       "Quanto custou: seus gastos em horas de trabalho e em horas reais, no seu Month Wrapped, abaixo de cada gasto e no relatório em PDF.",
       "Configurações › Versões anteriores: algo deu errado após uma sincronização? Volte suas finanças para uma versão anterior com um clique.",
-      "Relatórios em PDF: gráficos com eixos, todas as categorias, receitas como líquidas, suas ações ao lado do mercado mundial e o relógio do dinheiro também no relatório anual."
+      "Relatórios em PDF: gráficos com eixos, todas as categorias, receitas como líquidas, suas ações ao lado do mercado mundial e o relógio do dinheiro também no relatório anual.",
+      "Compartilhe seu ano: seu Year Wrapped como imagem para o seu story ou um chat, só com porcentagens, a não ser que você ative os valores."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1295,7 +1302,8 @@
       "Raport miesięczny w PDF na czterech stronach: wszystkie inwestycje, zegar pieniędzy z tego miesiąca, konta w ciągu miesiąca i bilans pozycja po pozycji wobec poprzedniego miesiąca.",
       "Ile cię to kosztowało: wydatki w godzinach pracy i w prawdziwych godzinach, w Month Wrapped, pod każdym wydatkiem i w raporcie PDF.",
       "Ustawienia › Wcześniejsze wersje: coś poszło nie tak po synchronizacji? Przywróć wcześniejszą wersję jednym kliknięciem.",
-      "Raporty PDF: wykresy z osiami, wszystkie kategorie, dochody netto, twoje akcje obok rynku światowego i zegar pieniędzy także w raporcie rocznym."
+      "Raporty PDF: wykresy z osiami, wszystkie kategorie, dochody netto, twoje akcje obok rynku światowego i zegar pieniędzy także w raporcie rocznym.",
+      "Udostępnij swój rok: twoje Year Wrapped jako obrazek do relacji lub czatu, tylko z procentami, chyba że włączysz kwoty."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1455,7 +1463,8 @@
       "Dört sayfalık aylık PDF raporu: tüm yatırımların, o ayın para saati, ay boyunca hesapların ve önceki aya göre satır satır bilançon.",
       "Sana maliyeti: harcamaların çalışma saati ve gerçek saat olarak; Month Wrapped'inde, her harcamanın altında ve PDF raporunda.",
       "Ayarlar › Önceki sürümler: senkronizasyondan sonra bir sorun mu oldu? Kayıtlarını tek tıkla önceki bir sürüme döndür.",
-      "PDF raporları: eksenli grafikler, tüm kategoriler, net gelir, dünya piyasasının yanında hisselerin ve yıllık raporda da para saati."
+      "PDF raporları: eksenli grafikler, tüm kategoriler, net gelir, dünya piyasasının yanında hisselerin ve yıllık raporda da para saati.",
+      "Yılını paylaş: Year Wrapped'ın hikayen ya da bir sohbet için bir görsel olarak; tutarları açmadıkça yalnızca yüzdelerle."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1615,7 +1624,8 @@
       "Месячный PDF-отчёт на четырёх страницах: все ваши инвестиции, денежные часы за месяц, счета в течение месяца и баланс построчно по сравнению с прошлым месяцем.",
       "Во что это обошлось: ваши расходы в рабочих и реальных часах — в Month Wrapped, под каждым расходом и в PDF-отчёте.",
       "Настройки › Предыдущие версии: что-то пошло не так после синхронизации? Верни данные к более ранней версии одним нажатием.",
-      "PDF-отчёты: графики с осями, все категории, доходы указаны чистыми, твои акции рядом с мировым рынком и денежные часы теперь и в годовом отчёте."
+      "PDF-отчёты: графики с осями, все категории, доходы указаны чистыми, твои акции рядом с мировым рынком и денежные часы теперь и в годовом отчёте.",
+      "Поделись своим годом: твой Year Wrapped картинкой для сторис или чата — только проценты, если не включить суммы."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1775,7 +1785,8 @@
       "تقرير PDF الشهري في أربع صفحات: كل استثماراتك، وساعة أموال ذلك الشهر، وحساباتك خلال الشهر، وميزانيتك بندًا بندًا مقارنة بالشهر السابق.",
       "ما كلّفك: مصاريفك بساعات العمل وبالساعات الفعلية، في Month Wrapped وتحت كل مصروف وفي تقرير PDF.",
       "الإعدادات › الإصدارات السابقة: حدث خطأ بعد المزامنة؟ أعد بياناتك إلى إصدار سابق بنقرة واحدة.",
-      "تقارير PDF: رسوم بيانية بمحاور، كل الفئات، الدخل بالصافي، أسهمك بجانب السوق العالمية وساعة المال في التقرير السنوي أيضًا."
+      "تقارير PDF: رسوم بيانية بمحاور، كل الفئات، الدخل بالصافي، أسهمك بجانب السوق العالمية وساعة المال في التقرير السنوي أيضًا.",
+      "شارك عامك: Year Wrapped الخاص بك كصورة لقصتك أو لمحادثة، بالنسب فقط ما لم تُظهر المبالغ."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1935,7 +1946,8 @@
       "चार पन्नों की मासिक PDF रिपोर्ट: आपके सभी निवेश, उस महीने की मनी क्लॉक, महीने भर आपके खाते और पिछले महीने की तुलना में पंक्ति-दर-पंक्ति बैलेंस शीट।",
       "इसकी कीमत: आपके खर्च काम के घंटों और असली घंटों में — Month Wrapped में, हर खर्च के नीचे और PDF रिपोर्ट में।",
       "सेटिंग्स › पिछले संस्करण: सिंक के बाद कुछ गड़बड़ हुई? एक क्लिक में अपनी किताबें पिछले संस्करण पर लौटाएँ।",
-      "PDF रिपोर्ट: अक्षों वाले चार्ट, सभी श्रेणियाँ, शुद्ध आय, विश्व बाज़ार के साथ आपके शेयर और वार्षिक रिपोर्ट में भी पैसों की घड़ी।"
+      "PDF रिपोर्ट: अक्षों वाले चार्ट, सभी श्रेणियाँ, शुद्ध आय, विश्व बाज़ार के साथ आपके शेयर और वार्षिक रिपोर्ट में भी पैसों की घड़ी।",
+      "अपना साल साझा करें: आपका Year Wrapped आपकी स्टोरी या चैट के लिए एक तस्वीर के रूप में, केवल प्रतिशत के साथ जब तक आप राशियाँ न दिखाएँ।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2095,7 +2107,8 @@
       "Laporan bulanan PDF dalam empat halaman: semua investasimu, jam uang bulan itu, rekeningmu sepanjang bulan, dan neracamu baris demi baris dibanding bulan sebelumnya.",
       "Biayanya bagimu: pengeluaranmu dalam jam kerja dan jam nyata, di Month Wrapped, di bawah setiap pengeluaran, dan di laporan PDF.",
       "Pengaturan › Versi sebelumnya: ada yang salah setelah sinkronisasi? Kembalikan catatanmu ke versi sebelumnya dengan satu klik.",
-      "Laporan PDF: grafik dengan sumbu, semua kategori, pemasukan bersih, sahammu di samping pasar dunia, dan jam uang juga di laporan tahunan."
+      "Laporan PDF: grafik dengan sumbu, semua kategori, pemasukan bersih, sahammu di samping pasar dunia, dan jam uang juga di laporan tahunan.",
+      "Bagikan tahunmu: Year Wrapped-mu sebagai gambar untuk story atau obrolan, hanya dengan persentase kecuali kamu menampilkan jumlahnya."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2255,7 +2268,8 @@
       "月次PDFレポートが4ページに：すべての投資、その月のマネークロック、月を通じた口座残高、前月と比べた項目ごとのバランスシート。",
       "かかった時間：支出を労働時間と実際の時間で表示。Month Wrapped、各支出の下、PDFレポートで。",
       "設定 › 以前のバージョン:同期のあとで問題が起きたら、ワンクリックで帳簿を以前のバージョンに戻せます。",
-      "PDFレポート:軸付きのグラフ、すべてのカテゴリー、収入は手取りで表示、株式を世界市場と比較、年次レポートにもお金の時計。"
+      "PDFレポート:軸付きのグラフ、すべてのカテゴリー、収入は手取りで表示、株式を世界市場と比較、年次レポートにもお金の時計。",
+      "1年をシェア:Year Wrapped をストーリーやチャット用の画像に。金額をオンにしない限り、パーセンテージだけを表示します。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -2415,7 +2429,8 @@
       "월간 PDF 보고서가 4페이지로: 모든 투자, 그달의 머니 클록, 한 달 동안의 계좌, 전월 대비 항목별 대차대조표.",
       "들어간 시간: 지출을 근무 시간과 실제 시간으로 — Month Wrapped, 각 지출 아래, PDF 보고서에서.",
       "설정 › 이전 버전: 동기화 후 문제가 생겼나요? 클릭 한 번으로 장부를 이전 버전으로 되돌리세요.",
-      "PDF 보고서: 축이 있는 차트, 모든 카테고리, 수입은 실수령 기준, 세계 시장과 비교한 내 주식, 연간 보고서에도 머니 시계."
+      "PDF 보고서: 축이 있는 차트, 모든 카테고리, 수입은 실수령 기준, 세계 시장과 비교한 내 주식, 연간 보고서에도 머니 시계.",
+      "한 해 공유하기: Year Wrapped를 스토리나 채팅용 이미지로 — 금액을 켜지 않으면 퍼센트만 표시됩니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -2575,7 +2590,8 @@
       "Báo cáo PDF hằng tháng gồm bốn trang: tất cả khoản đầu tư, đồng hồ tiền của tháng, tài khoản suốt tháng và bảng cân đối từng dòng so với tháng trước.",
       "Bạn đã tốn gì: chi tiêu tính bằng giờ làm việc và giờ thực, trong Month Wrapped, dưới mỗi khoản chi và trong báo cáo PDF.",
       "Cài đặt › Phiên bản trước: có lỗi sau khi đồng bộ? Khôi phục sổ sách về phiên bản trước chỉ với một cú nhấp.",
-      "Báo cáo PDF: biểu đồ có trục, mọi danh mục, thu nhập ròng, cổ phiếu của bạn cạnh thị trường thế giới và đồng hồ tiền cả trong báo cáo năm."
+      "Báo cáo PDF: biểu đồ có trục, mọi danh mục, thu nhập ròng, cổ phiếu của bạn cạnh thị trường thế giới và đồng hồ tiền cả trong báo cáo năm.",
+      "Chia sẻ năm của bạn: Year Wrapped thành hình ảnh cho story hoặc cuộc trò chuyện, chỉ hiện phần trăm trừ khi bạn bật số tiền."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -2735,7 +2751,8 @@
       "月度 PDF 报告扩展为四页：你的全部投资、当月的金钱时钟、本月账户走势，以及与上月逐项对比的资产负债表。",
       "它花掉了你什么：用工作小时和真实小时衡量你的支出——在 Month Wrapped、每笔支出下方以及 PDF 报告中。",
       "设置 › 早期版本：同步后出了问题？一键把账本恢复到早期版本。",
-      "PDF 报告：带坐标轴的图表、所有类别、收入按净额显示、你的股票与世界市场对比，年度报告中也有金钱时钟。"
+      "PDF 报告：带坐标轴的图表、所有类别、收入按净额显示、你的股票与世界市场对比，年度报告中也有金钱时钟。",
+      "分享你的一年：把 Year Wrapped 做成图片发到动态或聊天中，除非你打开金额，否则只显示百分比。"
     ]
   };
 
