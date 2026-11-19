@@ -2173,5 +2173,9 @@
  "Show amounts": "Hiện số tiền",
  "Directly available": "Có sẵn ngay",
  "Show the total only": "Chỉ hiện tổng",
- "Show work and investments": "Hiện lao động và đầu tư"
+ "Show work and investments": "Hiện lao động và đầu tư",
+ "Expected on {date}": "Dự kiến ngày {date}",
+ "Current accounts, cash and what's still to come in": "Tài khoản thanh toán, tiền mặt và khoản sắp nhận",
+ "Your savings accounts": "Các tài khoản tiết kiệm của bạn",
+ "At today's market value": "Theo giá thị trường hôm nay"
 }

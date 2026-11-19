@@ -2173,5 +2173,9 @@
  "Show amounts": "Afficher les montants",
  "Directly available": "Disponible tout de suite",
  "Show the total only": "Afficher seulement le total",
- "Show work and investments": "Afficher travail et placements"
+ "Show work and investments": "Afficher travail et placements",
+ "Expected on {date}": "Prévu le {date}",
+ "Current accounts, cash and what's still to come in": "Comptes courants, espèces et ce qui doit encore arriver",
+ "Your savings accounts": "Vos comptes d'épargne",
+ "At today's market value": "À la valeur de marché du jour"
 }

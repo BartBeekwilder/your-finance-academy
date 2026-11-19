@@ -2179,5 +2179,9 @@
  "Show amounts": "Bedragen tonen",
  "Directly available": "Direct beschikbaar",
  "Show the total only": "Alleen het totaal tonen",
- "Show work and investments": "Arbeid en beleggingen tonen"
+ "Show work and investments": "Arbeid en beleggingen tonen",
+ "Expected on {date}": "Verwacht op {date}",
+ "Current accounts, cash and what's still to come in": "Betaalrekeningen, contant en wat nog binnenkomt",
+ "Your savings accounts": "Je spaarrekeningen",
+ "At today's market value": "Tegen de marktwaarde van vandaag"
 }

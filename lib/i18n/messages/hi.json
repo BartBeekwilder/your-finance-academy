@@ -2173,5 +2173,9 @@
  "Show amounts": "राशियाँ दिखाएँ",
  "Directly available": "तुरंत उपलब्ध",
  "Show the total only": "केवल कुल दिखाएँ",
- "Show work and investments": "काम और निवेश दिखाएँ"
+ "Show work and investments": "काम और निवेश दिखाएँ",
+ "Expected on {date}": "{date} को अपेक्षित",
+ "Current accounts, cash and what's still to come in": "चालू खाते, नकद और जो अभी आना बाकी है",
+ "Your savings accounts": "आपके बचत खाते",
+ "At today's market value": "आज के बाज़ार मूल्य पर"
 }

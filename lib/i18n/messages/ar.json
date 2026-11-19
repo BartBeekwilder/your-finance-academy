@@ -2173,5 +2173,9 @@
  "Show amounts": "إظهار المبالغ",
  "Directly available": "متاح فورًا",
  "Show the total only": "عرض الإجمالي فقط",
- "Show work and investments": "عرض العمل والاستثمارات"
+ "Show work and investments": "عرض العمل والاستثمارات",
+ "Expected on {date}": "المتوقع في {date}",
+ "Current accounts, cash and what's still to come in": "الحسابات الجارية والنقد وما سيصل بعد",
+ "Your savings accounts": "حسابات التوفير الخاصة بك",
+ "At today's market value": "بالقيمة السوقية اليوم"
 }

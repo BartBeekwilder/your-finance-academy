@@ -2173,5 +2173,9 @@
  "Show amounts": "금액 표시",
  "Directly available": "바로 쓸 수 있는 돈",
  "Show the total only": "합계만 보기",
- "Show work and investments": "근로와 투자 보기"
+ "Show work and investments": "근로와 투자 보기",
+ "Expected on {date}": "{date} 예상",
+ "Current accounts, cash and what's still to come in": "입출금 계좌, 현금, 아직 들어올 돈",
+ "Your savings accounts": "내 저축 계좌",
+ "At today's market value": "오늘의 시장 가치로"
 }

@@ -2173,5 +2173,9 @@
  "Show amounts": "显示金额",
  "Directly available": "随时可用",
  "Show the total only": "只显示合计",
- "Show work and investments": "显示劳动与投资"
+ "Show work and investments": "显示劳动与投资",
+ "Expected on {date}": "{date}预计",
+ "Current accounts, cash and what's still to come in": "活期账户、现金和尚未到账的钱",
+ "Your savings accounts": "你的储蓄账户",
+ "At today's market value": "按今天的市值"
 }

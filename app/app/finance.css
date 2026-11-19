@@ -4762,6 +4762,13 @@ span.pf-cmp-chip { cursor: default; }
 @keyframes pf-nwc-draw { to { stroke-dashoffset: 0; } }
 .pf-nwc-dot { position: absolute; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 50%; background: #30d158; box-shadow: 0 0 0 4px rgba(48, 209, 88, 0.18), 0 0 10px rgba(48, 209, 88, 0.6); pointer-events: none; }
 .pf-nwc-dot-end { background: transparent; border: 1.5px solid rgba(255, 255, 255, 0.55); box-shadow: none; margin-left: -9px; }
+.pf-nwc-plot { cursor: crosshair; }
+.pf-nwc-hair { position: absolute; top: -6px; bottom: 0; width: 1px; background: rgba(255, 255, 255, 0.14); pointer-events: none; }
+.pf-nwc-dot-hover { background: #fff; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15); }
+.pf-nwc-dot-hover[data-expected] { background: transparent; border: 1.5px solid #fff; }
+.pf-nwc-tip { position: absolute; bottom: calc(100% + 4px); transform: translateX(-50%); display: grid; gap: 1px; justify-items: center; padding: 6px 10px; border-radius: 10px; background: rgba(14, 14, 18, 0.92); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45); font-size: 0.7rem; color: var(--pf-ink-2); white-space: nowrap; pointer-events: none; z-index: 2; animation: pf-cmp-fade 0.15s ease-out both; }
+.pf-nwc-tip b { font-size: 0.85rem; color: var(--pf-ink); font-weight: 600; }
+.pf-nwc-tip em { font-style: normal; font-size: 0.66rem; color: var(--pf-ink-3); }
 .pf-nwc-path-foot { display: flex; justify-content: space-between; gap: 12px; font-size: 0.7rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; }
 .pf-nwc-path-foot b { color: var(--pf-ink-2); font-weight: 600; margin-left: 4px; }
 /* Where it sits. */

@@ -6,8 +6,9 @@ import { t } from "@/lib/i18n";
 import { useTickerNow } from "@/lib/motion";
 
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
-import { useState } from "react";
-import { money, monthName } from "@/lib/finance/format";
+import { useState, type PointerEvent } from "react";
+import { cap, money, monthName, shortMonth } from "@/lib/finance/format";
+import { intlLocale } from "@/lib/i18n";
 import LiveAmount from "./LiveAmount";
 
 // The first tile of the app (Bart, 19 Nov): liquidity live, on the same
@@ -148,9 +149,34 @@ function MonthPath({ base, liveChange, monthEnd, now, currency }: { base: number
   const last = pts[pts.length - 1];
   const area = `${line} L${x(last[0]).toFixed(1)},${H} L0,${H} Z`;
   const nowX = (x(last[0]) / W) * 100;
+
+  // Pointing at the line reads out that day: the days so far as booked,
+  // now, and further on what's expected (on the dashed line to the month end).
+  const [hover, setHover] = useState<{ t: number; v: number; kind: "start" | "day" | "now" | "expected" } | null>(null);
+  const onMove = (e: PointerEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const at = start + Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1) * span;
+    if (at <= last[0]) {
+      let i = 0;
+      for (let k = 1; k < pts.length; k++) if (Math.abs(pts[k][0] - at) < Math.abs(pts[i][0] - at)) i = k;
+      setHover({ t: pts[i][0], v: pts[i][1], kind: i === 0 ? "start" : i === pts.length - 1 ? "now" : "day" });
+    } else {
+      const f = (at - last[0]) / Math.max(end - last[0], 1);
+      setHover({ t: at, v: last[1] + (monthEnd - last[1]) * f, kind: "expected" });
+    }
+  };
+  // The point a day stands for is its end; read it as that day.
+  const dayOf = (t: number, kind: string) => new Date(kind === "day" ? t - 1 : t);
+  const date = (d: Date) => `${cap(d.toLocaleDateString(intlLocale(), { weekday: "short" }))} ${d.getDate()} ${shortMonth(d)}`;
+  const hoverText = hover && (() => {
+    const when = hover.kind === "now" ? t("Now") : hover.kind === "start" ? t("Start of the month") : date(dayOf(hover.t, hover.kind));
+    const head = hover.kind === "expected" ? t("Expected on {date}", { date: date(new Date(hover.t)) }) : when;
+    const diff = hover.kind === "start" ? "" : `${money(hover.v - base, currency, { signed: true })} ${t("since the 1st")}`;
+    return { head, value: money(hover.v, currency), diff };
+  })();
   return (
     <div className="pf-nwc-path">
-      <div className="pf-nwc-plot">
+      <div className="pf-nwc-plot" onPointerMove={onMove} onPointerLeave={() => setHover(null)}>
         <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img" aria-label={`${t("Expected at the end of {month}", { month: monthName(d) })} ${money(monthEnd, currency)}`}>
           <defs>
             <linearGradient id="pf-nwc-fill" x1="0" y1="0" x2="0" y2="1">
@@ -164,6 +190,17 @@ function MonthPath({ base, liveChange, monthEnd, now, currency }: { base: number
         </svg>
         <span className="pf-nwc-dot" style={{ left: `${nowX}%`, top: `${(yv(last[1]) / H) * 100}%` }} />
         <span className="pf-nwc-dot pf-nwc-dot-end" style={{ left: "100%", top: `${(yv(monthEnd) / H) * 100}%` }} />
+        {hover && hoverText && (
+          <>
+            <span className="pf-nwc-hair" style={{ left: `${(x(hover.t) / W) * 100}%` }} />
+            <span className="pf-nwc-dot pf-nwc-dot-hover" data-expected={hover.kind === "expected" || undefined} style={{ left: `${(x(hover.t) / W) * 100}%`, top: `${(yv(hover.v) / H) * 100}%` }} />
+            <span className="pf-nwc-tip" style={{ left: `${Math.min(Math.max((x(hover.t) / W) * 100, 12), 88)}%` }}>
+              <span>{hoverText.head}</span>
+              <b className="pf-rounded">{hoverText.value}</b>
+              {hoverText.diff && <em>{hoverText.diff}</em>}
+            </span>
+          </>
+        )}
       </div>
       <div className="pf-nwc-path-foot pf-readout">
         <span>
@@ -180,9 +217,9 @@ function MonthPath({ base, liveChange, monthEnd, now, currency }: { base: number
 /** Where the money sits: directly available, savings, investments. */
 function MixBar({ total, savings, investments, currency }: { total: number; savings: number; investments: number; currency: string }) {
   const parts = [
-    { key: "available", label: t("Directly available"), value: total - savings - investments, color: "#40c8e0" },
-    { key: "savings", label: t("Savings"), value: savings, color: "#30d158" },
-    { key: "investments", label: t("Investments"), value: investments, color: "#bf5af2" },
+    { key: "available", label: t("Directly available"), hint: t("Current accounts, cash and what's still to come in"), value: total - savings - investments, color: "#40c8e0" },
+    { key: "savings", label: t("Savings"), hint: t("Your savings accounts"), value: savings, color: "#30d158" },
+    { key: "investments", label: t("Investments"), hint: t("At today's market value"), value: investments, color: "#bf5af2" },
   ].filter((p) => Math.abs(p.value) >= 0.5);
   const sum = parts.reduce((a, p) => a + Math.max(p.value, 0), 0);
   if (!sum) return null;
@@ -190,12 +227,12 @@ function MixBar({ total, savings, investments, currency }: { total: number; savi
     <div className="pf-nwc-mix">
       <div className="pf-nwc-mix-bar" role="img" aria-label={parts.map((p) => `${p.label} ${money(p.value, currency)}`).join(", ")}>
         {parts.filter((p) => p.value > 0).map((p) => (
-          <span key={p.key} style={{ flexGrow: p.value / sum, background: p.color }} />
+          <span key={p.key} style={{ flexGrow: p.value / sum, background: p.color }} title={`${p.label}: ${money(p.value, currency)} (${Math.round((p.value / sum) * 100)}%) — ${p.hint}`} />
         ))}
       </div>
       <div className="pf-nwc-mix-legend">
         {parts.map((p) => (
-          <span key={p.key}>
+          <span key={p.key} title={p.hint}>
             <i style={{ background: p.color }} />
             {p.label}
             <b className="pf-rounded">{money(p.value, currency, { compact: Math.abs(p.value) >= 100_000 })}</b>

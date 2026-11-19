@@ -2173,5 +2173,9 @@
  "Show amounts": "金額を表示",
  "Directly available": "すぐに使えるお金",
  "Show the total only": "合計だけを表示",
- "Show work and investments": "労働と投資を表示"
+ "Show work and investments": "労働と投資を表示",
+ "Expected on {date}": "{date}の見込み",
+ "Current accounts, cash and what's still to come in": "普通口座、現金、これから入るお金",
+ "Your savings accounts": "あなたの貯蓄口座",
+ "At today's market value": "今日の時価で"
 }

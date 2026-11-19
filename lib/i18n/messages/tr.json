@@ -2173,5 +2173,9 @@
  "Show amounts": "Tutarları göster",
  "Directly available": "Hemen kullanılabilir",
  "Show the total only": "Yalnızca toplamı göster",
- "Show work and investments": "Emek ve yatırımları göster"
+ "Show work and investments": "Emek ve yatırımları göster",
+ "Expected on {date}": "{date} için beklenen",
+ "Current accounts, cash and what's still to come in": "Vadesiz hesaplar, nakit ve henüz gelecek olanlar",
+ "Your savings accounts": "Tasarruf hesaplarınız",
+ "At today's market value": "Bugünkü piyasa değeriyle"
 }

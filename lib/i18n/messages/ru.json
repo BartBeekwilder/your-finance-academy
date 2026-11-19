@@ -2173,5 +2173,9 @@
  "Show amounts": "Показать суммы",
  "Directly available": "Доступно сразу",
  "Show the total only": "Показать только итог",
- "Show work and investments": "Показать работу и инвестиции"
+ "Show work and investments": "Показать работу и инвестиции",
+ "Expected on {date}": "Ожидается {date}",
+ "Current accounts, cash and what's still to come in": "Текущие счета, наличные и то, что ещё поступит",
+ "Your savings accounts": "Ваши сберегательные счета",
+ "At today's market value": "По сегодняшней рыночной стоимости"
 }
