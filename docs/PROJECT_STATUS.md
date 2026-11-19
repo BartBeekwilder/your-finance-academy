@@ -1790,3 +1790,25 @@ what the compiler finds, run the tests, then look at it in the simulator.
       Kaartje €18 — then 1 Nov matches ING (€3,138.63) to within €62.88.
 - [ ] Not live yet on the web (web-app): balance sheet month view from the
       1st of the month; import duplicate window 3 days.
+
+## 2026-11-19 — INCIDENT: iPhone wiped Bart's online copy (18 Nov 21:27) — fixed
+- What happened: TestFlight build 2 on Bart's iPhone woke up signed in (the
+  Keychain kept tokens + passphrase from an earlier install) with an OLD
+  sync snapshot (~900 rows) but an almost empty store. VaultSnapshot.stamp
+  turned every snapshot row missing on the device into a deletion: 896
+  deletions at 20:27:11Z, uploaded as Bart's vault. The website then showed
+  almost nothing. No server history existed.
+- Recovery: Bart restored the wiped copy to the Mac (kept as
+  .private/finance.remote-after-iphone.json), the Mac went back to the
+  reconciled file (.private/finance.reconciled-nov18.json), the wiped vault
+  row was deleted, Bart uploaded a clean copy (19 Nov 05:44Z, 160 kB).
+- Fixes: migration 0016 vault history (last 10 replaced copies, RUN);
+  iOS ios-port-nov18: stale-snapshot guard (wouldWipe), snapshot tied to
+  the account, sign-out after a reinstall, new device asks the passphrase
+  and takes the copy instead of starting the setup. Compiled + test compiled;
+  NOT run in the simulator and NOT in a TestFlight build yet (Bart: later).
+- Until a new TestFlight build: keep the app OFF the iPhone.
+- Open: web vault mode applies remote tombstones too (that's how the website
+  showed the wipe) — the history now makes it recoverable; a web-side
+  mass-deletion guard is still a good idea. Restoring from history is by SQL
+  for now (copy a history row back into encrypted_vaults).
