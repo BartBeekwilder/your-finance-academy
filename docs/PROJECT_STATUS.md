@@ -1888,3 +1888,27 @@ what the compiler finds, run the tests, then look at it in the simulator.
   pullVault) and the Mac upload (VaultSection). Tests in vaultMerge.test.mjs.
 - To port: the same safeMerge in iOS (VaultMerge.merge in VaultSync.swift)
   and Android, before the next TestFlight build.
+
+## 2026-11-19 (afternoon, Windows) — INCIDENT 3: every row doubled after an iPad sync — fixed, LIVE
+- Cause: the app writes UUIDs in UPPER case (Swift uuidString), the website in
+  lower case. Merged as different strings, the iPad sent each web row back as
+  a new row and marked the lower-case one deleted (snapshot diff); the web's
+  safeMerge (wipe guard) saw a mass deletion and kept BOTH sides → every row
+  twice.
+- Web fix (LIVE, main = 0b0bf48): lib/finance/vaultMerge.ts `foldIds` — every
+  id / *_id reference / household id in lower case; the same row in another
+  case folded into one (newest wins, fields only the other has kept); a
+  deletion or deleted mark that only exists because the row is alive in another
+  case is dropped. Used by mergeData, liveOnly and safeMerge. FinanceProvider:
+  a copy that needed folding is saved back at once (Opened.repaired; pullVault
+  saves when the remote needed folding). Tests: 157 pass. Bart checked: his
+  data is right again.
+- iOS fix (ios-port-nov18 f92bca6, written on Windows, NOT BUILT): VaultMerge.fold
+  (= foldIds 1:1) in merge + liveOnly; VaultSnapshot.stamp folds the export
+  and compares snapshot ids in lower case (an old upper-case snapshot never
+  turns rows into deletions). 3 tests in VaultSyncTests.
+- Until a new TestFlight build with f92bca6: keep the app OFF the iPad and
+  iPhone. Still to port to iOS: safeMerge (see INCIDENT 2). Android: same
+  fold (Kotlin UUID.toString() is lower case, but fold anyway).
+- If anything looks wrong: Supabase keeps the last 10 replaced copies
+  (migration 0016) — restore by SQL.
