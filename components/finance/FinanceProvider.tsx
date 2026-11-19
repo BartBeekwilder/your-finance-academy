@@ -4,7 +4,7 @@ import { OPEN_SIGNUP } from "./SignIn";
 import { t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
 import { dueFixedCosts } from "@/lib/finance/recurring";
-import { liveOnly, safeMerge, trackChanges } from "@/lib/finance/vaultMerge";
+import { foldIds, liveOnly, safeMerge, trackChanges } from "@/lib/finance/vaultMerge";
 import { fromKeys, NeedsPassphrase, plain, unlock, type Sealed, type Unlocked } from "@/lib/finance/vault";
 import { forgetKeys, recallKeys, rememberKeys } from "@/lib/finance/vaultKeys";
 import { useMarket } from "@/lib/finance/useMarket";
@@ -180,7 +180,9 @@ async function loadAll(supabase: SupabaseClient): Promise<FinanceData> {
 }
 
 /** `remembered`: a protected copy whose keys this device keeps (vaultKeys). */
-type Opened = { data: FinanceData; vault: Unlocked; at: string; remembered?: boolean };
+/** `repaired`: the copy had the same row twice (ids in another case, see
+ *  foldIds) — it was folded on opening and is saved back at once. */
+type Opened = { data: FinanceData; vault: Unlocked; at: string; remembered?: boolean; repaired?: boolean };
 
 /** The signed-in account's copy: opened when it has no passphrase (a first
  *  sign-in starts one from what's in the account) or this device remembers
@@ -196,7 +198,8 @@ async function openAccountCopy(supabase: SupabaseClient, userId: string): Promis
     return { data, vault, at: made.updated_at };
   }
   try {
-    return { data: liveOnly(await vault.open<FinanceData>(row)), vault, at: row.updated_at };
+    const raw = await vault.open<FinanceData>(row);
+    return { data: liveOnly(raw), vault, at: row.updated_at, repaired: foldIds(raw).changed };
   } catch (e) {
     if (!(e instanceof NeedsPassphrase)) throw e;
   }
@@ -204,7 +207,8 @@ async function openAccountCopy(supabase: SupabaseClient, userId: string): Promis
   if (!keys) return "locked";
   try {
     const kept = fromKeys(keys);
-    return { data: liveOnly(await kept.open<FinanceData>(row)), vault: kept, at: row.updated_at, remembered: true };
+    const raw = await kept.open<FinanceData>(row);
+    return { data: liveOnly(raw), vault: kept, at: row.updated_at, remembered: true, repaired: foldIds(raw).changed };
   } catch {
     // Another device changed the passphrase: these keys are no use any more.
     await forgetKeys(userId);
@@ -229,7 +233,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const [vaultRemembered, setVaultRemembered] = useState(false);
   /** An opened copy becomes this tab's data. */
   const opened = useCallback((o: Opened, session: Session) => {
-    vaultRef.current = { vault: o.vault, at: o.at, saved: JSON.stringify(o.data) };
+    // A repaired copy is saved back straight away (saved ≠ the data).
+    vaultRef.current = { vault: o.vault, at: o.at, saved: o.repaired ? "" : JSON.stringify(o.data) };
     setVaultProtected(o.vault.protected);
     setVaultRemembered(!!o.remembered && o.vault.protected);
     setVaultStatus("saved");
@@ -548,7 +553,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     if (guarded) console.warn("Vault merge would have wiped many rows; kept both sides' rows instead");
     v.at = row.updated_at;
     // Nothing changed here since: the vault's copy is what's saved.
-    if (JSON.stringify(merged) === JSON.stringify(liveOnly(remote))) v.saved = JSON.stringify(merged);
+    // (Unless the vault's copy had rows twice: then the folded merge is saved.)
+    if (!foldIds(remote).changed && JSON.stringify(merged) === JSON.stringify(liveOnly(remote))) v.saved = JSON.stringify(merged);
     setPhase((p) => (p.kind === "ready" && p.source === "vault" ? { ...p, data: merged } : p));
     return merged;
   }, [supabase]);
@@ -1072,9 +1078,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
           email={phase.session.user.email ?? null}
           hasVault={phase.hasVault}
           start={() => loadAll(supabase)}
-          onUnlocked={async (data, vault, at, remember) => {
+          onUnlocked={async (data, vault, at, remember, repaired) => {
             if (remember) await rememberKeys(phase.session.user.id, await vault.keys());
-            opened({ data, vault, at, remembered: remember }, phase.session);
+            opened({ data, vault, at, remembered: remember, repaired }, phase.session);
           }}
           onSignOut={() => void signOut()}
         />

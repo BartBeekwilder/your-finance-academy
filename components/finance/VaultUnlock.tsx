@@ -5,7 +5,7 @@ import { LockKeyhole } from "lucide-react";
 import { useState } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { MIN_PASSPHRASE, unlock, type Unlocked } from "@/lib/finance/vault";
-import { liveOnly } from "@/lib/finance/vaultMerge";
+import { foldIds, liveOnly } from "@/lib/finance/vaultMerge";
 import type { FinanceData } from "@/lib/finance/types";
 
 // After signing in: the data lives only in the encrypted vault
@@ -21,7 +21,7 @@ export default function VaultUnlock({ supabase, email, hasVault, start, onUnlock
   /** No vault yet: the data a new vault starts with. */
   start: () => Promise<FinanceData>;
   /** `remember`: keep the key on this device (vaultKeys), so a reload opens it. */
-  onUnlocked: (data: FinanceData, vault: Unlocked, updatedAt: string, remember: boolean) => void | Promise<void>;
+  onUnlocked: (data: FinanceData, vault: Unlocked, updatedAt: string, remember: boolean, repaired?: boolean) => void | Promise<void>;
   onSignOut: () => void;
 }) {
   const [pass, setPass] = useState("");
@@ -48,7 +48,7 @@ export default function VaultUnlock({ supabase, email, hasVault, start, onUnlock
         } catch {
           throw new Error(t("That passphrase doesn't open your vault."));
         }
-        await onUnlocked(liveOnly(data), vault, row.updated_at, remember);
+        await onUnlocked(liveOnly(data), vault, row.updated_at, remember, foldIds(data).changed);
       } else {
         const data = await start();
         const sealed = await vault.seal(data);
