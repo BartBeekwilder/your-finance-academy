@@ -4785,13 +4785,22 @@ span.pf-cmp-chip { cursor: default; }
 .pf-nwc-stats { padding: 4px 0 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; display: grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 4px; align-items: baseline; justify-items: end; font-size: 0.72rem; font-variant-numeric: tabular-nums; white-space: nowrap; border-radius: 8px; transition: background 0.2s; }
 .pf-nwc-stats:disabled { cursor: default; }
 .pf-nwc-stats:not(:disabled):hover { background: rgba(255, 255, 255, 0.04); }
-.pf-nwc-stats[data-split] { grid-template-columns: auto auto auto auto; }
-.pf-nwc-stats > span:not([class]) { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--pf-ink-3); }
+.pf-nwc-stats[data-can-split] { grid-template-columns: auto auto auto auto; column-gap: 0; }
+.pf-nwc-stats[data-can-split] b { padding-left: 12px; }
+/* Work and investments fold out sideways, the column heads drop in, the rows follow one after another. */
+.pf-nwc-head { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--pf-ink-3); max-height: 0; opacity: 0; transform: translateY(-4px); transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-nwc-stats[data-split] .pf-nwc-head { max-height: 1.4em; opacity: 1; transform: none; }
+.pf-nwc-col { display: block; max-width: 0; padding-left: 0; opacity: 0; overflow: hidden; transform: translateX(-6px); transition: max-width 0.55s cubic-bezier(0.22, 1, 0.36, 1), padding-left 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-nwc-stats[data-split] .pf-nwc-col { max-width: 10em; padding-left: 16px; opacity: 1; transform: none; }
+.pf-nwc-stats[data-split] .pf-nwc-col:nth-child(4n) { transition-delay: 0.06s; }
+.pf-nwc-stats[data-split] .pf-nwc-col:nth-child(n + 9) { transition-delay: 0.08s; }
+.pf-nwc-stats[data-split] .pf-nwc-col:nth-child(n + 13) { transition-delay: 0.14s; }
 .pf-nwc-stat-label { color: var(--pf-ink-2); justify-self: start; }
 .pf-nwc-stats b { font-weight: 600; }
-.pf-nwc-split { font-size: 0.68rem; opacity: 0.8; animation: pf-cmp-fade 0.35s ease-out both; }
+.pf-nwc-split { font-size: 0.68rem; }
+.pf-nwc-stats[data-split] .pf-nwc-split { opacity: 0.85; }
 @media (max-width: 560px) { .pf-nwc-stats { width: 100%; } .pf-nwc-path-foot span { display: grid; } .pf-nwc-path-foot b { margin-left: 0; } }
-@media (prefers-reduced-motion: reduce) { .pf-nwc-line { animation: none; stroke-dashoffset: 0; } .pf-nwc-area, .pf-nwc-mix-bar span, .pf-nwc-split { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .pf-nwc-line { animation: none; stroke-dashoffset: 0; } .pf-nwc-area, .pf-nwc-mix-bar span { animation: none; } .pf-nwc-head, .pf-nwc-col { transition: none; } }
 
 /* Income — payslips */
 .pf-slip-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 30px; height: 28px; padding: 0 8px; margin-right: 10px; border-radius: 999px; border: 1px dashed var(--pf-line); background: transparent; color: var(--pf-ink-3); font: inherit; font-size: 0.72rem; cursor: pointer; opacity: 0.6; transition: opacity 0.2s, color 0.2s, border-color 0.2s, background 0.2s; }

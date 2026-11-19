@@ -93,16 +93,19 @@ export default function NetWorthCard({
           type="button"
           className="pf-nwc-stats"
           data-split={(split && canSplit) || undefined}
+          data-can-split={canSplit || undefined}
           onClick={() => canSplit && setSplit((s) => !s)}
           disabled={!canSplit}
           title={canSplit ? (split ? t("Show the total only") : t("Show work and investments")) : undefined}
         >
-          {split && canSplit && (
+          {/* Always there, folded away: opening slides the columns out
+              instead of popping them in. */}
+          {canSplit && (
             <>
-              <span />
-              <span>{t("Total")}</span>
-              <span>{t("Work")}</span>
-              <span>{t("Investments")}</span>
+              <span className="pf-nwc-head" />
+              <span className="pf-nwc-head">{t("Total")}</span>
+              <span className="pf-nwc-head pf-nwc-col">{t("Work")}</span>
+              <span className="pf-nwc-head pf-nwc-col">{t("Investments")}</span>
             </>
           )}
           <Stat label={t("This Day")} work={dayDelta} invest={market?.day} split={split && canSplit} currency={currency} />
@@ -124,10 +127,10 @@ function Stat({ label, work, invest, split, currency }: { label: string; work: n
     <>
       <span className="pf-nwc-stat-label">{label}</span>
       <b className="pf-rounded" style={{ color: tone(value) }}>{money(value, currency, { signed: true })}</b>
-      {split && invest !== undefined && (
+      {invest !== undefined && (
         <>
-          <span className="pf-rounded pf-nwc-split" style={{ color: tone(work) }}>{money(work, currency, { signed: true })}</span>
-          <span className="pf-rounded pf-nwc-split" style={{ color: tone(invest) }}>{money(invest, currency, { signed: true })}</span>
+          <span className="pf-rounded pf-nwc-split pf-nwc-col" aria-hidden={!split} style={{ color: tone(work) }}>{money(work, currency, { signed: true })}</span>
+          <span className="pf-rounded pf-nwc-split pf-nwc-col" aria-hidden={!split} style={{ color: tone(invest) }}>{money(invest, currency, { signed: true })}</span>
         </>
       )}
     </>
