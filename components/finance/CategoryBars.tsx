@@ -319,7 +319,7 @@ export default function CategoryBars({
             {!past && <div>{t("expected {amount}", { amount: money(periodExpected, currency) })}</div>}
           </div>
           <div style={{ display: "flex", gap: 12, alignItems: "stretch", minHeight: 0 }}>
-            <div key={`s${mode}`} className="pf-cbar-total" style={{ height: H }}>
+            <div key={`s${mode}`} className="pf-cbar-total" style={{ minHeight: H }}>
               {periodExpected > periodTotal && <span className="pf-cbar-expected" style={{ height: "100%", animationDelay: "0.9s" }} />}
               {periodBudget != null && (
                 <span key={lit} className="pf-cbar-budget-tick" style={{ bottom: `${Math.min((litBase + periodBudget) / periodTop, 1) * 100}%` }}>
@@ -347,8 +347,8 @@ export default function CategoryBars({
                 })}
               </div>
             </div>
-            {/* Top to bottom, in the bar's order. */}
-            <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: 2, minWidth: 0, flex: 1 }}>
+            {/* Top to bottom, in the bar's order. The bar stretches to this list's height, so its top and bottom line up with the first and last row. */}
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 2, minWidth: 0, flex: 1 }}>
               {[...stack].reverse().map((s) => {
                 const v = periodBy.get(s.id) ?? 0;
                 return (
