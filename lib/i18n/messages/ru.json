@@ -2146,5 +2146,6 @@
  "of the month's {days} days — the rest was yours": "из {days} дней месяца — остальное было ваше",
  "of work, at 40 hours a week": "работы при 40 часах в неделю",
  "What it cost you": "Во что это обошлось",
- "Work hours": "Рабочие часы"
+ "Work hours": "Рабочие часы",
+ "The copy in your account would delete {n} items from this Mac. Upload this Mac's books as they are instead (replacing the copy in your account)?": "Копия в вашем аккаунте удалит {n} записей с этого Mac. Вместо этого загрузить данные этого Mac как есть (заменив копию в аккаунте)?"
 }

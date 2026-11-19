@@ -2146,5 +2146,6 @@
  "of the month's {days} days — the rest was yours": "من أيام الشهر البالغة {days} — والباقي كان لك",
  "of work, at 40 hours a week": "من العمل، بواقع 40 ساعة أسبوعيًا",
  "What it cost you": "ما كلّفك",
- "Work hours": "ساعات العمل"
+ "Work hours": "ساعات العمل",
+ "The copy in your account would delete {n} items from this Mac. Upload this Mac's books as they are instead (replacing the copy in your account)?": "ستحذف النسخة الموجودة في حسابك {n} عنصرًا من هذا الـ Mac. هل تريد بدلاً من ذلك رفع بيانات هذا الـ Mac كما هي (لتحل محل النسخة في حسابك)؟"
 }

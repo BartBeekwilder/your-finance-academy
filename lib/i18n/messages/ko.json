@@ -2146,5 +2146,6 @@
  "of the month's {days} days — the rest was yours": "이달 {days}일 중 — 나머지는 내 시간",
  "of work, at 40 hours a week": "근무, 주 40시간 기준",
  "What it cost you": "들어간 시간",
- "Work hours": "근무 시간"
+ "Work hours": "근무 시간",
+ "The copy in your account would delete {n} items from this Mac. Upload this Mac's books as they are instead (replacing the copy in your account)?": "계정의 사본이 이 Mac에서 {n}개 항목을 삭제합니다. 대신 이 Mac의 데이터를 그대로 업로드할까요(계정의 사본을 대체)?"
 }

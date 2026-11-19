@@ -2146,5 +2146,6 @@
  "of the month's {days} days — the rest was yours": "de los {days} días del mes — el resto fue tuyo",
  "of work, at 40 hours a week": "de trabajo, a 40 horas por semana",
  "What it cost you": "Lo que te costó",
- "Work hours": "Horas de trabajo"
+ "Work hours": "Horas de trabajo",
+ "The copy in your account would delete {n} items from this Mac. Upload this Mac's books as they are instead (replacing the copy in your account)?": "La copia de tu cuenta eliminaría {n} elementos de este Mac. ¿Subir en su lugar los datos de este Mac tal como están (reemplazando la copia de tu cuenta)?"
 }

@@ -6,11 +6,14 @@ import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSupabase } from "@/lib/supabase";
 import { MIN_PASSPHRASE, open, seal } from "@/lib/finance/vault";
-import { liveOnly, mergeData } from "@/lib/finance/vaultMerge";
+import { collections, liveOnly, mergeData } from "@/lib/finance/vaultMerge";
 import type { FinanceData } from "@/lib/finance/types";
 import { useFinance } from "./FinanceProvider";
 import Sheet from "./Sheet";
 import SignIn from "./SignIn";
+
+/** Live rows in one collection. */
+const count = (d: FinanceData, c: string) => ((d as unknown as Record<string, { deleted_at?: string | null }[]>)[c] ?? []).filter((r) => !r.deleted_at).length;
 
 // Settings › Encrypted copy (local mode): put an end-to-end encrypted copy
 // of the private data in the user's account, or restore it. The passphrase
@@ -78,8 +81,18 @@ export default function VaultSection() {
         } catch {
           throw new Error(t("Use the same passphrase as your existing copy — it couldn't be opened with this one."));
         }
-        merged = liveOnly(mergeData(merged, remote));
-        restoreLocal(merged);
+        const together = liveOnly(mergeData(merged, remote));
+        // A copy full of old "deleted" marks (19 Nov 2026: the 18 Nov wipe
+        // came back) would empty this Mac too: then this Mac's books go up
+        // as they are, nothing merged in.
+        const lost = collections(merged).reduce((n, c) => n + Math.max(0, count(merged, c) - count(together, c)), 0);
+        const here = collections(merged).reduce((n, c) => n + count(merged, c), 0);
+        if (lost >= 20 && lost >= here * 0.25) {
+          if (!confirm(t("The copy in your account would delete {n} items from this Mac. Upload this Mac's books as they are instead (replacing the copy in your account)?", { n: lost }))) return;
+        } else {
+          merged = together;
+          restoreLocal(merged);
+        }
       }
       const sealed = await seal(merged, pass);
       const { data, error } = await supabase

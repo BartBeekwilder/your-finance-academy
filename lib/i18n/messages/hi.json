@@ -2146,5 +2146,6 @@
  "of the month's {days} days — the rest was yours": "महीने के {days} दिनों में से — बाकी आपके थे",
  "of work, at 40 hours a week": "काम, हफ़्ते में 40 घंटे के हिसाब से",
  "What it cost you": "इसकी कीमत",
- "Work hours": "काम के घंटे"
+ "Work hours": "काम के घंटे",
+ "The copy in your account would delete {n} items from this Mac. Upload this Mac's books as they are instead (replacing the copy in your account)?": "आपके खाते की कॉपी इस Mac से {n} आइटम हटा देगी। इसके बजाय इस Mac का डेटा जैसा है वैसा ही अपलोड करें (आपके खाते की कॉपी बदल दी जाएगी)?"
 }
