@@ -174,7 +174,10 @@
     /*work hours, live 19 Nov*/ "Wat het je kostte: je uitgaven in werkuren en in echte uren, in je Month Wrapped, onder elke uitgave en in je PDF-overzicht.",
     /*earlier versions + pdf, live 19 Nov evening*/ "Instellingen › Eerdere versies: ging er iets mis na een synchronisatie? Zet je boeken met één klik terug naar een eerdere versie.",
     "PDF-overzichten: grafieken met assen, alle categorieën, inkomsten als netto, je aandelen naast de wereldmarkt en de geldklok ook in het jaaroverzicht.",
-    /*share card, live 19 Nov*/ "Deel je jaar: je Year Wrapped als afbeelding voor je story of een chat, met alleen percentages tenzij je de bedragen aanzet."
+    /*share card, live 19 Nov*/ "Deel je jaar: je Year Wrapped als afbeelding voor je story of een chat, met alleen percentages tenzij je de bedragen aanzet.",
+    /*dashboard tile + liquidity + phones, live 19 Nov*/ "De liquiditeitstegel op je dashboard: je maand van de 1e tot nu en wat je aan het eind verwacht, waar je geld staat, en per dag het bedrag als je de lijn aanwijst.",
+    "Liquiditeit klopt overal: het begin van de maand plus de verandering is precies je bedrag van nu, met de koersbeweging van je beleggingen erbij.",
+    "Op je telefoon schuift de pagina niet meer opzij, ook niet bij Beleggingen."
   ];
 
   var L = {
@@ -337,7 +340,10 @@
       "What it cost you: your spending in work hours and in real hours, in your Month Wrapped, under each expense and in your PDF report.",
       "Settings › Earlier versions: something went wrong after a sync? Put your books back to an earlier version with one click.",
       "PDF reports: charts with axes, every category, income shown as net, your shares next to the world market and the money clock in the annual report too.",
-      "Share your year: your Year Wrapped as a picture for your story or a chat, with only percentages unless you switch the amounts on."
+      "Share your year: your Year Wrapped as a picture for your story or a chat, with only percentages unless you switch the amounts on.",
+      "The liquidity tile on your dashboard: your month from the 1st to now and what you expect at its end, where your money sits, and each day's amount when you point at the line.",
+      "Liquidity adds up everywhere: the start of the month plus the change is exactly what you have now, with your investments' market moves included.",
+      "On your phone the page no longer slides sideways, Investments included."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -498,7 +504,10 @@
       "Was es dich gekostet hat: deine Ausgaben in Arbeitsstunden und echten Stunden, in deinem Month Wrapped, unter jeder Ausgabe und im PDF-Bericht.",
       "Einstellungen › Frühere Versionen: Nach einer Synchronisierung lief etwas schief? Setze deine Bücher mit einem Klick auf eine frühere Version zurück.",
       "PDF-Berichte: Diagramme mit Achsen, alle Kategorien, Einnahmen als netto, deine Aktien neben dem Weltmarkt und die Geld-Uhr jetzt auch im Jahresbericht.",
-      "Teile dein Jahr: dein Year Wrapped als Bild für deine Story oder einen Chat, nur mit Prozenten, außer du schaltest die Beträge ein."
+      "Teile dein Jahr: dein Year Wrapped als Bild für deine Story oder einen Chat, nur mit Prozenten, außer du schaltest die Beträge ein.",
+      "Die Liquiditätskachel im Dashboard: dein Monat vom 1. bis jetzt und was du am Monatsende erwartest, wo dein Geld liegt, und der Betrag jedes Tages, wenn du auf die Linie zeigst.",
+      "Liquidität stimmt überall: Monatsanfang plus Veränderung ist genau dein Betrag von jetzt, inklusive der Kursbewegungen deiner Anlagen.",
+      "Auf dem Handy rutscht die Seite nicht mehr zur Seite, auch nicht bei Anlagen."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -659,7 +668,10 @@
       "Ce que ça vous a coûté : vos dépenses en heures de travail et en heures réelles, dans votre Month Wrapped, sous chaque dépense et dans votre rapport PDF.",
       "Réglages › Versions précédentes : un souci après une synchronisation ? Remets tes comptes à une version précédente en un clic.",
       "Rapports PDF : graphiques avec axes, toutes les catégories, revenus en net, tes actions face au marché mondial et l’horloge de l’argent aussi dans le rapport annuel.",
-      "Partage ton année : ton Year Wrapped en image pour ta story ou une discussion, avec seulement des pourcentages sauf si tu actives les montants."
+      "Partage ton année : ton Year Wrapped en image pour ta story ou une discussion, avec seulement des pourcentages sauf si tu actives les montants.",
+      "La tuile de liquidités du tableau de bord : ton mois du 1er à maintenant et ce que tu attends à la fin, où se trouve ton argent, et le montant de chaque jour quand tu pointes la courbe.",
+      "Les liquidités concordent partout : le début du mois plus la variation donne exactement ton montant actuel, mouvements de cours de tes placements compris.",
+      "Sur ton téléphone, la page ne glisse plus sur le côté, Placements compris."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -820,7 +832,10 @@
       "Lo que te costó: tus gastos en horas de trabajo y en horas reales, en tu Month Wrapped, bajo cada gasto y en tu informe PDF.",
       "Ajustes › Versiones anteriores: ¿algo salió mal tras una sincronización? Vuelve a una versión anterior de tus cuentas con un clic.",
       "Informes PDF: gráficos con ejes, todas las categorías, ingresos en neto, tus acciones frente al mercado mundial y el reloj del dinero también en el informe anual.",
-      "Comparte tu año: tu Year Wrapped como imagen para tu historia o un chat, solo con porcentajes salvo que actives los importes."
+      "Comparte tu año: tu Year Wrapped como imagen para tu historia o un chat, solo con porcentajes salvo que actives los importes.",
+      "La tarjeta de liquidez del panel: tu mes del día 1 hasta hoy y lo que esperas al final, dónde está tu dinero, y el importe de cada día al señalar la línea.",
+      "La liquidez cuadra en todas partes: el inicio del mes más el cambio es exactamente lo que tienes ahora, con los movimientos de mercado de tus inversiones.",
+      "En el móvil la página ya no se desliza hacia un lado, tampoco en Inversiones."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -981,7 +996,10 @@
       "Quanto ti è costato: le tue spese in ore di lavoro e in ore reali, nel tuo Month Wrapped, sotto ogni spesa e nel report PDF.",
       "Impostazioni › Versioni precedenti: qualcosa è andato storto dopo una sincronizzazione? Riporta i tuoi conti a una versione precedente con un clic.",
       "Report PDF: grafici con assi, tutte le categorie, entrate al netto, le tue azioni accanto al mercato mondiale e l’orologio del denaro anche nel report annuale.",
-      "Condividi il tuo anno: il tuo Year Wrapped come immagine per la tua storia o una chat, solo con percentuali a meno che non attivi gli importi."
+      "Condividi il tuo anno: il tuo Year Wrapped come immagine per la tua storia o una chat, solo con percentuali a meno che non attivi gli importi.",
+      "Il riquadro della liquidità nella dashboard: il tuo mese dal 1° a oggi e cosa prevedi a fine mese, dove sono i tuoi soldi, e l'importo di ogni giorno quando indichi la linea.",
+      "La liquidità torna ovunque: inizio mese più la variazione è esattamente quanto hai ora, compresi i movimenti di mercato dei tuoi investimenti.",
+      "Sul telefono la pagina non scivola più di lato, anche in Investimenti."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1142,7 +1160,10 @@
       "Quanto custou: seus gastos em horas de trabalho e em horas reais, no seu Month Wrapped, abaixo de cada gasto e no relatório em PDF.",
       "Configurações › Versões anteriores: algo deu errado após uma sincronização? Volte suas finanças para uma versão anterior com um clique.",
       "Relatórios em PDF: gráficos com eixos, todas as categorias, receitas como líquidas, suas ações ao lado do mercado mundial e o relógio do dinheiro também no relatório anual.",
-      "Compartilhe seu ano: seu Year Wrapped como imagem para o seu story ou um chat, só com porcentagens, a não ser que você ative os valores."
+      "Compartilhe seu ano: seu Year Wrapped como imagem para o seu story ou um chat, só com porcentagens, a não ser que você ative os valores.",
+      "O card de liquidez do painel: seu mês do dia 1 até agora e o que você espera no fim, onde está seu dinheiro, e o valor de cada dia ao apontar para a linha.",
+      "A liquidez fecha em todo lugar: o início do mês mais a variação é exatamente o que você tem agora, com as oscilações de mercado dos seus investimentos.",
+      "No celular a página não desliza mais para o lado, nem em Investimentos."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1303,7 +1324,10 @@
       "Ile cię to kosztowało: wydatki w godzinach pracy i w prawdziwych godzinach, w Month Wrapped, pod każdym wydatkiem i w raporcie PDF.",
       "Ustawienia › Wcześniejsze wersje: coś poszło nie tak po synchronizacji? Przywróć wcześniejszą wersję jednym kliknięciem.",
       "Raporty PDF: wykresy z osiami, wszystkie kategorie, dochody netto, twoje akcje obok rynku światowego i zegar pieniędzy także w raporcie rocznym.",
-      "Udostępnij swój rok: twoje Year Wrapped jako obrazek do relacji lub czatu, tylko z procentami, chyba że włączysz kwoty."
+      "Udostępnij swój rok: twoje Year Wrapped jako obrazek do relacji lub czatu, tylko z procentami, chyba że włączysz kwoty.",
+      "Kafelek płynności na pulpicie: twój miesiąc od 1. do teraz i czego oczekujesz na koniec, gdzie są twoje pieniądze, oraz kwota każdego dnia po wskazaniu linii.",
+      "Płynność wszędzie się zgadza: początek miesiąca plus zmiana to dokładnie to, co masz teraz, razem z ruchami kursów twoich inwestycji.",
+      "Na telefonie strona już nie przesuwa się na bok, także w Inwestycjach."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1464,7 +1488,10 @@
       "Sana maliyeti: harcamaların çalışma saati ve gerçek saat olarak; Month Wrapped'inde, her harcamanın altında ve PDF raporunda.",
       "Ayarlar › Önceki sürümler: senkronizasyondan sonra bir sorun mu oldu? Kayıtlarını tek tıkla önceki bir sürüme döndür.",
       "PDF raporları: eksenli grafikler, tüm kategoriler, net gelir, dünya piyasasının yanında hisselerin ve yıllık raporda da para saati.",
-      "Yılını paylaş: Year Wrapped'ın hikayen ya da bir sohbet için bir görsel olarak; tutarları açmadıkça yalnızca yüzdelerle."
+      "Yılını paylaş: Year Wrapped'ın hikayen ya da bir sohbet için bir görsel olarak; tutarları açmadıkça yalnızca yüzdelerle.",
+      "Paneldeki likidite kutusu: ayın 1'inden bugüne ayın ve ay sonunda beklediğin, paranın nerede durduğu ve çizgiyi gösterdiğinde her günün tutarı.",
+      "Likidite her yerde tutuyor: ay başı artı değişim tam olarak şu anki tutarın, yatırımlarının piyasa hareketleri dahil.",
+      "Telefonda sayfa artık yana kaymıyor, Yatırımlar dahil."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1625,7 +1652,10 @@
       "Во что это обошлось: ваши расходы в рабочих и реальных часах — в Month Wrapped, под каждым расходом и в PDF-отчёте.",
       "Настройки › Предыдущие версии: что-то пошло не так после синхронизации? Верни данные к более ранней версии одним нажатием.",
       "PDF-отчёты: графики с осями, все категории, доходы указаны чистыми, твои акции рядом с мировым рынком и денежные часы теперь и в годовом отчёте.",
-      "Поделись своим годом: твой Year Wrapped картинкой для сторис или чата — только проценты, если не включить суммы."
+      "Поделись своим годом: твой Year Wrapped картинкой для сторис или чата — только проценты, если не включить суммы.",
+      "Плитка ликвидности на панели: твой месяц с 1-го числа до сегодня и ожидание на конец месяца, где лежат твои деньги, и сумма за каждый день, если навести на линию.",
+      "Ликвидность сходится везде: начало месяца плюс изменение — это ровно твоя сумма сейчас, с учётом движения курсов твоих инвестиций.",
+      "На телефоне страница больше не сдвигается вбок, в том числе в разделе «Инвестиции»."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -1786,7 +1816,10 @@
       "ما كلّفك: مصاريفك بساعات العمل وبالساعات الفعلية، في Month Wrapped وتحت كل مصروف وفي تقرير PDF.",
       "الإعدادات › الإصدارات السابقة: حدث خطأ بعد المزامنة؟ أعد بياناتك إلى إصدار سابق بنقرة واحدة.",
       "تقارير PDF: رسوم بيانية بمحاور، كل الفئات، الدخل بالصافي، أسهمك بجانب السوق العالمية وساعة المال في التقرير السنوي أيضًا.",
-      "شارك عامك: Year Wrapped الخاص بك كصورة لقصتك أو لمحادثة، بالنسب فقط ما لم تُظهر المبالغ."
+      "شارك عامك: Year Wrapped الخاص بك كصورة لقصتك أو لمحادثة، بالنسب فقط ما لم تُظهر المبالغ.",
+      "بطاقة السيولة في لوحتك: شهرك من اليوم الأول حتى الآن وما تتوقعه في نهايته، وأين توجد أموالك، ومبلغ كل يوم عند الإشارة إلى الخط.",
+      "السيولة متطابقة في كل مكان: بداية الشهر مع التغيير تساوي تمامًا ما لديك الآن، بما في ذلك تحركات أسعار استثماراتك.",
+      "على هاتفك لم تعد الصفحة تنزلق جانبيًا، ولا في الاستثمارات."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -1947,7 +1980,10 @@
       "इसकी कीमत: आपके खर्च काम के घंटों और असली घंटों में — Month Wrapped में, हर खर्च के नीचे और PDF रिपोर्ट में।",
       "सेटिंग्स › पिछले संस्करण: सिंक के बाद कुछ गड़बड़ हुई? एक क्लिक में अपनी किताबें पिछले संस्करण पर लौटाएँ।",
       "PDF रिपोर्ट: अक्षों वाले चार्ट, सभी श्रेणियाँ, शुद्ध आय, विश्व बाज़ार के साथ आपके शेयर और वार्षिक रिपोर्ट में भी पैसों की घड़ी।",
-      "अपना साल साझा करें: आपका Year Wrapped आपकी स्टोरी या चैट के लिए एक तस्वीर के रूप में, केवल प्रतिशत के साथ जब तक आप राशियाँ न दिखाएँ।"
+      "अपना साल साझा करें: आपका Year Wrapped आपकी स्टोरी या चैट के लिए एक तस्वीर के रूप में, केवल प्रतिशत के साथ जब तक आप राशियाँ न दिखाएँ।",
+      "आपके डैशबोर्ड पर लिक्विडिटी टाइल: 1 तारीख से अब तक आपका महीना और महीने के अंत की उम्मीद, आपका पैसा कहाँ है, और लाइन पर इशारा करने पर हर दिन की राशि।",
+      "लिक्विडिटी हर जगह मेल खाती है: महीने की शुरुआत और बदलाव मिलाकर ठीक आपकी अभी की राशि है, आपके निवेश की बाज़ार चाल समेत।",
+      "आपके फ़ोन पर पेज अब बगल में नहीं खिसकता, निवेश में भी नहीं।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2108,7 +2144,10 @@
       "Biayanya bagimu: pengeluaranmu dalam jam kerja dan jam nyata, di Month Wrapped, di bawah setiap pengeluaran, dan di laporan PDF.",
       "Pengaturan › Versi sebelumnya: ada yang salah setelah sinkronisasi? Kembalikan catatanmu ke versi sebelumnya dengan satu klik.",
       "Laporan PDF: grafik dengan sumbu, semua kategori, pemasukan bersih, sahammu di samping pasar dunia, dan jam uang juga di laporan tahunan.",
-      "Bagikan tahunmu: Year Wrapped-mu sebagai gambar untuk story atau obrolan, hanya dengan persentase kecuali kamu menampilkan jumlahnya."
+      "Bagikan tahunmu: Year Wrapped-mu sebagai gambar untuk story atau obrolan, hanya dengan persentase kecuali kamu menampilkan jumlahnya.",
+      "Kartu likuiditas di dasbor: bulanmu dari tanggal 1 sampai sekarang dan perkiraan di akhir bulan, di mana uangmu berada, dan jumlah tiap hari saat kamu menunjuk garisnya.",
+      "Likuiditas cocok di mana-mana: awal bulan ditambah perubahan sama persis dengan jumlahmu sekarang, termasuk pergerakan harga investasimu.",
+      "Di ponsel, halaman tidak lagi bergeser ke samping, termasuk di Investasi."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2269,7 +2308,10 @@
       "かかった時間：支出を労働時間と実際の時間で表示。Month Wrapped、各支出の下、PDFレポートで。",
       "設定 › 以前のバージョン:同期のあとで問題が起きたら、ワンクリックで帳簿を以前のバージョンに戻せます。",
       "PDFレポート:軸付きのグラフ、すべてのカテゴリー、収入は手取りで表示、株式を世界市場と比較、年次レポートにもお金の時計。",
-      "1年をシェア:Year Wrapped をストーリーやチャット用の画像に。金額をオンにしない限り、パーセンテージだけを表示します。"
+      "1年をシェア:Year Wrapped をストーリーやチャット用の画像に。金額をオンにしない限り、パーセンテージだけを表示します。",
+      "ダッシュボードの流動資産タイル：1日から今までの1か月と月末の見込み、お金のありか、線を指すとその日の金額。",
+      "流動資産がどこでも一致：月初に変化を足すと、投資の値動きも含めてちょうど今の金額になります。",
+      "スマートフォンでページが横にずれなくなりました（投資の画面も）。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -2430,7 +2472,10 @@
       "들어간 시간: 지출을 근무 시간과 실제 시간으로 — Month Wrapped, 각 지출 아래, PDF 보고서에서.",
       "설정 › 이전 버전: 동기화 후 문제가 생겼나요? 클릭 한 번으로 장부를 이전 버전으로 되돌리세요.",
       "PDF 보고서: 축이 있는 차트, 모든 카테고리, 수입은 실수령 기준, 세계 시장과 비교한 내 주식, 연간 보고서에도 머니 시계.",
-      "한 해 공유하기: Year Wrapped를 스토리나 채팅용 이미지로 — 금액을 켜지 않으면 퍼센트만 표시됩니다."
+      "한 해 공유하기: Year Wrapped를 스토리나 채팅용 이미지로 — 금액을 켜지 않으면 퍼센트만 표시됩니다.",
+      "대시보드의 유동성 타일: 1일부터 지금까지의 한 달과 월말 예상, 돈이 어디에 있는지, 그리고 선을 가리키면 그날의 금액.",
+      "유동성이 어디서나 맞습니다: 월초에 변동을 더하면 투자 시세 변동까지 포함해 정확히 지금 금액입니다.",
+      "휴대폰에서 페이지가 더 이상 옆으로 밀리지 않습니다. 투자 화면도요."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -2591,7 +2636,10 @@
       "Bạn đã tốn gì: chi tiêu tính bằng giờ làm việc và giờ thực, trong Month Wrapped, dưới mỗi khoản chi và trong báo cáo PDF.",
       "Cài đặt › Phiên bản trước: có lỗi sau khi đồng bộ? Khôi phục sổ sách về phiên bản trước chỉ với một cú nhấp.",
       "Báo cáo PDF: biểu đồ có trục, mọi danh mục, thu nhập ròng, cổ phiếu của bạn cạnh thị trường thế giới và đồng hồ tiền cả trong báo cáo năm.",
-      "Chia sẻ năm của bạn: Year Wrapped thành hình ảnh cho story hoặc cuộc trò chuyện, chỉ hiện phần trăm trừ khi bạn bật số tiền."
+      "Chia sẻ năm của bạn: Year Wrapped thành hình ảnh cho story hoặc cuộc trò chuyện, chỉ hiện phần trăm trừ khi bạn bật số tiền.",
+      "Ô thanh khoản trên bảng điều khiển: tháng của bạn từ ngày 1 đến giờ và dự kiến cuối tháng, tiền của bạn nằm ở đâu, và số tiền từng ngày khi bạn chỉ vào đường.",
+      "Thanh khoản khớp ở mọi nơi: đầu tháng cộng thay đổi đúng bằng số tiền hiện tại, gồm cả biến động giá các khoản đầu tư.",
+      "Trên điện thoại, trang không còn trượt sang ngang nữa, kể cả mục Đầu tư."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -2752,7 +2800,10 @@
       "它花掉了你什么：用工作小时和真实小时衡量你的支出——在 Month Wrapped、每笔支出下方以及 PDF 报告中。",
       "设置 › 早期版本：同步后出了问题？一键把账本恢复到早期版本。",
       "PDF 报告：带坐标轴的图表、所有类别、收入按净额显示、你的股票与世界市场对比，年度报告中也有金钱时钟。",
-      "分享你的一年：把 Year Wrapped 做成图片发到动态或聊天中，除非你打开金额，否则只显示百分比。"
+      "分享你的一年：把 Year Wrapped 做成图片发到动态或聊天中，除非你打开金额，否则只显示百分比。",
+      "仪表板上的流动资金卡片：从 1 号到现在的这个月和月底的预期、你的钱在哪里，指向曲线时显示每天的金额。",
+      "流动资金处处一致：月初加上变化正好等于你现在的金额，包括投资的行情变动。",
+      "在手机上页面不再左右滑动，投资页面也一样。"
     ]
   };
 
