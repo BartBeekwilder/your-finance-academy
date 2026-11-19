@@ -1859,3 +1859,15 @@ what the compiler finds, run the tests, then look at it in the simulator.
   locally (no Stripe keys). Not yet: a test account (layer 2: sign-in, vault sync,
   wipe guard) — Bart creates it himself (real Supabase; no local Supabase/Docker).
 - Local data mode counts as Premium (dev only) so Bart can test the PDFs.
+
+## 2026-11-19 — what it cost you in time (web-app, NOT live)
+- Bart: work hours vs real hours for spending, "per expense really cool", also on the PDF.
+- lib/finance/workHours.ts (pure, tested): workHoursFor(amount, monthlyIncome) at
+  173.3 work hours a month (40 h/week, as the "An hour of your work" tile);
+  workCost(income, days, rows) → total/rows in work hours + real hours (days × 24).
+- Month Wrapped: new card "Wat het je kostte" after the clock (working days, real days,
+  top 4 posts in work hours, € per work hour / per real hour).
+- Transactions: under each expense "24 min werk" (that month's projected net income).
+- PDF page 3: "Wat het je kostte" block (KPIs + table: amount, work hours, around the clock).
+- App tests nl+en: 0 issues. iOS/Android: port later. Possible next: show it when
+  entering an expense, and on budgets.

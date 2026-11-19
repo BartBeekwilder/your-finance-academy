@@ -2141,5 +2141,16 @@
  "Print the report": "Rapport afdrukken",
  "Print the annual report": "Jaarrapport afdrukken",
  "Your money · {month}": "Je geld · {month}",
- "Balance sheet · {month}": "Balans · {month}"
+ "Balance sheet · {month}": "Balans · {month}",
+ "{month} cost you {n} working days.": "{month} kostte je {n} werkdagen.",
+ "{n} h": "{n} u",
+ "{n} working days, at 40 hours a week": "{n} werkdagen, bij 40 uur per week",
+ "{time} of work": "{time} werk",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "Een uur van je werk: {work} netto · een uur rond de klok: {real}.",
+ "Around the clock": "Rond de klok",
+ "of the month's {days} days": "van de {days} dagen van de maand",
+ "of the month's {days} days — the rest was yours": "van de {days} dagen van de maand — de rest was van jou",
+ "of work, at 40 hours a week": "werk, bij 40 uur per week",
+ "What it cost you": "Wat het je kostte",
+ "Work hours": "Werkuren"
 }

@@ -2135,5 +2135,16 @@
  "Print the report": "रिपोर्ट प्रिंट करें",
  "Print the annual report": "वार्षिक रिपोर्ट प्रिंट करें",
  "Your money · {month}": "आपका पैसा · {month}",
- "Balance sheet · {month}": "बैलेंस शीट · {month}"
+ "Balance sheet · {month}": "बैलेंस शीट · {month}",
+ "{month} cost you {n} working days.": "{month} में आपको {n} कार्यदिवस लगे।",
+ "{n} h": "{n} घं",
+ "{n} working days, at 40 hours a week": "{n} कार्यदिवस, हफ़्ते में 40 घंटे के हिसाब से",
+ "{time} of work": "{time} काम",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "आपके काम का एक घंटा: {work} शुद्ध · चौबीसों घंटे का एक घंटा: {real}।",
+ "Around the clock": "चौबीसों घंटे",
+ "of the month's {days} days": "महीने के {days} दिनों में से",
+ "of the month's {days} days — the rest was yours": "महीने के {days} दिनों में से — बाकी आपके थे",
+ "of work, at 40 hours a week": "काम, हफ़्ते में 40 घंटे के हिसाब से",
+ "What it cost you": "इसकी कीमत",
+ "Work hours": "काम के घंटे"
 }

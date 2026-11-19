@@ -2135,5 +2135,16 @@
  "Print the report": "طباعة التقرير",
  "Print the annual report": "طباعة التقرير السنوي",
  "Your money · {month}": "أموالك · {month}",
- "Balance sheet · {month}": "الميزانية · {month}"
+ "Balance sheet · {month}": "الميزانية · {month}",
+ "{month} cost you {n} working days.": "كلّفك {month} {n} أيام عمل.",
+ "{n} h": "{n} س",
+ "{n} working days, at 40 hours a week": "{n} أيام عمل، بواقع 40 ساعة أسبوعيًا",
+ "{time} of work": "{time} من العمل",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "ساعة من عملك: {work} صافيًا · ساعة على مدار اليوم: {real}.",
+ "Around the clock": "على مدار الساعة",
+ "of the month's {days} days": "من أيام الشهر البالغة {days}",
+ "of the month's {days} days — the rest was yours": "من أيام الشهر البالغة {days} — والباقي كان لك",
+ "of work, at 40 hours a week": "من العمل، بواقع 40 ساعة أسبوعيًا",
+ "What it cost you": "ما كلّفك",
+ "Work hours": "ساعات العمل"
 }

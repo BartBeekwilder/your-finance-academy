@@ -2135,5 +2135,16 @@
  "Print the report": "Распечатать отчёт",
  "Print the annual report": "Распечатать годовой отчёт",
  "Your money · {month}": "Ваши деньги · {month}",
- "Balance sheet · {month}": "Баланс · {month}"
+ "Balance sheet · {month}": "Баланс · {month}",
+ "{month} cost you {n} working days.": "{month} стоил вам {n} рабочих дней.",
+ "{n} h": "{n} ч",
+ "{n} working days, at 40 hours a week": "{n} рабочих дней при 40 часах в неделю",
+ "{time} of work": "{time} работы",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "Час вашей работы: {work} чистыми · час круглосуточно: {real}.",
+ "Around the clock": "Круглосуточно",
+ "of the month's {days} days": "из {days} дней месяца",
+ "of the month's {days} days — the rest was yours": "из {days} дней месяца — остальное было ваше",
+ "of work, at 40 hours a week": "работы при 40 часах в неделю",
+ "What it cost you": "Во что это обошлось",
+ "Work hours": "Рабочие часы"
 }

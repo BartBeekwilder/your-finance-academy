@@ -2135,5 +2135,16 @@
  "Print the report": "Cetak laporan",
  "Print the annual report": "Cetak laporan tahunan",
  "Your money · {month}": "Uangmu · {month}",
- "Balance sheet · {month}": "Neraca · {month}"
+ "Balance sheet · {month}": "Neraca · {month}",
+ "{month} cost you {n} working days.": "{month} memakan {n} hari kerjamu.",
+ "{n} h": "{n} jam",
+ "{n} working days, at 40 hours a week": "{n} hari kerja, dengan 40 jam per minggu",
+ "{time} of work": "{time} kerja",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "Satu jam kerjamu: {work} bersih · satu jam sepanjang hari: {real}.",
+ "Around the clock": "Sepanjang hari",
+ "of the month's {days} days": "dari {days} hari dalam bulan ini",
+ "of the month's {days} days — the rest was yours": "dari {days} hari dalam bulan ini — sisanya milikmu",
+ "of work, at 40 hours a week": "kerja, dengan 40 jam per minggu",
+ "What it cost you": "Biayanya bagimu",
+ "Work hours": "Jam kerja"
 }

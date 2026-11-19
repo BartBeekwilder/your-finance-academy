@@ -2135,5 +2135,16 @@
  "Print the report": "In báo cáo",
  "Print the annual report": "In báo cáo năm",
  "Your money · {month}": "Tiền của bạn · {month}",
- "Balance sheet · {month}": "Bảng cân đối · {month}"
+ "Balance sheet · {month}": "Bảng cân đối · {month}",
+ "{month} cost you {n} working days.": "{month} tốn của bạn {n} ngày công.",
+ "{n} h": "{n} giờ",
+ "{n} working days, at 40 hours a week": "{n} ngày công, với 40 giờ mỗi tuần",
+ "{time} of work": "{time} làm việc",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "Một giờ làm việc: {work} thực nhận · một giờ tính cả ngày đêm: {real}.",
+ "Around the clock": "Tính cả ngày đêm",
+ "of the month's {days} days": "trong {days} ngày của tháng",
+ "of the month's {days} days — the rest was yours": "trong {days} ngày của tháng — phần còn lại là của bạn",
+ "of work, at 40 hours a week": "làm việc, với 40 giờ mỗi tuần",
+ "What it cost you": "Bạn đã tốn gì",
+ "Work hours": "Giờ làm việc"
 }

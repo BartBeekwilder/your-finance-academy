@@ -9,6 +9,8 @@ import type { FinanceData } from "@/lib/finance/types";
 import { balanceSheet, type BalanceLine } from "@/lib/finance/calc";
 import { clockTime, duration, type MoneyClock as MoneyClockData } from "@/lib/finance/moneyClock";
 import { useMoneyClock } from "./MoneyClock";
+import { workCost } from "@/lib/finance/workHours";
+import { days1, workTime } from "./workTime";
 import type { WealthMonth, WealthYear } from "@/lib/finance/wealthReport";
 import BrandMark from "./BrandMark";
 
@@ -340,7 +342,7 @@ export function WealthSheet({ w, month, data, who }: { w: WealthMonth; month: Da
 
 /** The money on the accounts through the month: amounts up the side, days along the bottom, the lowest day marked. */
 function LiquidityLine({ start, days, total, currency }: { start: number; days: number[]; total: number; currency: string }) {
-  const W = 700, H = 170, left = 78, right = 10, top = 10, bottom = 24;
+  const W = 700, H = 135, left = 78, right = 10, top = 10, bottom = 24;
   const vals = [start, ...days];
   const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
   const x = (i: number) => left + (i / total) * (W - left - right);
@@ -508,6 +510,7 @@ function BalanceSide({ title, lines, before, total, totalBefore, prevLabel, debt
 export function MoneySheet({ w, month, data, who }: { w: WealthMonth; month: Date; data: FinanceData; who: string }) {
   const currency = data.profile.currency_code;
   const clock = useMoneyClock(data, month);
+  const cost = clock ? workCost(clock.income, w.days, clock.slices) : null;
   return (
     <section className="rp-page">
       <Head kicker={t("Monthly report")} title={t("Your money · {month}", { month: monthYear(month) })} who={who} currency={currency} />
@@ -525,6 +528,32 @@ export function MoneySheet({ w, month, data, who }: { w: WealthMonth; month: Dat
           <LiquidityLine start={w.liqStart} days={w.liquidity} total={w.days} currency={currency} />
         </div>
 
+        {cost && cost.rows.length > 0 && (
+          <div className="rp-block">
+            <div className="rp-block-head">
+              <h3>{t("What it cost you")}</h3>
+              <span className="rp-legend">{t("An hour of your work: {work} net · an hour around the clock: {real}.", { work: money(cost.perWorkHour, currency), real: money(cost.perRealHour, currency) })}</span>
+            </div>
+            <div className="rp-kpis">
+              <Kpi label={t("Work hours")} value={workTime(cost.total.workHours)} tone="out" note={t("{n} working days, at 40 hours a week", { n: days1(cost.total.workDays) })} />
+              <Kpi label={t("Around the clock")} value={t("{n} days", { n: days1(cost.total.realDays) })} tone="plain" note={t("of the month's {days} days", { days: w.days })} />
+              <Kpi label={t("For yourself")} value={t("{n} days", { n: days1(cost.freeDays) })} tone="in" />
+            </div>
+            <table className="rp-table">
+              <thead><tr><th /><th>{t("Amount")}</th><th>{t("Work hours")}</th><th>{t("Around the clock")}</th></tr></thead>
+              <tbody>
+                {cost.rows.map((r) => (
+                  <tr key={r.key}>
+                    <td><i className="rp-dot" style={{ background: r.color }} />{r.name}</td>
+                    <td>{money(r.amount, currency)}</td>
+                    <td>{workTime(r.workHours)}</td>
+                    <td>{workTime(r.realHours)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
       <Foot page={3} pages={4} />
     </section>

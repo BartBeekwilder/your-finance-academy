@@ -2135,5 +2135,16 @@
  "Print the report": "Bericht drucken",
  "Print the annual report": "Jahresbericht drucken",
  "Your money · {month}": "Dein Geld · {month}",
- "Balance sheet · {month}": "Bilanz · {month}"
+ "Balance sheet · {month}": "Bilanz · {month}",
+ "{month} cost you {n} working days.": "{month} hat dich {n} Arbeitstage gekostet.",
+ "{n} h": "{n} Std.",
+ "{n} working days, at 40 hours a week": "{n} Arbeitstage, bei 40 Stunden pro Woche",
+ "{time} of work": "{time} Arbeit",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "Eine Stunde deiner Arbeit: {work} netto · eine Stunde rund um die Uhr: {real}.",
+ "Around the clock": "Rund um die Uhr",
+ "of the month's {days} days": "von den {days} Tagen des Monats",
+ "of the month's {days} days — the rest was yours": "von den {days} Tagen des Monats — der Rest gehörte dir",
+ "of work, at 40 hours a week": "Arbeit, bei 40 Stunden pro Woche",
+ "What it cost you": "Was es dich gekostet hat",
+ "Work hours": "Arbeitsstunden"
 }

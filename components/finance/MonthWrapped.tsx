@@ -10,6 +10,8 @@ import { useTween } from "./charts";
 import CategoryIcon from "./CategoryIcon";
 import { AssetIcon, pct, tone } from "./Portfolio";
 import { ClockDial, useMoneyClock } from "./MoneyClock";
+import { workCost, type WorkCost } from "@/lib/finance/workHours";
+import { days1, workTime } from "./workTime";
 import { clockTime, type MoneyClock } from "@/lib/finance/moneyClock";
 
 // Month Wrapped: the closed month as story cards (Spotify Wrapped style) —
@@ -22,12 +24,14 @@ export type Card = { key: string; bg: string; body: ReactNode };
 export default function MonthWrapped({ data, month, now, currency }: { data: FinanceData; month: Date; now: Date; currency: string }) {
   const w = useMemo(() => monthWrapped(data, month, now), [data, month, now]);
   const clock = useMoneyClock(data, month);
+  const cost = useMemo(() => (clock ? workCost(clock.income, new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate(), clock.slices) : null), [clock, month]);
   const name = monthName(month);
 
   const cards: Card[] = [
     { key: "intro", bg: "linear-gradient(160deg, #3b1d8f 0%, #1a1240 55%, #0d0d14 100%)", body: <Intro w={w} name={name} currency={currency} /> },
     ...(w.top.length ? [{ key: "where", bg: "linear-gradient(160deg, #8f1d4a 0%, #3d1027 55%, #0d0d14 100%)", body: <Where w={w} currency={currency} /> }] : []),
     ...(clock ? [{ key: "clock", bg: "linear-gradient(160deg, #1d3f8f 0%, #10203f 55%, #0d0d14 100%)", body: <ClockCard clock={clock} name={name} currency={currency} /> }] : []),
+    ...(cost && cost.rows.length ? [{ key: "cost", bg: "linear-gradient(160deg, #7a3d0f 0%, #331a08 55%, #0d0d14 100%)", body: <CostCard cost={cost} name={name} currency={currency} /> }] : []),
     ...(w.rings.length ? [{ key: "rings", bg: "linear-gradient(160deg, #0f5c4a 0%, #0b2c26 55%, #0d0d14 100%)", body: <RingsCard w={w} currency={currency} /> }] : []),
     ...(w.investments ? [{ key: "inv", bg: "linear-gradient(160deg, #10427f 0%, #0c2340 55%, #0d0d14 100%)", body: <Investments w={w} name={name} currency={currency} /> }] : []),
     { key: "equity", bg: "linear-gradient(160deg, #6b4a0f 0%, #2e2109 55%, #0d0d14 100%)", body: <Equity w={w} name={name} currency={currency} /> },
@@ -129,6 +133,37 @@ function ClockCard({ clock, name, currency }: { clock: MoneyClock; name: string;
           {t("Until {time} you worked for {name}.", { time: clockTime(clock.slices[0].to), name: clock.slices[0].name })}
         </p>
       )}
+    </div>
+  );
+}
+
+/** What the month's spending cost in time: work hours (40 a week) and real days. */
+function CostCard({ cost, name, currency }: { cost: WorkCost; name: string; currency: string }) {
+  return (
+    <div className="pf-wr-body">
+      <span className="pf-wr-kicker">{t("What it cost you")}</span>
+      <h3 className="pf-wr-title">{t("{month} cost you {n} working days.", { month: name, n: days1(cost.total.workDays) })}</h3>
+      <div className="pf-wr-cost-big">
+        <div>
+          <b className="pf-rounded">{workTime(cost.total.workHours)}</b>
+          <span>{t("of work, at 40 hours a week")}</span>
+        </div>
+        <div>
+          <b className="pf-rounded">{t("{n} days", { n: days1(cost.total.realDays) })}</b>
+          <span>{t("of the month's {days} days — the rest was yours", { days: Math.round(cost.total.realDays + cost.freeDays) })}</span>
+        </div>
+      </div>
+      <div className="pf-wr-list">
+        {cost.rows.slice(0, 4).map((r, k) => (
+          <div key={r.key} className="pf-wr-cost" style={{ ["--d" as string]: `${0.15 + k * 0.12}s` }}>
+            <i style={{ background: r.color }} />
+            <span>{r.name}</span>
+            <b className="pf-rounded">{workTime(r.workHours)}</b>
+            <span className="pf-wr-dim">{money(r.amount, currency)}</span>
+          </div>
+        ))}
+      </div>
+      <p className="pf-wr-line">{t("An hour of your work: {work} net · an hour around the clock: {real}.", { work: money(cost.perWorkHour, currency), real: money(cost.perRealHour, currency) })}</p>
     </div>
   );
 }

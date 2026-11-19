@@ -35,7 +35,8 @@ page.on("console", (m) => { if (m.type() === "error" && !IGNORE.some((r) => r.te
 page.on("response", (r) => { if (r.status() >= 400 && !IGNORE.some((x) => x.test(r.url()))) add(`HTTP ${r.status()}`, r.url()); });
 
 // Text checks on what's on screen.
-async function inspect() {
+async function inspect(retry = true) {
+  // The dev server can reload a page mid-check (a rebuild): wait and look again once.
   const r = await page.evaluate(() => {
     const text = document.body.innerText;
     const over = document.documentElement.scrollWidth - innerWidth;
@@ -48,7 +49,13 @@ async function inspect() {
       bad: [...new Set(text.match(/\b(NaN|undefined|Infinity|null)\b/g) ?? [])],
       error: /Something went wrong|Application error|Unhandled Runtime Error/i.test(text),
     };
+  }).catch(async (e) => {
+    if (!retry) { add("check failed", e.message); return null; }
+    await sleep(3000);
+    await inspect(false);
+    return null;
   });
+  if (!r) return;
   if (r.over > 1) add("sideways overflow", `${r.over}px · ${r.wide.join(", ")}`);
   if (r.placeholders.length) add("raw placeholder", r.placeholders.join(" "));
   if (r.bad.length) add("bad value in text", r.bad.join(" "));

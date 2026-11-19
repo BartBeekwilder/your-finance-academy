@@ -2135,5 +2135,16 @@
  "Print the report": "보고서 인쇄",
  "Print the annual report": "연간 보고서 인쇄",
  "Your money · {month}": "내 돈 · {month}",
- "Balance sheet · {month}": "대차대조표 · {month}"
+ "Balance sheet · {month}": "대차대조표 · {month}",
+ "{month} cost you {n} working days.": "{month}에는 {n}일치 근무가 들었어요.",
+ "{n} h": "{n}시간",
+ "{n} working days, at 40 hours a week": "주 40시간 기준 {n}일 근무",
+ "{time} of work": "근무 {time}",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "한 시간의 노동: 실수령 {work} · 24시간 기준 한 시간: {real}.",
+ "Around the clock": "24시간 기준",
+ "of the month's {days} days": "이달 {days}일 중",
+ "of the month's {days} days — the rest was yours": "이달 {days}일 중 — 나머지는 내 시간",
+ "of work, at 40 hours a week": "근무, 주 40시간 기준",
+ "What it cost you": "들어간 시간",
+ "Work hours": "근무 시간"
 }

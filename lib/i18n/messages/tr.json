@@ -2135,5 +2135,16 @@
  "Print the report": "Raporu yazdır",
  "Print the annual report": "Yıllık raporu yazdır",
  "Your money · {month}": "Paran · {month}",
- "Balance sheet · {month}": "Bilanço · {month}"
+ "Balance sheet · {month}": "Bilanço · {month}",
+ "{month} cost you {n} working days.": "{month} sana {n} iş gününe mal oldu.",
+ "{n} h": "{n} sa",
+ "{n} working days, at 40 hours a week": "{n} iş günü, haftada 40 saatle",
+ "{time} of work": "{time} çalışma",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "Bir saatlik emeğin: {work} net · günün her saati için: {real}.",
+ "Around the clock": "24 saat üzerinden",
+ "of the month's {days} days": "ayın {days} gününden",
+ "of the month's {days} days — the rest was yours": "ayın {days} gününden — gerisi senindi",
+ "of work, at 40 hours a week": "çalışma, haftada 40 saatle",
+ "What it cost you": "Sana maliyeti",
+ "Work hours": "Çalışma saatleri"
 }

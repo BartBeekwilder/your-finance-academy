@@ -2135,5 +2135,16 @@
  "Print the report": "打印报告",
  "Print the annual report": "打印年度报告",
  "Your money · {month}": "你的钱 · {month}",
- "Balance sheet · {month}": "资产负债表 · {month}"
+ "Balance sheet · {month}": "资产负债表 · {month}",
+ "{month} cost you {n} working days.": "{month}花掉了你 {n} 个工作日。",
+ "{n} h": "{n} 小时",
+ "{n} working days, at 40 hours a week": "{n} 个工作日（每周40小时）",
+ "{time} of work": "工作 {time}",
+ "An hour of your work: {work} net · an hour around the clock: {real}.": "你一小时的工作：税后 {work} · 全天24小时中的一小时：{real}。",
+ "Around the clock": "全天24小时",
+ "of the month's {days} days": "占本月 {days} 天中",
+ "of the month's {days} days — the rest was yours": "占本月 {days} 天中 — 其余属于你",
+ "of work, at 40 hours a week": "工作（每周40小时）",
+ "What it cost you": "它花掉了你什么",
+ "Work hours": "工作小时"
 }

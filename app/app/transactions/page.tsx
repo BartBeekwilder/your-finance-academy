@@ -6,7 +6,9 @@ import { Trash2 } from "lucide-react";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import Segmented from "@/components/finance/Segmented";
-import { live, num } from "@/lib/finance/calc";
+import { live, num, projectedNetIncome } from "@/lib/finance/calc";
+import { workHoursFor } from "@/lib/finance/workHours";
+import { workTime } from "@/components/finance/workTime";
 import { editProps } from "@/lib/finance/editTransaction";
 import { householdOf } from "@/lib/finance/household";
 import { PersonTag } from "@/components/finance/HouseholdSection";
@@ -20,6 +22,20 @@ export default function TransactionsPage() {
 
   const categories = useMemo(() => new Map(data.categories.map((c) => [c.id, c])), [data.categories]);
   const people = new Map(householdOf(data.profile).map((m) => [m.id, m]));
+  // Each expense in work hours (Bart, 19 Nov): its amount against that
+  // month's net income at 40 hours a week, as on the Key figures tile.
+  const incomes = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const x of live(data.transactions)) {
+      const d = new Date(x.date), key = `${d.getFullYear()}-${d.getMonth()}`;
+      if (!m.has(key)) m.set(key, projectedNetIncome(data, new Date(d.getFullYear(), d.getMonth(), 1)) || Number(data.profile.expected_net_monthly) || 0);
+    }
+    return m;
+  }, [data]);
+  const hours = (x: { amount: number | string; date: string }) => {
+    const d = new Date(x.date);
+    return workHoursFor(num(x.amount), incomes.get(`${d.getFullYear()}-${d.getMonth()}`) ?? 0);
+  };
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -85,8 +101,9 @@ export default function TransactionsPage() {
                       {t.is_fixed_expense && ` · ${tr("Fixed")}`}
                     </div>
                   </div>
-                  <span className="pf-rounded" style={{ fontWeight: 600, color: t.type === "income" ? "var(--pf-green)" : "var(--pf-ink)" }}>
+                  <span className="pf-rounded" style={{ fontWeight: 600, color: t.type === "income" ? "var(--pf-green)" : "var(--pf-ink)", textAlign: "end" }}>
                     {money(t.type === "income" ? num(t.amount) : -num(t.amount), currency, { signed: t.type === "income" })}
+                    {t.type === "expense" && hours(t) != null && <span className="pf-txn-work">{tr("{time} of work", { time: workTime(hours(t)!) })}</span>}
                   </span>
                   <button
                     className="pf-icon-button pf-row-delete"
