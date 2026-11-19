@@ -355,6 +355,17 @@
   @media (max-width: 520px) { .rw__sum { grid-template-columns: auto auto; } .rw__sum em { display: none; } .rw__plot { height: 120px; gap: 5px; } }
   @media (prefers-reduced-motion: reduce) { .rwcard * { transition: none !important; } }
   /* Money clock. */
+  /* The sun model: text and levers left, the 3D stage right (stacked on a phone). */
+  .zon { max-width: 1440px; margin: 0 auto; padding: clamp(60px, 10vh, 120px) var(--g); display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
+  .zon__eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 500 12px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #ffc94a; padding: 6px 12px; border-radius: 999px; background: oklch(40% 0.08 85 / 0.3); box-shadow: inset 0 0 0 1px oklch(80% 0.14 85 / 0.45); }
+  .zon h2 { margin: 18px 0 16px; font: 700 clamp(34px, 4vw, 62px)/1.02 var(--f); letter-spacing: -0.035em; text-wrap: balance; }
+  .zon__levers { display: grid; gap: 14px; margin: 22px 0 10px; max-width: 460px; }
+  .zon__levers label { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: center; font-size: 15px; }
+  .zon__levers output { font: 600 14px var(--mono); font-variant-numeric: tabular-nums; }
+  .zon__levers input { grid-column: 1 / -1; width: 100%; accent-color: #ffc94a; }
+  .zon__eq { margin: 6px 0 10px; font: 600 15px var(--mono); color: #ffc94a; min-height: 1.4em; font-variant-numeric: tabular-nums; }
+  .zon__stage { position: relative; height: clamp(380px, 58vh, 560px); border-radius: 24px; box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.07); }
+  @media (max-width: 900px) { .zon { grid-template-columns: minmax(0, 1fr); } .zon__stage { height: 380px; } }
   .gk { max-width: 1440px; margin: 0 auto; padding: clamp(70px, 12vh, 140px) var(--g); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
   .gk__eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 500 12px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #4ade80; padding: 6px 12px; border-radius: 999px; background: oklch(35% 0.08 150 / 0.35); box-shadow: inset 0 0 0 1px oklch(72% 0.15 150 / 0.45); }
   .gk h2 { margin: 18px 0 16px; font: 700 clamp(34px, 4vw, 62px)/1.02 var(--f); letter-spacing: -0.035em; text-wrap: balance; }
@@ -486,6 +497,7 @@
   <a href="#anders"><span>Wat ons anders maakt.</span><i></i></a>
   <a href="#wrapped"><span>Elke maand je eigen Wrapped.</span><i></i></a>
   <a href="#geldklok"><span>Je geldklok</span><i></i></a>
+  <a href="#zon"><span>Je vermogen</span><i></i></a>
   <a href="#runway"><span>Je runway</span><i></i></a>
   <a href="#functies"><span>Functies</span><i></i></a>
   <a href="#onboarding"><span>Helemaal op jou afgestemd.</span><i></i></a>
@@ -648,6 +660,23 @@
     </div>
   </section>
 
+  <!-- The money model as a solar system: equity is the sun (public/moneymodel.js, shared with the app). -->
+  <section class="zon" id="zon">
+    <div class="zon__text">
+      <span class="zon__eyebrow">Je vermogen als zonnestelsel</span>
+      <h2>Zie wat aan je vermogen trekt.</h2>
+      <p class="rw__lead">Je eigen vermogen is de zon. Inkomen, aflossing, beleggingen en je huis trekken eraan; uitgaven en schulden duwen ervan af. Schuif aan de knoppen en kijk hoe alles meebeweegt.</p>
+      <div class="zon__levers">
+        <label for="zonInc"><span>Inkomen</span><output id="zonIncO">0%</output><input id="zonInc" type="range" min="-30" max="30" step="1" value="0"></label>
+        <label for="zonMkt"><span>Beurs</span><output id="zonMktO">0%</output><input id="zonMkt" type="range" min="-40" max="40" step="1" value="0"></label>
+        <label for="zonMonths"><span>Periode</span><output id="zonMonthsO">12</output><input id="zonMonths" type="range" min="1" max="60" step="1" value="12"></label>
+      </div>
+      <p class="zon__eq" id="zonEq" aria-live="polite"></p>
+      <small class="gk__hint">Voorbeeldcijfers. In de app rekent dit met je eigen boeken, ook als geldstroom en als vermogensgebouw.</small>
+    </div>
+    <div class="zon__stage" id="zonStage" role="img" aria-label="Je eigen vermogen als zon, met inkomen, uitgaven, aflossing, beleggingen, huis en schulden als planeten"></div>
+  </section>
+
   <!-- Runway: how many months the accounts would last without income. -->
   <section class="rw" id="runway">
     <div class="rw__text">
@@ -793,6 +822,43 @@
 
 <script src="/home/i18n.js"></script>
 <script src="/home/shared.js"></script>
+<script>
+/* The sun model: loads three.js and the shared model only when the section comes near. */
+(function () {
+  var stage = document.getElementById('zonStage'); if (!stage) return;
+  var K0 = 269, T = function (i, v) { return PFT(K0 + i, v || {}); };
+  var eur = new Intl.NumberFormat(window.PF_LOCALE || 'nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+  var money = function (x) { return eur.format(Math.round(x)); };
+  var levers = { inc: document.getElementById('zonInc'), mkt: document.getElementById('zonMkt'), months: document.getElementById('zonMonths') };
+  var outs = { inc: document.getElementById('zonIncO'), mkt: document.getElementById('zonMktO'), months: document.getElementById('zonMonthsO') };
+  var pct = function (v) { return (v > 0 ? '+' : '') + v + '%'; };
+  function show() {
+    outs.inc.textContent = pct(+levers.inc.value); outs.mkt.textContent = pct(+levers.mkt.value);
+    outs.months.textContent = T(21, { n: levers.months.value });
+  }
+  show();
+  function load(src) { return new Promise(function (ok, no) { var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); }); }
+  var started = false;
+  function start() {
+    if (started) return; started = true;
+    load('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js').then(function () { return load('/moneymodel.js?v=1'); }).then(function () {
+      var text = {
+        income: T(3), spending: T(7), repayment: T(8), investments: T(9), home: T(10), debts: T(11), equity: T(12),
+        hint3d: T(13), hintFlow: '', tipEquity: T(14), tipIncomePull: T(15), tipSpendingPush: T(16), tipRepayPull: T(17),
+        tipInvest: T(18), tipHome: T(19), tipDebtsPush: T(20), tipMortgage: T(20), tipOtherDebt: T(20), tipCash: '', mortgage: T(11), otherDebt: T(11), cash: ''
+      };
+      var mm = PFMoneyModel.create({ stage: stage, THREE: window.THREE, T: text, money: money, view: 'grav', compact: true, noZoom: true,
+        base: { income: 3950, fixed: 1115, repay: 450, variable: 1070, cash: 17000, invest: 15000, home: 425000, mortgage: 300000, otherDebt: 20000 } });
+      mm.onModel(function (m) { document.getElementById('zonEq').textContent = T(22, { n: m.n, a: money(m.equity), b: (m.equity >= m.eqNow ? '+' : '−') + money(Math.abs(m.equity - m.eqNow)) }); });
+      ['inc', 'mkt', 'months'].forEach(function (k) {
+        levers[k].addEventListener('input', function () { show(); var o = {}; o[k] = +levers[k].value; mm.setLevers(o); });
+      });
+    }).catch(function () { stage.hidden = true; });
+  }
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) start(); }); }, { rootMargin: '500px' }).observe(stage);
+  else start();
+})();
+</script>
 <script>
   // Exact screen corners in the photos (2400 x 1350), measured from the images
   // (top-left, top-right, bottom-right, bottom-left). The iPad on the stand

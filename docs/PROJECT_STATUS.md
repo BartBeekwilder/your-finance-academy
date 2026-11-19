@@ -2048,3 +2048,20 @@ what the compiler finds, run the tests, then look at it in the simulator.
   start + change = now everywhere (tile, Liquidity page, waterfalls).
   workDone / workChange are income − spending only ("Saved this year", the
   forecast ahead). iOS NetWorthTicker / DashboardView must follow.
+
+## 2026-11-19 late — Money model (on web-app)
+- public/moneymodel.js (window.PFMoneyModel, plain script, its own styles):
+  three views of how income, spending, repayment, the stock and housing
+  markets move equity — flow (2D canvas), building and gravity (three.js).
+- App: Dashboard › "Money model" tab (components/finance/MoneyModel.tsx):
+  own books — a usual month (yearForecast's next month: salary + average
+  spending; fixed without the mortgage repayment), balances from the balance
+  sheet (home = property-*, mortgage = mortgage-*, the rest "money & other
+  assets"), so equity = the balance sheet's. Levers: income, variable
+  spending, stock market, housing market, period. three@0.149.0 (npm).
+- Homepage: section #zon after the money clock — the gravity view only,
+  example numbers, three levers; three r128 from cdnjs + /moneymodel.js are
+  loaded when the section comes near. Homepage keys 269–294.
+- Prototype artifact: https://claude.ai/artifact/QLq3AhnhTW77Ei8tMKVnFv
+- Note: `npm install` drops the --no-save test tools; reinstall with
+  `npm i --no-save puppeteer-core jiti` before scripts/app-test.mjs.

@@ -18,6 +18,7 @@ import { PendingStatement } from "@/components/finance/ReadWithAI";
 import SetupCelebration from "@/components/finance/SetupCelebration";
 import { KeyFiguresStrip } from "@/components/finance/KeyFigures";
 import NetWorthCard from "@/components/finance/NetWorthCard";
+import MoneyModel from "@/components/finance/MoneyModel";
 import BalanceCard from "@/components/finance/BalanceCard";
 import CategoryBars from "@/components/finance/CategoryBars";
 import Segmented from "@/components/finance/Segmented";
@@ -69,10 +70,10 @@ export default function DashboardPage() {
   const [spendMode, setSpendMode] = useState<Mode>("month");
   // The dashboard's period, top right: Month and Year drive the live tiles
   // (and the expenses chart); Years swaps in the multi-year overview.
-  const [view, setView] = useState<Mode | "years">("month");
-  const pick = (v: Mode | "years") => {
+  const [view, setView] = useState<Mode | "years" | "model">("month");
+  const pick = (v: Mode | "years" | "model") => {
     setView(v);
-    if (v !== "years") setSpendMode(v);
+    if (v === "month" || v === "year") setSpendMode(v);
   };
 
   // Liquidity: accounts + holdings (market value) on 1 January plus this year's
@@ -116,7 +117,7 @@ export default function DashboardPage() {
         </div>
         <div style={{ display: "grid", gap: 10, justifyItems: "end" }}>
           <Clock />
-          <Segmented label={t("Period")} value={view} onChange={pick} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }, { value: "years", label: t("Years") }]} />
+          <Segmented label={t("Period")} value={view} onChange={pick} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }, { value: "years", label: t("Years") }, { value: "model", label: t("Money model") }]} />
         </div>
       </header>
 
@@ -125,6 +126,10 @@ export default function DashboardPage() {
       <FinishSetupCard />
       <ConfirmMonths />
 
+      {view === "model" ? (
+        <MoneyModel data={data} now={now} currency={currency} />
+      ) : (
+      <>
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">
         <NetWorthCard base={nw.base} liveChange={nw.liveChange} workChange={nw.workChange} monthForecast={nw.forecast[0]?.change ?? 0} workBefore={nw.workDone.reduce((t, v) => t + v, 0)} savings={savings} investments={nw.holdingsTotal} invest={invest} currency={currency} />
@@ -213,6 +218,8 @@ export default function DashboardPage() {
       </section>
 
       <KeyFiguresStrip />
+      </>
+      )}
     </div>
   );
 }

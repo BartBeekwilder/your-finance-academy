@@ -6686,3 +6686,32 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .pf-share-actions .pf-button, .pf-share-actions .pf-chip { display: inline-flex; align-items: center; gap: 6px; }
 @media (max-width: 620px) { .pf-share-card { grid-template-columns: 1fr; justify-items: center; text-align: center; } .pf-share-preview { width: 200px; } .pf-share-actions { justify-content: center; } }
 @media (prefers-reduced-motion: reduce) { .pf-share, .pf-share-card { animation: none; } }
+
+/* Dashboard › Money model: the drawing fills the stage, levers beside it
+   (below it on a phone). The stage's own look comes from public/moneymodel.js. */
+.pf-mm { display: grid; gap: 14px; }
+.pf-mm-head { display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap; }
+.pf-mm-lede { margin: 0; color: var(--pf-ink-2); max-width: 62ch; font-size: 0.9rem; }
+.pf-mm-main { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 14px; }
+@media (max-width: 980px) { .pf-mm-main { grid-template-columns: minmax(0, 1fr); } }
+.pf-mm-stage { height: min(66vh, 620px); min-height: 420px; border-radius: 18px; border: 1px solid rgba(255, 255, 255, 0.06); }
+.pf-mm-failed { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--pf-ink-3); font-size: 0.85rem; }
+.pf-mm-side { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.pf-mm-card { padding: 14px 16px; display: grid; gap: 12px; }
+.pf-mm-card h3 { margin: 0; font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pf-ink-3); font-weight: 600; }
+.pf-mm-eq { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; margin-top: -6px; }
+.pf-mm-from { color: var(--pf-ink-3); font-size: 0.76rem; font-variant-numeric: tabular-nums; margin-top: -8px; }
+.pf-mm-parts { display: grid; gap: 8px; }
+.pf-mm-part { display: grid; grid-template-columns: 1fr auto; gap: 3px 8px; font-size: 0.76rem; color: var(--pf-ink-2); }
+.pf-mm-part > span:nth-child(2) { color: var(--pf-ink); font-weight: 600; text-align: right; }
+.pf-mm-part i { grid-column: 1 / -1; position: relative; height: 5px; border-radius: 3px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+.pf-mm-part i::before { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--pf-ink-3); z-index: 1; }
+.pf-mm-part i::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: var(--w, 0%); background: var(--c); border-radius: 3px; transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), left 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-mm-part i[data-neg]::after { left: calc(50% - var(--w, 0%)); }
+.pf-mm-lever { display: grid; gap: 4px; font-size: 0.82rem; }
+.pf-mm-lever > span { display: flex; justify-content: space-between; gap: 8px; }
+.pf-mm-lever output { font-weight: 600; font-variant-numeric: tabular-nums; }
+.pf-mm-lever small { color: var(--pf-ink-3); font-size: 0.7rem; }
+.pf-mm-lever input { width: 100%; accent-color: #40c8e0; }
+.pf-mm-note { margin: 0; color: var(--pf-ink-3); font-size: 0.72rem; }
+@media (prefers-reduced-motion: reduce) { .pf-mm-part i::after { transition: none; } }
