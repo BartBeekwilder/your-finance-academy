@@ -2161,5 +2161,14 @@
  "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "세계 시장: 유로 기준 iShares MSCI World ETF(IWDA) — 보유 주식과 비교하세요(암호화폐·귀금속 제외). 비교일 뿐 조언이 아닙니다.",
  "Your shares": "내 주식",
  "Income (net)": "수입(실수령)",
- "of the year's {days} days": "올해 {days}일 중"
+ "of the year's {days} days": "올해 {days}일 중",
+ "{amount} kept aside": "{amount} 저축",
+ "A picture for your story or a chat. Only percentages are on it, unless you add the amounts.": "스토리나 채팅용 이미지입니다. 금액을 추가하지 않으면 퍼센트만 표시됩니다.",
+ "Best month: {month}": "최고의 달: {month}",
+ "Download": "다운로드",
+ "Make your own Year Wrapped": "나만의 Year Wrapped 만들기",
+ "My {year} in money — make your own Year Wrapped:": "돈으로 본 나의 {year}년 — 나만의 Year Wrapped 만들기:",
+ "My year in money": "돈으로 본 나의 한 해",
+ "Share your year": "한 해 공유하기",
+ "Show amounts": "금액 표시"
 }

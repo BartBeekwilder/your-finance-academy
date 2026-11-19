@@ -3,6 +3,7 @@
 import { Suspense, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import YearShare from "@/components/finance/YearShare";
 import YearWrapped from "@/components/finance/YearWrapped";
 import CategoryIcon from "@/components/finance/CategoryIcon";
 import Segmented from "@/components/finance/Segmented";
@@ -107,6 +108,7 @@ function CloseYear() {
           </p>
         </header>
         <YearWrapped w={y.wrap} data={data} currency={currency} />
+        <YearShare w={y.wrap} currency={currency} />
       </div>
     );
   }
@@ -128,7 +130,12 @@ function CloseYear() {
       </header>
 
       <section key={step} className="pf-card pf-close-step" data-dir={dir}>
-        {step === 0 && <YearWrapped w={y.wrap} data={data} currency={currency} />}
+        {step === 0 && (
+          <div style={{ display: "grid", gap: 14, justifyItems: "center" }}>
+            <YearWrapped w={y.wrap} data={data} currency={currency} />
+            <YearShare w={y.wrap} currency={currency} />
+          </div>
+        )}
 
         {step === 1 && (
           <div style={{ display: "grid", gap: 14 }}>

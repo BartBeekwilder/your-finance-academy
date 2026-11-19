@@ -2161,5 +2161,14 @@
  "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "世界市场：以欧元计的 iShares MSCI World ETF（IWDA）——与你的股票比较（不含加密货币和贵金属）。仅供比较，并非建议。",
  "Your shares": "你的股票",
  "Income (net)": "收入（净额）",
- "of the year's {days} days": "全年 {days} 天中的"
+ "of the year's {days} days": "全年 {days} 天中的",
+ "{amount} kept aside": "存下 {amount}",
+ "A picture for your story or a chat. Only percentages are on it, unless you add the amounts.": "用于动态或聊天的图片。除非你添加金额，否则只显示百分比。",
+ "Best month: {month}": "最佳月份：{month}",
+ "Download": "下载",
+ "Make your own Year Wrapped": "制作你自己的 Year Wrapped",
+ "My {year} in money — make your own Year Wrapped:": "我的 {year} 年金钱回顾——制作你自己的 Year Wrapped：",
+ "My year in money": "我的金钱年度",
+ "Share your year": "分享你的一年",
+ "Show amounts": "显示金额"
 }

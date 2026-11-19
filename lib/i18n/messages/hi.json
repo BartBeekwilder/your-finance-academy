@@ -2161,5 +2161,14 @@
  "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "विश्व बाज़ार: यूरो में iShares MSCI World ETF (IWDA) — इसे अपने शेयरों से तुलना करें (क्रिप्टो और धातुएँ शामिल नहीं)। एक तुलना, सलाह नहीं।",
  "Your shares": "आपके शेयर",
  "Income (net)": "आय (शुद्ध)",
- "of the year's {days} days": "साल के {days} दिनों में से"
+ "of the year's {days} days": "साल के {days} दिनों में से",
+ "{amount} kept aside": "{amount} बचाए",
+ "A picture for your story or a chat. Only percentages are on it, unless you add the amounts.": "आपकी स्टोरी या चैट के लिए एक तस्वीर। इसमें केवल प्रतिशत हैं, जब तक आप राशियाँ न जोड़ें।",
+ "Best month: {month}": "सबसे अच्छा महीना: {month}",
+ "Download": "डाउनलोड",
+ "Make your own Year Wrapped": "अपना Year Wrapped बनाएँ",
+ "My {year} in money — make your own Year Wrapped:": "पैसों में मेरा {year} — अपना Year Wrapped बनाएँ:",
+ "My year in money": "पैसों में मेरा साल",
+ "Share your year": "अपना साल साझा करें",
+ "Show amounts": "राशियाँ दिखाएँ"
 }

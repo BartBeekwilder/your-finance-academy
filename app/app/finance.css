@@ -6619,3 +6619,21 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .rp-shares[data-many] { row-gap: 1.1mm; }
 .rp-cats[data-many] .rp-cat { grid-template-columns: 26mm 1fr 24mm; gap: 2.5mm; font-size: 8pt; }
 .rp-shares[data-many] .rp-share { font-size: 7.6pt; }
+
+/* Year Wrapped › Share your year */
+.pf-share-open { display: inline-flex; align-items: center; gap: 8px; justify-self: center; }
+.pf-share { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 16px; background: rgba(4, 4, 10, 0.72); animation: pf-fade-in 0.25s ease; }
+.pf-share-card { position: relative; display: grid; grid-template-columns: auto minmax(0, 300px); gap: 24px; align-items: center; max-width: 760px; width: 100%; padding: 22px; border-radius: 24px; background: #14141c; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); animation: pf-share-in 0.45s cubic-bezier(0.34, 1.4, 0.64, 1); }
+@keyframes pf-share-in { from { opacity: 0; transform: translateY(18px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes pf-fade-in { from { opacity: 0; } to { opacity: 1; } }
+.pf-share-close { position: absolute; top: 12px; inset-inline-end: 12px; }
+.pf-share-preview { width: 260px; aspect-ratio: 9 / 16; border-radius: 18px; overflow: hidden; display: grid; place-items: center; background: #1d1240; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45); }
+.pf-share-preview img { width: 100%; height: 100%; display: block; }
+.pf-share-side { display: grid; gap: 14px; align-content: center; }
+.pf-share-side h2 { font-size: 1.2rem; font-weight: 700; }
+.pf-share-side p { font-size: 0.86rem; color: var(--pf-ink-2); line-height: 1.5; }
+.pf-share-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer; }
+.pf-share-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.pf-share-actions .pf-button, .pf-share-actions .pf-chip { display: inline-flex; align-items: center; gap: 6px; }
+@media (max-width: 620px) { .pf-share-card { grid-template-columns: 1fr; justify-items: center; text-align: center; } .pf-share-preview { width: 200px; } .pf-share-actions { justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .pf-share, .pf-share-card { animation: none; } }

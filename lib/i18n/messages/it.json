@@ -2161,5 +2161,14 @@
  "World market: the iShares MSCI World ETF (IWDA) in euros — compare it with your shares (crypto and metals left out). A comparison, not advice.": "Mercato mondiale: l'ETF iShares MSCI World (IWDA) in euro — confrontalo con le tue azioni (escluse cripto e metalli). Un confronto, non un consiglio.",
  "Your shares": "Le tue azioni",
  "Income (net)": "Entrate (nette)",
- "of the year's {days} days": "dei {days} giorni dell’anno"
+ "of the year's {days} days": "dei {days} giorni dell’anno",
+ "{amount} kept aside": "{amount} messi da parte",
+ "A picture for your story or a chat. Only percentages are on it, unless you add the amounts.": "Un'immagine per la tua storia o una chat. Mostra solo percentuali, a meno che tu non aggiunga gli importi.",
+ "Best month: {month}": "Mese migliore: {month}",
+ "Download": "Scarica",
+ "Make your own Year Wrapped": "Crea il tuo Year Wrapped",
+ "My {year} in money — make your own Year Wrapped:": "Il mio {year} in denaro — crea il tuo Year Wrapped:",
+ "My year in money": "Il mio anno in denaro",
+ "Share your year": "Condividi il tuo anno",
+ "Show amounts": "Mostra importi"
 }
