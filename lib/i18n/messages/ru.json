@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · приход {inflow} · расход {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · в этом месяце ничего не записано",
  "Change since the end of {month}": "Изменение с конца месяца: {month}",
- "Change since the end of last month": "Изменение с конца прошлого месяца"
+ "Change since the end of last month": "Изменение с конца прошлого месяца",
+ "{amount} a day": "{amount} в день",
+ "{income} came in: {perDay} a day.": "Поступило {income}: {perDay} в день.",
+ "{time} a day is yours": "{time} в день — ваше",
+ "For yourself": "Для себя",
+ "In {month} you worked for yourself from {time}.": "В {month} вы работали на себя с {time}.",
+ "In {month} your day ran out before midnight.": "В {month} ваш день закончился до полуночи.",
+ "No income booked in {month} — the clock needs your income to fill the day.": "Нет дохода за {month} — часам нужен ваш доход, чтобы заполнить день.",
+ "Small costs": "Мелкие расходы",
+ "spent beyond your income": "потрачено сверх дохода",
+ "Until {time} you worked for {name}.": "До {time} вы работали на «{name}».",
+ "You work for yourself from": "Вы работаете на себя с",
+ "Your day ran out": "Ваш день закончился",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Ваш доход как один день из 24 часов: до какого часа вы работаете на каждую статью, начиная с самой крупной, — и с какого на себя.",
+ "Your money clock": "Ваши денежные часы"
 }

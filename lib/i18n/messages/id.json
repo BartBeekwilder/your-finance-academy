@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · masuk {inflow} · keluar {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · bulan ini belum ada catatan",
  "Change since the end of {month}": "Perubahan sejak akhir {month}",
- "Change since the end of last month": "Perubahan sejak akhir bulan lalu"
+ "Change since the end of last month": "Perubahan sejak akhir bulan lalu",
+ "{amount} a day": "{amount} per hari",
+ "{income} came in: {perDay} a day.": "{income} masuk: {perDay} per hari.",
+ "{time} a day is yours": "{time} per hari milikmu",
+ "For yourself": "Untuk dirimu",
+ "In {month} you worked for yourself from {time}.": "Di {month} kamu bekerja untuk dirimu sejak {time}.",
+ "In {month} your day ran out before midnight.": "Di {month} harimu habis sebelum tengah malam.",
+ "No income booked in {month} — the clock needs your income to fill the day.": "Tidak ada pemasukan di {month} — jam butuh pemasukanmu untuk mengisi hari.",
+ "Small costs": "Biaya kecil",
+ "spent beyond your income": "pengeluaran melebihi pemasukan",
+ "Until {time} you worked for {name}.": "Sampai {time} kamu bekerja untuk {name}.",
+ "You work for yourself from": "Kamu bekerja untuk dirimu sejak",
+ "Your day ran out": "Harimu habis",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Pemasukanmu sebagai satu hari 24 jam: sampai kapan kamu bekerja untuk setiap biaya, yang terbesar dulu — dan sejak kapan untuk dirimu.",
+ "Your money clock": "Jam uangmu"
 }

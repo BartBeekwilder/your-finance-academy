@@ -6509,3 +6509,39 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
   /* Soft shadows turn into grey boxes in some PDF viewers: a hairline only. */
   .rp-kpi { box-shadow: none; border: 1px solid #e6e6ee; }
 }
+
+/* The money clock (components/finance/MoneyClock.tsx): the dial draws its
+   slices one after another behind a sweeping hand. */
+.pf-clk-card { padding: 20px; display: grid; gap: 14px; }
+.pf-clk-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.pf-clk-head p { margin: 4px 0 0; font-size: 0.82rem; color: var(--pf-ink-2); max-width: 52ch; }
+.pf-clk-month { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; }
+.pf-clk-month button { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--pf-line); background: transparent; color: var(--pf-ink); cursor: pointer; }
+.pf-clk-month button:disabled { opacity: 0.3; cursor: default; }
+.pf-clk { position: relative; display: grid; grid-template-columns: minmax(240px, 340px) minmax(0, 1fr); gap: 28px; align-items: center; }
+.pf-clk-compact { grid-template-columns: 1fr; justify-items: center; }
+.pf-clk-svg { width: 100%; height: auto; display: block; grid-row: 1; grid-column: 1; overflow: visible; }
+.pf-clk-hour { font-size: 8.5px; fill: rgba(255, 255, 255, 0.45); font-variant-numeric: tabular-nums; }
+.pf-clk-arc { stroke-dasharray: var(--len) var(--c); animation: pf-clk-draw 0.6s cubic-bezier(0.33, 0.1, 0.25, 1) both; transition: opacity 0.25s; cursor: pointer; filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.35)); }
+.pf-clk-arc[data-dim] { opacity: 0.28; }
+@keyframes pf-clk-draw { from { stroke-dasharray: 0 var(--c); } to { stroke-dasharray: var(--len) var(--c); } }
+.pf-clk-hand { transform-origin: 150px 150px; transform-box: view-box; animation: pf-clk-sweep 2.6s cubic-bezier(0.45, 0.05, 0.25, 1) both; transform: rotate(var(--end)); }
+@keyframes pf-clk-sweep { from { transform: rotate(0deg); } to { transform: rotate(var(--end)); } }
+.pf-clk-center { grid-row: 1; grid-column: 1; place-self: center; display: grid; justify-items: center; gap: 2px; text-align: center; pointer-events: none; max-width: 150px; animation: pf-clk-in 0.5s 2.2s both; }
+.pf-clk-center small { font-size: 0.72rem; color: var(--pf-ink-2); }
+.pf-clk-center b { font-size: 1.9rem; line-height: 1.1; }
+.pf-clk-center span { font-size: 0.75rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; }
+@keyframes pf-clk-in { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+.pf-clk-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.pf-clk-list li { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 6px 8px; border-radius: 10px; font-size: 0.85rem; animation: pf-clk-in 0.4s var(--d, 0.4s) both; transition: background 0.2s; }
+.pf-clk-list li[data-on] { background: rgba(255, 255, 255, 0.06); }
+.pf-clk-dot { width: 12px; height: 12px; border-radius: 50%; justify-self: center; }
+.pf-clk-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-clk-when { font-size: 0.75rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; }
+.pf-clk-list b { font-size: 0.85rem; min-width: 76px; text-align: right; }
+.pf-clk-kept b { color: #4ade80; }
+.pf-clk-empty { margin: 0; color: var(--pf-ink-2); font-size: 0.9rem; }
+.pf-clk-foot { color: var(--pf-ink-3); font-size: 0.75rem; }
+@media (max-width: 720px) { .pf-clk { grid-template-columns: 1fr; justify-items: center; } .pf-clk-list { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .pf-clk-arc, .pf-clk-hand, .pf-clk-center, .pf-clk-list li { animation: none; } }
+.pf-wr-body .pf-clk-compact { width: min(100%, 280px); margin: 4px auto 0; }

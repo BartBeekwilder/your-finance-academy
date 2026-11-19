@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · 流入 {inflow} · 流出 {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · 本月无记账",
  "Change since the end of {month}": "自{month}底以来的变化",
- "Change since the end of last month": "自上月底以来的变化"
+ "Change since the end of last month": "自上月底以来的变化",
+ "{amount} a day": "每天 {amount}",
+ "{income} came in: {perDay} a day.": "收入 {income}：每天 {perDay}。",
+ "{time} a day is yours": "每天有 {time} 属于你",
+ "For yourself": "为自己",
+ "In {month} you worked for yourself from {time}.": "{month}，你从 {time} 起为自己工作。",
+ "In {month} your day ran out before midnight.": "{month}，你的一天在午夜前就用完了。",
+ "No income booked in {month} — the clock needs your income to fill the day.": "{month}没有记录收入——时钟需要你的收入来填满这一天。",
+ "Small costs": "小额支出",
+ "spent beyond your income": "超出收入的支出",
+ "Until {time} you worked for {name}.": "到 {time} 为止，你在为{name}工作。",
+ "You work for yourself from": "你从这个时间开始为自己工作",
+ "Your day ran out": "你的一天用完了",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "把你的收入看作 24 小时的一天：为每项支出工作到几点（从大到小）——以及从几点开始为自己工作。",
+ "Your money clock": "你的金钱时钟"
 }

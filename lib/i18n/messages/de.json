@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · rein {inflow} · raus {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · diesen Monat nichts gebucht",
  "Change since the end of {month}": "Veränderung seit Ende {month}",
- "Change since the end of last month": "Veränderung seit Ende letzten Monats"
+ "Change since the end of last month": "Veränderung seit Ende letzten Monats",
+ "{amount} a day": "{amount} pro Tag",
+ "{income} came in: {perDay} a day.": "{income} kamen rein: {perDay} pro Tag.",
+ "{time} a day is yours": "{time} pro Tag gehören dir",
+ "For yourself": "Für dich selbst",
+ "In {month} you worked for yourself from {time}.": "Im {month} hast du ab {time} für dich selbst gearbeitet.",
+ "In {month} your day ran out before midnight.": "Im {month} war dein Tag vor Mitternacht aufgebraucht.",
+ "No income booked in {month} — the clock needs your income to fill the day.": "Kein Einkommen im {month} gebucht — die Uhr braucht dein Einkommen, um den Tag zu füllen.",
+ "Small costs": "Kleinbeträge",
+ "spent beyond your income": "mehr ausgegeben als eingenommen",
+ "Until {time} you worked for {name}.": "Bis {time} hast du für {name} gearbeitet.",
+ "You work for yourself from": "Du arbeitest für dich selbst ab",
+ "Your day ran out": "Dein Tag war aufgebraucht",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Dein Einkommen als ein Tag mit 24 Stunden: bis wann du für jede Ausgabe arbeitest, die größte zuerst — und ab wann für dich selbst.",
+ "Your money clock": "Deine Geld-Uhr"
 }

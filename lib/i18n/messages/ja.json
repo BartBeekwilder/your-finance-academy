@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start}・入金 {inflow}・出金 {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start}・今月の記帳なし",
  "Change since the end of {month}": "{month}末からの変化",
- "Change since the end of last month": "先月末からの変化"
+ "Change since the end of last month": "先月末からの変化",
+ "{amount} a day": "1日{amount}",
+ "{income} came in: {perDay} a day.": "{income}の収入：1日{perDay}。",
+ "{time} a day is yours": "1日{time}はあなたのもの",
+ "For yourself": "自分のため",
+ "In {month} you worked for yourself from {time}.": "{month}は{time}から自分のために働きました。",
+ "In {month} your day ran out before midnight.": "{month}は真夜中前に1日が終わりました。",
+ "No income booked in {month} — the clock needs your income to fill the day.": "{month}に収入の記録がありません。時計は1日を埋めるのにあなたの収入が必要です。",
+ "Small costs": "小さな支出",
+ "spent beyond your income": "収入を超えた支出",
+ "Until {time} you worked for {name}.": "{time}まで{name}のために働きました。",
+ "You work for yourself from": "自分のために働き始める時刻",
+ "Your day ran out": "1日が終わりました",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "収入を24時間の1日として：各支出のために何時まで働くか（大きい順）、そして何時から自分のためか。",
+ "Your money clock": "お金の時計"
 }

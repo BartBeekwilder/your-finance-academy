@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · आया {inflow} · गया {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · इस महीने कुछ दर्ज नहीं",
  "Change since the end of {month}": "{month} के अंत से बदलाव",
- "Change since the end of last month": "पिछले महीने के अंत से बदलाव"
+ "Change since the end of last month": "पिछले महीने के अंत से बदलाव",
+ "{amount} a day": "{amount} प्रति दिन",
+ "{income} came in: {perDay} a day.": "{income} आया: {perDay} प्रति दिन।",
+ "{time} a day is yours": "प्रति दिन {time} आपके",
+ "For yourself": "अपने लिए",
+ "In {month} you worked for yourself from {time}.": "{month} में आपने {time} से अपने लिए काम किया।",
+ "In {month} your day ran out before midnight.": "{month} में आपका दिन आधी रात से पहले खत्म हो गया।",
+ "No income booked in {month} — the clock needs your income to fill the day.": "{month} में कोई आय दर्ज नहीं — दिन भरने के लिए घड़ी को आपकी आय चाहिए।",
+ "Small costs": "छोटे ख़र्च",
+ "spent beyond your income": "आय से ज़्यादा ख़र्च",
+ "Until {time} you worked for {name}.": "{time} तक आपने {name} के लिए काम किया।",
+ "You work for yourself from": "आप अपने लिए काम करते हैं",
+ "Your day ran out": "आपका दिन खत्म हो गया",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "आपकी आय 24 घंटे के एक दिन के रूप में: हर ख़र्च के लिए कब तक काम करते हैं, सबसे बड़ा पहले — और कब से अपने लिए।",
+ "Your money clock": "आपकी पैसों की घड़ी"
 }

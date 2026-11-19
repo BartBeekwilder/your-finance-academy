@@ -6,6 +6,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { money, monthYear } from "@/lib/finance/format";
 import type { Metric } from "@/lib/finance/metrics";
+import { MoneyClockCard } from "./MoneyClock";
 import { useFinance } from "./FinanceProvider";
 import LiveAmount from "./LiveAmount";
 import { useKeyFigures } from "./useKeyFigures";
@@ -110,6 +111,8 @@ export function KeyFiguresPage() {
       <div className="pf-kf-grid">
         {k.metrics.map((m, i) => <MetricCard key={m.key} m={m} currency={currency} i={i} />)}
       </div>
+
+      <MoneyClockCard data={data} now={new Date(now)} currency={currency} />
 
       <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--pf-ink-3)" }}>
         {t("This month as expected (the same forecast as Budgets); accounts and investments as they are now, investments at market value.")}

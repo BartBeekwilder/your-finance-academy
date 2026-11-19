@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · giren {inflow} · çıkan {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · bu ay kayıt yok",
  "Change since the end of {month}": "{month} sonundan bu yana değişim",
- "Change since the end of last month": "Geçen ay sonundan bu yana değişim"
+ "Change since the end of last month": "Geçen ay sonundan bu yana değişim",
+ "{amount} a day": "Günde {amount}",
+ "{income} came in: {perDay} a day.": "{income} geldi: günde {perDay}.",
+ "{time} a day is yours": "Günde {time} senin",
+ "For yourself": "Kendin için",
+ "In {month} you worked for yourself from {time}.": "{month} ayında {time} itibarıyla kendin için çalıştın.",
+ "In {month} your day ran out before midnight.": "{month} ayında günün gece yarısından önce bitti.",
+ "No income booked in {month} — the clock needs your income to fill the day.": "{month} ayında gelir kaydı yok — saatin günü doldurmak için gelirine ihtiyacı var.",
+ "Small costs": "Küçük giderler",
+ "spent beyond your income": "gelirinin üzerinde harcanan",
+ "Until {time} you worked for {name}.": "{time} saatine kadar {name} için çalıştın.",
+ "You work for yourself from": "Kendin için çalışmaya başladığın saat",
+ "Your day ran out": "Günün bitti",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Gelirin 24 saatlik tek bir gün olarak: her gider için ne zamana kadar çalıştığın, en büyüğü önce — ve ne zamandan itibaren kendin için.",
+ "Your money clock": "Para saatin"
 }

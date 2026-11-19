@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · wpływy {inflow} · wypływy {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · w tym miesiącu nic nie zaksięgowano",
  "Change since the end of {month}": "Zmiana od końca miesiąca: {month}",
- "Change since the end of last month": "Zmiana od końca poprzedniego miesiąca"
+ "Change since the end of last month": "Zmiana od końca poprzedniego miesiąca",
+ "{amount} a day": "{amount} dziennie",
+ "{income} came in: {perDay} a day.": "Wpłynęło {income}: {perDay} dziennie.",
+ "{time} a day is yours": "{time} dziennie należy do ciebie",
+ "For yourself": "Dla siebie",
+ "In {month} you worked for yourself from {time}.": "W miesiącu {month} pracowałeś dla siebie od {time}.",
+ "In {month} your day ran out before midnight.": "W miesiącu {month} twój dzień skończył się przed północą.",
+ "No income booked in {month} — the clock needs your income to fill the day.": "Brak dochodu w miesiącu {month} — zegar potrzebuje twojego dochodu, by wypełnić dzień.",
+ "Small costs": "Drobne wydatki",
+ "spent beyond your income": "wydane ponad dochód",
+ "Until {time} you worked for {name}.": "Do {time} pracowałeś na: {name}.",
+ "You work for yourself from": "Pracujesz dla siebie od",
+ "Your day ran out": "Twój dzień się skończył",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Twój dochód jako jeden dzień 24-godzinny: do której pracujesz na każdy wydatek, od największego — i od której dla siebie.",
+ "Your money clock": "Twój zegar pieniędzy"
 }

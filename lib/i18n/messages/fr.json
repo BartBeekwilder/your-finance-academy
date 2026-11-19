@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · entrées {inflow} · sorties {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · rien de saisi ce mois-ci",
  "Change since the end of {month}": "Variation depuis fin {month}",
- "Change since the end of last month": "Variation depuis la fin du mois dernier"
+ "Change since the end of last month": "Variation depuis la fin du mois dernier",
+ "{amount} a day": "{amount} par jour",
+ "{income} came in: {perDay} a day.": "{income} sont entrés : {perDay} par jour.",
+ "{time} a day is yours": "{time} par jour sont à vous",
+ "For yourself": "Pour vous",
+ "In {month} you worked for yourself from {time}.": "En {month}, vous avez travaillé pour vous à partir de {time}.",
+ "In {month} your day ran out before midnight.": "En {month}, votre journée s'est épuisée avant minuit.",
+ "No income booked in {month} — the clock needs your income to fill the day.": "Aucun revenu saisi en {month} — l'horloge a besoin de vos revenus pour remplir la journée.",
+ "Small costs": "Petites dépenses",
+ "spent beyond your income": "dépensé au-delà de vos revenus",
+ "Until {time} you worked for {name}.": "Jusqu'à {time}, vous avez travaillé pour {name}.",
+ "You work for yourself from": "Vous travaillez pour vous à partir de",
+ "Your day ran out": "Votre journée était épuisée",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Vos revenus comme une journée de 24 heures : jusqu'à quelle heure vous travaillez pour chaque dépense, la plus grosse d'abord — et à partir de quand pour vous.",
+ "Your money clock": "Votre horloge de l'argent"
 }

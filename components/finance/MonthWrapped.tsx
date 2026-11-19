@@ -9,6 +9,8 @@ import { monthWrapped, type RingRow, type Wrapped } from "@/lib/finance/wrapped"
 import { useTween } from "./charts";
 import CategoryIcon from "./CategoryIcon";
 import { AssetIcon, pct, tone } from "./Portfolio";
+import { ClockDial, useMoneyClock } from "./MoneyClock";
+import { clockTime, type MoneyClock } from "@/lib/finance/moneyClock";
 
 // Month Wrapped: the closed month as story cards (Spotify Wrapped style) —
 // tap the right side or → for the next card, the left side or ← to go back.
@@ -19,11 +21,13 @@ export type Card = { key: string; bg: string; body: ReactNode };
 
 export default function MonthWrapped({ data, month, now, currency }: { data: FinanceData; month: Date; now: Date; currency: string }) {
   const w = useMemo(() => monthWrapped(data, month, now), [data, month, now]);
+  const clock = useMoneyClock(data, month);
   const name = monthName(month);
 
   const cards: Card[] = [
     { key: "intro", bg: "linear-gradient(160deg, #3b1d8f 0%, #1a1240 55%, #0d0d14 100%)", body: <Intro w={w} name={name} currency={currency} /> },
     ...(w.top.length ? [{ key: "where", bg: "linear-gradient(160deg, #8f1d4a 0%, #3d1027 55%, #0d0d14 100%)", body: <Where w={w} currency={currency} /> }] : []),
+    ...(clock ? [{ key: "clock", bg: "linear-gradient(160deg, #1d3f8f 0%, #10203f 55%, #0d0d14 100%)", body: <ClockCard clock={clock} name={name} currency={currency} /> }] : []),
     ...(w.rings.length ? [{ key: "rings", bg: "linear-gradient(160deg, #0f5c4a 0%, #0b2c26 55%, #0d0d14 100%)", body: <RingsCard w={w} currency={currency} /> }] : []),
     ...(w.investments ? [{ key: "inv", bg: "linear-gradient(160deg, #10427f 0%, #0c2340 55%, #0d0d14 100%)", body: <Investments w={w} name={name} currency={currency} /> }] : []),
     { key: "equity", bg: "linear-gradient(160deg, #6b4a0f 0%, #2e2109 55%, #0d0d14 100%)", body: <Equity w={w} name={name} currency={currency} /> },
@@ -103,6 +107,26 @@ function Intro({ w, name, currency }: { w: Wrapped; name: string; currency: stri
       {w.savedBefore !== 0 && (
         <p className="pf-wr-line">
           {better >= 0 ? t("{amount} more than the month before.", { amount: money(better, currency) }) : t("{amount} less than the month before.", { amount: money(-better, currency) })}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/** The money clock of the month: your income as one day of 24 hours. */
+function ClockCard({ clock, name, currency }: { clock: MoneyClock; name: string; currency: string }) {
+  return (
+    <div className="pf-wr-body">
+      <span className="pf-wr-kicker">{t("Your money clock")}</span>
+      <h3 className="pf-wr-title">
+        {clock.keptFrom != null
+          ? t("In {month} you worked for yourself from {time}.", { month: name, time: clockTime(clock.keptFrom) })
+          : t("In {month} your day ran out before midnight.", { month: name })}
+      </h3>
+      <ClockDial clock={clock} currency={currency} compact />
+      {clock.slices[0] && (
+        <p className="pf-wr-line">
+          {t("Until {time} you worked for {name}.", { time: clockTime(clock.slices[0].to), name: clock.slices[0].name })}
         </p>
       )}
     </div>

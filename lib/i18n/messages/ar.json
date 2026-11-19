@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · وارد {inflow} · صادر {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · لا قيود هذا الشهر",
  "Change since the end of {month}": "التغيّر منذ نهاية {month}",
- "Change since the end of last month": "التغيّر منذ نهاية الشهر الماضي"
+ "Change since the end of last month": "التغيّر منذ نهاية الشهر الماضي",
+ "{amount} a day": "{amount} يوميًا",
+ "{income} came in: {perDay} a day.": "دخل {income}: {perDay} يوميًا.",
+ "{time} a day is yours": "{time} يوميًا لك",
+ "For yourself": "لنفسك",
+ "In {month} you worked for yourself from {time}.": "في {month} عملت لنفسك ابتداءً من {time}.",
+ "In {month} your day ran out before midnight.": "في {month} انتهى يومك قبل منتصف الليل.",
+ "No income booked in {month} — the clock needs your income to fill the day.": "لا يوجد دخل مسجّل في {month} — تحتاج الساعة إلى دخلك لتملأ اليوم.",
+ "Small costs": "مصروفات صغيرة",
+ "spent beyond your income": "إنفاق يتجاوز دخلك",
+ "Until {time} you worked for {name}.": "حتى {time} عملت من أجل {name}.",
+ "You work for yourself from": "تعمل لنفسك ابتداءً من",
+ "Your day ran out": "انتهى يومك",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "دخلك كيوم واحد من 24 ساعة: حتى متى تعمل لكل بند، الأكبر أولًا — ومن متى لنفسك.",
+ "Your money clock": "ساعة أموالك"
 }

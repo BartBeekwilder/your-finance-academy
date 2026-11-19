@@ -2107,5 +2107,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · erbij {inflow} · eraf {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · deze maand niets op geboekt",
  "Change since the end of {month}": "Verandering sinds eind {month}",
- "Change since the end of last month": "Verandering sinds eind vorige maand"
+ "Change since the end of last month": "Verandering sinds eind vorige maand",
+ "{amount} a day": "{amount} per dag",
+ "{income} came in: {perDay} a day.": "{income} kwam binnen: {perDay} per dag.",
+ "{time} a day is yours": "{time} per dag is van jou",
+ "For yourself": "Voor jezelf",
+ "In {month} you worked for yourself from {time}.": "In {month} werkte je vanaf {time} voor jezelf.",
+ "In {month} your day ran out before midnight.": "In {month} was je dag op vóór middernacht.",
+ "No income booked in {month} — the clock needs your income to fill the day.": "Geen inkomen geboekt in {month} — de klok heeft je inkomen nodig om de dag te vullen.",
+ "Small costs": "Kleine posten",
+ "spent beyond your income": "uitgegeven boven je inkomen",
+ "Until {time} you worked for {name}.": "Tot {time} werkte je voor {name}.",
+ "You work for yourself from": "Je werkt voor jezelf vanaf",
+ "Your day ran out": "Je dag was op",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Je inkomen als één dag van 24 uur: tot wanneer je werkt voor elke kostenpost, de grootste eerst — en vanaf wanneer voor jezelf.",
+ "Your money clock": "Je geldklok"
 }

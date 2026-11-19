@@ -2101,5 +2101,19 @@
  "{date} {start} · in {inflow} · out {outflow}": "{date} {start} · vào {inflow} · ra {outflow}",
  "{date} {start} · nothing booked on it this month": "{date} {start} · tháng này chưa ghi gì",
  "Change since the end of {month}": "Thay đổi từ cuối {month}",
- "Change since the end of last month": "Thay đổi từ cuối tháng trước"
+ "Change since the end of last month": "Thay đổi từ cuối tháng trước",
+ "{amount} a day": "{amount} mỗi ngày",
+ "{income} came in: {perDay} a day.": "{income} đã vào: {perDay} mỗi ngày.",
+ "{time} a day is yours": "{time} mỗi ngày là của bạn",
+ "For yourself": "Cho bản thân",
+ "In {month} you worked for yourself from {time}.": "Trong {month}, bạn làm cho bản thân từ {time}.",
+ "In {month} your day ran out before midnight.": "Trong {month}, ngày của bạn hết trước nửa đêm.",
+ "No income booked in {month} — the clock needs your income to fill the day.": "Không có thu nhập trong {month} — đồng hồ cần thu nhập của bạn để lấp đầy ngày.",
+ "Small costs": "Chi phí nhỏ",
+ "spent beyond your income": "chi vượt thu nhập",
+ "Until {time} you worked for {name}.": "Đến {time}, bạn làm việc cho {name}.",
+ "You work for yourself from": "Bạn làm cho bản thân từ",
+ "Your day ran out": "Ngày của bạn đã hết",
+ "Your income as one day of 24 hours: until when you work for each cost, biggest first — and from when for yourself.": "Thu nhập của bạn như một ngày 24 giờ: làm đến mấy giờ cho từng khoản chi, khoản lớn nhất trước — và từ mấy giờ cho bản thân.",
+ "Your money clock": "Đồng hồ tiền của bạn"
 }
