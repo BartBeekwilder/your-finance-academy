@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import { intlLocale, t } from "@/lib/i18n";
 import { money, monthName, monthYear, shortMonth } from "@/lib/finance/format";
 import type { MonthReport } from "@/lib/finance/monthReport";
@@ -570,7 +570,7 @@ export function MoneySheet({ w, month, data, who }: { w: WealthMonth; month: Dat
 /** Page 2 of the annual report: the year's money clock — a year's income as
  *  one day of 24 hours — and what the year's spending cost in work hours
  *  (Bart, 19 Nov: "I don't see the clock" in the annual report). */
-function YearMoneySheet({ data, year, now, who, page, pages }: { data: FinanceData; year: number; now: Date; who: string; page: number; pages: number }) {
+function YearMoneySheet({ data, year, now, who, page, pages, highlights }: { data: FinanceData; year: number; now: Date; who: string; page: number; pages: number; highlights?: ReactNode }) {
   const currency = data.profile.currency_code;
   const { clock, days } = useYearClock(data, year, now);
   // A year's income: the work hours are the year's (so far), not a month's.
@@ -579,6 +579,7 @@ function YearMoneySheet({ data, year, now, who, page, pages }: { data: FinanceDa
     <section className="rp-page">
       <Head kicker={t("Annual report")} title={t("Your money · {month}", { month: String(year) })} who={who} currency={currency} />
       <div className="rp-body">
+        {highlights}
         <div className="rp-block">
           <div className="rp-block-head">
             <h3>{t("Your money clock")}</h3>
@@ -806,6 +807,33 @@ export function YearSheets({ y, months, data, who, wealth, now }: { y: YearClose
   const monthOf = (i: number) => monthName(new Date(y.year, i, 1));
   const last = w.lastYear;
   const tax = y.tax;
+  // The year's highlights open page 2 (page 1 ran over in long languages, 19 Nov).
+  const highlights = (
+    <div className="rp-highlights">
+      {w.best && (
+        <div>
+          <small>{t("Best month")}</small>
+          <b>{monthOf(w.best.i)}</b>
+          <span>{money(w.best.saved, currency, { signed: true })}</span>
+        </div>
+      )}
+      {w.toughest && (
+        <div>
+          <small>{t("Toughest month")}</small>
+          <b>{monthOf(w.toughest.i)}</b>
+          <span>{money(w.toughest.saved, currency, { signed: true })}</span>
+        </div>
+      )}
+      <div>
+        <small>{t("Months in the plus")}</small>
+        <b>{t("{n} of {total}", { n: w.plusMonths, total: w.activeMonths })}</b>
+      </div>
+      <div>
+        <small>{t("Days without spending")}</small>
+        <b>{w.facts.noSpend}</b>
+      </div>
+    </div>
+  );
   return (
     <>
       <section className="rp-page">
@@ -860,30 +888,7 @@ export function YearSheets({ y, months, data, who, wealth, now }: { y: YearClose
 
           </div>
 
-          <div className="rp-highlights">
-            {w.best && (
-              <div>
-                <small>{t("Best month")}</small>
-                <b>{monthOf(w.best.i)}</b>
-                <span>{money(w.best.saved, currency, { signed: true })}</span>
-              </div>
-            )}
-            {w.toughest && (
-              <div>
-                <small>{t("Toughest month")}</small>
-                <b>{monthOf(w.toughest.i)}</b>
-                <span>{money(w.toughest.saved, currency, { signed: true })}</span>
-              </div>
-            )}
-            <div>
-              <small>{t("Months in the plus")}</small>
-              <b>{t("{n} of {total}", { n: w.plusMonths, total: w.activeMonths })}</b>
-            </div>
-            <div>
-              <small>{t("Days without spending")}</small>
-              <b>{w.facts.noSpend}</b>
-            </div>
-          </div>
+
 
           <div className="rp-block">
             <h3>{t("Per month")}</h3>
@@ -924,7 +929,7 @@ export function YearSheets({ y, months, data, who, wealth, now }: { y: YearClose
         </Foot>
       </section>
 
-      <YearMoneySheet data={data} year={y.year} now={now} who={who} page={2} pages={pages} />
+      <YearMoneySheet data={data} year={y.year} now={now} who={who} page={2} pages={pages} highlights={highlights} />
 
       <section className="rp-page">
         <header className="rp-head rp-head-slim">
