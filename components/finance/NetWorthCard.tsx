@@ -25,6 +25,7 @@ export type EquityYear = { year: number; equity: number; live?: boolean };
 export default function NetWorthCard({
   base,
   monthlyPace,
+  liveChange,
   monthDelta,
   yearDelta,
   invest,
@@ -33,6 +34,9 @@ export default function NetWorthCard({
 }: {
   base: number;
   monthlyPace: number;
+  /** This month's change at a moment (netWorthFigures.liveChange): the same
+   *  live model as the Liquidity page, so both show the same figure. */
+  liveChange?: (at: number) => number;
   monthDelta: number;
   yearDelta: number;
   /** Market change of the investments per period (absent without live quotes). */
@@ -48,8 +52,8 @@ export default function NetWorthCard({
   const d = new Date(now);
   const startOfDay = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
   const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 1).getTime();
-  const live = base + (now - startOfMonth) * perMs;
-  const dayDelta = (now - startOfDay) * perMs;
+  const live = base + (liveChange ? liveChange(now) : (now - startOfMonth) * perMs);
+  const dayDelta = liveChange ? liveChange(now) - liveChange(startOfDay) : (now - startOfDay) * perMs;
   const up = monthlyPace >= 0;
 
   return (

@@ -137,7 +137,7 @@ export default function DashboardPage() {
 
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">
-        <NetWorthCard base={nw.base} monthlyPace={pace} monthDelta={monthDelta} yearDelta={yearDelta} invest={invest} currency={currency} history={equityYears} />
+        <NetWorthCard base={nw.base} monthlyPace={pace} liveChange={nw.liveChange} monthDelta={monthDelta} yearDelta={yearDelta} invest={invest} currency={currency} history={equityYears} />
         <ProgressStrip />
       </section>
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}
