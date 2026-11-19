@@ -2082,3 +2082,18 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - Noticed, not changed: Quick Add dates an income in the main income
   category on the payday; Income › "Received this month" (and the report)
   count such a future-dated income as received already.
+
+## 2026-11-19 late — iOS TestFlight build 3 uploaded
+- iOS ios-port-nov18 (9bfa14c + build bump): projected income is no longer
+  booked as a received transaction (IncomeManager.syncTransaction only for
+  confirmed months; dropProjectedTransactions cleans old rows at launch);
+  sign-in choice = two cards (start from my account / add this device);
+  layout fixes (liquidity stats, points pill, donut legend below the ring on
+  a phone, balance equity on one line, chart subtitle wraps). 78/78 tests.
+- Build 3 archived + uploaded with xcodebuild -exportArchive (method
+  app-store-connect, destination upload, team 3R533T2A74). Apple warns: from
+  April 2027 uploads need the iOS 27 SDK (Xcode 27).
+- After processing: install build 3 from TestFlight; only then the app back
+  on iPhone/iPad (sign in, pick "Start from my account").
+- Still to port: liquidity tile (month path, mix, model A), money model,
+  work hours, money clock, wealth PDF pages.
