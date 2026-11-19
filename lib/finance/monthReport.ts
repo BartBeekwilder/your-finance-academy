@@ -1,5 +1,6 @@
-import type { FinanceData, Transaction } from "./types";
+import type { Category, FinanceData, Transaction } from "./types";
 import { balanceSheet, live, num, spendByCategory, summarize } from "./calc";
+import { t } from "@/lib/i18n";
 
 // The month as a report (Premium › PDF): the month in three numbers against
 // the month before, spending per day (fixed costs apart), the categories
@@ -42,6 +43,15 @@ export function monthReport(data: FinanceData, month: Date, now: Date) {
   const equity = balanceSheet(data, end > now ? now : end, m).equity;
   const equityBefore = balanceSheet(data, end > now ? now : end, prevMonth).equity;
 
+  // Where it went: every category, plus spending without one (19 Nov: the
+  // categories didn't add up to "spent" when something had no category).
+  const categories = spendByCategory(data, m);
+  const loose = s.spent - categories.reduce((a, c) => a + c.spent, 0);
+  if (loose > 0.005) {
+    const none = { id: "none", name: t("No category"), color_hex: "636366", icon: "questionmark", is_default: false, is_income_category: false, is_fixed_expense: false, parent_id: null, sort_order: 999 } as unknown as Category;
+    categories.push({ category: none, spent: loose, fixed: 0, budget: null, isOverBudget: false });
+  }
+
   return {
     month: m,
     income: s.income,
@@ -54,7 +64,7 @@ export function monthReport(data: FinanceData, month: Date, now: Date) {
     perDay,
     peak: peak.variable > 0 ? peak : null,
     noSpend,
-    categories: spendByCategory(data, m),
+    categories,
     fixed,
     biggest,
     equity,

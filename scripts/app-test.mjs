@@ -5,12 +5,12 @@
 // text, and PDF sheets whose content runs past the page.
 //   npm i --no-save puppeteer-core jiti
 //   npx next dev -p 3000 -H localhost
-//   node scripts/app-test-data.mjs          (fresh fictional data)
 //   node scripts/app-test.mjs [nl en ar ja] → out/app-test/report.json + screenshots
 // The browser carries the cookie pf-local-file=test, so the dev server reads
 // and writes .private/test/finance.json — never the real data file.
 import puppeteer from "puppeteer-core";
 import fs from "node:fs";
+import { execFileSync } from "node:child_process";
 
 const B = "http://localhost:3000";
 const OUT = "out/app-test";
@@ -22,6 +22,8 @@ const IGNORE = [/\/api\/billing\/(status|prices)/, /status of 503/, /favicon/, /
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 fs.mkdirSync(OUT, { recursive: true });
+// Fresh fictional data every run: a month closed by the last run can't be closed again.
+execFileSync(process.execPath, ["scripts/app-test-data.mjs"], { stdio: "ignore" });
 const browser = await puppeteer.launch({ executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", headless: true, args: ["--hide-scrollbars"] });
 const page = await browser.newPage();
 page.on("dialog", (d) => d.dismiss());

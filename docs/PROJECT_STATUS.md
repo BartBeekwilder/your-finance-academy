@@ -2065,3 +2065,20 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - Prototype artifact: https://claude.ai/artifact/QLq3AhnhTW77Ei8tMKVnFv
 - Note: `npm install` drops the --no-save test tools; reinstall with
   `npm i --no-save puppeteer-core jiti` before scripts/app-test.mjs.
+
+## 2026-11-19 late — data tests
+- scripts/app-consistency.mjs [file]: read-only, 22 checks that the screens'
+  numbers agree (report vs per-day chart vs categories vs raw list, the
+  liquidity model's identities, balance sheet sums, money model = balance
+  sheet equity). Runs as the app sees data (withAdvances). Passes on the
+  test data and on Bart's own file.
+- scripts/app-e2e.mjs: on fresh fictional data — Quick Add an expense and an
+  income, check Transactions / Income / report / Liquidity move by exactly
+  that, delete both, check everything is back. 14/14.
+- scripts/app-test.mjs now builds fresh test data first (the month close
+  "got stuck" because the last run had closed the month already).
+- Found + fixed: the month report left spending without a category out of
+  "Where it went" (categories didn't add up to spent) — now a "No category" row.
+- Noticed, not changed: Quick Add dates an income in the main income
+  category on the payday; Income › "Received this month" (and the report)
+  count such a future-dated income as received already.
