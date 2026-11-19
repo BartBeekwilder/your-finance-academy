@@ -25,7 +25,7 @@ import Link from "next/link";
 import type { Mode } from "@/components/finance/LiveTiles";
 import YearsOverview from "@/components/finance/YearsOverview";
 import { YearCompare } from "@/components/finance/Compare";
-import { balanceSheet, budgetIn, live, liveFixed, num } from "@/lib/finance/calc";
+import { accountFlows, budgetIn, live, liveFixed, num } from "@/lib/finance/calc";
 import ProgressStrip from "@/components/finance/ProgressStrip";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
@@ -78,8 +78,6 @@ export default function DashboardPage() {
 
   // Liquidity: accounts + holdings (market value) on 1 January plus this year's
   // savings (netWorthFigures — the Net worth page's model, same as iOS).
-  const complete = history.slice(0, -1).filter((p) => p.income || p.expense);
-  const pace = complete.length ? complete.reduce((t, p) => t + p.income - p.expense, 0) / complete.length : 0;
   // This month on the live model (salary and fixed costs pro rata, other
   // income and variable spending as entered), not the raw entries: fixed
   // costs book on their day long before the salary comes in.
@@ -97,15 +95,10 @@ export default function DashboardPage() {
     return { day: before(new Date(y, m, now.getDate())), month: before(new Date(y, m, 1)), year: before(new Date(y, 0, 1)) };
   }, [data, now]);
 
-  // Equity over the years behind the net worth card: imported year-end
-  // stands, then this year live from the balance sheet.
-  const equityYears = useMemo(() => {
-    const past = (data.yearSnapshots ?? [])
-      .filter((y) => y.year < now.getFullYear())
-      .sort((a, b) => a.year - b.year)
-      .map((y) => ({ year: y.year, equity: Number(y.assets) - Number(y.liabilities) }));
-    return past.length ? [...past, { year: now.getFullYear(), equity: balanceSheet(data, now, month).equity, live: true }] : [];
-  }, [data, now, month]);
+  // Where the liquidity sits (the tile's bar): savings accounts as they
+  // stand now, and the investments at market value; the rest is available.
+  const flows = accountFlows(data, now);
+  const savings = live(data.accounts).filter((a) => a.type === "savings").reduce((t, a) => t + num(a.balance) + (flows.get(a.id) ?? 0), 0);
 
   // A budget bar's parts: the category itself, then each subcategory (in
   // their order), drawn in shades of its colour — as on the Budgets page.
@@ -137,7 +130,7 @@ export default function DashboardPage() {
 
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">
-        <NetWorthCard base={nw.base} monthlyPace={pace} liveChange={nw.liveChange} monthDelta={monthDelta} yearDelta={yearDelta} invest={invest} currency={currency} history={equityYears} />
+        <NetWorthCard base={nw.base} liveChange={nw.liveChange} monthEnd={nw.base + (nw.forecast[0]?.change ?? 0)} monthDelta={monthDelta} yearDelta={yearDelta} savings={savings} investments={nw.holdingsTotal} invest={invest} currency={currency} />
         <ProgressStrip />
       </section>
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}

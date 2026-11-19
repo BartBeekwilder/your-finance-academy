@@ -457,7 +457,7 @@
  "Expected": "Ожидается",
  "expected {amount}": "ожидается {amount}",
  "Expected at month end": "Ожидается к концу месяца",
- "Expected at the end of {month}": "Ожидается в конце {month}",
+ "Expected at the end of {month}": "Ожидается в конце месяца ({month})",
  "Expected at year end": "Ожидается к концу года",
  "Expected gross / year": "Ожидаемо брутто / год",
  "Expected in {monthName}": "Ожидается в {monthName}",
@@ -2170,5 +2170,8 @@
  "My {year} in money — make your own Year Wrapped:": "Мой {year} в деньгах — создай свой Year Wrapped:",
  "My year in money": "Мой год в деньгах",
  "Share your year": "Поделись своим годом",
- "Show amounts": "Показать суммы"
+ "Show amounts": "Показать суммы",
+ "Directly available": "Доступно сразу",
+ "Show the total only": "Показать только итог",
+ "Show work and investments": "Показать работу и инвестиции"
 }

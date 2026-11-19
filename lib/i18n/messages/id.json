@@ -457,7 +457,7 @@
  "Expected": "Diperkirakan",
  "expected {amount}": "diperkirakan {amount}",
  "Expected at month end": "Perkiraan akhir bulan",
- "Expected at the end of {month}": "Diperkirakan di akhir {month}",
+ "Expected at the end of {month}": "Perkiraan akhir {month}",
  "Expected at year end": "Perkiraan akhir tahun",
  "Expected gross / year": "Perkiraan bruto / tahun",
  "Expected in {monthName}": "Diperkirakan di {monthName}",
@@ -2170,5 +2170,8 @@
  "My {year} in money — make your own Year Wrapped:": "{year}-ku dalam uang — buat Year Wrapped-mu sendiri:",
  "My year in money": "Tahunku dalam uang",
  "Share your year": "Bagikan tahunmu",
- "Show amounts": "Tampilkan jumlah"
+ "Show amounts": "Tampilkan jumlah",
+ "Directly available": "Langsung tersedia",
+ "Show the total only": "Tampilkan totalnya saja",
+ "Show work and investments": "Tampilkan kerja dan investasi"
 }

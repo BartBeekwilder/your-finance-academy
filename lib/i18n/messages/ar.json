@@ -457,7 +457,7 @@
  "Expected": "المتوقع",
  "expected {amount}": "متوقع {amount}",
  "Expected at month end": "المتوقع في نهاية الشهر",
- "Expected at the end of {month}": "متوقع في نهاية {month}",
+ "Expected at the end of {month}": "المتوقع في نهاية {month}",
  "Expected at year end": "المتوقع في نهاية العام",
  "Expected gross / year": "الإجمالي المتوقع / سنة",
  "Expected in {monthName}": "متوقع في {monthName}",
@@ -2170,5 +2170,8 @@
  "My {year} in money — make your own Year Wrapped:": "عامي {year} بالمال — أنشئ Year Wrapped الخاص بك:",
  "My year in money": "عامي بالمال",
  "Share your year": "شارك عامك",
- "Show amounts": "إظهار المبالغ"
+ "Show amounts": "إظهار المبالغ",
+ "Directly available": "متاح فورًا",
+ "Show the total only": "عرض الإجمالي فقط",
+ "Show work and investments": "عرض العمل والاستثمارات"
 }

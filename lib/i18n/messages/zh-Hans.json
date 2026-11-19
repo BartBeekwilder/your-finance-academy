@@ -457,7 +457,7 @@
  "Expected": "预计",
  "expected {amount}": "预计 {amount}",
  "Expected at month end": "预计月末",
- "Expected at the end of {month}": "预计 {month}底",
+ "Expected at the end of {month}": "{month}底预计",
  "Expected at year end": "预计年末",
  "Expected gross / year": "预计税前 / 年",
  "Expected in {monthName}": "预计 {monthName}",
@@ -2170,5 +2170,8 @@
  "My {year} in money — make your own Year Wrapped:": "我的 {year} 年金钱回顾——制作你自己的 Year Wrapped：",
  "My year in money": "我的金钱年度",
  "Share your year": "分享你的一年",
- "Show amounts": "显示金额"
+ "Show amounts": "显示金额",
+ "Directly available": "随时可用",
+ "Show the total only": "只显示合计",
+ "Show work and investments": "显示劳动与投资"
 }

@@ -4751,29 +4751,40 @@ span.pf-cmp-chip { cursor: default; }
 .pf-cbar-summary > * { min-width: 0; }
 
 /* Dashboard net worth card — equity over the years, quietly behind it */
-.pf-nwc { position: relative; overflow: hidden; }
-.pf-nwc-bg { position: absolute; inset: 34% 0 0 0; }
-.pf-nwc-plot { position: absolute; inset: 0 22px 18px 22px; }
-.pf-nwc-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pf-nwc { position: relative; overflow: hidden; display: grid; gap: 14px; }
+.pf-nwc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; margin-top: -8px; }
+/* The month's path: solid so far, dashed to the expected end. */
+.pf-nwc-path { display: grid; gap: 6px; }
+.pf-nwc-plot { position: relative; height: 90px; }
+.pf-nwc-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .pf-nwc-area { animation: pf-cmp-fade 1.2s ease-out 0.3s both; }
 .pf-nwc-line { stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: pf-nwc-draw 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards; }
 @keyframes pf-nwc-draw { to { stroke-dashoffset: 0; } }
-.pf-nwc-dot { position: absolute; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: rgba(255, 255, 255, 0.35); box-shadow: 0 0 6px rgba(255, 255, 255, 0.15); pointer-events: none; }
-.pf-nwc-dot-hover { background: rgba(255, 255, 255, 0.75); box-shadow: 0 0 6px rgba(255, 255, 255, 0.35); }
-.pf-nwc-years { position: absolute; left: 22px; right: 22px; bottom: 4px; height: 14px; }
-.pf-nwc-years span { position: absolute; transform: translateX(-50%); font-size: 0.6rem; color: var(--pf-ink-3); opacity: 0.6; font-variant-numeric: tabular-nums; transition: opacity 0.2s, color 0.2s; }
-.pf-nwc-years span[data-on="true"] { opacity: 1; color: var(--pf-ink); }
-.pf-nwc-hits { position: absolute; inset: 0 22px; }
-.pf-nwc-hit { position: absolute; top: 0; bottom: 0; }
-.pf-nwc-caption { position: relative; margin: 2px 0 0; text-align: right; font-size: 0.66rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; pointer-events: none; }
-.pf-nwc-stats { margin-left: auto; padding-top: 4px; display: grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 4px; align-items: baseline; justify-items: end; font-size: 0.72rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pf-nwc-dot { position: absolute; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 50%; background: #30d158; box-shadow: 0 0 0 4px rgba(48, 209, 88, 0.18), 0 0 10px rgba(48, 209, 88, 0.6); pointer-events: none; }
+.pf-nwc-dot-end { background: transparent; border: 1.5px solid rgba(255, 255, 255, 0.55); box-shadow: none; margin-left: -9px; }
+.pf-nwc-path-foot { display: flex; justify-content: space-between; gap: 12px; font-size: 0.7rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; }
+.pf-nwc-path-foot b { color: var(--pf-ink-2); font-weight: 600; margin-left: 4px; }
+/* Where it sits. */
+.pf-nwc-mix { display: grid; gap: 8px; }
+.pf-nwc-mix-bar { display: flex; gap: 3px; height: 8px; }
+.pf-nwc-mix-bar span { border-radius: 4px; min-width: 4px; transform-origin: left; animation: pf-nwc-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both; }
+@keyframes pf-nwc-grow { from { transform: scaleX(0); opacity: 0; } }
+.pf-nwc-mix-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.72rem; color: var(--pf-ink-2); }
+.pf-nwc-mix-legend span { display: inline-flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+.pf-nwc-mix-legend i { width: 8px; height: 8px; border-radius: 3px; align-self: center; }
+.pf-nwc-mix-legend b { color: var(--pf-ink); font-weight: 600; }
+.pf-nwc-mix-legend em { font-style: normal; color: var(--pf-ink-3); }
+/* Day / month / year: one total each; a tap shows work and investments. */
+.pf-nwc-stats { padding: 4px 0 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; display: grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 4px; align-items: baseline; justify-items: end; font-size: 0.72rem; font-variant-numeric: tabular-nums; white-space: nowrap; border-radius: 8px; transition: background 0.2s; }
+.pf-nwc-stats:disabled { cursor: default; }
+.pf-nwc-stats:not(:disabled):hover { background: rgba(255, 255, 255, 0.04); }
 .pf-nwc-stats[data-split] { grid-template-columns: auto auto auto auto; }
 .pf-nwc-stats > span:not([class]) { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--pf-ink-3); }
 .pf-nwc-stat-label { color: var(--pf-ink-2); justify-self: start; }
 .pf-nwc-stats b { font-weight: 600; }
-.pf-nwc-split { font-size: 0.68rem; opacity: 0.8; }
-@media (max-width: 560px) { .pf-nwc-stats { margin-left: 0; width: 100%; } }
-@media (prefers-reduced-motion: reduce) { .pf-nwc-line { animation: none; stroke-dashoffset: 0; } .pf-nwc-area { animation: none; } }
+.pf-nwc-split { font-size: 0.68rem; opacity: 0.8; animation: pf-cmp-fade 0.35s ease-out both; }
+@media (max-width: 560px) { .pf-nwc-stats { width: 100%; } .pf-nwc-path-foot span { display: grid; } .pf-nwc-path-foot b { margin-left: 0; } }
+@media (prefers-reduced-motion: reduce) { .pf-nwc-line { animation: none; stroke-dashoffset: 0; } .pf-nwc-area, .pf-nwc-mix-bar span, .pf-nwc-split { animation: none; } }
 
 /* Income — payslips */
 .pf-slip-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 30px; height: 28px; padding: 0 8px; margin-right: 10px; border-radius: 999px; border: 1px dashed var(--pf-line); background: transparent; color: var(--pf-ink-3); font: inherit; font-size: 0.72rem; cursor: pointer; opacity: 0.6; transition: opacity 0.2s, color 0.2s, border-color 0.2s, background 0.2s; }

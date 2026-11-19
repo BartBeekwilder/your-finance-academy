@@ -7,54 +7,52 @@ import { useTickerNow } from "@/lib/motion";
 
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
-import { money } from "@/lib/finance/format";
+import { money, monthName } from "@/lib/finance/format";
 import LiveAmount from "./LiveAmount";
 
-// The iOS NetWorthTicker: a live figure that creeps forward at the user's
-// recent monthly pace (income − expenses), plus This Day / Month / Year
-// deltas. The small trailing digits are the real fractions of a cent.
-// Each delta splits into work (income − expenses) and investments (what the
-// holdings did on the market by themselves), when there are live quotes.
-//
-// Behind it, quietly: equity over the years (imported year-end stands, this
-// year live from the balance sheet) as a faint area with tiny year marks;
-// pointing at a year reads it out in the caption.
-
-export type EquityYear = { year: number; equity: number; live?: boolean };
+// The first tile of the app (Bart, 19 Nov): liquidity live, on the same
+// model as the Liquidity page (netWorthFigures.liveChange), with
+//   • the month's path: from the 1st to now, then dashed to what's expected
+//     at the end of the month;
+//   • where it sits: one bar — directly available, savings, investments;
+//   • day / month / year as one total each; a tap splits them into work
+//     (income − expenses) and investments (the market by itself).
 
 export default function NetWorthCard({
   base,
-  monthlyPace,
   liveChange,
+  monthEnd,
   monthDelta,
   yearDelta,
+  savings,
+  investments,
   invest,
   currency,
-  history = [],
 }: {
+  /** Liquidity on the 1st of this month. */
   base: number;
-  monthlyPace: number;
-  /** This month's change at a moment (netWorthFigures.liveChange): the same
-   *  live model as the Liquidity page, so both show the same figure. */
-  liveChange?: (at: number) => number;
+  /** This month's change at a moment (netWorthFigures.liveChange). */
+  liveChange: (at: number) => number;
+  /** Expected at the end of this month. */
+  monthEnd: number;
   monthDelta: number;
   yearDelta: number;
+  /** On savings accounts now. */
+  savings: number;
+  /** Investments at market value now. */
+  investments: number;
   /** Market change of the investments per period (absent without live quotes). */
   invest?: { day: number; month: number; year: number };
   currency: string;
-  /** Equity per year, oldest first (the background chart). */
-  history?: EquityYear[];
 }) {
-  const [hover, setHover] = useState<number | null>(null);
+  const [split, setSplit] = useState(false);
   const now = useTickerNow();
-
-  const perMs = monthlyPace / (30.44 * 24 * 3600 * 1000);
   const d = new Date(now);
   const startOfDay = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-  const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 1).getTime();
-  const live = base + (liveChange ? liveChange(now) : (now - startOfMonth) * perMs);
-  const dayDelta = liveChange ? liveChange(now) - liveChange(startOfDay) : (now - startOfDay) * perMs;
-  const up = monthlyPace >= 0;
+  const live = base + liveChange(now);
+  const dayDelta = liveChange(now) - liveChange(startOfDay);
+  const up = monthDelta >= 0;
+  const canSplit = invest !== undefined;
 
   return (
     <section
@@ -65,23 +63,30 @@ export default function NetWorthCard({
         background: `linear-gradient(135deg, ${up ? "rgba(48,209,88,.20)" : "rgba(255,159,10,.20)"}, rgba(10,132,255,.06)), var(--pf-card)`,
       }}
     >
-      {history.length >= 2 && <EquityBackdrop history={history} hover={hover} onHover={setHover} />}
-      <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 8, fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.05em", color: "var(--pf-ink-2)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.05em", color: "var(--pf-ink-2)" }}>
         <span className="pf-pulse" /> {t("Liquidity").toUpperCase()} · {t("live").toUpperCase()}
         <InfoTip id="liquidity" />
       </div>
-      <div style={{ position: "relative", display: "flex", alignItems: "flex-start", gap: 4, flexWrap: "wrap", marginTop: 4, pointerEvents: "none" }}>
-        <LiveAmount value={live} currency={currency} size="2.25rem" />
-        {up ? (
-          <ArrowUpRight size={16} strokeWidth={3} color="var(--pf-green)" style={{ marginTop: 8 }} />
-        ) : (
-          <ArrowDownRight size={16} strokeWidth={3} color="var(--pf-orange)" style={{ marginTop: 8 }} />
-        )}
-        {/* Day / month / year as a small table: the total, and (with live
-            quotes) split into work and investments, each in its own column
-            so the amounts line up. */}
-        <div className="pf-nwc-stats" data-split={invest !== undefined || undefined}>
-          {invest !== undefined && (
+      <div className="pf-nwc-top">
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 4 }}>
+          <LiveAmount value={live} currency={currency} size="2.25rem" />
+          {up ? (
+            <ArrowUpRight size={16} strokeWidth={3} color="var(--pf-green)" style={{ marginTop: 8 }} />
+          ) : (
+            <ArrowDownRight size={16} strokeWidth={3} color="var(--pf-orange)" style={{ marginTop: 8 }} />
+          )}
+        </div>
+        {/* One total per period; with live quotes a tap shows what work and
+            the market each added, in columns so the amounts line up. */}
+        <button
+          type="button"
+          className="pf-nwc-stats"
+          data-split={(split && canSplit) || undefined}
+          onClick={() => canSplit && setSplit((s) => !s)}
+          disabled={!canSplit}
+          title={canSplit ? (split ? t("Show the total only") : t("Show work and investments")) : undefined}
+        >
+          {split && canSplit && (
             <>
               <span />
               <span>{t("Total")}</span>
@@ -89,37 +94,26 @@ export default function NetWorthCard({
               <span>{t("Investments")}</span>
             </>
           )}
-          <Stat label={t("This Day")} work={dayDelta} invest={invest?.day} currency={currency} />
-          <Stat label={t("This Month")} work={monthDelta} invest={invest?.month} currency={currency} />
-          <Stat label={t("This Year")} work={yearDelta} invest={invest?.year} currency={currency} />
-        </div>
+          <Stat label={t("This Day")} work={dayDelta} invest={invest?.day} split={split && canSplit} currency={currency} />
+          <Stat label={t("This Month")} work={monthDelta} invest={invest?.month} split={split && canSplit} currency={currency} />
+          <Stat label={t("This Year")} work={yearDelta} invest={invest?.year} split={split && canSplit} currency={currency} />
+        </button>
       </div>
-      {history.length >= 2 && (
-        <p key={hover ?? "all"} className="pf-readout pf-nwc-caption">
-          {hover === null
-            ? t("Equity {from}–{to}: {a} → {b}", {
-                from: history[0].year,
-                to: history[history.length - 1].year,
-                a: money(history[0].equity, currency, { compact: true }),
-                b: money(history[history.length - 1].equity, currency, { compact: true }),
-              })
-            : `${t("Equity")} ${history[hover].year}${history[hover].live ? ` · ${t("today")}` : ""}: ${money(history[hover].equity, currency)}${
-                hover > 0 ? ` (${money(history[hover].equity - history[hover - 1].equity, currency, { signed: true, compact: true })})` : ""
-              }`}
-        </p>
-      )}
+
+      <MonthPath base={base} liveChange={liveChange} monthEnd={monthEnd} now={now} currency={currency} />
+      <MixBar total={live} savings={savings} investments={investments} currency={currency} />
     </section>
   );
 }
 
-function Stat({ label, work, invest, currency }: { label: string; work: number; invest?: number; currency: string }) {
+function Stat({ label, work, invest, split, currency }: { label: string; work: number; invest?: number; split: boolean; currency: string }) {
   const value = work + (invest ?? 0);
   const tone = (v: number) => (v >= 0 ? "var(--pf-green)" : "var(--pf-orange)");
   return (
     <>
       <span className="pf-nwc-stat-label">{label}</span>
       <b className="pf-rounded" style={{ color: tone(value) }}>{money(value, currency, { signed: true })}</b>
-      {invest !== undefined && (
+      {split && invest !== undefined && (
         <>
           <span className="pf-rounded pf-nwc-split" style={{ color: tone(work) }}>{money(work, currency, { signed: true })}</span>
           <span className="pf-rounded pf-nwc-split" style={{ color: tone(invest) }}>{money(invest, currency, { signed: true })}</span>
@@ -129,56 +123,84 @@ function Stat({ label, work, invest, currency }: { label: string; work: number; 
   );
 }
 
-/** The quiet equity-over-the-years area behind the card. */
-function EquityBackdrop({ history, hover, onHover }: { history: EquityYear[]; hover: number | null; onHover: (i: number | null) => void }) {
-  const W = 1000, H = 100;
-  const vals = history.map((h) => h.equity);
-  const lo = Math.min(0, ...vals), hi = Math.max(...vals);
-  const span = Math.max(hi - lo, 1);
-  const x = (i: number) => (i / (history.length - 1)) * W;
-  const y = (v: number) => H - 6 - ((v - lo) / span) * (H - 18);
-  const pts = history.map((h, i) => [x(i), y(h.equity)] as const);
-  let line = `M${pts[0][0]},${pts[0][1]}`;
-  for (let i = 0; i < pts.length - 1; i++) {
-    const p0 = pts[i - 1] ?? pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] ?? p2;
-    line += ` C${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`;
+/** The month so far (solid, day by day) and what's expected by its end (dashed). */
+function MonthPath({ base, liveChange, monthEnd, now, currency }: { base: number; liveChange: (at: number) => number; monthEnd: number; now: number; currency: string }) {
+  const d = new Date(now);
+  const y = d.getFullYear(), m = d.getMonth();
+  const days = new Date(y, m + 1, 0).getDate();
+  const start = new Date(y, m, 1).getTime();
+  const span = days * 86_400_000;
+  // One point per day (the end of each day so far), then now.
+  const pts: [number, number][] = [[start, base]];
+  for (let day = 1; day < d.getDate(); day++) {
+    const at = new Date(y, m, day + 1).getTime();
+    pts.push([at, base + liveChange(at)]);
   }
-  const area = `${line} L${W},${H} L0,${H} Z`;
+  pts.push([now, base + liveChange(now)]);
+  const end = new Date(y, m + 1, 1).getTime();
+  const vals = [...pts.map((p) => p[1]), monthEnd];
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const pad = Math.max((hi - lo) * 0.15, 1);
+  const W = 1000, H = 90;
+  const x = (t: number) => ((t - start) / span) * W;
+  const yv = (v: number) => H - 4 - ((v - lo + pad) / (hi - lo + pad * 2)) * (H - 8);
+  const line = pts.map((p, i) => `${i ? "L" : "M"}${x(p[0]).toFixed(1)},${yv(p[1]).toFixed(1)}`).join(" ");
   const last = pts[pts.length - 1];
+  const area = `${line} L${x(last[0]).toFixed(1)},${H} L0,${H} Z`;
+  const nowX = (x(last[0]) / W) * 100;
   return (
-    <div className="pf-nwc-bg" onMouseLeave={() => onHover(null)}>
+    <div className="pf-nwc-path">
       <div className="pf-nwc-plot">
-      <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden>
-        <defs>
-          <linearGradient id="pf-nwc-fill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#30d158" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#30d158" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        {lo < 0 && <line x1={0} x2={W} y1={y(0)} y2={y(0)} stroke="rgba(255,255,255,0.12)" strokeDasharray="2 6" vectorEffect="non-scaling-stroke" />}
-        <path d={area} fill="url(#pf-nwc-fill)" className="pf-nwc-area" />
-        <path d={line} fill="none" stroke="rgba(255,255,255,0.22)" strokeWidth={1.5} vectorEffect="non-scaling-stroke" className="pf-nwc-line" />
-        {hover !== null && <line x1={x(hover)} x2={x(hover)} y1={0} y2={H} stroke="rgba(255,255,255,0.14)" vectorEffect="non-scaling-stroke" />}
-      </svg>
-      <span className="pf-nwc-dot" style={{ left: `${(last[0] / W) * 100}%`, top: `${(last[1] / H) * 100}%` }} />
-      {hover !== null && <span className="pf-nwc-dot pf-nwc-dot-hover" style={{ left: `${(pts[hover][0] / W) * 100}%`, top: `${(pts[hover][1] / H) * 100}%` }} />}
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img" aria-label={`${t("Expected at the end of {month}", { month: monthName(d) })} ${money(monthEnd, currency)}`}>
+          <defs>
+            <linearGradient id="pf-nwc-fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#30d158" stopOpacity="0.22" />
+              <stop offset="100%" stopColor="#30d158" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path d={area} fill="url(#pf-nwc-fill)" className="pf-nwc-area" />
+          <path d={line} fill="none" stroke="#30d158" strokeWidth={2} vectorEffect="non-scaling-stroke" className="pf-nwc-line" />
+          <path d={`M${x(last[0]).toFixed(1)},${yv(last[1]).toFixed(1)} L${x(end)},${yv(monthEnd).toFixed(1)}`} fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth={1.5} strokeDasharray="4 5" vectorEffect="non-scaling-stroke" />
+        </svg>
+        <span className="pf-nwc-dot" style={{ left: `${nowX}%`, top: `${(yv(last[1]) / H) * 100}%` }} />
+        <span className="pf-nwc-dot pf-nwc-dot-end" style={{ left: "100%", top: `${(yv(monthEnd) / H) * 100}%` }} />
       </div>
-      <div className="pf-nwc-years">
-        {history.map((h, i) => (
-          <span
-            key={h.year}
-            data-on={hover === i}
-            style={{ left: `${(x(i) / W) * 100}%` }}
-            onMouseEnter={() => onHover(i)}
-          >
-            {i === 0 || i === history.length - 1 || hover === i || history.length <= 6 ? h.year : "·"}
-          </span>
+      <div className="pf-nwc-path-foot pf-readout">
+        <span>
+          {t("Start of the month")} <b>{money(base, currency)}</b>
+        </span>
+        <span style={{ textAlign: "right" }}>
+          {t("Expected at the end of {month}", { month: monthName(d) })} <b>{money(monthEnd, currency)}</b>
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/** Where the money sits: directly available, savings, investments. */
+function MixBar({ total, savings, investments, currency }: { total: number; savings: number; investments: number; currency: string }) {
+  const parts = [
+    { key: "available", label: t("Directly available"), value: total - savings - investments, color: "#40c8e0" },
+    { key: "savings", label: t("Savings"), value: savings, color: "#30d158" },
+    { key: "investments", label: t("Investments"), value: investments, color: "#bf5af2" },
+  ].filter((p) => Math.abs(p.value) >= 0.5);
+  const sum = parts.reduce((a, p) => a + Math.max(p.value, 0), 0);
+  if (!sum) return null;
+  return (
+    <div className="pf-nwc-mix">
+      <div className="pf-nwc-mix-bar" role="img" aria-label={parts.map((p) => `${p.label} ${money(p.value, currency)}`).join(", ")}>
+        {parts.filter((p) => p.value > 0).map((p) => (
+          <span key={p.key} style={{ flexGrow: p.value / sum, background: p.color }} />
         ))}
       </div>
-      {/* Hover areas per year, full height, on the plot's own width. */}
-      <div className="pf-nwc-hits">
-        {history.map((h, i) => (
-          <span key={`hit${h.year}`} className="pf-nwc-hit" style={{ left: `${((x(i) - W / (2 * (history.length - 1))) / W) * 100}%`, width: `${100 / (history.length - 1)}%` }} onMouseEnter={() => onHover(i)} />
+      <div className="pf-nwc-mix-legend">
+        {parts.map((p) => (
+          <span key={p.key}>
+            <i style={{ background: p.color }} />
+            {p.label}
+            <b className="pf-rounded">{money(p.value, currency, { compact: Math.abs(p.value) >= 100_000 })}</b>
+            {sum > 0 && p.value > 0 && <em>{Math.round((p.value / sum) * 100)}%</em>}
+          </span>
         ))}
       </div>
     </div>

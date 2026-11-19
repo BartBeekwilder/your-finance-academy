@@ -457,7 +457,7 @@
  "Expected": "Previsto",
  "expected {amount}": "previsto {amount}",
  "Expected at month end": "Previsto no fim do mês",
- "Expected at the end of {month}": "Previsto no fim de {month}",
+ "Expected at the end of {month}": "Previsto para o fim de {month}",
  "Expected at year end": "Previsto no fim do ano",
  "Expected gross / year": "Bruto previsto / ano",
  "Expected in {monthName}": "Previsto em {monthName}",
@@ -2170,5 +2170,8 @@
  "My {year} in money — make your own Year Wrapped:": "Meu {year} em dinheiro — crie seu próprio Year Wrapped:",
  "My year in money": "Meu ano em dinheiro",
  "Share your year": "Compartilhe seu ano",
- "Show amounts": "Mostrar valores"
+ "Show amounts": "Mostrar valores",
+ "Directly available": "Disponível agora",
+ "Show the total only": "Mostrar só o total",
+ "Show work and investments": "Mostrar trabalho e investimentos"
 }

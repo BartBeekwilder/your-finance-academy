@@ -2027,3 +2027,18 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - Vercel: NEXT_PUBLIC_PF_APPLE=on (Production, Config), redeployed.
 - iOS: set "apple": true in Personal Finance/Supabase.json on the Mac, build
   (ios-port-nov18 2b86196), test on a device.
+
+## 2026-11-19 evening — first dashboard tile richer (on web-app)
+- NetWorthCard: same live model as the Liquidity page (was the 12-month
+  average pace: €1.5K apart); the month's path (1st → now solid, dashed to
+  the expected month end, footer start / expected end); where it sits (bar:
+  directly available, savings, investments with % ); day/month/year one
+  total each, a tap splits into work / investments. The equity-over-the-
+  years backdrop is gone from the tile (equity has its own pages).
+- Phones: page grids minmax(0,1fr), .pf-main overflow-x clip, holdings
+  result % on its own line, period switches fit (Bart: page slid sideways).
+- Known, not yet fixed: annual PDF page 1 runs ~25px long; the month close
+  in scripts/app-test.mjs gets stuck on the test data.
+- To port to iOS: the tile (NetWorthTicker), plus the app must stop booking
+  "Projected income" as a received transaction (IncomeManager.syncTransaction)
+  — it polluted Bart's books on 19 Nov (cleaned up by hand).
