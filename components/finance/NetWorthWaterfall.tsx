@@ -376,7 +376,7 @@ function yearSteps(nw: ReturnType<typeof netWorthFigures>, now: Date): Step[] {
     level += change;
   }
   // This month's remaining forecast joins the year-end total.
-  const rest = (nw.forecast[0]?.change ?? 0) - nw.liveChange(now.getTime());
+  const rest = (nw.forecast[0]?.change ?? 0) - nw.workChange(now.getTime());
   const end = level + rest;
   steps.push({ key: "end", label: t("End"), long: t("Expected on 31 December {year}", { year }), from: end, to: end, kind: "end" });
   return steps;
@@ -406,7 +406,8 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
   const year = now.getFullYear(), month = now.getMonth(), today = now.getDate(), days = nw.days;
   const soFar = nw.liveChange(now.getTime());
   const ahead = days - today;
-  const restPerDay = ahead > 0 ? ((nw.forecast[0]?.change ?? soFar) - soFar) / ahead : 0;
+  const work = nw.workChange(now.getTime());
+  const restPerDay = ahead > 0 ? ((nw.forecast[0]?.change ?? work) - work) / ahead : 0;
   const steps: Step[] = [{ key: "start", label: "1", long: t("Start of {month}", { month: monthName(now) }), from: nw.base, to: nw.base, kind: "total" }];
   steps[0].label = t("Start");
   let level = nw.base;
@@ -414,7 +415,9 @@ function daySteps(nw: ReturnType<typeof netWorthFigures>, data: FinanceData, now
     const d = new Date(year, month, day);
     const p = day <= today ? dayParts(nw, data, now, day) : null;
     // Today closes on the live number exactly (spending dated later this month counts now).
-    const change = day < today && p ? p.pay + p.other - p.fixed - p.variable : day === today ? nw.base + soFar - level : restPerDay;
+    // A day so far: its income and spending plus what the market did that day.
+    const market = day < today ? nw.marketChange(new Date(year, month, day + 1).getTime() - 1) - nw.marketChange(new Date(year, month, day).getTime() - 1) : 0;
+    const change = day < today && p ? p.pay + p.other - p.fixed - p.variable + market : day === today ? nw.base + soFar - level : restPerDay;
     const show = day === 1 || day === days || day === today || (day % 5 === 0 && Math.abs(day - today) > 1 && days - day > 1);
     steps.push({
       key: `d${day}`,

@@ -2042,3 +2042,9 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - To port to iOS: the tile (NetWorthTicker), plus the app must stop booking
   "Projected income" as a received transaction (IncomeManager.syncTransaction)
   — it polluted Bart's books on 19 Nov (cleaned up by hand).
+- Liquidity model (Bart: option A, 19 Nov): netWorthFigures counts the
+  market too — base = start of month at that day's prices, finished months
+  include their market move, liveChange = workChange + marketChange, so
+  start + change = now everywhere (tile, Liquidity page, waterfalls).
+  workDone / workChange are income − spending only ("Saved this year", the
+  forecast ahead). iOS NetWorthTicker / DashboardView must follow.

@@ -22,9 +22,9 @@ import LiveAmount from "./LiveAmount";
 export default function NetWorthCard({
   base,
   liveChange,
-  monthEnd,
-  monthDelta,
-  yearDelta,
+  workChange,
+  monthForecast,
+  workBefore,
   savings,
   investments,
   invest,
@@ -32,12 +32,14 @@ export default function NetWorthCard({
 }: {
   /** Liquidity on the 1st of this month. */
   base: number;
-  /** This month's change at a moment (netWorthFigures.liveChange). */
+  /** This month's change at a moment, work + market (netWorthFigures.liveChange). */
   liveChange: (at: number) => number;
-  /** Expected at the end of this month. */
-  monthEnd: number;
-  monthDelta: number;
-  yearDelta: number;
+  /** The same from income and spending only (the rows add the market as `invest`). */
+  workChange: (at: number) => number;
+  /** This month's expected income − spending (yearForecast). */
+  monthForecast: number;
+  /** Income − spending of this year's finished months. */
+  workBefore: number;
   /** On savings accounts now. */
   savings: number;
   /** Investments at market value now. */
@@ -50,9 +52,17 @@ export default function NetWorthCard({
   const now = useTickerNow();
   const d = new Date(now);
   const startOfDay = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  // Everything from the same moment, so start + this month = the big number.
+  const work = workChange(now);
   const live = base + liveChange(now);
-  const dayDelta = liveChange(now) - liveChange(startOfDay);
-  const up = monthDelta >= 0;
+  const dayDelta = work - workChange(startOfDay);
+  const monthDelta = work;
+  const yearDelta = workBefore + work;
+  // The market part of this month live too (the year and day from the quotes).
+  const market = invest && { ...invest, month: liveChange(now) - work };
+  // Ahead: the rest of the month's forecast on top of now (no market).
+  const monthEnd = live + monthForecast - work;
+  const up = live >= base;
   const canSplit = invest !== undefined;
 
   return (
@@ -95,9 +105,9 @@ export default function NetWorthCard({
               <span>{t("Investments")}</span>
             </>
           )}
-          <Stat label={t("This Day")} work={dayDelta} invest={invest?.day} split={split && canSplit} currency={currency} />
-          <Stat label={t("This Month")} work={monthDelta} invest={invest?.month} split={split && canSplit} currency={currency} />
-          <Stat label={t("This Year")} work={yearDelta} invest={invest?.year} split={split && canSplit} currency={currency} />
+          <Stat label={t("This Day")} work={dayDelta} invest={market?.day} split={split && canSplit} currency={currency} />
+          <Stat label={t("This Month")} work={monthDelta} invest={market?.month} split={split && canSplit} currency={currency} />
+          <Stat label={t("This Year")} work={yearDelta} invest={market?.year} split={split && canSplit} currency={currency} />
         </button>
       </div>
 

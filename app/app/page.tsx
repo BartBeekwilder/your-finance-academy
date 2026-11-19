@@ -30,7 +30,7 @@ import ProgressStrip from "@/components/finance/ProgressStrip";
 import SavingsChart from "@/components/finance/SavingsChart";
 import SortableCategoryGrid from "@/components/finance/SortableCategoryGrid";
 import YearLines from "@/components/finance/YearLines";
-import { yearForecast, last12Months, monthProgress, netWorthFigures, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
+import { yearForecast, monthProgress, netWorthFigures, projectedNetIncome, spendByCategory, spendByCategoryYear, summarize, yearsWithData } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 import { investmentsValue } from "@/lib/finance/quotes";
 import { upcomingFixedCosts } from "@/lib/finance/recurring";
@@ -66,7 +66,6 @@ export default function DashboardPage() {
   const largestFirst = useBudgetLargestFirst();
   const budgetsRef = useRef<HTMLDivElement>(null);
   useFlip(budgetsRef, largestFirst);
-  const history = last12Months(data.transactions, now);
   const [spendMode, setSpendMode] = useState<Mode>("month");
   // The dashboard's period, top right: Month and Year drive the live tiles
   // (and the expenses chart); Years swaps in the multi-year overview.
@@ -82,8 +81,6 @@ export default function DashboardPage() {
   // income and variable spending as entered), not the raw entries: fixed
   // costs book on their day long before the salary comes in.
   const nw = netWorthFigures(data, now);
-  const monthDelta = nw.liveChange(now.getTime());
-  const yearDelta = nw.finished.reduce((t, v) => t + v, 0) + monthDelta;
 
   // What the investments did by themselves: market value now against the
   // last close before today / this month / this year (live quotes only).
@@ -130,7 +127,7 @@ export default function DashboardPage() {
 
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">
-        <NetWorthCard base={nw.base} liveChange={nw.liveChange} monthEnd={nw.base + (nw.forecast[0]?.change ?? 0)} monthDelta={monthDelta} yearDelta={yearDelta} savings={savings} investments={nw.holdingsTotal} invest={invest} currency={currency} />
+        <NetWorthCard base={nw.base} liveChange={nw.liveChange} workChange={nw.workChange} monthForecast={nw.forecast[0]?.change ?? 0} workBefore={nw.workDone.reduce((t, v) => t + v, 0)} savings={savings} investments={nw.holdingsTotal} invest={invest} currency={currency} />
         <ProgressStrip />
       </section>
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}

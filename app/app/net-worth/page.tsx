@@ -52,8 +52,11 @@ export default function NetWorthPage() {
   const nw = netWorthFigures(data, now);
   const tick = useNow(1000);
   const nowValue = nw.base + nw.liveChange(tick);
-  const monthEnd = nw.base + (nw.forecast[0]?.change ?? 0);
-  const yearEnd = nw.base + nw.forecast.reduce((t, f) => t + f.change, 0);
+  // Ahead: the forecast (no market) on top of where it stands now.
+  const ahead = nowValue - nw.workChange(tick);
+  const monthEnd = ahead + (nw.forecast[0]?.change ?? 0);
+  const yearEnd = ahead + nw.forecast.reduce((t, f) => t + f.change, 0);
+  const savedThisYear = nw.workDone.reduce((t, v) => t + v, 0) + nw.workChange(tick);
   // A percentage only means something on a solid positive starting point.
   const pct = (from: number, to: number, since: string) =>
     from > 0 && from >= Math.abs(to) * 0.1 ? `${to >= from ? "+" : ""}${(((to - from) / from) * 100).toLocaleString(intlLocale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 })}% ${since}` : since[0].toUpperCase() + since.slice(1);
@@ -83,7 +86,7 @@ export default function NetWorthPage() {
   const tagged = [...flows.values()].reduce((a, b) => a + b, 0);
   const pendingTotal = pendingIncome(data, new Date(tick), false).reduce((a, x) => a + num(x.amount), 0);
   const parts = [
-    { id: "saved", name: t("Saved this year"), kind: t("Cash flow"), value: nowValue - nw.startOfYear - tagged - pendingTotal, color: "#30d158" },
+    { id: "saved", name: t("Saved this year"), kind: t("Cash flow"), value: nowValue - nw.accountsTotal - nw.holdingsTotal - tagged - pendingTotal, color: "#30d158" },
     ...(pendingTotal > 0.005 ? [{ id: "pending", name: t("Amounts to receive"), kind: t("Not on an account yet"), value: pendingTotal, color: "#66d4cf" }] : []),
     ...live(data.accounts)
       .filter((a) => num(a.balance) !== 0 || flows.has(a.id))
@@ -139,7 +142,7 @@ export default function NetWorthPage() {
       <NetWorthTile data={data} currency={currency} mode={mode} />
 
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
-        <Stat label={t("Liquidity now")} value={money(nowValue, currency)} color="#40c8e0" hint={t("Saved this year {v1}", { v1: money(nowValue - nw.startOfYear, currency, { signed: true }) })} />
+        <Stat label={t("Liquidity now")} value={money(nowValue, currency)} color="#40c8e0" hint={t("Saved this year {v1}", { v1: money(savedThisYear, currency, { signed: true }) })} />
         {mode === "month" ? (
           <>
             <Stat
