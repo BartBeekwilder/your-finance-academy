@@ -1813,7 +1813,7 @@ what the compiler finds, run the tests, then look at it in the simulator.
   mass-deletion guard is still a good idea. Restoring from history is by SQL
   for now (copy a history row back into encrypted_vaults).
 
-## 2026-11-19 — money clock (web-app, NOT live)
+## 2026-11-19 — money clock (LIVE 19 Nov, 24b9f76)
 - Key figures: "Je geldklok" at the TOP (Bart: more relevant than the
   freedom number) — a month's income as one day of 24 h, biggest costs
   first, then time for yourself; animated dial, month picker; also a Month
@@ -1823,7 +1823,7 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - TO DO (Bart): feature the money clock on the homepage later (like "Je
   maand op papier"), and as a share card; port to the apps later.
 
-## 2026-11-19 — PDF: "Your wealth" pages + print after closing (web-app, NOT live)
+## 2026-11-19 — PDF: "Your wealth" pages + print after closing (LIVE 19 Nov, 24b9f76)
 - Monthly report is now 2 pages. Page 2 "Je vermogen · {maand}": KPIs (equity,
   investments, on your accounts, growth from work), each holding with a month
   sparkline + %, liquidity through the month (lowest day), balance sheet vs the
@@ -1837,3 +1837,6 @@ what the compiler finds, run the tests, then look at it in the simulator.
 - Check: Bart's investments show large monthly swings (e.g. ROP +35% in Oct);
   for holdings bought in a month the start value is the cost basis — verify.
 - iOS/Android: port later.
+- Homepage (LIVE 19 Nov): new section #geldklok after Wrapped (visitor's own net
+  pay on the 24h dial, example costs), PDF section lists the wealth pages and
+  benchmarks, /updates entry 2026-11-19. Texts in public/home/i18n.js (K 228–260).
