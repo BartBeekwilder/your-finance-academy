@@ -507,7 +507,11 @@ export function HoldingRow({ v, currency, rangeQuotes, range, onOpen }: { v: Hol
         <b className="pf-rounded">{v.value != null ? money(v.value, currency) : v.cost != null ? money(v.cost, currency) : "—"}</b>
         {v.result != null ? (
           <span className="pf-rounded" style={{ color: tone(v.result) }}>
-            {money(v.result, currency, { signed: true })} · {pct(v.resultPct)} <span className="pf-pf-total">{t("total")}</span>
+            {money(v.result, currency, { signed: true })}
+            <span className="pf-pf-res-pct">
+              <span className="pf-pf-dot"> · </span>
+              {pct(v.resultPct)} <span className="pf-pf-total">{t("total")}</span>
+            </span>
           </span>
         ) : (
           <span style={{ color: "var(--pf-ink-3)" }}>{v.quote ? "" : t("No price")}</span>

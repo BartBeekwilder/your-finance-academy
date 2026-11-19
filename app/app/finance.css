@@ -165,12 +165,18 @@ html[data-framed] ::-webkit-scrollbar { display: none; }
 .pf-main {
   flex: 1;
   min-width: 0;
+  /* Safety net: nothing on a page may make it pan sideways on a phone. */
+  overflow-x: clip;
   padding: 28px 32px 64px;
   /* Grow with wide windows, then stay centred instead of leaving an empty
      strip on the right. */
   max-width: 1680px;
   margin-inline: auto;
 }
+/* A page's own single-column grid: its column is the page's width, never as
+   wide as the widest card's content (a 6-period switch made the investments
+   page 21px wider than a phone, so it panned sideways). */
+.pf-main > div[style*="display: grid"]:not([style*="grid-template"]) { grid-template-columns: minmax(0, 1fr); }
 
 @media (max-width: 760px) {
   .pf-nav {
@@ -596,6 +602,10 @@ html[data-framed] ::-webkit-scrollbar { display: none; }
   color: var(--pf-ink-2);
   cursor: pointer;
   transition: color 0.25s, text-shadow 0.25s, transform 0.2s;
+}
+/* Phones: five or six periods have to fit a card (5 × 64px didn't). */
+@media (max-width: 520px) {
+  .pf-seg-option { min-width: 44px; padding: 6px 11px; }
 }
 .pf-seg-option:hover {
   color: var(--pf-ink);
@@ -4945,6 +4955,18 @@ span.pf-cmp-chip { cursor: default; }
 .pf-pf-spark-wrap { display: grid; justify-items: center; gap: 2px; flex: none; }
 .pf-pf-spark-cap { font-size: 0.66rem; color: var(--pf-ink-3); white-space: nowrap; }
 .pf-pf-total { font-size: 0.66rem; color: var(--pf-ink-3); }
+/* Phones: the result's percentage goes on its own line (long amounts like
+   "€ -4.631,15 · -27,2% total" ran past the card and shifted the page). */
+@media (max-width: 520px) {
+  .pf-pf-right { width: auto; max-width: 44%; min-width: 0; }
+  .pf-pf-right > * { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  .pf-pf-res-pct { display: block; text-align: right; }
+  .pf-pf-dot { display: none; }
+  /* Six periods don't fit next to the title: a full-width row that scrolls inside itself. */
+  .pf-pf-list-head .pf-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .pf-pf-list-head .pf-seg::-webkit-scrollbar { display: none; }
+  .pf-pf-list-head .pf-seg[data-size="sm"] .pf-seg-option { padding: 3px 4px; white-space: normal; line-height: 1.15; }
+}
 
 /* Investments: value per holding (stacked), mix on the right. */
 /* The list on the right takes the room its names need (up to ~430px); the chart gives way. */
