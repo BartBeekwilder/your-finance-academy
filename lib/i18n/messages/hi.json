@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1 जन {amount} · इस साल अब तक {change}",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "1 जनवरी से असल में क्या हुआ: तब और आज की आपकी बैलेंस शीट, और बीच में दर्ज की गई आय और खर्च (प्रति माह औसत)।",
  "PER MONTH, ON AVERAGE": "प्रति माह औसत",
- "TODAY": "आज"
+ "TODAY": "आज",
+ "Looking back": "पीछे देखें",
+ "All since {year}": "{year} से सब",
+ "31 DEC {year}": "31 दिसं {year}",
+ "31 Dec {year}": "31 दिसं {year}",
+ "1 Jan {year} {amount} · {change} to {end}": "1 जन {year} {amount} · {end} तक {change}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "पिछले साल आपके आयात किए गए वार्षिक योग से आते हैं। साल के भीतर आपकी संपत्ति का बँटवारा आंशिक रूप से अनुमान है (खरीद से आज तक आपका घर); जो योग नहीं समझाते, वह अन्य बदलाव में है।"
 }

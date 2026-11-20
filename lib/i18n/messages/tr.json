@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1 Oca {amount} · bu yıl şimdiye kadar {change}",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "1 Ocak’tan beri gerçekte ne oldu: o zamanki ve bugünkü bilançon ve arada kaydettiğin gelir ve giderler (aylık ortalama).",
  "PER MONTH, ON AVERAGE": "AYLIK ORTALAMA",
- "TODAY": "BUGÜN"
+ "TODAY": "BUGÜN",
+ "Looking back": "Geriye bakış",
+ "All since {year}": "{year}'den beri tümü",
+ "31 DEC {year}": "31 ARA {year}",
+ "31 Dec {year}": "31 Ara {year}",
+ "1 Jan {year} {amount} · {change} to {end}": "1 Oca {year} {amount} · {end} itibarıyla {change}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Önceki yıllar içe aktarılan yıllık toplamlarından gelir. Bir yıl içinde servetinin nasıl dağıldığı kısmen tahmindir (evin alımdan bugüne); toplamların açıklamadığı kısım Diğer değişiklikler altındadır."
 }

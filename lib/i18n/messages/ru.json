@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1 янв {amount} · {change} с начала года",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Что на самом деле произошло с 1 января: твой баланс тогда и сегодня и доходы и расходы, записанные за это время (в среднем в месяц).",
  "PER MONTH, ON AVERAGE": "В СРЕДНЕМ В МЕСЯЦ",
- "TODAY": "СЕГОДНЯ"
+ "TODAY": "СЕГОДНЯ",
+ "Looking back": "Назад",
+ "All since {year}": "Всё с {year}",
+ "31 DEC {year}": "31 ДЕК {year}",
+ "31 Dec {year}": "31 дек {year}",
+ "1 Jan {year} {amount} · {change} to {end}": "1 янв {year} {amount} · {change} до {end}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Прошлые годы берутся из импортированных годовых итогов. Распределение капитала внутри года отчасти оценка (дом между покупкой и сегодня); то, что итоги не объясняют, — в Прочих изменениях."
 }

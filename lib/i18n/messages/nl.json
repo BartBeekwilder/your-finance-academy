@@ -2240,5 +2240,11 @@
  "1 Jan {amount} · {change} so far this year": "1 jan {amount} · {change} dit jaar tot nu",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Wat er sinds 1 januari echt gebeurde: je balans toen en vandaag, en het inkomen en de uitgaven die je daartussen boekte (gemiddeld per maand).",
  "PER MONTH, ON AVERAGE": "GEMIDDELD PER MAAND",
- "TODAY": "VANDAAG"
+ "TODAY": "VANDAAG",
+ "Looking back": "Terugkijken",
+ "All since {year}": "Alles sinds {year}",
+ "31 DEC {year}": "31 DEC {year}",
+ "31 Dec {year}": "31 dec {year}",
+ "1 Jan {year} {amount} · {change} to {end}": "1 jan {year} {amount} · {change} tot {end}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Eerdere jaren komen uit je geïmporteerde jaartotalen. Hoe je vermogen binnen een jaar verdeeld was, is deels een schatting (je huis tussen aankoop en nu); wat de totalen niet verklaren staat onder Overige veranderingen."
 }

@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1. Jan. {amount} · {change} bisher in diesem Jahr",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Was seit dem 1. Januar wirklich passiert ist: deine Bilanz damals und heute und die Einnahmen und Ausgaben, die du dazwischen gebucht hast (im Schnitt pro Monat).",
  "PER MONTH, ON AVERAGE": "IM SCHNITT PRO MONAT",
- "TODAY": "HEUTE"
+ "TODAY": "HEUTE",
+ "Looking back": "Rückblick",
+ "All since {year}": "Alles seit {year}",
+ "31 DEC {year}": "31. DEZ. {year}",
+ "31 Dec {year}": "31. Dez. {year}",
+ "1 Jan {year} {amount} · {change} to {end}": "1. Jan. {year} {amount} · {change} bis {end}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Frühere Jahre stammen aus deinen importierten Jahressummen. Wie dein Vermögen innerhalb eines Jahres verteilt war, ist teils geschätzt (dein Haus zwischen Kauf und heute); was die Summen nicht erklären, steht unter Sonstige Änderungen."
 }

@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { t } from "@/lib/i18n";
-import { balanceSheet, expectedByCategory, liveFixed, netWorthFigures, projectedNetIncome, summarize } from "@/lib/finance/calc";
+import { balanceSheet, balanceYears, expectedByCategory, liveFixed, netWorthFigures, projectedNetIncome, summarize } from "@/lib/finance/calc";
+import { ALL, compareYears } from "@/lib/finance/compare";
 import { investmentsValue } from "@/lib/finance/quotes";
 import { homes } from "@/lib/finance/realEstate";
 import { summarize as summarizePart } from "@/lib/finance/mortgage";
@@ -78,20 +79,91 @@ function stand(bs: ReturnType<typeof balanceSheet>, invest: number) {
   return { cash: bs.totalAssets - home - invest, invest, home, mortgage, otherDebt: otherDebts.reduce((t, d) => t + d.value, 0), otherDebts };
 }
 
-/** This year so far, as it really went: the balance sheet on 1 January (the
- *  end of December), the income and spending booked since (per month on
- *  average), what the mortgage really went down, what the market did, and
- *  today's real balance sheet as the end. */
-export function lookBackBase(data: FinanceData, now: Date) {
-  const y = now.getFullYear(), cur = now.getMonth(), n = cur + 1;
-  const start = stand(balanceSheet(data, now, new Date(y - 1, 11, 1)), investmentsValue(data, new Date(y - 1, 11, 31, 23, 59)).total);
-  const end = stand(balanceSheet(data, now, new Date(y, cur, 1)), investmentsValue(data, now).total);
-  let income = 0, fixed = 0, variable = 0;
-  for (let m = 0; m <= cur; m++) {
-    const s = summarize(data.transactions, new Date(y, m, 1));
-    income += s.income; fixed += s.fixed; variable += s.variable;
+type Stand = ReturnType<typeof stand>;
+
+/** A year-end from Balance over time › Years (imported year-end totals,
+ *  homes between purchase and today, mortgages on schedule, investments at
+ *  market or cost) as the model's stand. */
+function yearStand(by: ReturnType<typeof balanceYears>, year: number): Stand | null {
+  const i = by.years.indexOf(year);
+  if (i < 0) return null;
+  const at = (s: { values: number[] }) => s.values[i] ?? 0;
+  const home = by.assets.filter((a) => a.id.startsWith("property-")).reduce((t, a) => t + at(a), 0);
+  const invest = by.assets.filter((a) => a.id === "investments").reduce((t, a) => t + at(a), 0);
+  const cash = by.assets.reduce((t, a) => t + at(a), 0) - home - invest;
+  const debts = by.funding.filter((f) => f.id !== "equity");
+  const mortgage = debts.filter((f) => f.id.startsWith("mortgage-")).reduce((t, f) => t + at(f), 0);
+  const otherDebts = debts.filter((f) => !f.id.startsWith("mortgage-") && at(f) > 0.5).map((f) => ({ label: f.name, value: at(f) }));
+  return { cash, invest, home, mortgage, otherDebt: otherDebts.reduce((t, d) => t + d.value, 0), otherDebts };
+}
+
+/** A period to look back on: one calendar year (`from` = `to`), this year so
+ *  far (= now's year), or everything since `from` (to = now's year). */
+export type LookBack = { from: number; to: number };
+
+/** The periods there's data for: this year so far, every earlier year whose
+ *  start and end are known (imported year-end stands), and "all since" the
+ *  first of them. */
+export function lookBackPeriods(data: FinanceData, now: Date): { key: string; label: string; p: LookBack }[] {
+  const y0 = now.getFullYear();
+  const snaps = new Set((data.yearSnapshots ?? []).map((s) => s.year).filter((y) => y < y0));
+  const out = [{ key: "now", label: t("This year so far"), p: { from: y0, to: y0 } }];
+  for (let y = y0 - 1; y > y0 - 30; y--) if (snaps.has(y) && snaps.has(y - 1)) out.push({ key: String(y), label: String(y), p: { from: y, to: y } });
+  const first = Math.min(...snaps);
+  if (Number.isFinite(first) && first + 1 < y0) out.push({ key: "all", label: t("All since {year}", { year: first + 1 }), p: { from: first + 1, to: y0 } });
+  return out;
+}
+
+/** A period as it really went: the balance sheet at its start and end (today
+ *  for this year), the income and spending in between (this year: booked;
+ *  earlier years: booked plus the imported year totals — per month on
+ *  average), what the mortgage really went down, what the markets did. What
+ *  the books don't explain shows as Other changes. */
+export function lookBackBase(data: FinanceData, now: Date, p: LookBack) {
+  const y0 = now.getFullYear(), cur = now.getMonth();
+  const by = balanceYears(data, now);
+  const start = p.from === y0
+    ? stand(balanceSheet(data, now, new Date(y0 - 1, 11, 1)), investmentsValue(data, new Date(y0 - 1, 11, 31, 23, 59)).total)
+    : yearStand(by, p.from - 1);
+  const end = p.to === y0 ? stand(balanceSheet(data, now, new Date(y0, cur, 1)), investmentsValue(data, now).total) : yearStand(by, p.to);
+  if (!start || !end) return null;
+  // Income and spending per year: earlier years as Compare sees them (the
+  // year's transactions, then the imported total's remainder); this year
+  // what's booked so far. Fixed or variable follows the category.
+  const fixedCat = new Map(data.categories.map((c) => [c.id, c.is_fixed_expense]));
+  const back = y0 - p.from;
+  const spend = compareYears(data, now, { back, type: "expense" });
+  const inc = compareYears(data, now, { back, type: "income" }).get(ALL) ?? [];
+  let income = 0, fixed = 0, variable = 0, n = 0;
+  for (let y = p.from; y <= p.to; y++) {
+    if (y === y0) {
+      for (let m = 0; m <= cur; m++) {
+        const s = summarize(data.transactions, new Date(y, m, 1));
+        income += s.income; fixed += s.fixed; variable += s.variable;
+      }
+      n += cur + 1;
+      continue;
+    }
+    const total = (row?: { year: number; values: (number | null)[] }[]) => (row?.find((r) => r.year === y)?.values ?? []).reduce<number>((a, b) => a + (b ?? 0), 0);
+    income += total(inc);
+    for (const [key, rows] of spend) {
+      if (key === ALL) continue;
+      const v = total(rows);
+      if (fixedCat.get(key)) fixed += v; else variable += v;
+    }
+    n += 12;
   }
   const repaid = Math.max(start.mortgage - end.mortgage, 0);
+  // A home bought within the period: its price isn't the housing market.
+  const fromT = new Date(p.from, 0, 1).getTime();
+  const toT = p.to === y0 ? now.getTime() : new Date(p.to, 11, 31, 23, 59).getTime();
+  const bought = homes(data).reduce((t, h) => {
+    const d = h.property.purchase_date ? Date.parse(h.property.purchase_date) : NaN;
+    return t + (d >= fromT && d <= toT ? Number(h.property.purchase_price ?? h.property.value) || 0 : 0);
+  }, 0);
+  // Holdings bought within the period (before price history they're at cost):
+  // money put in, not the market. This year both ends use today's quantities.
+  const putIn = p.from === y0 ? 0 : data.holdings.filter((h) => !h.deleted_at && Date.parse(h.date_added) >= fromT && Date.parse(h.date_added) <= toT).reduce((t, h) => t + (Number(h.cost_basis) || 0), 0);
   return {
     months: n,
     base: {
@@ -102,12 +174,12 @@ export function lookBackBase(data: FinanceData, now: Date) {
       fixed: Math.max(fixed - repaid, 0) / n,
       repay: Math.min(repaid, fixed) / n,
       variable: variable / n,
-      marketMove: end.invest - start.invest,
-      homeMove: end.home - start.home,
+      marketMove: end.invest - start.invest - putIn,
+      homeMove: end.home - start.home - bought,
       end: { cash: end.cash, invest: end.invest, home: end.home, mortgage: end.mortgage, otherDebts: end.otherDebts },
       capMonth: t("PER MONTH, ON AVERAGE"),
-      capAfter: t("TODAY"),
-    },
+      capAfter: p.to === y0 ? t("TODAY") : t("31 DEC {year}", { year: p.to }),
+    } as Base,
   };
 }
 
@@ -169,8 +241,12 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
   const [failed, setFailed] = useState(false);
   const [mode, setMode] = useState<Mode>("ahead");
   const ahead = useMemo(() => moneyModelBase(data, now), [data, now]);
-  const back = useMemo(() => lookBackBase(data, now), [data, now]);
+  const periods = useMemo(() => lookBackPeriods(data, now), [data, now]);
+  const [periodKey, setPeriodKey] = useState("now");
+  const period = periods.find((p) => p.key === periodKey) ?? periods[0];
+  const back = useMemo(() => lookBackBase(data, now, period.p) ?? lookBackBase(data, now, periods[0].p)!, [data, now, period, periods]);
   const base = mode === "back" ? back.base : ahead;
+  const y0 = now.getFullYear();
   const fmt = (x: number) => money(x, currency, { compact: Math.abs(x) >= 1_000_000 });
   const fmtRef = useRef(fmt);
   useEffect(() => {
@@ -237,10 +313,19 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
       <div className="pf-mm-head">
         <p className="pf-mm-lede">{t("How your income, spending, investments, home and debts make your equity together. Move the levers and see what moves.")}</p>
         <div className="pf-mm-switches">
-          <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "ahead", label: t("Ahead") }, { value: "back", label: t("This year so far") }]} />
+          <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "ahead", label: t("Ahead") }, { value: "back", label: t("Looking back") }]} />
           <Segmented label={t("View")} value={view} onChange={pickView} options={[{ value: "flow", label: t("Money flow") }, { value: "build", label: t("Wealth building") }, { value: "grav", label: t("Gravity") }]} />
         </div>
       </div>
+      {mode === "back" && periods.length > 1 && (
+        <div className="pf-mm-periods" role="group" aria-label={t("Period")}>
+          {periods.map((p) => (
+            <button key={p.key} type="button" className="pf-chip" data-active={p.key === period.key || undefined} aria-pressed={p.key === period.key} onClick={() => setPeriodKey(p.key)}>
+              {p.label}
+            </button>
+          ))}
+        </div>
+      )}
       <div className="pf-mm-main">
         <div ref={stageRef} className="pf-mm-stage">{failed && <p className="pf-mm-failed">{t("The model couldn't load. Reload the page to try again.")}</p>}</div>
         <aside className="pf-mm-side">
@@ -250,7 +335,9 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
               <>
                 <b className="pf-rounded pf-mm-eq">{money(model.equity, currency)}</b>
                 <span className="pf-mm-from">
-                  {mode === "back"
+                  {mode === "back" && period.p.from !== y0
+                    ? t("1 Jan {year} {amount} · {change} to {end}", { year: period.p.from, amount: money(model.eqNow, currency), change: money(model.equity - model.eqNow, currency, { signed: true }), end: period.p.to === y0 ? t("today") : t("31 Dec {year}", { year: period.p.to }) })
+                    : mode === "back"
                     ? t("1 Jan {amount} · {change} so far this year", { amount: money(model.eqNow, currency), change: money(model.equity - model.eqNow, currency, { signed: true }) })
                     : t("now {amount} · {change} after {n} mo", { amount: money(model.eqNow, currency), change: money(model.equity - model.eqNow, currency, { signed: true }), n: model.n })}
                 </span>
@@ -282,7 +369,9 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
             </button>
           </div>}
           <p className="pf-mm-note">
-            {mode === "back"
+            {mode === "back" && period.p.from !== y0
+              ? t("Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.")
+              : mode === "back"
               ? t("What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).")
               : t("Your own books: a usual month (salary and average spending) and your balances today.")}
           </p>

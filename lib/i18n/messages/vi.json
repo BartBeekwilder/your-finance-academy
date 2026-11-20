@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1 thg 1 {amount} · {change} năm nay đến giờ",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Điều thực sự đã xảy ra từ ngày 1 tháng 1: bảng cân đối của bạn khi đó và hôm nay, cùng thu nhập và chi tiêu bạn ghi lại ở giữa (trung bình mỗi tháng).",
  "PER MONTH, ON AVERAGE": "TRUNG BÌNH MỖI THÁNG",
- "TODAY": "HÔM NAY"
+ "TODAY": "HÔM NAY",
+ "Looking back": "Nhìn lại",
+ "All since {year}": "Tất cả từ {year}",
+ "31 DEC {year}": "31 THG 12 {year}",
+ "31 Dec {year}": "31 thg 12 {year}",
+ "1 Jan {year} {amount} · {change} to {end}": "1 thg 1 {year} {amount} · {change} đến {end}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Các năm trước lấy từ tổng số năm bạn đã nhập. Cách tài sản phân bổ trong một năm một phần là ước tính (nhà của bạn từ lúc mua đến nay); phần tổng số không giải thích được nằm ở Thay đổi khác."
 }

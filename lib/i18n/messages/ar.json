@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1 يناير {amount} · {change} هذا العام حتى الآن",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "ما حدث فعلًا منذ 1 يناير: ميزانيتك آنذاك واليوم، والدخل والمصروفات التي سجلتها بينهما (في المتوسط شهريًا).",
  "PER MONTH, ON AVERAGE": "في المتوسط شهريًا",
- "TODAY": "اليوم"
+ "TODAY": "اليوم",
+ "Looking back": "نظرة إلى الوراء",
+ "All since {year}": "الكل منذ {year}",
+ "31 DEC {year}": "31 ديسمبر {year}",
+ "31 Dec {year}": "31 ديسمبر {year}",
+ "1 Jan {year} {amount} · {change} to {end}": "1 يناير {year} {amount} · {change} حتى {end}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "تأتي السنوات السابقة من مجاميعك السنوية المستوردة. توزيع ثروتك داخل السنة تقدير جزئي (منزلك بين الشراء واليوم)؛ وما لا تفسره المجاميع يظهر تحت تغييرات أخرى."
 }

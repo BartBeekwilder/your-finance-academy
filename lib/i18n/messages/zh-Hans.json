@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1月1日 {amount} · 今年至今 {change}",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "自1月1日以来真实发生的事：当时与今天的资产负债表，以及期间记录的收入和支出(按月平均)。",
  "PER MONTH, ON AVERAGE": "月均",
- "TODAY": "今天"
+ "TODAY": "今天",
+ "Looking back": "回顾",
+ "All since {year}": "{year} 年以来全部",
+ "31 DEC {year}": "{year}年12月31日",
+ "31 Dec {year}": "{year}年12月31日",
+ "1 Jan {year} {amount} · {change} to {end}": "{year}年1月1日 {amount} · 至{end} {change}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "以前的年份来自你导入的年度总额。一年内资产如何分布部分是估算(你的房子从购买到今天);总额无法解释的部分显示在“其他变化”中。"
 }

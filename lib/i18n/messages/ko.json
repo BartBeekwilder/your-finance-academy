@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1월 1일 {amount} · 올해 지금까지 {change}",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "1월 1일 이후 실제로 일어난 일: 그때와 오늘의 대차대조표, 그리고 그 사이에 기록한 수입과 지출(월평균).",
  "PER MONTH, ON AVERAGE": "월평균",
- "TODAY": "오늘"
+ "TODAY": "오늘",
+ "Looking back": "돌아보기",
+ "All since {year}": "{year}년 이후 전체",
+ "31 DEC {year}": "{year}년 12월 31일",
+ "31 Dec {year}": "{year}년 12월 31일",
+ "1 Jan {year} {amount} · {change} to {end}": "{year}년 1월 1일 {amount} · {end}까지 {change}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "이전 연도는 가져온 연간 합계에서 나옵니다. 한 해 동안 자산이 어떻게 나뉘었는지는 일부 추정입니다(구입부터 오늘까지의 집). 합계로 설명되지 않는 부분은 기타 변화에 표시됩니다."
 }

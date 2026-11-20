@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1月1日 {amount} · 今年これまで {change}",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "1月1日から実際に起きたこと:当時と今日の貸借対照表、その間に記録した収入と支出(月平均)。",
  "PER MONTH, ON AVERAGE": "月平均",
- "TODAY": "今日"
+ "TODAY": "今日",
+ "Looking back": "振り返り",
+ "All since {year}": "{year}年以降すべて",
+ "31 DEC {year}": "{year}年12月31日",
+ "31 Dec {year}": "{year}年12月31日",
+ "1 Jan {year} {amount} · {change} to {end}": "{year}年1月1日 {amount} · {end}まで {change}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "過去の年はインポートした年間合計に基づきます。1年の中での資産の内訳は一部推定です(購入から今日までの住宅);合計で説明できない分は「その他の変化」に表示されます。"
 }

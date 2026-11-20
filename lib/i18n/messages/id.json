@@ -2234,5 +2234,11 @@
  "1 Jan {amount} · {change} so far this year": "1 Jan {amount} · {change} tahun ini sejauh ini",
  "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Apa yang benar-benar terjadi sejak 1 Januari: neracamu saat itu dan hari ini, serta pemasukan dan pengeluaran yang kamu catat di antaranya (rata-rata per bulan).",
  "PER MONTH, ON AVERAGE": "RATA-RATA PER BULAN",
- "TODAY": "HARI INI"
+ "TODAY": "HARI INI",
+ "Looking back": "Melihat ke belakang",
+ "All since {year}": "Semua sejak {year}",
+ "31 DEC {year}": "31 DES {year}",
+ "31 Dec {year}": "31 Des {year}",
+ "1 Jan {year} {amount} · {change} to {end}": "1 Jan {year} {amount} · {change} hingga {end}",
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Tahun-tahun sebelumnya berasal dari total tahunan yang kamu impor. Pembagian kekayaanmu dalam setahun sebagian merupakan perkiraan (rumahmu antara pembelian dan hari ini); yang tidak dijelaskan total muncul di Perubahan lain."
 }

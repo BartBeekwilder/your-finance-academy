@@ -6692,6 +6692,8 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .pf-mm { display: grid; gap: 14px; }
 .pf-mm-head { display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap; }
 .pf-mm-switches { display: flex; gap: 10px; flex-wrap: wrap; }
+.pf-mm-periods { display: flex; gap: 6px; flex-wrap: wrap; margin: -4px 0 12px; }
+.pf-mm-periods .pf-chip[data-active] { background: rgba(64, 200, 224, 0.18); border-color: rgba(64, 200, 224, 0.6); color: #eef0f6; }
 .pf-mm-lede { margin: 0; color: var(--pf-ink-2); max-width: 62ch; font-size: 0.9rem; }
 .pf-mm-main { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 14px; }
 @media (max-width: 980px) { .pf-mm-main { grid-template-columns: minmax(0, 1fr); } }
