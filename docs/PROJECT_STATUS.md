@@ -47,6 +47,18 @@ Next, in order:
    flows), each earlier year (balanceYears stands + compareYears totals) and
    "All since {first}"; residual = "Other changes". Not yet looked at with
    Bart's own data. iOS: port later with the rest of the money model.
+2d. LIVE 20 Nov (main 1ba9f90, /updates lines): Money model animates every
+   change (engine tween with a soft spring; side chips/levers fold), and the
+   wealth building is replaced by the TIME MACHINE (public/moneymodel.js
+   buildTime/updateTime/timeLabels; components/finance/MoneyModel.tsx
+   timeline / forecastYears / Timeline): a tower per year; "Where it came
+   from" = equity built by source (start, work, repayment, market, housing,
+   other; a source below zero cuts a red slice named after it), "Owned and
+   owed" = assets stacked, debt-financed part framed red, yours framed green;
+   5 forecast years as glass (usual month × 12, mortgage on schedule, market
+   % sliders); a little 3D house in the year a home was bought (tip: name,
+   price, date); timeline under the stage (drag, ticks, play, "now" marker).
+   Bart likes it; check his own years, the house marker not seen yet.
 3. Open question for Bart: Quick Add dates an income in the main income
    category on the payday, and "Received this month" counts it already.
 4. Later: per-language URLs (/en, /de) — Bart said not now.
