@@ -205,7 +205,8 @@
     "Je eigen vermogen als zon, met inkomen, uitgaven, aflossing, beleggingen, huis en schulden als planeten",
     "Het Geldmodel in je dashboard: zie hoe inkomen, uitgaven, aflossing, de beurs en de huizenmarkt je eigen vermogen bewegen, als geldstroom, vermogensgebouw of zonnestelsel. Op de homepage: je vermogen als zonnestelsel.",
     /*money model look back + debts, live 20 Nov*/ "Geldmodel › Terugkijken: zie wat er echt gebeurde, dit jaar tot nu, per eerder jaar of alles sinds je eerste jaar: je balans toen en nu en waar het verschil vandaan kwam.",
-    "Geldmodel: elke schuld een eigen balk (hypotheek, autolening, studieschuld…), en aflossing maakt je hypotheek zichtbaar kleiner. De vaste lasten volgen dezelfde verwachting als Uitgaven."
+    "Geldmodel: elke schuld een eigen balk (hypotheek, autolening, studieschuld…), en aflossing maakt je hypotheek zichtbaar kleiner. De vaste lasten volgen dezelfde verwachting als Uitgaven.",
+    /*time machine, live 20 Nov*/ "Geldmodel › Tijdmachine: je eigen vermogen als een toren per jaar, opgebouwd uit waar het vandaan kwam (werk, aflossing, beurs, huizenmarkt), met je schuld als kelder. Druk op afspelen en zie je vermogen door de jaren groeien."
   ];
 
   var L = {
@@ -399,7 +400,8 @@
       "Your equity as the sun, with income, spending, repayment, investments, home and debts as planets",
       "The Money model in your dashboard: see how income, spending, repayment, the stock market and the housing market move your equity, as a money flow, a wealth building or a solar system. On the homepage: your wealth as a solar system.",
       "Money model › Looking back: see what really happened, this year so far, per earlier year or everything since your first year: your balance sheet then and now, and where the difference came from.",
-      "Money model: every debt its own bar (mortgage, car loan, student loan…), and repayment visibly makes your mortgage smaller. Fixed costs follow the same forecast as Expenses."
+      "Money model: every debt its own bar (mortgage, car loan, student loan…), and repayment visibly makes your mortgage smaller. Fixed costs follow the same forecast as Expenses.",
+      "Money model › Time machine: your equity as a tower per year, built from where it came from (work, repayment, stock market, housing market), with your debt as the basement. Press play and watch your wealth grow over the years."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -591,7 +593,8 @@
       "Dein Eigenkapital als Sonne, mit Einkommen, Ausgaben, Tilgung, Anlagen, Zuhause und Schulden als Planeten",
       "Das Geldmodell im Dashboard: Sieh, wie Einkommen, Ausgaben, Tilgung, Börse und Immobilienmarkt dein Eigenkapital bewegen, als Geldfluss, Vermögensgebäude oder Sonnensystem. Auf der Startseite: dein Vermögen als Sonnensystem.",
       "Geldmodell › Rückblick: sieh, was wirklich passiert ist, dieses Jahr bisher, je früherem Jahr oder alles seit deinem ersten Jahr: deine Bilanz damals und heute und woher der Unterschied kam.",
-      "Geldmodell: jede Schuld als eigener Balken (Hypothek, Autokredit, Studienkredit…), und die Tilgung macht deine Hypothek sichtbar kleiner. Fixkosten folgen derselben Prognose wie Ausgaben."
+      "Geldmodell: jede Schuld als eigener Balken (Hypothek, Autokredit, Studienkredit…), und die Tilgung macht deine Hypothek sichtbar kleiner. Fixkosten folgen derselben Prognose wie Ausgaben.",
+      "Geldmodell › Zeitmaschine: dein Eigenkapital als Turm pro Jahr, aufgebaut aus seiner Herkunft (Arbeit, Tilgung, Börse, Immobilienmarkt), mit deinen Schulden als Keller. Drück auf Abspielen und sieh dein Vermögen über die Jahre wachsen."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -783,7 +786,8 @@
       "Ton patrimoine net en soleil, avec revenus, dépenses, remboursement, placements, logement et dettes en planètes",
       "Le modèle financier dans ton tableau de bord : vois comment revenus, dépenses, remboursement, bourse et marché immobilier font bouger ton patrimoine, en flux d'argent, immeuble ou système solaire. Sur l'accueil : ton patrimoine en système solaire.",
       "Modèle d’argent › Rétrospective : vois ce qui s’est vraiment passé, cette année jusqu’ici, par année précédente ou tout depuis ta première année : ton bilan d’alors et d’aujourd’hui, et d’où vient la différence.",
-      "Modèle d’argent : chaque dette a sa propre barre (prêt immobilier, prêt auto, prêt étudiant…), et le remboursement réduit visiblement ton prêt. Les charges fixes suivent la même prévision que Dépenses."
+      "Modèle d’argent : chaque dette a sa propre barre (prêt immobilier, prêt auto, prêt étudiant…), et le remboursement réduit visiblement ton prêt. Les charges fixes suivent la même prévision que Dépenses.",
+      "Modèle d’argent › Machine à remonter le temps : ton patrimoine net en une tour par année, construite selon son origine (travail, remboursement, bourse, marché immobilier), avec ta dette en sous-sol. Appuie sur lecture et regarde ton patrimoine grandir au fil des ans."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -975,7 +979,8 @@
       "Tu patrimonio como el sol, con ingresos, gastos, amortización, inversiones, vivienda y deudas como planetas",
       "El modelo del dinero en tu panel: mira cómo ingresos, gastos, amortización, bolsa y mercado inmobiliario mueven tu patrimonio, como flujo, edificio o sistema solar. En la página de inicio: tu patrimonio como sistema solar.",
       "Modelo del dinero › Mirar atrás: mira lo que pasó de verdad, este año hasta ahora, por año anterior o todo desde tu primer año: tu balance entonces y ahora, y de dónde vino la diferencia.",
-      "Modelo del dinero: cada deuda con su propia barra (hipoteca, préstamo del coche, préstamo estudiantil…), y la amortización reduce visiblemente tu hipoteca. Los gastos fijos siguen la misma previsión que Gastos."
+      "Modelo del dinero: cada deuda con su propia barra (hipoteca, préstamo del coche, préstamo estudiantil…), y la amortización reduce visiblemente tu hipoteca. Los gastos fijos siguen la misma previsión que Gastos.",
+      "Modelo del dinero › Máquina del tiempo: tu patrimonio como una torre por año, construida según su origen (trabajo, amortización, bolsa, mercado inmobiliario), con tu deuda como sótano. Pulsa reproducir y mira crecer tu patrimonio con los años."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1167,7 +1172,8 @@
       "Il tuo patrimonio come sole, con entrate, spese, rimborso, investimenti, casa e debiti come pianeti",
       "Il modello del denaro nella dashboard: guarda come entrate, spese, rimborso, borsa e mercato immobiliare muovono il tuo patrimonio, come flusso, edificio o sistema solare. In homepage: il tuo patrimonio come sistema solare.",
       "Modello del denaro › Guardando indietro: guarda cosa è successo davvero, quest’anno finora, per anno precedente o tutto dal tuo primo anno: il tuo bilancio di allora e di oggi, e da dove viene la differenza.",
-      "Modello del denaro: ogni debito ha la sua barra (mutuo, prestito auto, prestito studentesco…), e il rimborso riduce visibilmente il mutuo. Le spese fisse seguono la stessa previsione di Uscite."
+      "Modello del denaro: ogni debito ha la sua barra (mutuo, prestito auto, prestito studentesco…), e il rimborso riduce visibilmente il mutuo. Le spese fisse seguono la stessa previsione di Uscite.",
+      "Modello del denaro › Macchina del tempo: il tuo patrimonio come una torre per anno, costruita in base alla provenienza (lavoro, rimborso, borsa, mercato immobiliare), con il debito come seminterrato. Premi play e guarda crescere il tuo patrimonio negli anni."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1359,7 +1365,8 @@
       "Seu patrimônio como o sol, com renda, gastos, amortização, investimentos, casa e dívidas como planetas",
       "O modelo do dinheiro no seu painel: veja como renda, gastos, amortização, bolsa e mercado imobiliário movem seu patrimônio, como fluxo, prédio ou sistema solar. Na página inicial: seu patrimônio como sistema solar.",
       "Modelo do dinheiro › Olhando para trás: veja o que realmente aconteceu, este ano até agora, por ano anterior ou tudo desde o seu primeiro ano: seu balanço de então e de agora, e de onde veio a diferença.",
-      "Modelo do dinheiro: cada dívida com sua própria barra (financiamento, empréstimo do carro, crédito estudantil…), e a amortização reduz visivelmente seu financiamento. As despesas fixas seguem a mesma previsão de Despesas."
+      "Modelo do dinheiro: cada dívida com sua própria barra (financiamento, empréstimo do carro, crédito estudantil…), e a amortização reduz visivelmente seu financiamento. As despesas fixas seguem a mesma previsão de Despesas.",
+      "Modelo do dinheiro › Máquina do tempo: seu patrimônio como uma torre por ano, montada pela origem (trabalho, amortização, bolsa, mercado imobiliário), com sua dívida como porão. Aperte o play e veja seu patrimônio crescer ao longo dos anos."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1551,7 +1558,8 @@
       "Twój majątek jako słońce, a dochód, wydatki, spłata, inwestycje, dom i długi jako planety",
       "Model pieniędzy na pulpicie: zobacz, jak dochód, wydatki, spłata, giełda i rynek nieruchomości poruszają twoim majątkiem — jako przepływ, budynek lub układ słoneczny. Na stronie głównej: twój majątek jako układ słoneczny.",
       "Model pieniędzy › Wstecz: zobacz, co naprawdę się wydarzyło, w tym roku do teraz, w każdym wcześniejszym roku lub wszystko od pierwszego roku: twój bilans wtedy i teraz oraz skąd wzięła się różnica.",
-      "Model pieniędzy: każdy dług ma własny pasek (hipoteka, kredyt na auto, kredyt studencki…), a spłata widocznie zmniejsza hipotekę. Koszty stałe idą za tą samą prognozą co Wydatki."
+      "Model pieniędzy: każdy dług ma własny pasek (hipoteka, kredyt na auto, kredyt studencki…), a spłata widocznie zmniejsza hipotekę. Koszty stałe idą za tą samą prognozą co Wydatki.",
+      "Model pieniędzy › Wehikuł czasu: twój kapitał jako wieża na każdy rok, zbudowana z tego, skąd pochodzi (praca, spłata, giełda, rynek nieruchomości), z długiem jako piwnicą. Naciśnij odtwórz i zobacz, jak twój majątek rośnie przez lata."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1743,7 +1751,8 @@
       "Güneş olarak öz varlığın; gelir, harcamalar, ödeme, yatırımlar, ev ve borçlar gezegenler",
       "Panelinde Para modeli: gelir, harcamalar, ödeme, borsa ve konut piyasasının öz varlığını nasıl hareket ettirdiğini akış, bina ya da güneş sistemi olarak gör. Ana sayfada: varlığın bir güneş sistemi olarak.",
       "Para modeli › Geriye bakış: gerçekte ne olduğunu gör; bu yıl şimdiye kadar, her önceki yıl ya da ilk yılından beri tümü: o zamanki ve şimdiki bilançon ve farkın nereden geldiği.",
-      "Para modeli: her borcun kendi çubuğu var (konut kredisi, taşıt kredisi, öğrenim kredisi…) ve geri ödeme konut kredini görünür biçimde küçültür. Sabit giderler Giderler ile aynı tahmini izler."
+      "Para modeli: her borcun kendi çubuğu var (konut kredisi, taşıt kredisi, öğrenim kredisi…) ve geri ödeme konut kredini görünür biçimde küçültür. Sabit giderler Giderler ile aynı tahmini izler.",
+      "Para modeli › Zaman makinesi: öz varlığın her yıl için bir kule; nereden geldiğine göre kurulu (iş, geri ödeme, borsa, konut piyasası), borcun bodrum katında. Oynat'a bas ve servetinin yıllar içinde büyümesini izle."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1935,7 +1944,8 @@
       "Твой капитал как солнце, а доход, расходы, погашение, инвестиции, жильё и долги — планеты",
       "Модель денег на панели: смотри, как доход, расходы, погашение, биржа и рынок жилья двигают твой капитал — как поток, здание или солнечная система. На главной: твой капитал как солнечная система.",
       "Модель денег › Назад: посмотри, что на самом деле произошло, в этом году до сих пор, по прошлым годам или всё с первого года: твой баланс тогда и сейчас и откуда взялась разница.",
-      "Модель денег: каждый долг — отдельная полоса (ипотека, автокредит, студенческий кредит…), а погашение заметно уменьшает ипотеку. Постоянные расходы следуют тому же прогнозу, что и Расходы."
+      "Модель денег: каждый долг — отдельная полоса (ипотека, автокредит, студенческий кредит…), а погашение заметно уменьшает ипотеку. Постоянные расходы следуют тому же прогнозу, что и Расходы.",
+      "Модель денег › Машина времени: твой капитал — башня на каждый год, сложенная по источникам (работа, погашение, биржа, рынок жилья), долг — подвал. Нажми «Воспроизвести» и смотри, как растёт капитал по годам."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2127,7 +2137,8 @@
       "صافي ثروتك كشمس، والدخل والإنفاق والسداد والاستثمارات والمنزل والديون ككواكب",
       "نموذج المال في لوحتك: شاهد كيف يحرّك الدخل والإنفاق والسداد والبورصة وسوق العقارات ثروتك، كتدفق أو مبنى أو نظام شمسي. على الصفحة الرئيسية: ثروتك كنظام شمسي.",
       "نموذج المال › نظرة إلى الوراء: شاهد ما حدث فعلًا، هذا العام حتى الآن، لكل سنة سابقة أو الكل منذ سنتك الأولى: ميزانيتك آنذاك والآن، ومن أين جاء الفرق.",
-      "نموذج المال: لكل دين شريطه الخاص (الرهن العقاري، قرض السيارة، قرض الدراسة…)، والسداد يُصغّر رهنك العقاري بشكل واضح. تتبع التكاليف الثابتة التوقع نفسه في المصروفات."
+      "نموذج المال: لكل دين شريطه الخاص (الرهن العقاري، قرض السيارة، قرض الدراسة…)، والسداد يُصغّر رهنك العقاري بشكل واضح. تتبع التكاليف الثابتة التوقع نفسه في المصروفات.",
+      "نموذج المال › آلة الزمن: ثروتك كبرج لكل سنة، مبني حسب مصدرها (العمل، السداد، البورصة، سوق العقار)، وديونك كقبو. اضغط تشغيل وشاهد ثروتك تنمو عبر السنين."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2319,7 +2330,8 @@
       "आपकी नेट वर्थ सूरज के रूप में, और आय, खर्च, मूलधन भुगतान, निवेश, घर व कर्ज़ ग्रहों के रूप में",
       "आपके डैशबोर्ड में पैसे का मॉडल: देखें कि आय, खर्च, मूलधन भुगतान, शेयर बाज़ार और आवास बाज़ार आपकी नेट वर्थ को कैसे हिलाते हैं — प्रवाह, इमारत या सौरमंडल के रूप में। होमपेज पर: आपकी संपत्ति एक सौरमंडल के रूप में।",
       "मनी मॉडल › पीछे देखें: देखें असल में क्या हुआ — इस साल अब तक, हर पिछले साल या पहले साल से सब: तब और अब की आपकी बैलेंस शीट, और अंतर कहाँ से आया।",
-      "मनी मॉडल: हर कर्ज़ की अपनी पट्टी (होम लोन, कार लोन, एजुकेशन लोन…), और चुकौती से होम लोन साफ़ तौर पर घटता है। निश्चित खर्च खर्चों वाले ही अनुमान का पालन करते हैं।"
+      "मनी मॉडल: हर कर्ज़ की अपनी पट्टी (होम लोन, कार लोन, एजुकेशन लोन…), और चुकौती से होम लोन साफ़ तौर पर घटता है। निश्चित खर्च खर्चों वाले ही अनुमान का पालन करते हैं।",
+      "मनी मॉडल › टाइम मशीन: हर साल आपकी शुद्ध संपत्ति का एक टावर, स्रोत के अनुसार बना (काम, चुकौती, शेयर बाज़ार, हाउसिंग बाज़ार), और कर्ज़ तहखाने के रूप में। चलाएँ दबाएँ और सालों में अपनी संपत्ति बढ़ते देखें।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2511,7 +2523,8 @@
       "Kekayaan bersihmu sebagai matahari, dengan pemasukan, pengeluaran, cicilan, investasi, rumah, dan utang sebagai planet",
       "Model uang di dasbor: lihat bagaimana pemasukan, pengeluaran, cicilan, pasar saham, dan pasar perumahan menggerakkan kekayaanmu, sebagai arus, gedung, atau tata surya. Di beranda: kekayaanmu sebagai tata surya.",
       "Model uang › Melihat ke belakang: lihat apa yang benar-benar terjadi, tahun ini sejauh ini, per tahun sebelumnya atau semua sejak tahun pertamamu: neracamu dulu dan sekarang, serta dari mana selisihnya.",
-      "Model uang: setiap utang punya batangnya sendiri (KPR, kredit mobil, pinjaman pendidikan…), dan cicilan pokok terlihat mengecilkan KPR-mu. Biaya tetap mengikuti perkiraan yang sama dengan Pengeluaran."
+      "Model uang: setiap utang punya batangnya sendiri (KPR, kredit mobil, pinjaman pendidikan…), dan cicilan pokok terlihat mengecilkan KPR-mu. Biaya tetap mengikuti perkiraan yang sama dengan Pengeluaran.",
+      "Model uang › Mesin waktu: ekuitasmu sebagai menara per tahun, tersusun dari asalnya (kerja, cicilan pokok, bursa, pasar properti), dengan utang sebagai ruang bawah. Tekan putar dan lihat kekayaanmu tumbuh dari tahun ke tahun."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2703,7 +2716,8 @@
       "太陽としての純資産と、惑星としての収入・支出・返済・投資・家・借入",
       "ダッシュボードにお金のモデル：収入・支出・返済・株式市場・住宅市場が純資産をどう動かすかを、お金の流れ・資産のビル・太陽系で。トップページには太陽系の資産。",
       "マネーモデル › 振り返り:今年これまで、過去の各年、または最初の年以降すべてについて、実際に起きたことを確認。当時と今の貸借対照表と、その差がどこから来たか。",
-      "マネーモデル:借入ごとに別のバー(住宅ローン、自動車ローン、奨学金…)で表示し、返済で住宅ローンが目に見えて減ります。固定費は支出と同じ見込みに従います。"
+      "マネーモデル:借入ごとに別のバー(住宅ローン、自動車ローン、奨学金…)で表示し、返済で住宅ローンが目に見えて減ります。固定費は支出と同じ見込みに従います。",
+      "マネーモデル › タイムマシン:純資産を年ごとのタワーで表示。出どころ別(仕事、返済、株式市場、住宅市場)に積み上げ、負債は地下に。再生を押すと資産が年々育つ様子が見られます。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -2895,7 +2909,8 @@
       "태양인 순자산과 행성인 수입·지출·상환·투자·집·부채",
       "대시보드의 돈의 모델: 수입, 지출, 상환, 주식·주택 시장이 순자산을 어떻게 움직이는지 흐름, 빌딩, 태양계로 확인하세요. 홈페이지: 태양계로 보는 자산.",
       "머니 모델 › 돌아보기: 올해 지금까지, 이전 각 연도 또는 첫해 이후 전체에 실제로 일어난 일을 확인하세요. 그때와 지금의 대차대조표, 그리고 차이가 어디서 왔는지.",
-      "머니 모델: 부채마다 별도 막대(주택담보대출, 자동차 대출, 학자금 대출…)로 보이고, 상환하면 주택담보대출이 눈에 띄게 줄어듭니다. 고정비는 지출과 같은 예상을 따릅니다."
+      "머니 모델: 부채마다 별도 막대(주택담보대출, 자동차 대출, 학자금 대출…)로 보이고, 상환하면 주택담보대출이 눈에 띄게 줄어듭니다. 고정비는 지출과 같은 예상을 따릅니다.",
+      "머니 모델 › 타임머신: 순자산을 연도별 타워로, 출처별(근로, 상환, 주식시장, 주택시장)로 쌓고 부채는 지하층으로 보여 줍니다. 재생을 누르면 자산이 해마다 자라는 모습을 볼 수 있습니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3087,7 +3102,8 @@
       "Tài sản ròng là mặt trời; thu nhập, chi tiêu, trả gốc, đầu tư, nhà và nợ là các hành tinh",
       "Mô hình tiền trong bảng điều khiển: xem thu nhập, chi tiêu, trả gốc, chứng khoán và nhà đất làm tài sản ròng thay đổi ra sao, dưới dạng dòng tiền, tòa nhà hoặc hệ mặt trời. Trên trang chủ: tài sản như hệ mặt trời.",
       "Mô hình tiền › Nhìn lại: xem điều thực sự đã xảy ra, năm nay đến giờ, từng năm trước hoặc tất cả từ năm đầu tiên: bảng cân đối khi đó và bây giờ, và chênh lệch đến từ đâu.",
-      "Mô hình tiền: mỗi khoản nợ một thanh riêng (vay mua nhà, vay mua xe, vay học…), và trả gốc làm khoản vay mua nhà nhỏ đi rõ ràng. Chi phí cố định theo cùng dự báo như Chi tiêu."
+      "Mô hình tiền: mỗi khoản nợ một thanh riêng (vay mua nhà, vay mua xe, vay học…), và trả gốc làm khoản vay mua nhà nhỏ đi rõ ràng. Chi phí cố định theo cùng dự báo như Chi tiêu.",
+      "Mô hình tiền › Cỗ máy thời gian: vốn chủ sở hữu thành một tòa tháp mỗi năm, xếp theo nguồn gốc (làm việc, trả nợ gốc, chứng khoán, nhà đất), với khoản nợ là tầng hầm. Nhấn phát và xem tài sản lớn dần qua các năm."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3279,7 +3295,8 @@
       "以净资产为太阳，收入、支出、还本、投资、房子和债务为行星",
       "仪表板里的资金模型：以资金流、财富大楼或太阳系，看收入、支出、还本、股市和房市如何改变你的净资产。首页上：把你的财富看成太阳系。",
       "金钱模型 › 回顾：看看真实发生了什么——今年至今、以往每一年，或自第一年以来全部：当时和现在的资产负债表，以及差额从何而来。",
-      "金钱模型：每笔债务都有自己的条形(房贷、车贷、助学贷款…)，还款让房贷明显变小。固定支出与“支出”使用同一预测。"
+      "金钱模型：每笔债务都有自己的条形(房贷、车贷、助学贷款…)，还款让房贷明显变小。固定支出与“支出”使用同一预测。",
+      "金钱模型 › 时光机：每年一座塔展示你的净资产，按来源堆叠(工作、还款、股市、房市)，债务是地下室。点播放，看你的财富逐年增长。"
     ]
   };
 
