@@ -6,51 +6,41 @@ run it, and what's next. Keep it up to date at the end of every session
 
 Last updated: 2026-11-19 (evening, Windows → Mac).
 
-## >>> START HERE ON THE MAC (Bart: "zeg waar we gebleven waren") <<<
+## >>> START HERE (Bart: "zeg waar we gebleven waren") <<<
 When Bart says he wants to start, first tell him in a few lines where we
-left off (this block), then begin with step 1.
+left off (this block), then begin with the first open step.
 
-Where it stands (19 Nov evening):
-- Website: `main` = live and up to date (sync safety: ids in one case +
-  wipe guard; Settings › Earlier versions; PDF axes / shares / all
-  categories / net income / money clock in the annual report; Year Wrapped
-  share card). Sign in with Apple is LIVE on the website (Apple Developer,
-  Supabase provider, Vercel NEXT_PUBLIC_PF_APPLE=on) — the button is in the
-  live build, but NOT yet tried with a real sign-in (do it in a private
-  window, signed out).
-- Apple key file AuthKey_PAX56CJDHJ.p8: Bart mails it to himself (personal
-  mailbox / password manager). Supabase Apple secret EXPIRES ~19 May 2027.
-- iOS branch `ios-port-nov18`: lots of code written on Windows and NOT
-  BUILT: f92bca6 (ids in one case), 25dca1a (safeMerge wipe guard),
-  2b86196 (Sign in with Apple), plus Read with AI, PDF reports, Your data /
-  delete account, + Add account, + Cash / + Credit card. Keep the app OFF
-  the iPhone/iPad until a new TestFlight build with these is installed.
+Where it stands (20 Nov, night):
+- Website `main` = live, all of 19 Nov is on it: liquidity tile (month
+  path, where the money sits, hover read-outs, fold-out split), liquidity
+  model A (start of month at that day's prices, change = work + market,
+  everywhere the same), phone layout (nothing pans sideways), annual PDF
+  fits, expenses chart bar aligned, Money model (Dashboard tab + homepage
+  sun section #zon), report "No category" row, data tests.
+- Bart's data: clean again (online and on the Mac) after the 19 Nov
+  incidents; wipe guard (safeMerge) live on web and in the iOS code.
+- iOS `ios-port-nov18`: TestFlight build 3 uploaded 19 Nov 22:56 (projected
+  income fix, sign-in choice cards, layout fixes; 78/78 tests). Once Apple
+  has processed it: install from TestFlight on iPhone/iPad, sign in, choose
+  "Start from my account". Not yet checked by eye: donut/balance layout and
+  the choice cards (the simulator hung).
 
-Done on the Mac (19 Nov, late): steps 1–3 — both repos pulled, apple=true,
-iPhone + Mac Catalyst build clean, 78/78 iOS tests pass (c672ddc moved the
-19 Nov sync tests into VaultSyncTests). Web: PDF daily chart y-axis labels
-LIVE (d300dc5); safeMerge confirmed in the live JS. NEXT: step 4 (Bart signs
-in in the simulator himself), then step 5 (TestFlight build 3).
+Next, in order:
+1. Bart tests build 3 on iPhone/iPad (sync: nothing doubled or missing).
+2. Port to iOS (Mac only): the liquidity tile + model A
+   (NetWorthTicker/DashboardView like components/finance/NetWorthCard.tsx and
+   lib/finance/calc.ts netWorthFigures), the Money model (port
+   public/moneymodel.js: SceneKit/RealityKit for 3D or a WKWebView with the
+   same script), work hours, money clock, wealth PDF pages.
+3. Open question for Bart: Quick Add dates an income in the main income
+   category on the payday, and "Received this month" counts it already.
+4. Later: per-language URLs (/en, /de) — Bart said not now.
 
-On the Mac, in order:
-1. `git pull` in both repos; iOS: `git checkout ios-port-nov18`.
-2. Set `"apple": true` in `Personal Finance/Supabase.json` (git-ignored).
-3. Build iPhone (iOS 26.2 simulator) + Mac Catalyst, fix compile errors,
-   run the tests (VaultSyncTests: fold + safeMerge).
-4. Check in the simulator: sign in (password + Apple), sync with the
-   account's copy (no doubling, no wipe), Settings › Your data / Premium /
-   Legal, + Add account, Quick Add chips, Reports.
-5. Raise CURRENT_PROJECT_VERSION to 3, archive + upload TestFlight build 3;
-   only then the app back on a device.
-6. Web: try Sign in with Apple live (signed out) and Settings › Earlier
-   versions signed in.
-Later: ANTHROPIC_API_KEY expires 2026-12-10; record ?ref per account;
-iOS ports (money clock, work hours, wealth pages, month picker).
-
-TRANSLATIONS: all 16 languages complete again (5 Nov evening, on the Mac:
-1593/1593). Keep it that way — translate new t() texts in the same commit
-(`node scripts/i18n.mjs extract` then `report`). Labels that come from data
-(e.g. lib/finance/metrics.ts, onboarding lists) go in EXTRA in scripts/i18n.mjs.
+Tests (web): `npm i --no-save puppeteer-core jiti` (any npm install drops
+them), dev server on :3000, then `node scripts/app-test.mjs nl`,
+`node scripts/app-e2e.mjs`, `node scripts/app-consistency.mjs [file]`.
+On Windows the web repo works as usual; the iOS repo can be read and edited
+there but only built on the Mac.
 
 ## The product
 
