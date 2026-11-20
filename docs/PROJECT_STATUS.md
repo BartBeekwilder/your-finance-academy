@@ -32,6 +32,13 @@ Next, in order:
    lib/finance/calc.ts netWorthFigures), the Money model (port
    public/moneymodel.js: SceneKit/RealityKit for 3D or a WKWebView with the
    same script), work hours, money clock, wealth PDF pages.
+2b. iOS ab599c2 (20 Nov, Windows, NOT BUILT): lighter animations — Bart
+   saw small hitches on his iPhone Pro. MotionSettings.chartInterval (Full
+   4 s, Light 10 s): tile sparklines, Income vs Spent, savings bars and
+   donut slices redraw every 4 s instead of every second (live amounts
+   still tick as before); background on a phone with two strokes (no wide
+   glow) at 16 fps; dashboard title once a minute (clock keeps its own
+   tick). Build on the Mac, check on the iPhone, then TestFlight build 4.
 3. Open question for Bart: Quick Add dates an income in the main income
    category on the payday, and "Received this month" counts it already.
 4. Later: per-language URLs (/en, /de) — Bart said not now.
