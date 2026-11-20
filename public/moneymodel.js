@@ -139,16 +139,20 @@
       if (m.saved > 0) band(savN, cashN, savN.h, Math.max(m.saved * m.n * kS, 2), "#30d158", T.leftOver + " × " + m.n, money(m.saved * m.n), T.tipLeftOver);
       band(mktN, invN, mktN.h, Math.max(mktV * kS, 2), mktN.color, T.market + " → " + T.investments, sgn(m.marketMove), T.tipMarket).still = mktV < 1;
       band(homeN, homeS, homeN.h, Math.max(homeV * kS, 2), homeN.color, T.housing + " → " + T.home, sgn(m.homeMove), T.tipHousing).still = homeV < 1;
-      band(repN, debtN, repN.h, Math.max(m.repay * m.n * kS, 2), "#40c8e0", T.repayment + " × " + m.n, money(m.repay * m.n), T.tipRepay).still = m.repay < 1;
-      [cashN, invN, homeS].forEach((n) => band(n, assetsN, n.h, n.h, n.color, n.label + " → " + T.assets, n.value, n.info));
-      band(assetsN, eqN, Math.max(m.equity, 0) * kS, eqN.h, "#30d158", T.assets + " → " + T.equity, money(m.equity), T.tipEquity);
-      band(assetsN, debtN, m.debts * kS, debtN.h, "#ff5a52", T.assets + " → " + T.debts, money(m.debts), T.tipDebts);
+      // Repayment doesn't feed the debt, it eats it: its dots fade out as they
+      // reach the debt bar, and the bar says by how much it shrinks.
+      const rep = band(repN, debtN, repN.h, Math.max(m.repay * m.n * kS, 2), "#40c8e0", T.repayment + " × " + m.n, "−" + money(m.repay * m.n), T.tipRepay);
+      rep.still = m.repay < 1; rep.reduces = true;
+      // What you own and owe are standing balances, not flows: no dots there.
+      [cashN, invN, homeS].forEach((n) => { band(n, assetsN, n.h, n.h, n.color, n.label + " → " + T.assets, n.value, n.info).stock = true; });
+      band(assetsN, eqN, Math.max(m.equity, 0) * kS, eqN.h, "#30d158", T.assets + " → " + T.equity, money(m.equity), T.tipEquity).stock = true;
+      band(assetsN, debtN, m.debts * kS, debtN.h, "#ff5a52", T.assets + " → " + T.debts, money(m.debts), T.tipDebts).stock = true;
       nodes = N; bands = Bd;
-      // Dots only where money really arrives: not on spending that leaves the
-      // picture, not on a market at 0%.
+      // Dots only where money really moves: not on spending that leaves the
+      // picture, not on a market at 0%, not on standing balances.
       particles = [];
       for (const b of bands) {
-        if (b.sink || b.still) continue;
+        if (b.sink || b.still || b.stock) continue;
         const count = Math.min(Math.round(4 + Math.max(b.w0, b.w1) / 3), 40);
         for (let i = 0; i < count; i++) particles.push({ b, t: Math.random(), v: 0.18 + Math.random() * 0.12, o: Math.random() - 0.5 });
       }
@@ -177,10 +181,20 @@
       if (!reduce) {
         for (const p of particles) {
           p.t += p.v * 0.016; if (p.t > 1) { p.t = 0; p.o = Math.random() - 0.5; }
-          const q = bez(p.b, p.t); fx.globalAlpha = 0.9;
-          fx.fillStyle = p.b.color; fx.beginPath(); fx.arc(q.x, q.y + p.o * q.w * 0.85, 1.5, 0, 7); fx.fill();
+          const q = bez(p.b, p.t);
+          // A repayment dot dissolves into the debt instead of landing on it.
+          const fade = p.b.reduces && p.t > 0.7 ? (1 - p.t) / 0.3 : 1;
+          fx.globalAlpha = 0.9 * fade;
+          fx.fillStyle = p.b.color; fx.beginPath(); fx.arc(q.x, q.y + p.o * q.w * 0.85, 1.5 * (0.4 + 0.6 * fade), 0, 7); fx.fill();
         }
         fx.globalAlpha = 1;
+      }
+      // Where repayment meets the debt: a "−" with what it takes off.
+      for (const b of bands) {
+        if (!b.reduces || b.still || !b.b) continue;
+        const end = bez(b, 1);
+        fx.textAlign = "right"; fx.font = "600 10.5px ui-monospace, Menlo, monospace"; fx.fillStyle = b.color;
+        fx.fillText(b.value, end.x - 8, end.y - end.w / 2 - 5);
       }
       for (const n of nodes) {
         fx.fillStyle = n.color; fx.beginPath(); if (fx.roundRect) { fx.roundRect(n.x, n.y, n.w, n.h, 3); } else { fx.rect(n.x, n.y, n.w, n.h); } fx.fill();
