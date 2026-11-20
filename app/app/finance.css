@@ -4923,6 +4923,16 @@ span.pf-cmp-chip { cursor: default; }
   border: 1px solid var(--pf-line);
 }
 .pf-amount-sum[data-bad] { color: var(--pf-ink-3); }
+.pf-advance-back { display: grid; gap: 4px; font-size: 0.82rem; color: var(--pf-ink-2); animation: pf-cmp-fade 0.3s ease-out both; }
+.pf-advance-back small { color: var(--pf-ink-3); font-size: 0.72rem; }
+/* Dashboard: advances due back soon. */
+.pf-advance-due { padding: 12px 16px; display: grid; gap: 8px; border: 1px solid rgba(102, 212, 207, 0.25); }
+.pf-advance-due-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 0.88rem; }
+.pf-advance-due-text { flex: 1; min-width: 180px; color: var(--pf-ink-2); }
+.pf-advance-due-text b { color: var(--pf-ink); }
+.pf-advance-due-row[data-late] .pf-advance-due-text { color: var(--pf-orange); }
+.pf-advance-due-done { padding: 6px 14px; font-size: 0.82rem; }
+.pf-amount-work { display: block; margin-top: -6px; text-align: center; font-size: 0.78rem; color: var(--pf-ink-3); font-variant-numeric: tabular-nums; animation: pf-cmp-fade 0.3s ease-out both; }
 
 /* Local data: a save refused because the file changed elsewhere. */
 .pf-stale {

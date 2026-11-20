@@ -2261,5 +2261,13 @@
  "Housing market per year": "Yıllık konut piyasası",
  "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Her yıl için bir kule. Kaynak: öz varlığın kaynaklarına göre kurulu. Varlık ve borç: sahip olduğun her şey; kırmızı borçla finanse edilen kısım, yeşil senin olan kısım. Cam kuleler tahmindir. Tutar için bir bloğun üzerine gel.",
  "Not explained by your bookings": "Kayıtlarınla açıklanmayan",
- "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "Bilançonla kayıtların arasındaki fark: girilmemiş gelir veya giderler, sahip olduklarının başka bir değeri (örneğin bir araba) ya da içe aktarılan yıl sonu durumu ile o yılın toplamları arasındaki boşluk. Ne kadar eksiksiz kaydedersen o kadar küçülür."
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "Bilançonla kayıtların arasındaki fark: girilmemiş gelir veya giderler, sahip olduklarının başka bir değeri (örneğin bir araba) ya da içe aktarılan yıl sonu durumu ile o yılın toplamları arasındaki boşluk. Ne kadar eksiksiz kaydedersen o kadar küçülür.",
+ "≈ {time} of work": "≈ {time} çalışma",
+ "Advance": "Avans",
+ "Advances to get back": "Geri alınacak avanslar",
+ "due back on {date}": "{date} tarihinde geri gelecek",
+ "due back today": "bugün geri gelecek",
+ "Expected back": "Beklenen geri ödeme",
+ "Optional: the dashboard reminds you when it's due.": "İsteğe bağlı: zamanı geldiğinde panel sana hatırlatır.",
+ "was due on {date}": "{date} tarihinde gelmesi gerekiyordu"
 }

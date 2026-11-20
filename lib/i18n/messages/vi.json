@@ -2261,5 +2261,13 @@
  "Housing market per year": "Nhà đất mỗi năm",
  "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Mỗi năm một tòa tháp. Nguồn gốc: vốn chủ sở hữu xếp theo nguồn. Tài sản và nợ: mọi thứ bạn sở hữu, màu đỏ là phần tài trợ bằng nợ, màu xanh là phần của bạn. Tháp kính là dự kiến. Chỉ vào một khối để xem số tiền.",
  "Not explained by your bookings": "Không giải thích được bằng ghi chép",
- "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "Chênh lệch giữa bảng cân đối và ghi chép của bạn: thu nhập hoặc chi tiêu chưa ghi, giá trị khác của tài sản (ví dụ xe hơi), hoặc khoảng hở giữa số dư cuối năm đã nhập và tổng của năm đó. Ghi càng đầy đủ, khoản này càng nhỏ."
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "Chênh lệch giữa bảng cân đối và ghi chép của bạn: thu nhập hoặc chi tiêu chưa ghi, giá trị khác của tài sản (ví dụ xe hơi), hoặc khoảng hở giữa số dư cuối năm đã nhập và tổng của năm đó. Ghi càng đầy đủ, khoản này càng nhỏ.",
+ "≈ {time} of work": "≈ {time} làm việc",
+ "Advance": "Khoản ứng trước",
+ "Advances to get back": "Khoản ứng trước sẽ nhận lại",
+ "due back on {date}": "nhận lại vào {date}",
+ "due back today": "nhận lại hôm nay",
+ "Expected back": "Dự kiến nhận lại",
+ "Optional: the dashboard reminds you when it's due.": "Không bắt buộc: bảng điều khiển sẽ nhắc bạn khi đến hạn.",
+ "was due on {date}": "lẽ ra nhận lại vào {date}"
 }

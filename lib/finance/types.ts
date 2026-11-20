@@ -117,6 +117,9 @@ export type Transaction = Synced & {
   advance?: boolean | null;
   /** An advance: when it came back (on the same account); null = still open. */
   repaid_at?: string | null;
+  /** An advance: when it's expected back (the dashboard reminds from three
+   *  days before; Bart, 20 Nov). Null = no date. */
+  expected_back?: string | null;
   /** Runtime only (never stored): a monthly part of a spread expense — the
    *  original purchase, and which part of how many this is. */
   spread_of?: Transaction;

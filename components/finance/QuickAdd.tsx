@@ -4,7 +4,9 @@ import { t } from "@/lib/i18n";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Banknote, Check, CreditCard, HandCoins, Hourglass, Landmark, PiggyBank, Plus, Sparkles, Trash2, Wallet, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
-import { live } from "@/lib/finance/calc";
+import { live, projectedNetIncome } from "@/lib/finance/calc";
+import { workHoursFor } from "@/lib/finance/workHours";
+import { workTime } from "./workTime";
 import { evalAmount } from "@/lib/finance/amountExpr";
 import { isSalaryName, mainIncomeCategory, nearestPayday } from "@/lib/finance/salary";
 import { money, shortMonthYear } from "@/lib/finance/format";
@@ -37,6 +39,11 @@ function localDate(iso: string) {
 
 export default function QuickAdd() {
   const { data, addTransaction, updateTransaction, deleteTransaction, addCategory, updateProfile } = useFinance();
+  // What an hour of work earns, for the hint under an expense (Bart, 20 Nov).
+  const monthlyIncome = useMemo(() => {
+    const d = new Date();
+    return projectedNetIncome(data, new Date(d.getFullYear(), d.getMonth(), 1)) || Number(data.profile.expected_net_monthly) || 0;
+  }, [data]);
   const salaryCategory = useMemo(() => mainIncomeCategory(data.transactions, Number(data.profile.expected_net_monthly) || 0), [data.transactions, data.profile.expected_net_monthly]);
   // Any transaction row can ask for the editor; it opens in this same sheet.
   const editing = useTransactionEditor();
@@ -73,13 +80,14 @@ export default function QuickAdd() {
         <Plus size={22} strokeWidth={3} />
       </button>
       <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label={t("Quick Add")}>
-        <Form key={session} past={data.transactions} salaryCategory={salaryCategory} payday={data.profile.payday_day} setPayday={(d) => updateProfile({ payday_day: d })} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} household={householdOf(data.profile)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
+        <Form key={session} monthlyIncome={monthlyIncome} past={data.transactions} salaryCategory={salaryCategory} payday={data.profile.payday_day} setPayday={(d) => updateProfile({ payday_day: d })} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} household={householdOf(data.profile)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
       </Sheet>
       <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label={t("Edit transaction")}>
         {editing && (
           <Form
             key={`edit${editing.n}`}
             initial={editing.transaction}
+            monthlyIncome={monthlyIncome}
             currency={data.profile.currency_code}
             grossRatio={grossRatio(data.profile)}
             categories={live(data.categories)}
@@ -121,7 +129,10 @@ function Form({
   payday = null,
   setPayday,
   salaryCategory = null,
+  monthlyIncome = 0,
 }: {
+  /** Net income per month: an expense shows what it costs in work hours. */
+  monthlyIncome?: number;
   /** The income category the salary usually lands in (besides salary-like names). */
   salaryCategory?: string | null;
   /** The profile's payday (day of the month), and a way to change it. */
@@ -158,6 +169,7 @@ function Form({
   // Expense: advanced for someone else, to be paid back — not spending; the
   // balance sheet shows it under Amounts to receive until it's back.
   const [advance, setAdvance] = useState(initial?.advance ?? false);
+  const [expectedBack, setExpectedBack] = useState(() => (initial?.expected_back ? localDate(initial.expected_back) : ""));
   // Which account it comes off (or goes to): the transaction's own, else the
   // one used last in this browser, else the default account.
   const { saveAccount } = useFinance();
@@ -302,6 +314,8 @@ function Form({
         spread_months: spreading ? spread : null,
         advance: advancing,
         repaid_at: advancing ? (initial?.repaid_at ?? null) : null,
+        // Only sent with a date (the old tables learn the column in migration 0017).
+        ...(advancing && expectedBack ? { expected_back: new Date(`${expectedBack}T12:00:00`).toISOString() } : initial?.expected_back ? { expected_back: null } : {}),
         recurrence_id: initial?.recurrence_id ?? null,
         category_id: advancing ? null : categoryId,
         account_id: accountId,
@@ -354,6 +368,10 @@ function Form({
           = {valid ? money(parsed, currency) : t("not a valid amount")}
         </span>
       )}
+      {/* An expense in work hours, quietly (as under each expense in Transactions). */}
+      {type === "expense" && !advance && valid && parsed > 0 && workHoursFor(parsed, monthlyIncome) != null && (
+        <span className="pf-amount-work">{t("≈ {time} of work", { time: workTime(workHoursFor(parsed, monthlyIncome)!) })}</span>
+      )}
 
       {type === "expense" && (
         <button
@@ -376,6 +394,13 @@ function Form({
             <small>{advance ? t("Not spending: shows on the balance sheet under Amounts to receive until it's paid back") : t("Paid for someone else or for work")}</small>
           </span>
         </button>
+      )}
+      {advancing && (
+        <label className="pf-advance-back">
+          <span>{t("Expected back")}</span>
+          <input className="pf-input" type="date" aria-label={t("Expected back")} value={expectedBack} min={date} onChange={(e) => setExpectedBack(e.target.value)} />
+          <small>{t("Optional: the dashboard reminds you when it's due.")}</small>
+        </label>
       )}
 
       {type === "income" && (

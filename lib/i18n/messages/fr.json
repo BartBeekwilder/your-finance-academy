@@ -2261,5 +2261,13 @@
  "Housing market per year": "Marché immobilier par an",
  "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Une tour par année. Origine : ton patrimoine net construit selon ses sources. Avoirs et dettes : tout ce que tu possèdes, en rouge la part financée par la dette, en vert la part qui t’appartient. Les tours en verre sont prévues. Pointe un bloc pour le montant.",
  "Not explained by your bookings": "Non expliqué par tes saisies",
- "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "L’écart entre ton bilan et tes saisies : revenus ou dépenses non saisis, une autre valeur pour ce que tu possèdes (une voiture, par exemple) ou un écart entre un bilan annuel importé et les totaux de l’année. Plus tes saisies sont complètes, plus il diminue."
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "L’écart entre ton bilan et tes saisies : revenus ou dépenses non saisis, une autre valeur pour ce que tu possèdes (une voiture, par exemple) ou un écart entre un bilan annuel importé et les totaux de l’année. Plus tes saisies sont complètes, plus il diminue.",
+ "≈ {time} of work": "≈ {time} de travail",
+ "Advance": "Avance",
+ "Advances to get back": "Avances à récupérer",
+ "due back on {date}": "à récupérer le {date}",
+ "due back today": "à récupérer aujourd'hui",
+ "Expected back": "Retour prévu le",
+ "Optional: the dashboard reminds you when it's due.": "Facultatif : le tableau de bord te le rappelle le moment venu.",
+ "was due on {date}": "attendu depuis le {date}"
 }

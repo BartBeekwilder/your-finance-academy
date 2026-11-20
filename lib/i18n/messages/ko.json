@@ -2261,5 +2261,13 @@
  "Housing market per year": "연간 주택시장",
  "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "연도마다 하나의 타워. 출처: 순자산을 출처별로 쌓았습니다. 자산과 부채: 가진 모든 것, 빨간색은 부채로 조달한 부분, 초록색은 내 몫입니다. 유리 타워는 예상치입니다. 블록을 가리키면 금액이 보입니다.",
  "Not explained by your bookings": "기록으로 설명되지 않는 부분",
- "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "대차대조표와 기록 사이의 차이입니다: 입력하지 않은 수입이나 지출, 소유물(예: 자동차)의 다른 가치, 또는 가져온 연말 잔액과 그해 합계 사이의 차이. 기록이 충실할수록 줄어듭니다."
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "대차대조표와 기록 사이의 차이입니다: 입력하지 않은 수입이나 지출, 소유물(예: 자동차)의 다른 가치, 또는 가져온 연말 잔액과 그해 합계 사이의 차이. 기록이 충실할수록 줄어듭니다.",
+ "≈ {time} of work": "≈ 근로 {time}",
+ "Advance": "선지급",
+ "Advances to get back": "돌려받을 선지급금",
+ "due back on {date}": "{date}에 돌려받을 예정",
+ "due back today": "오늘 돌려받을 예정",
+ "Expected back": "돌려받을 예정일",
+ "Optional: the dashboard reminds you when it's due.": "선택: 때가 되면 대시보드가 알려 줍니다.",
+ "was due on {date}": "{date}에 돌려받았어야 함"
 }

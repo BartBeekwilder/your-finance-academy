@@ -2261,5 +2261,13 @@
  "Housing market per year": "住宅市場(年率)",
  "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "1年に1本のタワー。出どころ:純資産を出どころ別に積み上げ。資産と負債:所有するすべて、赤は借入で賄った部分、緑はあなたの部分。ガラスのタワーは見込みです。ブロックを指すと金額が表示されます。",
  "Not explained by your bookings": "記録で説明できない分",
- "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "貸借対照表と記録の差です:未入力の収入や支出、所有物(車など)の評価額の違い、インポートした年末残高とその年の合計とのずれ。記録が充実するほど小さくなります。"
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "貸借対照表と記録の差です:未入力の収入や支出、所有物(車など)の評価額の違い、インポートした年末残高とその年の合計とのずれ。記録が充実するほど小さくなります。",
+ "≈ {time} of work": "≈ 労働 {time}",
+ "Advance": "立替金",
+ "Advances to get back": "戻ってくる立替金",
+ "due back on {date}": "{date}に戻る予定",
+ "due back today": "今日戻る予定",
+ "Expected back": "戻る予定日",
+ "Optional: the dashboard reminds you when it's due.": "任意：期日が来たらダッシュボードでお知らせします。",
+ "was due on {date}": "{date}に戻るはずでした"
 }

@@ -2267,5 +2267,13 @@
  "Housing market per year": "Huizenmarkt per jaar",
  "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Een toren per jaar. Herkomst: je eigen vermogen opgebouwd uit waar het vandaan kwam. Bezit en schuld: alles wat je bezit, rood voor het deel dat met schuld is betaald, groen voor het deel dat van jou is. Glazen torens zijn verwacht. Wijs een blok aan voor het bedrag.",
  "Not explained by your bookings": "Niet verklaard door je boekingen",
- "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "Het verschil tussen je balans en je boekingen: inkomsten of uitgaven die niet zijn ingevoerd, een andere waarde van wat je bezit (bijvoorbeeld een auto), of een gat tussen een geïmporteerde jaarstand en de totalen van dat jaar. Hoe vollediger je boekt, hoe kleiner dit wordt."
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "Het verschil tussen je balans en je boekingen: inkomsten of uitgaven die niet zijn ingevoerd, een andere waarde van wat je bezit (bijvoorbeeld een auto), of een gat tussen een geïmporteerde jaarstand en de totalen van dat jaar. Hoe vollediger je boekt, hoe kleiner dit wordt.",
+ "≈ {time} of work": "≈ {time} werk",
+ "Advance": "Voorschot",
+ "Advances to get back": "Voorschotten die terugkomen",
+ "due back on {date}": "komt terug op {date}",
+ "due back today": "komt vandaag terug",
+ "Expected back": "Verwacht terug op",
+ "Optional: the dashboard reminds you when it's due.": "Optioneel: het dashboard herinnert je eraan als het zover is.",
+ "was due on {date}": "had op {date} terug moeten zijn"
 }

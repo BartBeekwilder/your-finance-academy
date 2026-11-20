@@ -15,6 +15,7 @@ import LastUpdated from "@/components/finance/LastUpdated";
 import FinishSetupCard from "@/components/finance/FinishSetupCard";
 import { ConfirmMonths } from "@/components/finance/EarlierMonths";
 import { PendingStatement } from "@/components/finance/ReadWithAI";
+import AdvanceReminders from "@/components/finance/AdvanceReminders";
 import SetupCelebration from "@/components/finance/SetupCelebration";
 import { KeyFiguresStrip } from "@/components/finance/KeyFigures";
 import NetWorthCard from "@/components/finance/NetWorthCard";
@@ -123,6 +124,7 @@ export default function DashboardPage() {
 
       {/* After a quick start: finish the rest of the setup. */}
       <PendingStatement />
+      <AdvanceReminders />
       <FinishSetupCard />
       <ConfirmMonths />
 

@@ -2261,5 +2261,13 @@
  "Housing market per year": "Mercado inmobiliario por año",
  "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Una torre por año. Origen: tu patrimonio construido según sus fuentes. Bienes y deudas: todo lo que tienes, en rojo la parte financiada con deuda, en verde la parte que es tuya. Las torres de cristal son previstas. Señala un bloque para ver el importe.",
  "Not explained by your bookings": "No explicado por tus registros",
- "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "La diferencia entre tu balance y tus registros: ingresos o gastos no anotados, otro valor para lo que tienes (un coche, por ejemplo) o un hueco entre un saldo anual importado y los totales de ese año. Cuanto más completo registres, menor será."
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "La diferencia entre tu balance y tus registros: ingresos o gastos no anotados, otro valor para lo que tienes (un coche, por ejemplo) o un hueco entre un saldo anual importado y los totales de ese año. Cuanto más completo registres, menor será.",
+ "≈ {time} of work": "≈ {time} de trabajo",
+ "Advance": "Adelanto",
+ "Advances to get back": "Adelantos por recuperar",
+ "due back on {date}": "vuelve el {date}",
+ "due back today": "vuelve hoy",
+ "Expected back": "Devolución prevista",
+ "Optional: the dashboard reminds you when it's due.": "Opcional: el panel te lo recuerda cuando toque.",
+ "was due on {date}": "debía volver el {date}"
 }

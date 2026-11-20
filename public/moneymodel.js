@@ -135,8 +135,14 @@
       const repN = node("afl", 2, y, m.repay * kM, "#40c8e0", T.repayment, pm(m.repay), T.tipRepay); y += m.repay * kM + 10;
       const savN = node("over", 2, y, Math.max(m.saved, 0) * kM, "#30d158", T.leftOver, pm(m.saved), T.tipLeftOver); y += Math.max(m.saved, 0) * kM + 22;
       const mktV = Math.abs(m.marketMove), homeV = Math.abs(m.homeMove);
-      const mktN = node("beurs", 2, y, Math.max(mktV * kM * 0.25, 3), m.marketMove >= 0 ? "#b58cff" : "#ff5a52", T.market, sgn(m.marketMove), T.tipMarket); y += Math.max(mktV * kM * 0.25, 3) + 10;
-      const homeN = node("markt", 2, y, Math.max(homeV * kM * 0.05, 3), m.homeMove >= 0 ? "#5b8def" : "#ff5a52", T.housing, sgn(m.homeMove), T.tipHousing);
+      // The markets get what room the column has left: over a whole year a
+      // market move dwarfs an average month and ran off the stage (20 Nov).
+      let mktH = mktV * kM * 0.25, homeH = homeV * kM * 0.05;
+      const room = top + 10 + H - y - 10 - 26;
+      if (mktH + homeH > room) { const f = Math.max(room, 6) / (mktH + homeH); mktH *= f; homeH *= f; }
+      mktH = Math.max(mktH, 3); homeH = Math.max(homeH, 3);
+      const mktN = node("beurs", 2, y, mktH, m.marketMove >= 0 ? "#b58cff" : "#ff5a52", T.market, sgn(m.marketMove), T.tipMarket); y += mktH + 10;
+      const homeN = node("markt", 2, y, homeH, m.homeMove >= 0 ? "#5b8def" : "#ff5a52", T.housing, sgn(m.homeMove), T.tipHousing);
       y = top + 10;
       const cashN = node("geld", 3, y, m.st.cash * kS, "#40c8e0", T.cash, money(m.st.cash), T.tipCash.replace("{n}", m.n)); y += m.st.cash * kS + 8;
       const invN = node("bel", 3, y, m.st.invest * kS, "#b58cff", T.investments, money(m.st.invest), T.tipInvest); y += m.st.invest * kS + 8;
