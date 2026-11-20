@@ -2250,5 +2250,14 @@
  "Pause": "일시정지",
  "Play": "재생",
  "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "각 타워는 연말 순자산이며 출처별로 쌓여 있습니다. 빨간 지하층은 아직 갚아야 할 부채입니다. 블록을 가리키면 금액이 보입니다.",
- "Takes this off your equity.": "이만큼 순자산에서 빠집니다."
+ "Takes this off your equity.": "이만큼 순자산에서 빠집니다.",
+ "Financed with debt": "부채로 조달",
+ "Yours (equity)": "내 몫(순자산)",
+ "Home bought": "집 구입",
+ "Where it came from": "출처",
+ "Owned and owed": "자산과 부채",
+ "The years ahead": "앞으로의 해",
+ "Stock market per year": "연간 주식시장",
+ "Housing market per year": "연간 주택시장",
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "연도마다 하나의 타워. 출처: 순자산을 출처별로 쌓았습니다. 자산과 부채: 가진 모든 것, 빨간색은 부채로 조달한 부분, 초록색은 내 몫입니다. 유리 타워는 예상치입니다. 블록을 가리키면 금액이 보입니다."
 }

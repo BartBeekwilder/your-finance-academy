@@ -2250,5 +2250,14 @@
  "Pause": "Pause",
  "Play": "Lecture",
  "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Chaque tour est ton patrimoine net en fin d’année, construit selon son origine ; le sous-sol rouge est ce que tu dois encore. Pointe un bloc pour voir le montant.",
- "Takes this off your equity.": "Retire ceci de ton patrimoine net."
+ "Takes this off your equity.": "Retire ceci de ton patrimoine net.",
+ "Financed with debt": "Financé par la dette",
+ "Yours (equity)": "À toi (patrimoine net)",
+ "Home bought": "Logement acheté",
+ "Where it came from": "Origine",
+ "Owned and owed": "Avoirs et dettes",
+ "The years ahead": "Les années à venir",
+ "Stock market per year": "Bourse par an",
+ "Housing market per year": "Marché immobilier par an",
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Une tour par année. Origine : ton patrimoine net construit selon ses sources. Avoirs et dettes : tout ce que tu possèdes, en rouge la part financée par la dette, en vert la part qui t’appartient. Les tours en verre sont prévues. Pointe un bloc pour le montant."
 }

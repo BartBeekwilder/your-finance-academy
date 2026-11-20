@@ -2250,5 +2250,14 @@
  "Pause": "Jeda",
  "Play": "Putar",
  "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Setiap menara adalah ekuitasmu di akhir tahun, tersusun dari asal-usulnya; ruang bawah merah adalah yang masih kamu utang. Arahkan ke blok untuk melihat jumlahnya.",
- "Takes this off your equity.": "Mengurangi ini dari ekuitasmu."
+ "Takes this off your equity.": "Mengurangi ini dari ekuitasmu.",
+ "Financed with debt": "Dibiayai utang",
+ "Yours (equity)": "Milikmu (ekuitas)",
+ "Home bought": "Rumah dibeli",
+ "Where it came from": "Asal",
+ "Owned and owed": "Aset dan utang",
+ "The years ahead": "Tahun-tahun mendatang",
+ "Stock market per year": "Bursa per tahun",
+ "Housing market per year": "Pasar properti per tahun",
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Satu menara per tahun. Asal: ekuitasmu tersusun dari sumbernya. Aset dan utang: semua yang kamu miliki, merah untuk bagian yang dibiayai utang, hijau untuk bagian milikmu. Menara kaca adalah perkiraan. Arahkan ke blok untuk jumlahnya."
 }

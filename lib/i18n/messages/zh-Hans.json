@@ -2250,5 +2250,14 @@
  "Pause": "暂停",
  "Play": "播放",
  "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "每座塔是你年底的净资产，按来源堆叠；红色地下室是你仍欠的钱。指向方块可查看金额。",
- "Takes this off your equity.": "从你的净资产中减去这一部分。"
+ "Takes this off your equity.": "从你的净资产中减去这一部分。",
+ "Financed with debt": "以债务融资",
+ "Yours (equity)": "属于你的(净资产)",
+ "Home bought": "购房",
+ "Where it came from": "来源",
+ "Owned and owed": "资产与负债",
+ "The years ahead": "未来几年",
+ "Stock market per year": "股市年增长",
+ "Housing market per year": "房市年增长",
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "每年一座塔。来源：净资产按来源堆叠。资产与负债：你拥有的一切，红色为债务融资部分，绿色为属于你的部分。玻璃塔为预期。指向方块可查看金额。"
 }

@@ -2250,5 +2250,14 @@
  "Pause": "रोकें",
  "Play": "चलाएँ",
  "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "हर टावर साल के अंत में आपकी शुद्ध संपत्ति है, जो उसके स्रोत के अनुसार बना है; लाल तहखाना वह है जो आप पर अभी भी बकाया है। राशि के लिए किसी ब्लॉक पर इशारा करें।",
- "Takes this off your equity.": "इसे आपकी शुद्ध संपत्ति से घटाता है।"
+ "Takes this off your equity.": "इसे आपकी शुद्ध संपत्ति से घटाता है।",
+ "Financed with debt": "कर्ज़ से वित्तपोषित",
+ "Yours (equity)": "आपका (शुद्ध संपत्ति)",
+ "Home bought": "घर खरीदा",
+ "Where it came from": "स्रोत",
+ "Owned and owed": "संपत्ति और कर्ज़",
+ "The years ahead": "आने वाले साल",
+ "Stock market per year": "शेयर बाज़ार प्रति वर्ष",
+ "Housing market per year": "हाउसिंग बाज़ार प्रति वर्ष",
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "हर साल एक टावर। स्रोत: आपकी शुद्ध संपत्ति उसके स्रोतों से बनी। संपत्ति और कर्ज़: जो कुछ आपके पास है, लाल वह हिस्सा जो कर्ज़ से लिया गया, हरा वह हिस्सा जो आपका है। काँच के टावर अनुमानित हैं। राशि के लिए किसी ब्लॉक पर इशारा करें।"
 }

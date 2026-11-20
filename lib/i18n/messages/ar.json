@@ -2250,5 +2250,14 @@
  "Pause": "إيقاف مؤقت",
  "Play": "تشغيل",
  "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "كل برج هو صافي ثروتك في نهاية سنة، مبني حسب مصدرها؛ والقبو الأحمر هو ما لا تزال مدينًا به. أشر إلى كتلة لمعرفة المبلغ.",
- "Takes this off your equity.": "يطرح هذا من صافي ثروتك."
+ "Takes this off your equity.": "يطرح هذا من صافي ثروتك.",
+ "Financed with debt": "مموّل بالدين",
+ "Yours (equity)": "لك (صافي الثروة)",
+ "Home bought": "تم شراء المنزل",
+ "Where it came from": "المصدر",
+ "Owned and owed": "الممتلكات والديون",
+ "The years ahead": "السنوات القادمة",
+ "Stock market per year": "البورصة سنويًا",
+ "Housing market per year": "سوق العقار سنويًا",
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "برج لكل سنة. المصدر: صافي ثروتك مبني حسب مصادرها. الممتلكات والديون: كل ما تملكه، بالأحمر الجزء المموّل بالدين وبالأخضر الجزء الذي لك. الأبراج الزجاجية متوقعة. أشر إلى كتلة لمعرفة المبلغ."
 }

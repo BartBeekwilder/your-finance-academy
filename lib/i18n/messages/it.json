@@ -2250,5 +2250,14 @@
  "Pause": "Pausa",
  "Play": "Riproduci",
  "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Ogni torre è il tuo patrimonio netto a fine anno, costruito in base alla provenienza; il seminterrato rosso è ciò che devi ancora. Punta un blocco per l’importo.",
- "Takes this off your equity.": "Toglie questo dal tuo patrimonio netto."
+ "Takes this off your equity.": "Toglie questo dal tuo patrimonio netto.",
+ "Financed with debt": "Finanziato con debito",
+ "Yours (equity)": "Tuo (patrimonio netto)",
+ "Home bought": "Casa acquistata",
+ "Where it came from": "Provenienza",
+ "Owned and owed": "Beni e debiti",
+ "The years ahead": "Gli anni a venire",
+ "Stock market per year": "Borsa all’anno",
+ "Housing market per year": "Mercato immobiliare all’anno",
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Una torre per anno. Provenienza: il tuo patrimonio costruito dalle sue fonti. Beni e debiti: tutto ciò che possiedi, in rosso la parte finanziata dal debito, in verde la parte tua. Le torri di vetro sono previste. Punta un blocco per l’importo."
 }

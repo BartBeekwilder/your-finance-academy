@@ -2250,5 +2250,14 @@
  "Pause": "Пауза",
  "Play": "Воспроизвести",
  "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Каждая башня — твой собственный капитал на конец года, сложенный по источникам; красный подвал — то, что ты ещё должен. Наведи на блок, чтобы увидеть сумму.",
- "Takes this off your equity.": "Вычитает это из твоего капитала."
+ "Takes this off your equity.": "Вычитает это из твоего капитала.",
+ "Financed with debt": "Профинансировано долгом",
+ "Yours (equity)": "Твоё (собственный капитал)",
+ "Home bought": "Дом куплен",
+ "Where it came from": "Источники",
+ "Owned and owed": "Имущество и долги",
+ "The years ahead": "Ближайшие годы",
+ "Stock market per year": "Биржа в год",
+ "Housing market per year": "Рынок жилья в год",
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Одна башня на год. Источники: капитал, сложенный по источникам. Имущество и долги: всё, чем ты владеешь, красным — часть, оплаченная долгом, зелёным — твоя часть. Стеклянные башни — прогноз. Наведи на блок, чтобы увидеть сумму."
 }

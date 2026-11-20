@@ -32,6 +32,7 @@ type Engine = {
   setView: (v: View) => View;
   setYears: (y: TimeYear[]) => void;
   setYear: (i: number) => void;
+  setTimeMode: (m: "source" | "balance") => void;
   onModel: (f: (m: Model) => void) => () => void;
   destroy: () => void;
 };
@@ -186,8 +187,15 @@ export function lookBackBase(data: FinanceData, now: Date, p: LookBack) {
 }
 
 /** One year of the time machine: where equity stood at the end, what that
- *  year added from each source, and the debts at its end. */
-export type TimeYear = { year: number; equity: number; debts: number; start: number; parts: { work: number; repay: number; market: number; housing: number; other: number } };
+ *  year added from each source, what you owned and owed at its end, and
+ *  whether it's a forecast. */
+export type TimeYear = {
+  year: number; equity: number; debts: number; start: number; forecast?: boolean;
+  /** Moments to mark in front of the tower (a home bought that year). */
+  events?: { kind: "home"; name: string; price: number; date: string }[];
+  assets: { home: number; invest: number; cash: number };
+  parts: { work: number; repay: number; market: number; housing: number; other: number };
+};
 
 /** Every year there's data for, oldest first, chained so each year starts
  *  where the one before ended (any gap between two stands goes to Other). */
@@ -205,8 +213,51 @@ export function timeline(data: FinanceData, now: Date): TimeYear[] {
     const work = (b.income - b.fixed - b.repay - b.variable) * n, repay = b.repay * n;
     const market = b.marketMove ?? 0, housing = b.homeMove ?? 0;
     const from = running ?? start;
-    out.push({ year: y, equity, debts: e.mortgage + e.otherDebts.reduce((t, d) => t + d.value, 0), start: from, parts: { work, repay, market, housing, other: equity - from - work - repay - market - housing } });
+    out.push({
+      year: y, equity, start: from,
+      debts: e.mortgage + e.otherDebts.reduce((t, d) => t + d.value, 0),
+      assets: { home: e.home, invest: e.invest, cash: e.cash },
+      parts: { work, repay, market, housing, other: equity - from - work - repay - market - housing },
+    });
     running = equity;
+  }
+  // A home bought in one of these years gets a little house in front of it.
+  for (const h of homes(data)) {
+    const d = h.property.purchase_date;
+    if (!d) continue;
+    const y = out.find((x) => x.year === new Date(d).getFullYear());
+    if (y) (y.events ??= []).push({ kind: "home", name: h.property.name || t("Home"), price: Number(h.property.purchase_price ?? h.property.value) || 0, date: d });
+  }
+  return out;
+}
+
+/** The years ahead, as the model expects them: a usual year (the usual month
+ *  × 12, as Ahead), the mortgage on its real schedule, other debts as they
+ *  are, the markets at the chosen % a year. Starts from today's stand. */
+export function forecastYears(data: FinanceData, now: Date, base: Base, last: TimeYear | undefined, mkt: number, house: number, count = 5): TimeYear[] {
+  const y0 = now.getFullYear();
+  const parts = homes(data).flatMap((h) => h.parts);
+  const mortgageAt = (d: Date) => parts.reduce((t, p) => t + summarizePart(p, d).balance, 0);
+  let cash = base.cash, invest = base.invest, home = base.home;
+  let mortgage = base.mortgage;
+  const other = base.otherDebt;
+  let equity = last?.equity ?? cash + invest + home - mortgage - other;
+  const yearSpend = (base.income - base.fixed - base.variable) * 12;
+  const out: TimeYear[] = [];
+  for (let i = 1; i <= count; i++) {
+    const end = new Date(y0 + i, 11, 31, 23, 59);
+    const nextMortgage = parts.length ? Math.max(mortgageAt(end), 0) : mortgage;
+    const repay = Math.max(mortgage - nextMortgage, 0);
+    const work = yearSpend - repay;
+    const market = invest * (mkt / 100), housing = home * (house / 100);
+    cash += work; invest += market; home += housing; mortgage = nextMortgage;
+    const next = cash + invest + home - mortgage - other;
+    out.push({
+      year: y0 + i, forecast: true, start: equity, equity: next, debts: mortgage + other,
+      assets: { home, invest, cash },
+      parts: { work, repay, market, housing, other: next - equity - work - repay - market - housing },
+    });
+    equity = next;
   }
   return out;
 }
@@ -218,7 +269,7 @@ function loadEngine() {
   if (window.PFMoneyModel) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
     const s = document.createElement("script");
-    s.src = "/moneymodel.js?v=5";
+    s.src = "/moneymodel.js?v=6";
     s.onload = () => resolve();
     s.onerror = () => reject(new Error("moneymodel.js did not load"));
     document.head.appendChild(s);
@@ -257,7 +308,8 @@ export function moneyModelTexts() {
     tipDebtsPush: t("Pushes outwards: your mortgage and other loans."),
     tmStart: t("Where you started"), tmWork: t("From work (income − spending)"), tmRepay: t("From repayment (less debt)"),
     tmMarket: t("From the stock market"), tmHousing: t("From the housing market"), tmOther: t("Other changes"), tmLoss: t("Losses"),
-    tmInYear: t("In {year}: {amount}"), tmLossNote: t("Takes this off your equity."), tmSoFar: t("Up to and including this year."),
+    tmInYear: t("In {year}: {amount}"), tmLossNote: t("Takes this off your equity."),
+    tmOwed: t("Financed with debt"), tmMine: t("Yours (equity)"), tmBought: t("Home bought"), tmExpected: t("expected"), tmSoFar: t("Up to and including this year."),
   };
 }
 
@@ -280,19 +332,29 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
   const y0 = now.getFullYear();
   // The time machine: a tower per year, oldest first; it plays itself once
   // when opened, then the slider or Play moves through the years.
-  const years = useMemo(() => timeline(data, now), [data, now]);
+  const past = useMemo(() => timeline(data, now), [data, now]);
+  // The years ahead (glass towers): the usual year, the mortgage on schedule,
+  // the markets at the chosen % a year.
+  const [ahMkt, setAhMkt] = useState(0);
+  const [ahHouse, setAhHouse] = useState(0);
+  const [tmMode, setTmMode] = useState<"source" | "balance">("source");
+  const years = useMemo(() => [...past, ...forecastYears(data, now, ahead, past[past.length - 1], ahMkt, ahHouse)], [past, data, now, ahead, ahMkt, ahHouse]);
+  const nowIdx = Math.max(past.length - 1, 0);
+  useEffect(() => engine.current?.setTimeMode(tmMode), [tmMode, view]);
   const [yearIdx, setYearIdx] = useState(0);
   const [playing, setPlaying] = useState(false);
   useEffect(() => engine.current?.setYears(years), [years, view]);
   useEffect(() => engine.current?.setYear(yearIdx), [yearIdx, view]);
+  // Play runs to today; started from today (or later) it runs on into the forecast.
+  const [playTo, setPlayTo] = useState(0);
   useEffect(() => {
     if (!playing) return;
     const id = setInterval(() => setYearIdx((i) => {
-      if (i >= years.length - 1) { setPlaying(false); return i; }
+      if (i >= playTo) { setPlaying(false); return i; }
       return i + 1;
     }), 1100);
     return () => clearInterval(id);
-  }, [playing, years.length]);
+  }, [playing, playTo]);
   const fmt = (x: number) => money(x, currency, { compact: Math.abs(x) >= 1_000_000 });
   const fmtRef = useRef(fmt);
   useEffect(() => {
@@ -332,6 +394,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
       engine.current?.setYears(years);
       setYearIdx(0);
       engine.current?.setYear(0);
+      setPlayTo(nowIdx);
       setPlaying(years.length > 1);
     } else setPlaying(false);
     setView(engine.current?.setView(v) ?? v);
@@ -395,10 +458,17 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
             <div>
               <Timeline
                 years={years.map((y) => y.year)}
+                nowAt={nowIdx}
                 at={Math.min(yearIdx, Math.max(years.length - 1, 0))}
                 playing={playing}
                 onPick={(i) => { setPlaying(false); setYearIdx(i); }}
-                onPlay={() => { if (!playing && yearIdx >= years.length - 1) setYearIdx(0); setPlaying(!playing); }}
+                onPlay={() => {
+                  if (playing) return setPlaying(false);
+                  // From today on, play into the forecast; at the end, start over.
+                  if (yearIdx >= years.length - 1) { setYearIdx(0); setPlayTo(nowIdx); }
+                  else setPlayTo(yearIdx >= nowIdx ? years.length - 1 : nowIdx);
+                  setPlaying(true);
+                }}
               />
             </div>
           </div>
@@ -407,8 +477,9 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
           {view === "time" && tm && (
             <div className="pf-card pf-mm-card pf-mm-swap">
               <h3>{t("Time machine")}</h3>
+              <Segmented label={t("View")} value={tmMode} onChange={setTmMode} options={[{ value: "source", label: t("Where it came from") }, { value: "balance", label: t("Owned and owed") }]} />
               <div className="pf-mm-tm-year">
-                <b key={tm.year} className="pf-mm-swap">{tm.year}</b>
+                <b key={tm.year} className="pf-mm-swap">{tm.year}{tm.forecast && <em className="pf-mm-tm-tag">{t("expected")}</em>}</b>
                 <span className="pf-rounded">{money(tm.equity, currency)}</span>
               </div>
               <span className="pf-mm-from">{t("{change} in {year}", { change: money(tm.equity - tm.start, currency, { signed: true }), year: tm.year })}</span>
@@ -420,6 +491,25 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
                     <i data-neg={tm.parts[k] < 0 || undefined} style={{ ["--w" as string]: `${(Math.abs(tm.parts[k]) / tmMax) * 50}%`, ["--c" as string]: TM_COLOR[k] }} />
                   </div>
                 ))}
+              </div>
+              {tmMode === "balance" && (
+                <div className="pf-mm-tm-bal pf-mm-swap">
+                  <span>{t("Home")}</span><b className="pf-rounded">{money(tm.assets.home, currency)}</b>
+                  <span>{t("Investments")}</span><b className="pf-rounded">{money(tm.assets.invest, currency)}</b>
+                  <span>{t("Money & other assets")}</span><b className="pf-rounded">{money(tm.assets.cash, currency)}</b>
+                  <span>{t("Debts")}</span><b className="pf-rounded pf-mm-neg">−{money(tm.debts, currency)}</b>
+                </div>
+              )}
+              <div className="pf-mm-tm-ahead">
+                <span>{t("The years ahead")}</span>
+                <label className="pf-mm-lever">
+                  <span>{t("Stock market per year")} <output>{ahMkt > 0 ? "+" : ""}{ahMkt}%</output></span>
+                  <input type="range" min={-5} max={12} step={1} value={ahMkt} onChange={(e) => setAhMkt(Number(e.target.value))} />
+                </label>
+                <label className="pf-mm-lever">
+                  <span>{t("Housing market per year")} <output>{ahHouse > 0 ? "+" : ""}{ahHouse}%</output></span>
+                  <input type="range" min={-5} max={10} step={1} value={ahHouse} onChange={(e) => setAhHouse(Number(e.target.value))} />
+                </label>
               </div>
             </div>
           )}
@@ -464,7 +554,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
           </div></div></div>
           <p className="pf-mm-note pf-mm-swap" key={`${view === "time" ? "time" : mode}-${period.key}`}>
             {view === "time"
-              ? t("Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.")
+              ? t("A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.")
               : mode === "back" && period.p.from !== y0
               ? t("Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.")
               : mode === "back"
@@ -479,7 +569,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
 
 /** The time machine's timeline: a tick per year, a thumb that glides (drag
  *  it, click a year, or use the arrow keys) and Play. */
-function Timeline({ years, at, playing, onPick, onPlay }: { years: number[]; at: number; playing: boolean; onPick: (i: number) => void; onPlay: () => void }) {
+function Timeline({ years, at, nowAt, playing, onPick, onPlay }: { years: number[]; at: number; nowAt: number; playing: boolean; onPick: (i: number) => void; onPlay: () => void }) {
   const track = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
   const n = years.length;
@@ -506,9 +596,10 @@ function Timeline({ years, at, playing, onPick, onPlay }: { years: number[]; at:
         onPointerCancel={() => setDragging(false)}
       >
         <div className="pf-tl-rail" />
+        {nowAt < n - 1 && <div className="pf-tl-ahead" style={{ left: `${pos(nowAt)}%` }} />}
         <div className="pf-tl-fill" style={{ width: `${pos(at)}%` }} />
         {years.map((y, i) => (
-          <span key={y} className="pf-tl-tick" data-on={i === at || undefined} data-past={i < at || undefined} style={{ left: `${pos(i)}%` }}>
+          <span key={y} className="pf-tl-tick" data-on={i === at || undefined} data-past={i < at || undefined} data-future={i > nowAt || undefined} data-now={i === nowAt || undefined} style={{ left: `${pos(i)}%` }}>
             <i />
             <b>{y}</b>
           </span>

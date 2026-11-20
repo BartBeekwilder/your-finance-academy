@@ -2256,5 +2256,14 @@
  "Pause": "Pauze",
  "Play": "Afspelen",
  "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Elke toren is je eigen vermogen aan het eind van een jaar, opgebouwd uit waar het vandaan kwam; de rode kelder is wat je nog schuldig bent. Wijs een blok aan voor het bedrag.",
- "Takes this off your equity.": "Haalt dit van je eigen vermogen af."
+ "Takes this off your equity.": "Haalt dit van je eigen vermogen af.",
+ "Financed with debt": "Gefinancierd met schuld",
+ "Yours (equity)": "Van jou (eigen vermogen)",
+ "Home bought": "Huis gekocht",
+ "Where it came from": "Herkomst",
+ "Owned and owed": "Bezit en schuld",
+ "The years ahead": "De komende jaren",
+ "Stock market per year": "Beurs per jaar",
+ "Housing market per year": "Huizenmarkt per jaar",
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Een toren per jaar. Herkomst: je eigen vermogen opgebouwd uit waar het vandaan kwam. Bezit en schuld: alles wat je bezit, rood voor het deel dat met schuld is betaald, groen voor het deel dat van jou is. Glazen torens zijn verwacht. Wijs een blok aan voor het bedrag."
 }
