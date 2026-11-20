@@ -207,7 +207,10 @@
     /*money model look back + debts, live 20 Nov*/ "Geldmodel › Terugkijken: zie wat er echt gebeurde, dit jaar tot nu, per eerder jaar of alles sinds je eerste jaar: je balans toen en nu en waar het verschil vandaan kwam.",
     "Geldmodel: elke schuld een eigen balk (hypotheek, autolening, studieschuld…), en aflossing maakt je hypotheek zichtbaar kleiner. De vaste lasten volgen dezelfde verwachting als Uitgaven.",
     /*time machine, live 20 Nov*/ "Geldmodel › Tijdmachine: je eigen vermogen als een toren per jaar, opgebouwd uit waar het vandaan kwam (werk, aflossing, beurs, huizenmarkt), met je schuld als kelder. Druk op afspelen en zie je vermogen door de jaren groeien.",
-    /*time machine ahead + owned/owed, live 20 Nov*/ "Tijdmachine: kijk vijf jaar vooruit met glazen torens (zelf de beurs en huizenmarkt instellen), wissel tussen Herkomst en Bezit en schuld (je schuld zichtbaar binnen je huis), en zie het jaar waarin je je huis kocht."
+    /*time machine ahead + owned/owed, live 20 Nov*/ "Tijdmachine: kijk vijf jaar vooruit met glazen torens (zelf de beurs en huizenmarkt instellen), wissel tussen Herkomst en Bezit en schuld (je schuld zichtbaar binnen je huis), en zie het jaar waarin je je huis kocht.",
+    /*advances due, work hours in Quick Add, no jump, live 20 Nov*/ "Een voorschot krijgt een datum waarop je het terug verwacht; vanaf drie dagen ervoor herinnert het dashboard je eraan.",
+    "Snel toevoegen laat bij een uitgave zien hoeveel werkuren die kost.",
+    "De app opent in één keer met de juiste cijfers: niets verspringt meer als de koersen binnenkomen."
   ];
 
   var L = {
@@ -403,7 +406,10 @@
       "Money model › Looking back: see what really happened, this year so far, per earlier year or everything since your first year: your balance sheet then and now, and where the difference came from.",
       "Money model: every debt its own bar (mortgage, car loan, student loan…), and repayment visibly makes your mortgage smaller. Fixed costs follow the same forecast as Expenses.",
       "Money model › Time machine: your equity as a tower per year, built from where it came from (work, repayment, stock market, housing market), with your debt as the basement. Press play and watch your wealth grow over the years.",
-      "Time machine: look five years ahead with glass towers (set the stock and housing markets yourself), switch between Where it came from and Owned and owed (your debt shown inside your home), and see the year you bought your home."
+      "Time machine: look five years ahead with glass towers (set the stock and housing markets yourself), switch between Where it came from and Owned and owed (your debt shown inside your home), and see the year you bought your home.",
+      "An advance gets the date you expect it back; from three days before, the dashboard reminds you.",
+      "Quick Add shows how many work hours an expense costs.",
+      "The app opens with the right figures at once: nothing jumps when the market prices come in."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -597,7 +603,10 @@
       "Geldmodell › Rückblick: sieh, was wirklich passiert ist, dieses Jahr bisher, je früherem Jahr oder alles seit deinem ersten Jahr: deine Bilanz damals und heute und woher der Unterschied kam.",
       "Geldmodell: jede Schuld als eigener Balken (Hypothek, Autokredit, Studienkredit…), und die Tilgung macht deine Hypothek sichtbar kleiner. Fixkosten folgen derselben Prognose wie Ausgaben.",
       "Geldmodell › Zeitmaschine: dein Eigenkapital als Turm pro Jahr, aufgebaut aus seiner Herkunft (Arbeit, Tilgung, Börse, Immobilienmarkt), mit deinen Schulden als Keller. Drück auf Abspielen und sieh dein Vermögen über die Jahre wachsen.",
-      "Zeitmaschine: Blick fünf Jahre voraus mit gläsernen Türmen (Börse und Immobilienmarkt selbst einstellen), wechsle zwischen Herkunft und Besitz und Schulden (deine Schulden innerhalb deines Hauses) und sieh das Jahr, in dem du dein Haus gekauft hast."
+      "Zeitmaschine: Blick fünf Jahre voraus mit gläsernen Türmen (Börse und Immobilienmarkt selbst einstellen), wechsle zwischen Herkunft und Besitz und Schulden (deine Schulden innerhalb deines Hauses) und sieh das Jahr, in dem du dein Haus gekauft hast.",
+      "Ein Vorschuss bekommt das Datum, an dem du ihn zurück erwartest; ab drei Tagen vorher erinnert dich das Dashboard.",
+      "Schnell hinzufügen zeigt, wie viele Arbeitsstunden eine Ausgabe kostet.",
+      "Die App öffnet sich gleich mit den richtigen Zahlen: Nichts springt mehr, wenn die Kurse hereinkommen."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -791,7 +800,10 @@
       "Modèle d’argent › Rétrospective : vois ce qui s’est vraiment passé, cette année jusqu’ici, par année précédente ou tout depuis ta première année : ton bilan d’alors et d’aujourd’hui, et d’où vient la différence.",
       "Modèle d’argent : chaque dette a sa propre barre (prêt immobilier, prêt auto, prêt étudiant…), et le remboursement réduit visiblement ton prêt. Les charges fixes suivent la même prévision que Dépenses.",
       "Modèle d’argent › Machine à remonter le temps : ton patrimoine net en une tour par année, construite selon son origine (travail, remboursement, bourse, marché immobilier), avec ta dette en sous-sol. Appuie sur lecture et regarde ton patrimoine grandir au fil des ans.",
-      "Machine à remonter le temps : regarde cinq ans en avant avec des tours en verre (règle toi-même la bourse et l’immobilier), passe d’Origine à Avoirs et dettes (ta dette visible dans ton logement) et vois l’année d’achat de ton logement."
+      "Machine à remonter le temps : regarde cinq ans en avant avec des tours en verre (règle toi-même la bourse et l’immobilier), passe d’Origine à Avoirs et dettes (ta dette visible dans ton logement) et vois l’année d’achat de ton logement.",
+      "Une avance reçoit la date de retour prévue ; dès trois jours avant, le tableau de bord te le rappelle.",
+      "L'ajout rapide montre combien d'heures de travail coûte une dépense.",
+      "L'appli s'ouvre directement avec les bons chiffres : plus rien ne saute à l'arrivée des cours."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -985,7 +997,10 @@
       "Modelo del dinero › Mirar atrás: mira lo que pasó de verdad, este año hasta ahora, por año anterior o todo desde tu primer año: tu balance entonces y ahora, y de dónde vino la diferencia.",
       "Modelo del dinero: cada deuda con su propia barra (hipoteca, préstamo del coche, préstamo estudiantil…), y la amortización reduce visiblemente tu hipoteca. Los gastos fijos siguen la misma previsión que Gastos.",
       "Modelo del dinero › Máquina del tiempo: tu patrimonio como una torre por año, construida según su origen (trabajo, amortización, bolsa, mercado inmobiliario), con tu deuda como sótano. Pulsa reproducir y mira crecer tu patrimonio con los años.",
-      "Máquina del tiempo: mira cinco años adelante con torres de cristal (ajusta tú la bolsa y el mercado inmobiliario), cambia entre Origen y Bienes y deudas (tu deuda dentro de tu vivienda) y ve el año en que compraste tu casa."
+      "Máquina del tiempo: mira cinco años adelante con torres de cristal (ajusta tú la bolsa y el mercado inmobiliario), cambia entre Origen y Bienes y deudas (tu deuda dentro de tu vivienda) y ve el año en que compraste tu casa.",
+      "Un adelanto lleva la fecha en que esperas recuperarlo; desde tres días antes, el panel te lo recuerda.",
+      "Añadir rápido muestra cuántas horas de trabajo cuesta un gasto.",
+      "La app se abre con las cifras correctas al instante: nada salta cuando llegan las cotizaciones."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1179,7 +1194,10 @@
       "Modello del denaro › Guardando indietro: guarda cosa è successo davvero, quest’anno finora, per anno precedente o tutto dal tuo primo anno: il tuo bilancio di allora e di oggi, e da dove viene la differenza.",
       "Modello del denaro: ogni debito ha la sua barra (mutuo, prestito auto, prestito studentesco…), e il rimborso riduce visibilmente il mutuo. Le spese fisse seguono la stessa previsione di Uscite.",
       "Modello del denaro › Macchina del tempo: il tuo patrimonio come una torre per anno, costruita in base alla provenienza (lavoro, rimborso, borsa, mercato immobiliare), con il debito come seminterrato. Premi play e guarda crescere il tuo patrimonio negli anni.",
-      "Macchina del tempo: guarda cinque anni avanti con torri di vetro (imposta tu borsa e mercato immobiliare), passa da Provenienza a Beni e debiti (il debito dentro la tua casa) e vedi l’anno in cui hai comprato casa."
+      "Macchina del tempo: guarda cinque anni avanti con torri di vetro (imposta tu borsa e mercato immobiliare), passa da Provenienza a Beni e debiti (il debito dentro la tua casa) e vedi l’anno in cui hai comprato casa.",
+      "Un anticipo riceve la data in cui lo aspetti indietro; da tre giorni prima la dashboard te lo ricorda.",
+      "L'aggiunta rapida mostra quante ore di lavoro costa una spesa.",
+      "L'app si apre subito con le cifre giuste: nulla salta più quando arrivano le quotazioni."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1373,7 +1391,10 @@
       "Modelo do dinheiro › Olhando para trás: veja o que realmente aconteceu, este ano até agora, por ano anterior ou tudo desde o seu primeiro ano: seu balanço de então e de agora, e de onde veio a diferença.",
       "Modelo do dinheiro: cada dívida com sua própria barra (financiamento, empréstimo do carro, crédito estudantil…), e a amortização reduz visivelmente seu financiamento. As despesas fixas seguem a mesma previsão de Despesas.",
       "Modelo do dinheiro › Máquina do tempo: seu patrimônio como uma torre por ano, montada pela origem (trabalho, amortização, bolsa, mercado imobiliário), com sua dívida como porão. Aperte o play e veja seu patrimônio crescer ao longo dos anos.",
-      "Máquina do tempo: veja cinco anos à frente com torres de vidro (ajuste você a bolsa e o mercado imobiliário), alterne entre Origem e Bens e dívidas (sua dívida dentro do seu imóvel) e veja o ano em que comprou seu imóvel."
+      "Máquina do tempo: veja cinco anos à frente com torres de vidro (ajuste você a bolsa e o mercado imobiliário), alterne entre Origem e Bens e dívidas (sua dívida dentro do seu imóvel) e veja o ano em que comprou seu imóvel.",
+      "Um adiantamento ganha a data em que você espera recebê-lo; a partir de três dias antes, o painel te lembra.",
+      "A adição rápida mostra quantas horas de trabalho um gasto custa.",
+      "O app abre de uma vez com os números certos: nada pula quando as cotações chegam."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1567,7 +1588,10 @@
       "Model pieniędzy › Wstecz: zobacz, co naprawdę się wydarzyło, w tym roku do teraz, w każdym wcześniejszym roku lub wszystko od pierwszego roku: twój bilans wtedy i teraz oraz skąd wzięła się różnica.",
       "Model pieniędzy: każdy dług ma własny pasek (hipoteka, kredyt na auto, kredyt studencki…), a spłata widocznie zmniejsza hipotekę. Koszty stałe idą za tą samą prognozą co Wydatki.",
       "Model pieniędzy › Wehikuł czasu: twój kapitał jako wieża na każdy rok, zbudowana z tego, skąd pochodzi (praca, spłata, giełda, rynek nieruchomości), z długiem jako piwnicą. Naciśnij odtwórz i zobacz, jak twój majątek rośnie przez lata.",
-      "Wehikuł czasu: spójrz pięć lat naprzód dzięki szklanym wieżom (sam ustaw giełdę i rynek nieruchomości), przełączaj Pochodzenie i Majątek i długi (dług widoczny w domu) i zobacz rok zakupu domu."
+      "Wehikuł czasu: spójrz pięć lat naprzód dzięki szklanym wieżom (sam ustaw giełdę i rynek nieruchomości), przełączaj Pochodzenie i Majątek i długi (dług widoczny w domu) i zobacz rok zakupu domu.",
+      "Zaliczka dostaje datę spodziewanego zwrotu; od trzech dni wcześniej pulpit ci przypomina.",
+      "Szybkie dodawanie pokazuje, ile godzin pracy kosztuje wydatek.",
+      "Aplikacja od razu otwiera się z właściwymi liczbami: nic nie skacze, gdy przychodzą kursy."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1761,7 +1785,10 @@
       "Para modeli › Geriye bakış: gerçekte ne olduğunu gör; bu yıl şimdiye kadar, her önceki yıl ya da ilk yılından beri tümü: o zamanki ve şimdiki bilançon ve farkın nereden geldiği.",
       "Para modeli: her borcun kendi çubuğu var (konut kredisi, taşıt kredisi, öğrenim kredisi…) ve geri ödeme konut kredini görünür biçimde küçültür. Sabit giderler Giderler ile aynı tahmini izler.",
       "Para modeli › Zaman makinesi: öz varlığın her yıl için bir kule; nereden geldiğine göre kurulu (iş, geri ödeme, borsa, konut piyasası), borcun bodrum katında. Oynat'a bas ve servetinin yıllar içinde büyümesini izle.",
-      "Zaman makinesi: cam kulelerle beş yıl ileriye bak (borsa ve konut piyasasını kendin ayarla), Kaynak ile Varlık ve borç arasında geçiş yap (borcun evinin içinde görünür) ve evini aldığın yılı gör."
+      "Zaman makinesi: cam kulelerle beş yıl ileriye bak (borsa ve konut piyasasını kendin ayarla), Kaynak ile Varlık ve borç arasında geçiş yap (borcun evinin içinde görünür) ve evini aldığın yılı gör.",
+      "Bir avans, geri beklediğin tarihi alır; üç gün öncesinden panel sana hatırlatır.",
+      "Hızlı ekle, bir harcamanın kaç çalışma saatine mal olduğunu gösterir.",
+      "Uygulama doğru rakamlarla tek seferde açılır: fiyatlar gelince artık hiçbir şey sıçramaz."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1955,7 +1982,10 @@
       "Модель денег › Назад: посмотри, что на самом деле произошло, в этом году до сих пор, по прошлым годам или всё с первого года: твой баланс тогда и сейчас и откуда взялась разница.",
       "Модель денег: каждый долг — отдельная полоса (ипотека, автокредит, студенческий кредит…), а погашение заметно уменьшает ипотеку. Постоянные расходы следуют тому же прогнозу, что и Расходы.",
       "Модель денег › Машина времени: твой капитал — башня на каждый год, сложенная по источникам (работа, погашение, биржа, рынок жилья), долг — подвал. Нажми «Воспроизвести» и смотри, как растёт капитал по годам.",
-      "Машина времени: загляни на пять лет вперёд со стеклянными башнями (сам задай биржу и рынок жилья), переключайся между «Источники» и «Имущество и долги» (долг виден внутри дома) и смотри год покупки дома."
+      "Машина времени: загляни на пять лет вперёд со стеклянными башнями (сам задай биржу и рынок жилья), переключайся между «Источники» и «Имущество и долги» (долг виден внутри дома) и смотри год покупки дома.",
+      "У аванса появляется дата ожидаемого возврата; за три дня до неё панель напомнит.",
+      "Быстрое добавление показывает, сколько часов работы стоит расход.",
+      "Приложение сразу открывается с верными цифрами: ничего не скачет, когда приходят котировки."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2149,7 +2179,10 @@
       "نموذج المال › نظرة إلى الوراء: شاهد ما حدث فعلًا، هذا العام حتى الآن، لكل سنة سابقة أو الكل منذ سنتك الأولى: ميزانيتك آنذاك والآن، ومن أين جاء الفرق.",
       "نموذج المال: لكل دين شريطه الخاص (الرهن العقاري، قرض السيارة، قرض الدراسة…)، والسداد يُصغّر رهنك العقاري بشكل واضح. تتبع التكاليف الثابتة التوقع نفسه في المصروفات.",
       "نموذج المال › آلة الزمن: ثروتك كبرج لكل سنة، مبني حسب مصدرها (العمل، السداد، البورصة، سوق العقار)، وديونك كقبو. اضغط تشغيل وشاهد ثروتك تنمو عبر السنين.",
-      "آلة الزمن: انظر خمس سنوات إلى الأمام بأبراج زجاجية (اضبط البورصة وسوق العقار بنفسك)، وبدّل بين المصدر والممتلكات والديون (دينك ظاهر داخل منزلك)، وشاهد سنة شراء منزلك."
+      "آلة الزمن: انظر خمس سنوات إلى الأمام بأبراج زجاجية (اضبط البورصة وسوق العقار بنفسك)، وبدّل بين المصدر والممتلكات والديون (دينك ظاهر داخل منزلك)، وشاهد سنة شراء منزلك.",
+      "تحصل السلفة على التاريخ الذي تتوقع استردادها فيه؛ وقبل ثلاثة أيام تذكّرك لوحة التحكم.",
+      "تعرض الإضافة السريعة عدد ساعات العمل التي تكلّفها النفقة.",
+      "يفتح التطبيق بالأرقام الصحيحة مرة واحدة: لا شيء يقفز عند وصول الأسعار."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2343,7 +2376,10 @@
       "मनी मॉडल › पीछे देखें: देखें असल में क्या हुआ — इस साल अब तक, हर पिछले साल या पहले साल से सब: तब और अब की आपकी बैलेंस शीट, और अंतर कहाँ से आया।",
       "मनी मॉडल: हर कर्ज़ की अपनी पट्टी (होम लोन, कार लोन, एजुकेशन लोन…), और चुकौती से होम लोन साफ़ तौर पर घटता है। निश्चित खर्च खर्चों वाले ही अनुमान का पालन करते हैं।",
       "मनी मॉडल › टाइम मशीन: हर साल आपकी शुद्ध संपत्ति का एक टावर, स्रोत के अनुसार बना (काम, चुकौती, शेयर बाज़ार, हाउसिंग बाज़ार), और कर्ज़ तहखाने के रूप में। चलाएँ दबाएँ और सालों में अपनी संपत्ति बढ़ते देखें।",
-      "टाइम मशीन: काँच के टावरों के साथ पाँच साल आगे देखें (शेयर और हाउसिंग बाज़ार खुद सेट करें), स्रोत और संपत्ति और कर्ज़ के बीच बदलें (कर्ज़ आपके घर के भीतर दिखता है), और वह साल देखें जब आपने घर खरीदा।"
+      "टाइम मशीन: काँच के टावरों के साथ पाँच साल आगे देखें (शेयर और हाउसिंग बाज़ार खुद सेट करें), स्रोत और संपत्ति और कर्ज़ के बीच बदलें (कर्ज़ आपके घर के भीतर दिखता है), और वह साल देखें जब आपने घर खरीदा।",
+      "अग्रिम को वह तारीख मिलती है जब आप उसे वापस चाहते हैं; तीन दिन पहले से डैशबोर्ड याद दिलाता है।",
+      "क्विक ऐड दिखाता है कि किसी खर्च के लिए कितने घंटे काम करना पड़ता है।",
+      "ऐप सही आँकड़ों के साथ एक बार में खुलता है: बाज़ार भाव आने पर अब कुछ नहीं उछलता।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2537,7 +2573,10 @@
       "Model uang › Melihat ke belakang: lihat apa yang benar-benar terjadi, tahun ini sejauh ini, per tahun sebelumnya atau semua sejak tahun pertamamu: neracamu dulu dan sekarang, serta dari mana selisihnya.",
       "Model uang: setiap utang punya batangnya sendiri (KPR, kredit mobil, pinjaman pendidikan…), dan cicilan pokok terlihat mengecilkan KPR-mu. Biaya tetap mengikuti perkiraan yang sama dengan Pengeluaran.",
       "Model uang › Mesin waktu: ekuitasmu sebagai menara per tahun, tersusun dari asalnya (kerja, cicilan pokok, bursa, pasar properti), dengan utang sebagai ruang bawah. Tekan putar dan lihat kekayaanmu tumbuh dari tahun ke tahun.",
-      "Mesin waktu: lihat lima tahun ke depan dengan menara kaca (atur sendiri bursa dan pasar properti), beralih antara Asal dan Aset dan utang (utangmu terlihat di dalam rumahmu), dan lihat tahun kamu membeli rumah."
+      "Mesin waktu: lihat lima tahun ke depan dengan menara kaca (atur sendiri bursa dan pasar properti), beralih antara Asal dan Aset dan utang (utangmu terlihat di dalam rumahmu), dan lihat tahun kamu membeli rumah.",
+      "Talangan punya tanggal perkiraan kembali; mulai tiga hari sebelumnya, dasbor mengingatkanmu.",
+      "Tambah cepat menampilkan berapa jam kerja sebuah pengeluaran.",
+      "Aplikasi langsung terbuka dengan angka yang benar: tak ada yang melompat saat harga pasar masuk."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2731,7 +2770,10 @@
       "マネーモデル › 振り返り:今年これまで、過去の各年、または最初の年以降すべてについて、実際に起きたことを確認。当時と今の貸借対照表と、その差がどこから来たか。",
       "マネーモデル:借入ごとに別のバー(住宅ローン、自動車ローン、奨学金…)で表示し、返済で住宅ローンが目に見えて減ります。固定費は支出と同じ見込みに従います。",
       "マネーモデル › タイムマシン:純資産を年ごとのタワーで表示。出どころ別(仕事、返済、株式市場、住宅市場)に積み上げ、負債は地下に。再生を押すと資産が年々育つ様子が見られます。",
-      "タイムマシン:ガラスのタワーで5年先まで表示(株式市場と住宅市場は自分で設定)。「出どころ」と「資産と負債」を切り替えられ(負債は住宅の中に表示)、住宅を購入した年も分かります。"
+      "タイムマシン:ガラスのタワーで5年先まで表示(株式市場と住宅市場は自分で設定)。「出どころ」と「資産と負債」を切り替えられ(負債は住宅の中に表示)、住宅を購入した年も分かります。",
+      "立替金に戻る予定日を設定でき、3日前からダッシュボードでお知らせします。",
+      "クイック追加で、支出が何時間分の労働かが表示されます。",
+      "アプリは最初から正しい数字で開き、相場が届いても数字が跳ねません。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -2925,7 +2967,10 @@
       "머니 모델 › 돌아보기: 올해 지금까지, 이전 각 연도 또는 첫해 이후 전체에 실제로 일어난 일을 확인하세요. 그때와 지금의 대차대조표, 그리고 차이가 어디서 왔는지.",
       "머니 모델: 부채마다 별도 막대(주택담보대출, 자동차 대출, 학자금 대출…)로 보이고, 상환하면 주택담보대출이 눈에 띄게 줄어듭니다. 고정비는 지출과 같은 예상을 따릅니다.",
       "머니 모델 › 타임머신: 순자산을 연도별 타워로, 출처별(근로, 상환, 주식시장, 주택시장)로 쌓고 부채는 지하층으로 보여 줍니다. 재생을 누르면 자산이 해마다 자라는 모습을 볼 수 있습니다.",
-      "타임머신: 유리 타워로 5년 앞을 내다보세요(주식·주택시장은 직접 설정). 출처와 자산과 부채를 전환하고(부채가 집 안에 표시됨), 집을 산 해도 확인하세요."
+      "타임머신: 유리 타워로 5년 앞을 내다보세요(주식·주택시장은 직접 설정). 출처와 자산과 부채를 전환하고(부채가 집 안에 표시됨), 집을 산 해도 확인하세요.",
+      "선지급금에 돌려받을 예정일을 넣을 수 있고, 3일 전부터 대시보드가 알려 줍니다.",
+      "빠른 추가에서 지출이 몇 시간의 근로인지 보여 줍니다.",
+      "앱이 처음부터 올바른 숫자로 열려, 시세가 들어와도 숫자가 튀지 않습니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3119,7 +3164,10 @@
       "Mô hình tiền › Nhìn lại: xem điều thực sự đã xảy ra, năm nay đến giờ, từng năm trước hoặc tất cả từ năm đầu tiên: bảng cân đối khi đó và bây giờ, và chênh lệch đến từ đâu.",
       "Mô hình tiền: mỗi khoản nợ một thanh riêng (vay mua nhà, vay mua xe, vay học…), và trả gốc làm khoản vay mua nhà nhỏ đi rõ ràng. Chi phí cố định theo cùng dự báo như Chi tiêu.",
       "Mô hình tiền › Cỗ máy thời gian: vốn chủ sở hữu thành một tòa tháp mỗi năm, xếp theo nguồn gốc (làm việc, trả nợ gốc, chứng khoán, nhà đất), với khoản nợ là tầng hầm. Nhấn phát và xem tài sản lớn dần qua các năm.",
-      "Cỗ máy thời gian: nhìn trước năm năm với những tòa tháp kính (tự đặt chứng khoán và nhà đất), chuyển giữa Nguồn gốc và Tài sản và nợ (khoản nợ hiển thị bên trong ngôi nhà), và xem năm bạn mua nhà."
+      "Cỗ máy thời gian: nhìn trước năm năm với những tòa tháp kính (tự đặt chứng khoán và nhà đất), chuyển giữa Nguồn gốc và Tài sản và nợ (khoản nợ hiển thị bên trong ngôi nhà), và xem năm bạn mua nhà.",
+      "Khoản ứng trước có ngày dự kiến nhận lại; từ ba ngày trước, bảng điều khiển sẽ nhắc bạn.",
+      "Thêm nhanh cho biết một khoản chi tốn bao nhiêu giờ làm việc.",
+      "Ứng dụng mở ra ngay với số liệu đúng: không còn nhảy số khi giá thị trường cập nhật."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3313,7 +3361,10 @@
       "金钱模型 › 回顾：看看真实发生了什么——今年至今、以往每一年，或自第一年以来全部：当时和现在的资产负债表，以及差额从何而来。",
       "金钱模型：每笔债务都有自己的条形(房贷、车贷、助学贷款…)，还款让房贷明显变小。固定支出与“支出”使用同一预测。",
       "金钱模型 › 时光机：每年一座塔展示你的净资产，按来源堆叠(工作、还款、股市、房市)，债务是地下室。点播放，看你的财富逐年增长。",
-      "时光机：用玻璃塔展望未来五年(股市和房市自行设定)，在“来源”与“资产与负债”之间切换(债务显示在你的房子里)，并看到你购房的那一年。"
+      "时光机：用玻璃塔展望未来五年(股市和房市自行设定)，在“来源”与“资产与负债”之间切换(债务显示在你的房子里)，并看到你购房的那一年。",
+      "垫付款可以设置预计收回日期；提前三天起，仪表板会提醒你。",
+      "快速添加会显示一笔支出相当于多少小时的工作。",
+      "应用一打开就是正确的数字：行情到达时不再跳动。"
     ]
   };
 
