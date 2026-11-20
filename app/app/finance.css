@@ -6773,3 +6773,8 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .pf-mm-lever input { width: 100%; accent-color: #40c8e0; }
 .pf-mm-note { margin: 0; color: var(--pf-ink-3); font-size: 0.72rem; }
 @media (prefers-reduced-motion: reduce) { .pf-mm-fold, .pf-mm-periods .pf-chip { transition: none; } .pf-mm-swap, .pf-mm-part { animation: none; } }
+
+/* Dashboard views (to and from the money model): fade and rise into place. */
+.pf-view-in { min-width: 0; animation: pf-view-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes pf-view-in { from { opacity: 0; transform: translateY(14px) scale(0.99); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+@media (prefers-reduced-motion: reduce) { .pf-view-in { animation: none; } }

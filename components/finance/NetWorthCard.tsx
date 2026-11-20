@@ -13,8 +13,8 @@ import LiveAmount from "./LiveAmount";
 
 // The first tile of the app (Bart, 19 Nov): liquidity live, on the same
 // model as the Liquidity page (netWorthFigures.liveChange), with
-//   • the month's path: from the 1st to now, then dashed to what's expected
-//     at the end of the month;
+//   • the period's path: from the 1st (or 1 January, when the dashboard is on
+//     Year) to now, then dashed to what's expected at its end;
 //   • where it sits: one bar — directly available, savings, investments;
 //   • day / month / year as one total each; a tap splits them into work
 //     (income − expenses) and investments (the market by itself).
@@ -29,6 +29,7 @@ export default function NetWorthCard({
   investments,
   invest,
   currency,
+  year,
 }: {
   /** Liquidity on the 1st of this month. */
   base: number;
@@ -47,6 +48,8 @@ export default function NetWorthCard({
   /** Market change of the investments per period (absent without live quotes). */
   invest?: { day: number; month: number; year: number };
   currency: string;
+  /** The dashboard on Year: the path runs over the year (Bart, 20 Nov). */
+  year?: { start: number; finished: number[]; rest: number };
 }) {
   const [split, setSplit] = useState(false);
   const now = useTickerNow();
@@ -114,7 +117,7 @@ export default function NetWorthCard({
         </button>
       </div>
 
-      <MonthPath base={base} liveChange={liveChange} monthEnd={monthEnd} now={now} currency={currency} />
+      <PeriodPath key={year ? "y" : "m"} base={base} liveChange={liveChange} monthEnd={monthEnd} year={year} now={now} currency={currency} />
       <MixBar total={live} savings={savings} investments={investments} currency={currency} />
     </section>
   );
@@ -137,22 +140,31 @@ function Stat({ label, work, invest, split, currency }: { label: string; work: n
   );
 }
 
-/** The month so far (solid, day by day) and what's expected by its end (dashed). */
-function MonthPath({ base, liveChange, monthEnd, now, currency }: { base: number; liveChange: (at: number) => number; monthEnd: number; now: number; currency: string }) {
+/** The month (or the year) so far, solid, and what's expected by its end, dashed. */
+function PeriodPath({ base, liveChange, monthEnd, year, now, currency }: { base: number; liveChange: (at: number) => number; monthEnd: number; year?: { start: number; finished: number[]; rest: number }; now: number; currency: string }) {
   const d = new Date(now);
   const y = d.getFullYear(), m = d.getMonth();
   const days = new Date(y, m + 1, 0).getDate();
-  const start = new Date(y, m, 1).getTime();
-  const span = days * 86_400_000;
-  // One point per day (the end of each day so far), then now.
-  const pts: [number, number][] = [[start, base]];
+  const start = year ? new Date(y, 0, 1).getTime() : new Date(y, m, 1).getTime();
+  const end = year ? new Date(y + 1, 0, 1).getTime() : new Date(y, m + 1, 1).getTime();
+  const span = end - start;
+  const from = year ? year.start : base;
+  // The month: one point per day so far. The year: one per finished month
+  // (its last moment), the days of this month, then now.
+  const pts: [number, number][] = [[start, from]];
+  if (year) {
+    let v = year.start;
+    year.finished.forEach((change, i) => { v += change; pts.push([new Date(y, i + 1, 1).getTime() - 1, v]); });
+  }
   for (let day = 1; day < d.getDate(); day++) {
     const at = new Date(y, m, day + 1).getTime();
     pts.push([at, base + liveChange(at)]);
   }
   pts.push([now, base + liveChange(now)]);
-  const end = new Date(y, m + 1, 1).getTime();
-  const vals = [...pts.map((p) => p[1]), monthEnd];
+  // The year's end: this month's expected end plus the months after it.
+  const periodEnd = year ? monthEnd + year.rest : monthEnd;
+  void days;
+  const vals = [...pts.map((p) => p[1]), periodEnd];
   const lo = Math.min(...vals), hi = Math.max(...vals);
   const pad = Math.max((hi - lo) * 0.15, 1);
   const W = 1000, H = 90;
@@ -175,22 +187,24 @@ function MonthPath({ base, liveChange, monthEnd, now, currency }: { base: number
       setHover({ t: pts[i][0], v: pts[i][1], kind: i === 0 ? "start" : i === pts.length - 1 ? "now" : "day" });
     } else {
       const f = (at - last[0]) / Math.max(end - last[0], 1);
-      setHover({ t: at, v: last[1] + (monthEnd - last[1]) * f, kind: "expected" });
+      setHover({ t: at, v: last[1] + (periodEnd - last[1]) * f, kind: "expected" });
     }
   };
   // The point a day stands for is its end; read it as that day.
   const dayOf = (t: number, kind: string) => new Date(kind === "day" ? t - 1 : t);
   const date = (d: Date) => `${cap(d.toLocaleDateString(intlLocale(), { weekday: "short" }))} ${d.getDate()} ${shortMonth(d)}`;
   const hoverText = hover && (() => {
-    const when = hover.kind === "now" ? t("Now") : hover.kind === "start" ? t("Start of the month") : date(dayOf(hover.t, hover.kind));
+    // A finished month's point (the year) reads as that month.
+    const monthPoint = year && hover.kind === "day" && new Date(hover.t).getMonth() !== m;
+    const when = hover.kind === "now" ? t("Now") : hover.kind === "start" ? (year ? t("Start of the year") : t("Start of the month")) : monthPoint ? `${monthName(new Date(hover.t))} ${y}` : date(dayOf(hover.t, hover.kind));
     const head = hover.kind === "expected" ? t("Expected on {date}", { date: date(new Date(hover.t)) }) : when;
-    const diff = hover.kind === "start" ? "" : `${money(hover.v - base, currency, { signed: true })} ${t("since the 1st")}`;
+    const diff = hover.kind === "start" ? "" : `${money(hover.v - from, currency, { signed: true })} ${year ? t("since 1 January") : t("since the 1st")}`;
     return { head, value: money(hover.v, currency), diff };
   })();
   return (
     <div className="pf-nwc-path">
       <div className="pf-nwc-plot" onPointerMove={onMove} onPointerLeave={() => setHover(null)}>
-        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img" aria-label={`${t("Expected at the end of {month}", { month: monthName(d) })} ${money(monthEnd, currency)}`}>
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img" aria-label={`${t("Expected at the end of {month}", { month: year ? String(y) : monthName(d) })} ${money(periodEnd, currency)}`}>
           <defs>
             <linearGradient id="pf-nwc-fill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#30d158" stopOpacity="0.22" />
@@ -199,10 +213,10 @@ function MonthPath({ base, liveChange, monthEnd, now, currency }: { base: number
           </defs>
           <path d={area} fill="url(#pf-nwc-fill)" className="pf-nwc-area" />
           <path d={line} fill="none" stroke="#30d158" strokeWidth={2} vectorEffect="non-scaling-stroke" className="pf-nwc-line" />
-          <path d={`M${x(last[0]).toFixed(1)},${yv(last[1]).toFixed(1)} L${x(end)},${yv(monthEnd).toFixed(1)}`} fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth={1.5} strokeDasharray="4 5" vectorEffect="non-scaling-stroke" />
+          <path d={`M${x(last[0]).toFixed(1)},${yv(last[1]).toFixed(1)} L${x(end)},${yv(periodEnd).toFixed(1)}`} fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth={1.5} strokeDasharray="4 5" vectorEffect="non-scaling-stroke" />
         </svg>
         <span className="pf-nwc-dot" style={{ left: `${nowX}%`, top: `${(yv(last[1]) / H) * 100}%` }} />
-        <span className="pf-nwc-dot pf-nwc-dot-end" style={{ left: "100%", top: `${(yv(monthEnd) / H) * 100}%` }} />
+        <span className="pf-nwc-dot pf-nwc-dot-end" style={{ left: "100%", top: `${(yv(periodEnd) / H) * 100}%` }} />
         {hover && hoverText && (
           <>
             <span className="pf-nwc-hair" style={{ left: `${(x(hover.t) / W) * 100}%` }} />
@@ -217,10 +231,10 @@ function MonthPath({ base, liveChange, monthEnd, now, currency }: { base: number
       </div>
       <div className="pf-nwc-path-foot pf-readout">
         <span>
-          {t("Start of the month")} <b>{money(base, currency)}</b>
+          {year ? t("Start of the year") : t("Start of the month")} <b>{money(from, currency)}</b>
         </span>
         <span style={{ textAlign: "right" }}>
-          {t("Expected at the end of {month}", { month: monthName(d) })} <b>{money(monthEnd, currency)}</b>
+          {t("Expected at the end of {month}", { month: year ? String(y) : monthName(d) })} <b>{money(periodEnd, currency)}</b>
         </span>
       </div>
     </div>

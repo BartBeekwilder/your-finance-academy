@@ -210,7 +210,8 @@
     /*time machine ahead + owned/owed, live 20 Nov*/ "Tijdmachine: kijk vijf jaar vooruit met glazen torens (zelf de beurs en huizenmarkt instellen), wissel tussen Herkomst en Bezit en schuld (je schuld zichtbaar binnen je huis), en zie het jaar waarin je je huis kocht.",
     /*advances due, work hours in Quick Add, no jump, live 20 Nov*/ "Een voorschot krijgt een datum waarop je het terug verwacht; vanaf drie dagen ervoor herinnert het dashboard je eraan.",
     "Snel toevoegen laat bij een uitgave zien hoeveel werkuren die kost.",
-    "De app opent in één keer met de juiste cijfers: niets verspringt meer als de koersen binnenkomen."
+    "De app opent in één keer met de juiste cijfers: niets verspringt meer als de koersen binnenkomen.",
+    /*tile follows Year, smooth switch, live 20 Nov*/ "Zet je het dashboard op Jaar, dan toont de liquiditeitstegel je jaar: van 1 januari tot nu en wat je eind december verwacht. De overstap naar het Geldmodel gaat vloeiend."
   ];
 
   var L = {
@@ -409,7 +410,8 @@
       "Time machine: look five years ahead with glass towers (set the stock and housing markets yourself), switch between Where it came from and Owned and owed (your debt shown inside your home), and see the year you bought your home.",
       "An advance gets the date you expect it back; from three days before, the dashboard reminds you.",
       "Quick Add shows how many work hours an expense costs.",
-      "The app opens with the right figures at once: nothing jumps when the market prices come in."
+      "The app opens with the right figures at once: nothing jumps when the market prices come in.",
+      "Set the dashboard to Year and the liquidity tile shows your year: from 1 January to now and what you expect at the end of December. Switching to the Money model glides."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -606,7 +608,8 @@
       "Zeitmaschine: Blick fünf Jahre voraus mit gläsernen Türmen (Börse und Immobilienmarkt selbst einstellen), wechsle zwischen Herkunft und Besitz und Schulden (deine Schulden innerhalb deines Hauses) und sieh das Jahr, in dem du dein Haus gekauft hast.",
       "Ein Vorschuss bekommt das Datum, an dem du ihn zurück erwartest; ab drei Tagen vorher erinnert dich das Dashboard.",
       "Schnell hinzufügen zeigt, wie viele Arbeitsstunden eine Ausgabe kostet.",
-      "Die App öffnet sich gleich mit den richtigen Zahlen: Nichts springt mehr, wenn die Kurse hereinkommen."
+      "Die App öffnet sich gleich mit den richtigen Zahlen: Nichts springt mehr, wenn die Kurse hereinkommen.",
+      "Stellst du das Dashboard auf Jahr, zeigt die Liquiditätskachel dein Jahr: vom 1. Januar bis jetzt und was du Ende Dezember erwartest. Der Wechsel zum Geldmodell gleitet."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -803,7 +806,8 @@
       "Machine à remonter le temps : regarde cinq ans en avant avec des tours en verre (règle toi-même la bourse et l’immobilier), passe d’Origine à Avoirs et dettes (ta dette visible dans ton logement) et vois l’année d’achat de ton logement.",
       "Une avance reçoit la date de retour prévue ; dès trois jours avant, le tableau de bord te le rappelle.",
       "L'ajout rapide montre combien d'heures de travail coûte une dépense.",
-      "L'appli s'ouvre directement avec les bons chiffres : plus rien ne saute à l'arrivée des cours."
+      "L'appli s'ouvre directement avec les bons chiffres : plus rien ne saute à l'arrivée des cours.",
+      "Mets le tableau de bord sur Année et la tuile de liquidités montre ton année : du 1er janvier à maintenant et ce que tu attends fin décembre. Le passage au modèle financier est fluide."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1000,7 +1004,8 @@
       "Máquina del tiempo: mira cinco años adelante con torres de cristal (ajusta tú la bolsa y el mercado inmobiliario), cambia entre Origen y Bienes y deudas (tu deuda dentro de tu vivienda) y ve el año en que compraste tu casa.",
       "Un adelanto lleva la fecha en que esperas recuperarlo; desde tres días antes, el panel te lo recuerda.",
       "Añadir rápido muestra cuántas horas de trabajo cuesta un gasto.",
-      "La app se abre con las cifras correctas al instante: nada salta cuando llegan las cotizaciones."
+      "La app se abre con las cifras correctas al instante: nada salta cuando llegan las cotizaciones.",
+      "Pon el panel en Año y la tarjeta de liquidez muestra tu año: del 1 de enero hasta hoy y lo que esperas a finales de diciembre. El paso al modelo del dinero es fluido."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1197,7 +1202,8 @@
       "Macchina del tempo: guarda cinque anni avanti con torri di vetro (imposta tu borsa e mercato immobiliare), passa da Provenienza a Beni e debiti (il debito dentro la tua casa) e vedi l’anno in cui hai comprato casa.",
       "Un anticipo riceve la data in cui lo aspetti indietro; da tre giorni prima la dashboard te lo ricorda.",
       "L'aggiunta rapida mostra quante ore di lavoro costa una spesa.",
-      "L'app si apre subito con le cifre giuste: nulla salta più quando arrivano le quotazioni."
+      "L'app si apre subito con le cifre giuste: nulla salta più quando arrivano le quotazioni.",
+      "Imposta la dashboard su Anno e il riquadro della liquidità mostra il tuo anno: dal 1° gennaio a oggi e ciò che prevedi a fine dicembre. Il passaggio al modello del denaro è fluido."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1394,7 +1400,8 @@
       "Máquina do tempo: veja cinco anos à frente com torres de vidro (ajuste você a bolsa e o mercado imobiliário), alterne entre Origem e Bens e dívidas (sua dívida dentro do seu imóvel) e veja o ano em que comprou seu imóvel.",
       "Um adiantamento ganha a data em que você espera recebê-lo; a partir de três dias antes, o painel te lembra.",
       "A adição rápida mostra quantas horas de trabalho um gasto custa.",
-      "O app abre de uma vez com os números certos: nada pula quando as cotações chegam."
+      "O app abre de uma vez com os números certos: nada pula quando as cotações chegam.",
+      "Coloque o painel em Ano e o card de liquidez mostra seu ano: de 1º de janeiro até agora e o que você espera no fim de dezembro. A troca para o modelo do dinheiro é suave."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1591,7 +1598,8 @@
       "Wehikuł czasu: spójrz pięć lat naprzód dzięki szklanym wieżom (sam ustaw giełdę i rynek nieruchomości), przełączaj Pochodzenie i Majątek i długi (dług widoczny w domu) i zobacz rok zakupu domu.",
       "Zaliczka dostaje datę spodziewanego zwrotu; od trzech dni wcześniej pulpit ci przypomina.",
       "Szybkie dodawanie pokazuje, ile godzin pracy kosztuje wydatek.",
-      "Aplikacja od razu otwiera się z właściwymi liczbami: nic nie skacze, gdy przychodzą kursy."
+      "Aplikacja od razu otwiera się z właściwymi liczbami: nic nie skacze, gdy przychodzą kursy.",
+      "Ustaw pulpit na Rok, a kafelek płynności pokaże twój rok: od 1 stycznia do teraz i czego oczekujesz pod koniec grudnia. Przejście do modelu pieniędzy jest płynne."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1788,7 +1796,8 @@
       "Zaman makinesi: cam kulelerle beş yıl ileriye bak (borsa ve konut piyasasını kendin ayarla), Kaynak ile Varlık ve borç arasında geçiş yap (borcun evinin içinde görünür) ve evini aldığın yılı gör.",
       "Bir avans, geri beklediğin tarihi alır; üç gün öncesinden panel sana hatırlatır.",
       "Hızlı ekle, bir harcamanın kaç çalışma saatine mal olduğunu gösterir.",
-      "Uygulama doğru rakamlarla tek seferde açılır: fiyatlar gelince artık hiçbir şey sıçramaz."
+      "Uygulama doğru rakamlarla tek seferde açılır: fiyatlar gelince artık hiçbir şey sıçramaz.",
+      "Paneli Yıl'a alırsan likidite kutusu yılını gösterir: 1 Ocak'tan bugüne ve aralık sonunda beklediğin. Para modeline geçiş akıcı."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1985,7 +1994,8 @@
       "Машина времени: загляни на пять лет вперёд со стеклянными башнями (сам задай биржу и рынок жилья), переключайся между «Источники» и «Имущество и долги» (долг виден внутри дома) и смотри год покупки дома.",
       "У аванса появляется дата ожидаемого возврата; за три дня до неё панель напомнит.",
       "Быстрое добавление показывает, сколько часов работы стоит расход.",
-      "Приложение сразу открывается с верными цифрами: ничего не скачет, когда приходят котировки."
+      "Приложение сразу открывается с верными цифрами: ничего не скачет, когда приходят котировки.",
+      "Переключи панель на «Год», и плитка ликвидности покажет твой год: с 1 января до сегодня и ожидание на конец декабря. Переход к модели денег плавный."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2182,7 +2192,8 @@
       "آلة الزمن: انظر خمس سنوات إلى الأمام بأبراج زجاجية (اضبط البورصة وسوق العقار بنفسك)، وبدّل بين المصدر والممتلكات والديون (دينك ظاهر داخل منزلك)، وشاهد سنة شراء منزلك.",
       "تحصل السلفة على التاريخ الذي تتوقع استردادها فيه؛ وقبل ثلاثة أيام تذكّرك لوحة التحكم.",
       "تعرض الإضافة السريعة عدد ساعات العمل التي تكلّفها النفقة.",
-      "يفتح التطبيق بالأرقام الصحيحة مرة واحدة: لا شيء يقفز عند وصول الأسعار."
+      "يفتح التطبيق بالأرقام الصحيحة مرة واحدة: لا شيء يقفز عند وصول الأسعار.",
+      "اضبط اللوحة على السنة وستعرض بطاقة السيولة سنتك: من 1 يناير حتى الآن وما تتوقعه في نهاية ديسمبر. الانتقال إلى نموذج المال سلس."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2379,7 +2390,8 @@
       "टाइम मशीन: काँच के टावरों के साथ पाँच साल आगे देखें (शेयर और हाउसिंग बाज़ार खुद सेट करें), स्रोत और संपत्ति और कर्ज़ के बीच बदलें (कर्ज़ आपके घर के भीतर दिखता है), और वह साल देखें जब आपने घर खरीदा।",
       "अग्रिम को वह तारीख मिलती है जब आप उसे वापस चाहते हैं; तीन दिन पहले से डैशबोर्ड याद दिलाता है।",
       "क्विक ऐड दिखाता है कि किसी खर्च के लिए कितने घंटे काम करना पड़ता है।",
-      "ऐप सही आँकड़ों के साथ एक बार में खुलता है: बाज़ार भाव आने पर अब कुछ नहीं उछलता।"
+      "ऐप सही आँकड़ों के साथ एक बार में खुलता है: बाज़ार भाव आने पर अब कुछ नहीं उछलता।",
+      "डैशबोर्ड को साल पर रखें, तो लिक्विडिटी टाइल आपका साल दिखाती है: 1 जनवरी से अब तक और दिसंबर के अंत की उम्मीद। पैसे के मॉडल पर जाना सहज है।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2576,7 +2588,8 @@
       "Mesin waktu: lihat lima tahun ke depan dengan menara kaca (atur sendiri bursa dan pasar properti), beralih antara Asal dan Aset dan utang (utangmu terlihat di dalam rumahmu), dan lihat tahun kamu membeli rumah.",
       "Talangan punya tanggal perkiraan kembali; mulai tiga hari sebelumnya, dasbor mengingatkanmu.",
       "Tambah cepat menampilkan berapa jam kerja sebuah pengeluaran.",
-      "Aplikasi langsung terbuka dengan angka yang benar: tak ada yang melompat saat harga pasar masuk."
+      "Aplikasi langsung terbuka dengan angka yang benar: tak ada yang melompat saat harga pasar masuk.",
+      "Atur dasbor ke Tahun dan kartu likuiditas menampilkan tahunmu: dari 1 Januari sampai sekarang dan perkiraan akhir Desember. Beralih ke model uang terasa mulus."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2773,7 +2786,8 @@
       "タイムマシン:ガラスのタワーで5年先まで表示(株式市場と住宅市場は自分で設定)。「出どころ」と「資産と負債」を切り替えられ(負債は住宅の中に表示)、住宅を購入した年も分かります。",
       "立替金に戻る予定日を設定でき、3日前からダッシュボードでお知らせします。",
       "クイック追加で、支出が何時間分の労働かが表示されます。",
-      "アプリは最初から正しい数字で開き、相場が届いても数字が跳ねません。"
+      "アプリは最初から正しい数字で開き、相場が届いても数字が跳ねません。",
+      "ダッシュボードを「年」にすると、流動資産タイルが1月1日から今までと12月末の見込みを表示します。お金のモデルへの切り替えもなめらかに。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -2970,7 +2984,8 @@
       "타임머신: 유리 타워로 5년 앞을 내다보세요(주식·주택시장은 직접 설정). 출처와 자산과 부채를 전환하고(부채가 집 안에 표시됨), 집을 산 해도 확인하세요.",
       "선지급금에 돌려받을 예정일을 넣을 수 있고, 3일 전부터 대시보드가 알려 줍니다.",
       "빠른 추가에서 지출이 몇 시간의 근로인지 보여 줍니다.",
-      "앱이 처음부터 올바른 숫자로 열려, 시세가 들어와도 숫자가 튀지 않습니다."
+      "앱이 처음부터 올바른 숫자로 열려, 시세가 들어와도 숫자가 튀지 않습니다.",
+      "대시보드를 '연'으로 두면 유동성 타일이 1월 1일부터 지금까지와 12월 말 예상을 보여 줍니다. 돈의 모델로의 전환도 부드럽습니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3167,7 +3182,8 @@
       "Cỗ máy thời gian: nhìn trước năm năm với những tòa tháp kính (tự đặt chứng khoán và nhà đất), chuyển giữa Nguồn gốc và Tài sản và nợ (khoản nợ hiển thị bên trong ngôi nhà), và xem năm bạn mua nhà.",
       "Khoản ứng trước có ngày dự kiến nhận lại; từ ba ngày trước, bảng điều khiển sẽ nhắc bạn.",
       "Thêm nhanh cho biết một khoản chi tốn bao nhiêu giờ làm việc.",
-      "Ứng dụng mở ra ngay với số liệu đúng: không còn nhảy số khi giá thị trường cập nhật."
+      "Ứng dụng mở ra ngay với số liệu đúng: không còn nhảy số khi giá thị trường cập nhật.",
+      "Đặt bảng điều khiển sang Năm, ô thanh khoản sẽ hiện cả năm: từ 1/1 đến nay và dự kiến cuối tháng 12. Chuyển sang mô hình tiền mượt mà."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3364,7 +3380,8 @@
       "时光机：用玻璃塔展望未来五年(股市和房市自行设定)，在“来源”与“资产与负债”之间切换(债务显示在你的房子里)，并看到你购房的那一年。",
       "垫付款可以设置预计收回日期；提前三天起，仪表板会提醒你。",
       "快速添加会显示一笔支出相当于多少小时的工作。",
-      "应用一打开就是正确的数字：行情到达时不再跳动。"
+      "应用一打开就是正确的数字：行情到达时不再跳动。",
+      "把仪表板切到“年”，流动资金卡片就显示你的全年：从 1 月 1 日到现在，以及 12 月底的预期。切换到资金模型也很顺滑。"
     ]
   };
 

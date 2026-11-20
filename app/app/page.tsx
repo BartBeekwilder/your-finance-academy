@@ -128,13 +128,16 @@ export default function DashboardPage() {
       <FinishSetupCard />
       <ConfirmMonths />
 
+      {/* Switching to or from the money model: the new view glides in. */}
       {view === "model" ? (
-        <MoneyModel data={data} now={now} currency={currency} />
+        <div key="model" className="pf-view-in">
+          <MoneyModel data={data} now={now} currency={currency} />
+        </div>
       ) : (
-      <>
+      <div key={view === "years" ? "years" : "dash"} className="pf-view-in" style={{ display: "grid", gap: 28, gridTemplateColumns: "minmax(0, 1fr)" }}>
       {/* Net worth with progress beside it. */}
       <section className="pf-dash-pair pf-dash-top">
-        <NetWorthCard base={nw.base} liveChange={nw.liveChange} workChange={nw.workChange} monthForecast={nw.forecast[0]?.change ?? 0} workBefore={nw.workDone.reduce((t, v) => t + v, 0)} savings={savings} investments={nw.holdingsTotal} invest={invest} currency={currency} />
+        <NetWorthCard base={nw.base} liveChange={nw.liveChange} workChange={nw.workChange} monthForecast={nw.forecast[0]?.change ?? 0} year={view === "year" ? { start: nw.startOfYear, finished: nw.finished, rest: nw.forecast.slice(1).reduce((t, f) => t + f.change, 0) } : undefined} workBefore={nw.workDone.reduce((t, v) => t + v, 0)} savings={savings} investments={nw.holdingsTotal} invest={invest} currency={currency} />
         <ProgressStrip />
       </section>
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}
@@ -220,7 +223,7 @@ export default function DashboardPage() {
       </section>
 
       <KeyFiguresStrip />
-      </>
+      </div>
       )}
     </div>
   );
