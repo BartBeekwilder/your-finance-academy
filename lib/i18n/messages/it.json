@@ -2259,5 +2259,7 @@
  "The years ahead": "Gli anni a venire",
  "Stock market per year": "Borsa all’anno",
  "Housing market per year": "Mercato immobiliare all’anno",
- "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Una torre per anno. Provenienza: il tuo patrimonio costruito dalle sue fonti. Beni e debiti: tutto ciò che possiedi, in rosso la parte finanziata dal debito, in verde la parte tua. Le torri di vetro sono previste. Punta un blocco per l’importo."
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Una torre per anno. Provenienza: il tuo patrimonio costruito dalle sue fonti. Beni e debiti: tutto ciò che possiedi, in rosso la parte finanziata dal debito, in verde la parte tua. Le torri di vetro sono previste. Punta un blocco per l’importo.",
+ "Not explained by your bookings": "Non spiegato dalle tue registrazioni",
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "La differenza tra il tuo bilancio e le tue registrazioni: entrate o uscite non inserite, un altro valore per ciò che possiedi (un’auto, per esempio) o uno scarto tra un saldo annuale importato e i totali di quell’anno. Più registri in modo completo, più si riduce."
 }

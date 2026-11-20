@@ -2259,5 +2259,7 @@
  "The years ahead": "السنوات القادمة",
  "Stock market per year": "البورصة سنويًا",
  "Housing market per year": "سوق العقار سنويًا",
- "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "برج لكل سنة. المصدر: صافي ثروتك مبني حسب مصادرها. الممتلكات والديون: كل ما تملكه، بالأحمر الجزء المموّل بالدين وبالأخضر الجزء الذي لك. الأبراج الزجاجية متوقعة. أشر إلى كتلة لمعرفة المبلغ."
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "برج لكل سنة. المصدر: صافي ثروتك مبني حسب مصادرها. الممتلكات والديون: كل ما تملكه، بالأحمر الجزء المموّل بالدين وبالأخضر الجزء الذي لك. الأبراج الزجاجية متوقعة. أشر إلى كتلة لمعرفة المبلغ.",
+ "Not explained by your bookings": "غير مفسَّر بقيودك",
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "الفرق بين ميزانيتك وقيودك: دخل أو مصروفات لم تُسجَّل، أو قيمة مختلفة لما تملكه (مثل سيارة)، أو فجوة بين رصيد سنوي مستورد ومجاميع تلك السنة. كلما كانت قيودك أكمل صغُر هذا."
 }

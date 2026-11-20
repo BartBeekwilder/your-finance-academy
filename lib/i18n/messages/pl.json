@@ -2259,5 +2259,7 @@
  "The years ahead": "Najbliższe lata",
  "Stock market per year": "Giełda rocznie",
  "Housing market per year": "Rynek nieruchomości rocznie",
- "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Jedna wieża na rok. Pochodzenie: twój kapitał zbudowany ze źródeł. Majątek i długi: wszystko, co masz, na czerwono część sfinansowana długiem, na zielono część twoja. Szklane wieże to prognoza. Wskaż blok, by zobaczyć kwotę."
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Jedna wieża na rok. Pochodzenie: twój kapitał zbudowany ze źródeł. Majątek i długi: wszystko, co masz, na czerwono część sfinansowana długiem, na zielono część twoja. Szklane wieże to prognoza. Wskaż blok, by zobaczyć kwotę.",
+ "Not explained by your bookings": "Niewyjaśnione twoimi wpisami",
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "Różnica między bilansem a wpisami: niewpisane dochody lub wydatki, inna wartość tego, co masz (np. samochodu), albo luka między zaimportowanym stanem rocznym a sumami tego roku. Im pełniej księgujesz, tym mniejsza."
 }

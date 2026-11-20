@@ -2259,5 +2259,7 @@
  "The years ahead": "Tahun-tahun mendatang",
  "Stock market per year": "Bursa per tahun",
  "Housing market per year": "Pasar properti per tahun",
- "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Satu menara per tahun. Asal: ekuitasmu tersusun dari sumbernya. Aset dan utang: semua yang kamu miliki, merah untuk bagian yang dibiayai utang, hijau untuk bagian milikmu. Menara kaca adalah perkiraan. Arahkan ke blok untuk jumlahnya."
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "Satu menara per tahun. Asal: ekuitasmu tersusun dari sumbernya. Aset dan utang: semua yang kamu miliki, merah untuk bagian yang dibiayai utang, hijau untuk bagian milikmu. Menara kaca adalah perkiraan. Arahkan ke blok untuk jumlahnya.",
+ "Not explained by your bookings": "Tidak dijelaskan catatanmu",
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "Selisih antara neraca dan catatanmu: pemasukan atau pengeluaran yang belum dicatat, nilai lain untuk milikmu (misalnya mobil), atau celah antara saldo akhir tahun yang diimpor dan total tahun itu. Makin lengkap catatanmu, makin kecil selisihnya."
 }

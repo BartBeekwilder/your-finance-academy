@@ -2259,5 +2259,7 @@
  "The years ahead": "未来几年",
  "Stock market per year": "股市年增长",
  "Housing market per year": "房市年增长",
- "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "每年一座塔。来源：净资产按来源堆叠。资产与负债：你拥有的一切，红色为债务融资部分，绿色为属于你的部分。玻璃塔为预期。指向方块可查看金额。"
+ "A tower per year. Where it came from: your equity built from its sources. Owned and owed: everything you own, red for the part financed with debt, green for the part that's yours. Glass towers are expected. Point at a block for its amount.": "每年一座塔。来源：净资产按来源堆叠。资产与负债：你拥有的一切，红色为债务融资部分，绿色为属于你的部分。玻璃塔为预期。指向方块可查看金额。",
+ "Not explained by your bookings": "记账无法解释的部分",
+ "The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.": "资产负债表与记账之间的差额：未记录的收入或支出、所拥有物品(如汽车)的估值变化，或导入的年末余额与当年总额之间的差距。记账越完整，这部分越小。"
 }

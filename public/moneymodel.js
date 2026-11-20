@@ -452,7 +452,8 @@
         // A frame of bright edges with only a breath of colour inside, so the
         // blocks keep their own colours (a solid tint turned the home purple).
         const edged = (m, c) => { m.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry), new THREE.LineBasicMaterial({ color: c, transparent: true, opacity: 0.95 }))); return m; };
-        const owed = edged(new THREE.Mesh(box(1.86), mat(0xff5a52, { transparent: true, opacity: 0.07, depthWrite: false })), 0xff6b6b);
+        // What you owe goes below the ground, like a bar below the axis.
+        const owed = edged(new THREE.Mesh(box(1.5), glass(0xff5a52, f, { emissive: 0x3a0b0b })), 0xff8a80);
         owed.userData = { key: "tm", src: "owed", label: T.tmOwed, h: 0, year: y.year, value: y.debts, forecast: f }; owed.visible = false; g.add(owed);
         const mine = edged(new THREE.Mesh(box(1.86), mat(0x30d158, { transparent: true, opacity: 0.07, depthWrite: false })), 0x7dffa5);
         mine.userData = { key: "tm", src: "mine", label: T.tmMine, h: 0, year: y.year, value: y.equity, forecast: f }; mine.visible = false; g.add(mine);
@@ -498,14 +499,16 @@
           hide(t.src); hide([t.cut]);
           const top = stack(t.bal, [t.y.assets.home, t.y.assets.invest, t.y.assets.cash], k, t.grow, ease);
           t.bal.forEach(glow);
-          // Owed: from the ground up to the debt; yours: from there to the top.
-          const dh = Math.min(t.y.debts * k * t.grow, Math.max(top, t.y.debts * k * t.grow));
+          // Owed: a red bar below the ground, as deep as the debt.
+          const dh = t.y.debts * k * t.grow;
           t.owed.userData.h += (dh - t.owed.userData.h) * ease;
-          t.owed.visible = t.owed.userData.h > 0.02; t.owed.scale.y = Math.max(t.owed.userData.h, 0.001) + 0.02; t.owed.position.y = t.owed.userData.h / 2 - 0.01;
-          const mh = Math.max(top - t.owed.userData.h, 0);
+          t.owed.visible = t.owed.userData.h > 0.02; t.owed.scale.y = Math.max(t.owed.userData.h, 0.001); t.owed.position.y = -t.owed.userData.h / 2 - 0.06;
+          glow(t.owed);
+          // Yours: the top of what you own, as much as is left after the debt.
+          const mh = Math.min(Math.max(top - t.owed.userData.h, 0), top);
           t.mine.userData.h += (mh - t.mine.userData.h) * ease;
-          t.mine.visible = t.mine.userData.h > 0.02; t.mine.scale.y = Math.max(t.mine.userData.h, 0.001) + 0.02; t.mine.position.y = t.owed.userData.h + t.mine.userData.h / 2 + 0.01;
-          t.top = Math.max(top, t.owed.userData.h);
+          t.mine.visible = t.mine.userData.h > 0.02; t.mine.scale.y = Math.max(t.mine.userData.h, 0.001) + 0.02; t.mine.position.y = top - t.mine.userData.h / 2 + 0.01;
+          t.top = top;
         } else {
           hide(t.bal); hide([t.owed, t.mine]);
           let neg = 0; const names = [];
@@ -617,7 +620,7 @@
       if (v === "build" && !world.build) world.build = buildBuilding();
       if (v === "grav" && !world.grav) world.grav = buildGravity();
       if (v === "time" && !world.time) world.time = buildTime();
-      if (v === "time") { yaw = 0.62; pitch = 0.32; dist = opts.compact ? 22 : 19; }
+      if (v === "time") { yaw = 0.62; pitch = 0.32; dist = tmMode === "balance" ? (opts.compact ? 28 : 25) : (opts.compact ? 22 : 19); }
       if (v === "build") { yaw = 0.7; pitch = 0.22; dist = 25; }
       if (v === "grav") { yaw = 0.4; pitch = 0.55; dist = opts.compact ? 25 : 22; }
       hint.textContent = v === "flow" ? T.hintFlow : T.hint3d;
@@ -696,7 +699,7 @@
         const w = view === "build" ? world.build : view === "time" ? world.time : world.grav;
         // The time machine holds still (it moves along the years); the others turn slowly.
         if (!reduce && !drag && view !== "time" && now - lastInteract > 2500) yaw += dt * 0.12;
-        const tx = view === "build" ? 1.2 : view === "time" ? w.camX : 0, ty = view === "build" ? 1.4 : view === "time" ? 2.6 : 0;
+        const tx = view === "build" ? 1.2 : view === "time" ? w.camX : 0, ty = view === "build" ? 1.4 : view === "time" ? (tmMode === "balance" ? 0.4 : 2.6) : 0;
         camera.position.set(tx + Math.sin(yaw) * Math.cos(pitch) * dist, ty + Math.sin(pitch) * dist, Math.cos(yaw) * Math.cos(pitch) * dist);
         camera.lookAt(tx, ty, 0);
         if (view === "build") updateBuilding(w, model, dt); else if (view === "time") updateTime(w, reduce ? 1 : dt); else updateGravity(w, model, dt);
@@ -717,7 +720,8 @@
       // The time machine: the years (oldest first) and the one to show.
       setYears(list) { years = list || []; yearAt = Math.min(yearAt, Math.max(years.length - 1, 0)); },
       setYear(i) { yearAt = Math.max(0, Math.min(i, years.length - 1)); },
-      setTimeMode(m) { tmMode = m === "balance" ? "balance" : "source"; },
+      // Owned and owed reaches above and below the ground: step back to see both.
+      setTimeMode(m) { const next = m === "balance" ? "balance" : "source"; if (next !== tmMode && view === "time") dist = next === "balance" ? (opts.compact ? 28 : 25) : (opts.compact ? 22 : 19); tmMode = next; },
       onModel(f) { listeners.push(f); f(model); return () => listeners.splice(listeners.indexOf(f), 1); },
       destroy() {
         alive = false; cancelAnimationFrame(raf); ro.disconnect();

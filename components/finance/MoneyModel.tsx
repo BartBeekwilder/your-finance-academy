@@ -269,7 +269,7 @@ function loadEngine() {
   if (window.PFMoneyModel) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
     const s = document.createElement("script");
-    s.src = "/moneymodel.js?v=6";
+    s.src = "/moneymodel.js?v=7";
     s.onload = () => resolve();
     s.onerror = () => reject(new Error("moneymodel.js did not load"));
     document.head.appendChild(s);
@@ -307,7 +307,7 @@ export function moneyModelTexts() {
     tipRepayPull: t("Pulls inwards: every repayment makes your debt smaller."),
     tipDebtsPush: t("Pushes outwards: your mortgage and other loans."),
     tmStart: t("Where you started"), tmWork: t("From work (income − spending)"), tmRepay: t("From repayment (less debt)"),
-    tmMarket: t("From the stock market"), tmHousing: t("From the housing market"), tmOther: t("Other changes"), tmLoss: t("Losses"),
+    tmMarket: t("From the stock market"), tmHousing: t("From the housing market"), tmOther: t("Not explained by your bookings"), tmLoss: t("Losses"),
     tmInYear: t("In {year}: {amount}"), tmLossNote: t("Takes this off your equity."),
     tmOwed: t("Financed with debt"), tmMine: t("Yours (equity)"), tmBought: t("Home bought"), tmExpected: t("expected"), tmSoFar: t("Up to and including this year."),
   };
@@ -421,7 +421,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
     repay: t("From repayment (less debt)"),
     market: t("From the stock market"),
     housing: t("From the housing market"),
-    other: t("Other changes"),
+    other: t("Not explained by your bookings"),
   };
   const TM_KEYS = ["work", "repay", "market", "housing", "other"] as const;
   const TM_COLOR: Record<string, string> = { work: "#30d158", repay: "#40c8e0", market: "#b58cff", housing: "#5b8def", other: "#a3a9bb" };
@@ -489,6 +489,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
                     <span>{PART[k]}</span>
                     <span className="pf-rounded">{money(tm.parts[k], currency, { signed: true })}</span>
                     <i data-neg={tm.parts[k] < 0 || undefined} style={{ ["--w" as string]: `${(Math.abs(tm.parts[k]) / tmMax) * 50}%`, ["--c" as string]: TM_COLOR[k] }} />
+                    {k === "other" && Math.abs(tm.parts[k]) >= 1 && <small className="pf-mm-part-note">{t("The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.")}</small>}
                   </div>
                 ))}
               </div>
@@ -531,6 +532,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
                       <span>{PART[p.key]}</span>
                       <span className="pf-rounded">{money(p.v, currency, { signed: true })}</span>
                       <i data-neg={p.v < 0 || undefined} style={{ ["--w" as string]: `${(Math.abs(p.v) / maxPart) * 50}%`, ["--c" as string]: p.c }} />
+                      {p.key === "other" && Math.abs(p.v) >= 1 && <small className="pf-mm-part-note">{t("The difference between your balance sheet and your bookings: income or spending not entered, another value for things you own (a car, for example), or a gap between an imported year-end stand and that year's totals. The fuller you book, the smaller this gets.")}</small>}
                     </div>
                   ))}
                 </div>
