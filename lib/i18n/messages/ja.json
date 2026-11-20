@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "家の価値が上がったり下がったりすると、純資産も一緒に動きます。借入は変わりません。",
  "Your investments, at the price of the 'Stock market' lever.": "「株式市場」のつまみの価格で見た投資。",
  "Your own books: a usual month (salary and average spending) and your balances today.": "あなた自身の帳簿：いつもの月（給与と平均支出）と今日の残高。",
- "Your usual net income per month": "いつもの月の手取り収入"
+ "Your usual net income per month": "いつもの月の手取り収入",
+ "Ahead": "この先",
+ "This year so far": "今年これまで",
+ "Other changes": "その他の変化",
+ "1 Jan {amount} · {change} so far this year": "1月1日 {amount} · 今年これまで {change}",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "1月1日から実際に起きたこと:当時と今日の貸借対照表、その間に記録した収入と支出(月平均)。",
+ "PER MONTH, ON AVERAGE": "月平均",
+ "TODAY": "今日"
 }

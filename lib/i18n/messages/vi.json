@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "Khi nhà tăng hay giảm giá trị, tài sản ròng cũng thay đổi theo. Khoản nợ giữ nguyên.",
  "Your investments, at the price of the 'Stock market' lever.": "Các khoản đầu tư theo giá của thanh 'Chứng khoán'.",
  "Your own books: a usual month (salary and average spending) and your balances today.": "Sổ sách của bạn: một tháng bình thường (lương và chi tiêu trung bình) và số dư hôm nay.",
- "Your usual net income per month": "Thu nhập ròng thường lệ mỗi tháng"
+ "Your usual net income per month": "Thu nhập ròng thường lệ mỗi tháng",
+ "Ahead": "Phía trước",
+ "This year so far": "Năm nay đến giờ",
+ "Other changes": "Thay đổi khác",
+ "1 Jan {amount} · {change} so far this year": "1 thg 1 {amount} · {change} năm nay đến giờ",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Điều thực sự đã xảy ra từ ngày 1 tháng 1: bảng cân đối của bạn khi đó và hôm nay, cùng thu nhập và chi tiêu bạn ghi lại ở giữa (trung bình mỗi tháng).",
+ "PER MONTH, ON AVERAGE": "TRUNG BÌNH MỖI THÁNG",
+ "TODAY": "HÔM NAY"
 }

@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "Saat nilai rumahmu naik atau turun, kekayaan bersihmu ikut bergerak. Utangmu tetap sama.",
  "Your investments, at the price of the 'Stock market' lever.": "Investasimu dengan harga dari pengatur 'Pasar saham'.",
  "Your own books: a usual month (salary and average spending) and your balances today.": "Pembukuanmu sendiri: bulan biasa (gaji dan rata-rata pengeluaran) dan saldomu hari ini.",
- "Your usual net income per month": "Pemasukan bersih biasamu per bulan"
+ "Your usual net income per month": "Pemasukan bersih biasamu per bulan",
+ "Ahead": "Ke depan",
+ "This year so far": "Tahun ini sejauh ini",
+ "Other changes": "Perubahan lain",
+ "1 Jan {amount} · {change} so far this year": "1 Jan {amount} · {change} tahun ini sejauh ini",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Apa yang benar-benar terjadi sejak 1 Januari: neracamu saat itu dan hari ini, serta pemasukan dan pengeluaran yang kamu catat di antaranya (rata-rata per bulan).",
+ "PER MONTH, ON AVERAGE": "RATA-RATA PER BULAN",
+ "TODAY": "HARI INI"
 }

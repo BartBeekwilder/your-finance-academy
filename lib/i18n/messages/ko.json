@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "집값이 오르거나 내리면 순자산도 함께 움직입니다. 부채는 그대로입니다.",
  "Your investments, at the price of the 'Stock market' lever.": "'주식 시장' 조절값 기준의 투자 자산.",
  "Your own books: a usual month (salary and average spending) and your balances today.": "내 장부: 평소의 한 달(월급과 평균 지출)과 오늘의 잔액.",
- "Your usual net income per month": "평소 월 순수입"
+ "Your usual net income per month": "평소 월 순수입",
+ "Ahead": "앞으로",
+ "This year so far": "올해 지금까지",
+ "Other changes": "기타 변화",
+ "1 Jan {amount} · {change} so far this year": "1월 1일 {amount} · 올해 지금까지 {change}",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "1월 1일 이후 실제로 일어난 일: 그때와 오늘의 대차대조표, 그리고 그 사이에 기록한 수입과 지출(월평균).",
+ "PER MONTH, ON AVERAGE": "월평균",
+ "TODAY": "오늘"
 }

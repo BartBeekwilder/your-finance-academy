@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "Evin değer kazanır ya da kaybederse öz varlığın da onunla hareket eder. Borcun aynı kalır.",
  "Your investments, at the price of the 'Stock market' lever.": "'Borsa' ayarındaki fiyatla yatırımların.",
  "Your own books: a usual month (salary and average spending) and your balances today.": "Kendi defterlerin: olağan bir ay (maaş ve ortalama harcama) ve bugünkü bakiyelerin.",
- "Your usual net income per month": "Aylık olağan net gelirin"
+ "Your usual net income per month": "Aylık olağan net gelirin",
+ "Ahead": "İleriye",
+ "This year so far": "Bu yıl şimdiye kadar",
+ "Other changes": "Diğer değişiklikler",
+ "1 Jan {amount} · {change} so far this year": "1 Oca {amount} · bu yıl şimdiye kadar {change}",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "1 Ocak’tan beri gerçekte ne oldu: o zamanki ve bugünkü bilançon ve arada kaydettiğin gelir ve giderler (aylık ortalama).",
+ "PER MONTH, ON AVERAGE": "AYLIK ORTALAMA",
+ "TODAY": "BUGÜN"
 }

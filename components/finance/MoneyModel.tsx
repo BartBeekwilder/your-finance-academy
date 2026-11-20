@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { t } from "@/lib/i18n";
-import { balanceSheet, expectedByCategory, liveFixed, netWorthFigures, projectedNetIncome } from "@/lib/finance/calc";
+import { balanceSheet, expectedByCategory, liveFixed, netWorthFigures, projectedNetIncome, summarize } from "@/lib/finance/calc";
+import { investmentsValue } from "@/lib/finance/quotes";
 import { homes } from "@/lib/finance/realEstate";
 import { summarize as summarizePart } from "@/lib/finance/mortgage";
 import { money } from "@/lib/finance/format";
@@ -16,7 +17,13 @@ import Segmented from "./Segmented";
 
 type View = "flow" | "build" | "grav";
 type Levers = { inc: number; sp: number; mkt: number; house: number; months: number };
-type Base = { income: number; fixed: number; repay: number; variable: number; cash: number; invest: number; home: number; mortgage: number; otherDebt: number };
+type Debt = { label: string; value: number };
+type Base = {
+  income: number; fixed: number; repay: number; variable: number; cash: number; invest: number; home: number; mortgage: number; otherDebt: number; otherDebts?: Debt[];
+  // Looking back: the markets' real moves, today's real stand, the captions.
+  marketMove?: number; homeMove?: number; end?: { cash: number; invest: number; home: number; mortgage: number; otherDebts: Debt[] }; capMonth?: string; capAfter?: string;
+};
+type Mode = "ahead" | "back";
 type Model = { equity: number; eqNow: number; n: number; parts: { key: string; v: number; c: string }[] };
 type Engine = {
   setLevers: (l: Partial<Levers>) => void;
@@ -51,21 +58,56 @@ export function moneyModelBase(data: FinanceData, now: Date): Base {
     return s + (row ? row.repayment + row.extra : 0);
   }, 0), 0);
   const repayIn = Math.min(repay, fixedAll);
-  const bs = balanceSheet(data, now, month);
-  const home = bs.assets.filter((a) => a.id.startsWith("property-")).reduce((t, a) => t + a.value, 0);
-  const mortgage = bs.liabilities.filter((l) => l.id.startsWith("mortgage-")).reduce((t, l) => t + l.value, 0);
-  const invest = nw.holdingsTotal;
+  const st = stand(balanceSheet(data, now, month), nw.holdingsTotal);
   return {
     income: projectedNetIncome(data, month) || nw.projected,
     fixed: fixedAll - repayIn,
     repay: repayIn,
     variable,
-    // Everything else you own (accounts, a car, prepaid): what makes the balance sheet add up.
-    cash: bs.totalAssets - home - invest,
-    invest,
-    home,
-    mortgage,
-    otherDebt: Math.max(bs.totalDebt - mortgage, 0),
+    ...st,
+  };
+}
+
+/** A balance sheet as the model's stand: home, investments, everything else
+ *  you own (accounts, a car, prepaid — what makes the sheet add up), the
+ *  mortgage, and every other debt on its own line. */
+function stand(bs: ReturnType<typeof balanceSheet>, invest: number) {
+  const home = bs.assets.filter((a) => a.id.startsWith("property-")).reduce((t, a) => t + a.value, 0);
+  const mortgage = bs.liabilities.filter((l) => l.id.startsWith("mortgage-")).reduce((t, l) => t + l.value, 0);
+  const otherDebts = bs.liabilities.filter((l) => !l.id.startsWith("mortgage-") && l.value > 0.5).map((l) => ({ label: l.name, value: l.value }));
+  return { cash: bs.totalAssets - home - invest, invest, home, mortgage, otherDebt: otherDebts.reduce((t, d) => t + d.value, 0), otherDebts };
+}
+
+/** This year so far, as it really went: the balance sheet on 1 January (the
+ *  end of December), the income and spending booked since (per month on
+ *  average), what the mortgage really went down, what the market did, and
+ *  today's real balance sheet as the end. */
+export function lookBackBase(data: FinanceData, now: Date) {
+  const y = now.getFullYear(), cur = now.getMonth(), n = cur + 1;
+  const start = stand(balanceSheet(data, now, new Date(y - 1, 11, 1)), investmentsValue(data, new Date(y - 1, 11, 31, 23, 59)).total);
+  const end = stand(balanceSheet(data, now, new Date(y, cur, 1)), investmentsValue(data, now).total);
+  let income = 0, fixed = 0, variable = 0;
+  for (let m = 0; m <= cur; m++) {
+    const s = summarize(data.transactions, new Date(y, m, 1));
+    income += s.income; fixed += s.fixed; variable += s.variable;
+  }
+  const repaid = Math.max(start.mortgage - end.mortgage, 0);
+  return {
+    months: n,
+    base: {
+      ...start,
+      income: income / n,
+      // The mortgage payments are in the fixed costs; their repayment part
+      // made the debt smaller instead of leaving.
+      fixed: Math.max(fixed - repaid, 0) / n,
+      repay: Math.min(repaid, fixed) / n,
+      variable: variable / n,
+      marketMove: end.invest - start.invest,
+      homeMove: end.home - start.home,
+      end: { cash: end.cash, invest: end.invest, home: end.home, mortgage: end.mortgage, otherDebts: end.otherDebts },
+      capMonth: t("PER MONTH, ON AVERAGE"),
+      capAfter: t("TODAY"),
+    },
   };
 }
 
@@ -76,7 +118,7 @@ function loadEngine() {
   if (window.PFMoneyModel) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
     const s = document.createElement("script");
-    s.src = "/moneymodel.js?v=1";
+    s.src = "/moneymodel.js?v=2";
     s.onload = () => resolve();
     s.onerror = () => reject(new Error("moneymodel.js did not load"));
     document.head.appendChild(s);
@@ -125,7 +167,10 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
   const [levers, setLevers] = useState<Levers>(START);
   const [model, setModel] = useState<Model | null>(null);
   const [failed, setFailed] = useState(false);
-  const base = useMemo(() => moneyModelBase(data, now), [data, now]);
+  const [mode, setMode] = useState<Mode>("ahead");
+  const ahead = useMemo(() => moneyModelBase(data, now), [data, now]);
+  const back = useMemo(() => lookBackBase(data, now), [data, now]);
+  const base = mode === "back" ? back.base : ahead;
   const fmt = (x: number) => money(x, currency, { compact: Math.abs(x) >= 1_000_000 });
   const fmtRef = useRef(fmt);
   useEffect(() => {
@@ -152,7 +197,13 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
     // The base follows below; the drawing itself starts once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => engine.current?.setBase(base), [base]);
+  // Looking back runs exactly the months of this year, without the levers.
+  useEffect(() => {
+    engine.current?.setBase(base);
+    engine.current?.setLevers(mode === "back" ? { ...START, months: back.months } : levers);
+    // levers apply through move(); here only the base and the mode switch
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [base, mode, back.months]);
 
   const pickView = (v: View) => setView(engine.current?.setView(v) ?? v);
   const move = (k: keyof Levers, v: number) => {
@@ -177,6 +228,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
     repay: t("From repayment (less debt)"),
     market: t("From the stock market"),
     housing: t("From the housing market"),
+    other: t("Other changes"),
   };
   const maxPart = model ? Math.max(...model.parts.map((p) => Math.abs(p.v)), 1) : 1;
 
@@ -184,7 +236,10 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
     <section className="pf-mm">
       <div className="pf-mm-head">
         <p className="pf-mm-lede">{t("How your income, spending, investments, home and debts make your equity together. Move the levers and see what moves.")}</p>
-        <Segmented label={t("View")} value={view} onChange={pickView} options={[{ value: "flow", label: t("Money flow") }, { value: "build", label: t("Wealth building") }, { value: "grav", label: t("Gravity") }]} />
+        <div className="pf-mm-switches">
+          <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "ahead", label: t("Ahead") }, { value: "back", label: t("This year so far") }]} />
+          <Segmented label={t("View")} value={view} onChange={pickView} options={[{ value: "flow", label: t("Money flow") }, { value: "build", label: t("Wealth building") }, { value: "grav", label: t("Gravity") }]} />
+        </div>
       </div>
       <div className="pf-mm-main">
         <div ref={stageRef} className="pf-mm-stage">{failed && <p className="pf-mm-failed">{t("The model couldn't load. Reload the page to try again.")}</p>}</div>
@@ -195,7 +250,9 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
               <>
                 <b className="pf-rounded pf-mm-eq">{money(model.equity, currency)}</b>
                 <span className="pf-mm-from">
-                  {t("now {amount} · {change} after {n} mo", { amount: money(model.eqNow, currency), change: money(model.equity - model.eqNow, currency, { signed: true }), n: model.n })}
+                  {mode === "back"
+                    ? t("1 Jan {amount} · {change} so far this year", { amount: money(model.eqNow, currency), change: money(model.equity - model.eqNow, currency, { signed: true }) })
+                    : t("now {amount} · {change} after {n} mo", { amount: money(model.eqNow, currency), change: money(model.equity - model.eqNow, currency, { signed: true }), n: model.n })}
                 </span>
                 <div className="pf-mm-parts">
                   {model.parts.map((p) => (
@@ -209,7 +266,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
               </>
             )}
           </div>
-          <div className="pf-card pf-mm-card">
+          {mode === "ahead" && <div className="pf-card pf-mm-card">
             <h3>{t("Levers")}</h3>
             {LEVERS.map((l) => (
               <label key={l.key} className="pf-mm-lever" htmlFor={`mm-${l.key}`}>
@@ -223,8 +280,12 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
             <button type="button" className="pf-chip" style={{ justifySelf: "start", padding: "6px 12px" }} onClick={reset}>
               {t("Back to now")}
             </button>
-          </div>
-          <p className="pf-mm-note">{t("Your own books: a usual month (salary and average spending) and your balances today.")}</p>
+          </div>}
+          <p className="pf-mm-note">
+            {mode === "back"
+              ? t("What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).")
+              : t("Your own books: a usual month (salary and average spending) and your balances today.")}
+          </p>
         </aside>
       </div>
     </section>

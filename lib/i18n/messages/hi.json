@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "घर की कीमत बढ़े या घटे, आपकी नेट वर्थ साथ चलती है। कर्ज़ वही रहता है।",
  "Your investments, at the price of the 'Stock market' lever.": "'शेयर बाज़ार' स्लाइडर की कीमत पर आपके निवेश।",
  "Your own books: a usual month (salary and average spending) and your balances today.": "आपके अपने हिसाब: एक सामान्य महीना (वेतन और औसत खर्च) और आज की शेष राशि।",
- "Your usual net income per month": "आपकी सामान्य मासिक शुद्ध आय"
+ "Your usual net income per month": "आपकी सामान्य मासिक शुद्ध आय",
+ "Ahead": "आगे",
+ "This year so far": "इस साल अब तक",
+ "Other changes": "अन्य बदलाव",
+ "1 Jan {amount} · {change} so far this year": "1 जन {amount} · इस साल अब तक {change}",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "1 जनवरी से असल में क्या हुआ: तब और आज की आपकी बैलेंस शीट, और बीच में दर्ज की गई आय और खर्च (प्रति माह औसत)।",
+ "PER MONTH, ON AVERAGE": "प्रति माह औसत",
+ "TODAY": "आज"
 }

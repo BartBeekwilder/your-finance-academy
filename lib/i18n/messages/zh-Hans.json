@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "房子升值或贬值，你的净资产随之变动。债务保持不变。",
  "Your investments, at the price of the 'Stock market' lever.": "按“股市”滑块价格计算的投资。",
  "Your own books: a usual month (salary and average spending) and your balances today.": "你自己的账：普通月份（工资和平均支出）以及今天的余额。",
- "Your usual net income per month": "你每月的常规净收入"
+ "Your usual net income per month": "你每月的常规净收入",
+ "Ahead": "向前看",
+ "This year so far": "今年至今",
+ "Other changes": "其他变化",
+ "1 Jan {amount} · {change} so far this year": "1月1日 {amount} · 今年至今 {change}",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "自1月1日以来真实发生的事：当时与今天的资产负债表，以及期间记录的收入和支出(按月平均)。",
+ "PER MONTH, ON AVERAGE": "月均",
+ "TODAY": "今天"
 }

@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "عندما ترتفع قيمة منزلك أو تنخفض، تتحرك ثروتك الصافية معها. يبقى دينك كما هو.",
  "Your investments, at the price of the 'Stock market' lever.": "استثماراتك بسعر مفتاح «البورصة».",
  "Your own books: a usual month (salary and average spending) and your balances today.": "دفاترك الخاصة: شهر معتاد (الراتب ومتوسط الإنفاق) وأرصدتك اليوم.",
- "Your usual net income per month": "دخلك الصافي المعتاد شهريًا"
+ "Your usual net income per month": "دخلك الصافي المعتاد شهريًا",
+ "Ahead": "إلى الأمام",
+ "This year so far": "هذا العام حتى الآن",
+ "Other changes": "تغييرات أخرى",
+ "1 Jan {amount} · {change} so far this year": "1 يناير {amount} · {change} هذا العام حتى الآن",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "ما حدث فعلًا منذ 1 يناير: ميزانيتك آنذاك واليوم، والدخل والمصروفات التي سجلتها بينهما (في المتوسط شهريًا).",
+ "PER MONTH, ON AVERAGE": "في المتوسط شهريًا",
+ "TODAY": "اليوم"
 }

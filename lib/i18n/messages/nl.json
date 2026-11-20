@@ -2233,5 +2233,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "Stijgt of daalt de waarde van je huis, dan beweegt je eigen vermogen mee. Je schuld blijft gelijk.",
  "Your investments, at the price of the 'Stock market' lever.": "Je beleggingen tegen de koers van de knop 'Beurs'.",
  "Your own books: a usual month (salary and average spending) and your balances today.": "Je eigen boeken: een gewone maand (salaris en gemiddelde uitgaven) en je standen van vandaag.",
- "Your usual net income per month": "Je gewone netto inkomen per maand"
+ "Your usual net income per month": "Je gewone netto inkomen per maand",
+ "Ahead": "Vooruit",
+ "This year so far": "Dit jaar tot nu",
+ "Other changes": "Overige veranderingen",
+ "1 Jan {amount} · {change} so far this year": "1 jan {amount} · {change} dit jaar tot nu",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Wat er sinds 1 januari echt gebeurde: je balans toen en vandaag, en het inkomen en de uitgaven die je daartussen boekte (gemiddeld per maand).",
+ "PER MONTH, ON AVERAGE": "GEMIDDELD PER MAAND",
+ "TODAY": "VANDAAG"
 }

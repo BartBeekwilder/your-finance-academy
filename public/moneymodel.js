@@ -20,26 +20,40 @@
     const k = 1 + S.inc / 100, v = 1 + S.sp / 100, n = S.months;
     const inT = B.income * k, fixT = B.fixed, varT = B.variable * v, repay = B.repay;
     const saved = inT - fixT - repay - varT;
-    const marketMove = B.invest * S.mkt / 100;
-    const homeMove = B.home * S.house / 100;
-    const st = {
-      cash: Math.max(B.cash + saved * n, 0),
-      invest: B.invest + marketMove,
-      home: B.home + homeMove,
-      mortgage: Math.max(B.mortgage - repay * n, 0),
-      other: B.otherDebt,
-    };
+    // Looking back the markets' moves are what really happened (absolute);
+    // looking ahead they come from the levers.
+    const marketMove = B.marketMove != null ? B.marketMove : B.invest * S.mkt / 100;
+    const homeMove = B.homeMove != null ? B.homeMove : B.home * S.house / 100;
+    // Other debts one by one (a car loan, a student loan…), else one line.
+    const others = B.otherDebts && B.otherDebts.length ? B.otherDebts : B.otherDebt > 0.5 ? [{ label: null, value: B.otherDebt }] : [];
+    const sum = (l) => l.reduce((t, d) => t + d.value, 0);
+    // Looking back the end is the real balance sheet of today (B.end); ahead
+    // it's where the month, repeated, takes you.
+    const st = B.end
+      ? { cash: B.end.cash, invest: B.end.invest, home: B.end.home, mortgage: B.end.mortgage, otherList: B.end.otherDebts || [], other: sum(B.end.otherDebts || []) }
+      : {
+        cash: Math.max(B.cash + saved * n, 0),
+        invest: B.invest + marketMove,
+        home: B.home + homeMove,
+        mortgage: Math.max(B.mortgage - repay * n, 0),
+        otherList: others,
+        other: sum(others),
+      };
     const assets = st.cash + st.invest + st.home, debts = st.mortgage + st.other;
-    const eqNow = B.cash + B.invest + B.home - B.mortgage - B.otherDebt;
+    const eqNow = B.cash + B.invest + B.home - B.mortgage - sum(others);
+    const parts = [
+      { key: "work", v: saved * n, c: "#30d158" },
+      { key: "repay", v: B.end ? repay * n : Math.min(repay * n, B.mortgage), c: "#40c8e0" },
+      { key: "market", v: marketMove, c: "#b58cff" },
+      { key: "housing", v: homeMove, c: "#5b8def" },
+    ];
+    // Looking back: what the books don't explain by these four (revaluations,
+    // a new loan, income still to receive…), so the parts add up to the change.
+    if (B.end) parts.push({ key: "other", v: assets - debts - eqNow - parts.reduce((t, p) => t + p.v, 0), c: "#a3a9bb" });
     return {
       inT, fixT, varT, repay, saved, n, marketMove, homeMove, st, assets, debts,
-      equity: assets - debts, eqNow,
-      parts: [
-        { key: "work", v: saved * n, c: "#30d158" },
-        { key: "repay", v: Math.min(repay * n, B.mortgage), c: "#40c8e0" },
-        { key: "market", v: marketMove, c: "#b58cff" },
-        { key: "housing", v: homeMove, c: "#5b8def" },
-      ],
+      equity: assets - debts, eqNow, back: !!B.end,
+      parts,
     };
   }
 
@@ -97,6 +111,7 @@
     // ================================================================ flow (2D)
     let FW = 0, FH = 0, nodes = [], bands = [], particles = [], hoverBand = null;
     const COLS = [0.03, 0.17, 0.33, 0.55, 0.72, 0.89];
+    const narrow = () => FW < 720;
     function sizeFlow() {
       const dpr = Math.min(root.devicePixelRatio || 1, 2), r = stage.getBoundingClientRect();
       FW = r.width; FH = r.height; fc.width = FW * dpr; fc.height = FH * dpr; fx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -124,7 +139,19 @@
       const homeS = node("huis", 3, y, m.st.home * kS, "#5b8def", T.home, money(m.st.home), T.tipHome);
       const assetsN = node("bezit", 4, top + 10, m.assets * kS, "#a3a9bb", T.assets, money(m.assets), T.tipAssets);
       const eqN = node("ev", 5, top + 10, Math.max(m.equity, 0) * kS, "#30d158", T.equity, money(m.equity), T.tipEquity);
-      const debtN = node("schuld", 5, top + 10 + Math.max(m.equity, 0) * kS + 10, m.debts * kS, "#ff5a52", T.debts, money(m.debts), T.tipDebts);
+      // Debts one by one: the mortgage first (repayment lands there), then each
+      // other debt in its own shade — a little room between them for the names.
+      const DEBT = ["#ff8a65", "#ff6b9a", "#ffb74d", "#e05d8f", "#ff9e80"];
+      const debtList = [];
+      if (m.st.mortgage > 0.5 || m.repay > 0.5) debtList.push({ id: "schuld-hyp", label: T.mortgage, value: m.st.mortgage, color: "#ff5a52", info: T.tipMortgageFlow || T.tipDebts });
+      m.st.otherList.forEach((d, i) => { if (d.value > 0.5) debtList.push({ id: "schuld-" + i, label: d.label || T.otherDebt, value: d.value, color: DEBT[i % DEBT.length], info: T.tipOtherDebt }); });
+      let dy = top + 10 + Math.max(m.equity, 0) * kS + 10;
+      const debtNodes = debtList.map((d) => {
+        const n = node(d.id, 5, dy, d.value * kS, d.color, d.label, money(d.value), d.info);
+        dy += Math.max(d.value * kS, 2) + (narrow() ? 4 : Math.max(30 - d.value * kS, 6));
+        return n;
+      });
+      const debtN = debtNodes[0];
       const band = (a, b, wa, wb, color, label, value, text, sink) => {
         const b0 = { a, b, y0: a.y + a.outOff, y1: b ? b.y + b.inOff : a.y + a.outOff, w0: wa, w1: wb, color, label, value, text, sink };
         a.outOff += wa; if (b) b.inOff += wb; Bd.push(b0); return b0;
@@ -141,12 +168,12 @@
       band(homeN, homeS, homeN.h, Math.max(homeV * kS, 2), homeN.color, T.housing + " → " + T.home, sgn(m.homeMove), T.tipHousing).still = homeV < 1;
       // Repayment doesn't feed the debt, it eats it: its dots fade out as they
       // reach the debt bar, and the bar says by how much it shrinks.
-      const rep = band(repN, debtN, repN.h, Math.max(m.repay * m.n * kS, 2), "#40c8e0", T.repayment + " × " + m.n, "−" + money(m.repay * m.n), T.tipRepay);
+      const rep = band(repN, debtN && debtN.id === "schuld-hyp" ? debtN : null, repN.h, Math.max(m.repay * m.n * kS, 2), "#40c8e0", T.repayment + " × " + m.n, "−" + money(m.repay * m.n), T.tipRepay);
       rep.still = m.repay < 1; rep.reduces = true;
       // What you own and owe are standing balances, not flows: no dots there.
       [cashN, invN, homeS].forEach((n) => { band(n, assetsN, n.h, n.h, n.color, n.label + " → " + T.assets, n.value, n.info).stock = true; });
       band(assetsN, eqN, Math.max(m.equity, 0) * kS, eqN.h, "#30d158", T.assets + " → " + T.equity, money(m.equity), T.tipEquity).stock = true;
-      band(assetsN, debtN, m.debts * kS, debtN.h, "#ff5a52", T.assets + " → " + T.debts, money(m.debts), T.tipDebts).stock = true;
+      debtNodes.forEach((d) => { band(assetsN, d, d.h, d.h, d.color, T.assets + " → " + d.label, d.value, d.info).stock = true; });
       nodes = N; bands = Bd;
       // Dots only where money really moves: not on spending that leaves the
       // picture, not on a market at 0%, not on standing balances.
@@ -168,7 +195,7 @@
       fx.clearRect(0, 0, FW, FH);
       const narrow = FW < 720;
       fx.font = "600 10px system-ui, sans-serif"; fx.fillStyle = "#6b7186"; fx.textAlign = "left";
-      fx.fillText(T.capMonth, FW * 0.03, 26); fx.fillText(T.capAfter, FW * 0.55, 26); fx.fillText(T.capResult, FW * 0.86, 26);
+      fx.fillText(B.capMonth || T.capMonth, FW * 0.03, 26); fx.fillText(B.capAfter || T.capAfter, FW * 0.55, 26); fx.fillText(T.capResult, FW * 0.86, 26);
       for (const b of bands) {
         const steps = 28; fx.beginPath();
         for (let i = 0; i <= steps; i++) { const p = bez(b, i / steps); if (i) fx.lineTo(p.x, p.y - p.w / 2); else fx.moveTo(p.x, p.y - p.w / 2); }
@@ -199,7 +226,7 @@
       for (const n of nodes) {
         fx.fillStyle = n.color; fx.beginPath(); if (fx.roundRect) { fx.roundRect(n.x, n.y, n.w, n.h, 3); } else { fx.rect(n.x, n.y, n.w, n.h); } fx.fill();
         if (narrow && (n.id === "maand" || n.id === "bezit")) continue;
-        const right = n.id === "ev" || n.id === "schuld";
+        const right = n.id === "ev" || n.id.startsWith("schuld");
         fx.textAlign = right ? "right" : "left";
         const lx = right ? n.x - 6 : n.x + n.w + 6, ly = n.y + Math.min(n.h / 2, 14) + 4;
         fx.font = `600 ${narrow ? 9.5 : 11}px system-ui, sans-serif`; fx.fillStyle = "#eef0f6"; fx.fillText(n.label, lx, ly);

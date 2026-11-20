@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "Когда жильё дорожает или дешевеет, капитал меняется вместе с ним. Долг остаётся прежним.",
  "Your investments, at the price of the 'Stock market' lever.": "Твои инвестиции по цене ползунка «Биржа».",
  "Your own books: a usual month (salary and average spending) and your balances today.": "Твои собственные данные: обычный месяц (зарплата и средние расходы) и сегодняшние остатки.",
- "Your usual net income per month": "Твой обычный чистый доход в месяц"
+ "Your usual net income per month": "Твой обычный чистый доход в месяц",
+ "Ahead": "Вперёд",
+ "This year so far": "Этот год до сих пор",
+ "Other changes": "Прочие изменения",
+ "1 Jan {amount} · {change} so far this year": "1 янв {amount} · {change} с начала года",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Что на самом деле произошло с 1 января: твой баланс тогда и сегодня и доходы и расходы, записанные за это время (в среднем в месяц).",
+ "PER MONTH, ON AVERAGE": "В СРЕДНЕМ В МЕСЯЦ",
+ "TODAY": "СЕГОДНЯ"
 }

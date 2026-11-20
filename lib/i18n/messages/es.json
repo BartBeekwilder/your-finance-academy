@@ -2227,5 +2227,12 @@
  "When your home gains or loses value, your equity moves with it. Your debt stays the same.": "Si tu vivienda sube o baja de valor, tu patrimonio se mueve con ella. Tu deuda sigue igual.",
  "Your investments, at the price of the 'Stock market' lever.": "Tus inversiones al precio del control «Bolsa».",
  "Your own books: a usual month (salary and average spending) and your balances today.": "Tus propias cuentas: un mes normal (sueldo y gasto medio) y tus saldos de hoy.",
- "Your usual net income per month": "Tus ingresos netos habituales al mes"
+ "Your usual net income per month": "Tus ingresos netos habituales al mes",
+ "Ahead": "Hacia delante",
+ "This year so far": "Este año hasta ahora",
+ "Other changes": "Otros cambios",
+ "1 Jan {amount} · {change} so far this year": "1 ene {amount} · {change} en lo que va de año",
+ "What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).": "Lo que de verdad pasó desde el 1 de enero: tu balance entonces y hoy, y los ingresos y gastos que registraste entre medias (de media al mes).",
+ "PER MONTH, ON AVERAGE": "DE MEDIA AL MES",
+ "TODAY": "HOY"
 }
