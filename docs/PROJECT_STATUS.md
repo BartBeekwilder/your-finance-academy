@@ -27,11 +27,24 @@ Where it stands (20 Nov, night):
 
 Next, in order:
 1. Bart tests build 3 on iPhone/iPad (sync: nothing doubled or missing).
-2. Port to iOS (Mac only): the liquidity tile + model A
-   (NetWorthTicker/DashboardView like components/finance/NetWorthCard.tsx and
-   lib/finance/calc.ts netWorthFigures), the Money model (port
-   public/moneymodel.js: SceneKit/RealityKit for 3D or a WKWebView with the
-   same script), work hours, money clock, wealth PDF pages.
+2. iOS port WRITTEN on Windows 20 Nov (ios-port-nov18, pushed, NOT BUILT):
+   - 80101f8 money clock (Services/MoneyClock.swift = moneyClock.ts +
+     WorkHours = workHours.ts, MoneyClockTests; Key figures MoneyClockCard on
+     top) and "x of work" under each expense (TransactionListView).
+   - 686e593 liquidity tile on model A (NetWorthTicker rewritten: month path
+     solid → dashed expected end, where the money sits, day/month/year; base
+     = start of month at that day's prices + work + market).
+   - 0573ec4 money model + time machine: the website's moneymodel.js +
+     three.min.js bundled in MoneyModel/ with moneymodel.html (bridge
+     window.pf ↔ WKScriptMessageHandler), Views/Dashboard/MoneyModelView.swift
+     (switches, levers, timeline, side card), Services/MoneyModelData.swift
+     (= MoneyModel.tsx base / this year / 5 forecast years / home events);
+     link under the liquidity tile. When public/moneymodel.js changes, copy
+     it to the iOS repo again.
+   On the Mac: build iPhone + Catalyst, fix compile errors, run tests, check
+   the dashboard tile, Key figures clock and the money model web view (does
+   three.js load from the bundle; touch on the timeline). Still to port: the
+   wealth PDF pages (wealthReport.ts) and the earlier years' look-back.
 2b. iOS ab599c2 (20 Nov, Windows, NOT BUILT): lighter animations — Bart
    saw small hitches on his iPhone Pro. MotionSettings.chartInterval (Full
    4 s, Light 10 s): tile sparklines, Income vs Spent, savings bars and
