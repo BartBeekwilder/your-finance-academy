@@ -4,7 +4,7 @@ Read this first on any computer. It says where the project stands, how to
 run it, and what's next. Keep it up to date at the end of every session
 (Claude: update this file and commit it before finishing).
 
-Last updated: 2026-11-19 (evening, Windows → Mac).
+Last updated: 2026-11-20 (night, Windows → Mac).
 
 ## >>> START HERE (Bart: "zeg waar we gebleven waren") <<<
 When Bart says he wants to start, first tell him in a few lines where we
@@ -24,6 +24,28 @@ Where it stands (20 Nov, night):
   has processed it: install from TestFlight on iPhone/iPad, sign in, choose
   "Start from my account". Not yet checked by eye: donut/balance layout and
   the choice cards (the simulator hung).
+- 20 Nov: website `main` = `web-app` code at f2c0470 (money model with
+  repayment, look-back, debt types, animations, Time machine opening on
+  "Owned and owed"); web-app has only status notes on top. iOS
+  `ios-port-nov18` at 0573ec4 holds FOUR unbuilt commits from Windows:
+  ab599c2 lighter animations, 80101f8 money clock + work hours, 686e593
+  liquidity tile model A, 0573ec4 money model + time machine (web view).
+
+ON THE MAC, FIRST (in this order):
+  a. `cd personal-finance-ios && git fetch && git checkout ios-port-nov18
+     && git pull`; `cd ../your-finance-academy && git checkout web-app-demo
+     && git pull origin web-app` (or work on web-app).
+  b. Build iPhone (iPhone 17 Pro, iOS 26.2 simulator) + Mac Catalyst; fix
+     compile errors (new files: Services/MoneyClock.swift,
+     Services/MoneyModelData.swift, Views/KeyFigures/MoneyClockCard.swift,
+     Views/Dashboard/MoneyModelView.swift, NetWorthTicker rewrite; the
+     MoneyModel/ folder must be in the bundle as a folder so
+     moneymodel.html finds three.min.js + moneymodel.js).
+  c. Run the tests (MoneyClockTests new; 78 before).
+  d. Look in the simulator: dashboard liquidity tile, Key figures clock,
+     "x of work" under expenses, Money model screen (3D loads, levers,
+     timeline), animations lighter on the phone.
+  e. Bump CURRENT_PROJECT_VERSION to 4, archive + upload → TestFlight build 4.
 
 Next, in order:
 1. Bart tests build 3 on iPhone/iPad (sync: nothing doubled or missing).
