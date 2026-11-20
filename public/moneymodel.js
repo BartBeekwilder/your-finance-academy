@@ -455,7 +455,9 @@
         // What you owe goes below the ground, like a bar below the axis.
         const owed = edged(new THREE.Mesh(box(1.5), glass(0xff5a52, f, { emissive: 0x3a0b0b })), 0xff8a80);
         owed.userData = { key: "tm", src: "owed", label: T.tmOwed, h: 0, year: y.year, value: y.debts, forecast: f }; owed.visible = false; g.add(owed);
-        const mine = edged(new THREE.Mesh(box(1.86), mat(0x30d158, { transparent: true, opacity: 0.07, depthWrite: false })), 0x7dffa5);
+        // Yours: a slim solid green tower beside what you own (owned − owed).
+        const mine = new THREE.Mesh(new THREE.BoxGeometry(0.7, 1, 0.7), glass(0x30d158, f, { emissive: 0x0b3a16 }));
+        mine.position.x = 1.35;
         mine.userData = { key: "tm", src: "mine", label: T.tmMine, h: 0, year: y.year, value: y.equity, forecast: f }; mine.visible = false; g.add(mine);
         const marks = (y.events || []).map((e, j) => {
           const hs = house(); hs.position.set(-0.2 + j * 0.7, 0, 1.55); g.add(hs);
@@ -504,10 +506,11 @@
           t.owed.userData.h += (dh - t.owed.userData.h) * ease;
           t.owed.visible = t.owed.userData.h > 0.02; t.owed.scale.y = Math.max(t.owed.userData.h, 0.001); t.owed.position.y = -t.owed.userData.h / 2 - 0.06;
           glow(t.owed);
-          // Yours: the top of what you own, as much as is left after the debt.
-          const mh = Math.min(Math.max(top - t.owed.userData.h, 0), top);
+          // Yours: the slim green tower beside it, as tall as what's left after the debt.
+          const mh = Math.max(t.y.equity, 0) * k * t.grow;
           t.mine.userData.h += (mh - t.mine.userData.h) * ease;
-          t.mine.visible = t.mine.userData.h > 0.02; t.mine.scale.y = Math.max(t.mine.userData.h, 0.001) + 0.02; t.mine.position.y = top - t.mine.userData.h / 2 + 0.01;
+          t.mine.visible = t.mine.userData.h > 0.02; t.mine.scale.y = Math.max(t.mine.userData.h, 0.001); t.mine.position.y = t.mine.userData.h / 2;
+          glow(t.mine);
           t.top = top;
         } else {
           hide(t.bal); hide([t.owed, t.mine]);
@@ -563,7 +566,7 @@
         const list = tmMode === "balance" ? [...t.bal, t.owed, t.mine] : [...t.src, t.cut];
         for (const b of list) {
           if (!b.visible || b.userData.h < 0.04) continue;
-          const p = at(yearAt * SP + 1.05, b.position.y); if (!p) continue;
+          const p = at(yearAt * SP + (tmMode === "balance" ? 1.85 : 1.05), b.position.y); if (!p) continue;
           const u = b.userData, add = u.add;
           const value = u.src === "loss" ? sgn(u.value || 0) : money(u.value || 0);
           const sub = u.src === "loss" ? T.tmLossNote : add != null && Math.abs(add) >= 0.5 ? T.tmInYear.replace("{year}", t.y.year).replace("{amount}", sgn(add)) : "";
