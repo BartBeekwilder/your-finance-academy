@@ -69,6 +69,8 @@
       ".mm-lbl b{display:block;color:#eef0f6;font:600 12px ui-monospace,Menlo,monospace}",
       ".mm-lbl-side{transform:translate(-100%,-50%);text-align:right}",
       ".mm-lbl-now{color:#eef0f6;font-weight:600}.mm-lbl-now b{color:#7dffa5;font-size:13px}",
+      ".mm-lbl small{display:block;font:500 10.5px system-ui,sans-serif;color:#8a90a6}",
+      ".mm-lbl-block{left:0;top:0;text-align:left;font-size:11px;color:#c9cede;will-change:transform}",
       ".mm-tip{position:absolute;max-width:260px;padding:10px 12px;border-radius:12px;background:rgba(12,13,19,.94);border:1px solid #1f2330;box-shadow:0 10px 30px rgba(0,0,0,.5);font:12.5px/1.45 system-ui,sans-serif;color:#a3a9bb;pointer-events:none;z-index:3;display:grid;gap:2px}",
       ".mm-tip strong{color:#eef0f6;font-size:13.5px}",
       ".mm-tip em{font:600 14px ui-monospace,Menlo,monospace;font-style:normal;color:#eef0f6}",
@@ -427,47 +429,93 @@
         const pos = Object.values(t.cum).reduce((a, v) => a + Math.max(v, 0), 0);
         max = Math.max(max, pos, t.y.debts);
       }
-      const k = 7 / max;
+      const k = 7 / max, GAP = 0.03;
       w.towers.forEach((t, i) => {
         // Years up to the one picked stand; later ones wait, flat.
         t.grow += ((i <= yearAt ? 1 : 0) - t.grow) * ease;
         const on = i === yearAt;
         let y = 0, neg = 0;
+        const negNames = [];
         t.blocks.forEach((b) => {
           const v = t.cum[b.userData.src];
-          if (v < 0) neg += -v;
+          if (v < 0) { neg += -v; negNames.push(b.userData.label); }
           const h = Math.max(v, 0) * k * t.grow;
           b.userData.h += (h - b.userData.h) * ease;
           b.visible = b.userData.h > 0.01;
-          b.scale.y = Math.max(b.userData.h, 0.001); b.position.y = y + b.userData.h / 2; y += b.userData.h;
-          b.material.emissiveIntensity = on ? 0.35 : 0.08;
+          if (!b.visible) return;
+          // A hair of space between blocks: no two faces share a plane (that
+          // is what made the seams and the top shimmer).
+          b.scale.y = b.userData.h; b.position.y = y + b.userData.h / 2; y += b.userData.h + GAP;
           if (b.material.emissive && !b.userData.em) { b.material.emissive.setHex(b.material.color.getHex()); b.userData.em = 1; }
+          b.material.emissiveIntensity += ((on ? 0.32 : 0.06) - b.material.emissiveIntensity) * ease;
         });
+        y = Math.max(y - GAP, 0);
         const ch = Math.min(neg * k * t.grow, y);
         t.cut.userData.h += (ch - t.cut.userData.h) * ease;
-        t.cut.visible = t.cut.userData.h > 0.01; t.cut.scale.y = Math.max(t.cut.userData.h, 0.001); t.cut.position.y = y - t.cut.userData.h / 2;
+        // The loss slice sits just proud of the stack, never in the same plane.
+        t.cut.visible = t.cut.userData.h > 0.01; t.cut.scale.y = Math.max(t.cut.userData.h, 0.001) + 0.02; t.cut.position.y = y - t.cut.userData.h / 2 + 0.01;
         t.cut.userData.value = -neg;
+        // The red slice is named after what made it: e.g. "From the stock market".
+        t.cut.userData.label = negNames.join(" · ") || T.tmLoss;
         const dh = t.y.debts * k * t.grow;
         t.debt.userData.h += (dh - t.debt.userData.h) * ease;
-        t.debt.visible = t.debt.userData.h > 0.01; t.debt.scale.y = Math.max(t.debt.userData.h, 0.001); t.debt.position.y = -t.debt.userData.h / 2 - 0.04;
-        t.top = y - t.cut.userData.h;
+        t.debt.visible = t.debt.userData.h > 0.01; t.debt.scale.y = Math.max(t.debt.userData.h, 0.001); t.debt.position.y = -t.debt.userData.h / 2 - 0.06;
+        t.top = y;
       });
       w.camX += (yearAt * SP - w.camX) * (1 - Math.pow(0.02, dt));
     }
+    // Labels are made once and moved each frame (rebuilding them every frame
+    // made the text flicker): the year (and, for the year in view, its equity)
+    // on top of each tower, and beside the tower in view one label per block —
+    // what it is, how much it is up to that year, and what that year added.
+    const tmLbl = { years: [], blocks: [] };
+    function lbl(pool, i, cls) {
+      let d = pool[i];
+      if (!d) { d = document.createElement("div"); d.style.left = "0"; d.style.top = "0"; d.appendChild(document.createTextNode("")); d.appendChild(document.createElement("b")); const s2 = document.createElement("small"); d.appendChild(s2); pool[i] = d; }
+      d.className = cls;
+      if (d.parentNode !== labels) labels.appendChild(d);
+      return d;
+    }
+    function setLbl(d, title, value, sub) {
+      if (d.firstChild.nodeValue !== title) d.firstChild.nodeValue = title;
+      if (d.children[0].textContent !== value) d.children[0].textContent = value;
+      if (d.children[1].textContent !== (sub || "")) d.children[1].textContent = sub || "";
+      d.children[1].hidden = !sub;
+    }
     function timeLabels(w) {
-      labels.textContent = "";
       const r = stage.getBoundingClientRect();
+      const at = (x, y) => { const v = new THREE.Vector3(x, y, 0).project(camera); return v.z > 1 ? null : { x: ((v.x + 1) / 2) * r.width, y: ((1 - v.y) / 2) * r.height }; };
+      let n = 0;
       w.towers.forEach((t, i) => {
         if (t.grow < 0.25) return;
-        const v = new THREE.Vector3(i * SP, (t.top || 0) + 0.45, 0).project(camera);
-        if (v.z > 1) return;
-        const d = document.createElement("div"); d.className = "mm-lbl" + (i === yearAt ? " mm-lbl-now" : "");
-        d.style.left = ((v.x + 1) / 2) * r.width + "px"; d.style.top = ((1 - v.y) / 2) * r.height + "px";
-        d.textContent = String(t.y.year);
-        // Only the year in view carries its amount; the others just their year.
-        if (i === yearAt) { const b = document.createElement("b"); b.textContent = money(t.y.equity); d.appendChild(b); }
-        labels.appendChild(d);
+        const p = at(i * SP, (t.top || 0) + 0.4); if (!p) return;
+        const d = lbl(tmLbl.years, n++, "mm-lbl" + (i === yearAt ? " mm-lbl-now" : ""));
+        setLbl(d, String(t.y.year), i === yearAt ? money(t.y.equity) : "", "");
+        if (i !== yearAt) d.children[0].hidden = true; else d.children[0].hidden = false;
+        d.style.transform = "translate(" + p.x + "px," + p.y + "px) translate(-50%,-100%)";
       });
+      for (let j = n; j < tmLbl.years.length; j++) tmLbl.years[j].remove();
+      // Beside the tower in view: its blocks, nudged apart so none overlap.
+      const t = w.towers[yearAt]; let m = 0;
+      if (t && t.grow > 0.6) {
+        const rows = [];
+        for (const b of [...t.blocks, t.cut, t.debt]) {
+          if (!b.visible || b.userData.h < 0.04) continue;
+          const p = at(yearAt * SP + 1.05, b.position.y); if (!p) continue;
+          const add = b.userData.add;
+          rows.push({ p, title: b.userData.label, value: b.userData.src === "loss" ? sgn(b.userData.value || 0) : money(b.userData.value || 0), sub: b.userData.src === "loss" ? T.tmLossNote : add != null && Math.abs(add) >= 0.5 ? T.tmInYear.replace("{year}", t.y.year).replace("{amount}", sgn(add)) : "" });
+        }
+        rows.sort((a, b) => a.p.y - b.p.y);
+        // Room for each label (two or three lines), pushed down where they'd touch.
+        const room = (row) => (row.sub ? 46 : 32);
+        for (let q = 1; q < rows.length; q++) { const need = (room(rows[q - 1]) + room(rows[q])) / 2 + 4; if (rows[q].p.y - rows[q - 1].p.y < need) rows[q].p.y = rows[q - 1].p.y + need; }
+        for (const row of rows) {
+          const d = lbl(tmLbl.blocks, m++, "mm-lbl mm-lbl-block");
+          setLbl(d, row.title, row.value, row.sub);
+          d.style.transform = "translate(" + row.p.x + "px," + row.p.y + "px) translate(0,-50%)";
+        }
+      }
+      for (let j = m; j < tmLbl.blocks.length; j++) tmLbl.blocks[j].remove();
     }
 
     const INFO = () => ({
@@ -565,7 +613,8 @@
       if (hit && view === "time") {
         const u = hit.object.userData;
         const add = u.add != null ? T.tmInYear.replace("{year}", u.year).replace("{amount}", sgn(u.add)) : "";
-        showTip(mx, my, u.year + " · " + u.label, money(u.value || 0), [u.src === "debt" || u.src === "loss" || u.src === "start" ? "" : T.tmSoFar, add].filter(Boolean).join(" "));
+        const note = u.src === "loss" ? T.tmLossNote : u.src === "debt" || u.src === "start" ? "" : T.tmSoFar;
+        showTip(mx, my, u.year + " · " + u.label, u.src === "loss" ? sgn(u.value || 0) : money(u.value || 0), [note, add].filter(Boolean).join(" "));
       } else if (hit) { const u = hit.object.userData; showTip(mx, my, u.label, money(u.value || 0), INFO()[u.key] || ""); } else hideTip();
     };
     const onWheel = (e) => { if (view === "flow" || opts.noZoom) return; e.preventDefault(); dist = Math.min(Math.max(dist + e.deltaY * 0.01, 8), 40); };

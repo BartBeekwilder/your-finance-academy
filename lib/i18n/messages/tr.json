@@ -2249,5 +2249,6 @@
  "{change} in {year}": "{year} yılında {change}",
  "Pause": "Duraklat",
  "Play": "Oynat",
- "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Her kule, bir yılın sonundaki öz varlığındır ve nereden geldiğine göre kuruludur; kırmızı bodrum hâlâ borçlu olduğun tutardır. Tutar için bir bloğun üzerine gel."
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Her kule, bir yılın sonundaki öz varlığındır ve nereden geldiğine göre kuruludur; kırmızı bodrum hâlâ borçlu olduğun tutardır. Tutar için bir bloğun üzerine gel.",
+ "Takes this off your equity.": "Bunu öz varlığından düşer."
 }

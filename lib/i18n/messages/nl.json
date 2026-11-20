@@ -2255,5 +2255,6 @@
  "{change} in {year}": "{change} in {year}",
  "Pause": "Pauze",
  "Play": "Afspelen",
- "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Elke toren is je eigen vermogen aan het eind van een jaar, opgebouwd uit waar het vandaan kwam; de rode kelder is wat je nog schuldig bent. Wijs een blok aan voor het bedrag."
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Elke toren is je eigen vermogen aan het eind van een jaar, opgebouwd uit waar het vandaan kwam; de rode kelder is wat je nog schuldig bent. Wijs een blok aan voor het bedrag.",
+ "Takes this off your equity.": "Haalt dit van je eigen vermogen af."
 }

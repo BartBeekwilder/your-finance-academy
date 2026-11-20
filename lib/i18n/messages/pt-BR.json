@@ -2249,5 +2249,6 @@
  "{change} in {year}": "{change} em {year}",
  "Pause": "Pausar",
  "Play": "Reproduzir",
- "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Cada torre é seu patrimônio líquido no fim de um ano, montado pela origem; o porão vermelho é o que você ainda deve. Aponte para um bloco para ver o valor."
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Cada torre é seu patrimônio líquido no fim de um ano, montado pela origem; o porão vermelho é o que você ainda deve. Aponte para um bloco para ver o valor.",
+ "Takes this off your equity.": "Tira isso do seu patrimônio."
 }

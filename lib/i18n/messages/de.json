@@ -2249,5 +2249,6 @@
  "{change} in {year}": "{change} im Jahr {year}",
  "Pause": "Pause",
  "Play": "Abspielen",
- "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Jeder Turm ist dein Eigenkapital am Ende eines Jahres, aufgebaut aus seiner Herkunft; der rote Keller ist, was du noch schuldest. Zeig auf einen Block für den Betrag."
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Jeder Turm ist dein Eigenkapital am Ende eines Jahres, aufgebaut aus seiner Herkunft; der rote Keller ist, was du noch schuldest. Zeig auf einen Block für den Betrag.",
+ "Takes this off your equity.": "Zieht das von deinem Eigenkapital ab."
 }

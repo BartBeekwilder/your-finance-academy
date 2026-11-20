@@ -218,7 +218,7 @@ function loadEngine() {
   if (window.PFMoneyModel) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
     const s = document.createElement("script");
-    s.src = "/moneymodel.js?v=4";
+    s.src = "/moneymodel.js?v=5";
     s.onload = () => resolve();
     s.onerror = () => reject(new Error("moneymodel.js did not load"));
     document.head.appendChild(s);
@@ -257,7 +257,7 @@ export function moneyModelTexts() {
     tipDebtsPush: t("Pushes outwards: your mortgage and other loans."),
     tmStart: t("Where you started"), tmWork: t("From work (income − spending)"), tmRepay: t("From repayment (less debt)"),
     tmMarket: t("From the stock market"), tmHousing: t("From the housing market"), tmOther: t("Other changes"), tmLoss: t("Losses"),
-    tmInYear: t("In {year}: {amount}"), tmSoFar: t("Up to and including this year."),
+    tmInYear: t("In {year}: {amount}"), tmLossNote: t("Takes this off your equity."), tmSoFar: t("Up to and including this year."),
   };
 }
 
@@ -389,7 +389,20 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
         </div>
       )}
       <div className="pf-mm-main">
-        <div ref={stageRef} className="pf-mm-stage">{failed && <p className="pf-mm-failed">{t("The model couldn't load. Reload the page to try again.")}</p>}</div>
+        <div className="pf-mm-stagewrap">
+          <div ref={stageRef} className="pf-mm-stage">{failed && <p className="pf-mm-failed">{t("The model couldn't load. Reload the page to try again.")}</p>}</div>
+          <div className="pf-mm-fold" data-open={view === "time" && years.length > 0} inert={view !== "time"}>
+            <div>
+              <Timeline
+                years={years.map((y) => y.year)}
+                at={Math.min(yearIdx, Math.max(years.length - 1, 0))}
+                playing={playing}
+                onPick={(i) => { setPlaying(false); setYearIdx(i); }}
+                onPlay={() => { if (!playing && yearIdx >= years.length - 1) setYearIdx(0); setPlaying(!playing); }}
+              />
+            </div>
+          </div>
+        </div>
         <aside className="pf-mm-side">
           {view === "time" && tm && (
             <div className="pf-card pf-mm-card pf-mm-swap">
@@ -408,13 +421,6 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
                   </div>
                 ))}
               </div>
-              <div className="pf-mm-tm-controls">
-                <button type="button" className="pf-chip" onClick={() => { if (!playing && yearIdx >= years.length - 1) setYearIdx(0); setPlaying(!playing); }}>
-                  {playing ? t("Pause") : t("Play")}
-                </button>
-                <input type="range" min={0} max={Math.max(years.length - 1, 0)} step={1} value={yearIdx} aria-label={t("Year")} onChange={(e) => { setPlaying(false); setYearIdx(Number(e.target.value)); }} />
-              </div>
-              <div className="pf-mm-tm-ends"><span>{years[0]?.year}</span><span>{years[years.length - 1]?.year}</span></div>
             </div>
           )}
           {view !== "time" && <div className="pf-card pf-mm-card">
@@ -468,5 +474,60 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
         </aside>
       </div>
     </section>
+  );
+}
+
+/** The time machine's timeline: a tick per year, a thumb that glides (drag
+ *  it, click a year, or use the arrow keys) and Play. */
+function Timeline({ years, at, playing, onPick, onPlay }: { years: number[]; at: number; playing: boolean; onPick: (i: number) => void; onPlay: () => void }) {
+  const track = useRef<HTMLDivElement>(null);
+  const [dragging, setDragging] = useState(false);
+  const n = years.length;
+  const pos = (i: number) => (n > 1 ? (i / (n - 1)) * 100 : 50);
+  const pick = (clientX: number) => {
+    const r = track.current?.getBoundingClientRect();
+    if (!r || n < 1) return;
+    const f = Math.min(Math.max((clientX - r.left) / r.width, 0), 1);
+    const i = Math.round(f * (n - 1));
+    if (i !== at) onPick(i);
+  };
+  return (
+    <div className="pf-tl">
+      <button type="button" className="pf-tl-play" onClick={onPlay} aria-label={playing ? t("Pause") : t("Play")} data-playing={playing || undefined}>
+        <span aria-hidden />
+      </button>
+      <div
+        ref={track}
+        className="pf-tl-track"
+        data-dragging={dragging || undefined}
+        onPointerDown={(e) => { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); setDragging(true); pick(e.clientX); }}
+        onPointerMove={(e) => dragging && pick(e.clientX)}
+        onPointerUp={() => setDragging(false)}
+        onPointerCancel={() => setDragging(false)}
+      >
+        <div className="pf-tl-rail" />
+        <div className="pf-tl-fill" style={{ width: `${pos(at)}%` }} />
+        {years.map((y, i) => (
+          <span key={y} className="pf-tl-tick" data-on={i === at || undefined} data-past={i < at || undefined} style={{ left: `${pos(i)}%` }}>
+            <i />
+            <b>{y}</b>
+          </span>
+        ))}
+        <div
+          className="pf-tl-thumb"
+          role="slider"
+          tabIndex={0}
+          aria-label={t("Year")}
+          aria-valuemin={years[0]}
+          aria-valuemax={years[n - 1]}
+          aria-valuenow={years[at]}
+          style={{ left: `${pos(at)}%` }}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowRight" || e.key === "ArrowUp") { e.preventDefault(); onPick(Math.min(at + 1, n - 1)); }
+            if (e.key === "ArrowLeft" || e.key === "ArrowDown") { e.preventDefault(); onPick(Math.max(at - 1, 0)); }
+          }}
+        />
+      </div>
+    </div>
   );
 }

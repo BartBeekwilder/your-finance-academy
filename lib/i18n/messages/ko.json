@@ -2249,5 +2249,6 @@
  "{change} in {year}": "{year}년 {change}",
  "Pause": "일시정지",
  "Play": "재생",
- "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "각 타워는 연말 순자산이며 출처별로 쌓여 있습니다. 빨간 지하층은 아직 갚아야 할 부채입니다. 블록을 가리키면 금액이 보입니다."
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "각 타워는 연말 순자산이며 출처별로 쌓여 있습니다. 빨간 지하층은 아직 갚아야 할 부채입니다. 블록을 가리키면 금액이 보입니다.",
+ "Takes this off your equity.": "이만큼 순자산에서 빠집니다."
 }

@@ -2249,5 +2249,6 @@
  "{change} in {year}": "{change} في {year}",
  "Pause": "إيقاف مؤقت",
  "Play": "تشغيل",
- "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "كل برج هو صافي ثروتك في نهاية سنة، مبني حسب مصدرها؛ والقبو الأحمر هو ما لا تزال مدينًا به. أشر إلى كتلة لمعرفة المبلغ."
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "كل برج هو صافي ثروتك في نهاية سنة، مبني حسب مصدرها؛ والقبو الأحمر هو ما لا تزال مدينًا به. أشر إلى كتلة لمعرفة المبلغ.",
+ "Takes this off your equity.": "يطرح هذا من صافي ثروتك."
 }

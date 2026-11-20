@@ -2249,5 +2249,6 @@
  "{change} in {year}": "{change} trong năm {year}",
  "Pause": "Tạm dừng",
  "Play": "Phát",
- "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Mỗi tòa tháp là vốn chủ sở hữu của bạn cuối năm, xếp theo nguồn gốc; tầng hầm đỏ là khoản bạn còn nợ. Chỉ vào một khối để xem số tiền."
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Mỗi tòa tháp là vốn chủ sở hữu của bạn cuối năm, xếp theo nguồn gốc; tầng hầm đỏ là khoản bạn còn nợ. Chỉ vào một khối để xem số tiền.",
+ "Takes this off your equity.": "Trừ khoản này khỏi vốn chủ sở hữu của bạn."
 }

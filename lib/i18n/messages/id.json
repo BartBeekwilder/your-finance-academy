@@ -2249,5 +2249,6 @@
  "{change} in {year}": "{change} pada {year}",
  "Pause": "Jeda",
  "Play": "Putar",
- "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Setiap menara adalah ekuitasmu di akhir tahun, tersusun dari asal-usulnya; ruang bawah merah adalah yang masih kamu utang. Arahkan ke blok untuk melihat jumlahnya."
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Setiap menara adalah ekuitasmu di akhir tahun, tersusun dari asal-usulnya; ruang bawah merah adalah yang masih kamu utang. Arahkan ke blok untuk melihat jumlahnya.",
+ "Takes this off your equity.": "Mengurangi ini dari ekuitasmu."
 }
