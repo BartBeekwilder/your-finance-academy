@@ -39,6 +39,14 @@ Next, in order:
    still tick as before); background on a phone with two strokes (no wide
    glow) at 16 fps; dashboard title once a minute (clock keeps its own
    tick). Build on the Mac, check on the iPhone, then TestFlight build 4.
+2c. LIVE 20 Nov (main f1cdf99, /updates entry): Money model — repayment dots
+   dissolve into the debt ("−€…"), no dots on standing balances; the month
+   from the one expected rule (expectedByCategory); every debt its own bar;
+   "Looking back" (components/finance/MoneyModel.tsx lookBackPeriods /
+   lookBackBase): this year so far (balance sheet 31 Dec → today, booked
+   flows), each earlier year (balanceYears stands + compareYears totals) and
+   "All since {first}"; residual = "Other changes". Not yet looked at with
+   Bart's own data. iOS: port later with the rest of the money model.
 3. Open question for Bart: Quick Add dates an income in the main income
    category on the payday, and "Received this month" counts it already.
 4. Later: per-language URLs (/en, /de) — Bart said not now.
