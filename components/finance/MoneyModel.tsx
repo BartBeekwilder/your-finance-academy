@@ -190,7 +190,7 @@ function loadEngine() {
   if (window.PFMoneyModel) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
     const s = document.createElement("script");
-    s.src = "/moneymodel.js?v=2";
+    s.src = "/moneymodel.js?v=3";
     s.onload = () => resolve();
     s.onerror = () => reject(new Error("moneymodel.js did not load"));
     document.head.appendChild(s);
@@ -317,13 +317,17 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
           <Segmented label={t("View")} value={view} onChange={pickView} options={[{ value: "flow", label: t("Money flow") }, { value: "build", label: t("Wealth building") }, { value: "grav", label: t("Gravity") }]} />
         </div>
       </div>
-      {mode === "back" && periods.length > 1 && (
-        <div className="pf-mm-periods" role="group" aria-label={t("Period")}>
-          {periods.map((p) => (
-            <button key={p.key} type="button" className="pf-chip" data-active={p.key === period.key || undefined} aria-pressed={p.key === period.key} onClick={() => setPeriodKey(p.key)}>
-              {p.label}
-            </button>
-          ))}
+      {periods.length > 1 && (
+        <div className="pf-mm-fold" data-open={mode === "back"} inert={mode !== "back"}>
+          <div>
+            <div className="pf-mm-periods" role="group" aria-label={t("Period")}>
+              {periods.map((p) => (
+                <button key={p.key} type="button" className="pf-chip" data-active={p.key === period.key || undefined} aria-pressed={p.key === period.key} onClick={() => setPeriodKey(p.key)}>
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
       <div className="pf-mm-main">
@@ -334,7 +338,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
             {model && (
               <>
                 <b className="pf-rounded pf-mm-eq">{money(model.equity, currency)}</b>
-                <span className="pf-mm-from">
+                <span className="pf-mm-from pf-mm-swap" key={`${mode}-${period.key}`}>
                   {mode === "back" && period.p.from !== y0
                     ? t("1 Jan {year} {amount} · {change} to {end}", { year: period.p.from, amount: money(model.eqNow, currency), change: money(model.equity - model.eqNow, currency, { signed: true }), end: period.p.to === y0 ? t("today") : t("31 Dec {year}", { year: period.p.to }) })
                     : mode === "back"
@@ -353,7 +357,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
               </>
             )}
           </div>
-          {mode === "ahead" && <div className="pf-card pf-mm-card">
+          <div className="pf-mm-fold" data-open={mode === "ahead"} inert={mode !== "ahead"}><div><div className="pf-card pf-mm-card">
             <h3>{t("Levers")}</h3>
             {LEVERS.map((l) => (
               <label key={l.key} className="pf-mm-lever" htmlFor={`mm-${l.key}`}>
@@ -367,8 +371,8 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
             <button type="button" className="pf-chip" style={{ justifySelf: "start", padding: "6px 12px" }} onClick={reset}>
               {t("Back to now")}
             </button>
-          </div>}
-          <p className="pf-mm-note">
+          </div></div></div>
+          <p className="pf-mm-note pf-mm-swap" key={`${mode}-${period.key}`}>
             {mode === "back" && period.p.from !== y0
               ? t("Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.")
               : mode === "back"

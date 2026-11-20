@@ -109,7 +109,7 @@
     const hideTip = () => { tip.hidden = true; };
 
     // ================================================================ flow (2D)
-    let FW = 0, FH = 0, nodes = [], bands = [], particles = [], hoverBand = null;
+    let FW = 0, FH = 0, nodes = [], bands = [], particles = [], hoverBand = null, pSig = "";
     const COLS = [0.03, 0.17, 0.33, 0.55, 0.72, 0.89];
     const narrow = () => FW < 720;
     function sizeFlow() {
@@ -177,12 +177,17 @@
       nodes = N; bands = Bd;
       // Dots only where money really moves: not on spending that leaves the
       // picture, not on a market at 0%, not on standing balances.
+      // While a change glides in, the same streams keep their dots (they just
+      // follow the bands); only a different set of streams starts them afresh.
+      const sig = bands.map((b) => b.a.id + ">" + (b.b ? b.b.id : "") + (b.sink || b.still || b.stock ? "-" : "+")).join(",");
+      if (sig === pSig) { for (const p of particles) p.b = bands[p.bi]; return; }
+      pSig = sig;
       particles = [];
-      for (const b of bands) {
-        if (b.sink || b.still || b.stock) continue;
+      bands.forEach((b, bi) => {
+        if (b.sink || b.still || b.stock) return;
         const count = Math.min(Math.round(4 + Math.max(b.w0, b.w1) / 3), 40);
-        for (let i = 0; i < count; i++) particles.push({ b, t: Math.random(), v: 0.18 + Math.random() * 0.12, o: Math.random() - 0.5 });
-      }
+        for (let i = 0; i < count; i++) particles.push({ b, bi, t: Math.random(), v: 0.18 + Math.random() * 0.12, o: Math.random() - 0.5 });
+      });
     }
     function bez(b, t) {
       const x0 = b.a.x + b.a.w, x1 = b.b ? b.b.x : x0 + FW * 0.09, mx = (x0 + x1) / 2, u = 1 - t;
@@ -413,8 +418,31 @@
       return v;
     }
     function resize() { sizeFlow(); if (view === "flow") layoutFlow(model); sizeGL(); }
-    function update() {
-      model = compute(B, S);
+    // Every change glides: the model's numbers travel from where they were to
+    // where they're going (bars grow and shrink, streams widen, amounts count),
+    // never a jump. A lever being dragged just follows the hand.
+    let tween = null;
+    function update(instant) {
+      const to = compute(B, S);
+      if (reduce || instant || !model) { model = to; tween = null; if (view === "flow") layoutFlow(model); listeners.forEach((f) => f(model)); return; }
+      tween = { from: model, to, start: performance.now(), dur: 820 };
+    }
+    // Ease out with a whisper of overshoot, like a spring settling.
+    const spring = (t) => (t >= 1 ? 1 : 1 + 2.2 * Math.pow(t - 1, 3) + 1.2 * Math.pow(t - 1, 2));
+    function lerp(a, b, k) {
+      if (typeof b === "number") return (typeof a === "number" ? a : 0) + (b - (typeof a === "number" ? a : 0)) * k;
+      if (Array.isArray(b)) return b.map((x, i) => {
+        const match = Array.isArray(a) ? (x && x.key != null ? a.find((y) => y && y.key === x.key) : x && x.label !== undefined ? a.find((y) => y && y.label === x.label) : a[i]) : undefined;
+        return lerp(match, x, k);
+      });
+      if (b && typeof b === "object") { const o = {}; for (const key in b) o[key] = lerp(a ? a[key] : undefined, b[key], k); return o; }
+      return b;
+    }
+    function stepTween(now) {
+      if (!tween) return;
+      const t = Math.min((now - tween.start) / tween.dur, 1);
+      model = t >= 1 ? tween.to : lerp(tween.from, tween.to, spring(t));
+      if (t >= 1) tween = null;
       if (view === "flow") layoutFlow(model);
       listeners.forEach((f) => f(model));
     }
@@ -447,6 +475,7 @@
     function frame(now) {
       if (!alive) return;
       const dt = Math.min((now - last) / 1000, 0.05); last = now;
+      stepTween(now);
       if (view === "flow") drawFlow();
       else if (renderer) {
         const w = view === "build" ? world.build : world.grav;
@@ -462,13 +491,13 @@
     }
 
     view = setView(view);
-    update();
+    update(true);
     raf = requestAnimationFrame(frame);
 
     return {
       setLevers(next) { S = Object.assign({}, S, next); update(); },
       setBase(next) { B = next; if (world.build) world.build.scale = 7 / Math.max(compute(B, S).assets, compute(B, S).debts, 1); update(); },
-      setView(v) { const got = setView(v); update(); return got; },
+      setView(v) { const got = setView(v); update(true); return got; },
       onModel(f) { listeners.push(f); f(model); return () => listeners.splice(listeners.indexOf(f), 1); },
       destroy() {
         alive = false; cancelAnimationFrame(raf); ro.disconnect();
