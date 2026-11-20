@@ -59,6 +59,11 @@ Next, in order:
    % sliders); a little 3D house in the year a home was bought (tip: name,
    price, date); timeline under the stage (drag, ticks, play, "now" marker).
    Bart likes it; check his own years, the house marker not seen yet.
+   LIVE later 20 Nov (main e970909): "Owned and owed" = assets tower, debt
+   as a red bar BELOW the ground, a slim solid green equity tower beside it
+   (frames removed — Bart found them unclear); "Other changes" renamed "Not
+   explained by your bookings" + explanation; tips only from blocks
+   (intersectObjects non-recursive — edges gave "undefined").
 3. Open question for Bart: Quick Add dates an income in the main income
    category on the payday, and "Received this month" counts it already.
 4. Later: per-language URLs (/en, /de) — Bart said not now.
