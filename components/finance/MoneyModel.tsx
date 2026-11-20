@@ -269,7 +269,7 @@ function loadEngine() {
   if (window.PFMoneyModel) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
     const s = document.createElement("script");
-    s.src = "/moneymodel.js?v=9";
+    s.src = "/moneymodel.js?v=10";
     s.onload = () => resolve();
     s.onerror = () => reject(new Error("moneymodel.js did not load"));
     document.head.appendChild(s);
@@ -337,7 +337,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
   // the markets at the chosen % a year.
   const [ahMkt, setAhMkt] = useState(0);
   const [ahHouse, setAhHouse] = useState(0);
-  const [tmMode, setTmMode] = useState<"source" | "balance">("source");
+  const [tmMode, setTmMode] = useState<"source" | "balance">("balance");
   const years = useMemo(() => [...past, ...forecastYears(data, now, ahead, past[past.length - 1], ahMkt, ahHouse)], [past, data, now, ahead, ahMkt, ahHouse]);
   const nowIdx = Math.max(past.length - 1, 0);
   useEffect(() => engine.current?.setTimeMode(tmMode), [tmMode, view]);
@@ -477,7 +477,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
           {view === "time" && tm && (
             <div className="pf-card pf-mm-card pf-mm-swap">
               <h3>{t("Time machine")}</h3>
-              <Segmented label={t("View")} value={tmMode} onChange={setTmMode} options={[{ value: "source", label: t("Where it came from") }, { value: "balance", label: t("Owned and owed") }]} />
+              <Segmented label={t("View")} value={tmMode} onChange={setTmMode} options={[{ value: "balance", label: t("Owned and owed") }, { value: "source", label: t("Where it came from") }]} />
               <div className="pf-mm-tm-year">
                 <b key={tm.year} className="pf-mm-swap">{tm.year}{tm.forecast && <em className="pf-mm-tm-tag">{t("expected")}</em>}</b>
                 <span className="pf-rounded">{money(tm.equity, currency)}</span>

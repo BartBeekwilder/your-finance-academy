@@ -391,7 +391,7 @@
     // house in front of its tower. The year picked grows into place and the
     // camera glides to it.
     const SP = 3.2, GAP = 0.03;
-    let years = [], yearAt = 0, tmMode = "source";
+    let years = [], yearAt = 0, tmMode = "balance";
     const SRC = [
       ["start", 0x8a90a6, () => T.tmStart],
       ["work", 0x30d158, () => T.tmWork],
