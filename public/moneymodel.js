@@ -673,7 +673,8 @@
       }
       if (!renderer) return;
       ray.setFromCamera({ x: (mx / r.width) * 2 - 1, y: -(my / r.height) * 2 + 1 }, camera);
-      const hit = ray.intersectObjects(pickables())[0];
+      // Only the blocks themselves, not their outline (an edge has no name: "undefined").
+      const hit = ray.intersectObjects(pickables(), false)[0];
       if (hit && view === "time" && hit.object.userData.src === "event") {
         const u = hit.object.userData;
         showTip(mx, my, u.year + " · " + u.label, money(u.value || 0), u.name + " · " + new Date(u.date).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }));
