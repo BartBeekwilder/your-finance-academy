@@ -2240,5 +2240,14 @@
  "31 DEC {year}": "31 DES {year}",
  "31 Dec {year}": "31 Des {year}",
  "1 Jan {year} {amount} · {change} to {end}": "1 Jan {year} {amount} · {change} hingga {end}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Tahun-tahun sebelumnya berasal dari total tahunan yang kamu impor. Pembagian kekayaanmu dalam setahun sebagian merupakan perkiraan (rumahmu antara pembelian dan hari ini); yang tidak dijelaskan total muncul di Perubahan lain."
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Tahun-tahun sebelumnya berasal dari total tahunan yang kamu impor. Pembagian kekayaanmu dalam setahun sebagian merupakan perkiraan (rumahmu antara pembelian dan hari ini); yang tidak dijelaskan total muncul di Perubahan lain.",
+ "Where you started": "Titik awalmu",
+ "Losses": "Kerugian",
+ "In {year}: {amount}": "Pada {year}: {amount}",
+ "Up to and including this year.": "Hingga tahun ini.",
+ "Time machine": "Mesin waktu",
+ "{change} in {year}": "{change} pada {year}",
+ "Pause": "Jeda",
+ "Play": "Putar",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Setiap menara adalah ekuitasmu di akhir tahun, tersusun dari asal-usulnya; ruang bawah merah adalah yang masih kamu utang. Arahkan ke blok untuk melihat jumlahnya."
 }

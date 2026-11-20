@@ -68,6 +68,7 @@
       ".mm-lbl{position:absolute;transform:translate(-50%,-100%);white-space:nowrap;font:11.5px/1.3 system-ui,sans-serif;color:#a3a9bb;text-align:center;text-shadow:0 1px 6px #000}",
       ".mm-lbl b{display:block;color:#eef0f6;font:600 12px ui-monospace,Menlo,monospace}",
       ".mm-lbl-side{transform:translate(-100%,-50%);text-align:right}",
+      ".mm-lbl-now{color:#eef0f6;font-weight:600}.mm-lbl-now b{color:#7dffa5;font-size:13px}",
       ".mm-tip{position:absolute;max-width:260px;padding:10px 12px;border-radius:12px;background:rgba(12,13,19,.94);border:1px solid #1f2330;box-shadow:0 10px 30px rgba(0,0,0,.5);font:12.5px/1.45 system-ui,sans-serif;color:#a3a9bb;pointer-events:none;z-index:3;display:grid;gap:2px}",
       ".mm-tip strong{color:#eef0f6;font-size:13.5px}",
       ".mm-tip em{font:600 14px ui-monospace,Menlo,monospace;font-style:normal;color:#eef0f6}",
@@ -375,11 +376,106 @@
         pos.needsUpdate = true; p.pts.material.opacity = 0.3 + Math.min(flow, 1) * 0.6;
       }
     }
+    // ============================================================ time machine
+    // A tower per year along a timeline: equity built from blocks by where it
+    // came from (where you started, work, repayment, the stock market, the
+    // housing market, other), every year adding to the last; losses cut a red
+    // slice off the top; the debts are a basement under each tower. A year
+    // picked (or played) grows into place and the camera glides to it.
+    const SP = 3.2;
+    let years = [], yearAt = 0;
+    const SRC = [
+      ["start", 0x8a90a6, () => T.tmStart],
+      ["work", 0x30d158, () => T.tmWork],
+      ["repay", 0x40c8e0, () => T.tmRepay],
+      ["market", 0xb58cff, () => T.tmMarket],
+      ["housing", 0x5b8def, () => T.tmHousing],
+      ["other", 0xa3a9bb, () => T.tmOther],
+    ];
+    function buildTime() {
+      const s = new THREE.Scene(); s.fog = new THREE.Fog(0x07080c, 26, 70); lights(s);
+      const grid = new THREE.GridHelper(120, 120, 0x1f2a44, 0x141a2a); s.add(grid);
+      return { s, grid, towers: [], key: "", camX: 0 };
+    }
+    function syncTime(w) {
+      const key = years.map((y) => y.year).join(",");
+      if (w.key === key) return;
+      w.key = key;
+      w.towers.forEach((t) => w.s.remove(t.g));
+      // Cumulative per source up to and including each year.
+      const cum = { start: years.length ? years[0].start : 0, work: 0, repay: 0, market: 0, housing: 0, other: 0 };
+      w.towers = years.map((y, i) => {
+        for (const k of ["work", "repay", "market", "housing", "other"]) cum[k] += y.parts[k] || 0;
+        const g = new THREE.Group(); g.position.x = i * SP; w.s.add(g);
+        const blocks = SRC.map(([k, c, l]) => {
+          const m = new THREE.Mesh(new THREE.BoxGeometry(1.7, 1, 1.7), mat(c));
+          m.userData = { key: "tm", src: k, label: l(), h: 0.001, year: y.year, value: cum[k], add: k === "start" ? null : y.parts[k] || 0 };
+          m.visible = false; g.add(m); return m;
+        });
+        const cut = new THREE.Mesh(new THREE.BoxGeometry(1.78, 1, 1.78), mat(0xff5a52, { transparent: true, opacity: 0.42, emissive: 0x3a0b0b }));
+        cut.userData = { key: "tm", src: "loss", label: T.tmLoss, h: 0.001, year: y.year }; cut.visible = false; g.add(cut);
+        const debt = new THREE.Mesh(new THREE.BoxGeometry(1.7, 1, 1.7), mat(0xff5a52, { transparent: true, opacity: 0.14, depthWrite: false }));
+        debt.userData = { key: "tm", src: "debt", label: T.debts, h: 0.001, year: y.year, value: y.debts }; debt.visible = false; g.add(debt);
+        return { g, blocks, cut, debt, grow: 0, y, cum: Object.assign({}, cum) };
+      });
+    }
+    function updateTime(w, dt) {
+      syncTime(w);
+      const ease = 1 - Math.pow(0.0008, dt);
+      let max = 1;
+      for (const t of w.towers) {
+        const pos = Object.values(t.cum).reduce((a, v) => a + Math.max(v, 0), 0);
+        max = Math.max(max, pos, t.y.debts);
+      }
+      const k = 7 / max;
+      w.towers.forEach((t, i) => {
+        // Years up to the one picked stand; later ones wait, flat.
+        t.grow += ((i <= yearAt ? 1 : 0) - t.grow) * ease;
+        const on = i === yearAt;
+        let y = 0, neg = 0;
+        t.blocks.forEach((b) => {
+          const v = t.cum[b.userData.src];
+          if (v < 0) neg += -v;
+          const h = Math.max(v, 0) * k * t.grow;
+          b.userData.h += (h - b.userData.h) * ease;
+          b.visible = b.userData.h > 0.01;
+          b.scale.y = Math.max(b.userData.h, 0.001); b.position.y = y + b.userData.h / 2; y += b.userData.h;
+          b.material.emissiveIntensity = on ? 0.35 : 0.08;
+          if (b.material.emissive && !b.userData.em) { b.material.emissive.setHex(b.material.color.getHex()); b.userData.em = 1; }
+        });
+        const ch = Math.min(neg * k * t.grow, y);
+        t.cut.userData.h += (ch - t.cut.userData.h) * ease;
+        t.cut.visible = t.cut.userData.h > 0.01; t.cut.scale.y = Math.max(t.cut.userData.h, 0.001); t.cut.position.y = y - t.cut.userData.h / 2;
+        t.cut.userData.value = -neg;
+        const dh = t.y.debts * k * t.grow;
+        t.debt.userData.h += (dh - t.debt.userData.h) * ease;
+        t.debt.visible = t.debt.userData.h > 0.01; t.debt.scale.y = Math.max(t.debt.userData.h, 0.001); t.debt.position.y = -t.debt.userData.h / 2 - 0.04;
+        t.top = y - t.cut.userData.h;
+      });
+      w.camX += (yearAt * SP - w.camX) * (1 - Math.pow(0.02, dt));
+    }
+    function timeLabels(w) {
+      labels.textContent = "";
+      const r = stage.getBoundingClientRect();
+      w.towers.forEach((t, i) => {
+        if (t.grow < 0.25) return;
+        const v = new THREE.Vector3(i * SP, (t.top || 0) + 0.45, 0).project(camera);
+        if (v.z > 1) return;
+        const d = document.createElement("div"); d.className = "mm-lbl" + (i === yearAt ? " mm-lbl-now" : "");
+        d.style.left = ((v.x + 1) / 2) * r.width + "px"; d.style.top = ((1 - v.y) / 2) * r.height + "px";
+        d.textContent = String(t.y.year);
+        // Only the year in view carries its amount; the others just their year.
+        if (i === yearAt) { const b = document.createElement("b"); b.textContent = money(t.y.equity); d.appendChild(b); }
+        labels.appendChild(d);
+      });
+    }
+
     const INFO = () => ({
       huis: T.tipHome, bel: T.tipInvest, geld: T.tipCash.replace("{n}", model.n), hyp: T.tipMortgage, duo: T.tipOtherDebt, ev: T.tipEquity,
       inkomen: T.tipIncomePull, uitgaven: T.tipSpendingPush, aflossing: T.tipRepayPull, schuld: T.tipDebtsPush,
     });
     function pickables() {
+      if (view === "time") { const w = world.time; return w.towers.flatMap((t) => [...t.blocks, t.cut, t.debt]).filter((o) => o.visible); }
       if (view === "build") { const w = world.build; return [...Object.values(w.floors), ...Object.values(w.debt), w.eq].filter((o) => o.visible); }
       const w = world.grav; return [w.sun, ...w.P.map((p) => p.m)].filter((o) => o.visible);
     }
@@ -411,6 +507,8 @@
       fc.hidden = v !== "flow"; gl.hidden = v === "flow"; labels.textContent = ""; hideTip();
       if (v === "build" && !world.build) world.build = buildBuilding();
       if (v === "grav" && !world.grav) world.grav = buildGravity();
+      if (v === "time" && !world.time) world.time = buildTime();
+      if (v === "time") { yaw = 0.62; pitch = 0.32; dist = opts.compact ? 22 : 19; }
       if (v === "build") { yaw = 0.7; pitch = 0.22; dist = 25; }
       if (v === "grav") { yaw = 0.4; pitch = 0.55; dist = opts.compact ? 25 : 22; }
       hint.textContent = v === "flow" ? T.hintFlow : T.hint3d;
@@ -464,7 +562,11 @@
       if (!renderer) return;
       ray.setFromCamera({ x: (mx / r.width) * 2 - 1, y: -(my / r.height) * 2 + 1 }, camera);
       const hit = ray.intersectObjects(pickables())[0];
-      if (hit) { const u = hit.object.userData; showTip(mx, my, u.label, money(u.value || 0), INFO()[u.key] || ""); } else hideTip();
+      if (hit && view === "time") {
+        const u = hit.object.userData;
+        const add = u.add != null ? T.tmInYear.replace("{year}", u.year).replace("{amount}", sgn(u.add)) : "";
+        showTip(mx, my, u.year + " · " + u.label, money(u.value || 0), [u.src === "debt" || u.src === "loss" || u.src === "start" ? "" : T.tmSoFar, add].filter(Boolean).join(" "));
+      } else if (hit) { const u = hit.object.userData; showTip(mx, my, u.label, money(u.value || 0), INFO()[u.key] || ""); } else hideTip();
     };
     const onWheel = (e) => { if (view === "flow" || opts.noZoom) return; e.preventDefault(); dist = Math.min(Math.max(dist + e.deltaY * 0.01, 8), 40); };
     stage.addEventListener("pointerdown", onDown); stage.addEventListener("pointerup", onUp);
@@ -478,14 +580,15 @@
       stepTween(now);
       if (view === "flow") drawFlow();
       else if (renderer) {
-        const w = view === "build" ? world.build : world.grav;
-        if (!reduce && !drag && now - lastInteract > 2500) yaw += dt * 0.12;
-        const tx = view === "build" ? 1.2 : 0, ty = view === "build" ? 1.4 : 0;
+        const w = view === "build" ? world.build : view === "time" ? world.time : world.grav;
+        // The time machine holds still (it moves along the years); the others turn slowly.
+        if (!reduce && !drag && view !== "time" && now - lastInteract > 2500) yaw += dt * 0.12;
+        const tx = view === "build" ? 1.2 : view === "time" ? w.camX : 0, ty = view === "build" ? 1.4 : view === "time" ? 2.6 : 0;
         camera.position.set(tx + Math.sin(yaw) * Math.cos(pitch) * dist, ty + Math.sin(pitch) * dist, Math.cos(yaw) * Math.cos(pitch) * dist);
         camera.lookAt(tx, ty, 0);
-        if (view === "build") updateBuilding(w, model, dt); else updateGravity(w, model, dt);
+        if (view === "build") updateBuilding(w, model, dt); else if (view === "time") updateTime(w, reduce ? 1 : dt); else updateGravity(w, model, dt);
         renderer.render(w.s, camera);
-        placeLabels(pickables());
+        if (view === "time") timeLabels(w); else placeLabels(pickables());
       }
       raf = requestAnimationFrame(frame);
     }
@@ -498,6 +601,9 @@
       setLevers(next) { S = Object.assign({}, S, next); update(); },
       setBase(next) { B = next; if (world.build) world.build.scale = 7 / Math.max(compute(B, S).assets, compute(B, S).debts, 1); update(); },
       setView(v) { const got = setView(v); update(true); return got; },
+      // The time machine: the years (oldest first) and the one to show.
+      setYears(list) { years = list || []; yearAt = Math.min(yearAt, Math.max(years.length - 1, 0)); },
+      setYear(i) { yearAt = Math.max(0, Math.min(i, years.length - 1)); },
       onModel(f) { listeners.push(f); f(model); return () => listeners.splice(listeners.indexOf(f), 1); },
       destroy() {
         alive = false; cancelAnimationFrame(raf); ro.disconnect();

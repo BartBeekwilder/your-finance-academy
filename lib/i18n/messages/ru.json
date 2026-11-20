@@ -2240,5 +2240,14 @@
  "31 DEC {year}": "31 ДЕК {year}",
  "31 Dec {year}": "31 дек {year}",
  "1 Jan {year} {amount} · {change} to {end}": "1 янв {year} {amount} · {change} до {end}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Прошлые годы берутся из импортированных годовых итогов. Распределение капитала внутри года отчасти оценка (дом между покупкой и сегодня); то, что итоги не объясняют, — в Прочих изменениях."
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Прошлые годы берутся из импортированных годовых итогов. Распределение капитала внутри года отчасти оценка (дом между покупкой и сегодня); то, что итоги не объясняют, — в Прочих изменениях.",
+ "Where you started": "С чего ты начал",
+ "Losses": "Потери",
+ "In {year}: {amount}": "В {year}: {amount}",
+ "Up to and including this year.": "Включая этот год.",
+ "Time machine": "Машина времени",
+ "{change} in {year}": "{change} за {year}",
+ "Pause": "Пауза",
+ "Play": "Воспроизвести",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Каждая башня — твой собственный капитал на конец года, сложенный по источникам; красный подвал — то, что ты ещё должен. Наведи на блок, чтобы увидеть сумму."
 }

@@ -2240,5 +2240,14 @@
  "31 DEC {year}": "31 दिसं {year}",
  "31 Dec {year}": "31 दिसं {year}",
  "1 Jan {year} {amount} · {change} to {end}": "1 जन {year} {amount} · {end} तक {change}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "पिछले साल आपके आयात किए गए वार्षिक योग से आते हैं। साल के भीतर आपकी संपत्ति का बँटवारा आंशिक रूप से अनुमान है (खरीद से आज तक आपका घर); जो योग नहीं समझाते, वह अन्य बदलाव में है।"
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "पिछले साल आपके आयात किए गए वार्षिक योग से आते हैं। साल के भीतर आपकी संपत्ति का बँटवारा आंशिक रूप से अनुमान है (खरीद से आज तक आपका घर); जो योग नहीं समझाते, वह अन्य बदलाव में है।",
+ "Where you started": "जहाँ से शुरुआत की",
+ "Losses": "नुकसान",
+ "In {year}: {amount}": "{year} में: {amount}",
+ "Up to and including this year.": "इस साल समेत अब तक।",
+ "Time machine": "टाइम मशीन",
+ "{change} in {year}": "{year} में {change}",
+ "Pause": "रोकें",
+ "Play": "चलाएँ",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "हर टावर साल के अंत में आपकी शुद्ध संपत्ति है, जो उसके स्रोत के अनुसार बना है; लाल तहखाना वह है जो आप पर अभी भी बकाया है। राशि के लिए किसी ब्लॉक पर इशारा करें।"
 }

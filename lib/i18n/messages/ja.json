@@ -2240,5 +2240,14 @@
  "31 DEC {year}": "{year}年12月31日",
  "31 Dec {year}": "{year}年12月31日",
  "1 Jan {year} {amount} · {change} to {end}": "{year}年1月1日 {amount} · {end}まで {change}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "過去の年はインポートした年間合計に基づきます。1年の中での資産の内訳は一部推定です(購入から今日までの住宅);合計で説明できない分は「その他の変化」に表示されます。"
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "過去の年はインポートした年間合計に基づきます。1年の中での資産の内訳は一部推定です(購入から今日までの住宅);合計で説明できない分は「その他の変化」に表示されます。",
+ "Where you started": "スタート地点",
+ "Losses": "損失",
+ "In {year}: {amount}": "{year}年:{amount}",
+ "Up to and including this year.": "この年までの累計。",
+ "Time machine": "タイムマシン",
+ "{change} in {year}": "{year}年に{change}",
+ "Pause": "一時停止",
+ "Play": "再生",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "各タワーは年末時点の純資産で、出どころ別に積み上げています。赤い地下はまだ残っている負債です。ブロックを指すと金額が表示されます。"
 }

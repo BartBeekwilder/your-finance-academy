@@ -2240,5 +2240,14 @@
  "31 DEC {year}": "{year}년 12월 31일",
  "31 Dec {year}": "{year}년 12월 31일",
  "1 Jan {year} {amount} · {change} to {end}": "{year}년 1월 1일 {amount} · {end}까지 {change}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "이전 연도는 가져온 연간 합계에서 나옵니다. 한 해 동안 자산이 어떻게 나뉘었는지는 일부 추정입니다(구입부터 오늘까지의 집). 합계로 설명되지 않는 부분은 기타 변화에 표시됩니다."
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "이전 연도는 가져온 연간 합계에서 나옵니다. 한 해 동안 자산이 어떻게 나뉘었는지는 일부 추정입니다(구입부터 오늘까지의 집). 합계로 설명되지 않는 부분은 기타 변화에 표시됩니다.",
+ "Where you started": "시작점",
+ "Losses": "손실",
+ "In {year}: {amount}": "{year}년: {amount}",
+ "Up to and including this year.": "올해까지 누적.",
+ "Time machine": "타임머신",
+ "{change} in {year}": "{year}년 {change}",
+ "Pause": "일시정지",
+ "Play": "재생",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "각 타워는 연말 순자산이며 출처별로 쌓여 있습니다. 빨간 지하층은 아직 갚아야 할 부채입니다. 블록을 가리키면 금액이 보입니다."
 }

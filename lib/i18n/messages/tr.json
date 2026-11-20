@@ -2240,5 +2240,14 @@
  "31 DEC {year}": "31 ARA {year}",
  "31 Dec {year}": "31 Ara {year}",
  "1 Jan {year} {amount} · {change} to {end}": "1 Oca {year} {amount} · {end} itibarıyla {change}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Önceki yıllar içe aktarılan yıllık toplamlarından gelir. Bir yıl içinde servetinin nasıl dağıldığı kısmen tahmindir (evin alımdan bugüne); toplamların açıklamadığı kısım Diğer değişiklikler altındadır."
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Önceki yıllar içe aktarılan yıllık toplamlarından gelir. Bir yıl içinde servetinin nasıl dağıldığı kısmen tahmindir (evin alımdan bugüne); toplamların açıklamadığı kısım Diğer değişiklikler altındadır.",
+ "Where you started": "Başladığın yer",
+ "Losses": "Kayıplar",
+ "In {year}: {amount}": "{year} yılında: {amount}",
+ "Up to and including this year.": "Bu yıl dahil.",
+ "Time machine": "Zaman makinesi",
+ "{change} in {year}": "{year} yılında {change}",
+ "Pause": "Duraklat",
+ "Play": "Oynat",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Her kule, bir yılın sonundaki öz varlığındır ve nereden geldiğine göre kuruludur; kırmızı bodrum hâlâ borçlu olduğun tutardır. Tutar için bir bloğun üzerine gel."
 }

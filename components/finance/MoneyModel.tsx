@@ -16,7 +16,7 @@ import Segmented from "./Segmented";
 // public/moneymodel.js (shared with the homepage's sun model) as a money
 // flow, a wealth building or a gravity model, with levers beside it.
 
-type View = "flow" | "build" | "grav";
+type View = "flow" | "build" | "grav" | "time";
 type Levers = { inc: number; sp: number; mkt: number; house: number; months: number };
 type Debt = { label: string; value: number };
 type Base = {
@@ -30,6 +30,8 @@ type Engine = {
   setLevers: (l: Partial<Levers>) => void;
   setBase: (b: Base) => void;
   setView: (v: View) => View;
+  setYears: (y: TimeYear[]) => void;
+  setYear: (i: number) => void;
   onModel: (f: (m: Model) => void) => () => void;
   destroy: () => void;
 };
@@ -183,6 +185,32 @@ export function lookBackBase(data: FinanceData, now: Date, p: LookBack) {
   };
 }
 
+/** One year of the time machine: where equity stood at the end, what that
+ *  year added from each source, and the debts at its end. */
+export type TimeYear = { year: number; equity: number; debts: number; start: number; parts: { work: number; repay: number; market: number; housing: number; other: number } };
+
+/** Every year there's data for, oldest first, chained so each year starts
+ *  where the one before ended (any gap between two stands goes to Other). */
+export function timeline(data: FinanceData, now: Date): TimeYear[] {
+  const years = lookBackPeriods(data, now).filter((p) => p.p.from === p.p.to).map((p) => p.p.from).sort((a, b) => a - b);
+  const out: TimeYear[] = [];
+  let running: number | null = null;
+  for (const y of years) {
+    const lb = lookBackBase(data, now, { from: y, to: y });
+    if (!lb) continue;
+    const b = lb.base, e = b.end!;
+    const start = b.cash + b.invest + b.home - b.mortgage - (b.otherDebts ?? []).reduce((t, d) => t + d.value, 0);
+    const equity = e.cash + e.invest + e.home - e.mortgage - e.otherDebts.reduce((t, d) => t + d.value, 0);
+    const n = lb.months;
+    const work = (b.income - b.fixed - b.repay - b.variable) * n, repay = b.repay * n;
+    const market = b.marketMove ?? 0, housing = b.homeMove ?? 0;
+    const from = running ?? start;
+    out.push({ year: y, equity, debts: e.mortgage + e.otherDebts.reduce((t, d) => t + d.value, 0), start: from, parts: { work, repay, market, housing, other: equity - from - work - repay - market - housing } });
+    running = equity;
+  }
+  return out;
+}
+
 /** Loads the shared drawing script once. */
 let loading: Promise<void> | null = null;
 function loadEngine() {
@@ -190,7 +218,7 @@ function loadEngine() {
   if (window.PFMoneyModel) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
     const s = document.createElement("script");
-    s.src = "/moneymodel.js?v=3";
+    s.src = "/moneymodel.js?v=4";
     s.onload = () => resolve();
     s.onerror = () => reject(new Error("moneymodel.js did not load"));
     document.head.appendChild(s);
@@ -227,6 +255,9 @@ export function moneyModelTexts() {
     tipSpendingPush: t("Pushes outwards: fixed costs and variable spending over the period."),
     tipRepayPull: t("Pulls inwards: every repayment makes your debt smaller."),
     tipDebtsPush: t("Pushes outwards: your mortgage and other loans."),
+    tmStart: t("Where you started"), tmWork: t("From work (income − spending)"), tmRepay: t("From repayment (less debt)"),
+    tmMarket: t("From the stock market"), tmHousing: t("From the housing market"), tmOther: t("Other changes"), tmLoss: t("Losses"),
+    tmInYear: t("In {year}: {amount}"), tmSoFar: t("Up to and including this year."),
   };
 }
 
@@ -247,6 +278,21 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
   const back = useMemo(() => lookBackBase(data, now, period.p) ?? lookBackBase(data, now, periods[0].p)!, [data, now, period, periods]);
   const base = mode === "back" ? back.base : ahead;
   const y0 = now.getFullYear();
+  // The time machine: a tower per year, oldest first; it plays itself once
+  // when opened, then the slider or Play moves through the years.
+  const years = useMemo(() => timeline(data, now), [data, now]);
+  const [yearIdx, setYearIdx] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  useEffect(() => engine.current?.setYears(years), [years, view]);
+  useEffect(() => engine.current?.setYear(yearIdx), [yearIdx, view]);
+  useEffect(() => {
+    if (!playing) return;
+    const id = setInterval(() => setYearIdx((i) => {
+      if (i >= years.length - 1) { setPlaying(false); return i; }
+      return i + 1;
+    }), 1100);
+    return () => clearInterval(id);
+  }, [playing, years.length]);
   const fmt = (x: number) => money(x, currency, { compact: Math.abs(x) >= 1_000_000 });
   const fmtRef = useRef(fmt);
   useEffect(() => {
@@ -281,7 +327,15 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base, mode, back.months]);
 
-  const pickView = (v: View) => setView(engine.current?.setView(v) ?? v);
+  const pickView = (v: View) => {
+    if (v === "time") {
+      engine.current?.setYears(years);
+      setYearIdx(0);
+      engine.current?.setYear(0);
+      setPlaying(years.length > 1);
+    } else setPlaying(false);
+    setView(engine.current?.setView(v) ?? v);
+  };
   const move = (k: keyof Levers, v: number) => {
     const next = { ...levers, [k]: v };
     setLevers(next);
@@ -306,6 +360,10 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
     housing: t("From the housing market"),
     other: t("Other changes"),
   };
+  const TM_KEYS = ["work", "repay", "market", "housing", "other"] as const;
+  const TM_COLOR: Record<string, string> = { work: "#30d158", repay: "#40c8e0", market: "#b58cff", housing: "#5b8def", other: "#a3a9bb" };
+  const tm = years[Math.min(yearIdx, years.length - 1)];
+  const tmMax = tm ? Math.max(...TM_KEYS.map((k) => Math.abs(tm.parts[k])), 1) : 1;
   const maxPart = model ? Math.max(...model.parts.map((p) => Math.abs(p.v)), 1) : 1;
 
   return (
@@ -313,12 +371,12 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
       <div className="pf-mm-head">
         <p className="pf-mm-lede">{t("How your income, spending, investments, home and debts make your equity together. Move the levers and see what moves.")}</p>
         <div className="pf-mm-switches">
-          <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "ahead", label: t("Ahead") }, { value: "back", label: t("Looking back") }]} />
-          <Segmented label={t("View")} value={view} onChange={pickView} options={[{ value: "flow", label: t("Money flow") }, { value: "build", label: t("Wealth building") }, { value: "grav", label: t("Gravity") }]} />
+          {view !== "time" && <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "ahead", label: t("Ahead") }, { value: "back", label: t("Looking back") }]} />}
+          <Segmented label={t("View")} value={view} onChange={pickView} options={[{ value: "flow", label: t("Money flow") }, { value: "time", label: t("Time machine") }, { value: "grav", label: t("Gravity") }]} />
         </div>
       </div>
       {periods.length > 1 && (
-        <div className="pf-mm-fold" data-open={mode === "back"} inert={mode !== "back"}>
+        <div className="pf-mm-fold" data-open={mode === "back" && view !== "time"} inert={mode !== "back" || view === "time"}>
           <div>
             <div className="pf-mm-periods" role="group" aria-label={t("Period")}>
               {periods.map((p) => (
@@ -333,7 +391,33 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
       <div className="pf-mm-main">
         <div ref={stageRef} className="pf-mm-stage">{failed && <p className="pf-mm-failed">{t("The model couldn't load. Reload the page to try again.")}</p>}</div>
         <aside className="pf-mm-side">
-          <div className="pf-card pf-mm-card">
+          {view === "time" && tm && (
+            <div className="pf-card pf-mm-card pf-mm-swap">
+              <h3>{t("Time machine")}</h3>
+              <div className="pf-mm-tm-year">
+                <b key={tm.year} className="pf-mm-swap">{tm.year}</b>
+                <span className="pf-rounded">{money(tm.equity, currency)}</span>
+              </div>
+              <span className="pf-mm-from">{t("{change} in {year}", { change: money(tm.equity - tm.start, currency, { signed: true }), year: tm.year })}</span>
+              <div className="pf-mm-parts" key={tm.year}>
+                {TM_KEYS.map((k) => (
+                  <div key={k} className="pf-mm-part">
+                    <span>{PART[k]}</span>
+                    <span className="pf-rounded">{money(tm.parts[k], currency, { signed: true })}</span>
+                    <i data-neg={tm.parts[k] < 0 || undefined} style={{ ["--w" as string]: `${(Math.abs(tm.parts[k]) / tmMax) * 50}%`, ["--c" as string]: TM_COLOR[k] }} />
+                  </div>
+                ))}
+              </div>
+              <div className="pf-mm-tm-controls">
+                <button type="button" className="pf-chip" onClick={() => { if (!playing && yearIdx >= years.length - 1) setYearIdx(0); setPlaying(!playing); }}>
+                  {playing ? t("Pause") : t("Play")}
+                </button>
+                <input type="range" min={0} max={Math.max(years.length - 1, 0)} step={1} value={yearIdx} aria-label={t("Year")} onChange={(e) => { setPlaying(false); setYearIdx(Number(e.target.value)); }} />
+              </div>
+              <div className="pf-mm-tm-ends"><span>{years[0]?.year}</span><span>{years[years.length - 1]?.year}</span></div>
+            </div>
+          )}
+          {view !== "time" && <div className="pf-card pf-mm-card">
             <h3>{t("Equity")}</h3>
             {model && (
               <>
@@ -356,8 +440,8 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
                 </div>
               </>
             )}
-          </div>
-          <div className="pf-mm-fold" data-open={mode === "ahead"} inert={mode !== "ahead"}><div><div className="pf-card pf-mm-card">
+          </div>}
+          <div className="pf-mm-fold" data-open={mode === "ahead" && view !== "time"} inert={mode !== "ahead" || view === "time"}><div><div className="pf-card pf-mm-card">
             <h3>{t("Levers")}</h3>
             {LEVERS.map((l) => (
               <label key={l.key} className="pf-mm-lever" htmlFor={`mm-${l.key}`}>
@@ -372,8 +456,10 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
               {t("Back to now")}
             </button>
           </div></div></div>
-          <p className="pf-mm-note pf-mm-swap" key={`${mode}-${period.key}`}>
-            {mode === "back" && period.p.from !== y0
+          <p className="pf-mm-note pf-mm-swap" key={`${view === "time" ? "time" : mode}-${period.key}`}>
+            {view === "time"
+              ? t("Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.")
+              : mode === "back" && period.p.from !== y0
               ? t("Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.")
               : mode === "back"
               ? t("What really happened since 1 January: your balance sheet then and today, and the income and spending you booked in between (per month on average).")

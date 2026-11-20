@@ -2246,5 +2246,14 @@
  "31 DEC {year}": "31 DEC {year}",
  "31 Dec {year}": "31 dec {year}",
  "1 Jan {year} {amount} · {change} to {end}": "1 jan {year} {amount} · {change} tot {end}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Eerdere jaren komen uit je geïmporteerde jaartotalen. Hoe je vermogen binnen een jaar verdeeld was, is deels een schatting (je huis tussen aankoop en nu); wat de totalen niet verklaren staat onder Overige veranderingen."
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Eerdere jaren komen uit je geïmporteerde jaartotalen. Hoe je vermogen binnen een jaar verdeeld was, is deels een schatting (je huis tussen aankoop en nu); wat de totalen niet verklaren staat onder Overige veranderingen.",
+ "Where you started": "Waar je begon",
+ "Losses": "Verliezen",
+ "In {year}: {amount}": "In {year}: {amount}",
+ "Up to and including this year.": "Tot en met dit jaar.",
+ "Time machine": "Tijdmachine",
+ "{change} in {year}": "{change} in {year}",
+ "Pause": "Pauze",
+ "Play": "Afspelen",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Elke toren is je eigen vermogen aan het eind van een jaar, opgebouwd uit waar het vandaan kwam; de rode kelder is wat je nog schuldig bent. Wijs een blok aan voor het bedrag."
 }

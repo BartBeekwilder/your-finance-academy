@@ -2240,5 +2240,14 @@
  "31 DEC {year}": "31 DEZ {year}",
  "31 Dec {year}": "31 dez {year}",
  "1 Jan {year} {amount} · {change} to {end}": "1º jan {year} {amount} · {change} até {end}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Os anos anteriores vêm dos seus totais anuais importados. Como seu patrimônio estava dividido dentro de um ano é em parte uma estimativa (seu imóvel entre a compra e hoje); o que os totais não explicam aparece em Outras mudanças."
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Os anos anteriores vêm dos seus totais anuais importados. Como seu patrimônio estava dividido dentro de um ano é em parte uma estimativa (seu imóvel entre a compra e hoje); o que os totais não explicam aparece em Outras mudanças.",
+ "Where you started": "Onde você começou",
+ "Losses": "Perdas",
+ "In {year}: {amount}": "Em {year}: {amount}",
+ "Up to and including this year.": "Até este ano, inclusive.",
+ "Time machine": "Máquina do tempo",
+ "{change} in {year}": "{change} em {year}",
+ "Pause": "Pausar",
+ "Play": "Reproduzir",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Cada torre é seu patrimônio líquido no fim de um ano, montado pela origem; o porão vermelho é o que você ainda deve. Aponte para um bloco para ver o valor."
 }

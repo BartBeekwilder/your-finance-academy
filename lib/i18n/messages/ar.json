@@ -2240,5 +2240,14 @@
  "31 DEC {year}": "31 ديسمبر {year}",
  "31 Dec {year}": "31 ديسمبر {year}",
  "1 Jan {year} {amount} · {change} to {end}": "1 يناير {year} {amount} · {change} حتى {end}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "تأتي السنوات السابقة من مجاميعك السنوية المستوردة. توزيع ثروتك داخل السنة تقدير جزئي (منزلك بين الشراء واليوم)؛ وما لا تفسره المجاميع يظهر تحت تغييرات أخرى."
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "تأتي السنوات السابقة من مجاميعك السنوية المستوردة. توزيع ثروتك داخل السنة تقدير جزئي (منزلك بين الشراء واليوم)؛ وما لا تفسره المجاميع يظهر تحت تغييرات أخرى.",
+ "Where you started": "نقطة البداية",
+ "Losses": "الخسائر",
+ "In {year}: {amount}": "في {year}: {amount}",
+ "Up to and including this year.": "حتى هذا العام ضمنًا.",
+ "Time machine": "آلة الزمن",
+ "{change} in {year}": "{change} في {year}",
+ "Pause": "إيقاف مؤقت",
+ "Play": "تشغيل",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "كل برج هو صافي ثروتك في نهاية سنة، مبني حسب مصدرها؛ والقبو الأحمر هو ما لا تزال مدينًا به. أشر إلى كتلة لمعرفة المبلغ."
 }

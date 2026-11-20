@@ -2240,5 +2240,14 @@
  "31 DEC {year}": "31 GRU {year}",
  "31 Dec {year}": "31 gru {year}",
  "1 Jan {year} {amount} · {change} to {end}": "1 sty {year} {amount} · {change} do {end}",
- "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Wcześniejsze lata pochodzą z zaimportowanych sum rocznych. Podział majątku w danym roku jest częściowo szacunkiem (dom między zakupem a dziś); czego sumy nie wyjaśniają, jest w Innych zmianach."
+ "Earlier years come from your imported year totals. How your wealth was split within a year is partly an estimate (your home between purchase and today); what the totals don't explain shows as Other changes.": "Wcześniejsze lata pochodzą z zaimportowanych sum rocznych. Podział majątku w danym roku jest częściowo szacunkiem (dom między zakupem a dziś); czego sumy nie wyjaśniają, jest w Innych zmianach.",
+ "Where you started": "Punkt wyjścia",
+ "Losses": "Straty",
+ "In {year}: {amount}": "W {year}: {amount}",
+ "Up to and including this year.": "Do tego roku włącznie.",
+ "Time machine": "Wehikuł czasu",
+ "{change} in {year}": "{change} w {year}",
+ "Pause": "Pauza",
+ "Play": "Odtwórz",
+ "Each tower is your equity at the end of a year, built from where it came from; the red basement is what you still owe. Point at a block for its amount.": "Każda wieża to twój kapitał własny na koniec roku, zbudowany z tego, skąd pochodzi; czerwona piwnica to to, co jeszcze jesteś winien. Wskaż blok, by zobaczyć kwotę."
 }
