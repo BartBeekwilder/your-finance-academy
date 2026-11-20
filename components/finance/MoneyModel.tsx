@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { t } from "@/lib/i18n";
-import { balanceSheet, liveFixed, netWorthFigures, yearForecast } from "@/lib/finance/calc";
+import { balanceSheet, expectedByCategory, liveFixed, netWorthFigures, projectedNetIncome } from "@/lib/finance/calc";
 import { homes } from "@/lib/finance/realEstate";
 import { summarize as summarizePart } from "@/lib/finance/mortgage";
 import { money } from "@/lib/finance/format";
@@ -35,27 +35,31 @@ declare global {
 export function moneyModelBase(data: FinanceData, now: Date): Base {
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const nw = netWorthFigures(data, now);
-  // A usual month, as the forecast sees the months ahead: the salary and the
-  // average spending (this month's one-offs would be multiplied by the period).
-  const ahead = yearForecast(data, now);
-  const f = ahead[1] ?? ahead[0] ?? { income: nw.projected, spent: 0 };
+  // A usual month on the app's ONE expected rule (expectedByCategory, as
+  // Expenses and Budgets): fixed costs for the whole month — what's booked,
+  // what's still to book this month, never less than they usually are — and
+  // the usual variable spending (average of the finished months; this
+  // month's one-offs would otherwise be multiplied by the period).
+  const expected = [...expectedByCategory(data, month, now).values()];
+  const fixedAll = Math.max(liveFixed(data, now), expected.reduce((t, e) => t + Math.max(e.fixed, e.usualFix), 0));
+  const usualVar = expected.reduce((t, e) => t + e.usualVar, 0);
+  const variable = usualVar > 0 ? usualVar : expected.reduce((t, e) => t + Math.max(e.expected - Math.max(e.fixed, e.usualFix), 0), 0);
   // The mortgage's repayment this month: part of the payment, but it lowers
   // the debt instead of leaving (equity stays; it moves from money to home).
   const repay = homes(data).reduce((t, h) => t + h.parts.reduce((s, p) => {
     const row = summarizePart(p, now).thisMonth;
     return s + (row ? row.repayment + row.extra : 0);
   }, 0), 0);
-  const fixedAll = Math.min(liveFixed(data, now), f.spent);
   const repayIn = Math.min(repay, fixedAll);
   const bs = balanceSheet(data, now, month);
   const home = bs.assets.filter((a) => a.id.startsWith("property-")).reduce((t, a) => t + a.value, 0);
   const mortgage = bs.liabilities.filter((l) => l.id.startsWith("mortgage-")).reduce((t, l) => t + l.value, 0);
   const invest = nw.holdingsTotal;
   return {
-    income: f.income,
+    income: projectedNetIncome(data, month) || nw.projected,
     fixed: fixedAll - repayIn,
     repay: repayIn,
-    variable: Math.max(f.spent - fixedAll, 0),
+    variable,
     // Everything else you own (accounts, a car, prepaid): what makes the balance sheet add up.
     cash: bs.totalAssets - home - invest,
     invest,
