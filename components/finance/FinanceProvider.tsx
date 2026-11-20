@@ -711,7 +711,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   // What every screen sees: spread expenses as their monthly parts, advances
   // apart from the spending (data.advances), and investments with their live
   // market value (for the balance sheet).
-  const market = useMarket(current);
+  const { market, settled: marketSettled } = useMarket(current);
   const shown = useMemo(() => (current ? { ...withSpread(withAdvances(current)), market } : null), [current, market]);
 
   const addCategory = useCallback(
@@ -1139,7 +1139,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         </div>
       </div>
     );
-  if (phase.kind !== "ready") return <div className="pf-solo pf-loading" aria-busy="true" />;
+  // Also wait (briefly) for the first market prices, so nothing jumps after it shows.
+  if (phase.kind !== "ready" || !marketSettled) return <div className="pf-solo pf-loading" aria-busy="true" />;
 
   return (
     <FinanceContext.Provider

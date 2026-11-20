@@ -7,6 +7,11 @@ import type { FinanceData } from "./types";
 // Live market values for the balance sheet (FinanceProvider puts them in
 // data.market): a year of daily closes per holding, refreshed every
 // 10 minutes, plus today's price every minute as the latest point.
+// `settled` turns true once both have come in the first time (or after a few
+// seconds): until then the app shows its loading screen, so the figures
+// appear once and right instead of jumping from cost to market value
+// (Bart, 20 Nov: "het is verwarrend als ze iets zien veranderen").
+const SETTLE_MS = 3500;
 
 async function load(symbols: string[], range: "1d" | "1y"): Promise<Quotes | null> {
   if (!symbols.length) return null;
@@ -24,6 +29,7 @@ export function useMarket(data: FinanceData | null) {
   const key = holdings.map((h) => `${h.id}:${h.symbol}:${h.asset_type}`).join("|");
   const [year, setYear] = useState<Quotes | null>(null);
   const [day, setDay] = useState<Quotes | null>(null);
+  const [settledKey, setSettledKey] = useState<string | null>(null);
 
   useEffect(() => {
     if (!key) return;
@@ -35,12 +41,15 @@ export function useMarket(data: FinanceData | null) {
       if (q && more.some((s) => !(s in q!))) q = (await load(more, range)) ?? q;
       if (alive && q) set(q);
     };
-    run("1y", setYear);
-    run("1d", setDay);
+    // The first time: both together (or the time runs out), then the figures show.
+    const settle = () => alive && setSettledKey(key);
+    const timer = setTimeout(settle, SETTLE_MS);
+    Promise.all([run("1y", setYear), run("1d", setDay)]).then(settle);
     const a = setInterval(() => document.visibilityState === "visible" && run("1y", setYear), 600_000);
     const b = setInterval(() => document.visibilityState === "visible" && run("1d", setDay), 60_000);
     return () => {
       alive = false;
+      clearTimeout(timer);
       clearInterval(a);
       clearInterval(b);
     };
@@ -48,7 +57,7 @@ export function useMarket(data: FinanceData | null) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, currency]);
 
-  return useMemo(() => {
+  const market = useMemo(() => {
     if (!year && !day) return undefined;
     const now = Date.now();
     const out: Record<string, [number, number][]> = {};
@@ -60,4 +69,6 @@ export function useMarket(data: FinanceData | null) {
     }
     return out;
   }, [year, day, holdings, currency]);
+  // No holdings: nothing to wait for. A holding added later doesn't hold the screen again.
+  return { market, settled: !key || settledKey !== null };
 }
