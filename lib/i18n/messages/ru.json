@@ -2269,5 +2269,6 @@
  "due back today": "вернётся сегодня",
  "Expected back": "Ожидаемый возврат",
  "Optional: the dashboard reminds you when it's due.": "Необязательно: панель напомнит, когда придёт срок.",
- "was due on {date}": "должен был вернуться {date}"
+ "was due on {date}": "должен был вернуться {date}",
+ "Your part of the home": "Твоя доля в жилье"
 }

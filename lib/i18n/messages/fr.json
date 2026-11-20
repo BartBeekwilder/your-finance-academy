@@ -2269,5 +2269,6 @@
  "due back today": "à récupérer aujourd'hui",
  "Expected back": "Retour prévu le",
  "Optional: the dashboard reminds you when it's due.": "Facultatif : le tableau de bord te le rappelle le moment venu.",
- "was due on {date}": "attendu depuis le {date}"
+ "was due on {date}": "attendu depuis le {date}",
+ "Your part of the home": "Ta part du logement"
 }

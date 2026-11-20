@@ -2269,5 +2269,6 @@
  "due back today": "vuelve hoy",
  "Expected back": "Devolución prevista",
  "Optional: the dashboard reminds you when it's due.": "Opcional: el panel te lo recuerda cuando toque.",
- "was due on {date}": "debía volver el {date}"
+ "was due on {date}": "debía volver el {date}",
+ "Your part of the home": "Tu parte de la vivienda"
 }

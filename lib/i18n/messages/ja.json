@@ -2269,5 +2269,6 @@
  "due back today": "今日戻る予定",
  "Expected back": "戻る予定日",
  "Optional: the dashboard reminds you when it's due.": "任意：期日が来たらダッシュボードでお知らせします。",
- "was due on {date}": "{date}に戻るはずでした"
+ "was due on {date}": "{date}に戻るはずでした",
+ "Your part of the home": "家のあなたの持ち分"
 }

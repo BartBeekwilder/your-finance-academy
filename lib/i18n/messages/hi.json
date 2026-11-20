@@ -2269,5 +2269,6 @@
  "due back today": "आज वापस आएगा",
  "Expected back": "अपेक्षित वापसी",
  "Optional: the dashboard reminds you when it's due.": "वैकल्पिक: समय आने पर डैशबोर्ड आपको याद दिलाएगा।",
- "was due on {date}": "{date} को वापस आना था"
+ "was due on {date}": "{date} को वापस आना था",
+ "Your part of the home": "घर में आपका हिस्सा"
 }

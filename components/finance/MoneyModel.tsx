@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { t } from "@/lib/i18n";
-import { balanceSheet, balanceYears, expectedByCategory, liveFixed, netWorthFigures, projectedNetIncome, summarize } from "@/lib/finance/calc";
+import { balanceSheet, balanceYears, expectedByCategory, live, liveFixed, netWorthFigures, projectedNetIncome, spendByCategoryYear, summarize } from "@/lib/finance/calc";
 import { ALL, compareYears } from "@/lib/finance/compare";
 import { investmentsValue } from "@/lib/finance/quotes";
 import { homes } from "@/lib/finance/realEstate";
@@ -19,9 +19,13 @@ import Segmented from "./Segmented";
 type View = "flow" | "build" | "grav" | "time";
 type Levers = { inc: number; sp: number; mkt: number; house: number; months: number };
 type Debt = { label: string; value: number };
+type Layer = { label: string; value: number };
 type Base = {
   income: number; fixed: number; repay: number; variable: number; cash: number; invest: number; home: number; mortgage: number; otherDebt: number; otherDebts?: Debt[];
   // Looking back: the markets' real moves, today's real stand, the captions.
+  // The solar system: what each planet is made of (Bart, 20 Nov). Flows are
+  // weights (scaled to the period), investments their values.
+  layers?: { income?: Layer[]; spending?: Layer[]; repayment?: Layer[]; investments?: Layer[] };
   marketMove?: number; homeMove?: number; end?: { cash: number; invest: number; home: number; mortgage: number; otherDebts: Debt[] }; capMonth?: string; capAfter?: string;
 };
 type Mode = "ahead" | "back";
@@ -69,7 +73,30 @@ export function moneyModelBase(data: FinanceData, now: Date): Base {
     repay: repayIn,
     variable,
     ...st,
+    layers: planetLayers(data, now),
   };
+}
+
+/** What the solar system's planets are made of: income and spending per
+ *  category (the last twelve months / this year), the repayment per mortgage
+ *  part, each holding at its market value (else what was paid). */
+function planetLayers(data: FinanceData, now: Date): NonNullable<Base["layers"]> {
+  const cats = new Map(data.categories.map((c) => [c.id, c]));
+  const top = (id: string | null | undefined) => { const c = id ? cats.get(id) : undefined; const p = c?.parent_id ? cats.get(c.parent_id) : c; return p?.name ?? t("No category"); };
+  const since = new Date(now.getFullYear() - 1, now.getMonth(), 1).getTime();
+  const income = new Map<string, number>();
+  for (const x of live(data.transactions)) {
+    if (x.type !== "income" || new Date(x.date).getTime() < since) continue;
+    const k = top(x.category_id);
+    income.set(k, (income.get(k) ?? 0) + Number(x.amount));
+  }
+  const spending = spendByCategoryYear(data, now).map((r) => ({ label: r.category.name, value: r.spent }));
+  const repayment = homes(data).flatMap((h) => h.parts.map((p) => ({ label: p.name || t("Mortgage"), value: (() => { const row = summarizePart(p, now).thisMonth; return row ? row.repayment + row.extra : 0; })() })));
+  const investments = live(data.holdings).map((h) => {
+    const pts = data.market?.[h.id];
+    return { label: h.name || h.symbol, value: pts?.length ? pts[pts.length - 1][1] : Number(h.cost_basis ?? 0) };
+  });
+  return { income: [...income].map(([label, value]) => ({ label, value })), spending, repayment, investments };
 }
 
 /** A balance sheet as the model's stand: home, investments, everything else
@@ -306,6 +333,8 @@ export function moneyModelTexts() {
     tipSpendingPush: t("Pushes outwards: fixed costs and variable spending over the period."),
     tipRepayPull: t("Pulls inwards: every repayment makes your debt smaller."),
     tipDebtsPush: t("Pushes outwards: your mortgage and other loans."),
+    back: t("Back"),
+    homeOwn: t("Your part of the home"),
     tmStart: t("Where you started"), tmWork: t("From work (income − spending)"), tmRepay: t("From repayment (less debt)"),
     tmMarket: t("From the stock market"), tmHousing: t("From the housing market"), tmOther: t("Not explained by your bookings"), tmLoss: t("Losses"),
     tmInYear: t("In {year}: {amount}"), tmLossNote: t("Takes this off your equity."),

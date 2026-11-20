@@ -2269,5 +2269,6 @@
  "due back today": "오늘 돌려받을 예정",
  "Expected back": "돌려받을 예정일",
  "Optional: the dashboard reminds you when it's due.": "선택: 때가 되면 대시보드가 알려 줍니다.",
- "was due on {date}": "{date}에 돌려받았어야 함"
+ "was due on {date}": "{date}에 돌려받았어야 함",
+ "Your part of the home": "집에서 내 몫"
 }

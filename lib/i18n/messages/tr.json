@@ -2269,5 +2269,6 @@
  "due back today": "bugün geri gelecek",
  "Expected back": "Beklenen geri ödeme",
  "Optional: the dashboard reminds you when it's due.": "İsteğe bağlı: zamanı geldiğinde panel sana hatırlatır.",
- "was due on {date}": "{date} tarihinde gelmesi gerekiyordu"
+ "was due on {date}": "{date} tarihinde gelmesi gerekiyordu",
+ "Your part of the home": "Evdeki payın"
 }

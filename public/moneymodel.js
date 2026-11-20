@@ -75,6 +75,16 @@
       ".mm-tip{position:absolute;max-width:260px;padding:10px 12px;border-radius:12px;background:rgba(12,13,19,.94);border:1px solid #1f2330;box-shadow:0 10px 30px rgba(0,0,0,.5);font:12.5px/1.45 system-ui,sans-serif;color:#a3a9bb;pointer-events:none;z-index:3;display:grid;gap:2px}",
       ".mm-tip strong{color:#eef0f6;font-size:13.5px}",
       ".mm-tip em{font:600 14px ui-monospace,Menlo,monospace;font-style:normal;color:#eef0f6}",
+      ".mm-layer{position:absolute;transform:translateY(-50%);display:grid;grid-template-columns:10px auto;column-gap:8px;align-items:baseline;white-space:nowrap;font:12px/1.3 system-ui,sans-serif;color:#a3a9bb;text-shadow:0 1px 6px #000}",
+      ".mm-layer i{width:10px;height:10px;border-radius:3px;align-self:center}",
+      ".mm-layer b{color:#eef0f6;font:600 12.5px ui-monospace,Menlo,monospace}",
+      ".mm-layer em{grid-column:2;font-style:normal;color:#6b7186;font-size:11px}",
+      ".mm-layer-line{position:absolute;height:1px;background:rgba(255,255,255,.22);transform-origin:0 50%;pointer-events:none}",
+      ".mm-focus-title{position:absolute;transform:translate(-50%,-100%);text-align:center;white-space:nowrap;font:600 14px system-ui,sans-serif;color:#eef0f6;text-shadow:0 1px 8px #000}",
+      ".mm-focus-title b{display:block;font:700 16px ui-monospace,Menlo,monospace}",
+      ".mm-back{position:absolute;left:14px;top:14px;z-index:4;padding:7px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(12,13,19,.8);color:#eef0f6;font:600 12.5px system-ui,sans-serif;cursor:pointer;animation:mm-fade .3s ease both}",
+      "@keyframes mm-in{from{opacity:0;transform:translateY(-50%) translateX(-8px)}}",
+      "@keyframes mm-fade{from{opacity:0}}",
       ".mm-hint{position:absolute;left:14px;bottom:12px;font:11.5px system-ui,sans-serif;color:#6b7186;pointer-events:none}",
     ].join("");
     document.head.appendChild(s);
@@ -97,7 +107,9 @@
     const labels = document.createElement("div"); labels.className = "mm-labels";
     const tip = document.createElement("div"); tip.className = "mm-tip"; tip.hidden = true;
     const hint = document.createElement("div"); hint.className = "mm-hint";
-    stage.append(fc, gl, labels, tip, hint);
+    const back = document.createElement("button"); back.type = "button"; back.className = "mm-back"; back.hidden = true;
+    back.textContent = "← " + (T.back || "Back");
+    stage.append(fc, gl, labels, tip, hint, back);
     const fx = fc.getContext("2d");
 
     function showTip(x, y, title, value, text) {
@@ -355,7 +367,7 @@
         ring.rotation.x = Math.PI / 2; s.add(ring);
         const n = 40, g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array(n * 3), 3));
         const pts = new THREE.Points(g, new THREE.PointsMaterial({ color: c, size: 0.09, transparent: true, opacity: 0.9 })); s.add(pts);
-        return { m, r, a: a0, dir, pts, phase: Array.from({ length: n }, () => Math.random()), speed: 0.1 / Math.sqrt(r) };
+        return { m, r, r0: r, ring, a: a0, dir, pts, phase: Array.from({ length: n }, () => Math.random()), speed: 0.1 / Math.sqrt(r) };
       });
       return { s, sun, glow, P };
     }
@@ -368,11 +380,22 @@
       w.sun.scale.setScalar(w.sun.userData.s);
       w.glow.scale.setScalar(w.sun.userData.s * (1 + (reduce ? 0 : Math.sin(performance.now() / 700) * 0.04)));
       w.sun.userData.value = m.equity;
+      // Orbits make room for their planets (big ones overlapped their
+      // neighbours, 20 Nov): each lies at least both radii plus a gap out.
+      let inner = w.sun.userData.s * 1.3;
+      for (const p of w.P) {
+        const sz = size(vals[p.m.userData.key]);
+        const want = Math.max(p.r0, inner + sz + 0.35);
+        p.r += (want - p.r) * ease;
+        p.ring.scale.setScalar(p.r / p.r0);
+        inner = p.r + sz;
+      }
       for (const p of w.P) {
         const key = p.m.userData.key, v = vals[key];
-        p.m.visible = p.pts.visible = v > 0.5;
+        // An opened planet stands alone: the rest of the system steps away.
+        p.m.visible = p.pts.visible = v > 0.5 && !(focus && (focus.obj === p.m ? focusAmt > 0.35 : focusAmt > 0.5));
         p.m.userData.size += (size(v) - p.m.userData.size) * ease; p.m.scale.setScalar(p.m.userData.size); p.m.userData.value = v;
-        if (!reduce) p.a += p.speed * dt;
+        if (!reduce && !focus) p.a += p.speed * dt;
         p.m.position.set(Math.cos(p.a) * p.r, Math.sin(p.a * 2) * 0.25, Math.sin(p.a) * p.r);
         // Particles stream inwards (feeds equity) or outwards (drains it).
         const pos = p.pts.geometry.attributes.position, flow = Math.min(0.25 + v / 400000, 1.2);
@@ -595,6 +618,115 @@
       huis: T.tipHome, bel: T.tipInvest, geld: T.tipCash.replace("{n}", model.n), hyp: T.tipMortgage, duo: T.tipOtherDebt, ev: T.tipEquity,
       inkomen: T.tipIncomePull, uitgaven: T.tipSpendingPush, aflossing: T.tipRepayPull, schuld: T.tipDebtsPush,
     });
+    // ---- a planet opened in layers (Bart, 20 Nov): tap one, the camera flies to
+    // it and it opens like a cut-away globe; each layer is a part of it (a
+    // category, a holding, a loan…), as thick as its share, named beside it.
+    let focus = null, focusAmt = 0, focusGroup = null, focusLayers = [];
+    const FOCUS_R = 1.7;
+    function shade(hex, i, n) {
+      const c = new THREE.Color(hex), hsl = { h: 0, s: 0, l: 0 }; c.getHSL(hsl);
+      return new THREE.Color().setHSL((hsl.h + (i - (n - 1) / 2) * 0.01 + 1) % 1, Math.min(hsl.s, 0.85), 0.2 + (0.5 * (i + 1)) / n);
+    }
+    /** The parts of a planet: flows over the period from weights (B.layers),
+     *  stands as they are. */
+    function layersFor(key, m) {
+      const L = B.layers || {};
+      const scaled = (list, total) => { const sum = (list || []).reduce((a, x) => a + Math.max(x.value, 0), 0); return sum > 0 ? list.filter((x) => x.value > 0).map((x) => ({ label: x.label, value: (x.value / sum) * total })) : []; };
+      const own = Math.max(m.st.home - m.st.mortgage, 0);
+      const debts = [{ label: T.mortgage, value: m.st.mortgage }, ...((B.otherDebts && B.otherDebts.length) ? B.otherDebts : [{ label: T.otherDebt, value: m.st.other }])];
+      const parts = {
+        inkomen: scaled(L.income, m.inT * m.n),
+        uitgaven: scaled(L.spending, (m.fixT + m.varT) * m.n),
+        aflossing: scaled(L.repayment, m.repay * m.n),
+        bel: L.investments && L.investments.length ? scaled(L.investments, m.st.invest) : [],
+        huis: [{ label: T.homeOwn || T.equity, value: own }, { label: T.mortgage, value: m.st.mortgage }],
+        schuld: debts,
+        ev: [{ label: T.cash, value: m.st.cash }, { label: T.investments, value: m.st.invest }, { label: T.homeOwn || T.home, value: own }],
+      }[key] || [];
+      const list = parts.filter((x) => x.value > 0.5).sort((a, b) => b.value - a.value);
+      return list.length ? list : [{ label: key === "ev" ? T.equity : (world.grav.P.find((p) => p.m.userData.key === key) || { m: { userData: { label: "" } } }).m.userData.label, value: 1 }];
+    }
+    function openFocus(obj) {
+      closeFocus(true);
+      const key = obj.userData.key, color = key === "ev" ? 0xffc94a : obj.material.color.getHex();
+      focusLayers = layersFor(key, model);
+      const total = focusLayers.reduce((a, x) => a + x.value, 0) || 1;
+      focusGroup = new THREE.Group();
+      // Core first (the largest part), shells around it; radius by area so thin parts still show.
+      let cum = 0;
+      focusLayers.forEach((x, i) => {
+        cum += x.value / total;
+        x.r = FOCUS_R * Math.sqrt(cum);
+        x.color = shade(color, i, focusLayers.length);
+        const g = new THREE.SphereGeometry(x.r, 56, 36, Math.PI * 0.75, Math.PI * 1.5);
+        const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: x.color, roughness: 0.45, metalness: 0.1, side: THREE.DoubleSide, emissive: x.color.clone().multiplyScalar(0.18) }));
+        mesh.userData = { layer: i };
+        focusGroup.add(mesh);
+      });
+      focusGroup.scale.setScalar(0.01);
+      world.grav.s.add(focusGroup);
+      focus = { obj, key, label: obj.userData.label, total: obj.userData.value || total };
+      back.hidden = false; hideTip();
+    }
+    function closeFocus(now) {
+      if (focusGroup && now) { world.grav.s.remove(focusGroup); focusGroup = null; }
+      focus = null; back.hidden = true;
+    }
+    back.addEventListener("click", () => closeFocus(false));
+    function stepFocus(dt) {
+      const target = focus ? 1 : 0;
+      focusAmt += (target - focusAmt) * (1 - Math.pow(0.0005, dt));
+      if (!focus && focusAmt < 0.01 && focusGroup) { world.grav.s.remove(focusGroup); focusGroup = null; }
+      if (focusGroup) {
+        const at = focus ? focus.obj.position : focusGroup.position;
+        focusGroup.position.copy(at);
+        focusGroup.scale.setScalar(Math.max(focusAmt, 0.01));
+        // The open side faces the camera.
+        focusGroup.lookAt(camera.position);
+        focusGroup.rotateY(0.35);
+        if (focus) { const show = focusAmt < (focus.obj === world.grav.sun ? 0.35 : 0.5); world.grav.sun.visible = show; world.grav.glow.visible = show; }
+        if (!focus) { world.grav.sun.visible = true; world.grav.glow.visible = true; }
+      }
+    }
+    function focusLabels() {
+      const r = stage.getBoundingClientRect();
+      // Labels are drawn every frame: they fade in with the zoom, not with CSS.
+      labels.style.opacity = String(Math.min(Math.max((focusAmt - 0.5) * 2.5, 0), 1));
+      const c = focusGroup.position.clone().project(camera);
+      const cx = ((c.x + 1) / 2) * r.width, cy = ((1 - c.y) / 2) * r.height;
+      const edge = focusGroup.position.clone().add(new THREE.Vector3(0, FOCUS_R * focusAmt, 0)).project(camera);
+      const rad = Math.abs(((1 - edge.y) / 2) * r.height - cy);
+      const t = document.createElement("div"); t.className = "mm-focus-title";
+      t.style.left = cx + "px"; t.style.top = cy - rad - 12 + "px";
+      t.textContent = focus.label;
+      const tb = document.createElement("b"); tb.textContent = money(focus.total); t.appendChild(tb);
+      labels.appendChild(t);
+      const total = focusLayers.reduce((a, x) => a + x.value, 0) || 1;
+      const rows = focusLayers.slice(0, 9), step = Math.min(38, (r.height - 60) / Math.max(rows.length, 1));
+      const narrow = r.width < 560;
+      const lx = narrow ? 16 : Math.min(cx + rad + 48, r.width - 210);
+      rows.forEach((x, i) => {
+        const y = narrow ? cy + rad + 30 + i * 30 : cy + (i - (rows.length - 1) / 2) * step;
+        if (!narrow) {
+          // A thin line from the layer's rim to its label.
+          const ax = cx + (x.r / FOCUS_R) * rad * 0.7, ay = cy + (i - (rows.length - 1) / 2) * 4;
+          const ln = document.createElement("div"); ln.className = "mm-layer-line";
+          const dx = lx - 6 - ax, dy = y - ay;
+          ln.style.left = ax + "px"; ln.style.top = ay + "px"; ln.style.width = Math.hypot(dx, dy) + "px";
+          ln.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
+          labels.appendChild(ln);
+        }
+        const d = document.createElement("div"); d.className = "mm-layer";
+        d.style.left = lx + "px"; d.style.top = y + "px";
+        const dot = document.createElement("i"); dot.style.background = "#" + x.color.getHexString();
+        const name = document.createElement("span"); name.textContent = x.label + "  ";
+        const b = document.createElement("b"); b.textContent = money(x.value); name.appendChild(b);
+        const pc = document.createElement("em"); pc.textContent = Math.round((x.value / total) * 100) + "%";
+        d.append(dot, name, pc);
+        labels.appendChild(d);
+      });
+    }
+
     function pickables() {
       if (view === "time") { const w = world.time; return w.towers.flatMap((t) => [...t.src, t.cut, ...t.bal, t.owed, t.mine, ...t.marks.flatMap((m) => m.children)]).filter((o) => o.visible && (!o.parent || o.parent.visible)); }
       if (view === "build") { const w = world.build; return [...Object.values(w.floors), ...Object.values(w.debt), w.eq].filter((o) => o.visible); }
@@ -623,6 +755,7 @@
 
     // ================================================================ wiring
     function setView(v) {
+      if (focus || focusGroup) closeFocus(true);
       if (v !== "flow" && !initGL()) v = "flow";
       view = v;
       fc.hidden = v !== "flow"; gl.hidden = v === "flow"; labels.textContent = ""; hideTip();
@@ -667,8 +800,19 @@
     }
     const ro = new ResizeObserver(resize); ro.observe(stage);
 
-    const onDown = (e) => { if (view !== "flow") { drag = { x: e.clientX, y: e.clientY }; try { stage.setPointerCapture(e.pointerId); } catch { /* not every browser */ } } };
-    const onUp = () => { drag = null; lastInteract = performance.now(); };
+    let press = null;
+    const onDown = (e) => { if (view !== "flow") { press = { x: e.clientX, y: e.clientY, t: performance.now() }; drag = { x: e.clientX, y: e.clientY }; try { stage.setPointerCapture(e.pointerId); } catch { /* not every browser */ } } };
+    const onUp = (e) => {
+      drag = null; lastInteract = performance.now();
+      // A tap (no drag) in the solar system: open a planet, or close the open one.
+      if (press && view === "grav" && renderer && e.target !== back && Math.hypot(e.clientX - press.x, e.clientY - press.y) < 6 && performance.now() - press.t < 600) {
+        const r = stage.getBoundingClientRect();
+        ray.setFromCamera({ x: ((e.clientX - r.left) / r.width) * 2 - 1, y: -((e.clientY - r.top) / r.height) * 2 + 1 }, camera);
+        const hit = focus ? null : ray.intersectObjects(pickables(), false)[0];
+        if (hit) openFocus(hit.object); else if (focus) closeFocus(false);
+      }
+      press = null;
+    };
     const onLeave = () => { hoverBand = null; hideTip(); };
     const onMove = (e) => {
       const r = stage.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
@@ -680,7 +824,7 @@
         else hideTip();
         return;
       }
-      if (!renderer) return;
+      if (!renderer || (view === "grav" && focus)) { if (focus) hideTip(); return; }
       ray.setFromCamera({ x: (mx / r.width) * 2 - 1, y: -(my / r.height) * 2 + 1 }, camera);
       // Only the blocks themselves, not their outline (an edge has no name: "undefined").
       const hit = ray.intersectObjects(pickables(), false)[0];
@@ -708,13 +852,22 @@
       else if (renderer) {
         const w = view === "build" ? world.build : view === "time" ? world.time : world.grav;
         // The time machine holds still (it moves along the years); the others turn slowly.
-        if (!reduce && !drag && view !== "time" && now - lastInteract > 2500) yaw += dt * 0.12;
-        const tx = view === "build" ? 1.2 : view === "time" ? w.camX : 0, ty = view === "build" ? 1.4 : view === "time" ? (tmMode === "balance" ? 0.4 : 2.6) : 0;
-        camera.position.set(tx + Math.sin(yaw) * Math.cos(pitch) * dist, ty + Math.sin(pitch) * dist, Math.cos(yaw) * Math.cos(pitch) * dist);
-        camera.lookAt(tx, ty, 0);
+        if (!reduce && !drag && view !== "time" && !focus && now - lastInteract > 2500) yaw += dt * 0.12;
+        if (view === "grav") stepFocus(dt);
+        let tx = view === "build" ? 1.2 : view === "time" ? w.camX : 0, ty = view === "build" ? 1.4 : view === "time" ? (tmMode === "balance" ? 0.4 : 2.6) : 0, tz = 0, dd = dist;
+        if (view === "grav" && focusGroup) {
+          const f = focusAmt, at = focusGroup.position;
+          // Aim a little right of the planet: it sits left, its labels on the right.
+          const side = new THREE.Vector3(Math.cos(yaw), 0, -Math.sin(yaw)).multiplyScalar(stage.getBoundingClientRect().width < 560 ? 0 : FOCUS_R * 1.25);
+          tx += (at.x + side.x - tx) * f; ty += (at.y - ty) * f; tz += (at.z + side.z - tz) * f; dd = dist + (FOCUS_R * 6.2 - dist) * f;
+        }
+        camera.position.set(tx + Math.sin(yaw) * Math.cos(pitch) * dd, ty + Math.sin(pitch) * dd, tz + Math.cos(yaw) * Math.cos(pitch) * dd);
+        camera.lookAt(tx, ty, tz);
         if (view === "build") updateBuilding(w, model, dt); else if (view === "time") updateTime(w, reduce ? 1 : dt); else updateGravity(w, model, dt);
         renderer.render(w.s, camera);
-        if (view === "time") timeLabels(w); else placeLabels(pickables());
+        if (view === "time") timeLabels(w);
+        else if (view === "grav" && focusGroup && focus) { labels.textContent = ""; if (focusAmt > 0.5) focusLabels(); }
+        else { labels.style.opacity = ""; placeLabels(pickables()); }
       }
       raf = requestAnimationFrame(frame);
     }

@@ -72,11 +72,15 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
   // whether you're caught up; those since the last check-in stand out.
   const catName = new Map(live(data.categories).map((c) => [c.id, c.name]));
   const from = state.last ? dayKey(state.last) : "";
-  const latest = (type: "expense" | "income") =>
-    live(data.transactions)
+  // Everything since the last check-in (at least the latest five, at most
+  // forty); the list scrolls inside the card (Bart, 20 Nov: 9 booked, 5 shown).
+  const latest = (type: "expense" | "income") => {
+    const all = live(data.transactions)
       .filter((x) => x.type === type && new Date(x.date) <= now)
-      .sort((a, b) => b.date.localeCompare(a.date))
-      .slice(0, 5);
+      .sort((a, b) => b.date.localeCompare(a.date));
+    const fresh = all.filter((x) => x.date.slice(0, 10) > from).length;
+    return all.slice(0, Math.min(Math.max(5, fresh), 40));
+  };
   const recentList = (type: "expense" | "income") => {
     const rows = latest(type);
     if (!rows.length) return null;
