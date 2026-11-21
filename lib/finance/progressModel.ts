@@ -56,12 +56,12 @@ export function budgetTotals(data: FinanceData, month: Date, now: Date) {
     const b = budgetIn(live(data.budgets), c.id, month);
     if (b === null) continue;
     for (const id of [c.id, ...live(data.categories).filter((x) => x.parent_id === c.id).map((x) => x.id)]) ids.add(id);
-    const e = exp.get(c.id) ?? { spent: 0, fixed: 0, usualVar: 0, usualFix: 0, expected: 0 };
+    const e = exp.get(c.id) ?? { spent: 0, fixed: 0, usualVar: 0, usualFix: 0, fixedMonth: 0, expected: 0 };
     budget += b;
     spentTotal += e.spent;
     forecast += e.expected;
     usualVar += e.usualVar;
-    fixedExpected += isCurrent ? Math.max(e.fixed, e.usualFix) : e.fixed;
+    fixedExpected += isCurrent ? e.fixedMonth : e.fixed;
   }
   return { budget, forecast, spent: spentTotal, usualVar, fixedExpected, ids };
 }

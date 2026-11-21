@@ -330,14 +330,23 @@ export function expectedByCategory(data: FinanceData, month: Date, now: Date) {
   };
   const history = base.map(per);
   const now_ = per(month);
+  // This month's fixed costs still to come (recurring copies not yet due), per top-level category.
+  const cats = new Map(live(data.categories).map((c) => [c.id, c]));
+  const topOf = (id: string | null | undefined) => { const c = id ? cats.get(id) : undefined; return c ? (c.parent_id ?? c.id) : ""; };
+  const coming = new Map<string, number>();
+  if (isCurrent) for (const t of upcomingFixedCosts(data, now)) coming.set(topOf(t.category_id), (coming.get(topOf(t.category_id)) ?? 0) + num(t.amount));
   const ids = new Set<string>([...now_.keys(), ...history.flatMap((h) => [...h.keys()])]);
-  const out = new Map<string, { spent: number; fixed: number; usualVar: number; usualFix: number; expected: number }>();
+  const out = new Map<string, { spent: number; fixed: number; usualVar: number; usualFix: number; fixedMonth: number; expected: number }>();
   for (const id of ids) {
     const n = now_.get(id) ?? { spent: 0, fixed: 0 };
     const avg = (pick: (x: { spent: number; fixed: number }) => number) => (history.length ? history.reduce((t, h) => t + pick(h.get(id) ?? { spent: 0, fixed: 0 }), 0) / history.length : 0);
     const usualVar = avg((x) => x.spent - x.fixed), usualFix = avg((x) => x.fixed);
-    const expected = isFuture ? usualVar + usualFix : !isCurrent ? n.spent : n.spent - n.fixed + usualVar * Math.max(1 - f, 0) + Math.max(n.fixed, usualFix);
-    out.set(id, { spent: n.spent, fixed: n.fixed, usualVar, usualFix, expected });
+    // Fixed costs this month: what's booked plus what's still to come; only a
+    // category with nothing booked yet falls back to its usual amount (21 Nov:
+    // a mortgage booked at €1,118.86 was expected at its €1,404 average).
+    const fixedMonth = n.fixed > 0 || (coming.get(id) ?? 0) > 0 ? n.fixed + (coming.get(id) ?? 0) : usualFix;
+    const expected = isFuture ? usualVar + usualFix : !isCurrent ? n.spent : n.spent - n.fixed + usualVar * Math.max(1 - f, 0) + fixedMonth;
+    out.set(id, { spent: n.spent, fixed: n.fixed, usualVar, usualFix, fixedMonth: isCurrent ? fixedMonth : isFuture ? usualFix : n.fixed, expected });
   }
   return out;
 }

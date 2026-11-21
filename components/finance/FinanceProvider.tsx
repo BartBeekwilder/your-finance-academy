@@ -401,6 +401,34 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     [source, supabase, update],
   );
 
+  // The homepage's iPad runs the demo: "book" an income or expense next to it
+  // and it lands here, so the visitor sees every tile move (Bart, 21 Nov).
+  const demoData = phase.kind === "ready" && phase.source === "demo" ? phase.data : null;
+  useEffect(() => {
+    if (!demoData || window.self === window.top) return;
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== window.location.origin || e.data?.type !== "pf-demo-add") return;
+      const amount = Number(e.data.amount);
+      if (!(amount > 0) || amount > 1_000_000) return;
+      const income = e.data.kind === "income";
+      const cats = demoData.categories.filter((c) => !c.deleted_at && c.parent_id === null && c.is_income_category === income && (income || !c.is_fixed_expense));
+      const account = demoData.accounts.find((a) => !a.deleted_at && a.is_default) ?? demoData.accounts.find((a) => !a.deleted_at) ?? null;
+      void addTransaction({
+        amount: amount.toFixed(2),
+        type: income ? "income" : "expense",
+        date: new Date().toISOString(),
+        note: null,
+        is_auto_income: false,
+        is_fixed_expense: false,
+        recurrence_id: null,
+        category_id: cats[0]?.id ?? null,
+        account_id: account?.id ?? null,
+      } as NewTransaction);
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [demoData, addTransaction]);
+
   const addTransactions = useCallback(
     async (list: NewTransaction[]) => {
       const rows: Transaction[] = list.map((x) => ({ ...x, id: crypto.randomUUID(), updated_at: new Date().toISOString(), deleted_at: null }));

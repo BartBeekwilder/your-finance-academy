@@ -19,7 +19,7 @@ export function useKeyFigures() {
     const month = new Date(now.getFullYear(), now.getMonth(), 1);
     const income = projectedNetIncome(data, month) || Number(data.profile.expected_net_monthly) || 0;
     const expected = [...expectedByCategory(data, month, now).values()];
-    const fixed = expected.reduce((s, e) => s + Math.max(e.fixed, e.usualFix), 0);
+    const fixed = expected.reduce((s, e) => s + e.fixedMonth, 0);
     const spending = Math.max(expected.reduce((s, e) => s + e.expected, 0), summarize(data.transactions, month).spent);
     const nw = netWorthFigures(data, now);
     // Accounts as they stand TODAY (the 1 January balance + this year's

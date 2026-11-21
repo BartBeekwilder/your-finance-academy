@@ -77,6 +77,16 @@
   .netin__box { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px; background: var(--c-surface-2); box-shadow: inset 0 0 0 1px var(--c-rule); color: var(--c-ink); font: 500 17px var(--mono); transition: box-shadow 200ms; }
   .netin__box:focus-within { box-shadow: inset 0 0 0 1px #30d158, 0 0 0 3px color-mix(in oklch, #30d158 25%, transparent); }
   .netin input { width: 7ch; border: 0; padding: 0; background: transparent; color: #30d158; font: inherit; font-variant-numeric: tabular-nums; outline: none; text-align: right; }
+  .book { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0 6px; }
+  .book__box { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px; background: var(--c-surface-2); box-shadow: inset 0 0 0 1px var(--c-rule); font: 500 16px var(--mono); }
+  .book__box input { width: 6ch; border: 0; padding: 0; background: transparent; color: var(--c-ink); font: inherit; font-variant-numeric: tabular-nums; outline: none; text-align: right; }
+  .book__btn { padding: 6px 12px; border-radius: 999px; border: 0; font: 600 13px var(--f); cursor: pointer; transition: transform 150ms, filter 150ms; }
+  .book__btn:active { transform: scale(0.96); }
+  .book__btn--in { background: color-mix(in oklch, #30d158 22%, transparent); color: #4ade80; box-shadow: inset 0 0 0 1px color-mix(in oklch, #30d158 45%, transparent); }
+  .book__btn--out { background: color-mix(in oklch, #ff5a52 20%, transparent); color: #ff7a72; box-shadow: inset 0 0 0 1px color-mix(in oklch, #ff5a52 45%, transparent); }
+  .book__btn:hover { filter: brightness(1.15); }
+  #bookOut { transition: color 300ms; }
+  #bookOut.done { color: #4ade80; }
   .console { margin-top: 10px; display: grid; gap: 1px; background: var(--c-rule); border-radius: 4px; overflow: hidden; box-shadow: 0 24px 48px -24px oklch(5% 0.02 200 / 0.9); }
   .console header { display: flex; justify-content: space-between; padding: 8px 14px; background: var(--c-surface-2); font: 500 11px var(--mono); color: var(--c-muted); }
   .read { padding: 12px 14px; background: color-mix(in oklch, var(--c-surface) 94%, transparent); }
@@ -536,6 +546,15 @@
         <div class="readrow"><strong id="btc">laden…</strong><svg class="spark" id="spark" viewBox="0 0 120 34" preserveAspectRatio="none" aria-hidden="true"><path id="sparkArea" class="spark__area" d=""></path><path id="sparkLine" class="spark__line" d=""></path></svg></div>
         <em id="btcsub">Aandelen, ETF's en 0,05 bitcoin tegen de echte koers.</em>
       </div>
+      <div class="read read--book">
+        <small>Boek iets op de iPad</small>
+        <div class="book">
+          <span class="book__box">€ <input id="bookAmt" type="text" inputmode="decimal" value="250" autocomplete="off" aria-label="Bedrag"></span>
+          <button type="button" class="book__btn book__btn--in" data-kind="income">+ Inkomen</button>
+          <button type="button" class="book__btn book__btn--out" data-kind="expense">− Uitgave</button>
+        </div>
+        <em id="bookOut">Kijk naar de iPad: alles beweegt mee.</em>
+      </div>
       <div class="read read--eq">
         <small>Alles samen in je eigen vermogen</small><strong id="eq">€ 0,00</strong>
         <div class="stack" aria-hidden="true"><i style="flex:425;background:#5b8def"></i><i style="flex:17;background:#30d158"></i><i style="flex:10;background:#ffb547"></i><i class="neg" style="flex:328"></i></div>
@@ -822,6 +841,24 @@
 
 <script src="/home/i18n.js"></script>
 <script src="/home/shared.js"></script>
+<script>
+/* Book an income or expense into the iPad's live demo: the app takes it from the message. */
+(function () {
+  var K_BOOK = 303; // homepage texts: the booking block (i18n.js K)
+  var frame = document.getElementById('ipad'), amt = document.getElementById('bookAmt'), out = document.getElementById('bookOut');
+  if (!frame || !amt) return;
+  document.querySelectorAll('.book__btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var v = Number(String(amt.value).replace(/\./g, '').replace(',', '.'));
+      if (!(v > 0)) { amt.focus(); return; }
+      frame.contentWindow && frame.contentWindow.postMessage({ type: 'pf-demo-add', kind: b.dataset.kind, amount: v }, location.origin);
+      out.textContent = PFT(b.dataset.kind === 'income' ? K_BOOK + 2 : K_BOOK + 3, {});
+      out.classList.add('done');
+      clearTimeout(out._t); out._t = setTimeout(function () { out.classList.remove('done'); out.textContent = PFT(K_BOOK + 1, {}); }, 4000);
+    });
+  });
+})();
+</script>
 <script>
 /* The sun model: loads three.js and the shared model only when the section comes near. */
 (function () {

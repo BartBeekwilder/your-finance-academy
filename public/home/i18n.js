@@ -211,7 +211,17 @@
     /*advances due, work hours in Quick Add, no jump, live 20 Nov*/ "Een voorschot krijgt een datum waarop je het terug verwacht; vanaf drie dagen ervoor herinnert het dashboard je eraan.",
     "Snel toevoegen laat bij een uitgave zien hoeveel werkuren die kost.",
     "De app opent in één keer met de juiste cijfers: niets verspringt meer als de koersen binnenkomen.",
-    /*tile follows Year, smooth switch, live 20 Nov*/ "Zet je het dashboard op Jaar, dan toont de liquiditeitstegel je jaar: van 1 januari tot nu en wat je eind december verwacht. De overstap naar het Geldmodel gaat vloeiend."
+    /*tile follows Year, smooth switch, live 20 Nov*/ "Zet je het dashboard op Jaar, dan toont de liquiditeitstegel je jaar: van 1 januari tot nu en wat je eind december verwacht. De overstap naar het Geldmodel gaat vloeiend.",
+    /*book on the iPad (K_BOOK = 303), 21 Nov*/ "Boek iets op de iPad",
+    "Kijk naar de iPad: alles beweegt mee.",
+    "Geboekt als inkomen — kijk naar de iPad.",
+    "Geboekt als uitgave — kijk naar de iPad.",
+    "+ Inkomen",
+    "− Uitgave",
+    "Bedrag",
+    /*planet layers, book on the iPad, fixed costs as booked, live 21 Nov*/ "Tik in het zonnestelsel op een planeet: hij opent in lagen en laat zien waaruit hij bestaat, zoals je uitgaven per categorie of elke belegging.",
+    "Op de homepage boek je een inkomen of uitgave op de iPad en zie je de app meteen meebewegen.",
+    "Vaste lasten die deze maand al geboekt zijn, tellen zoals ze geboekt zijn; alleen een vaste last die nog niet geboekt is, rekent met het gemiddelde. De lijst bij de check-in scrolt nu."
   ];
 
   var L = {
@@ -411,7 +421,17 @@
       "An advance gets the date you expect it back; from three days before, the dashboard reminds you.",
       "Quick Add shows how many work hours an expense costs.",
       "The app opens with the right figures at once: nothing jumps when the market prices come in.",
-      "Set the dashboard to Year and the liquidity tile shows your year: from 1 January to now and what you expect at the end of December. Switching to the Money model glides."
+      "Set the dashboard to Year and the liquidity tile shows your year: from 1 January to now and what you expect at the end of December. Switching to the Money model glides.",
+      "Book something on the iPad",
+      "Watch the iPad: everything moves with it.",
+      "Booked as income — watch the iPad.",
+      "Booked as an expense — watch the iPad.",
+      "+ Income",
+      "− Expense",
+      "Amount",
+      "Tap a planet in the solar system: it opens in layers and shows what it's made of, like your spending per category or each holding.",
+      "On the homepage you book an income or expense on the iPad and watch the app move with it.",
+      "Fixed costs already booked this month count as booked; only one not booked yet uses the average. The check-in list now scrolls."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -609,7 +629,17 @@
       "Ein Vorschuss bekommt das Datum, an dem du ihn zurück erwartest; ab drei Tagen vorher erinnert dich das Dashboard.",
       "Schnell hinzufügen zeigt, wie viele Arbeitsstunden eine Ausgabe kostet.",
       "Die App öffnet sich gleich mit den richtigen Zahlen: Nichts springt mehr, wenn die Kurse hereinkommen.",
-      "Stellst du das Dashboard auf Jahr, zeigt die Liquiditätskachel dein Jahr: vom 1. Januar bis jetzt und was du Ende Dezember erwartest. Der Wechsel zum Geldmodell gleitet."
+      "Stellst du das Dashboard auf Jahr, zeigt die Liquiditätskachel dein Jahr: vom 1. Januar bis jetzt und was du Ende Dezember erwartest. Der Wechsel zum Geldmodell gleitet.",
+      "Buche etwas auf dem iPad",
+      "Schau aufs iPad: alles bewegt sich mit.",
+      "Als Einnahme gebucht — schau aufs iPad.",
+      "Als Ausgabe gebucht — schau aufs iPad.",
+      "+ Einnahme",
+      "− Ausgabe",
+      "Betrag",
+      "Tippe im Sonnensystem auf einen Planeten: Er öffnet sich in Schichten und zeigt, woraus er besteht, etwa deine Ausgaben je Kategorie oder jede Anlage.",
+      "Auf der Startseite buchst du eine Einnahme oder Ausgabe auf dem iPad und siehst die App sofort mitgehen.",
+      "Diesen Monat bereits gebuchte Fixkosten zählen wie gebucht; nur noch nicht gebuchte rechnen mit dem Durchschnitt. Die Liste beim Check-in scrollt jetzt."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -807,7 +837,17 @@
       "Une avance reçoit la date de retour prévue ; dès trois jours avant, le tableau de bord te le rappelle.",
       "L'ajout rapide montre combien d'heures de travail coûte une dépense.",
       "L'appli s'ouvre directement avec les bons chiffres : plus rien ne saute à l'arrivée des cours.",
-      "Mets le tableau de bord sur Année et la tuile de liquidités montre ton année : du 1er janvier à maintenant et ce que tu attends fin décembre. Le passage au modèle financier est fluide."
+      "Mets le tableau de bord sur Année et la tuile de liquidités montre ton année : du 1er janvier à maintenant et ce que tu attends fin décembre. Le passage au modèle financier est fluide.",
+      "Enregistre quelque chose sur l'iPad",
+      "Regarde l'iPad : tout bouge avec.",
+      "Enregistré comme revenu — regarde l'iPad.",
+      "Enregistré comme dépense — regarde l'iPad.",
+      "+ Revenu",
+      "− Dépense",
+      "Montant",
+      "Touche une planète du système solaire : elle s'ouvre en couches et montre de quoi elle est faite, comme tes dépenses par catégorie ou chaque placement.",
+      "Sur l'accueil, enregistre un revenu ou une dépense sur l'iPad et regarde l'appli réagir aussitôt.",
+      "Les charges fixes déjà enregistrées ce mois comptent telles quelles ; seule une charge pas encore enregistrée utilise la moyenne. La liste du point mensuel défile désormais."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1005,7 +1045,17 @@
       "Un adelanto lleva la fecha en que esperas recuperarlo; desde tres días antes, el panel te lo recuerda.",
       "Añadir rápido muestra cuántas horas de trabajo cuesta un gasto.",
       "La app se abre con las cifras correctas al instante: nada salta cuando llegan las cotizaciones.",
-      "Pon el panel en Año y la tarjeta de liquidez muestra tu año: del 1 de enero hasta hoy y lo que esperas a finales de diciembre. El paso al modelo del dinero es fluido."
+      "Pon el panel en Año y la tarjeta de liquidez muestra tu año: del 1 de enero hasta hoy y lo que esperas a finales de diciembre. El paso al modelo del dinero es fluido.",
+      "Registra algo en el iPad",
+      "Mira el iPad: todo se mueve.",
+      "Registrado como ingreso: mira el iPad.",
+      "Registrado como gasto: mira el iPad.",
+      "+ Ingreso",
+      "− Gasto",
+      "Importe",
+      "Toca un planeta del sistema solar: se abre en capas y muestra de qué está hecho, como tus gastos por categoría o cada inversión.",
+      "En la página de inicio registras un ingreso o gasto en el iPad y ves la app reaccionar al instante.",
+      "Los gastos fijos ya registrados este mes cuentan tal cual; solo uno aún sin registrar usa la media. La lista del check-in ahora se desplaza."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1203,7 +1253,17 @@
       "Un anticipo riceve la data in cui lo aspetti indietro; da tre giorni prima la dashboard te lo ricorda.",
       "L'aggiunta rapida mostra quante ore di lavoro costa una spesa.",
       "L'app si apre subito con le cifre giuste: nulla salta più quando arrivano le quotazioni.",
-      "Imposta la dashboard su Anno e il riquadro della liquidità mostra il tuo anno: dal 1° gennaio a oggi e ciò che prevedi a fine dicembre. Il passaggio al modello del denaro è fluido."
+      "Imposta la dashboard su Anno e il riquadro della liquidità mostra il tuo anno: dal 1° gennaio a oggi e ciò che prevedi a fine dicembre. Il passaggio al modello del denaro è fluido.",
+      "Registra qualcosa sull'iPad",
+      "Guarda l'iPad: tutto si muove.",
+      "Registrato come entrata: guarda l'iPad.",
+      "Registrato come spesa: guarda l'iPad.",
+      "+ Entrata",
+      "− Spesa",
+      "Importo",
+      "Tocca un pianeta del sistema solare: si apre a strati e mostra di cosa è fatto, come le spese per categoria o ogni investimento.",
+      "In homepage registri un'entrata o una spesa sull'iPad e vedi l'app muoversi subito.",
+      "Le spese fisse già registrate questo mese contano come registrate; solo una non ancora registrata usa la media. L'elenco del check-in ora scorre."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1401,7 +1461,17 @@
       "Um adiantamento ganha a data em que você espera recebê-lo; a partir de três dias antes, o painel te lembra.",
       "A adição rápida mostra quantas horas de trabalho um gasto custa.",
       "O app abre de uma vez com os números certos: nada pula quando as cotações chegam.",
-      "Coloque o painel em Ano e o card de liquidez mostra seu ano: de 1º de janeiro até agora e o que você espera no fim de dezembro. A troca para o modelo do dinheiro é suave."
+      "Coloque o painel em Ano e o card de liquidez mostra seu ano: de 1º de janeiro até agora e o que você espera no fim de dezembro. A troca para o modelo do dinheiro é suave.",
+      "Registre algo no iPad",
+      "Olhe o iPad: tudo se move junto.",
+      "Registrado como renda — olhe o iPad.",
+      "Registrado como gasto — olhe o iPad.",
+      "+ Renda",
+      "− Gasto",
+      "Valor",
+      "Toque um planeta no sistema solar: ele se abre em camadas e mostra do que é feito, como seus gastos por categoria ou cada investimento.",
+      "Na página inicial você registra uma renda ou gasto no iPad e vê o app reagir na hora.",
+      "Custos fixos já registrados neste mês contam como registrados; só um ainda não registrado usa a média. A lista do check-in agora rola."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1599,7 +1669,17 @@
       "Zaliczka dostaje datę spodziewanego zwrotu; od trzech dni wcześniej pulpit ci przypomina.",
       "Szybkie dodawanie pokazuje, ile godzin pracy kosztuje wydatek.",
       "Aplikacja od razu otwiera się z właściwymi liczbami: nic nie skacze, gdy przychodzą kursy.",
-      "Ustaw pulpit na Rok, a kafelek płynności pokaże twój rok: od 1 stycznia do teraz i czego oczekujesz pod koniec grudnia. Przejście do modelu pieniędzy jest płynne."
+      "Ustaw pulpit na Rok, a kafelek płynności pokaże twój rok: od 1 stycznia do teraz i czego oczekujesz pod koniec grudnia. Przejście do modelu pieniędzy jest płynne.",
+      "Zaksięguj coś na iPadzie",
+      "Patrz na iPada: wszystko się porusza.",
+      "Zaksięgowano jako dochód — patrz na iPada.",
+      "Zaksięgowano jako wydatek — patrz na iPada.",
+      "+ Dochód",
+      "− Wydatek",
+      "Kwota",
+      "Dotknij planety w układzie słonecznym: otworzy się warstwami i pokaże, z czego się składa, np. wydatki według kategorii lub każdą inwestycję.",
+      "Na stronie głównej zaksięgujesz dochód lub wydatek na iPadzie i od razu zobaczysz, jak aplikacja się zmienia.",
+      "Koszty stałe już zaksięgowane w tym miesiącu liczą się tak, jak zaksięgowano; tylko niezaksięgowany używa średniej. Lista przy check-inie teraz się przewija."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1797,7 +1877,17 @@
       "Bir avans, geri beklediğin tarihi alır; üç gün öncesinden panel sana hatırlatır.",
       "Hızlı ekle, bir harcamanın kaç çalışma saatine mal olduğunu gösterir.",
       "Uygulama doğru rakamlarla tek seferde açılır: fiyatlar gelince artık hiçbir şey sıçramaz.",
-      "Paneli Yıl'a alırsan likidite kutusu yılını gösterir: 1 Ocak'tan bugüne ve aralık sonunda beklediğin. Para modeline geçiş akıcı."
+      "Paneli Yıl'a alırsan likidite kutusu yılını gösterir: 1 Ocak'tan bugüne ve aralık sonunda beklediğin. Para modeline geçiş akıcı.",
+      "iPad'e bir şey kaydet",
+      "iPad'e bak: her şey birlikte hareket eder.",
+      "Gelir olarak kaydedildi — iPad'e bak.",
+      "Harcama olarak kaydedildi — iPad'e bak.",
+      "+ Gelir",
+      "− Harcama",
+      "Tutar",
+      "Güneş sisteminde bir gezegene dokun: katmanlara ayrılır ve neyden oluştuğunu gösterir, ör. kategori bazında harcamalar ya da her yatırım.",
+      "Ana sayfada iPad'e gelir ya da harcama kaydedip uygulamanın anında değiştiğini görürsün.",
+      "Bu ay zaten kaydedilen sabit giderler kaydedildiği gibi sayılır; yalnızca henüz kaydedilmemiş olan ortalamayı kullanır. Check-in listesi artık kayıyor."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -1995,7 +2085,17 @@
       "У аванса появляется дата ожидаемого возврата; за три дня до неё панель напомнит.",
       "Быстрое добавление показывает, сколько часов работы стоит расход.",
       "Приложение сразу открывается с верными цифрами: ничего не скачет, когда приходят котировки.",
-      "Переключи панель на «Год», и плитка ликвидности покажет твой год: с 1 января до сегодня и ожидание на конец декабря. Переход к модели денег плавный."
+      "Переключи панель на «Год», и плитка ликвидности покажет твой год: с 1 января до сегодня и ожидание на конец декабря. Переход к модели денег плавный.",
+      "Внеси что-нибудь на iPad",
+      "Смотри на iPad: всё меняется вместе.",
+      "Внесено как доход — смотри на iPad.",
+      "Внесено как расход — смотри на iPad.",
+      "+ Доход",
+      "− Расход",
+      "Сумма",
+      "Нажми на планету в солнечной системе: она раскроется слоями и покажет, из чего состоит, например расходы по категориям или каждую инвестицию.",
+      "На главной внеси доход или расход на iPad и сразу увидишь, как меняется приложение.",
+      "Постоянные расходы, уже внесённые в этом месяце, считаются как внесены; среднее берётся только для ещё не внесённых. Список при чек-ине теперь прокручивается."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2193,7 +2293,17 @@
       "تحصل السلفة على التاريخ الذي تتوقع استردادها فيه؛ وقبل ثلاثة أيام تذكّرك لوحة التحكم.",
       "تعرض الإضافة السريعة عدد ساعات العمل التي تكلّفها النفقة.",
       "يفتح التطبيق بالأرقام الصحيحة مرة واحدة: لا شيء يقفز عند وصول الأسعار.",
-      "اضبط اللوحة على السنة وستعرض بطاقة السيولة سنتك: من 1 يناير حتى الآن وما تتوقعه في نهاية ديسمبر. الانتقال إلى نموذج المال سلس."
+      "اضبط اللوحة على السنة وستعرض بطاقة السيولة سنتك: من 1 يناير حتى الآن وما تتوقعه في نهاية ديسمبر. الانتقال إلى نموذج المال سلس.",
+      "سجّل شيئًا على الآيباد",
+      "انظر إلى الآيباد: كل شيء يتحرك معه.",
+      "سُجّل كدخل — انظر إلى الآيباد.",
+      "سُجّل كمصروف — انظر إلى الآيباد.",
+      "+ دخل",
+      "− مصروف",
+      "المبلغ",
+      "اضغط على كوكب في النظام الشمسي: ينفتح طبقات ويُظهر ممّ يتكوّن، مثل نفقاتك حسب الفئة أو كل استثمار.",
+      "على الصفحة الرئيسية تسجّل دخلًا أو مصروفًا على الآيباد وترى التطبيق يتغيّر فورًا.",
+      "التكاليف الثابتة المسجلة هذا الشهر تُحسب كما سُجّلت؛ وما لم يُسجّل بعد فقط يُحسب بالمتوسط. قائمة المراجعة أصبحت قابلة للتمرير."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2391,7 +2501,17 @@
       "अग्रिम को वह तारीख मिलती है जब आप उसे वापस चाहते हैं; तीन दिन पहले से डैशबोर्ड याद दिलाता है।",
       "क्विक ऐड दिखाता है कि किसी खर्च के लिए कितने घंटे काम करना पड़ता है।",
       "ऐप सही आँकड़ों के साथ एक बार में खुलता है: बाज़ार भाव आने पर अब कुछ नहीं उछलता।",
-      "डैशबोर्ड को साल पर रखें, तो लिक्विडिटी टाइल आपका साल दिखाती है: 1 जनवरी से अब तक और दिसंबर के अंत की उम्मीद। पैसे के मॉडल पर जाना सहज है।"
+      "डैशबोर्ड को साल पर रखें, तो लिक्विडिटी टाइल आपका साल दिखाती है: 1 जनवरी से अब तक और दिसंबर के अंत की उम्मीद। पैसे के मॉडल पर जाना सहज है।",
+      "iPad पर कुछ दर्ज करें",
+      "iPad देखें: सब कुछ साथ में बदलता है।",
+      "आय के रूप में दर्ज — iPad देखें।",
+      "खर्च के रूप में दर्ज — iPad देखें।",
+      "+ आय",
+      "− खर्च",
+      "राशि",
+      "सौरमंडल में किसी ग्रह पर टैप करें: वह परतों में खुलकर दिखाता है कि वह किससे बना है, जैसे श्रेणीवार खर्च या हर निवेश।",
+      "होमपेज पर iPad में आय या खर्च दर्ज करें और ऐप को तुरंत बदलते देखें।",
+      "इस महीने दर्ज तय खर्च दर्ज राशि से गिने जाते हैं; केवल अभी तक दर्ज न हुआ खर्च औसत लेता है। चेक-इन की सूची अब स्क्रॉल होती है।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2589,7 +2709,17 @@
       "Talangan punya tanggal perkiraan kembali; mulai tiga hari sebelumnya, dasbor mengingatkanmu.",
       "Tambah cepat menampilkan berapa jam kerja sebuah pengeluaran.",
       "Aplikasi langsung terbuka dengan angka yang benar: tak ada yang melompat saat harga pasar masuk.",
-      "Atur dasbor ke Tahun dan kartu likuiditas menampilkan tahunmu: dari 1 Januari sampai sekarang dan perkiraan akhir Desember. Beralih ke model uang terasa mulus."
+      "Atur dasbor ke Tahun dan kartu likuiditas menampilkan tahunmu: dari 1 Januari sampai sekarang dan perkiraan akhir Desember. Beralih ke model uang terasa mulus.",
+      "Catat sesuatu di iPad",
+      "Lihat iPad: semuanya ikut bergerak.",
+      "Dicatat sebagai pemasukan — lihat iPad.",
+      "Dicatat sebagai pengeluaran — lihat iPad.",
+      "+ Pemasukan",
+      "− Pengeluaran",
+      "Jumlah",
+      "Ketuk planet di tata surya: ia terbuka berlapis dan menunjukkan isinya, seperti pengeluaran per kategori atau tiap investasi.",
+      "Di beranda kamu mencatat pemasukan atau pengeluaran di iPad dan langsung melihat aplikasinya bergerak.",
+      "Biaya tetap yang sudah dicatat bulan ini dihitung apa adanya; hanya yang belum dicatat memakai rata-rata. Daftar check-in kini bisa digulir."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2787,7 +2917,17 @@
       "立替金に戻る予定日を設定でき、3日前からダッシュボードでお知らせします。",
       "クイック追加で、支出が何時間分の労働かが表示されます。",
       "アプリは最初から正しい数字で開き、相場が届いても数字が跳ねません。",
-      "ダッシュボードを「年」にすると、流動資産タイルが1月1日から今までと12月末の見込みを表示します。お金のモデルへの切り替えもなめらかに。"
+      "ダッシュボードを「年」にすると、流動資産タイルが1月1日から今までと12月末の見込みを表示します。お金のモデルへの切り替えもなめらかに。",
+      "iPadに記録してみる",
+      "iPadを見て。すべてが一緒に動きます。",
+      "収入として記録しました。iPadを見て。",
+      "支出として記録しました。iPadを見て。",
+      "+ 収入",
+      "− 支出",
+      "金額",
+      "太陽系の惑星をタップすると、層に分かれて中身が見えます。カテゴリ別の支出や各投資など。",
+      "トップページでiPadに収入や支出を記録すると、アプリがすぐに反応します。",
+      "今月すでに記録された固定費はその金額で数え、未記録のものだけ平均を使います。チェックインの一覧はスクロールできるようになりました。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -2985,7 +3125,17 @@
       "선지급금에 돌려받을 예정일을 넣을 수 있고, 3일 전부터 대시보드가 알려 줍니다.",
       "빠른 추가에서 지출이 몇 시간의 근로인지 보여 줍니다.",
       "앱이 처음부터 올바른 숫자로 열려, 시세가 들어와도 숫자가 튀지 않습니다.",
-      "대시보드를 '연'으로 두면 유동성 타일이 1월 1일부터 지금까지와 12월 말 예상을 보여 줍니다. 돈의 모델로의 전환도 부드럽습니다."
+      "대시보드를 '연'으로 두면 유동성 타일이 1월 1일부터 지금까지와 12월 말 예상을 보여 줍니다. 돈의 모델로의 전환도 부드럽습니다.",
+      "iPad에 기록해 보기",
+      "iPad를 보세요. 모두 함께 움직입니다.",
+      "수입으로 기록했습니다. iPad를 보세요.",
+      "지출로 기록했습니다. iPad를 보세요.",
+      "+ 수입",
+      "− 지출",
+      "금액",
+      "태양계에서 행성을 탭하면 층으로 열려 무엇으로 이루어졌는지 보여 줍니다. 카테고리별 지출이나 각 투자처럼요.",
+      "홈페이지에서 iPad에 수입이나 지출을 기록하면 앱이 바로 반응합니다.",
+      "이번 달 이미 기록된 고정비는 기록한 대로 계산하고, 아직 기록되지 않은 것만 평균을 씁니다. 체크인 목록이 이제 스크롤됩니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3183,7 +3333,17 @@
       "Khoản ứng trước có ngày dự kiến nhận lại; từ ba ngày trước, bảng điều khiển sẽ nhắc bạn.",
       "Thêm nhanh cho biết một khoản chi tốn bao nhiêu giờ làm việc.",
       "Ứng dụng mở ra ngay với số liệu đúng: không còn nhảy số khi giá thị trường cập nhật.",
-      "Đặt bảng điều khiển sang Năm, ô thanh khoản sẽ hiện cả năm: từ 1/1 đến nay và dự kiến cuối tháng 12. Chuyển sang mô hình tiền mượt mà."
+      "Đặt bảng điều khiển sang Năm, ô thanh khoản sẽ hiện cả năm: từ 1/1 đến nay và dự kiến cuối tháng 12. Chuyển sang mô hình tiền mượt mà.",
+      "Ghi một khoản trên iPad",
+      "Nhìn iPad: mọi thứ thay đổi theo.",
+      "Đã ghi là thu nhập — nhìn iPad.",
+      "Đã ghi là chi tiêu — nhìn iPad.",
+      "+ Thu nhập",
+      "− Chi tiêu",
+      "Số tiền",
+      "Chạm vào một hành tinh trong hệ mặt trời: nó mở ra thành các lớp và cho thấy thành phần, như chi tiêu theo danh mục hay từng khoản đầu tư.",
+      "Trên trang chủ, bạn ghi một khoản thu hoặc chi trên iPad và thấy ứng dụng thay đổi ngay.",
+      "Chi phí cố định đã ghi trong tháng tính đúng như đã ghi; chỉ khoản chưa ghi mới dùng mức trung bình. Danh sách check-in giờ cuộn được."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3381,7 +3541,17 @@
       "垫付款可以设置预计收回日期；提前三天起，仪表板会提醒你。",
       "快速添加会显示一笔支出相当于多少小时的工作。",
       "应用一打开就是正确的数字：行情到达时不再跳动。",
-      "把仪表板切到“年”，流动资金卡片就显示你的全年：从 1 月 1 日到现在，以及 12 月底的预期。切换到资金模型也很顺滑。"
+      "把仪表板切到“年”，流动资金卡片就显示你的全年：从 1 月 1 日到现在，以及 12 月底的预期。切换到资金模型也很顺滑。",
+      "在 iPad 上记一笔",
+      "看 iPad：一切随之变化。",
+      "已记为收入——看 iPad。",
+      "已记为支出——看 iPad。",
+      "+ 收入",
+      "− 支出",
+      "金额",
+      "在太阳系里点一颗行星：它会分层打开，显示由什么组成，比如各类别的支出或每项投资。",
+      "在首页给 iPad 记一笔收入或支出，立刻看到应用随之变化。",
+      "本月已记录的固定支出按记录金额计算；只有尚未记录的才按平均值。签到列表现在可以滚动。"
     ]
   };
 

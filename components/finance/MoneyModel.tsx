@@ -56,9 +56,10 @@ export function moneyModelBase(data: FinanceData, now: Date): Base {
   // the usual variable spending (average of the finished months; this
   // month's one-offs would otherwise be multiplied by the period).
   const expected = [...expectedByCategory(data, month, now).values()];
-  const fixedAll = Math.max(liveFixed(data, now), expected.reduce((t, e) => t + Math.max(e.fixed, e.usualFix), 0));
+  // Fixed costs for the whole month: booked + still to come, the usual amount only where nothing is booked yet.
+  const fixedAll = Math.max(liveFixed(data, now), expected.reduce((t, e) => t + e.fixedMonth, 0));
   const usualVar = expected.reduce((t, e) => t + e.usualVar, 0);
-  const variable = usualVar > 0 ? usualVar : expected.reduce((t, e) => t + Math.max(e.expected - Math.max(e.fixed, e.usualFix), 0), 0);
+  const variable = usualVar > 0 ? usualVar : expected.reduce((t, e) => t + Math.max(e.expected - e.fixedMonth, 0), 0);
   // The mortgage's repayment this month: part of the payment, but it lowers
   // the debt instead of leaving (equity stays; it moves from money to home).
   const repay = homes(data).reduce((t, h) => t + h.parts.reduce((s, p) => {
