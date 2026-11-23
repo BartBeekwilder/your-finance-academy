@@ -19,6 +19,17 @@ Where it stands (20 Nov, night):
   sun section #zon), report "No category" row, data tests.
 - Bart's data: clean again (online and on the Mac) after the 19 Nov
   incidents; wipe guard (safeMerge) live on web and in the iOS code.
+- 23 Nov — iOS `ios-port-nov18` at 5bff665 = web parity through 21 Nov:
+  fixed costs count as booked (Expected.fixedMonth), work hours while typing
+  an expense, advances with an expected-back date + dashboard card + a
+  notification on the day (Transaction.expectedBack, vault field
+  expected_back), the liquidity tile on Year (1 Jan → month ends → now →
+  year end), one Month/Year for the whole dashboard, check-in list 5–40
+  scrolling, Quick Add translated; 85/85 tests; checked in the simulator.
+  BUILD 4 IS ARCHIVED (scratchpad PF-build4.xcarchive) but NOT UPLOADED:
+  Xcode's account token expired ("missing Xcode-Token") — Bart signs in
+  again in Xcode › Settings › Accounts, then run xcodebuild -exportArchive
+  (method app-store-connect, destination upload, team 3R533T2A74).
 - iOS `ios-port-nov18`: TestFlight build 3 uploaded 19 Nov 22:56 (projected
   income fix, sign-in choice cards, layout fixes; 78/78 tests). Once Apple
   has processed it: install from TestFlight on iPhone/iPad, sign in, choose
