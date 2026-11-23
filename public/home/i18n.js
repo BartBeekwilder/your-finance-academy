@@ -229,7 +229,8 @@
     /*hero chips editable, 23 Nov (K_OWN = 317)*/ "per maand",
     "Tik om je eigen bedrag in te vullen",
     /*hero chips editable, live 23 Nov*/ "Op de homepage zijn loon, beleggingen en huis bovenaan je eigen bedragen: tik erop en vul ze in, en alles eronder rekent mee.",
-    /*chips change the iPad, live 23 Nov*/ "Wat je bovenaan de homepage invult als loon, beleggingen en huis, verandert ook de app op de iPad ernaast."
+    /*chips change the iPad, live 23 Nov*/ "Wat je bovenaan de homepage invult als loon, beleggingen en huis, verandert ook de app op de iPad ernaast.",
+    /*investments separator, live 23 Nov*/ "Beleggingen: tussen het resultaat en het percentage staat weer een scheidingsteken, en op je telefoon zie je de punten in de grafiek weer."
   ];
 
   var L = {
@@ -447,7 +448,8 @@
       "per month",
       "Tap to fill in your own amount",
       "On the homepage, the pay, investments and home at the top are your own amounts: tap one, fill it in, and everything below follows.",
-      "What you fill in at the top of the homepage as pay, investments and home now changes the app on the iPad next to it too."
+      "What you fill in at the top of the homepage as pay, investments and home now changes the app on the iPad next to it too.",
+      "Investments: the result and the percentage are separated again, and on your phone the chart shows its dots again."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -663,7 +665,8 @@
       "pro Monat",
       "Tippen, um deinen eigenen Betrag einzugeben",
       "Auf der Startseite sind Gehalt, Anlagen und Zuhause oben deine eigenen Beträge: antippen, eintragen, und alles darunter rechnet mit.",
-      "Was du oben auf der Startseite als Gehalt, Anlagen und Zuhause einträgst, verändert jetzt auch die App auf dem iPad daneben."
+      "Was du oben auf der Startseite als Gehalt, Anlagen und Zuhause einträgst, verändert jetzt auch die App auf dem iPad daneben.",
+      "Anlagen: Ergebnis und Prozentsatz sind wieder getrennt, und auf dem Handy zeigt das Diagramm wieder seine Punkte."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -879,7 +882,8 @@
       "par mois",
       "Touche pour saisir ton propre montant",
       "Sur l'accueil, le salaire, les placements et le logement en haut sont tes propres montants : touche-les, saisis-les, et tout le reste suit.",
-      "Ce que tu saisis en haut de l'accueil comme salaire, placements et logement modifie aussi l'appli sur l'iPad à côté."
+      "Ce que tu saisis en haut de l'accueil comme salaire, placements et logement modifie aussi l'appli sur l'iPad à côté.",
+      "Placements : le résultat et le pourcentage sont de nouveau séparés, et sur ton téléphone le graphique affiche de nouveau ses points."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1095,7 +1099,8 @@
       "al mes",
       "Toca para poner tu propio importe",
       "En la página de inicio, el sueldo, las inversiones y la casa de arriba son tus propios importes: tócalos, escríbelos y todo lo demás se ajusta.",
-      "Lo que pones arriba en la página de inicio como sueldo, inversiones y casa también cambia la app del iPad de al lado."
+      "Lo que pones arriba en la página de inicio como sueldo, inversiones y casa también cambia la app del iPad de al lado.",
+      "Inversiones: el resultado y el porcentaje vuelven a estar separados, y en el móvil el gráfico vuelve a mostrar sus puntos."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1311,7 +1316,8 @@
       "al mese",
       "Tocca per inserire il tuo importo",
       "In homepage stipendio, investimenti e casa in alto sono i tuoi importi: toccali, inseriscili e tutto il resto si aggiorna.",
-      "Quello che inserisci in alto in homepage come stipendio, investimenti e casa cambia anche l'app sull'iPad accanto."
+      "Quello che inserisci in alto in homepage come stipendio, investimenti e casa cambia anche l'app sull'iPad accanto.",
+      "Investimenti: risultato e percentuale sono di nuovo separati, e sul telefono il grafico mostra di nuovo i suoi punti."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1527,7 +1533,8 @@
       "por mês",
       "Toque para colocar seu próprio valor",
       "Na página inicial, salário, investimentos e casa no topo são seus próprios valores: toque, preencha, e todo o resto acompanha.",
-      "O que você coloca no topo da página inicial como salário, investimentos e casa também muda o app no iPad ao lado."
+      "O que você coloca no topo da página inicial como salário, investimentos e casa também muda o app no iPad ao lado.",
+      "Investimentos: o resultado e a porcentagem estão separados de novo, e no celular o gráfico volta a mostrar seus pontos."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1743,7 +1750,8 @@
       "miesięcznie",
       "Dotknij, aby wpisać własną kwotę",
       "Na stronie głównej pensja, inwestycje i dom na górze to twoje własne kwoty: dotknij, wpisz, a reszta się przeliczy.",
-      "To, co wpiszesz na górze strony głównej jako pensję, inwestycje i dom, zmienia też aplikację na iPadzie obok."
+      "To, co wpiszesz na górze strony głównej jako pensję, inwestycje i dom, zmienia też aplikację na iPadzie obok.",
+      "Inwestycje: wynik i procent są znów rozdzielone, a na telefonie wykres znów pokazuje punkty."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1959,7 +1967,8 @@
       "aylık",
       "Kendi tutarını girmek için dokun",
       "Ana sayfada üstteki maaş, yatırımlar ve ev senin kendi tutarların: dokun, gir, gerisi buna göre hesaplanır.",
-      "Ana sayfanın üstüne maaş, yatırımlar ve ev olarak girdiklerin, yandaki iPad'deki uygulamayı da değiştirir."
+      "Ana sayfanın üstüne maaş, yatırımlar ve ev olarak girdiklerin, yandaki iPad'deki uygulamayı da değiştirir.",
+      "Yatırımlar: sonuç ve yüzde yeniden ayrıldı; telefonda grafik noktalarını yine gösteriyor."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -2175,7 +2184,8 @@
       "в месяц",
       "Нажми, чтобы ввести свою сумму",
       "На главной зарплата, инвестиции и дом наверху — твои собственные суммы: нажми, введи, и всё ниже пересчитается.",
-      "То, что ты вводишь наверху главной как зарплату, инвестиции и дом, теперь меняет и приложение на iPad рядом."
+      "То, что ты вводишь наверху главной как зарплату, инвестиции и дом, теперь меняет и приложение на iPad рядом.",
+      "Инвестиции: результат и процент снова разделены, а на телефоне график снова показывает точки."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2391,7 +2401,8 @@
       "شهريًا",
       "اضغط لإدخال مبلغك الخاص",
       "في الصفحة الرئيسية أصبح الراتب والاستثمارات والمنزل في الأعلى مبالغك أنت: اضغط عليها وأدخلها، وكل ما تحتها يتبعها.",
-      "ما تُدخله أعلى الصفحة الرئيسية كراتب واستثمارات ومنزل يغيّر الآن التطبيق على الآيباد المجاور أيضًا."
+      "ما تُدخله أعلى الصفحة الرئيسية كراتب واستثمارات ومنزل يغيّر الآن التطبيق على الآيباد المجاور أيضًا.",
+      "الاستثمارات: عاد الفصل بين النتيجة والنسبة المئوية، وعلى هاتفك يعرض الرسم البياني نقاطه مجددًا."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2607,7 +2618,8 @@
       "प्रति माह",
       "अपनी राशि भरने के लिए टैप करें",
       "होमपेज पर सबसे ऊपर वेतन, निवेश और घर अब आपकी अपनी राशियाँ हैं: टैप करें, भरें, और नीचे सब कुछ उसी हिसाब से बदलता है।",
-      "होमपेज के ऊपर आप वेतन, निवेश और घर के रूप में जो भरते हैं, वह अब बगल के iPad पर ऐप को भी बदलता है।"
+      "होमपेज के ऊपर आप वेतन, निवेश और घर के रूप में जो भरते हैं, वह अब बगल के iPad पर ऐप को भी बदलता है।",
+      "निवेश: परिणाम और प्रतिशत फिर से अलग दिखते हैं, और फ़ोन पर चार्ट के बिंदु फिर से दिखते हैं।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2823,7 +2835,8 @@
       "per bulan",
       "Ketuk untuk mengisi jumlahmu sendiri",
       "Di beranda, gaji, investasi, dan rumah di atas kini jumlahmu sendiri: ketuk, isi, dan semua di bawahnya ikut menghitung.",
-      "Yang kamu isi di bagian atas beranda sebagai gaji, investasi, dan rumah kini juga mengubah aplikasi di iPad di sebelahnya."
+      "Yang kamu isi di bagian atas beranda sebagai gaji, investasi, dan rumah kini juga mengubah aplikasi di iPad di sebelahnya.",
+      "Investasi: hasil dan persentase kembali dipisahkan, dan di ponsel grafik kembali menampilkan titik-titiknya."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -3039,7 +3052,8 @@
       "／月",
       "タップして自分の金額を入力",
       "トップページ上部の給与・投資・自宅が自分の金額に。タップして入力すると、下の表示もすべて連動します。",
-      "トップページ上部に入力した給与・投資・自宅が、隣のiPadのアプリにも反映されます。"
+      "トップページ上部に入力した給与・投資・自宅が、隣のiPadのアプリにも反映されます。",
+      "投資：損益と割合のあいだに区切りが戻り、スマートフォンのグラフに点が再び表示されます。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -3255,7 +3269,8 @@
       "/월",
       "탭해서 내 금액 입력",
       "홈페이지 상단의 급여, 투자, 집이 이제 내 금액입니다. 탭해서 입력하면 아래 모든 것이 함께 바뀝니다.",
-      "홈페이지 상단에 입력한 급여, 투자, 집이 옆 iPad의 앱에도 반영됩니다."
+      "홈페이지 상단에 입력한 급여, 투자, 집이 옆 iPad의 앱에도 반영됩니다.",
+      "투자: 결과와 퍼센트 사이에 구분 기호가 다시 생겼고, 휴대폰 차트에 점이 다시 보입니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3471,7 +3486,8 @@
       "mỗi tháng",
       "Chạm để nhập số tiền của bạn",
       "Trên trang chủ, lương, đầu tư và nhà ở phía trên giờ là số của bạn: chạm, nhập, và mọi thứ bên dưới cập nhật theo.",
-      "Những gì bạn nhập ở đầu trang chủ cho lương, đầu tư và nhà giờ cũng thay đổi ứng dụng trên iPad bên cạnh."
+      "Những gì bạn nhập ở đầu trang chủ cho lương, đầu tư và nhà giờ cũng thay đổi ứng dụng trên iPad bên cạnh.",
+      "Đầu tư: kết quả và phần trăm lại được tách ra, và trên điện thoại biểu đồ lại hiện các điểm."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3687,7 +3703,8 @@
       "每月",
       "点按填写你自己的金额",
       "首页顶部的工资、投资和房子现在是你自己的金额：点按并填写，下面的一切随之计算。",
-      "你在首页顶部填写的工资、投资和房子，现在也会改变旁边 iPad 上的应用。"
+      "你在首页顶部填写的工资、投资和房子，现在也会改变旁边 iPad 上的应用。",
+      "投资：结果和百分比之间重新有了分隔，手机上的图表也重新显示圆点。"
     ]
   };
 
