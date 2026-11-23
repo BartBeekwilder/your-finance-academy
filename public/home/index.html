@@ -93,6 +93,7 @@
   .read { padding: 12px 14px; background: color-mix(in oklch, var(--c-surface) 94%, transparent); }
   .read small { display: block; font-size: 11px; color: var(--c-muted); }
   .read strong { display: block; margin-top: 2px; font: 500 22px/1.15 var(--mono); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .read .payof { margin-top: 2px; font: 400 11px var(--mono); }
   .read strong .dec { display: inline; margin: 0; font-size: 0.62em; letter-spacing: 0; color: var(--c-muted); }
   .read em { display: block; margin-top: 3px; font-style: normal; font: 400 12px/1.4 var(--f); color: var(--c-muted); text-wrap: pretty; }
   .read--eq { background: color-mix(in oklch, var(--c-surface-2) 94%, transparent); }
@@ -537,7 +538,7 @@
     <div class="console" aria-label="Live voorbeeld">
       <header><span><i class="pulse"></i>LIVE · voorbeeld</span><span id="day">dag 0</span></header>
       <div class="read">
-        <small>Je loon telt elke seconde</small><strong id="pay">€ 0,000</strong>
+        <small>Je loon telt elke seconde</small><strong id="pay">€ 0,000</strong><small class="payof" id="payOf">van € 3.800 deze maand</small>
         <div class="mbar" aria-hidden="true"><i id="mfill"></i><span id="mticks"></span></div>
         <label class="netin" for="netIn"><span class="netin__hint">Probeer het met je eigen netto loon</span><span class="netin__box">€ <input id="netIn" type="text" inputmode="decimal" value="3.800" autocomplete="off" aria-describedby="netOut"> per maand</span></label>
         <em id="netOut">Over elke seconde van de maand verdeeld: je saldo klopt elke dag, niet pas na betaaldag.</em>
@@ -1038,6 +1039,7 @@
   function tick() {
     var m = PF.month(), d = new Date(), iv = inv();
     dec(document.getElementById('pay'), PF.f3.format(m.earned));
+    document.getElementById('payOf').textContent = PFT(314, { a: PF.f0.format(PF.net()) }); // "of € 3.800 this month": the count is the month so far
     document.getElementById('day').textContent = PFT(101, { d: d.getDate(), n: new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate() });
     document.getElementById('clock').textContent = d.toLocaleTimeString(PF_LOCALE) + ' · live';
     dec(document.getElementById('btc'), PF.f2.format(iv));
