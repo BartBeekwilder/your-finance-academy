@@ -68,6 +68,17 @@
   /* Live pieces inside the sentence: a tinted pill with the amount ticking. */
   .chip { display: inline-flex; align-items: baseline; gap: 5px; padding: 0 8px 1px; font-size: 0.84em; border-radius: 999px; white-space: nowrap; background: color-mix(in oklch, var(--c) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--c) 40%, transparent); color: var(--c-ink); }
   .chip b { font: 500 0.9em var(--mono); color: var(--c); font-variant-numeric: tabular-nums; }
+  /* The hero's chips are the visitor's own numbers: tap one and type (Bart, 23 Nov). */
+  .chip--edit { cursor: pointer; transition: background 200ms, box-shadow 200ms; }
+  .chip--edit b { border-bottom: 1px dashed color-mix(in oklch, var(--c) 55%, transparent); }
+  .chip--edit .pen { width: 0.62em; height: 0.62em; align-self: center; color: var(--c); opacity: 0.45; transition: opacity 200ms, transform 250ms cubic-bezier(.3, 1.6, .5, 1); }
+  .chip--edit:hover, .chip--edit:focus-visible { background: color-mix(in oklch, var(--c) 26%, transparent); outline: none; }
+  .chip--edit:hover .pen, .chip--edit:focus-visible .pen { opacity: 1; transform: rotate(-14deg) scale(1.15); }
+  .chip--edit.editing { cursor: text; box-shadow: inset 0 0 0 1.5px var(--c), 0 0 0 4px color-mix(in oklch, var(--c) 18%, transparent); }
+  .chip--edit.editing .pen, .chip--edit.editing b { display: none; }
+  .chip--edit input { width: calc(var(--n, 6) * 1ch + 2px); padding: 0; border: 0; outline: none; background: transparent; color: var(--c); caret-color: var(--c); font: 500 0.9em var(--mono); font-variant-numeric: tabular-nums; }
+  .chip--edit .cur, .chip--edit .per { font: 500 0.9em var(--mono); color: var(--c); }
+  .chip--edit .per { font-size: 0.72em; color: var(--c-muted); }
   .hint { font: 400 12px var(--mono); color: var(--c-muted); }
   .hint b { color: var(--c-ink); font-weight: 500; }
 
@@ -534,7 +545,7 @@
     </div>
     <div class="hero__col">
       <h1 id="h1">Je hele financiële leven, live.</h1>
-      <p class="hero__sub">Je <span class="chip" style="--c:#30d158">loon <b id="subPay">€ 0,00</b></span>, je <span class="chip" style="--c:#ffb547">beleggingen <b id="subBtc">€ 45.000</b></span> en je <span class="chip" style="--c:#5b8def">huis <b>€ 425.000</b></span> in één balans die <em>elke seconde</em> bijwerkt.</p>
+      <p class="hero__sub">Je <span class="chip chip--edit" style="--c:#30d158" data-edit="pay" role="button" tabindex="0" title="Tik om je eigen bedrag in te vullen">loon tot nu <b id="subPay">€ 0,00</b><svg class="pen" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3a1.6 1.6 0 0 1 2.3 2.3l-8 8-3.1.8.8-3.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>, je <span class="chip chip--edit" style="--c:#ffb547" data-edit="inv" role="button" tabindex="0" title="Tik om je eigen bedrag in te vullen">beleggingen <b id="subBtc">€ 45.000</b><svg class="pen" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3a1.6 1.6 0 0 1 2.3 2.3l-8 8-3.1.8.8-3.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span> en je <span class="chip chip--edit" style="--c:#5b8def" data-edit="home" role="button" tabindex="0" title="Tik om je eigen bedrag in te vullen">huis <b id="subHome">€ 425.000</b><svg class="pen" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3a1.6 1.6 0 0 1 2.3 2.3l-8 8-3.1.8.8-3.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span> in één balans die <em>elke seconde</em> bijwerkt.</p>
       <div class="ctas"><a class="btn btn--lg" href="/app?trial=1">Probeer nu gratis!<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="ctas__alt" href="/app?demo=1">Bekijk de live demo</a></div>
       <span class="ctas__note">7 dagen gratis · daarna opzeggen wanneer je wilt</span>
     <div class="console" aria-label="Live voorbeeld">
@@ -1026,8 +1037,10 @@
   })();
   // For the show the sample portfolio breathes slowly around its real value
   // (two slow waves, ±0.05%), so investments and equity move like pay does.
+  // The visitor's own numbers from the hero's chips (in this page only, never sent).
+  var OWN = { inv: null, home: 425000 };
   function inv() {
-    var t = Date.now() / 1000, base = 42000 + (PF.btc.eur != null ? PF.btc.eur * 0.05 : 3400);
+    var t = Date.now() / 1000, base = OWN.inv != null ? OWN.inv : 42000 + (PF.btc.eur != null ? PF.btc.eur * 0.05 : 3400);
     return base * (1 + 0.0003 * Math.sin(t / 30) + 0.0001 * Math.sin(t / 11 + 1.3));
   }
   // Euros at full size, the cents smaller and quieter (as in the app).
@@ -1057,7 +1070,8 @@
     document.getElementById('exEarned').innerHTML = v.slice(0, cut) + '<small class="tick">' + v.slice(cut) + '</small>';
     document.getElementById('exNow').textContent = d.toLocaleDateString(PF_LOCALE, { weekday: 'long' }) + ' ' + d.toLocaleTimeString(PF_LOCALE, { hour: '2-digit', minute: '2-digit' });
     if (PF.btc.eur != null) document.getElementById('exBtc').textContent = PF.f0.format(PF.btc.eur * 0.05);
-    dec(document.getElementById('eq'), PF.f2.format(425000 + 16900 + iv - 310000 - 18000 + m.earned * 0.14));
+    // The mortgage keeps the sample's share of the home's value (310k of 425k).
+    dec(document.getElementById('eq'), PF.f2.format(OWN.home * (1 - 310000 / 425000) + 16900 + iv - 18000 + m.earned * 0.14));
   }
   tick(); setInterval(tick, 50);
   // The visitor's own pay: everything that counts with pay (the ticking
@@ -1079,6 +1093,64 @@
     inp.addEventListener('input', upd);
     inp.addEventListener('focus', function () { inp.closest('.netin').classList.add('used'); inp.select(); });
     inp.addEventListener('blur', function () { var v = num(inp.value); if (v >= 0) inp.value = new Intl.NumberFormat(PF_LOCALE, { maximumFractionDigits: 0 }).format(v); });
+  })();
+  // The hero's chips: tap one and type your own amount, right there. Pay is
+  // your net pay per month (the chip then counts your month so far, and the
+  // field in the card below follows); investments and home feed the equity.
+  (function () {
+    var K_OWN = 317; // homepage texts: "per maand" (i18n.js K)
+    var parts = new Intl.NumberFormat(PF_LOCALE).formatToParts(1234.5), dsep = '.';
+    parts.forEach(function (p) { if (p.type === 'decimal') dsep = p.value; });
+    function num(t) { t = String(t).replace(/[^\d.,]/g, ''); t = dsep === ',' ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, ''); return parseFloat(t); }
+    var int0 = new Intl.NumberFormat(PF_LOCALE, { maximumFractionDigits: 0 });
+    var cur = (PF.f0.formatToParts(0).find(function (p) { return p.type === 'currency'; }) || { value: '€' }).value;
+    var home = document.getElementById('subHome'), houseBar = document.querySelector('.stack i');
+    function showHome() { home.textContent = PF.f0.format(OWN.home); if (houseBar) houseBar.style.flex = String(Math.max(OWN.home / 1000, 1)); }
+    showHome();
+    function apply(kind, v) {
+      if (kind === 'pay') {
+        var field = document.getElementById('netIn');
+        field.value = int0.format(v); field.dispatchEvent(new Event('input'));
+      } else if (kind === 'inv') OWN.inv = v;
+      else { OWN.home = v; showHome(); }
+    }
+    document.querySelectorAll('.chip--edit').forEach(function (chip) {
+      var kind = chip.dataset.edit, b = chip.querySelector('b');
+      function open() {
+        if (chip.classList.contains('editing')) return;
+        var now = kind === 'pay' ? PF.net() : kind === 'inv' ? inv() : OWN.home;
+        var pre = document.createElement('span'), input = document.createElement('input'), per = null;
+        pre.className = 'cur'; pre.textContent = cur;
+        input.type = 'text'; input.inputMode = 'decimal'; input.autocomplete = 'off';
+        input.setAttribute('aria-label', chip.getAttribute('title') || '');
+        input.value = int0.format(Math.round(now));
+        var size = function () { input.style.setProperty('--n', Math.max(input.value.length, 3)); };
+        size(); input.addEventListener('input', size);
+        chip.insertBefore(pre, b); chip.insertBefore(input, b);
+        if (kind === 'pay') { per = document.createElement('span'); per.className = 'per'; per.textContent = PFT(K_OWN, {}); chip.insertBefore(per, b); }
+        chip.classList.add('editing');
+        input.focus(); input.select();
+        var closed = false;
+        function close(save) {
+          if (closed) return; closed = true;
+          var v = num(input.value);
+          if (save && v >= 0 && v < 1e9) apply(kind, v);
+          pre.remove(); input.remove(); if (per) per.remove();
+          chip.classList.remove('editing');
+          document.removeEventListener('pointerdown', outside, true);
+        }
+        // A tap anywhere else saves too (also when the field never got focus).
+        function outside(e) { if (!chip.contains(e.target)) close(true); }
+        document.addEventListener('pointerdown', outside, true);
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); close(true); chip.focus(); }
+          else if (e.key === 'Escape') { close(false); chip.focus(); }
+        });
+        input.addEventListener('blur', function () { close(true); });
+      }
+      chip.addEventListener('click', open);
+      chip.addEventListener('keydown', function (e) { if (e.target === chip && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(); } });
+    });
   })();
   // Money clock: the visitor's net pay as 24 hours, biggest costs first (as on Key figures).
   (function () {

@@ -17,7 +17,7 @@
 
   var K = [
     /*0*/ "Functies", "Inloggen", "Bekijk de live demo", "Je hele financiële leven, live.",
-    "Je loon € 0,00, je beleggingen € 45.000 en je huis € 425.000 in één balans die elke seconde bijwerkt.",
+    "Je loon tot nu € 0,00, je beleggingen € 45.000 en je huis € 425.000 in één balans die elke seconde bijwerkt.",
     "LIVE · voorbeeld", "Je loon telt elke seconde", "Probeer het met je eigen netto loon", "€ per maand",
     "Over elke seconde van de maand verdeeld: je saldo klopt elke dag, niet pas na betaaldag.",
     /*10*/ "Je beleggingen bewegen mee", "Aandelen, ETF's en 0,05 bitcoin tegen de echte koers.", "Alles samen in je eigen vermogen",
@@ -225,13 +225,15 @@
     /*console never cut off, live 23 Nov*/ "Op de homepage valt de live kaart naast de iPad nooit meer half weg op een lager scherm.",
     /*salary counter: of X this month, 23 Nov*/ "van {a} deze maand",
     /*salary counter of X, live 23 Nov*/ "De loonteller op de homepage laat zien van welk maandbedrag hij telt: zo zie je dat het bedrag je maand tot nu toe is.",
-    /*iPad fully in view, live 23 Nov*/ "Op de homepage staat de iPad op elk scherm helemaal in beeld."
+    /*iPad fully in view, live 23 Nov*/ "Op de homepage staat de iPad op elk scherm helemaal in beeld.",
+    /*hero chips editable, 23 Nov (K_OWN = 317)*/ "per maand",
+    "Tik om je eigen bedrag in te vullen"
   ];
 
   var L = {
     en: [
       /*0*/ "Features", "Log in", "Try the live demo", "Your whole financial life, live.",
-      ["Your ", "pay ", ", your ", "investments ", " and your ", "home ", " in one balance sheet that updates ", "every second", "."],
+      ["Your ", "pay so far ", ", your ", "investments ", " and your ", "home ", " in one balance sheet that updates ", "every second", "."],
       "LIVE · example", "Your pay counts up every second", "Try it with your own take-home pay", ["€ ", " per month"],
       "Spread over every second of the month: your balance is right every day, not just on payday.",
       /*10*/ "Your investments move with the market", "Shares, ETFs and 0.05 bitcoin at the real price.", "All of it together in your net worth",
@@ -439,11 +441,13 @@
       "On the homepage, the live card next to the iPad is never cut off on a shorter screen.",
       "of {a} this month",
       "The salary counter on the homepage shows the monthly amount it counts towards, so you can see it's your month so far.",
-      "On the homepage, the iPad is fully in view on every screen."
+      "On the homepage, the iPad is fully in view on every screen.",
+      "per month",
+      "Tap to fill in your own amount"
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
-      ["Dein ", "Gehalt ", ", deine ", "Anlagen ", " und dein ", "Zuhause ", " in einer Bilanz, die sich ", "jede Sekunde", " aktualisiert."],
+      ["Dein ", "Gehalt bisher ", ", deine ", "Anlagen ", " und dein ", "Zuhause ", " in einer Bilanz, die sich ", "jede Sekunde", " aktualisiert."],
       "LIVE · Beispiel", "Dein Gehalt zählt jede Sekunde mit", "Probier es mit deinem eigenen Nettogehalt", ["€ ", " pro Monat"],
       "Über jede Sekunde des Monats verteilt: Dein Kontostand stimmt jeden Tag, nicht erst am Zahltag.",
       /*10*/ "Deine Anlagen bewegen sich mit", "Aktien, ETFs und 0,05 Bitcoin zum echten Kurs.", "Alles zusammen in deinem Eigenkapital",
@@ -651,11 +655,13 @@
       "Auf der Startseite wird die Live-Karte neben dem iPad auf niedrigen Bildschirmen nicht mehr abgeschnitten.",
       "von {a} diesen Monat",
       "Der Lohnzähler auf der Startseite zeigt, auf welchen Monatsbetrag er zählt: So siehst du, dass es dein Monat bis jetzt ist.",
-      "Auf der Startseite ist das iPad auf jedem Bildschirm vollständig zu sehen."
+      "Auf der Startseite ist das iPad auf jedem Bildschirm vollständig zu sehen.",
+      "pro Monat",
+      "Tippen, um deinen eigenen Betrag einzugeben"
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
-      ["Votre ", "salaire ", ", vos ", "placements ", " et votre ", "logement ", " dans un seul bilan mis à jour ", "chaque seconde", "."],
+      ["Votre ", "salaire jusqu'ici ", ", vos ", "placements ", " et votre ", "logement ", " dans un seul bilan mis à jour ", "chaque seconde", "."],
       "EN DIRECT · exemple", "Votre salaire compte chaque seconde", "Essayez avec votre propre salaire net", ["€ ", " par mois"],
       "Réparti sur chaque seconde du mois : votre solde est juste chaque jour, pas seulement le jour de paie.",
       /*10*/ "Vos placements suivent le marché", "Actions, ETF et 0,05 bitcoin au vrai cours.", "Le tout dans votre patrimoine net",
@@ -863,11 +869,13 @@
       "Sur l'accueil, la carte en direct à côté de l'iPad n'est plus coupée sur un écran moins haut.",
       "sur {a} ce mois-ci",
       "Le compteur de salaire de l'accueil indique le montant mensuel vers lequel il compte : tu vois que c'est ton mois jusqu'ici.",
-      "Sur l'accueil, l'iPad est entièrement visible sur tous les écrans."
+      "Sur l'accueil, l'iPad est entièrement visible sur tous les écrans.",
+      "par mois",
+      "Touche pour saisir ton propre montant"
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
-      ["Tu ", "sueldo ", ", tus ", "inversiones ", " y tu ", "casa ", " en un solo balance que se actualiza ", "cada segundo", "."],
+      ["Tu ", "sueldo hasta ahora ", ", tus ", "inversiones ", " y tu ", "casa ", " en un solo balance que se actualiza ", "cada segundo", "."],
       "EN VIVO · ejemplo", "Tu sueldo suma cada segundo", "Pruébalo con tu propio sueldo neto", ["€ ", " al mes"],
       "Repartido en cada segundo del mes: tu saldo cuadra cada día, no solo el día de cobro.",
       /*10*/ "Tus inversiones se mueven con el mercado", "Acciones, ETF y 0,05 bitcoin al precio real.", "Todo junto en tu patrimonio neto",
@@ -1075,11 +1083,13 @@
       "En la página de inicio, la tarjeta en vivo junto al iPad ya no se corta en pantallas más bajas.",
       "de {a} este mes",
       "El contador de sueldo de la página de inicio muestra hacia qué importe mensual cuenta: así ves que es tu mes hasta ahora.",
-      "En la página de inicio, el iPad se ve entero en cualquier pantalla."
+      "En la página de inicio, el iPad se ve entero en cualquier pantalla.",
+      "al mes",
+      "Toca para poner tu propio importe"
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
-      ["Il tuo ", "stipendio ", ", i tuoi ", "investimenti ", " e la tua ", "casa ", " in un unico bilancio che si aggiorna ", "ogni secondo", "."],
+      ["Il tuo ", "stipendio finora ", ", i tuoi ", "investimenti ", " e la tua ", "casa ", " in un unico bilancio che si aggiorna ", "ogni secondo", "."],
       "LIVE · esempio", "Il tuo stipendio sale ogni secondo", "Provalo con il tuo stipendio netto", ["€ ", " al mese"],
       "Distribuito su ogni secondo del mese: il tuo saldo è giusto ogni giorno, non solo il giorno di paga.",
       /*10*/ "I tuoi investimenti seguono il mercato", "Azioni, ETF e 0,05 bitcoin al prezzo reale.", "Tutto insieme nel tuo patrimonio netto",
@@ -1287,11 +1297,13 @@
       "In homepage la scheda live accanto all'iPad non viene più tagliata sugli schermi più bassi.",
       "su {a} questo mese",
       "Il contatore dello stipendio in homepage mostra verso quale importo mensile conta: così vedi che è il tuo mese finora.",
-      "In homepage l'iPad è visibile per intero su ogni schermo."
+      "In homepage l'iPad è visibile per intero su ogni schermo.",
+      "al mese",
+      "Tocca per inserire il tuo importo"
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
-      ["Seu ", "salário ", ", seus ", "investimentos ", " e sua ", "casa ", " em um só balanço que se atualiza ", "a cada segundo", "."],
+      ["Seu ", "salário até agora ", ", seus ", "investimentos ", " e sua ", "casa ", " em um só balanço que se atualiza ", "a cada segundo", "."],
       "AO VIVO · exemplo", "Seu salário conta a cada segundo", "Experimente com o seu salário líquido", ["€ ", " por mês"],
       "Distribuído por cada segundo do mês: seu saldo está certo todo dia, não só no dia do pagamento.",
       /*10*/ "Seus investimentos acompanham o mercado", "Ações, ETFs e 0,05 bitcoin pelo preço real.", "Tudo junto no seu patrimônio líquido",
@@ -1499,11 +1511,13 @@
       "Na página inicial, o cartão ao vivo ao lado do iPad não é mais cortado em telas mais baixas.",
       "de {a} este mês",
       "O contador de salário da página inicial mostra para qual valor mensal ele conta: assim você vê que é o seu mês até agora.",
-      "Na página inicial, o iPad aparece inteiro em qualquer tela."
+      "Na página inicial, o iPad aparece inteiro em qualquer tela.",
+      "por mês",
+      "Toque para colocar seu próprio valor"
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
-      ["Twoja ", "pensja ", ", twoje ", "inwestycje ", " i twój ", "dom ", " w jednym bilansie, który aktualizuje się ", "co sekundę", "."],
+      ["Twoja ", "pensja do tej pory ", ", twoje ", "inwestycje ", " i twój ", "dom ", " w jednym bilansie, który aktualizuje się ", "co sekundę", "."],
       "NA ŻYWO · przykład", "Twoja pensja rośnie co sekundę", "Wypróbuj z własną pensją netto", ["€ ", " miesięcznie"],
       "Rozłożona na każdą sekundę miesiąca: saldo zgadza się każdego dnia, nie tylko w dniu wypłaty.",
       /*10*/ "Twoje inwestycje podążają za rynkiem", "Akcje, ETF-y i 0,05 bitcoina po prawdziwym kursie.", "Wszystko razem w twoim majątku netto",
@@ -1711,11 +1725,13 @@
       "Na stronie głównej karta na żywo obok iPada nie jest już ucinana na niższych ekranach.",
       "z {a} w tym miesiącu",
       "Licznik pensji na stronie głównej pokazuje, do jakiej kwoty miesięcznej liczy: widać, że to twój miesiąc do tej pory.",
-      "Na stronie głównej iPad jest w pełni widoczny na każdym ekranie."
+      "Na stronie głównej iPad jest w pełni widoczny na każdym ekranie.",
+      "miesięcznie",
+      "Dotknij, aby wpisać własną kwotę"
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
-      ["", "Maaşın", ", ", "yatırımların", " ve ", "evin", ", ", "her saniye", " güncellenen tek bir bilançoda."],
+      ["", "Şu ana kadarki maaşın", ", ", "yatırımların", " ve ", "evin", ", ", "her saniye", " güncellenen tek bir bilançoda."],
       "CANLI · örnek", "Maaşın her saniye artıyor", "Kendi net maaşınla dene", ["€ ", " / ay"],
       "Ayın her saniyesine yayılır: bakiyen her gün doğru, sadece maaş gününde değil.",
       /*10*/ "Yatırımların piyasayla birlikte hareket eder", "Hisseler, ETF'ler ve 0,05 bitcoin gerçek fiyattan.", "Hepsi birlikte net servetinde",
@@ -1923,11 +1939,13 @@
       "Ana sayfada iPad'in yanındaki canlı kart, kısa ekranlarda artık kesilmiyor.",
       "bu ay toplam {a}",
       "Ana sayfadaki maaş sayacı hangi aylık tutara doğru saydığını gösterir: böylece bunun ayın şu ana kadarki kısmı olduğunu görürsün.",
-      "Ana sayfada iPad her ekranda tamamen görünür."
+      "Ana sayfada iPad her ekranda tamamen görünür.",
+      "aylık",
+      "Kendi tutarını girmek için dokun"
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
-      ["Ваша ", "зарплата ", ", ваши ", "инвестиции ", " и ваш ", "дом ", " в одном балансе, который обновляется ", "каждую секунду", "."],
+      ["Ваша ", "зарплата на сегодня ", ", ваши ", "инвестиции ", " и ваш ", "дом ", " в одном балансе, который обновляется ", "каждую секунду", "."],
       "LIVE · пример", "Ваша зарплата растёт каждую секунду", "Попробуйте со своей зарплатой на руки", ["€ ", " в месяц"],
       "Распределена по каждой секунде месяца: баланс верен каждый день, а не только в день зарплаты.",
       /*10*/ "Ваши инвестиции движутся вместе с рынком", "Акции, ETF и 0,05 биткоина по реальному курсу.", "Всё вместе — в вашем собственном капитале",
@@ -2135,11 +2153,13 @@
       "На главной живая карточка рядом с iPad больше не обрезается на невысоких экранах.",
       "из {a} в этом месяце",
       "Счётчик зарплаты на главной показывает, к какой месячной сумме он идёт: видно, что это твой месяц на сегодня.",
-      "На главной iPad теперь целиком виден на любом экране."
+      "На главной iPad теперь целиком виден на любом экране.",
+      "в месяц",
+      "Нажми, чтобы ввести свою сумму"
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
-      ["", "راتبك", " و", "استثماراتك", " و", "منزلك", " في ميزانية واحدة تتحدث ", "كل ثانية", "."],
+      ["", "راتبك حتى الآن", " و", "استثماراتك", " و", "منزلك", " في ميزانية واحدة تتحدث ", "كل ثانية", "."],
       "مباشر · مثال", "راتبك يزيد كل ثانية", "جرّبه براتبك الصافي", ["€ ", " شهريًا"],
       "موزّع على كل ثانية من الشهر: رصيدك صحيح كل يوم، لا يوم الراتب فقط.",
       /*10*/ "استثماراتك تتحرك مع السوق", "أسهم وصناديق مؤشرات و0.05 بيتكوين بالسعر الحقيقي.", "كل شيء معًا في صافي ثروتك",
@@ -2347,11 +2367,13 @@
       "في الصفحة الرئيسية لم تعد البطاقة المباشرة بجانب الآيباد تُقتطع على الشاشات الأقصر.",
       "من {a} هذا الشهر",
       "عدّاد الراتب في الصفحة الرئيسية يُظهر المبلغ الشهري الذي يعدّ نحوه، فترى أنه شهرك حتى الآن.",
-      "في الصفحة الرئيسية يظهر الآيباد كاملًا على كل شاشة."
+      "في الصفحة الرئيسية يظهر الآيباد كاملًا على كل شاشة.",
+      "شهريًا",
+      "اضغط لإدخال مبلغك الخاص"
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
-      ["आपकी ", "सैलरी ", ", आपके ", "निवेश ", " और आपका ", "घर ", " एक ही बैलेंस शीट में, जो ", "हर सेकंड", " अपडेट होती है।"],
+      ["आपकी ", "अब तक की सैलरी ", ", आपके ", "निवेश ", " और आपका ", "घर ", " एक ही बैलेंस शीट में, जो ", "हर सेकंड", " अपडेट होती है।"],
       "लाइव · उदाहरण", "आपकी सैलरी हर सेकंड बढ़ती है", "अपनी नेट सैलरी डालकर देखें", ["€ ", " प्रति माह"],
       "महीने के हर सेकंड में बँटी हुई: आपका बैलेंस हर दिन सही है, सिर्फ़ सैलरी वाले दिन नहीं।",
       /*10*/ "आपके निवेश बाज़ार के साथ चलते हैं", "शेयर, ETF और 0.05 बिटकॉइन असली भाव पर।", "सब कुछ मिलाकर आपकी नेट वर्थ में",
@@ -2559,11 +2581,13 @@
       "होमपेज पर iPad के पास वाला लाइव कार्ड छोटी स्क्रीन पर अब कटता नहीं।",
       "इस महीने के {a} में से",
       "होमपेज का वेतन काउंटर दिखाता है कि वह किस मासिक राशि तक गिन रहा है, ताकि दिखे कि यह अब तक का आपका महीना है।",
-      "होमपेज पर iPad हर स्क्रीन पर पूरा दिखता है।"
+      "होमपेज पर iPad हर स्क्रीन पर पूरा दिखता है।",
+      "प्रति माह",
+      "अपनी राशि भरने के लिए टैप करें"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
-      ["", "Gajimu", ", ", "investasimu", ", dan ", "rumahmu", " dalam satu neraca yang diperbarui ", "setiap detik", "."],
+      ["", "Gajimu sejauh ini", ", ", "investasimu", ", dan ", "rumahmu", " dalam satu neraca yang diperbarui ", "setiap detik", "."],
       "LANGSUNG · contoh", "Gajimu bertambah setiap detik", "Coba dengan gaji bersihmu sendiri", ["€ ", " per bulan"],
       "Dibagi ke setiap detik dalam sebulan: saldomu benar setiap hari, bukan hanya saat gajian.",
       /*10*/ "Investasimu bergerak bersama pasar", "Saham, ETF, dan 0,05 bitcoin dengan harga sebenarnya.", "Semuanya dalam kekayaan bersihmu",
@@ -2771,11 +2795,13 @@
       "Di beranda, kartu langsung di samping iPad tidak lagi terpotong di layar yang lebih pendek.",
       "dari {a} bulan ini",
       "Penghitung gaji di beranda menunjukkan jumlah bulanan yang dihitungnya, jadi terlihat bahwa itu bulanmu sejauh ini.",
-      "Di beranda, iPad terlihat utuh di setiap layar."
+      "Di beranda, iPad terlihat utuh di setiap layar.",
+      "per bulan",
+      "Ketuk untuk mengisi jumlahmu sendiri"
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
-      ["あなたの", "給与", "、", "投資", "、そして", "自宅", "を、", "毎秒", "更新されるひとつのバランスシートに。"],
+      ["あなたの", "今月ここまでの給与", "、", "投資", "、そして", "自宅", "を、", "毎秒", "更新されるひとつのバランスシートに。"],
       "ライブ · 例", "給与が毎秒カウントアップ", "あなたの手取り給与で試してみる", ["€ ", " / 月"],
       "月のすべての秒に配分：残高は給料日だけでなく、毎日正確です。",
       /*10*/ "投資は市場とともに動く", "株式、ETF、0.05 ビットコインを実際の価格で。", "すべてを合わせた純資産",
@@ -2983,11 +3009,13 @@
       "トップページで、iPadの横のライブカードが低い画面でも切れなくなりました。",
       "今月の {a} のうち",
       "トップページの給与カウンターに月額が表示され、今月ここまでの金額だとわかるようになりました。",
-      "トップページのiPadが、どの画面でも全体が見えるようになりました。"
+      "トップページのiPadが、どの画面でも全体が見えるようになりました。",
+      "／月",
+      "タップして自分の金額を入力"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
-      ["당신의 ", "급여", ", ", "투자", ", 그리고 ", "집", "까지 ", "매초", " 업데이트되는 하나의 대차대조표에."],
+      ["당신의 ", "지금까지의 급여", ", ", "투자", ", 그리고 ", "집", "까지 ", "매초", " 업데이트되는 하나의 대차대조표에."],
       "라이브 · 예시", "급여가 매초 쌓입니다", "내 실수령 급여로 해보기", ["€ ", " / 월"],
       "한 달의 모든 초에 나눠서: 월급날만이 아니라 매일 잔액이 정확합니다.",
       /*10*/ "투자는 시장과 함께 움직입니다", "주식, ETF, 0.05 비트코인을 실제 시세로.", "모두 합친 순자산",
@@ -3195,11 +3223,13 @@
       "홈페이지에서 iPad 옆 라이브 카드가 낮은 화면에서도 더 이상 잘리지 않습니다.",
       "이번 달 {a} 중",
       "홈페이지의 급여 카운터가 월 금액을 함께 보여 줘서, 이번 달 지금까지의 금액임을 알 수 있습니다.",
-      "홈페이지의 iPad가 어떤 화면에서도 온전히 보입니다."
+      "홈페이지의 iPad가 어떤 화면에서도 온전히 보입니다.",
+      "/월",
+      "탭해서 내 금액 입력"
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
-      ["", "Lương", ", ", "khoản đầu tư", " và ", "ngôi nhà", " của bạn trong một bảng cân đối cập nhật ", "mỗi giây", "."],
+      ["", "Lương đến nay", ", ", "khoản đầu tư", " và ", "ngôi nhà", " của bạn trong một bảng cân đối cập nhật ", "mỗi giây", "."],
       "TRỰC TIẾP · ví dụ", "Lương của bạn tăng mỗi giây", "Thử với lương thực nhận của bạn", ["€ ", " mỗi tháng"],
       "Chia đều cho mỗi giây trong tháng: số dư đúng mỗi ngày, không chỉ vào ngày lĩnh lương.",
       /*10*/ "Khoản đầu tư của bạn đi cùng thị trường", "Cổ phiếu, ETF và 0,05 bitcoin theo giá thật.", "Tất cả gộp lại trong tài sản ròng của bạn",
@@ -3407,11 +3437,13 @@
       "Trên trang chủ, thẻ trực tiếp cạnh iPad không còn bị cắt trên màn hình thấp.",
       "trên {a} tháng này",
       "Bộ đếm lương trên trang chủ cho thấy khoản lương tháng nó đang đếm tới, để bạn thấy đó là tháng của bạn tính đến giờ.",
-      "Trên trang chủ, iPad hiển thị trọn vẹn trên mọi màn hình."
+      "Trên trang chủ, iPad hiển thị trọn vẹn trên mọi màn hình.",
+      "mỗi tháng",
+      "Chạm để nhập số tiền của bạn"
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
-      ["你的", "工资", "、", "投资", "和", "房子", "，都在一张", "每秒", "更新的资产负债表里。"],
+      ["你的", "到目前为止的工资", "、", "投资", "和", "房子", "，都在一张", "每秒", "更新的资产负债表里。"],
       "实时 · 示例", "你的工资每秒都在增加", "用你自己的税后工资试试", ["€ ", " / 月"],
       "分摊到每月的每一秒：你的余额每天都准确，而不只是发薪日。",
       /*10*/ "你的投资随市场而动", "股票、ETF 和 0.05 枚比特币，按真实价格计算。", "全部汇总为你的净资产",
@@ -3619,7 +3651,9 @@
       "首页 iPad 旁的实时卡片在较矮的屏幕上不再被截断。",
       "本月共 {a}",
       "首页的工资计数器会显示它对应的月薪，让你看出这是本月到目前为止的金额。",
-      "首页上的 iPad 在任何屏幕上都能完整显示。"
+      "首页上的 iPad 在任何屏幕上都能完整显示。",
+      "每月",
+      "点按填写你自己的金额"
     ]
   };
 
