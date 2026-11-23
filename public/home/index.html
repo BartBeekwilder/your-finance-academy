@@ -55,9 +55,10 @@
   .live-screen { position: absolute; left: 0; top: 0; border: 0; background: #000; transform-origin: 0 0; opacity: 0; transition: opacity 900ms var(--ease); }
   .live-screen.on { opacity: 1; }
   /* Two places, nothing on top of the app: a calm column left, the desk right. */
-  .hero__stage { position: absolute; inset: 48px 0 0 36%; overflow: hidden; }
+  .hero__stage { position: absolute; inset: 48px 0 0 36%; overflow: hidden; height: min(calc(max(640px, 100dvh) - 48px), 60vw); } /* never taller than the screen (a long console grows the hero) or than its width allows (a near-square stage crops the iPad's sides): the whole iPad stays in the first view */
   /* only the desk photo fades in at the left; the iPad's live screen stays full brightness */
-  .hero__stage .photo { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%); mask-image: linear-gradient(90deg, transparent 0, #000 8%); }
+  /* Fades in from the left; and out at the bottom, where it can end above the hero's. */
+  .hero__stage .photo { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%), linear-gradient(180deg, #000 0, #000 86%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 8%), linear-gradient(180deg, #000 0, #000 86%, transparent 100%); mask-composite: intersect; }
   .hero__col { position: absolute; z-index: 2; inset-inline-start: var(--g); top: 48px; bottom: 0; width: min(500px, calc(36% - var(--g) - 20px)); display: flex; flex-direction: column; justify-content: center; gap: 18px; }
   .hero__col > * { flex-shrink: 0; } /* never squeeze the console: the hero grows to fit instead */
   .hero__col .btn { align-self: flex-start; }
@@ -249,6 +250,7 @@
     .hero { height: auto; min-height: 0; display: grid; }
     .hero__col { position: relative; inset: auto; width: auto; padding: 72px var(--g) 24px; }
     .hero__stage { position: relative; inset: auto; height: 62vh; -webkit-mask-image: none; mask-image: none; }
+    .hero__stage .photo { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%); mask-image: linear-gradient(90deg, transparent 0, #000 8%); }
     .steps { inset: auto var(--g) 18px; translate: none; width: auto; }
     .step:not(.cur) { display: none; }
     .plans { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
