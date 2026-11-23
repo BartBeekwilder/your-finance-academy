@@ -227,7 +227,8 @@
     /*salary counter of X, live 23 Nov*/ "De loonteller op de homepage laat zien van welk maandbedrag hij telt: zo zie je dat het bedrag je maand tot nu toe is.",
     /*iPad fully in view, live 23 Nov*/ "Op de homepage staat de iPad op elk scherm helemaal in beeld.",
     /*hero chips editable, 23 Nov (K_OWN = 317)*/ "per maand",
-    "Tik om je eigen bedrag in te vullen"
+    "Tik om je eigen bedrag in te vullen",
+    /*hero chips editable, live 23 Nov*/ "Op de homepage zijn loon, beleggingen en huis bovenaan je eigen bedragen: tik erop en vul ze in, en alles eronder rekent mee."
   ];
 
   var L = {
@@ -443,7 +444,8 @@
       "The salary counter on the homepage shows the monthly amount it counts towards, so you can see it's your month so far.",
       "On the homepage, the iPad is fully in view on every screen.",
       "per month",
-      "Tap to fill in your own amount"
+      "Tap to fill in your own amount",
+      "On the homepage, the pay, investments and home at the top are your own amounts: tap one, fill it in, and everything below follows."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -657,7 +659,8 @@
       "Der Lohnzähler auf der Startseite zeigt, auf welchen Monatsbetrag er zählt: So siehst du, dass es dein Monat bis jetzt ist.",
       "Auf der Startseite ist das iPad auf jedem Bildschirm vollständig zu sehen.",
       "pro Monat",
-      "Tippen, um deinen eigenen Betrag einzugeben"
+      "Tippen, um deinen eigenen Betrag einzugeben",
+      "Auf der Startseite sind Gehalt, Anlagen und Zuhause oben deine eigenen Beträge: antippen, eintragen, und alles darunter rechnet mit."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -871,7 +874,8 @@
       "Le compteur de salaire de l'accueil indique le montant mensuel vers lequel il compte : tu vois que c'est ton mois jusqu'ici.",
       "Sur l'accueil, l'iPad est entièrement visible sur tous les écrans.",
       "par mois",
-      "Touche pour saisir ton propre montant"
+      "Touche pour saisir ton propre montant",
+      "Sur l'accueil, le salaire, les placements et le logement en haut sont tes propres montants : touche-les, saisis-les, et tout le reste suit."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1085,7 +1089,8 @@
       "El contador de sueldo de la página de inicio muestra hacia qué importe mensual cuenta: así ves que es tu mes hasta ahora.",
       "En la página de inicio, el iPad se ve entero en cualquier pantalla.",
       "al mes",
-      "Toca para poner tu propio importe"
+      "Toca para poner tu propio importe",
+      "En la página de inicio, el sueldo, las inversiones y la casa de arriba son tus propios importes: tócalos, escríbelos y todo lo demás se ajusta."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1299,7 +1304,8 @@
       "Il contatore dello stipendio in homepage mostra verso quale importo mensile conta: così vedi che è il tuo mese finora.",
       "In homepage l'iPad è visibile per intero su ogni schermo.",
       "al mese",
-      "Tocca per inserire il tuo importo"
+      "Tocca per inserire il tuo importo",
+      "In homepage stipendio, investimenti e casa in alto sono i tuoi importi: toccali, inseriscili e tutto il resto si aggiorna."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1513,7 +1519,8 @@
       "O contador de salário da página inicial mostra para qual valor mensal ele conta: assim você vê que é o seu mês até agora.",
       "Na página inicial, o iPad aparece inteiro em qualquer tela.",
       "por mês",
-      "Toque para colocar seu próprio valor"
+      "Toque para colocar seu próprio valor",
+      "Na página inicial, salário, investimentos e casa no topo são seus próprios valores: toque, preencha, e todo o resto acompanha."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1727,7 +1734,8 @@
       "Licznik pensji na stronie głównej pokazuje, do jakiej kwoty miesięcznej liczy: widać, że to twój miesiąc do tej pory.",
       "Na stronie głównej iPad jest w pełni widoczny na każdym ekranie.",
       "miesięcznie",
-      "Dotknij, aby wpisać własną kwotę"
+      "Dotknij, aby wpisać własną kwotę",
+      "Na stronie głównej pensja, inwestycje i dom na górze to twoje własne kwoty: dotknij, wpisz, a reszta się przeliczy."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1941,7 +1949,8 @@
       "Ana sayfadaki maaş sayacı hangi aylık tutara doğru saydığını gösterir: böylece bunun ayın şu ana kadarki kısmı olduğunu görürsün.",
       "Ana sayfada iPad her ekranda tamamen görünür.",
       "aylık",
-      "Kendi tutarını girmek için dokun"
+      "Kendi tutarını girmek için dokun",
+      "Ana sayfada üstteki maaş, yatırımlar ve ev senin kendi tutarların: dokun, gir, gerisi buna göre hesaplanır."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -2155,7 +2164,8 @@
       "Счётчик зарплаты на главной показывает, к какой месячной сумме он идёт: видно, что это твой месяц на сегодня.",
       "На главной iPad теперь целиком виден на любом экране.",
       "в месяц",
-      "Нажми, чтобы ввести свою сумму"
+      "Нажми, чтобы ввести свою сумму",
+      "На главной зарплата, инвестиции и дом наверху — твои собственные суммы: нажми, введи, и всё ниже пересчитается."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2369,7 +2379,8 @@
       "عدّاد الراتب في الصفحة الرئيسية يُظهر المبلغ الشهري الذي يعدّ نحوه، فترى أنه شهرك حتى الآن.",
       "في الصفحة الرئيسية يظهر الآيباد كاملًا على كل شاشة.",
       "شهريًا",
-      "اضغط لإدخال مبلغك الخاص"
+      "اضغط لإدخال مبلغك الخاص",
+      "في الصفحة الرئيسية أصبح الراتب والاستثمارات والمنزل في الأعلى مبالغك أنت: اضغط عليها وأدخلها، وكل ما تحتها يتبعها."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2583,7 +2594,8 @@
       "होमपेज का वेतन काउंटर दिखाता है कि वह किस मासिक राशि तक गिन रहा है, ताकि दिखे कि यह अब तक का आपका महीना है।",
       "होमपेज पर iPad हर स्क्रीन पर पूरा दिखता है।",
       "प्रति माह",
-      "अपनी राशि भरने के लिए टैप करें"
+      "अपनी राशि भरने के लिए टैप करें",
+      "होमपेज पर सबसे ऊपर वेतन, निवेश और घर अब आपकी अपनी राशियाँ हैं: टैप करें, भरें, और नीचे सब कुछ उसी हिसाब से बदलता है।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2797,7 +2809,8 @@
       "Penghitung gaji di beranda menunjukkan jumlah bulanan yang dihitungnya, jadi terlihat bahwa itu bulanmu sejauh ini.",
       "Di beranda, iPad terlihat utuh di setiap layar.",
       "per bulan",
-      "Ketuk untuk mengisi jumlahmu sendiri"
+      "Ketuk untuk mengisi jumlahmu sendiri",
+      "Di beranda, gaji, investasi, dan rumah di atas kini jumlahmu sendiri: ketuk, isi, dan semua di bawahnya ikut menghitung."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -3011,7 +3024,8 @@
       "トップページの給与カウンターに月額が表示され、今月ここまでの金額だとわかるようになりました。",
       "トップページのiPadが、どの画面でも全体が見えるようになりました。",
       "／月",
-      "タップして自分の金額を入力"
+      "タップして自分の金額を入力",
+      "トップページ上部の給与・投資・自宅が自分の金額に。タップして入力すると、下の表示もすべて連動します。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -3225,7 +3239,8 @@
       "홈페이지의 급여 카운터가 월 금액을 함께 보여 줘서, 이번 달 지금까지의 금액임을 알 수 있습니다.",
       "홈페이지의 iPad가 어떤 화면에서도 온전히 보입니다.",
       "/월",
-      "탭해서 내 금액 입력"
+      "탭해서 내 금액 입력",
+      "홈페이지 상단의 급여, 투자, 집이 이제 내 금액입니다. 탭해서 입력하면 아래 모든 것이 함께 바뀝니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3439,7 +3454,8 @@
       "Bộ đếm lương trên trang chủ cho thấy khoản lương tháng nó đang đếm tới, để bạn thấy đó là tháng của bạn tính đến giờ.",
       "Trên trang chủ, iPad hiển thị trọn vẹn trên mọi màn hình.",
       "mỗi tháng",
-      "Chạm để nhập số tiền của bạn"
+      "Chạm để nhập số tiền của bạn",
+      "Trên trang chủ, lương, đầu tư và nhà ở phía trên giờ là số của bạn: chạm, nhập, và mọi thứ bên dưới cập nhật theo."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3653,7 +3669,8 @@
       "首页的工资计数器会显示它对应的月薪，让你看出这是本月到目前为止的金额。",
       "首页上的 iPad 在任何屏幕上都能完整显示。",
       "每月",
-      "点按填写你自己的金额"
+      "点按填写你自己的金额",
+      "首页顶部的工资、投资和房子现在是你自己的金额：点按并填写，下面的一切随之计算。"
     ]
   };
 
