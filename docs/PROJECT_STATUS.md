@@ -33,7 +33,7 @@ Where it stands (20 Nov, night):
   Review account bakery-dazzle2p@icloud.com (Hide My Email, lifetime Premium
   in RevenueCat) + contact filled by Bart. China mainland OFF (app + both
   subscriptions: 174 of 175) — needs ICP filing, security assessment and
-  AIGC declaration before it can go back on. App price (Free) not set yet.
+  AIGC declaration before it can go back on. App price: Free (base US $0).
   NOT submitted: Bart saw irregularities in the iOS app → fix, build 6 first. Screenshots are gitignored; remake with AppStore/shoot.sh.
 - 23 Nov — iOS `ios-port-nov18` at 5bff665 = web parity through 21 Nov:
   fixed costs count as booked (Expected.fixedMonth), work hours while typing
