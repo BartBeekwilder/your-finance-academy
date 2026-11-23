@@ -580,14 +580,28 @@
       const r = stage.getBoundingClientRect();
       const at = (x, y, z) => { const v = new THREE.Vector3(x, y, z || 0).project(camera); return v.z > 1 ? null : { x: ((v.x + 1) / 2) * r.width, y: ((1 - v.y) / 2) * r.height }; };
       let n = 0;
+      const placed = [];
       w.towers.forEach((t, i) => {
         if (t.grow < 0.25) return;
         const p = at(i * SP, (t.top || 0) + 0.4); if (!p) return;
         const d = lbl(tmLbl.years, n++, "mm-lbl" + (i === yearAt ? " mm-lbl-now" : "") + (t.y.forecast ? " mm-lbl-ahead" : ""));
-        setLbl(d, String(t.y.year) + (t.y.forecast ? " · " + T.tmExpected : ""), i === yearAt ? money(t.y.equity) : "", "");
+        placed.push({ d, x: p.x, y: p.y, i });
+        // Only the year in view says "expected": next to each other the labels ran into one another (23 Nov); the others are italic.
+        setLbl(d, String(t.y.year) + (t.y.forecast && i === yearAt ? " · " + T.tmExpected : ""), i === yearAt ? money(t.y.equity) : "", "");
         d.style.transform = "translate(" + p.x + "px," + p.y + "px) translate(-50%,-100%)";
       });
       for (let j = n; j < tmLbl.years.length; j++) tmLbl.years[j].remove();
+      // Towers close together: a year label that would overlap one already
+      // shown steps aside (the year in view first, then outwards from it).
+      placed.sort((a, b) => Math.abs(a.i - yearAt) - Math.abs(b.i - yearAt));
+      const shown = [];
+      for (const q of placed) {
+        const wd = q.d.offsetWidth, ht = q.d.offsetHeight;
+        const box = { l: q.x - wd / 2 - 4, r: q.x + wd / 2 + 4, t: q.y - ht, b: q.y };
+        const hit = shown.some((o) => box.l < o.r && box.r > o.l && box.t < o.b && box.b > o.t);
+        q.d.style.visibility = hit ? "hidden" : "";
+        if (!hit) shown.push(box);
+      }
       // Beside the tower in view: its blocks, nudged apart so none overlap.
       const t = w.towers[yearAt]; let m = 0;
       if (t && t.grow > 0.6) {
