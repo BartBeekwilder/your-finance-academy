@@ -223,7 +223,8 @@
     "Op de homepage boek je een inkomen of uitgave op de iPad en zie je de app meteen meebewegen.",
     "Vaste lasten die deze maand al geboekt zijn, tellen zoals ze geboekt zijn; alleen een vaste last die nog niet geboekt is, rekent met het gemiddelde. De lijst bij de check-in scrolt nu.",
     /*console never cut off, live 23 Nov*/ "Op de homepage valt de live kaart naast de iPad nooit meer half weg op een lager scherm.",
-    /*salary counter: of X this month, 23 Nov*/ "van {a} deze maand"
+    /*salary counter: of X this month, 23 Nov*/ "van {a} deze maand",
+    /*salary counter of X, live 23 Nov*/ "De loonteller op de homepage laat zien van welk maandbedrag hij telt: zo zie je dat het bedrag je maand tot nu toe is."
   ];
 
   var L = {
@@ -435,7 +436,8 @@
       "On the homepage you book an income or expense on the iPad and watch the app move with it.",
       "Fixed costs already booked this month count as booked; only one not booked yet uses the average. The check-in list now scrolls.",
       "On the homepage, the live card next to the iPad is never cut off on a shorter screen.",
-      "of {a} this month"
+      "of {a} this month",
+      "The salary counter on the homepage shows the monthly amount it counts towards, so you can see it's your month so far."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -645,7 +647,8 @@
       "Auf der Startseite buchst du eine Einnahme oder Ausgabe auf dem iPad und siehst die App sofort mitgehen.",
       "Diesen Monat bereits gebuchte Fixkosten zählen wie gebucht; nur noch nicht gebuchte rechnen mit dem Durchschnitt. Die Liste beim Check-in scrollt jetzt.",
       "Auf der Startseite wird die Live-Karte neben dem iPad auf niedrigen Bildschirmen nicht mehr abgeschnitten.",
-      "von {a} diesen Monat"
+      "von {a} diesen Monat",
+      "Der Lohnzähler auf der Startseite zeigt, auf welchen Monatsbetrag er zählt: So siehst du, dass es dein Monat bis jetzt ist."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -855,7 +858,8 @@
       "Sur l'accueil, enregistre un revenu ou une dépense sur l'iPad et regarde l'appli réagir aussitôt.",
       "Les charges fixes déjà enregistrées ce mois comptent telles quelles ; seule une charge pas encore enregistrée utilise la moyenne. La liste du point mensuel défile désormais.",
       "Sur l'accueil, la carte en direct à côté de l'iPad n'est plus coupée sur un écran moins haut.",
-      "sur {a} ce mois-ci"
+      "sur {a} ce mois-ci",
+      "Le compteur de salaire de l'accueil indique le montant mensuel vers lequel il compte : tu vois que c'est ton mois jusqu'ici."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1065,7 +1069,8 @@
       "En la página de inicio registras un ingreso o gasto en el iPad y ves la app reaccionar al instante.",
       "Los gastos fijos ya registrados este mes cuentan tal cual; solo uno aún sin registrar usa la media. La lista del check-in ahora se desplaza.",
       "En la página de inicio, la tarjeta en vivo junto al iPad ya no se corta en pantallas más bajas.",
-      "de {a} este mes"
+      "de {a} este mes",
+      "El contador de sueldo de la página de inicio muestra hacia qué importe mensual cuenta: así ves que es tu mes hasta ahora."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1275,7 +1280,8 @@
       "In homepage registri un'entrata o una spesa sull'iPad e vedi l'app muoversi subito.",
       "Le spese fisse già registrate questo mese contano come registrate; solo una non ancora registrata usa la media. L'elenco del check-in ora scorre.",
       "In homepage la scheda live accanto all'iPad non viene più tagliata sugli schermi più bassi.",
-      "su {a} questo mese"
+      "su {a} questo mese",
+      "Il contatore dello stipendio in homepage mostra verso quale importo mensile conta: così vedi che è il tuo mese finora."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1485,7 +1491,8 @@
       "Na página inicial você registra uma renda ou gasto no iPad e vê o app reagir na hora.",
       "Custos fixos já registrados neste mês contam como registrados; só um ainda não registrado usa a média. A lista do check-in agora rola.",
       "Na página inicial, o cartão ao vivo ao lado do iPad não é mais cortado em telas mais baixas.",
-      "de {a} este mês"
+      "de {a} este mês",
+      "O contador de salário da página inicial mostra para qual valor mensal ele conta: assim você vê que é o seu mês até agora."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1695,7 +1702,8 @@
       "Na stronie głównej zaksięgujesz dochód lub wydatek na iPadzie i od razu zobaczysz, jak aplikacja się zmienia.",
       "Koszty stałe już zaksięgowane w tym miesiącu liczą się tak, jak zaksięgowano; tylko niezaksięgowany używa średniej. Lista przy check-inie teraz się przewija.",
       "Na stronie głównej karta na żywo obok iPada nie jest już ucinana na niższych ekranach.",
-      "z {a} w tym miesiącu"
+      "z {a} w tym miesiącu",
+      "Licznik pensji na stronie głównej pokazuje, do jakiej kwoty miesięcznej liczy: widać, że to twój miesiąc do tej pory."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1905,7 +1913,8 @@
       "Ana sayfada iPad'e gelir ya da harcama kaydedip uygulamanın anında değiştiğini görürsün.",
       "Bu ay zaten kaydedilen sabit giderler kaydedildiği gibi sayılır; yalnızca henüz kaydedilmemiş olan ortalamayı kullanır. Check-in listesi artık kayıyor.",
       "Ana sayfada iPad'in yanındaki canlı kart, kısa ekranlarda artık kesilmiyor.",
-      "bu ay toplam {a}"
+      "bu ay toplam {a}",
+      "Ana sayfadaki maaş sayacı hangi aylık tutara doğru saydığını gösterir: böylece bunun ayın şu ana kadarki kısmı olduğunu görürsün."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -2115,7 +2124,8 @@
       "На главной внеси доход или расход на iPad и сразу увидишь, как меняется приложение.",
       "Постоянные расходы, уже внесённые в этом месяце, считаются как внесены; среднее берётся только для ещё не внесённых. Список при чек-ине теперь прокручивается.",
       "На главной живая карточка рядом с iPad больше не обрезается на невысоких экранах.",
-      "из {a} в этом месяце"
+      "из {a} в этом месяце",
+      "Счётчик зарплаты на главной показывает, к какой месячной сумме он идёт: видно, что это твой месяц на сегодня."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2325,7 +2335,8 @@
       "على الصفحة الرئيسية تسجّل دخلًا أو مصروفًا على الآيباد وترى التطبيق يتغيّر فورًا.",
       "التكاليف الثابتة المسجلة هذا الشهر تُحسب كما سُجّلت؛ وما لم يُسجّل بعد فقط يُحسب بالمتوسط. قائمة المراجعة أصبحت قابلة للتمرير.",
       "في الصفحة الرئيسية لم تعد البطاقة المباشرة بجانب الآيباد تُقتطع على الشاشات الأقصر.",
-      "من {a} هذا الشهر"
+      "من {a} هذا الشهر",
+      "عدّاد الراتب في الصفحة الرئيسية يُظهر المبلغ الشهري الذي يعدّ نحوه، فترى أنه شهرك حتى الآن."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2535,7 +2546,8 @@
       "होमपेज पर iPad में आय या खर्च दर्ज करें और ऐप को तुरंत बदलते देखें।",
       "इस महीने दर्ज तय खर्च दर्ज राशि से गिने जाते हैं; केवल अभी तक दर्ज न हुआ खर्च औसत लेता है। चेक-इन की सूची अब स्क्रॉल होती है।",
       "होमपेज पर iPad के पास वाला लाइव कार्ड छोटी स्क्रीन पर अब कटता नहीं।",
-      "इस महीने के {a} में से"
+      "इस महीने के {a} में से",
+      "होमपेज का वेतन काउंटर दिखाता है कि वह किस मासिक राशि तक गिन रहा है, ताकि दिखे कि यह अब तक का आपका महीना है।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2745,7 +2757,8 @@
       "Di beranda kamu mencatat pemasukan atau pengeluaran di iPad dan langsung melihat aplikasinya bergerak.",
       "Biaya tetap yang sudah dicatat bulan ini dihitung apa adanya; hanya yang belum dicatat memakai rata-rata. Daftar check-in kini bisa digulir.",
       "Di beranda, kartu langsung di samping iPad tidak lagi terpotong di layar yang lebih pendek.",
-      "dari {a} bulan ini"
+      "dari {a} bulan ini",
+      "Penghitung gaji di beranda menunjukkan jumlah bulanan yang dihitungnya, jadi terlihat bahwa itu bulanmu sejauh ini."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2955,7 +2968,8 @@
       "トップページでiPadに収入や支出を記録すると、アプリがすぐに反応します。",
       "今月すでに記録された固定費はその金額で数え、未記録のものだけ平均を使います。チェックインの一覧はスクロールできるようになりました。",
       "トップページで、iPadの横のライブカードが低い画面でも切れなくなりました。",
-      "今月の {a} のうち"
+      "今月の {a} のうち",
+      "トップページの給与カウンターに月額が表示され、今月ここまでの金額だとわかるようになりました。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -3165,7 +3179,8 @@
       "홈페이지에서 iPad에 수입이나 지출을 기록하면 앱이 바로 반응합니다.",
       "이번 달 이미 기록된 고정비는 기록한 대로 계산하고, 아직 기록되지 않은 것만 평균을 씁니다. 체크인 목록이 이제 스크롤됩니다.",
       "홈페이지에서 iPad 옆 라이브 카드가 낮은 화면에서도 더 이상 잘리지 않습니다.",
-      "이번 달 {a} 중"
+      "이번 달 {a} 중",
+      "홈페이지의 급여 카운터가 월 금액을 함께 보여 줘서, 이번 달 지금까지의 금액임을 알 수 있습니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3375,7 +3390,8 @@
       "Trên trang chủ, bạn ghi một khoản thu hoặc chi trên iPad và thấy ứng dụng thay đổi ngay.",
       "Chi phí cố định đã ghi trong tháng tính đúng như đã ghi; chỉ khoản chưa ghi mới dùng mức trung bình. Danh sách check-in giờ cuộn được.",
       "Trên trang chủ, thẻ trực tiếp cạnh iPad không còn bị cắt trên màn hình thấp.",
-      "trên {a} tháng này"
+      "trên {a} tháng này",
+      "Bộ đếm lương trên trang chủ cho thấy khoản lương tháng nó đang đếm tới, để bạn thấy đó là tháng của bạn tính đến giờ."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3585,7 +3601,8 @@
       "在首页给 iPad 记一笔收入或支出，立刻看到应用随之变化。",
       "本月已记录的固定支出按记录金额计算；只有尚未记录的才按平均值。签到列表现在可以滚动。",
       "首页 iPad 旁的实时卡片在较矮的屏幕上不再被截断。",
-      "本月共 {a}"
+      "本月共 {a}",
+      "首页的工资计数器会显示它对应的月薪，让你看出这是本月到目前为止的金额。"
     ]
   };
 
