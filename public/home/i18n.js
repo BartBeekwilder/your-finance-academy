@@ -221,7 +221,8 @@
     "Bedrag",
     /*planet layers, book on the iPad, fixed costs as booked, live 21 Nov*/ "Tik in het zonnestelsel op een planeet: hij opent in lagen en laat zien waaruit hij bestaat, zoals je uitgaven per categorie of elke belegging.",
     "Op de homepage boek je een inkomen of uitgave op de iPad en zie je de app meteen meebewegen.",
-    "Vaste lasten die deze maand al geboekt zijn, tellen zoals ze geboekt zijn; alleen een vaste last die nog niet geboekt is, rekent met het gemiddelde. De lijst bij de check-in scrolt nu."
+    "Vaste lasten die deze maand al geboekt zijn, tellen zoals ze geboekt zijn; alleen een vaste last die nog niet geboekt is, rekent met het gemiddelde. De lijst bij de check-in scrolt nu.",
+    /*console never cut off, live 23 Nov*/ "Op de homepage valt de live kaart naast de iPad nooit meer half weg op een lager scherm."
   ];
 
   var L = {
@@ -431,7 +432,8 @@
       "Amount",
       "Tap a planet in the solar system: it opens in layers and shows what it's made of, like your spending per category or each holding.",
       "On the homepage you book an income or expense on the iPad and watch the app move with it.",
-      "Fixed costs already booked this month count as booked; only one not booked yet uses the average. The check-in list now scrolls."
+      "Fixed costs already booked this month count as booked; only one not booked yet uses the average. The check-in list now scrolls.",
+      "On the homepage, the live card next to the iPad is never cut off on a shorter screen."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -639,7 +641,8 @@
       "Betrag",
       "Tippe im Sonnensystem auf einen Planeten: Er öffnet sich in Schichten und zeigt, woraus er besteht, etwa deine Ausgaben je Kategorie oder jede Anlage.",
       "Auf der Startseite buchst du eine Einnahme oder Ausgabe auf dem iPad und siehst die App sofort mitgehen.",
-      "Diesen Monat bereits gebuchte Fixkosten zählen wie gebucht; nur noch nicht gebuchte rechnen mit dem Durchschnitt. Die Liste beim Check-in scrollt jetzt."
+      "Diesen Monat bereits gebuchte Fixkosten zählen wie gebucht; nur noch nicht gebuchte rechnen mit dem Durchschnitt. Die Liste beim Check-in scrollt jetzt.",
+      "Auf der Startseite wird die Live-Karte neben dem iPad auf niedrigen Bildschirmen nicht mehr abgeschnitten."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -847,7 +850,8 @@
       "Montant",
       "Touche une planète du système solaire : elle s'ouvre en couches et montre de quoi elle est faite, comme tes dépenses par catégorie ou chaque placement.",
       "Sur l'accueil, enregistre un revenu ou une dépense sur l'iPad et regarde l'appli réagir aussitôt.",
-      "Les charges fixes déjà enregistrées ce mois comptent telles quelles ; seule une charge pas encore enregistrée utilise la moyenne. La liste du point mensuel défile désormais."
+      "Les charges fixes déjà enregistrées ce mois comptent telles quelles ; seule une charge pas encore enregistrée utilise la moyenne. La liste du point mensuel défile désormais.",
+      "Sur l'accueil, la carte en direct à côté de l'iPad n'est plus coupée sur un écran moins haut."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1055,7 +1059,8 @@
       "Importe",
       "Toca un planeta del sistema solar: se abre en capas y muestra de qué está hecho, como tus gastos por categoría o cada inversión.",
       "En la página de inicio registras un ingreso o gasto en el iPad y ves la app reaccionar al instante.",
-      "Los gastos fijos ya registrados este mes cuentan tal cual; solo uno aún sin registrar usa la media. La lista del check-in ahora se desplaza."
+      "Los gastos fijos ya registrados este mes cuentan tal cual; solo uno aún sin registrar usa la media. La lista del check-in ahora se desplaza.",
+      "En la página de inicio, la tarjeta en vivo junto al iPad ya no se corta en pantallas más bajas."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1263,7 +1268,8 @@
       "Importo",
       "Tocca un pianeta del sistema solare: si apre a strati e mostra di cosa è fatto, come le spese per categoria o ogni investimento.",
       "In homepage registri un'entrata o una spesa sull'iPad e vedi l'app muoversi subito.",
-      "Le spese fisse già registrate questo mese contano come registrate; solo una non ancora registrata usa la media. L'elenco del check-in ora scorre."
+      "Le spese fisse già registrate questo mese contano come registrate; solo una non ancora registrata usa la media. L'elenco del check-in ora scorre.",
+      "In homepage la scheda live accanto all'iPad non viene più tagliata sugli schermi più bassi."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1471,7 +1477,8 @@
       "Valor",
       "Toque um planeta no sistema solar: ele se abre em camadas e mostra do que é feito, como seus gastos por categoria ou cada investimento.",
       "Na página inicial você registra uma renda ou gasto no iPad e vê o app reagir na hora.",
-      "Custos fixos já registrados neste mês contam como registrados; só um ainda não registrado usa a média. A lista do check-in agora rola."
+      "Custos fixos já registrados neste mês contam como registrados; só um ainda não registrado usa a média. A lista do check-in agora rola.",
+      "Na página inicial, o cartão ao vivo ao lado do iPad não é mais cortado em telas mais baixas."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1679,7 +1686,8 @@
       "Kwota",
       "Dotknij planety w układzie słonecznym: otworzy się warstwami i pokaże, z czego się składa, np. wydatki według kategorii lub każdą inwestycję.",
       "Na stronie głównej zaksięgujesz dochód lub wydatek na iPadzie i od razu zobaczysz, jak aplikacja się zmienia.",
-      "Koszty stałe już zaksięgowane w tym miesiącu liczą się tak, jak zaksięgowano; tylko niezaksięgowany używa średniej. Lista przy check-inie teraz się przewija."
+      "Koszty stałe już zaksięgowane w tym miesiącu liczą się tak, jak zaksięgowano; tylko niezaksięgowany używa średniej. Lista przy check-inie teraz się przewija.",
+      "Na stronie głównej karta na żywo obok iPada nie jest już ucinana na niższych ekranach."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1887,7 +1895,8 @@
       "Tutar",
       "Güneş sisteminde bir gezegene dokun: katmanlara ayrılır ve neyden oluştuğunu gösterir, ör. kategori bazında harcamalar ya da her yatırım.",
       "Ana sayfada iPad'e gelir ya da harcama kaydedip uygulamanın anında değiştiğini görürsün.",
-      "Bu ay zaten kaydedilen sabit giderler kaydedildiği gibi sayılır; yalnızca henüz kaydedilmemiş olan ortalamayı kullanır. Check-in listesi artık kayıyor."
+      "Bu ay zaten kaydedilen sabit giderler kaydedildiği gibi sayılır; yalnızca henüz kaydedilmemiş olan ortalamayı kullanır. Check-in listesi artık kayıyor.",
+      "Ana sayfada iPad'in yanındaki canlı kart, kısa ekranlarda artık kesilmiyor."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -2095,7 +2104,8 @@
       "Сумма",
       "Нажми на планету в солнечной системе: она раскроется слоями и покажет, из чего состоит, например расходы по категориям или каждую инвестицию.",
       "На главной внеси доход или расход на iPad и сразу увидишь, как меняется приложение.",
-      "Постоянные расходы, уже внесённые в этом месяце, считаются как внесены; среднее берётся только для ещё не внесённых. Список при чек-ине теперь прокручивается."
+      "Постоянные расходы, уже внесённые в этом месяце, считаются как внесены; среднее берётся только для ещё не внесённых. Список при чек-ине теперь прокручивается.",
+      "На главной живая карточка рядом с iPad больше не обрезается на невысоких экранах."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2303,7 +2313,8 @@
       "المبلغ",
       "اضغط على كوكب في النظام الشمسي: ينفتح طبقات ويُظهر ممّ يتكوّن، مثل نفقاتك حسب الفئة أو كل استثمار.",
       "على الصفحة الرئيسية تسجّل دخلًا أو مصروفًا على الآيباد وترى التطبيق يتغيّر فورًا.",
-      "التكاليف الثابتة المسجلة هذا الشهر تُحسب كما سُجّلت؛ وما لم يُسجّل بعد فقط يُحسب بالمتوسط. قائمة المراجعة أصبحت قابلة للتمرير."
+      "التكاليف الثابتة المسجلة هذا الشهر تُحسب كما سُجّلت؛ وما لم يُسجّل بعد فقط يُحسب بالمتوسط. قائمة المراجعة أصبحت قابلة للتمرير.",
+      "في الصفحة الرئيسية لم تعد البطاقة المباشرة بجانب الآيباد تُقتطع على الشاشات الأقصر."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2511,7 +2522,8 @@
       "राशि",
       "सौरमंडल में किसी ग्रह पर टैप करें: वह परतों में खुलकर दिखाता है कि वह किससे बना है, जैसे श्रेणीवार खर्च या हर निवेश।",
       "होमपेज पर iPad में आय या खर्च दर्ज करें और ऐप को तुरंत बदलते देखें।",
-      "इस महीने दर्ज तय खर्च दर्ज राशि से गिने जाते हैं; केवल अभी तक दर्ज न हुआ खर्च औसत लेता है। चेक-इन की सूची अब स्क्रॉल होती है।"
+      "इस महीने दर्ज तय खर्च दर्ज राशि से गिने जाते हैं; केवल अभी तक दर्ज न हुआ खर्च औसत लेता है। चेक-इन की सूची अब स्क्रॉल होती है।",
+      "होमपेज पर iPad के पास वाला लाइव कार्ड छोटी स्क्रीन पर अब कटता नहीं।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2719,7 +2731,8 @@
       "Jumlah",
       "Ketuk planet di tata surya: ia terbuka berlapis dan menunjukkan isinya, seperti pengeluaran per kategori atau tiap investasi.",
       "Di beranda kamu mencatat pemasukan atau pengeluaran di iPad dan langsung melihat aplikasinya bergerak.",
-      "Biaya tetap yang sudah dicatat bulan ini dihitung apa adanya; hanya yang belum dicatat memakai rata-rata. Daftar check-in kini bisa digulir."
+      "Biaya tetap yang sudah dicatat bulan ini dihitung apa adanya; hanya yang belum dicatat memakai rata-rata. Daftar check-in kini bisa digulir.",
+      "Di beranda, kartu langsung di samping iPad tidak lagi terpotong di layar yang lebih pendek."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -2927,7 +2940,8 @@
       "金額",
       "太陽系の惑星をタップすると、層に分かれて中身が見えます。カテゴリ別の支出や各投資など。",
       "トップページでiPadに収入や支出を記録すると、アプリがすぐに反応します。",
-      "今月すでに記録された固定費はその金額で数え、未記録のものだけ平均を使います。チェックインの一覧はスクロールできるようになりました。"
+      "今月すでに記録された固定費はその金額で数え、未記録のものだけ平均を使います。チェックインの一覧はスクロールできるようになりました。",
+      "トップページで、iPadの横のライブカードが低い画面でも切れなくなりました。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -3135,7 +3149,8 @@
       "금액",
       "태양계에서 행성을 탭하면 층으로 열려 무엇으로 이루어졌는지 보여 줍니다. 카테고리별 지출이나 각 투자처럼요.",
       "홈페이지에서 iPad에 수입이나 지출을 기록하면 앱이 바로 반응합니다.",
-      "이번 달 이미 기록된 고정비는 기록한 대로 계산하고, 아직 기록되지 않은 것만 평균을 씁니다. 체크인 목록이 이제 스크롤됩니다."
+      "이번 달 이미 기록된 고정비는 기록한 대로 계산하고, 아직 기록되지 않은 것만 평균을 씁니다. 체크인 목록이 이제 스크롤됩니다.",
+      "홈페이지에서 iPad 옆 라이브 카드가 낮은 화면에서도 더 이상 잘리지 않습니다."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3343,7 +3358,8 @@
       "Số tiền",
       "Chạm vào một hành tinh trong hệ mặt trời: nó mở ra thành các lớp và cho thấy thành phần, như chi tiêu theo danh mục hay từng khoản đầu tư.",
       "Trên trang chủ, bạn ghi một khoản thu hoặc chi trên iPad và thấy ứng dụng thay đổi ngay.",
-      "Chi phí cố định đã ghi trong tháng tính đúng như đã ghi; chỉ khoản chưa ghi mới dùng mức trung bình. Danh sách check-in giờ cuộn được."
+      "Chi phí cố định đã ghi trong tháng tính đúng như đã ghi; chỉ khoản chưa ghi mới dùng mức trung bình. Danh sách check-in giờ cuộn được.",
+      "Trên trang chủ, thẻ trực tiếp cạnh iPad không còn bị cắt trên màn hình thấp."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3551,7 +3567,8 @@
       "金额",
       "在太阳系里点一颗行星：它会分层打开，显示由什么组成，比如各类别的支出或每项投资。",
       "在首页给 iPad 记一笔收入或支出，立刻看到应用随之变化。",
-      "本月已记录的固定支出按记录金额计算；只有尚未记录的才按平均值。签到列表现在可以滚动。"
+      "本月已记录的固定支出按记录金额计算；只有尚未记录的才按平均值。签到列表现在可以滚动。",
+      "首页 iPad 旁的实时卡片在较矮的屏幕上不再被截断。"
     ]
   };
 
