@@ -19,6 +19,17 @@ Where it stands (20 Nov, night):
   sun section #zon), report "No category" row, data tests.
 - Bart's data: clean again (online and on the Mac) after the 19 Nov
   incidents; wipe guard (safeMerge) live on web and in the iOS code.
+- 23 Nov late — iOS (ios-port-nov18, NOT built/uploaded yet; tests with UI
+  tests were still running, unconfirmed): calc rules = web everywhere
+  (advances out, spread parts, paid-off loan not 'still to come', Expenses
+  '% of income' against expected income — the iPad's 133%); time machine
+  shows past years (YearHistory.swift keeps yearSnapshots/yearCategoryTotals/
+  yearIncomeTotals from each sync; MoneyModelData.past = web timeline());
+  'expected' only on the year in view + overlapping year labels hide
+  (moneymodel.js, web too); growth % on liquidity rows and equity chips
+  (web + iOS). Web on web-app, NOT live. Still to do: sign-in line 'one
+  account for app and website' (17 languages), touch highlights in charts,
+  then build 6.
 - 23 Nov evening — App Store Connect (version 1.0) filled: texts in 17
   languages (AppStore/metadata.json), subscription group + yearly/monthly in
   17 languages, screenshots (6 iPhone 6.3" 1206x2622 + 6 iPad 13") for en,

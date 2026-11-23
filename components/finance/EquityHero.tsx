@@ -1,6 +1,6 @@
 "use client";
 
-import { t } from "@/lib/i18n";
+import { intlLocale, t } from "@/lib/i18n";
 import { useState } from "react";
 import { money } from "@/lib/finance/format";
 import { useTickerNow } from "@/lib/motion";
@@ -75,9 +75,12 @@ export default function EquityHero({
     .join(" ");
   const tip = hover ?? null;
 
-  const chip = (d: number, text: string) => (
+  // With the growth against where it stood then (Bart, 23 Nov); only from
+  // a positive start, else a % says nothing.
+  const chip = (d: number, text: string, from: number) => (
     <span className="pf-eq-chip" data-up={d >= 0}>
-      <b className="pf-rounded">{money(d, currency, { signed: true })}</b> {text}
+      <b className="pf-rounded">{money(d, currency, { signed: true })}</b>
+      {from > 1 && <b className="pf-rounded"> ({d >= 0 ? "+" : ""}{new Intl.NumberFormat(intlLocale(), { style: "percent", maximumFractionDigits: Math.abs(d / from) < 0.1 ? 1 : 0 }).format(d / from)})</b>} {text}
     </span>
   );
 
@@ -89,8 +92,8 @@ export default function EquityHero({
           {isLive ? <LiveAmount value={liveValue} currency={currency} size="1em" roll={!tweening} /> : money(shown, currency)}
         </div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {prev !== null && chip(value - prev, t("since last month"))}
-          {sel > 0 && chip(value - first, t("since January"))}
+          {prev !== null && chip(value - prev, t("since last month"), prev)}
+          {sel > 0 && chip(value - first, t("since January"), first)}
         </div>
         <div style={{ display: "grid", gap: 5, maxWidth: 360, marginTop: 4 }}>
           <div className="pf-eq-share">
