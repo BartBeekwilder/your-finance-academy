@@ -4998,7 +4998,7 @@ span.pf-cmp-chip { cursor: default; }
   .pf-pf-right { width: auto; max-width: 44%; min-width: 0; }
   .pf-pf-right > * { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
   .pf-pf-res-pct { display: block; text-align: right; }
-  .pf-pf-dot { display: none; }
+  .pf-pf-sep { display: none; }
   /* Six periods don't fit next to the title: a full-width row that scrolls inside itself. */
   .pf-pf-list-head .pf-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
   .pf-pf-list-head .pf-seg::-webkit-scrollbar { display: none; }
