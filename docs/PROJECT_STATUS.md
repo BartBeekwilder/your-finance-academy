@@ -26,8 +26,11 @@ Where it stands (20 Nov, night):
   available in <language>" in their description. Build 5 uploaded (iPad
   money-model fix) and attached to version 1.0 (saved).
   Privacy label PUBLISHED 23 Nov (6 types, app functionality, linked, no
-  tracking; privacy URL in all 17 languages). Still open: review contact
-  + review account (Bart), age rating/category check, then submit (only on
+  tracking; privacy URL in all 17 languages). Category Finance +
+  Productivity; age rating 16+ (terms say 16+); content rights: third-party
+  content with rights. Subscriptions: €99/$99/£89 yearly, €14.99/$14.99/£12.99
+  monthly, first week free, review screenshot = paywall (debug `-paywall`).
+  Still open: review contact + review account (Bart), then submit (only on
   Bart's OK). Screenshots are gitignored; remake with AppStore/shoot.sh.
 - 23 Nov — iOS `ios-port-nov18` at 5bff665 = web parity through 21 Nov:
   fixed costs count as booked (Expected.fixedMonth), work hours while typing
