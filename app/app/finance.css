@@ -4797,6 +4797,8 @@ span.pf-cmp-chip { cursor: default; }
 .pf-nwc-stats[data-split] .pf-nwc-col:nth-child(n + 13) { transition-delay: 0.14s; }
 .pf-nwc-stat-label { color: var(--pf-ink-2); justify-self: start; }
 .pf-nwc-stats b { font-weight: 600; }
+/* Growth over the period, small and quiet beside the amount. */
+.pf-nwc-pct { margin-left: 6px; font-size: 0.72em; font-weight: 500; color: var(--pf-ink-2); }
 .pf-nwc-split { font-size: 0.68rem; }
 .pf-nwc-stats[data-split] .pf-nwc-split { opacity: 0.85; }
 @media (max-width: 560px) { .pf-nwc-stats { width: 100%; } .pf-nwc-path-foot span { display: grid; } .pf-nwc-path-foot b { margin-left: 0; } }

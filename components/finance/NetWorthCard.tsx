@@ -111,9 +111,9 @@ export default function NetWorthCard({
               <span className="pf-nwc-head pf-nwc-col">{t("Investments")}</span>
             </>
           )}
-          <Stat label={t("This Day")} work={dayDelta} invest={market?.day} split={split && canSplit} currency={currency} />
-          <Stat label={t("This Month")} work={monthDelta} invest={market?.month} split={split && canSplit} currency={currency} />
-          <Stat label={t("This Year")} work={yearDelta} invest={market?.year} split={split && canSplit} currency={currency} />
+          <Stat label={t("This Day")} work={dayDelta} invest={market?.day} split={split && canSplit} currency={currency} live={live} />
+          <Stat label={t("This Month")} work={monthDelta} invest={market?.month} split={split && canSplit} currency={currency} live={live} />
+          <Stat label={t("This Year")} work={yearDelta} invest={market?.year} split={split && canSplit} currency={currency} live={live} />
         </button>
       </div>
 
@@ -123,13 +123,20 @@ export default function NetWorthCard({
   );
 }
 
-function Stat({ label, work, invest, split, currency }: { label: string; work: number; invest?: number; split: boolean; currency: string }) {
+function Stat({ label, work, invest, split, currency, live }: { label: string; work: number; invest?: number; split: boolean; currency: string; live: number }) {
   const value = work + (invest ?? 0);
   const tone = (v: number) => (v >= 0 ? "var(--pf-green)" : "var(--pf-orange)");
+  // Growth over the period: the change against where it stood at its start
+  // (Bart, 23 Nov). Only from a positive start, else a % says nothing.
+  const start = live - value;
+  const pct = start > 1 ? value / start : null;
   return (
     <>
       <span className="pf-nwc-stat-label">{label}</span>
-      <b className="pf-rounded" style={{ color: tone(value) }}>{money(value, currency, { signed: true })}</b>
+      <b className="pf-rounded" style={{ color: tone(value) }}>
+        {money(value, currency, { signed: true })}
+        {pct !== null && <small className="pf-nwc-pct">{pct >= 0 ? "+" : ""}{new Intl.NumberFormat(intlLocale(), { style: "percent", maximumFractionDigits: Math.abs(pct) < 0.1 ? 1 : 0 }).format(pct)}</small>}
+      </b>
       {invest !== undefined && (
         <>
           <span className="pf-rounded pf-nwc-split pf-nwc-col" aria-hidden={!split} style={{ color: tone(work) }}>{money(work, currency, { signed: true })}</span>
