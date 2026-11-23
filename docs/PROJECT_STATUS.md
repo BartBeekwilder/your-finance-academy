@@ -25,7 +25,8 @@ Where it stands (20 Nov, night):
   nl, de, fr, es, it, pt-BR, ja, zh-Hans; the other 8 languages say "fully
   available in <language>" in their description. Build 5 uploaded (iPad
   money-model fix) and attached to version 1.0 (saved).
-  Still open: privacy label (answers in AppStore/review.md), review contact
+  Privacy label PUBLISHED 23 Nov (6 types, app functionality, linked, no
+  tracking; privacy URL in all 17 languages). Still open: review contact
   + review account (Bart), age rating/category check, then submit (only on
   Bart's OK). Screenshots are gitignored; remake with AppStore/shoot.sh.
 - 23 Nov — iOS `ios-port-nov18` at 5bff665 = web parity through 21 Nov:
