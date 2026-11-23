@@ -26,10 +26,9 @@ Where it stands (20 Nov, night):
   expected_back), the liquidity tile on Year (1 Jan → month ends → now →
   year end), one Month/Year for the whole dashboard, check-in list 5–40
   scrolling, Quick Add translated; 85/85 tests; checked in the simulator.
-  BUILD 4 IS ARCHIVED (scratchpad PF-build4.xcarchive) but NOT UPLOADED:
-  Xcode's account token expired ("missing Xcode-Token") — Bart signs in
-  again in Xcode › Settings › Accounts, then run xcodebuild -exportArchive
-  (method app-store-connect, destination upload, team 3R533T2A74).
+  BUILD 4 UPLOADED to App Store Connect / TestFlight 23 Nov 12:22 (after
+  Bart signed in to Xcode again). Apple's warning: from April 2027 uploads
+  need the iOS 27 SDK (Xcode 27) — not possible on this 2018 MacBook.
 - iOS `ios-port-nov18`: TestFlight build 3 uploaded 19 Nov 22:56 (projected
   income fix, sign-in choice cards, layout fixes; 78/78 tests). Once Apple
   has processed it: install from TestFlight on iPhone/iPad, sign in, choose
