@@ -12,6 +12,7 @@ import { createContext, useCallback, useContext, useEffect, useLayoutEffect, use
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { withAdvances } from "@/lib/finance/advances";
 import { buildDemoData } from "@/lib/finance/demo";
+import { live, num, salaryTest } from "@/lib/finance/calc";
 import type { Holding, Loan, FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
 import SignIn, { RECOVERY_KEY } from "./SignIn";
@@ -741,6 +742,46 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   // market value (for the balance sheet).
   const { market, settled: marketSettled } = useMarket(current);
   const shown = useMemo(() => (current ? { ...withSpread(withAdvances(current)), market } : null), [current, market]);
+
+  // The homepage's chips (your pay, investments, home) reshape the demo on
+  // its iPad, so a visitor sees the whole app with their own numbers (Bart,
+  // 23 Nov). Pay: the expected net pay, this month's income record and salary;
+  // home: the first property's value; investments: every holding scaled so
+  // the total at today's prices is the visitor's amount.
+  const isDemo = phase.kind === "ready" && phase.source === "demo";
+  useEffect(() => {
+    if (!isDemo || window.self === window.top) return;
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== window.location.origin || e.data?.type !== "pf-demo-set") return;
+      const v = Number(e.data.value), kind = e.data.kind;
+      if (!(v >= 0) || v > 1e9) return;
+      update((d) => {
+        if (kind === "pay") {
+          const now = new Date(), key = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+          const salary = salaryTest(d);
+          return {
+            ...d,
+            profile: { ...d.profile, expected_net_monthly: v.toFixed(2) },
+            incomeRecords: d.incomeRecords.map((r) => (r.month.slice(0, 7) === key ? { ...r, net_amount: v.toFixed(2) } : r)),
+            transactions: d.transactions.map((t) => (t.type === "income" && !t.deleted_at && t.date.slice(0, 7) === key && salary(t) ? { ...t, amount: v.toFixed(2) } : t)),
+          };
+        }
+        if (kind === "home") {
+          const first = live(d.properties).sort((a, b) => a.sort_order - b.sort_order)[0];
+          return first ? { ...d, properties: d.properties.map((x) => (x.id === first.id ? { ...x, value: v.toFixed(2) } : x)) } : d;
+        }
+        if (kind === "inv") {
+          const total = live(d.holdings).reduce((t, h) => t + (market?.[h.id]?.at(-1)?.[1] ?? num(h.cost_basis)), 0);
+          if (!(total > 0)) return d;
+          const f = v / total;
+          return { ...d, holdings: d.holdings.map((h) => (h.deleted_at ? h : { ...h, quantity: String(num(h.quantity) * f), cost_basis: h.cost_basis == null ? null : String(num(h.cost_basis) * f) })) };
+        }
+        return d;
+      });
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [isDemo, update, market]);
 
   const addCategory = useCallback(
     async (c: NewCategory) => {
