@@ -19,6 +19,15 @@ Where it stands (20 Nov, night):
   sun section #zon), report "No category" row, data tests.
 - Bart's data: clean again (online and on the Mac) after the 19 Nov
   incidents; wipe guard (safeMerge) live on web and in the iOS code.
+- 23 Nov evening — App Store Connect (version 1.0) filled: texts in 17
+  languages (AppStore/metadata.json), subscription group + yearly/monthly in
+  17 languages, screenshots (6 iPhone 6.3" 1206x2622 + 6 iPad 13") for en,
+  nl, de, fr, es, it, pt-BR, ja, zh-Hans; the other 8 languages say "fully
+  available in <language>" in their description. Build 5 uploaded (iPad
+  money-model fix); the version still points at build 4 → switch to 5.
+  Still open: privacy label (answers in AppStore/review.md), review contact
+  + review account (Bart), age rating/category check, then submit (only on
+  Bart's OK). Screenshots are gitignored; remake with AppStore/shoot.sh.
 - 23 Nov — iOS `ios-port-nov18` at 5bff665 = web parity through 21 Nov:
   fixed costs count as booked (Expected.fixedMonth), work hours while typing
   an expense, advances with an expected-back date + dashboard card + a
