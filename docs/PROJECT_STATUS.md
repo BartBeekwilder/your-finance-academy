@@ -30,8 +30,11 @@ Where it stands (20 Nov, night):
   Productivity; age rating 16+ (terms say 16+); content rights: third-party
   content with rights. Subscriptions: €99/$99/£89 yearly, €14.99/$14.99/£12.99
   monthly, first week free, review screenshot = paywall (debug `-paywall`).
-  Still open: review contact + review account (Bart), then submit (only on
-  Bart's OK). Screenshots are gitignored; remake with AppStore/shoot.sh.
+  Review account bakery-dazzle2p@icloud.com (Hide My Email, lifetime Premium
+  in RevenueCat) + contact filled by Bart. China mainland OFF (app + both
+  subscriptions: 174 of 175) — needs ICP filing, security assessment and
+  AIGC declaration before it can go back on. App price (Free) not set yet.
+  NOT submitted: Bart saw irregularities in the iOS app → fix, build 6 first. Screenshots are gitignored; remake with AppStore/shoot.sh.
 - 23 Nov — iOS `ios-port-nov18` at 5bff665 = web parity through 21 Nov:
   fixed costs count as booked (Expected.fixedMonth), work hours while typing
   an expense, advances with an expected-back date + dashboard card + a
