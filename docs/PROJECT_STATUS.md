@@ -24,7 +24,7 @@ Where it stands (20 Nov, night):
   17 languages, screenshots (6 iPhone 6.3" 1206x2622 + 6 iPad 13") for en,
   nl, de, fr, es, it, pt-BR, ja, zh-Hans; the other 8 languages say "fully
   available in <language>" in their description. Build 5 uploaded (iPad
-  money-model fix); the version still points at build 4 → switch to 5.
+  money-model fix) and attached to version 1.0 (saved).
   Still open: privacy label (answers in AppStore/review.md), review contact
   + review account (Bart), age rating/category check, then submit (only on
   Bart's OK). Screenshots are gitignored; remake with AppStore/shoot.sh.
