@@ -658,12 +658,16 @@
         ev: [{ label: T.cash, value: m.st.cash }, { label: T.investments, value: m.st.invest }, { label: T.homeOwn || T.home, value: own }],
       }[key] || [];
       const list = parts.filter((x) => x.value > 0.5).sort((a, b) => b.value - a.value);
-      return list.length ? list : [{ label: key === "ev" ? T.equity : (world.grav.P.find((p) => p.m.userData.key === key) || { m: { userData: { label: "" } } }).m.userData.label, value: 1 }];
+      if (list.length) return list;
+      // No parts known: the planet as one layer, at its own amount (24 Nov: it said "€ 1").
+      const whole = { inkomen: m.inT * m.n, uitgaven: (m.fixT + m.varT) * m.n, aflossing: m.repay * m.n, bel: m.st.invest, huis: m.st.home, schuld: m.st.mortgage + m.st.other, ev: m.equity }[key];
+      return [{ label: key === "ev" ? T.equity : (world.grav.P.find((p) => p.m.userData.key === key) || { m: { userData: { label: "" } } }).m.userData.label, value: whole > 0 ? whole : 1 }];
     }
     function openFocus(obj) {
       closeFocus(true);
       const key = obj.userData.key, color = key === "ev" ? 0xffc94a : obj.material.color.getHex();
       focusLayers = layersFor(key, model);
+      hint.hidden = true; // the parts' list takes the corner
       const total = focusLayers.reduce((a, x) => a + x.value, 0) || 1;
       focusGroup = new THREE.Group();
       // Core first (the largest part), shells around it; radius by area so thin parts still show.
@@ -684,7 +688,7 @@
     }
     function closeFocus(now) {
       if (focusGroup && now) { world.grav.s.remove(focusGroup); focusGroup = null; }
-      focus = null; back.hidden = true;
+      focus = null; back.hidden = true; hint.hidden = false;
     }
     back.addEventListener("click", () => closeFocus(false));
     function stepFocus(dt) {

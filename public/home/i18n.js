@@ -234,7 +234,8 @@
     /*growth %, live 24 Nov*/ "Liquiditeit en eigen vermogen laten nu ook zien hoeveel procent ze gegroeid zijn: vandaag, deze maand, dit jaar en sinds januari.",
     /*time machine labels, live 24 Nov*/ "Tijdmachine: alleen het jaar dat je bekijkt zegt nog 'verwacht', en de jaartallen boven de torens lopen niet meer door elkaar.",
     /*one account, live 24 Nov*/ "Bij het inloggen staat erbij dat je met hetzelfde account ook inlogt in de app op iPhone, iPad en Mac.",
-    /*homepage iPad tour, live 24 Nov*/ "De iPad bovenaan de homepage laat de app nu vanzelf zien: hij gaat elke paar seconden naar het volgende tabblad."
+    /*homepage iPad tour, live 24 Nov*/ "De iPad bovenaan de homepage laat de app nu vanzelf zien: hij gaat elke paar seconden naar het volgende tabblad.",
+    /*solar system example parts, 24 Nov (K_ZON = 326)*/ "Salaris", "Vakantiegeld", "Bijverdienste", "Wonen", "Boodschappen", "Vervoer", "Uit eten", "Energie", "Verzekeringen", "Kleding", "Abonnementen", "Overig", "Annuïteitendeel", "Lineair deel", "Wereldwijd aandelen-ETF", "Bitcoin", "Goud", "Studieschuld", "Autolening"
   ];
 
   var L = {
@@ -457,7 +458,8 @@
       "Liquidity and equity now also show how much they grew in percent: today, this month, this year and since January.",
       "Time machine: only the year you're looking at still says 'expected', and the years above the towers no longer run into each other.",
       "Signing in now says that the same account also signs you in to the app on iPhone, iPad and Mac.",
-      "The iPad at the top of the homepage now shows the app by itself: it moves to the next tab every few seconds."
+      "The iPad at the top of the homepage now shows the app by itself: it moves to the next tab every few seconds.",
+      "Salary", "Holiday pay", "Side income", "Housing", "Groceries", "Transport", "Dining out", "Energy", "Insurance", "Clothing", "Subscriptions", "Other", "Annuity part", "Linear part", "Global equity ETF", "Bitcoin", "Gold", "Student loan", "Car loan"
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -678,7 +680,8 @@
       "Liquidität und Eigenkapital zeigen jetzt auch, um wie viel Prozent sie gewachsen sind: heute, diesen Monat, dieses Jahr und seit Januar.",
       "Zeitmaschine: Nur das Jahr, das du ansiehst, sagt noch „erwartet“, und die Jahreszahlen über den Türmen überlappen nicht mehr.",
       "Bei der Anmeldung steht jetzt, dass du dich mit demselben Konto auch in der App auf iPhone, iPad und Mac anmeldest.",
-      "Das iPad oben auf der Startseite zeigt die App jetzt von selbst: Alle paar Sekunden wechselt es zum nächsten Tab."
+      "Das iPad oben auf der Startseite zeigt die App jetzt von selbst: Alle paar Sekunden wechselt es zum nächsten Tab.",
+      "Gehalt", "Urlaubsgeld", "Nebeneinkommen", "Wohnen", "Lebensmittel", "Mobilität", "Essen gehen", "Energie", "Versicherungen", "Kleidung", "Abos", "Sonstiges", "Annuitätenteil", "Tilgungsteil linear", "Welt-Aktien-ETF", "Bitcoin", "Gold", "Studienkredit", "Autokredit"
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -899,7 +902,8 @@
       "Les liquidités et les fonds propres montrent maintenant aussi leur croissance en pourcentage : aujourd’hui, ce mois-ci, cette année et depuis janvier.",
       "Machine à remonter le temps : seule l’année affichée indique encore « prévu », et les années au-dessus des tours ne se chevauchent plus.",
       "La connexion indique désormais que le même compte vous connecte aussi à l’app sur iPhone, iPad et Mac.",
-      "L’iPad en haut de la page d’accueil montre maintenant l’app tout seul : il passe à l’onglet suivant toutes les quelques secondes."
+      "L’iPad en haut de la page d’accueil montre maintenant l’app tout seul : il passe à l’onglet suivant toutes les quelques secondes.",
+      "Salaire", "Prime de vacances", "Revenu d’appoint", "Logement", "Courses", "Transport", "Restaurants", "Énergie", "Assurances", "Vêtements", "Abonnements", "Autre", "Tranche annuités", "Tranche linéaire", "ETF actions monde", "Bitcoin", "Or", "Prêt étudiant", "Prêt auto"
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1120,7 +1124,8 @@
       "La liquidez y el patrimonio muestran ahora también cuánto han crecido en porcentaje: hoy, este mes, este año y desde enero.",
       "Máquina del tiempo: solo el año que miras dice aún «previsto», y los años sobre las torres ya no se superponen.",
       "Al iniciar sesión se indica ahora que la misma cuenta también sirve para la app en iPhone, iPad y Mac.",
-      "El iPad en la parte superior de la página de inicio ahora muestra la app por sí solo: pasa a la siguiente pestaña cada pocos segundos."
+      "El iPad en la parte superior de la página de inicio ahora muestra la app por sí solo: pasa a la siguiente pestaña cada pocos segundos.",
+      "Salario", "Paga de vacaciones", "Ingreso extra", "Vivienda", "Supermercado", "Transporte", "Comer fuera", "Energía", "Seguros", "Ropa", "Suscripciones", "Otros", "Tramo de anualidad", "Tramo lineal", "ETF de acciones globales", "Bitcoin", "Oro", "Préstamo estudiantil", "Préstamo del coche"
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1341,7 +1346,8 @@
       "Liquidità e patrimonio netto mostrano ora anche di quanto sono cresciuti in percentuale: oggi, questo mese, quest’anno e da gennaio.",
       "Macchina del tempo: solo l’anno che stai guardando dice ancora «previsto», e gli anni sopra le torri non si sovrappongono più.",
       "All’accesso ora c’è scritto che lo stesso account vale anche per l’app su iPhone, iPad e Mac.",
-      "L’iPad in cima alla homepage ora mostra l’app da solo: passa alla scheda successiva ogni pochi secondi."
+      "L’iPad in cima alla homepage ora mostra l’app da solo: passa alla scheda successiva ogni pochi secondi.",
+      "Stipendio", "Indennità ferie", "Entrata extra", "Casa", "Spesa", "Trasporti", "Cene fuori", "Energia", "Assicurazioni", "Abbigliamento", "Abbonamenti", "Altro", "Quota ad annualità", "Quota lineare", "ETF azionario globale", "Bitcoin", "Oro", "Prestito studentesco", "Prestito auto"
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1562,7 +1568,8 @@
       "Liquidez e patrimônio agora também mostram quanto cresceram em porcentagem: hoje, este mês, este ano e desde janeiro.",
       "Máquina do tempo: só o ano que você está vendo ainda diz «previsto», e os anos acima das torres não se sobrepõem mais.",
       "Ao entrar, agora aparece que a mesma conta também vale para o app no iPhone, iPad e Mac.",
-      "O iPad no topo da página inicial agora mostra o app sozinho: ele passa para a próxima aba a cada poucos segundos."
+      "O iPad no topo da página inicial agora mostra o app sozinho: ele passa para a próxima aba a cada poucos segundos.",
+      "Salário", "Adicional de férias", "Renda extra", "Moradia", "Mercado", "Transporte", "Comer fora", "Energia", "Seguros", "Roupas", "Assinaturas", "Outros", "Parcela price", "Parcela SAC", "ETF de ações globais", "Bitcoin", "Ouro", "Financiamento estudantil", "Financiamento do carro"
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1783,7 +1790,8 @@
       "Płynność i kapitał własny pokazują teraz też procentowy wzrost: dziś, w tym miesiącu, w tym roku i od stycznia.",
       "Wehikuł czasu: tylko oglądany rok ma jeszcze dopisek „prognoza”, a lata nad wieżami już na siebie nie nachodzą.",
       "Przy logowaniu widać teraz, że tym samym kontem zalogujesz się też do aplikacji na iPhonie, iPadzie i Macu.",
-      "iPad na górze strony głównej pokazuje teraz aplikację sam: co kilka sekund przechodzi do następnej karty."
+      "iPad na górze strony głównej pokazuje teraz aplikację sam: co kilka sekund przechodzi do następnej karty.",
+      "Pensja", "Dodatek urlopowy", "Dochód dodatkowy", "Mieszkanie", "Zakupy spożywcze", "Transport", "Jedzenie na mieście", "Energia", "Ubezpieczenia", "Ubrania", "Subskrypcje", "Inne", "Część annuitetowa", "Część liniowa", "Globalny ETF akcyjny", "Bitcoin", "Złoto", "Kredyt studencki", "Kredyt na auto"
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -2004,7 +2012,8 @@
       "Likidite ve öz sermaye artık yüzde olarak ne kadar büyüdüklerini de gösteriyor: bugün, bu ay, bu yıl ve ocaktan beri.",
       "Zaman makinesi: yalnızca baktığınız yıl hâlâ 'beklenen' diyor ve kulelerin üstündeki yıllar artık üst üste binmiyor.",
       "Giriş ekranı artık aynı hesapla iPhone, iPad ve Mac'teki uygulamaya da giriş yapabileceğinizi söylüyor.",
-      "Ana sayfanın üstündeki iPad artık uygulamayı kendiliğinden gösteriyor: birkaç saniyede bir sonraki sekmeye geçiyor."
+      "Ana sayfanın üstündeki iPad artık uygulamayı kendiliğinden gösteriyor: birkaç saniyede bir sonraki sekmeye geçiyor.",
+      "Maaş", "Tatil ödeneği", "Ek gelir", "Konut", "Market", "Ulaşım", "Dışarıda yemek", "Enerji", "Sigortalar", "Giyim", "Abonelikler", "Diğer", "Anüite dilimi", "Doğrusal dilim", "Küresel hisse ETF", "Bitcoin", "Altın", "Öğrenim kredisi", "Taşıt kredisi"
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -2225,7 +2234,8 @@
       "Ликвидность и собственный капитал теперь показывают и рост в процентах: за сегодня, за месяц, за год и с января.",
       "Машина времени: «ожидается» теперь подписан только выбранный год, а годы над башнями больше не наезжают друг на друга.",
       "При входе теперь написано, что тем же аккаунтом вы входите и в приложение на iPhone, iPad и Mac.",
-      "iPad вверху главной страницы теперь сам показывает приложение: каждые несколько секунд он переходит на следующую вкладку."
+      "iPad вверху главной страницы теперь сам показывает приложение: каждые несколько секунд он переходит на следующую вкладку.",
+      "Зарплата", "Отпускные", "Подработка", "Жильё", "Продукты", "Транспорт", "Кафе и рестораны", "Энергия", "Страховки", "Одежда", "Подписки", "Прочее", "Аннуитетная часть", "Линейная часть", "Глобальный ETF на акции", "Биткоин", "Золото", "Студенческий кредит", "Автокредит"
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2446,7 +2456,8 @@
       "تعرض السيولة وصافي الثروة الآن أيضًا نسبة نموهما: اليوم وهذا الشهر وهذا العام ومنذ يناير.",
       "آلة الزمن: السنة التي تشاهدها فقط ما زالت تحمل «متوقع»، ولم تعد السنوات فوق الأبراج تتداخل.",
       "تذكر شاشة تسجيل الدخول الآن أن الحساب نفسه يسجّل دخولك أيضًا إلى التطبيق على iPhone وiPad وMac.",
-      "يعرض iPad أعلى الصفحة الرئيسية التطبيق الآن من تلقاء نفسه: ينتقل إلى التبويب التالي كل بضع ثوانٍ."
+      "يعرض iPad أعلى الصفحة الرئيسية التطبيق الآن من تلقاء نفسه: ينتقل إلى التبويب التالي كل بضع ثوانٍ.",
+      "الراتب", "بدل الإجازة", "دخل إضافي", "السكن", "البقالة", "المواصلات", "الأكل خارجًا", "الطاقة", "التأمينات", "الملابس", "الاشتراكات", "أخرى", "جزء القسط الثابت", "جزء خطي", "صندوق أسهم عالمي", "بيتكوين", "ذهب", "قرض دراسي", "قرض سيارة"
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2667,7 +2678,8 @@
       "तरलता और इक्विटी अब यह भी दिखाते हैं कि वे कितने प्रतिशत बढ़े: आज, इस महीने, इस साल और जनवरी से।",
       "टाइम मशीन: अब केवल वह साल 'अनुमानित' कहता है जिसे आप देख रहे हैं, और टावरों के ऊपर के साल आपस में नहीं टकराते।",
       "साइन इन पर अब लिखा है कि उसी खाते से आप iPhone, iPad और Mac ऐप में भी साइन इन करते हैं।",
-      "होमपेज के ऊपर वाला iPad अब ऐप अपने आप दिखाता है: हर कुछ सेकंड में अगले टैब पर जाता है।"
+      "होमपेज के ऊपर वाला iPad अब ऐप अपने आप दिखाता है: हर कुछ सेकंड में अगले टैब पर जाता है।",
+      "वेतन", "छुट्टी भत्ता", "अतिरिक्त आय", "आवास", "किराना", "परिवहन", "बाहर खाना", "ऊर्जा", "बीमा", "कपड़े", "सदस्यताएँ", "अन्य", "ईएमआई भाग", "रैखिक भाग", "वैश्विक शेयर ETF", "बिटकॉइन", "सोना", "शिक्षा ऋण", "कार ऋण"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2888,7 +2900,8 @@
       "Likuiditas dan ekuitas kini juga menunjukkan berapa persen pertumbuhannya: hari ini, bulan ini, tahun ini, dan sejak Januari.",
       "Mesin waktu: hanya tahun yang sedang Anda lihat yang masih bertuliskan 'perkiraan', dan tahun di atas menara tidak lagi bertumpuk.",
       "Saat masuk kini tertulis bahwa akun yang sama juga untuk aplikasi di iPhone, iPad, dan Mac.",
-      "iPad di bagian atas beranda kini menampilkan aplikasi dengan sendirinya: berpindah ke tab berikutnya setiap beberapa detik."
+      "iPad di bagian atas beranda kini menampilkan aplikasi dengan sendirinya: berpindah ke tab berikutnya setiap beberapa detik.",
+      "Gaji", "Tunjangan liburan", "Penghasilan sampingan", "Perumahan", "Belanja dapur", "Transportasi", "Makan di luar", "Energi", "Asuransi", "Pakaian", "Langganan", "Lainnya", "Porsi anuitas", "Porsi linear", "ETF saham global", "Bitcoin", "Emas", "Pinjaman pendidikan", "Kredit mobil"
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -3109,7 +3122,8 @@
       "流動資金と純資産に、伸び率（％）も表示されるようになりました：今日、今月、今年、1月から。",
       "タイムマシン：「予想」と表示されるのは見ている年だけになり、タワーの上の年が重ならなくなりました。",
       "サインイン画面に、同じアカウントで iPhone・iPad・Mac のアプリにもサインインできると表示されるようになりました。",
-      "ホームページ上部の iPad が、アプリを自動で見せるようになりました：数秒ごとに次のタブへ移ります。"
+      "ホームページ上部の iPad が、アプリを自動で見せるようになりました：数秒ごとに次のタブへ移ります。",
+      "給与", "休暇手当", "副収入", "住居", "食料品", "交通", "外食", "光熱費", "保険", "衣服", "サブスク", "その他", "元利均等部分", "元金均等部分", "全世界株式ETF", "ビットコイン", "金", "奨学金", "自動車ローン"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -3330,7 +3344,8 @@
       "유동성과 순자산이 이제 몇 퍼센트 늘었는지도 보여줘요: 오늘, 이번 달, 올해, 1월 이후.",
       "타임머신: 보고 있는 해에만 '예상'이 붙고, 타워 위의 연도가 더 이상 겹치지 않아요.",
       "로그인 화면에 같은 계정으로 iPhone·iPad·Mac 앱에도 로그인된다는 안내가 생겼어요.",
-      "홈페이지 위쪽의 iPad가 이제 앱을 스스로 보여줘요: 몇 초마다 다음 탭으로 넘어가요."
+      "홈페이지 위쪽의 iPad가 이제 앱을 스스로 보여줘요: 몇 초마다 다음 탭으로 넘어가요.",
+      "급여", "휴가 수당", "부수입", "주거", "장보기", "교통", "외식", "에너지", "보험", "의류", "구독", "기타", "원리금 균등 부분", "원금 균등 부분", "글로벌 주식 ETF", "비트코인", "금", "학자금 대출", "자동차 대출"
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3551,7 +3566,8 @@
       "Thanh khoản và vốn chủ sở hữu giờ cũng cho thấy mức tăng theo phần trăm: hôm nay, tháng này, năm nay và từ tháng Một.",
       "Cỗ máy thời gian: chỉ năm bạn đang xem mới ghi 'dự kiến', và các năm phía trên các tháp không còn chồng lên nhau.",
       "Màn hình đăng nhập giờ ghi rõ cùng một tài khoản cũng dùng cho ứng dụng trên iPhone, iPad và Mac.",
-      "iPad ở đầu trang chủ giờ tự giới thiệu ứng dụng: cứ vài giây lại chuyển sang tab tiếp theo."
+      "iPad ở đầu trang chủ giờ tự giới thiệu ứng dụng: cứ vài giây lại chuyển sang tab tiếp theo.",
+      "Lương", "Phụ cấp nghỉ phép", "Thu nhập phụ", "Nhà ở", "Đi chợ", "Đi lại", "Ăn ngoài", "Năng lượng", "Bảo hiểm", "Quần áo", "Gói đăng ký", "Khác", "Phần trả góp đều", "Phần tuyến tính", "ETF cổ phiếu toàn cầu", "Bitcoin", "Vàng", "Khoản vay sinh viên", "Vay mua xe"
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3772,7 +3788,8 @@
       "流动资金和净资产现在也显示增长百分比：今天、本月、今年以及自一月以来。",
       "时光机：只有你正在看的年份还标“预计”，塔上方的年份也不再重叠。",
       "登录页面现在注明：同一个账户也可登录 iPhone、iPad 和 Mac 上的 App。",
-      "首页顶部的 iPad 现在会自动展示 App：每隔几秒切换到下一个标签页。"
+      "首页顶部的 iPad 现在会自动展示 App：每隔几秒切换到下一个标签页。",
+      "工资", "假期津贴", "副业收入", "住房", "日常采购", "交通", "外出就餐", "能源", "保险", "服装", "订阅", "其他", "等额本息部分", "等额本金部分", "全球股票ETF", "比特币", "黄金", "助学贷款", "车贷"
     ]
   };
 

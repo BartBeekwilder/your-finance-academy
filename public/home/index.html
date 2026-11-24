@@ -894,14 +894,24 @@
   var started = false;
   function start() {
     if (started) return; started = true;
-    load('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js').then(function () { return load('/moneymodel.js?v=10'); }).then(function () {
+    load('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js').then(function () { return load('/moneymodel.js?v=11'); }).then(function () {
       var text = {
         income: T(3), spending: T(7), repayment: T(8), investments: T(9), home: T(10), debts: T(11), equity: T(12),
         hint3d: T(13), hintFlow: '', tipEquity: T(14), tipIncomePull: T(15), tipSpendingPush: T(16), tipRepayPull: T(17),
         tipInvest: T(18), tipHome: T(19), tipDebtsPush: T(20), tipMortgage: T(20), tipOtherDebt: T(20), tipCash: '', mortgage: T(11), otherDebt: T(11), cash: ''
       };
+      // Each planet opens in example parts (Bart, 24 Nov: "more detailed"):
+      // weights, the model scales them to the planet's amount.
+      var Z = function (i) { return PFT(326 + i); }, part = function (i, v) { return { label: Z(i), value: v }; };
       var mm = PFMoneyModel.create({ stage: stage, THREE: window.THREE, T: text, money: money, view: 'grav', compact: true, noZoom: true,
-        base: { income: 3950, fixed: 1115, repay: 450, variable: 1070, cash: 17000, invest: 15000, home: 425000, mortgage: 300000, otherDebt: 20000 } });
+        base: { income: 3950, fixed: 1115, repay: 450, variable: 1070, cash: 17000, invest: 15000, home: 425000, mortgage: 300000, otherDebt: 20000,
+          otherDebts: [part(17, 14000), part(18, 6000)],
+          layers: {
+            income: [part(0, 3500), part(1, 280), part(2, 170)],
+            spending: [part(3, 620), part(4, 520), part(5, 220), part(6, 190), part(7, 180), part(8, 160), part(9, 120), part(10, 85), part(11, 90)],
+            repayment: [part(12, 300), part(13, 150)],
+            investments: [part(14, 9800), part(15, 3400), part(16, 1800)]
+          } } });
       mm.onModel(function (m) { document.getElementById('zonEq').textContent = T(22, { n: m.n, a: money(m.equity), b: (m.equity >= m.eqNow ? '+' : '−') + money(Math.abs(m.equity - m.eqNow)) }); });
       ['inc', 'mkt', 'months'].forEach(function (k) {
         levers[k].addEventListener('input', function () { show(); var o = {}; o[k] = +levers[k].value; mm.setLevers(o); });
