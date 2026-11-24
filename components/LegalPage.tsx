@@ -117,7 +117,6 @@ export default function LegalPage({ title, updated, lede, children }: { title: s
           <Link href="/terms">{t("Terms")}</Link>
           <Link href="/privacy">{t("Privacy")}</Link>
         </span>
-        <span className="foot__legal" translate="no">Your Finance Academy · KvK 42222252 · Molenstraat 29, 5461 JP Veghel, Nederland</span>
       </footer>
     </div>
   );
