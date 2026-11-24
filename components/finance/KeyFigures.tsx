@@ -3,9 +3,10 @@
 import { intlLocale, t } from "@/lib/i18n";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { money, monthYear } from "@/lib/finance/format";
 import type { Metric } from "@/lib/finance/metrics";
+import { yearPercents, type YearTile } from "@/lib/finance/yearPercents";
 import { MoneyClockCard } from "./MoneyClock";
 import { useFinance } from "./FinanceProvider";
 import LiveAmount from "./LiveAmount";
@@ -62,6 +63,9 @@ export function KeyFiguresPage() {
   const fi = k.freedom;
   const ring = Math.max(0, Math.min(1, fi.share));
   const R = 54, C = 2 * Math.PI * R;
+  // Recomputed per minute, not per tick: the tiles don't need the seconds.
+  const minute = Math.floor(now / 60_000);
+  const years = useMemo(() => yearPercents(data, new Date(minute * 60_000)), [data, minute]);
   const positiveAt = k.toPositive != null ? new Date(d.getFullYear(), d.getMonth() + k.toPositive, 1) : null;
 
   return (
@@ -116,11 +120,46 @@ export function KeyFiguresPage() {
         {k.metrics.map((m, i) => <MetricCard key={m.key} m={m} currency={currency} i={i} />)}
       </div>
 
+      {/* This year against last year, in percent (Bart, 24 Nov). */}
+      <YearPercents tiles={years} currency={currency} />
+
 
       <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--pf-ink-3)" }}>
         {t("This month as expected (the same forecast as Budgets); accounts and investments as they are now, investments at market value.")}
       </p>
     </div>
+  );
+}
+
+function signedPct(v: number) {
+  const n = Math.abs(v) < 0.1 ? 1 : 0;
+  return `${v >= 0 ? "+" : ""}${(v * 100).toLocaleString(intlLocale(), { maximumFractionDigits: n, minimumFractionDigits: n })}%`;
+}
+
+function YearPercents({ tiles, currency }: { tiles: YearTile[]; currency: string }) {
+  if (!tiles.length) return null;
+  const value = (x: YearTile) =>
+    x.unit === "pct" ? signedPct(x.value)
+      : x.unit === "share" ? `${Math.round(x.value * 100).toLocaleString(intlLocale())}%`
+      : x.unit === "pts" ? t("{n} pts", { n: `${x.value >= 0 ? "+" : ""}${(x.value * 100).toLocaleString(intlLocale(), { maximumFractionDigits: 1 })}` })
+        : x.key === "growth" ? t("{amount} a year", { amount: money(x.value, currency, { signed: true }) }) : money(x.value, currency, { signed: true });
+  const note = (x: YearTile) => t(x.note, { ...(x.text ?? {}), ...Object.fromEntries(Object.entries(x.pct ?? {}).map(([k, v]) => [k, signedPct(v)])), ...Object.fromEntries(Object.entries(x.money ?? {}).map(([k, v]) => [k, money(v, currency, { signed: k === "amount" })])) });
+  return (
+    <section style={{ display: "grid", gap: 10 }}>
+      <div>
+        <h2 className="pf-section-title" style={{ margin: 0 }}>{t("This year in percent")}</h2>
+        <p style={{ margin: "2px 0 0", fontSize: "0.8rem", color: "var(--pf-ink-2)" }}>{t("Compared with the same period last year: 1 January to today.")}</p>
+      </div>
+      <div className="pf-kf-grid">
+        {tiles.map((x, i) => (
+          <div key={x.key} className="pf-kf-card" style={{ ["--c" as string]: TONE[x.tone], ["--d" as string]: `${i * 60}ms` }} title={note(x)}>
+            <span className="pf-kf-label">{t(x.label)}</span>
+            <b className="pf-rounded pf-kf-value">{value(x)}</b>
+            <small>{note(x)}</small>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
