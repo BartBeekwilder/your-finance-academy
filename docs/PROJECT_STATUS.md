@@ -33,7 +33,9 @@ Where it stands (20 Nov, night):
   -only-testing:"Personal FinanceTests"). Touch done everywhere: every iOS
   chart reacts to touch (Year Wrapped equity line added; mix bars light up the
   part tapped; liquidity bar shows amounts and now adds up to the live number).
-  Next: build 6 → TestFlight, Bart checks on his iPad, then submit.
+  BUILD 6 UPLOADED 24 Nov 08:41 (all of the above). Next: Bart checks build 6
+  on his iPad via TestFlight; attach build 6 to version 1.0 in ASC (now 5);
+  then submit (only on Bart's OK). Web changes still on web-app, not live.
 - 23 Nov evening — App Store Connect (version 1.0) filled: texts in 17
   languages (AppStore/metadata.json), subscription group + yearly/monthly in
   17 languages, screenshots (6 iPhone 6.3" 1206x2622 + 6 iPad 13") for en,
