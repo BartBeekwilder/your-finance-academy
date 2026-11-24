@@ -132,8 +132,8 @@ export function yearPercents(data: FinanceData, now: Date): YearTile[] {
 
 /** Where the money model's market sliders start (Bart, 24 Nov: "my last 12
  *  months"): the stock market at what your own investments did over the last
- *  twelve months (new money left out), the housing market at your home's
- *  growth per year since you bought it — in whole percents, null when unknown.
+ *  twelve months (new money left out), in whole percents, null when unknown.
+ *  The housing market stays at 0% (null).
  *  Ported 1:1 to the apps (YearPercents.ownMarkets). */
 export function ownMarkets(data: FinanceData, now: Date): { market: number | null; housing: number | null } {
   let market: number | null = null;
@@ -146,14 +146,8 @@ export function ownMarkets(data: FinanceData, now: Date): { market: number | nul
     const value = investmentsValue(data, now).total;
     if (start + putIn > 1) market = Math.round(((value - start - putIn) / (start + putIn)) * 100);
   }
-  let housing: number | null = null;
-  const bought = homes(data).filter((h) => h.property.purchase_date && num(h.property.purchase_price) > 0);
-  if (bought.length) {
-    const price = bought.reduce((s, h) => s + num(h.property.purchase_price), 0);
-    const value = bought.reduce((s, h) => s + num(h.property.value), 0);
-    const first = Math.min(...bought.map((h) => Date.parse(h.property.purchase_date!)));
-    const years = Math.max((now.getTime() - first) / (365.25 * DAY), 0.5);
-    housing = Math.round((Math.pow(value / price, 1 / years) - 1) * 100);
-  }
+  // The housing market starts at 0% (Bart, 24 Nov): price paid vs. today's
+  // estimate over a year or two is no market trend ("+12%" was nonsense).
+  const housing: number | null = null;
   return { market, housing };
 }
