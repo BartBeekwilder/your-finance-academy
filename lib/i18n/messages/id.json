@@ -2292,5 +2292,9 @@
  "{pct} a year since you bought it.": "{pct} per tahun sejak dibeli.",
  "On average since {year}, from your year-end figures.": "Rata-rata sejak {year}, dari angka akhir tahun Anda.",
  "{n} pts": "{n} poin",
- "{amount} a year": "{amount} per tahun"
+ "{amount} a year": "{amount} per tahun",
+ "Starts at your own last 12 months: {pct}": "Mulai dari 12 bulan terakhir Anda sendiri: {pct}",
+ "Starts at your home's growth per year: {pct}": "Mulai dari pertumbuhan nilai rumah Anda per tahun: {pct}",
+ "A USUAL MONTH": "BULAN BIASA",
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Biaya tetap bulan biasa (yang tercatat ditambah yang akan datang), tanpa porsi pokok KPR Anda — itu tampil terpisah di Cicilan pokok. Yang keluar, hilang: ini menurunkan ekuitas Anda."
 }

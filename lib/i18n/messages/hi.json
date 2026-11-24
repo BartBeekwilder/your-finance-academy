@@ -2292,5 +2292,9 @@
  "{pct} a year since you bought it.": "खरीद के बाद से हर साल {pct}।",
  "On average since {year}, from your year-end figures.": "{year} से औसतन, आपके साल-अंत आँकड़ों से।",
  "{n} pts": "{n} अंक",
- "{amount} a year": "हर साल {amount}"
+ "{amount} a year": "हर साल {amount}",
+ "Starts at your own last 12 months: {pct}": "आपके अपने पिछले 12 महीनों से शुरू: {pct}",
+ "Starts at your home's growth per year: {pct}": "आपके घर की सालाना वृद्धि से शुरू: {pct}",
+ "A USUAL MONTH": "एक सामान्य महीना",
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "एक सामान्य महीने के तय खर्च (दर्ज किए गए और आने वाले), होम लोन के मूलधन भाग के बिना — वह अदायगी में अलग दिखता है। जो गया सो गया: इससे आपकी इक्विटी घटती है।"
 }

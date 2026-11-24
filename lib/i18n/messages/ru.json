@@ -2292,5 +2292,9 @@
  "{pct} a year since you bought it.": "{pct} в год с момента покупки.",
  "On average since {year}, from your year-end figures.": "В среднем с {year}, по вашим годовым остаткам.",
  "{n} pts": "{n} п.п.",
- "{amount} a year": "{amount} в год"
+ "{amount} a year": "{amount} в год",
+ "Starts at your own last 12 months: {pct}": "Начинается с ваших последних 12 месяцев: {pct}",
+ "Starts at your home's growth per year: {pct}": "Начинается с годового роста стоимости вашего жилья: {pct}",
+ "A USUAL MONTH": "ОБЫЧНЫЙ МЕСЯЦ",
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Постоянные расходы обычного месяца (проведённые плюс ещё предстоящие), без части погашения ипотеки — она показана отдельно в Погашении. Ушло так ушло: это уменьшает ваш капитал."
 }

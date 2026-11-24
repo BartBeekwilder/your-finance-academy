@@ -2292,5 +2292,9 @@
  "{pct} a year since you bought it.": "구입 이후 연 {pct}.",
  "On average since {year}, from your year-end figures.": "{year}년 이후 평균, 연말 수치 기준.",
  "{n} pts": "{n}%p",
- "{amount} a year": "연 {amount}"
+ "{amount} a year": "연 {amount}",
+ "Starts at your own last 12 months: {pct}": "내 지난 12개월에서 시작: {pct}",
+ "Starts at your home's growth per year: {pct}": "내 집의 연간 상승률에서 시작: {pct}",
+ "A USUAL MONTH": "보통의 한 달",
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "보통 한 달의 고정비(기록된 것 + 앞으로 나갈 것), 주택담보대출 원금 상환분 제외 — 그건 상환에 따로 표시돼요. 나간 돈은 나간 돈: 순자산을 줄여요."
 }

@@ -129,3 +129,31 @@ export function yearPercents(data: FinanceData, now: Date): YearTile[] {
   }
   return out;
 }
+
+/** Where the money model's market sliders start (Bart, 24 Nov: "my last 12
+ *  months"): the stock market at what your own investments did over the last
+ *  twelve months (new money left out), the housing market at your home's
+ *  growth per year since you bought it — in whole percents, null when unknown.
+ *  Ported 1:1 to the apps (YearPercents.ownMarkets). */
+export function ownMarkets(data: FinanceData, now: Date): { market: number | null; housing: number | null } {
+  let market: number | null = null;
+  const held = live(data.holdings);
+  if (data.market && held.length) {
+    const from = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+    const before = held.filter((h) => Date.parse(h.date_added) <= from.getTime());
+    const start = before.length ? investmentsValue({ ...data, holdings: before }, from).total : 0;
+    const putIn = held.filter((h) => Date.parse(h.date_added) > from.getTime()).reduce((s, h) => s + num(h.cost_basis), 0);
+    const value = investmentsValue(data, now).total;
+    if (start + putIn > 1) market = Math.round(((value - start - putIn) / (start + putIn)) * 100);
+  }
+  let housing: number | null = null;
+  const bought = homes(data).filter((h) => h.property.purchase_date && num(h.property.purchase_price) > 0);
+  if (bought.length) {
+    const price = bought.reduce((s, h) => s + num(h.property.purchase_price), 0);
+    const value = bought.reduce((s, h) => s + num(h.property.value), 0);
+    const first = Math.min(...bought.map((h) => Date.parse(h.property.purchase_date!)));
+    const years = Math.max((now.getTime() - first) / (365.25 * DAY), 0.5);
+    housing = Math.round((Math.pow(value / price, 1 / years) - 1) * 100);
+  }
+  return { market, housing };
+}

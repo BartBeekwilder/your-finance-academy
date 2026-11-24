@@ -2292,5 +2292,9 @@
  "{pct} a year since you bought it.": "自购买以来每年 {pct}。",
  "On average since {year}, from your year-end figures.": "自{year}年以来的平均值，来自你的年末数据。",
  "{n} pts": "{n}个百分点",
- "{amount} a year": "每年 {amount}"
+ "{amount} a year": "每年 {amount}",
+ "Starts at your own last 12 months: {pct}": "从你自己最近12个月开始：{pct}",
+ "Starts at your home's growth per year: {pct}": "从你房屋的年增长开始：{pct}",
+ "A USUAL MONTH": "普通的一个月",
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "普通一个月的固定开支（已记账加上待发生），不含房贷的还本部分——那部分单独显示在“还款”里。花出去就没了：这会降低你的净资产。"
 }

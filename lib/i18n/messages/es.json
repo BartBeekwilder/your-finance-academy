@@ -2292,5 +2292,9 @@
  "{pct} a year since you bought it.": "{pct} al año desde que la compraste.",
  "On average since {year}, from your year-end figures.": "De media desde {year}, según tus saldos de fin de año.",
  "{n} pts": "{n} puntos",
- "{amount} a year": "{amount} al año"
+ "{amount} a year": "{amount} al año",
+ "Starts at your own last 12 months: {pct}": "Empieza en tus propios últimos 12 meses: {pct}",
+ "Starts at your home's growth per year: {pct}": "Empieza en el crecimiento anual de tu vivienda: {pct}",
+ "A USUAL MONTH": "UN MES NORMAL",
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Los gastos fijos de un mes normal (registrados más los que faltan), sin la parte de amortización de tu hipoteca — esa aparece aparte en Amortización. Lo que sale, sale: esto reduce tu patrimonio."
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { t } from "@/lib/i18n";
+import { ownMarkets } from "@/lib/finance/yearPercents";
 import { balanceSheet, balanceYears, expectedByCategory, live, liveFixed, netWorthFigures, projectedNetIncome, spendByCategoryYear, summarize } from "@/lib/finance/calc";
 import { ALL, compareYears } from "@/lib/finance/compare";
 import { investmentsValue } from "@/lib/finance/quotes";
@@ -311,11 +312,11 @@ export function moneyModelTexts() {
     leftOver: t("Left over"), market: t("Stock market"), housing: t("Housing market"), cash: t("Money & other assets"),
     investments: t("Investments"), home: t("Home"), assets: t("Assets"), equity: t("Equity"), debts: t("Debts"), spent: t("Spent"),
     spending: t("Spending"), mortgage: t("Mortgage"), otherDebt: t("Other debts"),
-    perMonth: t("{amount} a month"), capMonth: t("PER MONTH"), capAfter: t("AFTER THE PERIOD"), capResult: t("RESULT"),
+    perMonth: t("{amount} a month"), capMonth: t("A USUAL MONTH"), capAfter: t("AFTER THE PERIOD"), capResult: t("RESULT"),
     hintFlow: t("Point at a stream or block for an explanation"), hint3d: t("Drag to turn · point at a block or planet"),
     tipIncome: t("What comes in this month. Everything you keep starts here."),
     tipMonth: t("All that comes in this month, and where it goes."),
-    tipFixed: t("Fixed costs without the repayment. Gone is gone: this lowers your equity."),
+    tipFixed: t("A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity."),
     tipVariable: t("Groceries, going out, the car: the 'Variable spending' lever works here."),
     tipRepay: t("Leaves your account but makes your mortgage smaller. Your equity stays the same: it moves from money to home minus debt."),
     tipLeftOver: t("Income minus all spending and the repayment. It flows to your accounts every month."),
@@ -349,7 +350,12 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
   const stageRef = useRef<HTMLDivElement>(null);
   const engine = useRef<Engine | null>(null);
   const [view, setView] = useState<View>("flow");
-  const [levers, setLevers] = useState<Levers>(START);
+  // The markets start at your own: the last 12 months of your investments,
+  // your home's growth per year (Bart, 24 Nov) — ownMarkets, as in the apps.
+  const own = useMemo(() => ownMarkets(data, now), [data, now]);
+  const clamp = (v: number | null, lo: number, hi: number) => (v == null ? 0 : Math.min(Math.max(v, lo), hi));
+  const start = useMemo<Levers>(() => ({ ...START, mkt: clamp(own.market, -40, 40), house: clamp(own.housing, -20, 20) }), [own]);
+  const [levers, setLevers] = useState<Levers>(start);
   const [model, setModel] = useState<Model | null>(null);
   const [failed, setFailed] = useState(false);
   const [mode, setMode] = useState<Mode>("ahead");
@@ -365,8 +371,8 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
   const past = useMemo(() => timeline(data, now), [data, now]);
   // The years ahead (glass towers): the usual year, the mortgage on schedule,
   // the markets at the chosen % a year.
-  const [ahMkt, setAhMkt] = useState(0);
-  const [ahHouse, setAhHouse] = useState(0);
+  const [ahMkt, setAhMkt] = useState(() => clamp(own.market, -5, 12));
+  const [ahHouse, setAhHouse] = useState(() => clamp(own.housing, -5, 10));
   const [tmMode, setTmMode] = useState<"source" | "balance">("balance");
   const years = useMemo(() => [...past, ...forecastYears(data, now, ahead, past[past.length - 1], ahMkt, ahHouse)], [past, data, now, ahead, ahMkt, ahHouse]);
   const nowIdx = Math.max(past.length - 1, 0);
@@ -399,6 +405,7 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
         if (gone || !stageRef.current || !window.PFMoneyModel) return;
         const e = window.PFMoneyModel.create({ stage: stageRef.current, THREE, T: moneyModelTexts(), money: (x: number) => fmtRef.current(x), base, view: "flow" });
         engine.current = e;
+        e.setLevers(levers); // the markets' own start (ownMarkets)
         off = e.onModel((m) => setModel({ ...m, parts: [...m.parts] }));
       })
       .catch(() => setFailed(true));
@@ -435,15 +442,15 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
     engine.current?.setLevers(next);
   };
   const reset = () => {
-    setLevers(START);
-    engine.current?.setLevers(START);
+    setLevers(start);
+    engine.current?.setLevers(start);
   };
   const pct = (v: number) => `${v > 0 ? "+" : ""}${v}%`;
   const LEVERS: { key: keyof Levers; label: string; hint: string; min: number; max: number; show: string }[] = [
     { key: "inc", label: t("Income"), hint: t("Your usual net income per month"), min: -30, max: 30, show: pct(levers.inc) },
     { key: "sp", label: t("Variable spending"), hint: t("Everything that isn't a fixed cost"), min: -30, max: 50, show: pct(levers.sp) },
-    { key: "mkt", label: t("Stock market"), hint: t("The price of your investments"), min: -40, max: 40, show: pct(levers.mkt) },
-    { key: "house", label: t("Housing market"), hint: t("The value of your home"), min: -20, max: 20, show: pct(levers.house) },
+    { key: "mkt", label: t("Stock market"), hint: own.market == null ? t("The price of your investments") : t("Starts at your own last 12 months: {pct}", { pct: pct(own.market) }), min: -40, max: 40, show: pct(levers.mkt) },
+    { key: "house", label: t("Housing market"), hint: own.housing == null ? t("The value of your home") : t("Starts at your home's growth per year: {pct}", { pct: pct(own.housing) }), min: -20, max: 20, show: pct(levers.house) },
     { key: "months", label: t("Period"), hint: t("How many months run on"), min: 1, max: 60, show: levers.months === 1 ? t("1 month") : t("{n} months", { n: levers.months }) },
   ];
   const PART: Record<string, string> = {

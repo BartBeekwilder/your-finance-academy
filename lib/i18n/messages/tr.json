@@ -2292,5 +2292,9 @@
  "{pct} a year since you bought it.": "Satın aldığınızdan beri yılda {pct}.",
  "On average since {year}, from your year-end figures.": "{year} yılından beri ortalama, yıl sonu rakamlarınızdan.",
  "{n} pts": "{n} puan",
- "{amount} a year": "Yılda {amount}"
+ "{amount} a year": "Yılda {amount}",
+ "Starts at your own last 12 months: {pct}": "Kendi son 12 ayınızdan başlar: {pct}",
+ "Starts at your home's growth per year: {pct}": "Konutunuzun yıllık değer artışından başlar: {pct}",
+ "A USUAL MONTH": "OLAĞAN BİR AY",
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Olağan bir ayın sabit giderleri (kaydedilenler artı gelecek olanlar), konut kredinizin anapara kısmı hariç — o, Geri ödeme altında ayrıca görünür. Giden gider: bu öz sermayenizi düşürür."
 }
