@@ -243,7 +243,8 @@
     /*usual month + popover fix, live 24 Nov*/ "Geldmodel: de bedragen per maand heten nu 'een gewone maand', en de uitleg bij vaste lasten zegt dat het aflossingsdeel apart staat. De uitleg schuift niet meer over een geopende planeet en de tijdmachine blijft niet meer achter de geldstroom staan.",
     /*check-in untick, live 24 Nov*/ "Boeken bijwerken: je kunt een vinkje nu ook weer weghalen — tik op het rondje, of nog een keer op 'Ja, dat klopt'.",
     /*expenses year picker + year tiles fix, live 24 Nov*/ "Uitgaven: in Jaar kies je nu ook een eerder jaar. Je ziet per categorie wat het die keer kostte, met je geïmporteerde jaartotalen erbij.",
-    "Kerncijfers: 'Uitgaven t.o.v. vorig jaar' en de andere jaartegels vergelijken alleen met je boekingen van vorig jaar als die vanaf januari lopen; anders met je geïmporteerde jaartotalen. Geen +789% meer omdat je boeken pas in november begonnen."
+    "Kerncijfers: 'Uitgaven t.o.v. vorig jaar' en de andere jaartegels vergelijken alleen met je boekingen van vorig jaar als die vanaf januari lopen; anders met je geïmporteerde jaartotalen. Geen +789% meer omdat je boeken pas in november begonnen.",
+    /*income category sheet, live 24 Nov*/ "Inkomen: klik je op een inkomstenbron, dan zie je nu wat er binnenkwam in plaats van € 0 'uitgegeven'."
   ];
 
   var L = {
@@ -475,7 +476,8 @@
       "Money model: the monthly amounts are now called 'a usual month', and the fixed-costs explanation says the repayment part is shown separately. The explanation no longer covers an opened planet, and the time machine no longer lingers behind the money flow.",
       "Updating your books: you can now take a tick away again — tap the circle, or tap 'Yes, that's right' once more.",
       "Expenses: in Year view you can now pick an earlier year. You see what each category took that year, with your imported year totals included.",
-      "Key figures: 'Spending vs last year' and the other year tiles only compare with last year's bookings when they run from January; otherwise with your imported year totals. No more +789% because your books started in November."
+      "Key figures: 'Spending vs last year' and the other year tiles only compare with last year's bookings when they run from January; otherwise with your imported year totals. No more +789% because your books started in November.",
+      "Income: clicking an income source now shows what came in, instead of €0 'spent'."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -705,7 +707,8 @@
       "Geldmodell: Die Monatsbeträge heißen jetzt „ein normaler Monat“, und die Erklärung zu den Fixkosten sagt, dass der Tilgungsanteil separat steht. Die Erklärung liegt nicht mehr über einem geöffneten Planeten, und die Zeitmaschine bleibt nicht mehr hinter dem Geldfluss stehen.",
       "Bücher aktualisieren: Du kannst ein Häkchen jetzt auch wieder entfernen — tippe auf den Kreis oder noch einmal auf „Ja, das stimmt“.",
       "Ausgaben: In der Jahresansicht kannst du jetzt ein früheres Jahr wählen. Du siehst, was jede Kategorie damals gekostet hat, inklusive deiner importierten Jahressummen.",
-      "Kennzahlen: „Ausgaben ggü. Vorjahr“ und die anderen Jahreskacheln vergleichen nur mit den Buchungen des Vorjahres, wenn sie ab Januar laufen; sonst mit deinen importierten Jahressummen. Kein +789 % mehr, weil deine Bücher erst im November begannen."
+      "Kennzahlen: „Ausgaben ggü. Vorjahr“ und die anderen Jahreskacheln vergleichen nur mit den Buchungen des Vorjahres, wenn sie ab Januar laufen; sonst mit deinen importierten Jahressummen. Kein +789 % mehr, weil deine Bücher erst im November begannen.",
+      "Einkommen: Ein Klick auf eine Einkommensquelle zeigt jetzt, was eingegangen ist, statt 0 € „ausgegeben“."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -935,7 +938,8 @@
       "Modèle d’argent : les montants mensuels s’appellent désormais « un mois normal », et l’explication des charges fixes précise que la part de remboursement est à part. La bulle ne recouvre plus une planète ouverte, et la machine à remonter le temps ne reste plus derrière le flux d’argent.",
       "Mettre à jour vos comptes : vous pouvez maintenant retirer une coche — touchez le rond, ou encore une fois « Oui, c’est exact ».",
       "Dépenses : en vue Année, vous pouvez maintenant choisir une année précédente. Vous voyez ce que chaque catégorie a coûté cette année-là, avec vos totaux annuels importés.",
-      "Chiffres clés : « Dépenses vs l'an dernier » et les autres tuiles annuelles ne comparent avec les écritures de l'an dernier que si elles commencent en janvier ; sinon avec vos totaux annuels importés. Fini le +789 % dû à des comptes commencés en novembre."
+      "Chiffres clés : « Dépenses vs l'an dernier » et les autres tuiles annuelles ne comparent avec les écritures de l'an dernier que si elles commencent en janvier ; sinon avec vos totaux annuels importés. Fini le +789 % dû à des comptes commencés en novembre.",
+      "Revenus : en cliquant sur une source de revenus, vous voyez maintenant ce qui est entré, au lieu de 0 € « dépensés »."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1165,7 +1169,8 @@
       "Modelo de dinero: los importes mensuales se llaman ahora «un mes normal», y la explicación de los gastos fijos indica que la amortización va aparte. La explicación ya no tapa un planeta abierto y la máquina del tiempo ya no se queda detrás del flujo de dinero.",
       "Actualizar tus cuentas: ahora puedes quitar una marca — toca el círculo o vuelve a tocar «Sí, es correcto».",
       "Gastos: en la vista Año ya puedes elegir un año anterior. Ves lo que costó cada categoría ese año, incluidos tus totales anuales importados.",
-      "Cifras clave: «Gastos frente al año pasado» y los demás mosaicos anuales solo comparan con los registros del año pasado si empiezan en enero; si no, con tus totales anuales importados. Se acabó el +789 % por empezar las cuentas en noviembre."
+      "Cifras clave: «Gastos frente al año pasado» y los demás mosaicos anuales solo comparan con los registros del año pasado si empiezan en enero; si no, con tus totales anuales importados. Se acabó el +789 % por empezar las cuentas en noviembre.",
+      "Ingresos: al hacer clic en una fuente de ingresos ahora ves lo que entró, en lugar de 0 € «gastados»."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1395,7 +1400,8 @@
       "Modello del denaro: gli importi mensili ora si chiamano «un mese normale», e la spiegazione dei costi fissi dice che la quota di rimborso è a parte. La spiegazione non copre più un pianeta aperto e la macchina del tempo non resta più dietro il flusso di denaro.",
       "Aggiornare i conti: ora puoi anche togliere una spunta — tocca il cerchio o tocca di nuovo «Sì, è corretto».",
       "Spese: nella vista Anno ora puoi scegliere un anno precedente. Vedi quanto è costata ogni categoria quell'anno, compresi i totali annuali importati.",
-      "Indicatori: «Spese rispetto all'anno scorso» e gli altri riquadri annuali confrontano con le registrazioni dell'anno scorso solo se partono da gennaio; altrimenti con i totali annuali importati. Niente più +789% perché i conti sono iniziati a novembre."
+      "Indicatori: «Spese rispetto all'anno scorso» e gli altri riquadri annuali confrontano con le registrazioni dell'anno scorso solo se partono da gennaio; altrimenti con i totali annuali importati. Niente più +789% perché i conti sono iniziati a novembre.",
+      "Entrate: cliccando su una fonte di entrate ora vedi cosa è arrivato, invece di 0 € «spesi»."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1625,7 +1631,8 @@
       "Modelo do dinheiro: os valores mensais agora se chamam «um mês normal», e a explicação dos custos fixos diz que a amortização aparece à parte. A explicação não cobre mais um planeta aberto e a máquina do tempo não fica mais atrás do fluxo de dinheiro.",
       "Atualizar as contas: agora você pode tirar uma marcação — toque no círculo ou toque mais uma vez em «Sim, está certo».",
       "Despesas: na visão Ano agora você pode escolher um ano anterior. Você vê quanto cada categoria custou naquele ano, incluindo seus totais anuais importados.",
-      "Indicadores: «Despesas vs ano passado» e os outros blocos anuais só comparam com os lançamentos do ano passado quando começam em janeiro; senão, com seus totais anuais importados. Chega de +789% por as contas terem começado em novembro."
+      "Indicadores: «Despesas vs ano passado» e os outros blocos anuais só comparam com os lançamentos do ano passado quando começam em janeiro; senão, com seus totais anuais importados. Chega de +789% por as contas terem começado em novembro.",
+      "Receitas: ao clicar em uma fonte de receita, agora você vê o que entrou, em vez de R$ 0 «gastos»."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1855,7 +1862,8 @@
       "Model pieniędzy: kwoty miesięczne nazywają się teraz „zwykły miesiąc”, a opis kosztów stałych mówi, że spłata kapitału jest osobno. Opis nie zasłania już otwartej planety, a wehikuł czasu nie zostaje już za przepływem pieniędzy.",
       "Aktualizacja ksiąg: możesz teraz też odznaczyć pozycję — stuknij kółko albo jeszcze raz „Tak, zgadza się”.",
       "Wydatki: w widoku Rok możesz teraz wybrać wcześniejszy rok. Widzisz, ile kosztowała każda kategoria w tamtym roku, łącznie z zaimportowanymi sumami rocznymi.",
-      "Kluczowe liczby: „Wydatki vs zeszły rok” i inne kafelki roczne porównują z zeszłorocznymi wpisami tylko wtedy, gdy zaczynają się w styczniu; w przeciwnym razie z zaimportowanymi sumami rocznymi. Koniec z +789%, bo księgi zaczęły się w listopadzie."
+      "Kluczowe liczby: „Wydatki vs zeszły rok” i inne kafelki roczne porównują z zeszłorocznymi wpisami tylko wtedy, gdy zaczynają się w styczniu; w przeciwnym razie z zaimportowanymi sumami rocznymi. Koniec z +789%, bo księgi zaczęły się w listopadzie.",
+      "Dochody: po kliknięciu źródła dochodu widzisz teraz, co wpłynęło, zamiast 0 zł „wydano”."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -2085,7 +2093,8 @@
       "Para modeli: aylık tutarlar artık 'olağan bir ay' olarak adlandırılıyor ve sabit gider açıklaması anapara kısmının ayrı gösterildiğini söylüyor. Açıklama artık açılmış bir gezegenin üstüne gelmiyor ve zaman makinesi para akışının arkasında kalmıyor.",
       "Defterleri güncelle: artık bir işareti geri de kaldırabilirsiniz — daireye ya da bir kez daha 'Evet, doğru'ya dokunun.",
       "Giderler: Yıl görünümünde artık önceki bir yılı seçebilirsiniz. Her kategorinin o yıl ne kadar tuttuğunu, içe aktarılan yıllık toplamlarınızla birlikte görürsünüz.",
-      "Temel rakamlar: 'Geçen yıla göre harcama' ve diğer yıl kutucukları, geçen yılın kayıtlarıyla yalnızca Ocak'tan başlıyorlarsa karşılaştırır; aksi halde içe aktarılan yıllık toplamlarla. Defterler Kasım'da başladığı için çıkan +%789 artık yok."
+      "Temel rakamlar: 'Geçen yıla göre harcama' ve diğer yıl kutucukları, geçen yılın kayıtlarıyla yalnızca Ocak'tan başlıyorlarsa karşılaştırır; aksi halde içe aktarılan yıllık toplamlarla. Defterler Kasım'da başladığı için çıkan +%789 artık yok.",
+      "Gelir: bir gelir kaynağına tıkladığınızda artık 0 ₺ 'harcandı' yerine gelen tutarı görürsünüz."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -2315,7 +2324,8 @@
       "Денежная модель: месячные суммы теперь называются «обычный месяц», а пояснение к постоянным расходам говорит, что погашение показано отдельно. Подсказка больше не закрывает открытую планету, а машина времени больше не остаётся за денежным потоком.",
       "Обновление учёта: теперь галочку можно снять — нажмите на кружок или ещё раз на «Да, верно».",
       "Расходы: в режиме «Год» теперь можно выбрать прошлый год. Видно, сколько стоила каждая категория в том году, вместе с импортированными годовыми итогами.",
-      "Ключевые цифры: «Расходы к прошлому году» и другие годовые плитки сравнивают с записями прошлого года, только если они идут с января; иначе — с импортированными годовыми итогами. Больше никаких +789 % из-за учёта, начатого в ноябре."
+      "Ключевые цифры: «Расходы к прошлому году» и другие годовые плитки сравнивают с записями прошлого года, только если они идут с января; иначе — с импортированными годовыми итогами. Больше никаких +789 % из-за учёта, начатого в ноябре.",
+      "Доходы: при нажатии на источник дохода теперь видно, что поступило, а не 0 € «потрачено»."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2545,7 +2555,8 @@
       "نموذج المال: صارت المبالغ الشهرية تُسمّى «شهر عادي»، ويوضح شرح التكاليف الثابتة أن جزء السداد يظهر منفصلًا. لم يعد الشرح يغطي كوكبًا مفتوحًا، ولم تعد آلة الزمن تبقى خلف تدفق المال.",
       "تحديث الدفاتر: يمكنك الآن إزالة علامة الصح أيضًا — اضغط على الدائرة، أو اضغط مرة أخرى على «نعم، هذا صحيح».",
       "المصروفات: في عرض السنة يمكنك الآن اختيار سنة سابقة. ترى ما كلّفته كل فئة في تلك السنة، مع إجمالياتك السنوية المستوردة.",
-      "الأرقام الرئيسية: «الإنفاق مقارنة بالعام الماضي» وبقية مربعات السنة لا تقارن بقيود العام الماضي إلا إذا بدأت من يناير؛ وإلا فبإجمالياتك السنوية المستوردة. لا مزيد من +789% لأن دفاترك بدأت في نوفمبر."
+      "الأرقام الرئيسية: «الإنفاق مقارنة بالعام الماضي» وبقية مربعات السنة لا تقارن بقيود العام الماضي إلا إذا بدأت من يناير؛ وإلا فبإجمالياتك السنوية المستوردة. لا مزيد من +789% لأن دفاترك بدأت في نوفمبر.",
+      "الدخل: عند النقر على مصدر دخل ترى الآن ما وصل، بدلًا من 0 «مُنفق»."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2775,7 +2786,8 @@
       "मनी मॉडल: मासिक राशियाँ अब 'एक सामान्य महीना' कहलाती हैं, और तय खर्च की व्याख्या बताती है कि मूलधन भाग अलग दिखता है। व्याख्या अब खुले ग्रह को नहीं ढकती, और टाइम मशीन अब मनी फ़्लो के पीछे नहीं रहती।",
       "खाते अपडेट करना: अब आप टिक हटा भी सकते हैं — गोले पर टैप करें, या एक बार फिर 'हाँ, सही है' पर।",
       "खर्च: साल वाले व्यू में अब आप पिछला साल चुन सकते हैं। हर श्रेणी पर उस साल कितना खर्च हुआ, आपके आयात किए गए सालाना कुल के साथ दिखता है।",
-      "मुख्य आंकड़े: 'पिछले साल की तुलना में खर्च' और बाकी साल वाली टाइलें पिछले साल की बुकिंग से तभी तुलना करती हैं जब वे जनवरी से हों; वरना आपके आयात किए गए सालाना कुल से। नवंबर से शुरू हुई किताबों की वजह से +789% अब नहीं।"
+      "मुख्य आंकड़े: 'पिछले साल की तुलना में खर्च' और बाकी साल वाली टाइलें पिछले साल की बुकिंग से तभी तुलना करती हैं जब वे जनवरी से हों; वरना आपके आयात किए गए सालाना कुल से। नवंबर से शुरू हुई किताबों की वजह से +789% अब नहीं।",
+      "आय: किसी आय स्रोत पर क्लिक करने पर अब 0 'खर्च' की जगह दिखता है कि कितना आया।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -3005,7 +3017,8 @@
       "Model uang: jumlah per bulan kini disebut 'bulan biasa', dan penjelasan biaya tetap menyebutkan porsi pokok tampil terpisah. Penjelasan tidak lagi menutupi planet yang dibuka, dan mesin waktu tidak lagi tertinggal di balik aliran uang.",
       "Memperbarui pembukuan: kini Anda juga bisa menghapus centang — ketuk lingkarannya, atau ketuk sekali lagi 'Ya, benar'.",
       "Pengeluaran: di tampilan Tahun kini Anda bisa memilih tahun sebelumnya. Anda melihat berapa biaya tiap kategori di tahun itu, termasuk total tahunan yang Anda impor.",
-      "Angka utama: 'Pengeluaran vs tahun lalu' dan ubin tahunan lainnya hanya membandingkan dengan catatan tahun lalu jika dimulai dari Januari; jika tidak, dengan total tahunan yang Anda impor. Tidak ada lagi +789% karena pembukuan baru dimulai November."
+      "Angka utama: 'Pengeluaran vs tahun lalu' dan ubin tahunan lainnya hanya membandingkan dengan catatan tahun lalu jika dimulai dari Januari; jika tidak, dengan total tahunan yang Anda impor. Tidak ada lagi +789% karena pembukuan baru dimulai November.",
+      "Pemasukan: mengeklik sumber pemasukan kini menampilkan apa yang masuk, bukan 0 'dibelanjakan'."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -3235,7 +3248,8 @@
       "マネーモデル：月ごとの金額は「ふつうの月」と表示され、固定費の説明に元本返済分は別に表示されると書かれるようになりました。開いた惑星に説明が重ならなくなり、マネーフローの後ろにタイムマシンが残らなくなりました。",
       "帳簿の更新：チェックを外せるようになりました — 丸をタップするか、もう一度「はい、合っています」をタップします。",
       "支出：年表示で過去の年を選べるようになりました。その年に各カテゴリーにいくらかかったかが、取り込んだ年間合計も含めて表示されます。",
-      "主要指標：「支出（前年比）」などの年タイルは、前年の記帳が1月からある場合だけそれと比較し、ない場合は取り込んだ年間合計と比較します。11月から記帳を始めたことによる+789%は出なくなりました。"
+      "主要指標：「支出（前年比）」などの年タイルは、前年の記帳が1月からある場合だけそれと比較し、ない場合は取り込んだ年間合計と比較します。11月から記帳を始めたことによる+789%は出なくなりました。",
+      "収入：収入源をクリックすると、「支出 0」ではなく実際に入った金額が表示されるようになりました。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -3465,7 +3479,8 @@
       "머니 모델: 월 금액이 이제 '보통의 한 달'로 표시되고, 고정비 설명에 원금 상환분은 따로 표시된다고 나와요. 열린 행성 위에 설명이 더 이상 겹치지 않고, 머니 플로 뒤에 타임머신이 남지 않아요.",
       "장부 업데이트: 이제 체크를 다시 해제할 수 있어요 — 동그라미를 누르거나 '네, 맞아요'를 한 번 더 누르세요.",
       "지출: 연도 보기에서 이제 지난 해를 고를 수 있어요. 그해 각 카테고리에 얼마가 들었는지, 가져온 연간 합계까지 포함해 보여줘요.",
-      "핵심 지표: '작년 대비 지출'과 다른 연도 타일은 작년 기록이 1월부터 있을 때만 그것과 비교하고, 아니면 가져온 연간 합계와 비교해요. 11월에 장부를 시작해서 생기던 +789%는 이제 없어요."
+      "핵심 지표: '작년 대비 지출'과 다른 연도 타일은 작년 기록이 1월부터 있을 때만 그것과 비교하고, 아니면 가져온 연간 합계와 비교해요. 11월에 장부를 시작해서 생기던 +789%는 이제 없어요.",
+      "수입: 수입원을 클릭하면 이제 '지출 0' 대신 들어온 금액이 보여요."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3695,7 +3710,8 @@
       "Mô hình tiền: số tiền mỗi tháng giờ gọi là 'một tháng bình thường', và phần giải thích chi phí cố định nói rõ phần trả gốc hiện riêng. Phần giải thích không còn che hành tinh đang mở, và cỗ máy thời gian không còn nằm lại sau dòng tiền.",
       "Cập nhật sổ sách: giờ bạn có thể bỏ dấu tích — chạm vào vòng tròn, hoặc chạm thêm một lần vào 'Đúng vậy'.",
       "Chi tiêu: ở chế độ Năm, giờ bạn có thể chọn một năm trước. Bạn thấy mỗi danh mục đã tốn bao nhiêu năm đó, kể cả tổng năm bạn đã nhập.",
-      "Chỉ số chính: 'Chi tiêu so với năm ngoái' và các ô năm khác chỉ so với ghi chép năm ngoái khi chúng bắt đầu từ tháng Một; nếu không thì so với tổng năm bạn đã nhập. Không còn +789% vì sổ sách bắt đầu từ tháng Mười Một."
+      "Chỉ số chính: 'Chi tiêu so với năm ngoái' và các ô năm khác chỉ so với ghi chép năm ngoái khi chúng bắt đầu từ tháng Một; nếu không thì so với tổng năm bạn đã nhập. Không còn +789% vì sổ sách bắt đầu từ tháng Mười Một.",
+      "Thu nhập: bấm vào một nguồn thu nhập giờ hiện số tiền đã nhận, thay vì 0 'đã chi'."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3925,7 +3941,8 @@
       "资金模型：每月金额现在称为“普通的一个月”，固定开支的说明也写明还本部分单独显示。说明框不再遮住打开的行星，时光机也不再残留在资金流后面。",
       "更新账本：现在也可以取消勾选了——点一下圆圈，或再点一次“是的，没错”。",
       "支出：在“年”视图中现在可以选择往年。你能看到每个类别那一年花了多少，包含你导入的年度总额。",
-      "关键数据：“支出较去年”等年度卡片只有在去年的记账从一月开始时才与之比较，否则与你导入的年度总额比较。不会再因为账本从十一月才开始而出现 +789%。"
+      "关键数据：“支出较去年”等年度卡片只有在去年的记账从一月开始时才与之比较，否则与你导入的年度总额比较。不会再因为账本从十一月才开始而出现 +789%。",
+      "收入：点击某个收入来源，现在显示实际到账金额，而不是“已支出 0”。"
     ]
   };
 
