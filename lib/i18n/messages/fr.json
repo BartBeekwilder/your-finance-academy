@@ -2296,5 +2296,6 @@
  "Starts at your own last 12 months: {pct}": "Commence à vos 12 derniers mois : {pct}",
  "Starts at your home's growth per year: {pct}": "Commence à la croissance annuelle de votre logement : {pct}",
  "A USUAL MONTH": "UN MOIS NORMAL",
- "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Les charges fixes d’un mois normal (enregistrées plus à venir), sans la part de remboursement de votre hypothèque — elle figure à part sous Remboursement. Ce qui part est perdu : cela réduit vos fonds propres."
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Les charges fixes d’un mois normal (enregistrées plus à venir), sans la part de remboursement de votre hypothèque — elle figure à part sous Remboursement. Ce qui part est perdu : cela réduit vos fonds propres.",
+ "{amount} received": "{amount} reçus"
 }

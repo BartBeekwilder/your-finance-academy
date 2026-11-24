@@ -2296,5 +2296,6 @@
  "Starts at your own last 12 months: {pct}": "あなた自身の直近12か月から開始：{pct}",
  "Starts at your home's growth per year: {pct}": "住宅の年あたりの値上がりから開始：{pct}",
  "A USUAL MONTH": "ふつうの月",
- "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "ふつうの月の固定費（記帳済み＋これから来る分）。住宅ローンの元本返済分は含みません — それは「返済」に別に表示されます。出たお金は戻りません：純資産を減らします。"
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "ふつうの月の固定費（記帳済み＋これから来る分）。住宅ローンの元本返済分は含みません — それは「返済」に別に表示されます。出たお金は戻りません：純資産を減らします。",
+ "{amount} received": "{amount} 受け取り済み"
 }

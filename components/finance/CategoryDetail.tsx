@@ -20,6 +20,15 @@ import { viewedMonthEnd } from "@/lib/finance/viewedMonth";
 
 type Open = (categoryId: string, from?: Element | null) => void;
 const Ctx = createContext<Open>(() => {});
+// An income category's sheet speaks of received, not spent.
+const IncomeKind = createContext(false);
+function useAmountWords() {
+  const income = useContext(IncomeKind);
+  return {
+    label: income ? t("Received") : t("Spent"),
+    amount: (amount: string) => (income ? t("{amount} received", { amount }) : t("{amount} spent", { amount })),
+  };
+}
 
 /** Returns a function that opens the detail sheet for a category id. Pass
  *  the clicked element as `from` and the sheet grows out of it. */
@@ -75,6 +84,7 @@ function Detail({ categoryId, at, onClose }: { categoryId: string; at: Date | nu
   const byId = new Map(categories.map((c) => [c.id, c]));
 
   return (
+    <IncomeKind.Provider value={!!category.is_income_category}>
     <div style={{ display: "grid", gap: 22 }}>
       <header style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <CategoryIcon icon={category.icon} colorHex={category.color_hex} size={44} />
@@ -178,7 +188,7 @@ function Detail({ categoryId, at, onClose }: { categoryId: string; at: Date | nu
       <section>
         <h3 className="pf-section-title" style={{ marginLeft: 0 }}>Transactions — {monthYear(now)}</h3>
         <div className="pf-card" style={{ background: "var(--pf-card-2)" }}>
-          {view.thisMonth.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>{t("No expenses in this category this month.")}</div>}
+          {view.thisMonth.length === 0 && <div className="pf-row" style={{ color: "var(--pf-ink-2)" }}>{category.is_income_category ? t("No income entered this month.") : t("No expenses in this category this month.")}</div>}
           {view.thisMonth.map((t) => {
             const sub = t.category_id && t.category_id !== category.id ? byId.get(t.category_id)?.name : undefined;
             return (
@@ -199,6 +209,7 @@ function Detail({ categoryId, at, onClose }: { categoryId: string; at: Date | nu
         </div>
       </section>
     </div>
+    </IncomeKind.Provider>
   );
 }
 
@@ -207,11 +218,12 @@ type Point = CategoryMonth;
 const RED = "#ff453a";
 
 function Legend({ color, hasBudget }: { color: string; hasBudget: boolean }) {
+  const words = useAmountWords();
   if (!hasBudget) return null;
   return (
     <div style={{ display: "flex", gap: 14, fontSize: "0.68rem", color: "var(--pf-ink-2)", marginTop: 6 }}>
       <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-        <span style={{ width: 14, height: 2.5, borderRadius: 2, background: color }} /> {t("Spent")}
+        <span style={{ width: 14, height: 2.5, borderRadius: 2, background: color }} /> {words.label}
       </span>
       <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
         <span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> {t("Budget")}
@@ -224,6 +236,7 @@ function Legend({ color, hasBudget }: { color: string; hasBudget: boolean }) {
  *  above the dashed line means over budget for the year so far. Hover or
  *  drag to read any month. */
 function CumulativeChart({ points, color, currency }: { points: Point[]; color: string; currency: string }) {
+  const words = useAmountWords();
   const [sel, setSel] = useState<number | null>(null);
   const W = 480, H = 140;
   const past = points.filter((p) => !p.future);
@@ -248,7 +261,7 @@ function CumulativeChart({ points, color, currency }: { points: Point[]; color: 
       <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
         {spent.length > 0 && (
           <>
-            {monthYear(past[shown].month)} · {t("{amount} spent", { amount: money(spent[shown], currency) })}
+            {monthYear(past[shown].month)} · {words.amount(money(spent[shown], currency))}
             {hasBudget && (
               <>
                 {" "}{t("of {budget}", { budget: money(budget[shown], currency) })} ·{" "}
@@ -298,6 +311,7 @@ function CumulativeChart({ points, color, currency }: { points: Point[]; color: 
 function MonthCumulative({ now, done, txs, budget, expected, color, currency }: {
   now: Date; done: boolean; txs: { day: number; amount: number }[]; budget: number | null; expected: number | null; color: string; currency: string;
 }) {
+  const words = useAmountWords();
   const [sel, setSel] = useState<number | null>(null);
   const W = 480, H = 140;
   const days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
@@ -324,7 +338,7 @@ function MonthCumulative({ now, done, txs, budget, expected, color, currency }: 
   return (
     <div>
       <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
-        {date}{shown > today ? ` ${t("· forecast")}` : ""} · {t("{amount} spent", { amount: money(shownSpent, currency) })}
+        {date}{shown > today ? ` ${t("· forecast")}` : ""} · {words.amount(money(shownSpent, currency))}
         {budget !== null && (
           <>
             {" "}{t("of {budget}", { budget: money(pace(shown), currency) })} ·{" "}
@@ -346,7 +360,7 @@ function MonthCumulative({ now, done, txs, budget, expected, color, currency }: 
         </svg>
       </WithYAxis>
       <div style={{ display: "flex", gap: 14, fontSize: "0.68rem", color: "var(--pf-ink-2)", marginTop: 6 }}>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><span style={{ width: 14, height: 2.5, borderRadius: 2, background: color }} /> {t("Spent")}</span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><span style={{ width: 14, height: 2.5, borderRadius: 2, background: color }} /> {words.label}</span>
         {budget !== null && <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><span style={{ width: 14, borderTop: "2px dashed var(--pf-ink-2)" }} /> {t("Budget, spread over the month")}</span>}
         {!done && <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><span style={{ width: 14, borderTop: `2px dotted ${color}` }} /> {t("Forecast")}</span>}
       </div>
@@ -466,6 +480,7 @@ function DayBars({ now, done, currency, series, txs }: {
   series: { id: string; name: string; color: string }[];
   txs: { day: number; id: string; amount: number }[];
 }) {
+  const words = useAmountWords();
   const [sel, setSel] = useState<number | null>(null);
   const days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
   const today = now.getDate();
@@ -483,7 +498,7 @@ function DayBars({ now, done, currency, series, txs }: {
       <div style={{ minHeight: 18, fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>
         {shown === null ? (
           done
-            ? t("{amount} spent", { amount: money(totals.reduce((a, b) => a + b, 0), currency) })
+            ? words.amount(money(totals.reduce((a, b) => a + b, 0), currency))
             : t("{amount} this month so far", { amount: money(totals.reduce((a, b) => a + b, 0), currency) })
         ) : (
           <>

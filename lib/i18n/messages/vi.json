@@ -2296,5 +2296,6 @@
  "Starts at your own last 12 months: {pct}": "Bắt đầu từ 12 tháng gần nhất của bạn: {pct}",
  "Starts at your home's growth per year: {pct}": "Bắt đầu từ mức tăng giá nhà mỗi năm của bạn: {pct}",
  "A USUAL MONTH": "MỘT THÁNG BÌNH THƯỜNG",
- "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Chi phí cố định của một tháng bình thường (đã ghi cộng phần sắp tới), không gồm phần trả gốc của khoản vay nhà — phần đó hiện riêng ở Trả nợ gốc. Đã chi là mất: điều này làm giảm vốn chủ sở hữu."
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Chi phí cố định của một tháng bình thường (đã ghi cộng phần sắp tới), không gồm phần trả gốc của khoản vay nhà — phần đó hiện riêng ở Trả nợ gốc. Đã chi là mất: điều này làm giảm vốn chủ sở hữu.",
+ "{amount} received": "Đã nhận {amount}"
 }

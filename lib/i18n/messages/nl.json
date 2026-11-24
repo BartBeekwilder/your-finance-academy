@@ -2302,5 +2302,6 @@
  "Starts at your own last 12 months: {pct}": "Begint bij je eigen laatste 12 maanden: {pct}",
  "Starts at your home's growth per year: {pct}": "Begint bij de groei van je woning per jaar: {pct}",
  "A USUAL MONTH": "EEN GEWONE MAAND",
- "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "De vaste lasten van een gewone maand (geboekt plus wat nog komt), zonder het aflossingsdeel van je hypotheek — dat staat apart bij Aflossing. Weg is weg: dit verlaagt je eigen vermogen."
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "De vaste lasten van een gewone maand (geboekt plus wat nog komt), zonder het aflossingsdeel van je hypotheek — dat staat apart bij Aflossing. Weg is weg: dit verlaagt je eigen vermogen.",
+ "{amount} received": "{amount} ontvangen"
 }

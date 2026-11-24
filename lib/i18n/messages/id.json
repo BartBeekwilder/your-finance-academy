@@ -2296,5 +2296,6 @@
  "Starts at your own last 12 months: {pct}": "Mulai dari 12 bulan terakhir Anda sendiri: {pct}",
  "Starts at your home's growth per year: {pct}": "Mulai dari pertumbuhan nilai rumah Anda per tahun: {pct}",
  "A USUAL MONTH": "BULAN BIASA",
- "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Biaya tetap bulan biasa (yang tercatat ditambah yang akan datang), tanpa porsi pokok KPR Anda — itu tampil terpisah di Cicilan pokok. Yang keluar, hilang: ini menurunkan ekuitas Anda."
+ "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Biaya tetap bulan biasa (yang tercatat ditambah yang akan datang), tanpa porsi pokok KPR Anda — itu tampil terpisah di Cicilan pokok. Yang keluar, hilang: ini menurunkan ekuitas Anda.",
+ "{amount} received": "{amount} diterima"
 }

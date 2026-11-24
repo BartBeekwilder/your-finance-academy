@@ -212,7 +212,9 @@ export type CategoryMonth = { month: Date; total: number; budget: number | null;
  *  Shared by the dashboard cards and the category sheet so they agree. */
 export function categoryYear(data: FinanceData, category: Category, now: Date) {
   const ids = selfAndChildren(category, live(data.categories));
-  const expenses = live(data.transactions).filter((t) => t.type === "expense" && t.category_id && ids.has(t.category_id));
+  // An income category counts its income (Bart, 24 Nov: its sheet stayed empty).
+  const kind = category.is_income_category ? "income" : "expense";
+  const expenses = live(data.transactions).filter((t) => t.type === kind && t.category_id && ids.has(t.category_id));
   const budgets = live(data.budgets)
     .filter((b) => b.category_id === category.id)
     .map((b) => ({ key: b.month.slice(0, 7), amount: num(b.amount) }))
