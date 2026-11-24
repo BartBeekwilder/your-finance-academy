@@ -2270,5 +2270,6 @@
  "Expected back": "Beklenen geri ödeme",
  "Optional: the dashboard reminds you when it's due.": "İsteğe bağlı: zamanı geldiğinde panel sana hatırlatır.",
  "was due on {date}": "{date} tarihinde gelmesi gerekiyordu",
- "Your part of the home": "Evdeki payın"
+ "Your part of the home": "Evdeki payın",
+ "One account for the website and the app on iPhone, iPad and Mac: sign in there with the same email.": "Web sitesi ve iPhone, iPad ve Mac'teki uygulama için tek hesap: orada aynı e-posta ile giriş yapın."
 }
