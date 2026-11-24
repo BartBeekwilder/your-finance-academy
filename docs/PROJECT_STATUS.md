@@ -30,9 +30,10 @@ Where it stands (20 Nov, night):
   (web + iOS). Web on web-app, NOT live. 24 Nov: sign-in line 'one account
   for app and website' (17 languages, web + iOS); liquidity path touch
   read-out on iOS; 85/85 unit tests (UI tests hang — run with
-  -only-testing:"Personal FinanceTests"). Next: touch highlights on the other
-  iOS charts (NetWorth, Loans, RealEstate, RentVsBuy, StackedMix, liquidity mix
-  bar), then build 6.
+  -only-testing:"Personal FinanceTests"). Touch done everywhere: every iOS
+  chart reacts to touch (Year Wrapped equity line added; mix bars light up the
+  part tapped; liquidity bar shows amounts and now adds up to the live number).
+  Next: build 6 → TestFlight, Bart checks on his iPad, then submit.
 - 23 Nov evening — App Store Connect (version 1.0) filled: texts in 17
   languages (AppStore/metadata.json), subscription group + yearly/monthly in
   17 languages, screenshots (6 iPhone 6.3" 1206x2622 + 6 iPad 13") for en,
