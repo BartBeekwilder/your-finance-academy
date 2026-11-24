@@ -74,6 +74,8 @@
       ".mm-lbl-block{left:0;top:0;text-align:left;font-size:11px;color:#c9cede;will-change:transform}",
       ".mm-tip{position:absolute;max-width:260px;padding:10px 12px;border-radius:12px;background:rgba(12,13,19,.94);border:1px solid #1f2330;box-shadow:0 10px 30px rgba(0,0,0,.5);font:12.5px/1.45 system-ui,sans-serif;color:#a3a9bb;pointer-events:none;z-index:3;display:grid;gap:2px}",
       ".mm-tip strong{color:#eef0f6;font-size:13.5px}",
+      // [hidden] must win over the display above (24 Nov: the popover stayed over an open planet).
+      ".mm-stage [hidden]{display:none!important}",
       ".mm-tip em{font:600 14px ui-monospace,Menlo,monospace;font-style:normal;color:#eef0f6}",
       ".mm-layer{position:absolute;transform:translateY(-50%);display:grid;grid-template-columns:10px auto;column-gap:8px;align-items:baseline;white-space:nowrap;font:12px/1.3 system-ui,sans-serif;color:#a3a9bb;text-shadow:0 1px 6px #000}",
       ".mm-layer i{width:10px;height:10px;border-radius:3px;align-self:center}",
@@ -917,6 +919,8 @@
       // Owned and owed reaches above and below the ground: step back to see both.
       setTimeMode(m) { const next = m === "balance" ? "balance" : "source"; if (next !== tmMode && view === "time") dist = next === "balance" ? (opts.compact ? 28 : 25) : (opts.compact ? 22 : 19); tmMode = next; },
       onModel(f) { listeners.push(f); f(model); return () => listeners.splice(listeners.indexOf(f), 1); },
+      // Open a planet by its key (inkomen, uitgaven, aflossing, bel, huis, schuld, ev), as a tap would.
+      openPlanet(key) { if (view !== "grav" || !world.grav) return false; const o = key === "ev" ? world.grav.sun : (world.grav.P.find((p) => p.m.userData.key === key) || {}).m; if (o) openFocus(o); return !!o; },
       destroy() {
         alive = false; cancelAnimationFrame(raf); ro.disconnect();
         stage.removeEventListener("pointerdown", onDown); stage.removeEventListener("pointerup", onUp);
