@@ -5,6 +5,7 @@ import { live, monthToDate, spendByCategory, spendByCategoryYear, summarize, yea
 import { upcomingFixedCosts } from "@/lib/finance/recurring";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
+import type { PastYear } from "@/lib/finance/pastYear";
 import CategoryIcon from "./CategoryIcon";
 import type { Mode } from "./LiveTiles";
 
@@ -14,16 +15,18 @@ import type { Mode } from "./LiveTiles";
 // the page to that category (scopeToCategory); picking it again, or All,
 // gives the whole picture back.
 
-export default function CategoryTiles({ data, now, mode, currency, selected, onSelect }: {
+export default function CategoryTiles({ data, now, mode, currency, selected, onSelect, past }: {
   data: FinanceData;
   now: Date;
   mode: Mode;
   currency: string;
   selected: string | null;
   onSelect: (id: string | null) => void;
+  /** Year view of an earlier year: bookings and imported totals (pastYear). */
+  past?: PastYear;
 }) {
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
-  const rows = (mode === "month" ? spendByCategory(data, month) : spendByCategoryYear(data, now)).map((r) => ({ category: r.category, spent: r.spent }));
+  const rows = past ? past.rows : (mode === "month" ? spendByCategory(data, month) : spendByCategoryYear(data, now)).map((r) => ({ category: r.category, spent: r.spent }));
   const total = rows.reduce((s, r) => s + r.spent, 0);
   // "% of income": against the month's income — this month the expected
   // income (salary + side income), since the salary may not be in yet; a
@@ -35,7 +38,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
     const current = m.getFullYear() === today.getFullYear() && m.getMonth() === today.getMonth();
     return current ? Math.max(entered, yearForecast(data, today)[0]?.income ?? entered) : entered;
   };
-  const income =
+  const income = past ? past.income :
     mode === "month"
       ? isThisMonth ? monthIncome(month) : summarize(data.transactions, month).income
       : Array.from({ length: now.getMonth() + 1 }, (_, m) => monthIncome(new Date(now.getFullYear(), m, 1))).reduce((a, b) => a + b, 0);
@@ -43,7 +46,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
   // the month like the live tiles — salary and fixed costs (also those still
   // to come) as the month passes, side income and variable spending as
   // booked. Only while the period shown runs through today.
-  const runsToday = mode === "month" ? isThisMonth : now.getFullYear() === today.getFullYear();
+  const runsToday = !past && (mode === "month" ? isThisMonth : now.getFullYear() === today.getFullYear());
   const soFar = runsToday ? toDate(data, today, rows, mode === "year") : null;
   const ofIncome = (v: number) => (income > 0 ? t("{pct}% of income", { pct: Math.round((v / income) * 100) }) : null);
   const cats = live(data.categories);
@@ -88,7 +91,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
       })}
     </div>
     <div className="pf-incomerings">
-    {income > 0 && <IncomeRing rows={rows} income={income} currency={currency} label={mode === "year" ? t("of this year's income spent") : t("of your income spent")} />}
+    {income > 0 && <IncomeRing rows={rows} income={income} currency={currency} label={mode === "year" && !past ? t("of this year's income spent") : t("of your income spent")} />}
     {soFar && soFar.income > 0 && <IncomeRing rows={soFar.rows} income={soFar.income} currency={currency} label={t("of the income earned so far spent")} />}
     </div>
     </div>

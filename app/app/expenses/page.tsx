@@ -20,11 +20,14 @@ import { scopeToCategory } from "@/lib/finance/scope";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
 import MonthPicker from "@/components/finance/MonthPicker";
+import YearPicker from "@/components/finance/YearPicker";
+import { firstExpenseYear, pastYear as pastYearOf } from "@/lib/finance/pastYear";
 import Stat, { ExpectedBar } from "@/components/finance/Stat";
 import { liveFixed, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { budgetTotals } from "@/lib/finance/progressModel";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 import ReadWithAI from "@/components/finance/ReadWithAI";
+import type { FinanceData } from "@/lib/finance/types";
 
 // The Income page's counterpart for spending: the dashboard's live Spent
 // tile (Month / Year, zoom and scrub), a few headline figures, and the last
@@ -57,6 +60,10 @@ export default function ExpensesPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const past = mode === "month" && picked < thisMonth;
+  // Year view: this year, or an earlier one picked (Bart, 24 Nov) — shown from
+  // its bookings and imported year totals (pastYear).
+  const [pickedYear, setPickedYear] = useState(now.getFullYear());
+  const earlier = mode === "year" && pickedYear < now.getFullYear() ? pastYearOf(all, pickedYear) : null;
   // Quick Add starts its date in the month looked at.
   useEffect(() => {
     setViewedMonth(past ? picked : null);
@@ -106,6 +113,7 @@ export default function ExpensesPage() {
               marked={(d) => spentMonths.has(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`)}
             />
           )}
+          {mode === "year" && <YearPicker value={pickedYear} onChange={setPickedYear} min={firstExpenseYear(all, now)} max={now.getFullYear()} />}
           <Segmented label={t("Period")} value={mode} onChange={setMode} options={[{ value: "month", label: t("Month") }, { value: "year", label: t("Year") }]} />
           <ReadWithAI kind="bank" />
           <Link href={`/app/report?month=${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}`} className="pf-chip" title={t("Monthly report")} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 12px", textDecoration: "none" }}>
@@ -116,6 +124,10 @@ export default function ExpensesPage() {
 
       {past && isEmptyMonth(all, picked) && <FillMonth key={picked.getTime()} month={picked} />}
 
+      {earlier ? (
+        <PastYearView key={pickedYear} year={pickedYear} past={earlier} data={all} currency={currency} />
+      ) : (
+      <>
       <CategoryTiles data={all} now={at} mode={mode} currency={currency} selected={scope} onSelect={setScope} />
 
       <div
@@ -233,6 +245,38 @@ export default function ExpensesPage() {
       </section>
       )}
       </div>
+      </>
+      )}
+    </div>
+  );
+}
+
+/** Expenses › Year › an earlier year: the categories, the year's figures and
+ *  its months (bookings plus imported year totals). */
+function PastYearView({ year, past, data, currency }: { year: number; past: ReturnType<typeof pastYearOf>; data: FinanceData; currency: string }) {
+  const [scope, setScope] = useState<string | null>(null);
+  const shown = scope ? past.rows.find((r) => r.category.id === scope)?.spent ?? 0 : past.total;
+  const imported = (data.yearCategoryTotals ?? []).some((r) => r.year === year);
+  return (
+    <div style={{ display: "grid", gap: 24 }}>
+      <CategoryTiles data={data} now={new Date(year, 11, 31, 23, 59, 59)} mode="year" currency={currency} selected={scope} onSelect={setScope} past={past} />
+      <div className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+        <Stat label={t("Spent in {monthName}", { monthName: String(year) })} value={money(shown, currency)} hint={imported ? t("Imported history: a year's total, spread evenly over the months that have no transactions.") : undefined} />
+        <Stat label={t("Average / month")} value={money(shown / 12, currency)} />
+      </div>
+      {!scope && (
+        <section>
+          <h2 className="pf-section-title">{t("By month")}</h2>
+          <div className="pf-card">
+            {past.months.map((v, m) => (
+              <div key={m} className="pf-row">
+                <span style={{ flex: 1 }}>{monthYear(new Date(year, m, 1))}</span>
+                <span className="pf-rounded" style={{ fontWeight: 600, color: v ? "var(--pf-red)" : "var(--pf-ink-3)", textAlign: "right" }}>{v ? money(v, currency) : t("Nothing spent")}</span>
+              </div>
+            )).reverse()}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

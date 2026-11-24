@@ -7,8 +7,8 @@ import type { FinanceData, Transaction } from "./types";
 // Key figures › "This year in percent" (Bart, 24 Nov): how this year is going
 // against last year, each tile on the same period (1 January to today, and
 // last year up to the same day) so half a year isn't set against a whole one.
-// Without transactions for last year's period, the imported year totals
-// stand in, pro rata to today. Ported 1:1 to the apps (YearPercents.swift).
+// When the bookings don't go back to last year's 1 January, the imported year
+// totals stand in, pro rata to today. Ported 1:1 to the apps (YearPercents.swift).
 
 export type YearTile = {
   key: string;
@@ -44,9 +44,13 @@ export function yearPercents(data: FinanceData, now: Date): YearTile[] {
   const isFixed = (t: Transaction) => t.type === "expense" && t.is_fixed_expense;
   const imported = (rows: { year: number; amount: unknown; category_id?: string | null }[] | undefined, keep: (r: { category_id?: string | null }) => boolean = () => true) =>
     (rows ?? []).filter((r) => r.year === y - 1 && keep(r)).reduce((s, r) => s + num(r.amount as never), 0) * part;
+  // Last year's bookings count only when they cover its start (Bart, 24 Nov:
+  // books begun in November gave "+789%"); otherwise the imported year totals.
+  const firstBooked = tx.reduce((m, t) => Math.min(m, Date.parse(t.date)), Infinity);
+  const lyCovered = firstBooked <= lyJan.getTime() + 7 * DAY;
   const pair = (keep: (t: Transaction) => boolean, fallback: () => number) => {
     const cur = sum(jan, now, keep);
-    const before = sum(lyJan, lyNow, keep);
+    const before = lyCovered ? sum(lyJan, lyNow, keep) : 0;
     return { cur, prev: before > 0 ? before : fallback() };
   };
   const out: YearTile[] = [];
