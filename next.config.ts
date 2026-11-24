@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   // The homepage is the product site, a static page in public/home (Dutch
   // for now); the old homepage moved to /academy.
+  // Only our own pages may show the app in a frame (the homepage's devices):
+  // another site can't embed it, demo or not (Bart, 24 Nov).
+  async headers() {
+    return [{ source: "/app/:path*", headers: [{ key: "Content-Security-Policy", value: "frame-ancestors 'self'" }] },
+            { source: "/app", headers: [{ key: "Content-Security-Policy", value: "frame-ancestors 'self'" }] }];
+  },
   async rewrites() {
     return { beforeFiles: [{ source: "/", destination: "/home/index.html" }, { source: "/updates", destination: "/updates/index.html" }], afterFiles: [], fallback: [] };
   },

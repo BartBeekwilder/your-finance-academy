@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { OPEN_SIGNUP } from "./SignIn";
 import { t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
@@ -321,8 +322,14 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       }
       const demoParam = new URLSearchParams(location.search).get("demo") === "1";
       const framed = window.self !== window.top;
-      if (demoParam && !framed) sessionStorage.setItem(DEMO_KEY, "1");
-      demo = (demoParam && framed) || sessionStorage.getItem(DEMO_KEY) === "1";
+      // The demo runs only inside the homepage's own device frames (Bart,
+      // 24 Nov: open to all it was a free copy of the app). Opened on its
+      // own, /app?demo=1 is the sign-in. Locally (dev) it stays, for testing.
+      let ours = false;
+      try { ours = framed && window.top!.location.origin === location.origin; } catch {}
+      if (DEV && demoParam && !framed) sessionStorage.setItem(DEMO_KEY, "1");
+      if (!DEV) sessionStorage.removeItem(DEMO_KEY);
+      demo = (demoParam && ours) || (DEV && sessionStorage.getItem(DEMO_KEY) === "1");
       local = DEV && sessionStorage.getItem(LOCAL_KEY) === "1";
     } catch {}
     if (local) {
@@ -749,6 +756,19 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   // home: the first property's value; investments: every holding scaled so
   // the total at today's prices is the visitor's amount.
   const isDemo = phase.kind === "ready" && phase.source === "demo";
+  // The homepage's first iPad runs itself: it walks through the tabs (Bart,
+  // 24 Nov — instead of an open demo). Only app pages, only from our page.
+  const router = useRouter();
+  useEffect(() => {
+    if (!isDemo || window.self === window.top) return;
+    const onNav = (e: MessageEvent) => {
+      if (e.origin !== window.location.origin || e.data?.type !== "pf-demo-nav") return;
+      const path = String(e.data.path ?? "");
+      if (/^\/app(\/[a-z-]+)?$/.test(path) && path !== window.location.pathname) router.push(path);
+    };
+    window.addEventListener("message", onNav);
+    return () => window.removeEventListener("message", onNav);
+  }, [isDemo, router]);
   useEffect(() => {
     if (!isDemo || window.self === window.top) return;
     const onMessage = (e: MessageEvent) => {
@@ -1176,7 +1196,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     return (
       <LanguageRoot>
         <div className="pf-solo">
-          <SignIn onDemo={startDemo} onLocal={localFile === "has" ? () => void startLocal() : undefined} onLocalNew={localFile === "missing" ? () => void startLocal(true) : undefined} />
+          <SignIn onDemo={DEV ? startDemo : undefined} onLocal={localFile === "has" ? () => void startLocal() : undefined} onLocalNew={localFile === "missing" ? () => void startLocal(true) : undefined} />
         </div>
       </LanguageRoot>
     );

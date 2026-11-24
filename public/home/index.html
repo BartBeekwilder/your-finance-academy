@@ -458,6 +458,7 @@
   .paper__sheet { position: absolute; inset: 0; border-radius: 6px; overflow: hidden; background: #fbfbfd; transform: rotateY(-8deg) rotateX(4deg) rotateZ(1.5deg); box-shadow: 0 50px 90px -30px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05); transition: transform 1s var(--ease); }
   .paper__stage:hover .paper__sheet:not(.paper__sheet--back) { transform: rotateY(-3deg) rotateX(2deg) rotateZ(0.5deg) translateY(-6px); }
   .paper__sheet--back { transform: rotateY(-8deg) rotateX(4deg) rotateZ(-4deg) translate(-18px, 14px); background: #e9e9f0; opacity: 0.55; }
+  #ipad { pointer-events: none; } /* runs itself (tour), not an open demo — Bart, 24 Nov */
   .paper__sheet iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; pointer-events: none; background: #fbfbfd; }
   @media (max-width: 900px) { .paper { grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce) { .paper__sheet { transition: none; } }
@@ -514,7 +515,7 @@
 <header class="status">
   <a class="brand" href="/" translate="no"><img class="brand__icon" src="/brand/icon-64.png" width="32" height="32" alt=""><span><b>Personal Finance</b><small>by YourFinanceAcademy.com</small></span></a>
   <span class="state"><span class="dot"></span><span id="clock">live</span></span>
-  <nav aria-label="Hoofdmenu"><select id="langSel" class="langsel" aria-label="Taal / Language"></select><a href="#functies">Functies</a><a href="/updates">Updates</a><a href="/app?demo=1" class="navdemo">Live demo</a><a href="/app">Inloggen</a><a class="btn btn--trial" href="/app?trial=1">Probeer nu gratis!</a></nav>
+  <nav aria-label="Hoofdmenu"><select id="langSel" class="langsel" aria-label="Taal / Language"></select><a href="#functies">Functies</a><a href="/updates">Updates</a><a href="/app">Inloggen</a><a class="btn btn--trial" href="/app?trial=1">Probeer nu gratis!</a></nav>
 </header>
 <nav class="rail" id="rail" aria-label="Secties">
   <a href="#hero"><span>Start</span><i></i></a>
@@ -546,7 +547,7 @@
     <div class="hero__col">
       <h1 id="h1">Je hele financiële leven, live.</h1>
       <p class="hero__sub">Je <span class="chip chip--edit" style="--c:#30d158" data-edit="pay" role="button" tabindex="0" title="Tik om je eigen bedrag in te vullen">loon tot nu <b id="subPay">€ 0,00</b><svg class="pen" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3a1.6 1.6 0 0 1 2.3 2.3l-8 8-3.1.8.8-3.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>, je <span class="chip chip--edit" style="--c:#ffb547" data-edit="inv" role="button" tabindex="0" title="Tik om je eigen bedrag in te vullen">beleggingen <b id="subBtc">€ 45.000</b><svg class="pen" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3a1.6 1.6 0 0 1 2.3 2.3l-8 8-3.1.8.8-3.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span> en je <span class="chip chip--edit" style="--c:#5b8def" data-edit="home" role="button" tabindex="0" title="Tik om je eigen bedrag in te vullen">huis <b id="subHome">€ 425.000</b><svg class="pen" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3a1.6 1.6 0 0 1 2.3 2.3l-8 8-3.1.8.8-3.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span> in één balans die <em>elke seconde</em> bijwerkt.</p>
-      <div class="ctas"><a class="btn btn--lg" href="/app?trial=1">Probeer nu gratis!<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="ctas__alt" href="/app?demo=1">Bekijk de live demo</a></div>
+      <div class="ctas"><a class="btn btn--lg" href="/app?trial=1">Probeer nu gratis!<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
       <span class="ctas__note">7 dagen gratis · daarna opzeggen wanneer je wilt</span>
     <div class="console" aria-label="Live voorbeeld">
       <header><span><i class="pulse"></i>LIVE · voorbeeld</span><span id="day">dag 0</span></header>
@@ -803,7 +804,7 @@
       <span class="phone__home" aria-hidden="true"></span>
       <span class="phone__nudge" id="phoneNudge" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span>
     </div>
-    <div class="phone__copy"><h2>Altijd bij je.</h2><p>Dezelfde cijfers op je telefoon, je iPad en het web. Altijd bij, altijd gelijk.</p><a class="btn btn--lg" href="/app?demo=1">Bekijk de live demo<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+    <div class="phone__copy"><h2>Altijd bij je.</h2><p>Dezelfde cijfers op je telefoon, je iPad en het web. Altijd bij, altijd gelijk.</p><a class="btn btn--lg" href="/app?trial=1">Probeer nu gratis!<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
   </section>
   <!-- The app pays for itself: Premium against what it helps you find. -->
   <section class="pb" id="terugverdiend">
@@ -849,7 +850,7 @@
   <section class="final" id="probeer">
     <h2>Klaar om het zelf te zien?</h2>
     <p>7 dagen gratis · daarna opzeggen wanneer je wilt</p>
-    <div class="ctas ctas--center"><a class="btn btn--lg" href="/app?trial=1">Probeer nu gratis!<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="ctas__alt" href="/app?demo=1">of bekijk eerst de live demo</a></div>
+    <div class="ctas ctas--center"><a class="btn btn--lg" href="/app?trial=1">Probeer nu gratis!<span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
   </section>
   <footer class="foot"><span translate="no">The Personal Finance Dashboard by YourFinanceAcademy.com · © 2026 Your Finance Academy (YFA)</span><span class="foot__links"><a href="/updates">Updates</a><a href="/terms">Voorwaarden</a><a href="/privacy">Privacy</a></span><span class="foot__legal" translate="no">Your Finance Academy · KvK 42222252 · Molenstraat 29, 5461 JP Veghel, Nederland</span></footer>
 </main>
@@ -1047,7 +1048,35 @@
       var f = document.getElementById('ipad');
       if (f && f.contentWindow) f.contentWindow.postMessage({ type: 'pf-demo-set', kind: kind, value: v }, location.origin);
     }, 350);
+    // Your own number: show it on the dashboard and let it sit there a while.
+    if (tour) tour.hold();
   }
+  // The first iPad runs itself instead of an open demo (Bart, 24 Nov): it
+  // walks through the app's tabs, only while it's on screen and the page is
+  // visible; pointing at it pauses the walk.
+  var tour = (function () {
+    var PAGES = ['/app', '/app/income', '/app/expenses', '/app/net-worth', '/app/balance', '/app/investments', '/app/progress'];
+    var STEP = 6000, i = 0, t = null, seen = false, over = false, until = 0;
+    var f = document.getElementById('ipad');
+    function go(path) { if (f && f.contentWindow) f.contentWindow.postMessage({ type: 'pf-demo-nav', path: path }, location.origin); }
+    function tick() {
+      t = null;
+      if (!seen || over || document.hidden) return;
+      if (Date.now() < until) { t = setTimeout(tick, until - Date.now()); return; }
+      i = (i + 1) % PAGES.length; go(PAGES[i]);
+      t = setTimeout(tick, i === 0 ? STEP * 1.5 : STEP);
+    }
+    function run() { if (!t) t = setTimeout(tick, STEP); }
+    if (f) {
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { seen = es[0].isIntersecting; if (seen) run(); }, { threshold: 0.3 }).observe(f);
+      else { seen = true; run(); }
+      var box = f.parentElement || f;
+      box.addEventListener('pointerenter', function () { over = true; });
+      box.addEventListener('pointerleave', function () { over = false; run(); });
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) run(); });
+    }
+    return { hold: function () { i = 0; go(PAGES[0]); until = Date.now() + STEP * 2; run(); } };
+  })();
   function inv() {
     var t = Date.now() / 1000, base = OWN.inv != null ? OWN.inv : 42000 + (PF.btc.eur != null ? PF.btc.eur * 0.05 : 3400);
     return base * (1 + 0.0003 * Math.sin(t / 30) + 0.0001 * Math.sin(t / 11 + 1.3));
