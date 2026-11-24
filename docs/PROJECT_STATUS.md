@@ -27,9 +27,12 @@ Where it stands (20 Nov, night):
   yearIncomeTotals from each sync; MoneyModelData.past = web timeline());
   'expected' only on the year in view + overlapping year labels hide
   (moneymodel.js, web too); growth % on liquidity rows and equity chips
-  (web + iOS). Web on web-app, NOT live. Still to do: sign-in line 'one
-  account for app and website' (17 languages), touch highlights in charts,
-  then build 6.
+  (web + iOS). Web on web-app, NOT live. 24 Nov: sign-in line 'one account
+  for app and website' (17 languages, web + iOS); liquidity path touch
+  read-out on iOS; 85/85 unit tests (UI tests hang — run with
+  -only-testing:"Personal FinanceTests"). Next: touch highlights on the other
+  iOS charts (NetWorth, Loans, RealEstate, RentVsBuy, StackedMix, liquidity mix
+  bar), then build 6.
 - 23 Nov evening — App Store Connect (version 1.0) filled: texts in 17
   languages (AppStore/metadata.json), subscription group + yearly/monthly in
   17 languages, screenshots (6 iPhone 6.3" 1206x2622 + 6 iPad 13") for en,
