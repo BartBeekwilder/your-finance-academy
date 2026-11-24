@@ -230,7 +230,11 @@
     "Tik om je eigen bedrag in te vullen",
     /*hero chips editable, live 23 Nov*/ "Op de homepage zijn loon, beleggingen en huis bovenaan je eigen bedragen: tik erop en vul ze in, en alles eronder rekent mee.",
     /*chips change the iPad, live 23 Nov*/ "Wat je bovenaan de homepage invult als loon, beleggingen en huis, verandert ook de app op de iPad ernaast.",
-    /*investments separator, live 23 Nov*/ "Beleggingen: tussen het resultaat en het percentage staat weer een scheidingsteken, en op je telefoon zie je de punten in de grafiek weer."
+    /*investments separator, live 23 Nov*/ "Beleggingen: tussen het resultaat en het percentage staat weer een scheidingsteken, en op je telefoon zie je de punten in de grafiek weer.",
+    /*growth %, live 24 Nov*/ "Liquiditeit en eigen vermogen laten nu ook zien hoeveel procent ze gegroeid zijn: vandaag, deze maand, dit jaar en sinds januari.",
+    /*time machine labels, live 24 Nov*/ "Tijdmachine: alleen het jaar dat je bekijkt zegt nog 'verwacht', en de jaartallen boven de torens lopen niet meer door elkaar.",
+    /*one account, live 24 Nov*/ "Bij het inloggen staat erbij dat je met hetzelfde account ook inlogt in de app op iPhone, iPad en Mac.",
+    /*homepage iPad tour, live 24 Nov*/ "De iPad bovenaan de homepage laat de app nu vanzelf zien: hij gaat elke paar seconden naar het volgende tabblad."
   ];
 
   var L = {
@@ -449,7 +453,11 @@
       "Tap to fill in your own amount",
       "On the homepage, the pay, investments and home at the top are your own amounts: tap one, fill it in, and everything below follows.",
       "What you fill in at the top of the homepage as pay, investments and home now changes the app on the iPad next to it too.",
-      "Investments: the result and the percentage are separated again, and on your phone the chart shows its dots again."
+      "Investments: the result and the percentage are separated again, and on your phone the chart shows its dots again.",
+      "Liquidity and equity now also show how much they grew in percent: today, this month, this year and since January.",
+      "Time machine: only the year you're looking at still says 'expected', and the years above the towers no longer run into each other.",
+      "Signing in now says that the same account also signs you in to the app on iPhone, iPad and Mac.",
+      "The iPad at the top of the homepage now shows the app by itself: it moves to the next tab every few seconds."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -666,7 +674,11 @@
       "Tippen, um deinen eigenen Betrag einzugeben",
       "Auf der Startseite sind Gehalt, Anlagen und Zuhause oben deine eigenen Beträge: antippen, eintragen, und alles darunter rechnet mit.",
       "Was du oben auf der Startseite als Gehalt, Anlagen und Zuhause einträgst, verändert jetzt auch die App auf dem iPad daneben.",
-      "Anlagen: Ergebnis und Prozentsatz sind wieder getrennt, und auf dem Handy zeigt das Diagramm wieder seine Punkte."
+      "Anlagen: Ergebnis und Prozentsatz sind wieder getrennt, und auf dem Handy zeigt das Diagramm wieder seine Punkte.",
+      "Liquidität und Eigenkapital zeigen jetzt auch, um wie viel Prozent sie gewachsen sind: heute, diesen Monat, dieses Jahr und seit Januar.",
+      "Zeitmaschine: Nur das Jahr, das du ansiehst, sagt noch „erwartet“, und die Jahreszahlen über den Türmen überlappen nicht mehr.",
+      "Bei der Anmeldung steht jetzt, dass du dich mit demselben Konto auch in der App auf iPhone, iPad und Mac anmeldest.",
+      "Das iPad oben auf der Startseite zeigt die App jetzt von selbst: Alle paar Sekunden wechselt es zum nächsten Tab."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -883,7 +895,11 @@
       "Touche pour saisir ton propre montant",
       "Sur l'accueil, le salaire, les placements et le logement en haut sont tes propres montants : touche-les, saisis-les, et tout le reste suit.",
       "Ce que tu saisis en haut de l'accueil comme salaire, placements et logement modifie aussi l'appli sur l'iPad à côté.",
-      "Placements : le résultat et le pourcentage sont de nouveau séparés, et sur ton téléphone le graphique affiche de nouveau ses points."
+      "Placements : le résultat et le pourcentage sont de nouveau séparés, et sur ton téléphone le graphique affiche de nouveau ses points.",
+      "Les liquidités et les fonds propres montrent maintenant aussi leur croissance en pourcentage : aujourd’hui, ce mois-ci, cette année et depuis janvier.",
+      "Machine à remonter le temps : seule l’année affichée indique encore « prévu », et les années au-dessus des tours ne se chevauchent plus.",
+      "La connexion indique désormais que le même compte vous connecte aussi à l’app sur iPhone, iPad et Mac.",
+      "L’iPad en haut de la page d’accueil montre maintenant l’app tout seul : il passe à l’onglet suivant toutes les quelques secondes."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1100,7 +1116,11 @@
       "Toca para poner tu propio importe",
       "En la página de inicio, el sueldo, las inversiones y la casa de arriba son tus propios importes: tócalos, escríbelos y todo lo demás se ajusta.",
       "Lo que pones arriba en la página de inicio como sueldo, inversiones y casa también cambia la app del iPad de al lado.",
-      "Inversiones: el resultado y el porcentaje vuelven a estar separados, y en el móvil el gráfico vuelve a mostrar sus puntos."
+      "Inversiones: el resultado y el porcentaje vuelven a estar separados, y en el móvil el gráfico vuelve a mostrar sus puntos.",
+      "La liquidez y el patrimonio muestran ahora también cuánto han crecido en porcentaje: hoy, este mes, este año y desde enero.",
+      "Máquina del tiempo: solo el año que miras dice aún «previsto», y los años sobre las torres ya no se superponen.",
+      "Al iniciar sesión se indica ahora que la misma cuenta también sirve para la app en iPhone, iPad y Mac.",
+      "El iPad en la parte superior de la página de inicio ahora muestra la app por sí solo: pasa a la siguiente pestaña cada pocos segundos."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1317,7 +1337,11 @@
       "Tocca per inserire il tuo importo",
       "In homepage stipendio, investimenti e casa in alto sono i tuoi importi: toccali, inseriscili e tutto il resto si aggiorna.",
       "Quello che inserisci in alto in homepage come stipendio, investimenti e casa cambia anche l'app sull'iPad accanto.",
-      "Investimenti: risultato e percentuale sono di nuovo separati, e sul telefono il grafico mostra di nuovo i suoi punti."
+      "Investimenti: risultato e percentuale sono di nuovo separati, e sul telefono il grafico mostra di nuovo i suoi punti.",
+      "Liquidità e patrimonio netto mostrano ora anche di quanto sono cresciuti in percentuale: oggi, questo mese, quest’anno e da gennaio.",
+      "Macchina del tempo: solo l’anno che stai guardando dice ancora «previsto», e gli anni sopra le torri non si sovrappongono più.",
+      "All’accesso ora c’è scritto che lo stesso account vale anche per l’app su iPhone, iPad e Mac.",
+      "L’iPad in cima alla homepage ora mostra l’app da solo: passa alla scheda successiva ogni pochi secondi."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1534,7 +1558,11 @@
       "Toque para colocar seu próprio valor",
       "Na página inicial, salário, investimentos e casa no topo são seus próprios valores: toque, preencha, e todo o resto acompanha.",
       "O que você coloca no topo da página inicial como salário, investimentos e casa também muda o app no iPad ao lado.",
-      "Investimentos: o resultado e a porcentagem estão separados de novo, e no celular o gráfico volta a mostrar seus pontos."
+      "Investimentos: o resultado e a porcentagem estão separados de novo, e no celular o gráfico volta a mostrar seus pontos.",
+      "Liquidez e patrimônio agora também mostram quanto cresceram em porcentagem: hoje, este mês, este ano e desde janeiro.",
+      "Máquina do tempo: só o ano que você está vendo ainda diz «previsto», e os anos acima das torres não se sobrepõem mais.",
+      "Ao entrar, agora aparece que a mesma conta também vale para o app no iPhone, iPad e Mac.",
+      "O iPad no topo da página inicial agora mostra o app sozinho: ele passa para a próxima aba a cada poucos segundos."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1751,7 +1779,11 @@
       "Dotknij, aby wpisać własną kwotę",
       "Na stronie głównej pensja, inwestycje i dom na górze to twoje własne kwoty: dotknij, wpisz, a reszta się przeliczy.",
       "To, co wpiszesz na górze strony głównej jako pensję, inwestycje i dom, zmienia też aplikację na iPadzie obok.",
-      "Inwestycje: wynik i procent są znów rozdzielone, a na telefonie wykres znów pokazuje punkty."
+      "Inwestycje: wynik i procent są znów rozdzielone, a na telefonie wykres znów pokazuje punkty.",
+      "Płynność i kapitał własny pokazują teraz też procentowy wzrost: dziś, w tym miesiącu, w tym roku i od stycznia.",
+      "Wehikuł czasu: tylko oglądany rok ma jeszcze dopisek „prognoza”, a lata nad wieżami już na siebie nie nachodzą.",
+      "Przy logowaniu widać teraz, że tym samym kontem zalogujesz się też do aplikacji na iPhonie, iPadzie i Macu.",
+      "iPad na górze strony głównej pokazuje teraz aplikację sam: co kilka sekund przechodzi do następnej karty."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -1968,7 +2000,11 @@
       "Kendi tutarını girmek için dokun",
       "Ana sayfada üstteki maaş, yatırımlar ve ev senin kendi tutarların: dokun, gir, gerisi buna göre hesaplanır.",
       "Ana sayfanın üstüne maaş, yatırımlar ve ev olarak girdiklerin, yandaki iPad'deki uygulamayı da değiştirir.",
-      "Yatırımlar: sonuç ve yüzde yeniden ayrıldı; telefonda grafik noktalarını yine gösteriyor."
+      "Yatırımlar: sonuç ve yüzde yeniden ayrıldı; telefonda grafik noktalarını yine gösteriyor.",
+      "Likidite ve öz sermaye artık yüzde olarak ne kadar büyüdüklerini de gösteriyor: bugün, bu ay, bu yıl ve ocaktan beri.",
+      "Zaman makinesi: yalnızca baktığınız yıl hâlâ 'beklenen' diyor ve kulelerin üstündeki yıllar artık üst üste binmiyor.",
+      "Giriş ekranı artık aynı hesapla iPhone, iPad ve Mac'teki uygulamaya da giriş yapabileceğinizi söylüyor.",
+      "Ana sayfanın üstündeki iPad artık uygulamayı kendiliğinden gösteriyor: birkaç saniyede bir sonraki sekmeye geçiyor."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -2185,7 +2221,11 @@
       "Нажми, чтобы ввести свою сумму",
       "На главной зарплата, инвестиции и дом наверху — твои собственные суммы: нажми, введи, и всё ниже пересчитается.",
       "То, что ты вводишь наверху главной как зарплату, инвестиции и дом, теперь меняет и приложение на iPad рядом.",
-      "Инвестиции: результат и процент снова разделены, а на телефоне график снова показывает точки."
+      "Инвестиции: результат и процент снова разделены, а на телефоне график снова показывает точки.",
+      "Ликвидность и собственный капитал теперь показывают и рост в процентах: за сегодня, за месяц, за год и с января.",
+      "Машина времени: «ожидается» теперь подписан только выбранный год, а годы над башнями больше не наезжают друг на друга.",
+      "При входе теперь написано, что тем же аккаунтом вы входите и в приложение на iPhone, iPad и Mac.",
+      "iPad вверху главной страницы теперь сам показывает приложение: каждые несколько секунд он переходит на следующую вкладку."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2402,7 +2442,11 @@
       "اضغط لإدخال مبلغك الخاص",
       "في الصفحة الرئيسية أصبح الراتب والاستثمارات والمنزل في الأعلى مبالغك أنت: اضغط عليها وأدخلها، وكل ما تحتها يتبعها.",
       "ما تُدخله أعلى الصفحة الرئيسية كراتب واستثمارات ومنزل يغيّر الآن التطبيق على الآيباد المجاور أيضًا.",
-      "الاستثمارات: عاد الفصل بين النتيجة والنسبة المئوية، وعلى هاتفك يعرض الرسم البياني نقاطه مجددًا."
+      "الاستثمارات: عاد الفصل بين النتيجة والنسبة المئوية، وعلى هاتفك يعرض الرسم البياني نقاطه مجددًا.",
+      "تعرض السيولة وصافي الثروة الآن أيضًا نسبة نموهما: اليوم وهذا الشهر وهذا العام ومنذ يناير.",
+      "آلة الزمن: السنة التي تشاهدها فقط ما زالت تحمل «متوقع»، ولم تعد السنوات فوق الأبراج تتداخل.",
+      "تذكر شاشة تسجيل الدخول الآن أن الحساب نفسه يسجّل دخولك أيضًا إلى التطبيق على iPhone وiPad وMac.",
+      "يعرض iPad أعلى الصفحة الرئيسية التطبيق الآن من تلقاء نفسه: ينتقل إلى التبويب التالي كل بضع ثوانٍ."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2619,7 +2663,11 @@
       "अपनी राशि भरने के लिए टैप करें",
       "होमपेज पर सबसे ऊपर वेतन, निवेश और घर अब आपकी अपनी राशियाँ हैं: टैप करें, भरें, और नीचे सब कुछ उसी हिसाब से बदलता है।",
       "होमपेज के ऊपर आप वेतन, निवेश और घर के रूप में जो भरते हैं, वह अब बगल के iPad पर ऐप को भी बदलता है।",
-      "निवेश: परिणाम और प्रतिशत फिर से अलग दिखते हैं, और फ़ोन पर चार्ट के बिंदु फिर से दिखते हैं।"
+      "निवेश: परिणाम और प्रतिशत फिर से अलग दिखते हैं, और फ़ोन पर चार्ट के बिंदु फिर से दिखते हैं।",
+      "तरलता और इक्विटी अब यह भी दिखाते हैं कि वे कितने प्रतिशत बढ़े: आज, इस महीने, इस साल और जनवरी से।",
+      "टाइम मशीन: अब केवल वह साल 'अनुमानित' कहता है जिसे आप देख रहे हैं, और टावरों के ऊपर के साल आपस में नहीं टकराते।",
+      "साइन इन पर अब लिखा है कि उसी खाते से आप iPhone, iPad और Mac ऐप में भी साइन इन करते हैं।",
+      "होमपेज के ऊपर वाला iPad अब ऐप अपने आप दिखाता है: हर कुछ सेकंड में अगले टैब पर जाता है।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2836,7 +2884,11 @@
       "Ketuk untuk mengisi jumlahmu sendiri",
       "Di beranda, gaji, investasi, dan rumah di atas kini jumlahmu sendiri: ketuk, isi, dan semua di bawahnya ikut menghitung.",
       "Yang kamu isi di bagian atas beranda sebagai gaji, investasi, dan rumah kini juga mengubah aplikasi di iPad di sebelahnya.",
-      "Investasi: hasil dan persentase kembali dipisahkan, dan di ponsel grafik kembali menampilkan titik-titiknya."
+      "Investasi: hasil dan persentase kembali dipisahkan, dan di ponsel grafik kembali menampilkan titik-titiknya.",
+      "Likuiditas dan ekuitas kini juga menunjukkan berapa persen pertumbuhannya: hari ini, bulan ini, tahun ini, dan sejak Januari.",
+      "Mesin waktu: hanya tahun yang sedang Anda lihat yang masih bertuliskan 'perkiraan', dan tahun di atas menara tidak lagi bertumpuk.",
+      "Saat masuk kini tertulis bahwa akun yang sama juga untuk aplikasi di iPhone, iPad, dan Mac.",
+      "iPad di bagian atas beranda kini menampilkan aplikasi dengan sendirinya: berpindah ke tab berikutnya setiap beberapa detik."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -3053,7 +3105,11 @@
       "タップして自分の金額を入力",
       "トップページ上部の給与・投資・自宅が自分の金額に。タップして入力すると、下の表示もすべて連動します。",
       "トップページ上部に入力した給与・投資・自宅が、隣のiPadのアプリにも反映されます。",
-      "投資：損益と割合のあいだに区切りが戻り、スマートフォンのグラフに点が再び表示されます。"
+      "投資：損益と割合のあいだに区切りが戻り、スマートフォンのグラフに点が再び表示されます。",
+      "流動資金と純資産に、伸び率（％）も表示されるようになりました：今日、今月、今年、1月から。",
+      "タイムマシン：「予想」と表示されるのは見ている年だけになり、タワーの上の年が重ならなくなりました。",
+      "サインイン画面に、同じアカウントで iPhone・iPad・Mac のアプリにもサインインできると表示されるようになりました。",
+      "ホームページ上部の iPad が、アプリを自動で見せるようになりました：数秒ごとに次のタブへ移ります。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -3270,7 +3326,11 @@
       "탭해서 내 금액 입력",
       "홈페이지 상단의 급여, 투자, 집이 이제 내 금액입니다. 탭해서 입력하면 아래 모든 것이 함께 바뀝니다.",
       "홈페이지 상단에 입력한 급여, 투자, 집이 옆 iPad의 앱에도 반영됩니다.",
-      "투자: 결과와 퍼센트 사이에 구분 기호가 다시 생겼고, 휴대폰 차트에 점이 다시 보입니다."
+      "투자: 결과와 퍼센트 사이에 구분 기호가 다시 생겼고, 휴대폰 차트에 점이 다시 보입니다.",
+      "유동성과 순자산이 이제 몇 퍼센트 늘었는지도 보여줘요: 오늘, 이번 달, 올해, 1월 이후.",
+      "타임머신: 보고 있는 해에만 '예상'이 붙고, 타워 위의 연도가 더 이상 겹치지 않아요.",
+      "로그인 화면에 같은 계정으로 iPhone·iPad·Mac 앱에도 로그인된다는 안내가 생겼어요.",
+      "홈페이지 위쪽의 iPad가 이제 앱을 스스로 보여줘요: 몇 초마다 다음 탭으로 넘어가요."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3487,7 +3547,11 @@
       "Chạm để nhập số tiền của bạn",
       "Trên trang chủ, lương, đầu tư và nhà ở phía trên giờ là số của bạn: chạm, nhập, và mọi thứ bên dưới cập nhật theo.",
       "Những gì bạn nhập ở đầu trang chủ cho lương, đầu tư và nhà giờ cũng thay đổi ứng dụng trên iPad bên cạnh.",
-      "Đầu tư: kết quả và phần trăm lại được tách ra, và trên điện thoại biểu đồ lại hiện các điểm."
+      "Đầu tư: kết quả và phần trăm lại được tách ra, và trên điện thoại biểu đồ lại hiện các điểm.",
+      "Thanh khoản và vốn chủ sở hữu giờ cũng cho thấy mức tăng theo phần trăm: hôm nay, tháng này, năm nay và từ tháng Một.",
+      "Cỗ máy thời gian: chỉ năm bạn đang xem mới ghi 'dự kiến', và các năm phía trên các tháp không còn chồng lên nhau.",
+      "Màn hình đăng nhập giờ ghi rõ cùng một tài khoản cũng dùng cho ứng dụng trên iPhone, iPad và Mac.",
+      "iPad ở đầu trang chủ giờ tự giới thiệu ứng dụng: cứ vài giây lại chuyển sang tab tiếp theo."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3704,7 +3768,11 @@
       "点按填写你自己的金额",
       "首页顶部的工资、投资和房子现在是你自己的金额：点按并填写，下面的一切随之计算。",
       "你在首页顶部填写的工资、投资和房子，现在也会改变旁边 iPad 上的应用。",
-      "投资：结果和百分比之间重新有了分隔，手机上的图表也重新显示圆点。"
+      "投资：结果和百分比之间重新有了分隔，手机上的图表也重新显示圆点。",
+      "流动资金和净资产现在也显示增长百分比：今天、本月、今年以及自一月以来。",
+      "时光机：只有你正在看的年份还标“预计”，塔上方的年份也不再重叠。",
+      "登录页面现在注明：同一个账户也可登录 iPhone、iPad 和 Mac 上的 App。",
+      "首页顶部的 iPad 现在会自动展示 App：每隔几秒切换到下一个标签页。"
     ]
   };
 
