@@ -113,6 +113,8 @@
     const fx = fc.getContext("2d");
 
     function showTip(x, y, title, value, text) {
+      // A planet open (or opening): its parts speak, no popover over them (Bart, 24 Nov).
+      if (focus || focusAmt > 0.05) { tip.hidden = true; return; }
       tip.innerHTML = "";
       const s = document.createElement("strong"); s.textContent = title; tip.appendChild(s);
       if (value) { const e = document.createElement("em"); e.textContent = value; tip.appendChild(e); }
@@ -723,11 +725,22 @@
       const rows = focusLayers.slice(0, 9), step = Math.min(38, (r.height - 60) / Math.max(rows.length, 1));
       const narrow = r.width < 560;
       const lx = narrow ? 16 : Math.min(cx + rad + 48, r.width - 210);
+      // Where each line starts: on its own layer, at the rim of the cut-away
+      // (Bart, 24 Nov) — the cut face that turns to the labels, the layers
+      // spread top to bottom in the labels' order.
+      focusGroup.updateMatrixWorld(true);
+      const rim = (x, i, phi) => {
+        const th = Math.PI * (0.32 + (0.36 * i) / Math.max(rows.length - 1, 1)), rr = x.r * 0.96;
+        const p = focusGroup.localToWorld(new THREE.Vector3(-rr * Math.cos(phi) * Math.sin(th), rr * Math.cos(th), rr * Math.sin(phi) * Math.sin(th))).project(camera);
+        return { x: ((p.x + 1) / 2) * r.width, y: ((1 - p.y) / 2) * r.height };
+      };
+      const faceA = rim(rows[0] || { r: FOCUS_R }, 0, Math.PI * 0.75), faceB = rim(rows[0] || { r: FOCUS_R }, 0, Math.PI * 0.25);
+      const phi = faceA.x >= faceB.x ? Math.PI * 0.75 : Math.PI * 0.25;
       rows.forEach((x, i) => {
         const y = narrow ? cy + rad + 30 + i * 30 : cy + (i - (rows.length - 1) / 2) * step;
         if (!narrow) {
-          // A thin line from the layer's rim to its label.
-          const ax = cx + (x.r / FOCUS_R) * rad * 0.7, ay = cy + (i - (rows.length - 1) / 2) * 4;
+          // A thin line from the layer itself to its label.
+          const a = rim(x, i, phi), ax = a.x, ay = a.y;
           const ln = document.createElement("div"); ln.className = "mm-layer-line";
           const dx = lx - 6 - ax, dy = y - ay;
           ln.style.left = ax + "px"; ln.style.top = ay + "px"; ln.style.width = Math.hypot(dx, dy) + "px";
