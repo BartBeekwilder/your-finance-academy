@@ -193,10 +193,14 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
 
   const n = items.length;
   const all = items.every((i) => ticked[i.id]);
+  // A tick can be taken back (Bart, 24 Nov): ticked → untick and stay;
+  // not yet → tick and on to the next.
   const tick = (id: string) => {
+    if (ticked[id]) { setTicked((s) => ({ ...s, [id]: false })); return; }
     setTicked((s) => ({ ...s, [id]: true }));
     setAt((x) => Math.min(x + 1, n));
   };
+  const toggle = (id: string) => setTicked((s) => ({ ...s, [id]: !s[id] }));
   const confirm = async () => {
     if (!all || saving) return;
     setSaving(true);
@@ -260,7 +264,7 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
             {at > 0 && <button type="button" className="pf-ck-back" aria-label={t("Previous")} onClick={() => go(at - 1)}><ChevronLeft size={18} /></button>}
             {item.action}
             {fixing === null && !(item.id === "accounts" && editAccts) && (
-              <button type="button" className="pf-ck-yes" data-on={!!ticked[item.id]} onClick={() => tick(item.id)}>
+              <button type="button" className="pf-ck-yes" data-on={!!ticked[item.id]} title={ticked[item.id] ? t("Untick to do it again") : undefined} onClick={() => tick(item.id)}>
                 <Check size={16} strokeWidth={3} /> {t("Yes, that's right")}
               </button>
             )}
@@ -278,10 +282,13 @@ export default function CheckinCard({ onDone }: { onDone?: () => void }) {
             </div>
             <div className="pf-ck-list">
               {items.map((i, k) => (
-                <button key={i.id} type="button" data-on={!!ticked[i.id]} onClick={() => go(k)}>
-                  <span className="pf-ck-dot"><Check size={12} strokeWidth={3.4} /></span>
-                  {i.title}
-                </button>
+                <div key={i.id} className="pf-ck-row" data-on={!!ticked[i.id]}>
+                  {/* The tick itself ticks or unticks; the title goes back to the question. */}
+                  <button type="button" className="pf-ck-dot" role="checkbox" aria-checked={!!ticked[i.id]} aria-label={i.title} title={ticked[i.id] ? t("Untick to do it again") : undefined} onClick={() => toggle(i.id)}>
+                    <Check size={12} strokeWidth={3.4} />
+                  </button>
+                  <button type="button" className="pf-ck-rowtitle" onClick={() => go(k)}>{i.title}</button>
+                </div>
               ))}
             </div>
           </div>
