@@ -235,7 +235,9 @@
     /*time machine labels, live 24 Nov*/ "Tijdmachine: alleen het jaar dat je bekijkt zegt nog 'verwacht', en de jaartallen boven de torens lopen niet meer door elkaar.",
     /*one account, live 24 Nov*/ "Bij het inloggen staat erbij dat je met hetzelfde account ook inlogt in de app op iPhone, iPad en Mac.",
     /*homepage iPad tour, live 24 Nov*/ "De iPad bovenaan de homepage laat de app nu vanzelf zien: hij gaat elke paar seconden naar het volgende tabblad.",
-    /*solar system example parts, 24 Nov (K_ZON = 326)*/ "Salaris", "Vakantiegeld", "Bijverdienste", "Wonen", "Boodschappen", "Vervoer", "Uit eten", "Energie", "Verzekeringen", "Kleding", "Abonnementen", "Overig", "Annuïteitendeel", "Lineair deel", "Wereldwijd aandelen-ETF", "Bitcoin", "Goud", "Studieschuld", "Autolening"
+    /*solar system example parts, 24 Nov (K_ZON = 326)*/ "Salaris", "Vakantiegeld", "Bijverdienste", "Wonen", "Boodschappen", "Vervoer", "Uit eten", "Energie", "Verzekeringen", "Kleding", "Abonnementen", "Overig", "Annuïteitendeel", "Lineair deel", "Wereldwijd aandelen-ETF", "Bitcoin", "Goud", "Studieschuld", "Autolening",
+    /*key figures year %, live 24 Nov*/ "Kerncijfers: nieuwe rij 'Dit jaar in procenten' — beleggingen, inkomen, uitgaven, vaste lasten en spaarquote tegen vorig jaar, eigen vermogen en liquiditeit sinds januari, hypotheek afgelost, woningwaarde en vermogensgroei per jaar.",
+    /*solar system parts, live 24 Nov*/ "Het zonnestelsel op de homepage laat per planeet zien waar het uit bestaat: inkomen, uitgaven, aflossing, beleggingen en schulden, elk in delen."
   ];
 
   var L = {
@@ -459,7 +461,9 @@
       "Time machine: only the year you're looking at still says 'expected', and the years above the towers no longer run into each other.",
       "Signing in now says that the same account also signs you in to the app on iPhone, iPad and Mac.",
       "The iPad at the top of the homepage now shows the app by itself: it moves to the next tab every few seconds.",
-      "Salary", "Holiday pay", "Side income", "Housing", "Groceries", "Transport", "Dining out", "Energy", "Insurance", "Clothing", "Subscriptions", "Other", "Annuity part", "Linear part", "Global equity ETF", "Bitcoin", "Gold", "Student loan", "Car loan"
+      "Salary", "Holiday pay", "Side income", "Housing", "Groceries", "Transport", "Dining out", "Energy", "Insurance", "Clothing", "Subscriptions", "Other", "Annuity part", "Linear part", "Global equity ETF", "Bitcoin", "Gold", "Student loan", "Car loan",
+      "Key figures: a new row 'This year in percent' — investments, income, spending, fixed costs and savings rate against last year, equity and liquidity since January, mortgage paid off, home value and equity growth per year.",
+      "The solar system on the homepage now shows what each planet is made of: income, spending, repayment, investments and debts, each in parts."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -681,7 +685,9 @@
       "Zeitmaschine: Nur das Jahr, das du ansiehst, sagt noch „erwartet“, und die Jahreszahlen über den Türmen überlappen nicht mehr.",
       "Bei der Anmeldung steht jetzt, dass du dich mit demselben Konto auch in der App auf iPhone, iPad und Mac anmeldest.",
       "Das iPad oben auf der Startseite zeigt die App jetzt von selbst: Alle paar Sekunden wechselt es zum nächsten Tab.",
-      "Gehalt", "Urlaubsgeld", "Nebeneinkommen", "Wohnen", "Lebensmittel", "Mobilität", "Essen gehen", "Energie", "Versicherungen", "Kleidung", "Abos", "Sonstiges", "Annuitätenteil", "Tilgungsteil linear", "Welt-Aktien-ETF", "Bitcoin", "Gold", "Studienkredit", "Autokredit"
+      "Gehalt", "Urlaubsgeld", "Nebeneinkommen", "Wohnen", "Lebensmittel", "Mobilität", "Essen gehen", "Energie", "Versicherungen", "Kleidung", "Abos", "Sonstiges", "Annuitätenteil", "Tilgungsteil linear", "Welt-Aktien-ETF", "Bitcoin", "Gold", "Studienkredit", "Autokredit",
+      "Kennzahlen: neue Reihe „Dieses Jahr in Prozent“ — Anlagen, Einkommen, Ausgaben, Fixkosten und Sparquote gegenüber dem Vorjahr, Eigenkapital und Liquidität seit Januar, getilgte Hypothek, Immobilienwert und Vermögenswachstum pro Jahr.",
+      "Das Sonnensystem auf der Startseite zeigt jetzt, woraus jeder Planet besteht: Einkommen, Ausgaben, Tilgung, Anlagen und Schulden, jeweils in Teilen."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -903,7 +909,9 @@
       "Machine à remonter le temps : seule l’année affichée indique encore « prévu », et les années au-dessus des tours ne se chevauchent plus.",
       "La connexion indique désormais que le même compte vous connecte aussi à l’app sur iPhone, iPad et Mac.",
       "L’iPad en haut de la page d’accueil montre maintenant l’app tout seul : il passe à l’onglet suivant toutes les quelques secondes.",
-      "Salaire", "Prime de vacances", "Revenu d’appoint", "Logement", "Courses", "Transport", "Restaurants", "Énergie", "Assurances", "Vêtements", "Abonnements", "Autre", "Tranche annuités", "Tranche linéaire", "ETF actions monde", "Bitcoin", "Or", "Prêt étudiant", "Prêt auto"
+      "Salaire", "Prime de vacances", "Revenu d’appoint", "Logement", "Courses", "Transport", "Restaurants", "Énergie", "Assurances", "Vêtements", "Abonnements", "Autre", "Tranche annuités", "Tranche linéaire", "ETF actions monde", "Bitcoin", "Or", "Prêt étudiant", "Prêt auto",
+      "Chiffres clés : nouvelle rangée « Cette année en pourcentage » — placements, revenus, dépenses, charges fixes et taux d’épargne face à l’an dernier, fonds propres et liquidités depuis janvier, hypothèque remboursée, valeur du logement et croissance du patrimoine par an.",
+      "Le système solaire de la page d’accueil montre maintenant de quoi chaque planète est faite : revenus, dépenses, remboursement, placements et dettes, chacun en parties."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1125,7 +1133,9 @@
       "Máquina del tiempo: solo el año que miras dice aún «previsto», y los años sobre las torres ya no se superponen.",
       "Al iniciar sesión se indica ahora que la misma cuenta también sirve para la app en iPhone, iPad y Mac.",
       "El iPad en la parte superior de la página de inicio ahora muestra la app por sí solo: pasa a la siguiente pestaña cada pocos segundos.",
-      "Salario", "Paga de vacaciones", "Ingreso extra", "Vivienda", "Supermercado", "Transporte", "Comer fuera", "Energía", "Seguros", "Ropa", "Suscripciones", "Otros", "Tramo de anualidad", "Tramo lineal", "ETF de acciones globales", "Bitcoin", "Oro", "Préstamo estudiantil", "Préstamo del coche"
+      "Salario", "Paga de vacaciones", "Ingreso extra", "Vivienda", "Supermercado", "Transporte", "Comer fuera", "Energía", "Seguros", "Ropa", "Suscripciones", "Otros", "Tramo de anualidad", "Tramo lineal", "ETF de acciones globales", "Bitcoin", "Oro", "Préstamo estudiantil", "Préstamo del coche",
+      "Cifras clave: nueva fila «Este año en porcentaje» — inversiones, ingresos, gastos, gastos fijos y tasa de ahorro frente al año pasado, patrimonio y liquidez desde enero, hipoteca amortizada, valor de la vivienda y crecimiento del patrimonio por año.",
+      "El sistema solar de la página de inicio muestra ahora de qué está hecho cada planeta: ingresos, gastos, amortización, inversiones y deudas, cada uno por partes."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1347,7 +1357,9 @@
       "Macchina del tempo: solo l’anno che stai guardando dice ancora «previsto», e gli anni sopra le torri non si sovrappongono più.",
       "All’accesso ora c’è scritto che lo stesso account vale anche per l’app su iPhone, iPad e Mac.",
       "L’iPad in cima alla homepage ora mostra l’app da solo: passa alla scheda successiva ogni pochi secondi.",
-      "Stipendio", "Indennità ferie", "Entrata extra", "Casa", "Spesa", "Trasporti", "Cene fuori", "Energia", "Assicurazioni", "Abbigliamento", "Abbonamenti", "Altro", "Quota ad annualità", "Quota lineare", "ETF azionario globale", "Bitcoin", "Oro", "Prestito studentesco", "Prestito auto"
+      "Stipendio", "Indennità ferie", "Entrata extra", "Casa", "Spesa", "Trasporti", "Cene fuori", "Energia", "Assicurazioni", "Abbigliamento", "Abbonamenti", "Altro", "Quota ad annualità", "Quota lineare", "ETF azionario globale", "Bitcoin", "Oro", "Prestito studentesco", "Prestito auto",
+      "Indicatori: nuova riga «Quest’anno in percentuale» — investimenti, entrate, spese, costi fissi e tasso di risparmio rispetto all’anno scorso, patrimonio e liquidità da gennaio, mutuo rimborsato, valore della casa e crescita del patrimonio all’anno.",
+      "Il sistema solare in homepage ora mostra di cosa è fatto ogni pianeta: entrate, spese, rimborso, investimenti e debiti, ciascuno in parti."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1569,7 +1581,9 @@
       "Máquina do tempo: só o ano que você está vendo ainda diz «previsto», e os anos acima das torres não se sobrepõem mais.",
       "Ao entrar, agora aparece que a mesma conta também vale para o app no iPhone, iPad e Mac.",
       "O iPad no topo da página inicial agora mostra o app sozinho: ele passa para a próxima aba a cada poucos segundos.",
-      "Salário", "Adicional de férias", "Renda extra", "Moradia", "Mercado", "Transporte", "Comer fora", "Energia", "Seguros", "Roupas", "Assinaturas", "Outros", "Parcela price", "Parcela SAC", "ETF de ações globais", "Bitcoin", "Ouro", "Financiamento estudantil", "Financiamento do carro"
+      "Salário", "Adicional de férias", "Renda extra", "Moradia", "Mercado", "Transporte", "Comer fora", "Energia", "Seguros", "Roupas", "Assinaturas", "Outros", "Parcela price", "Parcela SAC", "ETF de ações globais", "Bitcoin", "Ouro", "Financiamento estudantil", "Financiamento do carro",
+      "Indicadores: nova linha «Este ano em porcentagem» — investimentos, renda, gastos, custos fixos e taxa de poupança contra o ano passado, patrimônio e liquidez desde janeiro, financiamento quitado, valor do imóvel e crescimento do patrimônio por ano.",
+      "O sistema solar da página inicial agora mostra do que cada planeta é feito: renda, gastos, amortização, investimentos e dívidas, cada um em partes."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1791,7 +1805,9 @@
       "Wehikuł czasu: tylko oglądany rok ma jeszcze dopisek „prognoza”, a lata nad wieżami już na siebie nie nachodzą.",
       "Przy logowaniu widać teraz, że tym samym kontem zalogujesz się też do aplikacji na iPhonie, iPadzie i Macu.",
       "iPad na górze strony głównej pokazuje teraz aplikację sam: co kilka sekund przechodzi do następnej karty.",
-      "Pensja", "Dodatek urlopowy", "Dochód dodatkowy", "Mieszkanie", "Zakupy spożywcze", "Transport", "Jedzenie na mieście", "Energia", "Ubezpieczenia", "Ubrania", "Subskrypcje", "Inne", "Część annuitetowa", "Część liniowa", "Globalny ETF akcyjny", "Bitcoin", "Złoto", "Kredyt studencki", "Kredyt na auto"
+      "Pensja", "Dodatek urlopowy", "Dochód dodatkowy", "Mieszkanie", "Zakupy spożywcze", "Transport", "Jedzenie na mieście", "Energia", "Ubezpieczenia", "Ubrania", "Subskrypcje", "Inne", "Część annuitetowa", "Część liniowa", "Globalny ETF akcyjny", "Bitcoin", "Złoto", "Kredyt studencki", "Kredyt na auto",
+      "Kluczowe liczby: nowy rząd „Ten rok w procentach” — inwestycje, dochody, wydatki, koszty stałe i stopa oszczędności wobec zeszłego roku, kapitał własny i płynność od stycznia, spłacona hipoteka, wartość domu i roczny wzrost majątku.",
+      "Układ słoneczny na stronie głównej pokazuje teraz, z czego składa się każda planeta: dochody, wydatki, spłata, inwestycje i długi, każde w częściach."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -2013,7 +2029,9 @@
       "Zaman makinesi: yalnızca baktığınız yıl hâlâ 'beklenen' diyor ve kulelerin üstündeki yıllar artık üst üste binmiyor.",
       "Giriş ekranı artık aynı hesapla iPhone, iPad ve Mac'teki uygulamaya da giriş yapabileceğinizi söylüyor.",
       "Ana sayfanın üstündeki iPad artık uygulamayı kendiliğinden gösteriyor: birkaç saniyede bir sonraki sekmeye geçiyor.",
-      "Maaş", "Tatil ödeneği", "Ek gelir", "Konut", "Market", "Ulaşım", "Dışarıda yemek", "Enerji", "Sigortalar", "Giyim", "Abonelikler", "Diğer", "Anüite dilimi", "Doğrusal dilim", "Küresel hisse ETF", "Bitcoin", "Altın", "Öğrenim kredisi", "Taşıt kredisi"
+      "Maaş", "Tatil ödeneği", "Ek gelir", "Konut", "Market", "Ulaşım", "Dışarıda yemek", "Enerji", "Sigortalar", "Giyim", "Abonelikler", "Diğer", "Anüite dilimi", "Doğrusal dilim", "Küresel hisse ETF", "Bitcoin", "Altın", "Öğrenim kredisi", "Taşıt kredisi",
+      "Temel rakamlar: yeni 'Bu yıl yüzde olarak' satırı — geçen yıla göre yatırımlar, gelir, harcama, sabit giderler ve tasarruf oranı, ocaktan beri öz sermaye ve likidite, ödenen konut kredisi, konut değeri ve yıllık servet büyümesi.",
+      "Ana sayfadaki güneş sistemi artık her gezegenin nelerden oluştuğunu gösteriyor: gelir, harcama, geri ödeme, yatırımlar ve borçlar, her biri parçalar halinde."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -2235,7 +2253,9 @@
       "Машина времени: «ожидается» теперь подписан только выбранный год, а годы над башнями больше не наезжают друг на друга.",
       "При входе теперь написано, что тем же аккаунтом вы входите и в приложение на iPhone, iPad и Mac.",
       "iPad вверху главной страницы теперь сам показывает приложение: каждые несколько секунд он переходит на следующую вкладку.",
-      "Зарплата", "Отпускные", "Подработка", "Жильё", "Продукты", "Транспорт", "Кафе и рестораны", "Энергия", "Страховки", "Одежда", "Подписки", "Прочее", "Аннуитетная часть", "Линейная часть", "Глобальный ETF на акции", "Биткоин", "Золото", "Студенческий кредит", "Автокредит"
+      "Зарплата", "Отпускные", "Подработка", "Жильё", "Продукты", "Транспорт", "Кафе и рестораны", "Энергия", "Страховки", "Одежда", "Подписки", "Прочее", "Аннуитетная часть", "Линейная часть", "Глобальный ETF на акции", "Биткоин", "Золото", "Студенческий кредит", "Автокредит",
+      "Ключевые цифры: новый ряд «Этот год в процентах» — инвестиции, доход, расходы, постоянные расходы и норма сбережений к прошлому году, капитал и ликвидность с января, погашенная ипотека, стоимость жилья и рост капитала в год.",
+      "Солнечная система на главной странице теперь показывает, из чего состоит каждая планета: доход, расходы, погашение, инвестиции и долги — по частям."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2457,7 +2477,9 @@
       "آلة الزمن: السنة التي تشاهدها فقط ما زالت تحمل «متوقع»، ولم تعد السنوات فوق الأبراج تتداخل.",
       "تذكر شاشة تسجيل الدخول الآن أن الحساب نفسه يسجّل دخولك أيضًا إلى التطبيق على iPhone وiPad وMac.",
       "يعرض iPad أعلى الصفحة الرئيسية التطبيق الآن من تلقاء نفسه: ينتقل إلى التبويب التالي كل بضع ثوانٍ.",
-      "الراتب", "بدل الإجازة", "دخل إضافي", "السكن", "البقالة", "المواصلات", "الأكل خارجًا", "الطاقة", "التأمينات", "الملابس", "الاشتراكات", "أخرى", "جزء القسط الثابت", "جزء خطي", "صندوق أسهم عالمي", "بيتكوين", "ذهب", "قرض دراسي", "قرض سيارة"
+      "الراتب", "بدل الإجازة", "دخل إضافي", "السكن", "البقالة", "المواصلات", "الأكل خارجًا", "الطاقة", "التأمينات", "الملابس", "الاشتراكات", "أخرى", "جزء القسط الثابت", "جزء خطي", "صندوق أسهم عالمي", "بيتكوين", "ذهب", "قرض دراسي", "قرض سيارة",
+      "الأرقام الرئيسية: صف جديد «هذا العام بالنسبة المئوية» — الاستثمارات والدخل والإنفاق والتكاليف الثابتة ومعدل الادخار مقارنةً بالعام الماضي، وصافي الثروة والسيولة منذ يناير، والمسدَّد من الرهن، وقيمة المنزل، ونمو الثروة سنويًا.",
+      "يعرض النظام الشمسي في الصفحة الرئيسية الآن مكوّنات كل كوكب: الدخل والإنفاق والسداد والاستثمارات والديون، كلٌّ منها بأجزائه."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2679,7 +2701,9 @@
       "टाइम मशीन: अब केवल वह साल 'अनुमानित' कहता है जिसे आप देख रहे हैं, और टावरों के ऊपर के साल आपस में नहीं टकराते।",
       "साइन इन पर अब लिखा है कि उसी खाते से आप iPhone, iPad और Mac ऐप में भी साइन इन करते हैं।",
       "होमपेज के ऊपर वाला iPad अब ऐप अपने आप दिखाता है: हर कुछ सेकंड में अगले टैब पर जाता है।",
-      "वेतन", "छुट्टी भत्ता", "अतिरिक्त आय", "आवास", "किराना", "परिवहन", "बाहर खाना", "ऊर्जा", "बीमा", "कपड़े", "सदस्यताएँ", "अन्य", "ईएमआई भाग", "रैखिक भाग", "वैश्विक शेयर ETF", "बिटकॉइन", "सोना", "शिक्षा ऋण", "कार ऋण"
+      "वेतन", "छुट्टी भत्ता", "अतिरिक्त आय", "आवास", "किराना", "परिवहन", "बाहर खाना", "ऊर्जा", "बीमा", "कपड़े", "सदस्यताएँ", "अन्य", "ईएमआई भाग", "रैखिक भाग", "वैश्विक शेयर ETF", "बिटकॉइन", "सोना", "शिक्षा ऋण", "कार ऋण",
+      "मुख्य आँकड़े: नई पंक्ति 'इस साल प्रतिशत में' — पिछले साल की तुलना में निवेश, आय, खर्च, तय खर्च और बचत दर, जनवरी से इक्विटी और तरलता, चुकाया होम लोन, घर का मूल्य और हर साल संपत्ति वृद्धि।",
+      "होमपेज का सौरमंडल अब दिखाता है कि हर ग्रह किससे बना है: आय, खर्च, अदायगी, निवेश और कर्ज़, हर एक हिस्सों में।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -2901,7 +2925,9 @@
       "Mesin waktu: hanya tahun yang sedang Anda lihat yang masih bertuliskan 'perkiraan', dan tahun di atas menara tidak lagi bertumpuk.",
       "Saat masuk kini tertulis bahwa akun yang sama juga untuk aplikasi di iPhone, iPad, dan Mac.",
       "iPad di bagian atas beranda kini menampilkan aplikasi dengan sendirinya: berpindah ke tab berikutnya setiap beberapa detik.",
-      "Gaji", "Tunjangan liburan", "Penghasilan sampingan", "Perumahan", "Belanja dapur", "Transportasi", "Makan di luar", "Energi", "Asuransi", "Pakaian", "Langganan", "Lainnya", "Porsi anuitas", "Porsi linear", "ETF saham global", "Bitcoin", "Emas", "Pinjaman pendidikan", "Kredit mobil"
+      "Gaji", "Tunjangan liburan", "Penghasilan sampingan", "Perumahan", "Belanja dapur", "Transportasi", "Makan di luar", "Energi", "Asuransi", "Pakaian", "Langganan", "Lainnya", "Porsi anuitas", "Porsi linear", "ETF saham global", "Bitcoin", "Emas", "Pinjaman pendidikan", "Kredit mobil",
+      "Angka kunci: baris baru 'Tahun ini dalam persen' — investasi, pendapatan, pengeluaran, biaya tetap, dan rasio tabungan dibanding tahun lalu, ekuitas dan likuiditas sejak Januari, KPR terlunasi, nilai rumah, dan pertumbuhan kekayaan per tahun.",
+      "Tata surya di beranda kini menunjukkan isi tiap planet: pendapatan, pengeluaran, cicilan pokok, investasi, dan utang, masing-masing per bagian."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -3123,7 +3149,9 @@
       "タイムマシン：「予想」と表示されるのは見ている年だけになり、タワーの上の年が重ならなくなりました。",
       "サインイン画面に、同じアカウントで iPhone・iPad・Mac のアプリにもサインインできると表示されるようになりました。",
       "ホームページ上部の iPad が、アプリを自動で見せるようになりました：数秒ごとに次のタブへ移ります。",
-      "給与", "休暇手当", "副収入", "住居", "食料品", "交通", "外食", "光熱費", "保険", "衣服", "サブスク", "その他", "元利均等部分", "元金均等部分", "全世界株式ETF", "ビットコイン", "金", "奨学金", "自動車ローン"
+      "給与", "休暇手当", "副収入", "住居", "食料品", "交通", "外食", "光熱費", "保険", "衣服", "サブスク", "その他", "元利均等部分", "元金均等部分", "全世界株式ETF", "ビットコイン", "金", "奨学金", "自動車ローン",
+      "主要な数字：新しい行「今年をパーセントで」— 投資、収入、支出、固定費、貯蓄率の前年比、1月からの純資産と流動資金、住宅ローン返済済み、住宅の価値、年あたりの資産の伸び。",
+      "ホームページの太陽系で、各惑星の中身が見られるようになりました：収入、支出、返済、投資、負債をそれぞれ内訳で。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -3345,7 +3373,9 @@
       "타임머신: 보고 있는 해에만 '예상'이 붙고, 타워 위의 연도가 더 이상 겹치지 않아요.",
       "로그인 화면에 같은 계정으로 iPhone·iPad·Mac 앱에도 로그인된다는 안내가 생겼어요.",
       "홈페이지 위쪽의 iPad가 이제 앱을 스스로 보여줘요: 몇 초마다 다음 탭으로 넘어가요.",
-      "급여", "휴가 수당", "부수입", "주거", "장보기", "교통", "외식", "에너지", "보험", "의류", "구독", "기타", "원리금 균등 부분", "원금 균등 부분", "글로벌 주식 ETF", "비트코인", "금", "학자금 대출", "자동차 대출"
+      "급여", "휴가 수당", "부수입", "주거", "장보기", "교통", "외식", "에너지", "보험", "의류", "구독", "기타", "원리금 균등 부분", "원금 균등 부분", "글로벌 주식 ETF", "비트코인", "금", "학자금 대출", "자동차 대출",
+      "핵심 수치: 새 줄 '올해를 퍼센트로' — 작년 대비 투자·수입·지출·고정비·저축률, 1월 이후 순자산과 유동성, 갚은 주택담보대출, 주택 가치, 연간 자산 증가.",
+      "홈페이지의 태양계가 이제 행성마다 무엇으로 이루어졌는지 보여줘요: 수입, 지출, 상환, 투자, 부채를 각각 나눠서."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3567,7 +3597,9 @@
       "Cỗ máy thời gian: chỉ năm bạn đang xem mới ghi 'dự kiến', và các năm phía trên các tháp không còn chồng lên nhau.",
       "Màn hình đăng nhập giờ ghi rõ cùng một tài khoản cũng dùng cho ứng dụng trên iPhone, iPad và Mac.",
       "iPad ở đầu trang chủ giờ tự giới thiệu ứng dụng: cứ vài giây lại chuyển sang tab tiếp theo.",
-      "Lương", "Phụ cấp nghỉ phép", "Thu nhập phụ", "Nhà ở", "Đi chợ", "Đi lại", "Ăn ngoài", "Năng lượng", "Bảo hiểm", "Quần áo", "Gói đăng ký", "Khác", "Phần trả góp đều", "Phần tuyến tính", "ETF cổ phiếu toàn cầu", "Bitcoin", "Vàng", "Khoản vay sinh viên", "Vay mua xe"
+      "Lương", "Phụ cấp nghỉ phép", "Thu nhập phụ", "Nhà ở", "Đi chợ", "Đi lại", "Ăn ngoài", "Năng lượng", "Bảo hiểm", "Quần áo", "Gói đăng ký", "Khác", "Phần trả góp đều", "Phần tuyến tính", "ETF cổ phiếu toàn cầu", "Bitcoin", "Vàng", "Khoản vay sinh viên", "Vay mua xe",
+      "Số liệu chính: hàng mới 'Năm nay tính theo phần trăm' — đầu tư, thu nhập, chi tiêu, chi phí cố định và tỷ lệ tiết kiệm so với năm ngoái, vốn chủ sở hữu và thanh khoản từ tháng Một, khoản vay nhà đã trả, giá trị nhà và tăng trưởng tài sản mỗi năm.",
+      "Hệ mặt trời trên trang chủ giờ cho thấy mỗi hành tinh gồm những gì: thu nhập, chi tiêu, trả nợ gốc, đầu tư và nợ, từng phần một."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3789,7 +3821,9 @@
       "时光机：只有你正在看的年份还标“预计”，塔上方的年份也不再重叠。",
       "登录页面现在注明：同一个账户也可登录 iPhone、iPad 和 Mac 上的 App。",
       "首页顶部的 iPad 现在会自动展示 App：每隔几秒切换到下一个标签页。",
-      "工资", "假期津贴", "副业收入", "住房", "日常采购", "交通", "外出就餐", "能源", "保险", "服装", "订阅", "其他", "等额本息部分", "等额本金部分", "全球股票ETF", "比特币", "黄金", "助学贷款", "车贷"
+      "工资", "假期津贴", "副业收入", "住房", "日常采购", "交通", "外出就餐", "能源", "保险", "服装", "订阅", "其他", "等额本息部分", "等额本金部分", "全球股票ETF", "比特币", "黄金", "助学贷款", "车贷",
+      "关键数字：新增一行“今年的百分比”——投资、收入、支出、固定开支和储蓄率同比，自1月以来的净资产和流动资金，已还房贷，房屋价值，以及资产年增长。",
+      "首页的太阳系现在会显示每颗行星的构成：收入、支出、还款、投资和负债，各自分项展示。"
     ]
   };
 
