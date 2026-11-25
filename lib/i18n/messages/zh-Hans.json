@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "不是支出：减少负债，净资产不变",
  "repaid": "已还",
  "Repayment of a debt": "偿还债务",
- "Repayment: {debt}": "还款：{debt}"
+ "Repayment: {debt}": "还款：{debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "按你的贷款分段，本月应为 {amount} — 是否漏了一笔扣款？",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ 利息 {interest} · ≈ 本金 {repayment}",
+ "Booked this month": "本月已记",
+ "Matches your mortgage parts": "与贷款分段一致",
+ "Net after the tax refund": "退税后净额",
+ "Tax refund {amount} booked this month": "本月已记退税 {amount}"
 }

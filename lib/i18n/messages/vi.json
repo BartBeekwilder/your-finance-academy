@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "Không phải chi tiêu: giảm nợ, tài sản ròng giữ nguyên",
  "repaid": "đã trả",
  "Repayment of a debt": "Trả nợ",
- "Repayment: {debt}": "Trả nợ: {debt}"
+ "Repayment: {debt}": "Trả nợ: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "Các khoản vay của bạn tháng này là {amount} — có thiếu một khoản trừ?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} lãi · ≈ {repayment} gốc",
+ "Booked this month": "Đã ghi tháng này",
+ "Matches your mortgage parts": "Khớp với các khoản vay",
+ "Net after the tax refund": "Ròng sau hoàn thuế",
+ "Tax refund {amount} booked this month": "Hoàn thuế {amount} đã ghi tháng này"
 }

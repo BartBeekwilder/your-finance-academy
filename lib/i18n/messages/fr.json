@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "Pas une dépense : réduit la dette, votre patrimoine reste le même",
  "repaid": "remboursé",
  "Repayment of a debt": "Remboursement d’une dette",
- "Repayment: {debt}": "Remboursement : {debt}"
+ "Repayment: {debt}": "Remboursement : {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "Vos tranches de prêt indiquent {amount} ce mois-ci — manque-t-il un prélèvement ?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} d’intérêts · ≈ {repayment} de remboursement",
+ "Booked this month": "Enregistré ce mois-ci",
+ "Matches your mortgage parts": "Correspond à vos tranches de prêt",
+ "Net after the tax refund": "Net après le remboursement d’impôt",
+ "Tax refund {amount} booked this month": "Remboursement d’impôt {amount} enregistré ce mois-ci"
 }

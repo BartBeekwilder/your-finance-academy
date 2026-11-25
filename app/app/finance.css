@@ -6831,3 +6831,8 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 
 /* Read with AI › bank rows: a row picked as repayment of a debt. */
 .pf-ai-cat[data-repay] { color: #bf5af2; border-color: rgba(191, 90, 242, 0.5); }
+
+/* Under a mortgage payment: its interest / repayment, or a warning when the
+   month's booked mortgage isn't what the parts in Real estate say. */
+.pf-mortgage-hint { display: block; margin-top: 3px; font-size: 0.72rem; color: var(--pf-ink-3); }
+.pf-mortgage-hint[data-off] { color: #ff9f0a; }

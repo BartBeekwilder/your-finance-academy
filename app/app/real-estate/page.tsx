@@ -12,6 +12,7 @@ import { num } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 import { combined, extraEffect, ltv, NL, nlMonthlyTaxEffect, ownership, perYear, summarize, type MortgagePart } from "@/lib/finance/mortgage";
 import { homes } from "@/lib/finance/realEstate";
+import { mortgageMonth } from "@/lib/finance/mortgageCheck";
 import type { MortgagePartRow, Property } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
 import { countryOf } from "@/lib/finance/countries";
@@ -148,6 +149,9 @@ function HomeView({
   const sums = parts.map((p) => summarize(p, atDate, scenario(p)));
   const debt = sums.reduce((t, s) => t + s.balance, 0);
   const thisMonth = parts.map((p) => summarize(p, now, scenario(p)).thisMonth);
+  // What's booked as mortgage this month against the parts (and the refund).
+  const { data } = useFinance();
+  const booked = mortgageMonth(data, now);
   const interestNow = thisMonth.reduce((t, r) => t + (r?.interest ?? 0), 0);
   const repayNow = thisMonth.reduce((t, r) => t + (r?.repayment ?? 0) + (r?.extra ?? 0), 0);
   const totals = parts.map((p) => summarize(p, now, scenario(p)));
@@ -239,6 +243,17 @@ function HomeView({
       {/* This month and the whole term. */}
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
         <Stat label={t("Payment this month")} value={money(interestNow + repayNow, currency)} hint={t("Interest {interest} · repayment {repayment}", { interest: money(interestNow, currency), repayment: money(repayNow, currency) })} />
+        {booked && booked.booked > 0 && (
+          <Stat
+            label={t("Booked this month")}
+            value={money(booked.booked, currency)}
+            color={booked.off ? "#ff9f0a" : undefined}
+            hint={booked.off ? t("Your mortgage parts say {amount} this month — is a debit missing?", { amount: money(booked.expected, currency) }) : t("Matches your mortgage parts")}
+          />
+        )}
+        {booked && booked.refund > 0 && (
+          <Stat label={t("Net after the tax refund")} value={money(booked.net, currency)} color="var(--pf-green)" hint={t("Tax refund {amount} booked this month", { amount: money(booked.refund, currency) })} />
+        )}
         {nl && <Stat label={t("Net after tax (estimate)")} value={money(interestNow + repayNow - nl.effect, currency)} color="var(--pf-green)" hint={t("Mortgage interest deduction {amount} per month", { amount: money(nl.effect, currency) })} />}
         <Stat label={t("Total interest over the term")} value={money(totalInterest, currency)} color={INTEREST} hint={t("{pct}% on top of the loan", { pct: Math.round((totalInterest / Math.max(principal, 1)) * 100) })} />
         <Stat label={t("Total you pay")} value={money(totalPaid, currency)} hint={t("Loan {amount} + interest", { amount: money(principal, currency) })} />

@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "ليس إنفاقًا: يخفض الدين، وتبقى ثروتك كما هي",
  "repaid": "مسدّد",
  "Repayment of a debt": "سداد دين",
- "Repayment: {debt}": "سداد: {debt}"
+ "Repayment: {debt}": "سداد: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "أجزاء رهنك تقول {amount} هذا الشهر — هل ينقص خصم؟",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} فائدة · ≈ {repayment} سداد",
+ "Booked this month": "المسجل هذا الشهر",
+ "Matches your mortgage parts": "يطابق أجزاء رهنك",
+ "Net after the tax refund": "الصافي بعد استرداد الضريبة",
+ "Tax refund {amount} booked this month": "استرداد ضريبي {amount} مسجل هذا الشهر"
 }

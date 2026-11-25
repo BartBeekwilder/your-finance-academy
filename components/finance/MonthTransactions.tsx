@@ -8,6 +8,8 @@ import { dayLabel, money, monthName } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import { editProps } from "@/lib/finance/editTransaction";
 import CategoryIcon from "./CategoryIcon";
+import MortgageHint from "./MortgageHint";
+import { isMortgagePayment } from "@/lib/finance/mortgageCheck";
 
 /** This month's expenses (or income), newest first, grouped by day with a
  *  subtotal. Shown on the Expenses and Income pages in Month view. */
@@ -27,6 +29,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
     days.set(key, [...(days.get(key) ?? []), t]);
   }
   const spending = rows.filter((t) => !t.repays);
+  const isMortgage = isMortgagePayment(data);
   let n = 0;
 
   return (
@@ -60,6 +63,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
                       {t.is_auto_income && <span className="pf-auto-tag">{tr("Automatic")}</span>}
                       {t.repays && <span className="pf-repay-tag">{tr("Repayment")}</span>}
                     </div>
+                    {!t.repays && isMortgage(t) && <MortgageHint amount={num(t.amount)} date={t.date} editing={t} />}
                   </div>
                   <span className="pf-rounded" style={{ fontWeight: 600, color: t.repays ? "#bf5af2" : kind === "expense" ? "var(--pf-red)" : "var(--pf-green)" }}>
                     {money(num(t.amount), currency)}

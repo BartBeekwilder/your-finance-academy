@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "Harcama değil: borcu düşürür, öz varlığın aynı kalır",
  "repaid": "ödendi",
  "Repayment of a debt": "Borç geri ödemesi",
- "Repayment: {debt}": "Geri ödeme: {debt}"
+ "Repayment: {debt}": "Geri ödeme: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "Kredi dilimlerin bu ay {amount} diyor — bir ödeme mi eksik?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} faiz · ≈ {repayment} anapara",
+ "Booked this month": "Bu ay kaydedilen",
+ "Matches your mortgage parts": "Kredi dilimlerinle uyuşuyor",
+ "Net after the tax refund": "Vergi iadesinden sonra net",
+ "Tax refund {amount} booked this month": "Bu ay {amount} vergi iadesi kaydedildi"
 }

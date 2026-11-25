@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "지출 아님: 빚이 줄고 순자산은 그대로",
  "repaid": "상환됨",
  "Repayment of a debt": "빚 상환",
- "Repayment: {debt}": "상환: {debt}"
+ "Repayment: {debt}": "상환: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "대출 구성상 이번 달은 {amount}입니다 — 빠진 출금이 있나요?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ 이자 {interest} · ≈ 원금 {repayment}",
+ "Booked this month": "이번 달 기록",
+ "Matches your mortgage parts": "대출 구성과 일치",
+ "Net after the tax refund": "환급 후 순액",
+ "Tax refund {amount} booked this month": "이번 달 환급 {amount} 기록"
 }

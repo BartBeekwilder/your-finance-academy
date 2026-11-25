@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "Bukan pengeluaran: mengurangi utang, ekuitas Anda tetap",
  "repaid": "dilunasi",
  "Repayment of a debt": "Pelunasan utang",
- "Repayment: {debt}": "Pelunasan: {debt}"
+ "Repayment: {debt}": "Pelunasan: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "Bagian KPR Anda bulan ini {amount} — ada debit yang hilang?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} bunga · ≈ {repayment} cicilan pokok",
+ "Booked this month": "Dicatat bulan ini",
+ "Matches your mortgage parts": "Cocok dengan bagian KPR Anda",
+ "Net after the tax refund": "Neto setelah restitusi pajak",
+ "Tax refund {amount} booked this month": "Restitusi pajak {amount} dicatat bulan ini"
 }

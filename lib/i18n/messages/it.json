@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "Non è una spesa: riduce il debito, il patrimonio resta uguale",
  "repaid": "rimborsato",
  "Repayment of a debt": "Rimborso di un debito",
- "Repayment: {debt}": "Rimborso: {debt}"
+ "Repayment: {debt}": "Rimborso: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "Le tue quote di mutuo dicono {amount} questo mese — manca un addebito?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} interessi · ≈ {repayment} rimborso",
+ "Booked this month": "Registrato questo mese",
+ "Matches your mortgage parts": "Corrisponde alle quote del mutuo",
+ "Net after the tax refund": "Netto dopo il rimborso fiscale",
+ "Tax refund {amount} booked this month": "Rimborso fiscale {amount} registrato questo mese"
 }

@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "खर्च नहीं: कर्ज़ घटता है, आपकी नेटवर्थ वही रहती है",
  "repaid": "चुकाया",
  "Repayment of a debt": "कर्ज़ की चुकौती",
- "Repayment: {debt}": "चुकौती: {debt}"
+ "Repayment: {debt}": "चुकौती: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "आपके लोन हिस्से इस महीने {amount} बताते हैं — क्या कोई कटौती छूट गई?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} ब्याज · ≈ {repayment} मूलधन",
+ "Booked this month": "इस महीने दर्ज",
+ "Matches your mortgage parts": "आपके लोन हिस्सों से मेल खाता है",
+ "Net after the tax refund": "टैक्स वापसी के बाद शुद्ध",
+ "Tax refund {amount} booked this month": "इस महीने {amount} टैक्स वापसी दर्ज"
 }

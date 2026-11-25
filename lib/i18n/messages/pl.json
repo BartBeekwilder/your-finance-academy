@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "To nie wydatek: zmniejsza dług, kapitał własny bez zmian",
  "repaid": "spłacono",
  "Repayment of a debt": "Spłata długu",
- "Repayment: {debt}": "Spłata: {debt}"
+ "Repayment: {debt}": "Spłata: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "Twoje transze kredytu mówią {amount} w tym miesiącu — brakuje obciążenia?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} odsetek · ≈ {repayment} spłaty",
+ "Booked this month": "Zaksięgowano w tym miesiącu",
+ "Matches your mortgage parts": "Zgadza się z transzami kredytu",
+ "Net after the tax refund": "Netto po zwrocie podatku",
+ "Tax refund {amount} booked this month": "Zwrot podatku {amount} zaksięgowany w tym miesiącu"
 }

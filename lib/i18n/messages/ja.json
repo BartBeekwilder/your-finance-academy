@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "支出ではありません：負債が減り、純資産は変わりません",
  "repaid": "返済済み",
  "Repayment of a debt": "借入の返済",
- "Repayment: {debt}": "返済：{debt}"
+ "Repayment: {debt}": "返済：{debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "ローンの内訳では今月は{amount} — 引き落としが漏れていませんか？",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ 利息{interest} · ≈ 元本{repayment}",
+ "Booked this month": "今月の記録",
+ "Matches your mortgage parts": "ローンの内訳と一致",
+ "Net after the tax refund": "還付後の実質",
+ "Tax refund {amount} booked this month": "今月の還付 {amount}"
 }

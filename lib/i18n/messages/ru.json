@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "Не расход: уменьшает долг, капитал не меняется",
  "repaid": "погашено",
  "Repayment of a debt": "Погашение долга",
- "Repayment: {debt}": "Погашение: {debt}"
+ "Repayment: {debt}": "Погашение: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "По частям ипотеки в этом месяце {amount} — не хватает списания?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} проценты · ≈ {repayment} погашение",
+ "Booked this month": "Записано в этом месяце",
+ "Matches your mortgage parts": "Совпадает с частями ипотеки",
+ "Net after the tax refund": "Нетто после налогового возврата",
+ "Tax refund {amount} booked this month": "Налоговый возврат {amount} записан в этом месяце"
 }

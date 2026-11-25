@@ -16,6 +16,8 @@ import CategoryEditor from "./CategoryEditor";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
 import Segmented from "./Segmented";
+import MortgageHint from "./MortgageHint";
+import { isMortgageName } from "@/lib/finance/mortgageCheck";
 import DebtChips, { debtsOf, type Debt } from "./DebtChips";
 import Sheet from "./Sheet";
 import { startDate } from "@/lib/finance/viewedMonth";
@@ -722,6 +724,12 @@ function Form({
             })}
           </div>
         </div>
+      )}
+
+      {/* A mortgage payment: its interest / repayment, or a warning when the
+          month's mortgage isn't what the parts in Real estate say. */}
+      {type === "expense" && !advancing && !repaying && valid && (isMortgageName(picked?.name) || isMortgageName(pickedTop?.name) || isMortgageName(note)) && (
+        <MortgageHint amount={parsed} date={`${date}T12:00:00`} editing={initial} />
       )}
 
       {offerInBalance && (

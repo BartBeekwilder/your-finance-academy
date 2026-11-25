@@ -2338,5 +2338,11 @@
  "Not spending: lowers the debt, your equity stays the same": "Geen uitgave: verlaagt de schuld, je eigen vermogen blijft gelijk",
  "repaid": "afgelost",
  "Repayment of a debt": "Aflossing van een schuld",
- "Repayment: {debt}": "Aflossing: {debt}"
+ "Repayment: {debt}": "Aflossing: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "Je leningdelen zeggen {amount} deze maand — mist er een afschrijving?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} rente · ≈ {repayment} aflossing",
+ "Booked this month": "Geboekt deze maand",
+ "Matches your mortgage parts": "Klopt met je leningdelen",
+ "Net after the tax refund": "Netto na de teruggaaf",
+ "Tax refund {amount} booked this month": "Teruggaaf {amount} geboekt deze maand"
 }

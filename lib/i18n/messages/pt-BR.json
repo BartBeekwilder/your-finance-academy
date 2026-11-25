@@ -2332,5 +2332,11 @@
  "Not spending: lowers the debt, your equity stays the same": "Não é gasto: reduz a dívida, seu patrimônio fica igual",
  "repaid": "amortizado",
  "Repayment of a debt": "Amortização de dívida",
- "Repayment: {debt}": "Amortização: {debt}"
+ "Repayment: {debt}": "Amortização: {debt}",
+ "Your mortgage parts say {amount} this month — is a debit missing?": "Suas parcelas do financiamento dizem {amount} este mês — falta um débito?",
+ "≈ {interest} interest · ≈ {repayment} repayment": "≈ {interest} juros · ≈ {repayment} amortização",
+ "Booked this month": "Lançado este mês",
+ "Matches your mortgage parts": "Bate com as parcelas do financiamento",
+ "Net after the tax refund": "Líquido após a restituição",
+ "Tax refund {amount} booked this month": "Restituição {amount} lançada este mês"
 }
