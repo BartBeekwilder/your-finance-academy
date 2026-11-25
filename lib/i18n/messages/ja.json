@@ -2307,5 +2307,6 @@
  "Tick it off: books {amount} on day {n}": "チェック：{n}日に{amount}を記録",
  "Received?": "受け取った？",
  "Adjust salary": "給料を修正",
- "Adjust": "修正"
+ "Adjust": "修正",
+ "Kind of income": "収入の種類"
 }

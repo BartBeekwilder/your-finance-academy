@@ -2307,5 +2307,6 @@
  "Tick it off: books {amount} on day {n}": "Spunta: registra {amount} il giorno {n}",
  "Received?": "Ricevuto?",
  "Adjust salary": "Modifica stipendio",
- "Adjust": "Modifica"
+ "Adjust": "Modifica",
+ "Kind of income": "Tipo di entrata"
 }

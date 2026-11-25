@@ -24,14 +24,16 @@ export default function Segmented<T extends string>({
   /** "sm": a compact version for secondary switches. */
   size?: "sm";
 }) {
-  const index = Math.max(0, options.findIndex((o) => o.value === value));
+  // A value that's no option (nothing chosen yet) shows no thumb.
+  const found = options.findIndex((o) => o.value === value);
+  const index = Math.max(0, found);
   // Direction of the last move decides which edge leads.
   const [dir, setDir] = useState<"left" | "right">("right");
   const [moves, setMoves] = useState(0);
   const n = options.length;
 
   const pick = (i: number) => {
-    if (i === index) return;
+    if (i === found) return;
     setDir(i > index ? "right" : "left");
     setMoves((m) => m + 1);
     onChange(options[i].value);
@@ -43,14 +45,14 @@ export default function Segmented<T extends string>({
       <span
         className="pf-seg-thumb"
         data-dir={dir}
-        style={{ left: `calc(${(index / n) * 100}% + 3px)`, right: `calc(${((n - 1 - index) / n) * 100}% + 3px)` }}
+        style={{ left: `calc(${(index / n) * 100}% + 3px)`, right: `calc(${((n - 1 - index) / n) * 100}% + 3px)`, opacity: found < 0 ? 0 : undefined }}
         aria-hidden
       >
         {/* Keyed so the glint replays on every move (not on first paint). */}
         {moves > 0 && <span key={moves} className="pf-seg-glint" />}
       </span>
       {options.map((o, i) => (
-        <button key={o.value} type="button" role="tab" aria-selected={i === index} className="pf-seg-option" onClick={() => pick(i)}>
+        <button key={o.value} type="button" role="tab" aria-selected={i === found} className="pf-seg-option" onClick={() => pick(i)}>
           {o.label}
         </button>
       ))}

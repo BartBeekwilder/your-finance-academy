@@ -2307,5 +2307,6 @@
  "Tick it off: books {amount} on day {n}": "勾选：在{n}日记入 {amount}",
  "Received?": "已到账？",
  "Adjust salary": "调整工资",
- "Adjust": "调整"
+ "Adjust": "调整",
+ "Kind of income": "收入类型"
 }

@@ -8,7 +8,7 @@ import { summarize as summarizePart } from "./mortgage";
 import { homes } from "./realEstate";
 import { liveLoans, loanAt } from "./loans";
 import { money, shortMonth } from "./format";
-import { isSalaryName } from "./salary";
+import { isOtherIncomeName, isSalaryName } from "./salary";
 import { upcomingFixedCosts } from "./recurring";
 import type { Account, Budget, Category, FinanceData, Holding, Money, Transaction } from "./types";
 
@@ -208,13 +208,24 @@ function usualNet(data: FinanceData) {
   return latest ? num(latest.net_amount) : 0;
 }
 
-/** Income that counts as salary: a salary-like category, or at least half
- *  the usual net pay — whatever its category or description. Everything
+/** Income that counts as salary: a salary category; never an "Other
+ *  income" category; otherwise at least half the usual net pay. Everything
  *  else is other income (a side income, a one-off). */
 export function salaryTest(data: FinanceData) {
-  const names = new Map(data.categories.map((c) => [c.id, c.name]));
+  // A category's own name, else its parent's (a subcategory of Salary is salary).
+  const byId = new Map(data.categories.map((c) => [c.id, c]));
+  const name = (id: string | null) => {
+    const c = id ? byId.get(id) : undefined;
+    return isSalaryName(c?.name) || isOtherIncomeName(c?.name) || !c?.parent_id ? (c?.name ?? "") : (byId.get(c.parent_id)?.name ?? c.name);
+  };
   const expected = usualNet(data);
-  return (t: Transaction) => isSalaryName(names.get(t.category_id ?? "") ?? "") || (expected > 0 && num(t.amount) >= expected * 0.5);
+  return (t: Transaction) => {
+    const n = name(t.category_id);
+    if (isSalaryName(n)) return true;
+    // "Other income" is a choice: never the salary, whatever the amount.
+    if (isOtherIncomeName(n)) return false;
+    return expected > 0 && num(t.amount) >= expected * 0.5;
+  };
 }
 
 /** `month`'s other income (not salary), entered up to `at` (ms). The live

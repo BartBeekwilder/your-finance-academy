@@ -6,6 +6,12 @@ const SALARY = /salar|loon|lohn|gehalt|salaire|sueldo|stipend|wage|maaş|зар�
 /** A salary-like category name, in any of the app's languages. */
 export const isSalaryName = (name: string | null | undefined) => !!name && SALARY.test(name);
 
+const OTHER = /overig|other|sonstig|autre|otro|altr|outr|inne|pozosta|diğer|проч|друг|أخرى|अन्य|lain|khác|その他|기타|其他/i;
+
+/** An "Other income" category name: picked on purpose as not-salary, so a
+ *  big amount in it (a bonus, a one-off) is never counted as the salary. */
+export const isOtherIncomeName = (name: string | null | undefined) => !!name && !isSalaryName(name) && OTHER.test(name);
+
 /** The payday (day of the month, clamped to short months) nearest `today`:
  *  this month's, last month's or next month's. */
 export function nearestPayday(payday: number, today: Date) {

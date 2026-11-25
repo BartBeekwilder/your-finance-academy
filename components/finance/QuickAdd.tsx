@@ -8,7 +8,7 @@ import { live, num, projectedNetIncome } from "@/lib/finance/calc";
 import { workHoursFor } from "@/lib/finance/workHours";
 import { workTime } from "./workTime";
 import { evalAmount } from "@/lib/finance/amountExpr";
-import { isSalaryName, mainIncomeCategory, nearestPayday } from "@/lib/finance/salary";
+import { isOtherIncomeName, isSalaryName, mainIncomeCategory, nearestPayday } from "@/lib/finance/salary";
 import { money, shortMonthYear } from "@/lib/finance/format";
 import type { Account, HouseholdMember, Transaction, TransactionType } from "@/lib/finance/types";
 import { householdOf } from "@/lib/finance/household";
@@ -237,7 +237,7 @@ function Form({
   const [isPayday, setIsPayday] = useState(false);
   const picked = categories.find((c) => c.id === categoryId);
   const pickedTop = categories.find((c) => c.id === (picked?.parent_id ?? picked?.id));
-  const salaryPicked = type === "income" && !!picked && (isSalaryName(picked.name) || isSalaryName(pickedTop?.name) || pickedTop?.id === salaryCategory);
+  const salaryPicked = type === "income" && !!picked && !isOtherIncomeName(pickedTop?.name) && (isSalaryName(picked.name) || isSalaryName(pickedTop?.name) || pickedTop?.id === salaryCategory);
   useEffect(() => {
     if (!salaryPicked || dateTouched || !payday) return;
     const d = nearestPayday(payday, startDate());
@@ -255,6 +255,23 @@ function Form({
   const [error, setError] = useState("");
   const [creating, setCreating] = useState(false);
   const [fresh, setFresh] = useState<string | null>(null);
+  // Income: Salary or Other income, as a plain choice above the categories.
+  // Each picks (or makes) its category; "Other income" is never the salary.
+  const incomeTops = categories.filter((c) => c.is_income_category && !c.parent_id);
+  const salaryTop = incomeTops.find((c) => isSalaryName(c.name)) ?? incomeTops.find((c) => c.id === salaryCategory && !isOtherIncomeName(c.name));
+  const otherTop = incomeTops.find((c) => isOtherIncomeName(c.name));
+  async function pickKind(kind: "salary" | "other") {
+    const row =
+      (kind === "salary" ? salaryTop : otherTop) ??
+      (await addCategory(kind === "salary"
+        ? { name: t("Salary"), icon: "briefcase.fill", color_hex: "30D158", is_income_category: true, is_fixed_expense: false }
+        : { name: t("Other income"), icon: "gift.fill", color_hex: "64D2FF", is_income_category: true, is_fixed_expense: false }));
+    setCategoryId(row.id);
+    setFixed(false);
+    setNewSub(null);
+    setTouched((x) => ({ ...x, category: true }));
+    if (row.id !== salaryTop?.id && row.id !== otherTop?.id) setFresh(row.id);
+  }
 
   // Top-level categories as chips; once one is picked, its subcategories
   // (if any) appear underneath as an optional finer choice.
@@ -446,6 +463,16 @@ function Form({
             </span>
           )}
         </div>
+      )}
+
+      {type === "income" && (
+        <Segmented
+          wide
+          label={t("Kind of income")}
+          value={salaryPicked ? "salary" : picked ? "other" : ("none" as "salary")}
+          onChange={(v) => void pickKind(v)}
+          options={[{ value: "salary", label: t("Salary") }, { value: "other", label: t("Other income") }]}
+        />
       )}
 
       {!advancing && (

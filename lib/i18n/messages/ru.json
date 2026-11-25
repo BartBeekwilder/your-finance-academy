@@ -2307,5 +2307,6 @@
  "Tick it off: books {amount} on day {n}": "Отметьте: запишет {amount} на {n}-е число",
  "Received?": "Получено?",
  "Adjust salary": "Изменить зарплату",
- "Adjust": "Изменить"
+ "Adjust": "Изменить",
+ "Kind of income": "Вид дохода"
 }
