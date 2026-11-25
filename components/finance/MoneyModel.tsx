@@ -405,6 +405,8 @@ export default function MoneyModel({ data, now, currency }: { data: FinanceData;
         if (gone || !stageRef.current || !window.PFMoneyModel) return;
         const e = window.PFMoneyModel.create({ stage: stageRef.current, THREE, T: moneyModelTexts(), money: (x: number) => fmtRef.current(x), base, view: "flow" });
         engine.current = e;
+        // Dev only: promo-video recordings drive the model (pf-marketing/scripts/record-web.mjs).
+        if (process.env.NODE_ENV !== "production") (window as unknown as { __pfModel?: Engine }).__pfModel = e;
         e.setLevers(levers); // the markets' own start (ownMarkets)
         off = e.onModel((m) => setModel({ ...m, parts: [...m.parts] }));
       })
