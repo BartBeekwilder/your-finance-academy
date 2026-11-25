@@ -2313,5 +2313,14 @@
  "Current accounts today · {pct}% of your liquidity": "Rekening giro hari ini · {pct}% likuiditas Anda",
  "No current account yet": "Belum ada rekening giro",
  "All accounts today · {pct}% of your liquidity": "Semua rekening hari ini · {pct}% likuiditas Anda",
- "No account yet": "Belum ada rekening"
+ "No account yet": "Belum ada rekening",
+ "Salary today": "Gaji hari ini",
+ "{amount} spread over {n} days": "{amount} dibagi {n} hari",
+ "Fixed costs today": "Biaya tetap hari ini",
+ "Spread over the month": "Dibagi sepanjang bulan",
+ "Investments today": "Investasi hari ini",
+ "Price moves": "Pergerakan harga",
+ "Spending with a later date": "Pengeluaran bertanggal nanti",
+ "Booked for later this month, counts now": "Dicatat untuk akhir bulan ini, sudah dihitung sekarang",
+ "Already in Salary today, spread over the month": "Sudah termasuk Gaji hari ini, dibagi sepanjang bulan"
 }

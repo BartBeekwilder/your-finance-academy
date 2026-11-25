@@ -2313,5 +2313,14 @@
  "Current accounts today · {pct}% of your liquidity": "Girokonten heute · {pct} % deiner Liquidität",
  "No current account yet": "Noch kein Girokonto",
  "All accounts today · {pct}% of your liquidity": "Alle Konten heute · {pct} % deiner Liquidität",
- "No account yet": "Noch kein Konto"
+ "No account yet": "Noch kein Konto",
+ "Salary today": "Gehalt heute",
+ "{amount} spread over {n} days": "{amount} verteilt auf {n} Tage",
+ "Fixed costs today": "Fixkosten heute",
+ "Spread over the month": "Über den Monat verteilt",
+ "Investments today": "Investments heute",
+ "Price moves": "Kursbewegungen",
+ "Spending with a later date": "Ausgaben mit späterem Datum",
+ "Booked for later this month, counts now": "Für später im Monat gebucht, zählt schon jetzt",
+ "Already in Salary today, spread over the month": "Schon in „Gehalt heute“, über den Monat verteilt"
 }

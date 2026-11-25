@@ -2313,5 +2313,14 @@
  "Current accounts today · {pct}% of your liquidity": "今日活期账户 · 占流动资产 {pct}%",
  "No current account yet": "还没有活期账户",
  "All accounts today · {pct}% of your liquidity": "今日所有账户 · 占流动资产 {pct}%",
- "No account yet": "还没有账户"
+ "No account yet": "还没有账户",
+ "Salary today": "今日工资",
+ "{amount} spread over {n} days": "{amount} 分摊到 {n} 天",
+ "Fixed costs today": "今日固定支出",
+ "Spread over the month": "按月分摊",
+ "Investments today": "今日投资",
+ "Price moves": "价格变动",
+ "Spending with a later date": "日期较晚的支出",
+ "Booked for later this month, counts now": "记在本月稍后，现已计入",
+ "Already in Salary today, spread over the month": "已含在今日工资中，按月分摊"
 }

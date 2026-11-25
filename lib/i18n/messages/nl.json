@@ -2319,5 +2319,14 @@
  "Current accounts today · {pct}% of your liquidity": "Lopende rekeningen vandaag · {pct}% van je liquiditeit",
  "No current account yet": "Nog geen lopende rekening",
  "All accounts today · {pct}% of your liquidity": "Alle rekeningen vandaag · {pct}% van je liquiditeit",
- "No account yet": "Nog geen rekening"
+ "No account yet": "Nog geen rekening",
+ "Salary today": "Salaris vandaag",
+ "{amount} spread over {n} days": "{amount} verdeeld over {n} dagen",
+ "Fixed costs today": "Vaste lasten vandaag",
+ "Spread over the month": "Verdeeld over de maand",
+ "Investments today": "Beleggingen vandaag",
+ "Price moves": "Koersbewegingen",
+ "Spending with a later date": "Uitgaven met een latere datum",
+ "Booked for later this month, counts now": "Geboekt voor later deze maand, telt nu al mee",
+ "Already in Salary today, spread over the month": "Zit al in Salaris vandaag, verdeeld over de maand"
 }

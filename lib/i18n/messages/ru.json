@@ -2313,5 +2313,14 @@
  "Current accounts today · {pct}% of your liquidity": "Текущие счета сегодня · {pct}% вашей ликвидности",
  "No current account yet": "Пока нет текущего счёта",
  "All accounts today · {pct}% of your liquidity": "Все счета сегодня · {pct}% вашей ликвидности",
- "No account yet": "Пока нет счёта"
+ "No account yet": "Пока нет счёта",
+ "Salary today": "Зарплата сегодня",
+ "{amount} spread over {n} days": "{amount}, распределено на {n} дн.",
+ "Fixed costs today": "Постоянные расходы сегодня",
+ "Spread over the month": "Распределено по месяцу",
+ "Investments today": "Инвестиции сегодня",
+ "Price moves": "Изменения курсов",
+ "Spending with a later date": "Расходы с более поздней датой",
+ "Booked for later this month, counts now": "Записано на конец месяца, учитывается уже сейчас",
+ "Already in Salary today, spread over the month": "Уже в «Зарплата сегодня», распределено по месяцу"
 }

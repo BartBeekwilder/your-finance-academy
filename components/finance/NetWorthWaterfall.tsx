@@ -4,7 +4,7 @@ import { intlLocale, t } from "@/lib/i18n";
 import { useShowAxes } from "@/lib/prefs";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
-import { live, liveFixed, netWorthFigures, num, otherIncome, spendByCategory, summarize, yearForecast } from "@/lib/finance/calc";
+import { live, liveFixed, netWorthFigures, num, otherIncome, salaryTest, spendByCategory, summarize, yearForecast } from "@/lib/finance/calc";
 import { cap, money, monthYear, shortMonth, monthName } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
 import CategoryIcon from "./CategoryIcon";
@@ -292,16 +292,21 @@ function DayPanel({ data, now, currency, day, step, onClose }: { data: FinanceDa
     .filter((x) => { const td = new Date(x.date); return td.getFullYear() === d.getFullYear() && td.getMonth() === d.getMonth() && td.getDate() === day; })
     .sort((a, b) => num(b.amount) - num(a.amount));
   const parts = ahead ? null : dayParts(nw, data, now, day);
-  const rest = parts ? change - (parts.pay + parts.other - parts.fixed - parts.variable) : 0;
+  // What the investments did that day (today: up to now).
+  const market = ahead ? 0 : nw.marketChange(Math.min(new Date(d.getFullYear(), d.getMonth(), day + 1).getTime() - 1, now.getTime())) - nw.marketChange(d.getTime() - 1);
+  // Whatever is left: spending booked with a later date this month counts now.
+  const rest = parts ? change - (parts.pay + parts.other - parts.fixed - parts.variable + market) : 0;
   const rows = parts
     ? [
-        { label: t("Pay, earned by the second"), v: parts.pay },
+        { label: t("Salary today"), sub: t("{amount} spread over {n} days", { amount: money(nw.projected, currency), n: nw.days }), v: parts.pay, keep: true },
         { label: t("Other income"), v: parts.other },
-        { label: t("Fixed costs, spread over the month"), v: -parts.fixed },
+        { label: t("Fixed costs today"), sub: t("Spread over the month"), v: -parts.fixed, keep: true },
         { label: t("Spent this day"), v: -parts.variable },
-        { label: t("Spending dated later this month"), v: rest },
-      ].filter((x, i) => i === 0 || i === 2 || Math.abs(x.v) >= 0.005)
+        { label: t("Investments today"), sub: t("Price moves"), v: market, keep: nw.holdingsTotal > 0 },
+        { label: t("Spending with a later date"), sub: t("Booked for later this month, counts now"), v: rest },
+      ].filter((x) => x.keep || Math.abs(x.v) >= 0.005)
     : [];
+  const salaryLike = salaryTest(data);
   const cat = (id: string | null) => data.categories.find((c) => c.id === id);
   const color = (v: number) => (v >= 0 ? "var(--pf-green)" : "var(--pf-red)");
 
@@ -331,7 +336,10 @@ function DayPanel({ data, now, currency, day, step, onClose }: { data: FinanceDa
             <span style={{ fontSize: "0.72rem", color: "var(--pf-ink-2)" }}>{isNow ? t("How today moved, live") : t("How this day moved")}</span>
             {rows.map((x) => (
               <div key={x.label} className="pf-wf-part">
-                <span>{x.label}</span>
+                <span style={{ display: "grid", gap: 1 }}>
+                  {x.label}
+                  {x.sub && <small style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{x.sub}</small>}
+                </span>
                 <b className="pf-rounded" style={{ color: x.v > 0 ? "var(--pf-green)" : x.v < 0 ? "var(--pf-red)" : undefined }}>{money(x.v, currency, { signed: true })}</b>
               </div>
             ))}
@@ -349,7 +357,11 @@ function DayPanel({ data, now, currency, day, step, onClose }: { data: FinanceDa
                 return (
                   <div key={x.id} className="pf-wf-cat">
                     {c ? <CategoryIcon icon={c.icon} colorHex={c.color_hex} size={22} /> : <span />}
-                    <span className="pf-wf-catname">{x.note || c?.name || t("Expense")}</span>
+                    <span className="pf-wf-catname" style={{ display: "grid", gap: 1 }}>
+                      {x.note || c?.name || t("Expense")}
+                      {/* The salary isn't added on top: it's in "Salary today", spread over the month. */}
+                      {x.type === "income" && salaryLike(x) && <small style={{ fontSize: "0.7rem", color: "var(--pf-ink-3)" }}>{t("Already in Salary today, spread over the month")}</small>}
+                    </span>
                     <b className="pf-rounded" style={{ color: x.type === "income" ? "var(--pf-green)" : undefined }}>{money(num(x.amount) * (x.type === "income" ? 1 : -1), currency, { signed: x.type === "income" })}</b>
                   </div>
                 );

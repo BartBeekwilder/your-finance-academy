@@ -2313,5 +2313,14 @@
  "Current accounts today · {pct}% of your liquidity": "今日の普通口座 · 流動資産の{pct}%",
  "No current account yet": "普通口座はまだありません",
  "All accounts today · {pct}% of your liquidity": "今日の全口座 · 流動資産の{pct}%",
- "No account yet": "口座はまだありません"
+ "No account yet": "口座はまだありません",
+ "Salary today": "今日の給料",
+ "{amount} spread over {n} days": "{amount}を{n}日で割った分",
+ "Fixed costs today": "今日の固定費",
+ "Spread over the month": "月全体に配分",
+ "Investments today": "今日の投資",
+ "Price moves": "値動き",
+ "Spending with a later date": "後日付の支出",
+ "Booked for later this month, counts now": "今月後半の日付で記録、すでに反映",
+ "Already in Salary today, spread over the month": "「今日の給料」に含まれています（月全体に配分）"
 }

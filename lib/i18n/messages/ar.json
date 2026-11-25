@@ -2313,5 +2313,14 @@
  "Current accounts today · {pct}% of your liquidity": "الحسابات الجارية اليوم · {pct}% من سيولتك",
  "No current account yet": "لا يوجد حساب جارٍ بعد",
  "All accounts today · {pct}% of your liquidity": "كل الحسابات اليوم · {pct}% من سيولتك",
- "No account yet": "لا يوجد حساب بعد"
+ "No account yet": "لا يوجد حساب بعد",
+ "Salary today": "الراتب اليوم",
+ "{amount} spread over {n} days": "{amount} موزعة على {n} يومًا",
+ "Fixed costs today": "التكاليف الثابتة اليوم",
+ "Spread over the month": "موزعة على الشهر",
+ "Investments today": "الاستثمارات اليوم",
+ "Price moves": "تحركات الأسعار",
+ "Spending with a later date": "مصروفات بتاريخ لاحق",
+ "Booked for later this month, counts now": "مسجلة لوقت لاحق هذا الشهر، تُحسب الآن",
+ "Already in Salary today, spread over the month": "موجود بالفعل في الراتب اليوم، موزع على الشهر"
 }

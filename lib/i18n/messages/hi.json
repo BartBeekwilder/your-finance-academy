@@ -2313,5 +2313,14 @@
  "Current accounts today · {pct}% of your liquidity": "आज के चालू खाते · आपकी तरलता का {pct}%",
  "No current account yet": "अभी कोई चालू खाता नहीं",
  "All accounts today · {pct}% of your liquidity": "आज सभी खाते · आपकी तरलता का {pct}%",
- "No account yet": "अभी कोई खाता नहीं"
+ "No account yet": "अभी कोई खाता नहीं",
+ "Salary today": "आज की सैलरी",
+ "{amount} spread over {n} days": "{amount}, {n} दिनों में बाँटी गई",
+ "Fixed costs today": "आज के तय खर्च",
+ "Spread over the month": "महीने भर में बाँटे गए",
+ "Investments today": "आज के निवेश",
+ "Price moves": "भाव में बदलाव",
+ "Spending with a later date": "बाद की तारीख वाले खर्च",
+ "Booked for later this month, counts now": "इस महीने बाद के लिए दर्ज, अभी से गिना जाता है",
+ "Already in Salary today, spread over the month": "पहले से आज की सैलरी में, महीने भर में बाँटी गई"
 }

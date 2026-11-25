@@ -2313,5 +2313,14 @@
  "Current accounts today · {pct}% of your liquidity": "오늘 입출금 계좌 · 유동성의 {pct}%",
  "No current account yet": "아직 입출금 계좌 없음",
  "All accounts today · {pct}% of your liquidity": "오늘 모든 계좌 · 유동성의 {pct}%",
- "No account yet": "아직 계좌 없음"
+ "No account yet": "아직 계좌 없음",
+ "Salary today": "오늘 급여",
+ "{amount} spread over {n} days": "{amount}을 {n}일로 나눈 금액",
+ "Fixed costs today": "오늘 고정비",
+ "Spread over the month": "한 달에 걸쳐 배분",
+ "Investments today": "오늘 투자",
+ "Price moves": "가격 변동",
+ "Spending with a later date": "나중 날짜의 지출",
+ "Booked for later this month, counts now": "이달 말로 기록됨, 지금 반영",
+ "Already in Salary today, spread over the month": "이미 '오늘 급여'에 포함, 한 달에 걸쳐 배분"
 }

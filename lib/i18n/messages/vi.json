@@ -2313,5 +2313,14 @@
  "Current accounts today · {pct}% of your liquidity": "Tài khoản thanh toán hôm nay · {pct}% thanh khoản",
  "No current account yet": "Chưa có tài khoản thanh toán",
  "All accounts today · {pct}% of your liquidity": "Tất cả tài khoản hôm nay · {pct}% thanh khoản",
- "No account yet": "Chưa có tài khoản"
+ "No account yet": "Chưa có tài khoản",
+ "Salary today": "Lương hôm nay",
+ "{amount} spread over {n} days": "{amount} chia cho {n} ngày",
+ "Fixed costs today": "Chi phí cố định hôm nay",
+ "Spread over the month": "Chia đều trong tháng",
+ "Investments today": "Đầu tư hôm nay",
+ "Price moves": "Biến động giá",
+ "Spending with a later date": "Chi tiêu có ngày sau",
+ "Booked for later this month, counts now": "Ghi cho cuối tháng này, đã tính ngay",
+ "Already in Salary today, spread over the month": "Đã nằm trong Lương hôm nay, chia đều trong tháng"
 }
