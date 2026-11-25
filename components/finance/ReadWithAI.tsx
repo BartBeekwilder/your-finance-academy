@@ -9,7 +9,7 @@ import { bookedAs, isTransfer, learnCategories, suggestCategory, type ReadRow } 
 import type { ReadResult } from "@/lib/ai/reader";
 import { intlLocale, t } from "@/lib/i18n";
 import { useFinance } from "./FinanceProvider";
-import { salaryOf } from "./Payslips";
+import { newSalary, salaryOf } from "./Payslips";
 import Sheet from "./Sheet";
 
 // Read with AI (Premium): a bank screenshot on Expenses, a payslip on
@@ -427,16 +427,17 @@ function BankReview({ rows, statement, onDone }: { rows: ReadRow[]; statement?: 
 }
 
 function PayslipReview({ read, onDone }: { read: ReadResult["payslip"]; onDone: () => void }) {
-  const { data, addTransaction, updateTransaction } = useFinance();
+  const { data, now, addTransaction, updateTransaction } = useFinance();
   const currency = data.profile.currency_code;
-  const now = new Date();
   const [month, setMonth] = useState(() => (read.year && read.month ? `${read.year}-${String(read.month).padStart(2, "0")}` : `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`));
   const [gross, setGross] = useState(read.gross != null ? String(read.gross) : "");
   const [net, setNet] = useState(read.net != null ? String(read.net) : "");
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const at = new Date(Number(month.slice(0, 4)), Number(month.slice(5, 7)) - 1, 1);
-  const salary = salaryOf(data.transactions, at);
+  const salary = salaryOf(data, at);
+  // Add the payslip next to what is entered, instead of updating the salary.
+  const [separate, setSeparate] = useState(false);
 
   async function apply() {
     const n = parseNum(net), g = gross.trim() ? parseNum(gross) : null;
@@ -444,17 +445,12 @@ function PayslipReview({ read, onDone }: { read: ReadResult["payslip"]; onDone: 
     setBusy(true);
     setErr(null);
     try {
-      if (salary) {
+      if (salary && !separate) {
         const { id: _id, updated_at: _u, deleted_at: _d, ...rest } = salary;
         void _id; void _u; void _d;
         await updateTransaction(salary.id, { ...rest, amount: n.toFixed(2), gross_amount: g != null ? g.toFixed(2) : (salary.gross_amount ?? null) });
       } else {
-        const day = Math.min(data.profile.payday_day ?? 25, new Date(at.getFullYear(), at.getMonth() + 1, 0).getDate());
-        const cat = live(data.categories).find((c) => c.is_income_category && !c.parent_id);
-        await addTransaction({
-          amount: n.toFixed(2), type: "income", date: new Date(at.getFullYear(), at.getMonth(), day, 12).toISOString(), note: t("Salary"),
-          is_auto_income: false, is_fixed_expense: false, recurrence_id: null, category_id: cat?.id ?? null, account_id: null, gross_amount: g != null ? g.toFixed(2) : null,
-        });
+        await addTransaction(newSalary(data, at, n, g, now));
       }
       onDone();
     } catch (e) {
@@ -471,10 +467,16 @@ function PayslipReview({ read, onDone }: { read: ReadResult["payslip"]; onDone: 
       <label className="pf-field">{t("Net paid")}<input className="pf-input" inputMode="decimal" value={net} onChange={(e) => setNet(e.target.value)} /></label>
       {read.tax != null && <p style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>{t("Wage tax")}: {money(read.tax, currency)}</p>}
       <p style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>
-        {salary
-          ? t("Replaces the salary of {month} ({amount}).", { month: monthYear(at), amount: money(num(salary.amount), currency) })
+        {salary && !separate
+          ? t("Updates “{name}” in {month} ({amount}).", { name: salary.note || t("Salary"), month: monthYear(at), amount: money(num(salary.amount), currency) })
           : t("Adds a salary for {month}.", { month: monthYear(at) })}
       </p>
+      {salary && (
+        <label className="pf-payday-offer">
+          <input type="checkbox" checked={separate} onChange={(e) => setSeparate(e.target.checked)} />
+          {t("Add as a separate income instead")}
+        </label>
+      )}
       <button className="pf-button" style={{ justifySelf: "start" }} disabled={busy} onClick={apply}>{busy ? t("One moment…") : t("Use these")}</button>
       {err && <p style={{ color: "var(--pf-red)", fontSize: "0.85rem" }}>{err}</p>}
     </div>

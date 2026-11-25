@@ -3,10 +3,11 @@
 import { intlLocale, t } from "@/lib/i18n";
 import { Check, ExternalLink, FileText, Paperclip, Trash2, Upload, X } from "lucide-react";
 import { useRef, useState } from "react";
-import { live, num } from "@/lib/finance/calc";
+import { live, num, salaryTest } from "@/lib/finance/calc";
+import { isSalaryName, mainIncomeCategory } from "@/lib/finance/salary";
 import { money, monthName, monthYear } from "@/lib/finance/format";
-import type { FinanceDocument, Transaction } from "@/lib/finance/types";
-import { useFinance } from "./FinanceProvider";
+import type { FinanceData, FinanceDocument } from "@/lib/finance/types";
+import { useFinance, type NewTransaction } from "./FinanceProvider";
 import Sheet from "./Sheet";
 
 // Payslips on the Income page: a paperclip per month to attach one (PDF or
@@ -17,12 +18,29 @@ import Sheet from "./Sheet";
 const DOCS = "/api/local-docs";
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
 
-/** The month's main income (largest income transaction), the one a payslip
- *  belongs to. */
-export function salaryOf(transactions: Transaction[], month: Date) {
-  return live(transactions)
-    .filter((x) => x.type === "income" && !x.spread_of && new Date(x.date).getFullYear() === month.getFullYear() && new Date(x.date).getMonth() === month.getMonth())
+/** The month's salary (the largest salary-like income: a salary category,
+ *  or at least half the usual net pay), the one a payslip belongs to. Other
+ *  income that month — a one-off, a refund — is never it. */
+export function salaryOf(data: FinanceData, month: Date) {
+  const salaryLike = salaryTest(data);
+  return live(data.transactions)
+    .filter((x) => x.type === "income" && !x.spread_of && new Date(x.date).getFullYear() === month.getFullYear() && new Date(x.date).getMonth() === month.getMonth() && salaryLike(x))
     .sort((a, b) => num(b.amount) - num(a.amount))[0];
+}
+
+/** A new salary for `month` on payday: in the salary category, on the
+ *  current account once payday has passed (else still to receive). */
+export function newSalary(data: FinanceData, month: Date, net: number, gross: number | null, now: Date): NewTransaction {
+  const day = Math.min(data.profile.payday_day ?? 25, new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate());
+  const date = new Date(month.getFullYear(), month.getMonth(), day, 12);
+  const cats = live(data.categories).filter((c) => c.is_income_category);
+  const cat = cats.find((c) => c.id === mainIncomeCategory(data.transactions, num(data.profile.expected_net_monthly))) ?? cats.find((c) => isSalaryName(c.name)) ?? cats.find((c) => !c.parent_id);
+  const accounts = live(data.accounts).filter((a) => a.type === "checking").sort((a, b) => Number(b.is_default) - Number(a.is_default));
+  return {
+    amount: net.toFixed(2), type: "income", date: date.toISOString(), note: t("Salary"),
+    is_auto_income: false, is_fixed_expense: false, recurrence_id: null, category_id: cat?.id ?? null,
+    account_id: date <= now ? (accounts[0]?.id ?? null) : null, gross_amount: gross != null ? gross.toFixed(2) : null,
+  };
 }
 
 export function usePayslips() {
@@ -108,31 +126,27 @@ export function PayslipSheet({ doc, open, origin, onClose }: { doc: FinanceDocum
 }
 
 function PayslipDetail({ doc, onClose }: { doc: FinanceDocument; onClose: () => void }) {
-  const { data, updateTransaction, addTransaction, removeDocument } = useFinance();
+  const { data, now, updateTransaction, addTransaction, removeDocument } = useFinance();
   const currency = data.profile.currency_code;
   const month = doc.month ? new Date(Number(doc.month.slice(0, 4)), Number(doc.month.slice(5, 7)) - 1, 1) : null;
-  const salary = month ? salaryOf(data.transactions, month) : undefined;
+  const salary = month ? salaryOf(data, month) : undefined;
   const ex = doc.extracted;
   const [done, setDone] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const cur = { net: salary ? num(salary.amount) : null, gross: salary?.gross_amount != null ? num(salary.gross_amount) : null };
   const differs = !!ex && ((ex.net != null && Math.abs((cur.net ?? 0) - ex.net) >= 0.01) || (ex.gross != null && Math.abs((cur.gross ?? 0) - ex.gross) >= 0.01));
 
-  async function apply() {
+  // `separate`: the payslip is a new income, next to what's entered.
+  async function apply(separate = false) {
     if (!ex || !month) return;
     setErr(null);
     try {
-      if (salary) {
+      if (salary && !separate) {
         const { id: _id, updated_at: _u, deleted_at: _d, ...rest } = salary;
         void _id; void _u; void _d;
         await updateTransaction(salary.id, { ...rest, amount: (ex.net ?? num(salary.amount)).toFixed(2), gross_amount: ex.gross != null ? ex.gross.toFixed(2) : (salary.gross_amount ?? null) });
       } else if (ex.net != null) {
-        const day = Math.min(data.profile.payday_day ?? 25, new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate());
-        const cat = live(data.categories).find((c) => c.is_income_category && !c.parent_id);
-        await addTransaction({
-          amount: ex.net.toFixed(2), type: "income", date: new Date(month.getFullYear(), month.getMonth(), day, 12).toISOString(), note: t("Salary"),
-          is_auto_income: false, is_fixed_expense: false, recurrence_id: null, category_id: cat?.id ?? null, account_id: null, gross_amount: ex.gross != null ? ex.gross.toFixed(2) : null,
-        });
+        await addTransaction(newSalary(data, month, ex.net, ex.gross ?? null, now));
       }
       setDone(true);
     } catch (e) {
@@ -189,9 +203,17 @@ function PayslipDetail({ doc, onClose }: { doc: FinanceDocument; onClose: () => 
         done ? (
           <p className="pf-slip-done"><Check size={15} /> {t("Taken over for {month}", { month: month ? monthName(month) : "" })}</p>
         ) : differs || !salary ? (
-          <button type="button" className="pf-button" onClick={apply}>
-            {salary ? t("Use these figures") : t("Add as this month's salary")}
-          </button>
+          <div style={{ display: "grid", gap: 8 }}>
+            {salary && <p style={{ margin: 0, fontSize: "0.82rem", color: "var(--pf-ink-2)" }}>{t("Updates “{name}” ({amount}).", { name: salary.note || t("Salary"), amount: money(num(salary.amount), currency) })}</p>}
+            <button type="button" className="pf-button" onClick={() => apply()}>
+              {salary ? t("Use these figures") : t("Add as this month's salary")}
+            </button>
+            {salary && ex.net != null && (
+              <button type="button" className="pf-link" style={{ justifySelf: "start" }} onClick={() => apply(true)}>
+                {t("Add as a separate income instead")}
+              </button>
+            )}
+          </div>
         ) : (
           <p className="pf-slip-done"><Check size={15} /> {t("Matches what's entered")}</p>
         )

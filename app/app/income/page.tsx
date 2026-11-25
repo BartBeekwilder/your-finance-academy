@@ -10,7 +10,7 @@ import CategoryBars from "@/components/finance/CategoryBars";
 import GrossNetChart, { grossNetByMonth } from "@/components/finance/GrossNetChart";
 import PeopleSplit from "@/components/finance/PeopleSplit";
 import { householdOf } from "@/lib/finance/household";
-import { PayslipArchive, PayslipButton, PayslipSheet } from "@/components/finance/Payslips";
+import { PayslipArchive, PayslipButton, PayslipSheet, salaryOf } from "@/components/finance/Payslips";
 import type { FinanceDocument } from "@/lib/finance/types";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
@@ -20,6 +20,7 @@ import Stat from "@/components/finance/Stat";
 import { last12Months, liveFixed, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 import ReadWithAI from "@/components/finance/ReadWithAI";
+import PaydayCheck from "@/components/finance/PaydayCheck";
 
 // The Expenses page's counterpart for income, with the same Month / Year
 // behaviour: the dashboard's live Income tile (zoom, scrub, forecast),
@@ -75,6 +76,8 @@ export default function IncomePage() {
   const finished = months.slice(1).filter((m) => m.income > 0);
   const average = finished.length ? finished.reduce((t, m) => t + m.income, 0) / finished.length : 0;
   const daysToPayday = p.payday_day && !past ? p.payday_day - now.getDate() : null;
+  // This month's salary, once it's in (the Payday tile ticks it off).
+  const paid = past ? undefined : salaryOf(data, thisMonth);
   // Gross vs net: the month looked at, and this year so far.
   const gn = grossNetByMonth(data, now.getFullYear(), now.getMonth());
   const gnMonth = past ? grossNetByMonth(data, month.getFullYear(), month.getMonth())[month.getMonth()] : gn[now.getMonth()];
@@ -135,7 +138,8 @@ export default function IncomePage() {
             <Stat
               label={t("Payday")}
               value={p.payday_day ? t("Day {n}", { n: p.payday_day }) : "—"}
-              hint={daysToPayday === null ? undefined : daysToPayday > 0 ? (daysToPayday === 1 ? t("Tomorrow") : t("In {n} days", { n: daysToPayday })) : daysToPayday === 0 ? t("Today") : t("Passed this month")}
+              hint={daysToPayday === null ? undefined : paid ? t("{amount} received", { amount: money(num(paid.amount), currency) }) : daysToPayday > 0 ? (daysToPayday === 1 ? t("Tomorrow") : t("In {n} days", { n: daysToPayday })) : daysToPayday === 0 ? t("Today") : t("Passed this month")}
+              side={past ? undefined : <PaydayCheck />}
             />
           </>
         ) : (

@@ -172,21 +172,45 @@ export function pendingIncome(data: FinanceData, at: Date, laterThisMonth = true
 }
 
 /** The month's net income for the live Income/Balance tiles — iOS
- *  IncomeManager.projectedAmounts: that month's income record if there is
- *  one, else the expected net income from settings, else (income never set
- *  up) whatever income was actually entered. */
+ *  IncomeManager.projectedAmounts: the salary booked that month once it's
+ *  in (it replaces the expectation, never adds to it), else that month's
+ *  income record, else the expected net income from settings, else (income
+ *  never set up) whatever income was actually entered. */
 export function projectedNetIncome(data: FinanceData, month: Date) {
+  const booked = bookedSalary(data, month);
+  if (booked > 0) return booked;
   const record = live(data.incomeRecords).find((r) => r.month.slice(0, 7) === monthKey(month));
   if (record) return num(record.net_amount);
   if (data.profile.expected_net_monthly !== null) return num(data.profile.expected_net_monthly);
   return summarize(data.transactions, month).income;
 }
 
+/** The salary booked in `month` (all salary-like income that month). */
+export function bookedSalary(data: FinanceData, month: Date) {
+  const salaryLike = salaryTest(data);
+  let total = 0;
+  for (const t of live(data.transactions)) {
+    if (t.type !== "income" || t.spread_of || !salaryLike(t)) continue;
+    const d = new Date(t.date);
+    if (d.getFullYear() === month.getFullYear() && d.getMonth() === month.getMonth()) total += num(t.amount);
+  }
+  return total;
+}
+
+/** The usual net pay: from settings, else the latest income record. */
+function usualNet(data: FinanceData) {
+  const set = num(data.profile.expected_net_monthly);
+  if (set > 0) return set;
+  const latest = live(data.incomeRecords).sort((a, b) => b.month.localeCompare(a.month))[0];
+  return latest ? num(latest.net_amount) : 0;
+}
+
 /** Income that counts as salary: a salary-like category, or at least half
- *  the expected net pay. Everything else is other income (a side income). */
+ *  the usual net pay — whatever its category or description. Everything
+ *  else is other income (a side income, a one-off). */
 export function salaryTest(data: FinanceData) {
   const names = new Map(data.categories.map((c) => [c.id, c.name]));
-  const expected = num(data.profile.expected_net_monthly);
+  const expected = usualNet(data);
   return (t: Transaction) => isSalaryName(names.get(t.category_id ?? "") ?? "") || (expected > 0 && num(t.amount) >= expected * 0.5);
 }
 

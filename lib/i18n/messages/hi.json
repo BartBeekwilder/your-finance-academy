@@ -2297,5 +2297,13 @@
  "Starts at your home's growth per year: {pct}": "आपके घर की सालाना वृद्धि से शुरू: {pct}",
  "A USUAL MONTH": "एक सामान्य महीना",
  "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "एक सामान्य महीने के तय खर्च (दर्ज किए गए और आने वाले), होम लोन के मूलधन भाग के बिना — वह अदायगी में अलग दिखता है। जो गया सो गया: इससे आपकी इक्विटी घटती है।",
- "{amount} received": "{amount} प्राप्त"
+ "{amount} received": "{amount} प्राप्त",
+ "Updates “{name}” ({amount}).": "“{name}” अपडेट करता है ({amount})।",
+ "Updates “{name}” in {month} ({amount}).": "{month} में “{name}” अपडेट करता है ({amount})।",
+ "Add as a separate income instead": "इसके बजाय अलग आय के रूप में जोड़ें",
+ "Already in the balance": "पहले से बैलेंस में है",
+ "— {account} stays the same": "— {account} वैसा ही रहेगा",
+ "{amount} on day {n}": "दिन {n} को {amount}",
+ "Tick it off: books {amount} on day {n}": "टिक करें: दिन {n} को {amount} दर्ज करता है",
+ "Received?": "मिल गया?"
 }

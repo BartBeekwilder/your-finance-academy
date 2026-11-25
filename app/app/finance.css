@@ -4969,6 +4969,39 @@ span.pf-cmp-chip { cursor: default; }
   animation: pf-newcat-in 0.35s cubic-bezier(0.34, 1.4, 0.64, 1) both;
 }
 
+/* Income: the Payday tile ticks off the salary once it's in. */
+.pf-payday-check {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 64px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.68rem;
+  color: var(--pf-ink-2);
+  cursor: pointer;
+}
+.pf-payday-check:disabled { cursor: default; }
+.pf-payday-check:not(:disabled):hover .pf-payday-tick { border-color: var(--pf-green); }
+.pf-payday-check:not(:disabled):active .pf-payday-tick { transform: scale(0.9); }
+.pf-payday-tick {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--pf-ink-3);
+  color: #fff;
+  transition: background 0.3s, border-color 0.3s, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pf-payday-check[data-done="true"] { color: var(--pf-green); }
+.pf-payday-check[data-done="true"] .pf-payday-tick { background: var(--pf-green); border-color: var(--pf-green); animation: pf-tick-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes pf-tick-pop { 0% { transform: scale(0.6); } 100% { transform: scale(1); } }
+
 /* Investments: drag-to-zoom on charts. */
 .pf-pf-readout-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 22px; }
 .pf-zoom-band { fill: rgba(255, 255, 255, 0.07); }

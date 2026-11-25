@@ -4,7 +4,7 @@ import { t } from "@/lib/i18n";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Banknote, Check, CreditCard, HandCoins, Hourglass, Landmark, PiggyBank, Plus, Sparkles, Trash2, Wallet, X } from "lucide-react";
 import { closeTransactionEditor, useTransactionEditor } from "@/lib/finance/editTransaction";
-import { live, projectedNetIncome } from "@/lib/finance/calc";
+import { live, num, projectedNetIncome } from "@/lib/finance/calc";
 import { workHoursFor } from "@/lib/finance/workHours";
 import { workTime } from "./workTime";
 import { evalAmount } from "@/lib/finance/amountExpr";
@@ -244,7 +244,11 @@ function Form({
     setDate(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
   }, [salaryPicked, dateTouched, payday]);
   const pickedDay = Number(date.slice(8, 10));
-  const offerPayday = salaryPicked && !!setPayday && pickedDay > 0 && pickedDay !== payday;
+  // Only a real salary can move the payday: not a second income in a month
+  // that already has one, and not a small one-off (under half the pay).
+  const salaryAlready = past.some((x) => x.type === "income" && !x.deleted_at && x.id !== initial?.id && x.date.slice(0, 7) === date.slice(0, 7) && (x.gross_amount != null || (monthlyIncome > 0 && num(x.amount) >= monthlyIncome * 0.5)));
+  const payLike = !(monthlyIncome > 0) || (evalAmount(amount)?.value ?? 0) >= monthlyIncome * 0.5;
+  const offerPayday = salaryPicked && !!setPayday && pickedDay > 0 && pickedDay !== payday && !salaryAlready && payLike;
 
   const [confirming, setConfirming] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -294,6 +298,11 @@ function Form({
   // a label, so the balance sheet says what it is.
   const toReceive = advancing || (type === "income" && accountId === null && payable.length > 0);
   const labelled = !advancing || note.trim().length > 0;
+  // New, on an account, up to today: the amount may already be in the
+  // balance entered (e.g. at the last check-in) — then the balance stays.
+  const [inBalance, setInBalance] = useState(false);
+  const balanceAccount = payable.find((a) => a.id === accountId);
+  const offerInBalance = !initial && !!balanceAccount && !advancing && !spreading && date <= todayLocal() && date.slice(0, 4) === todayLocal().slice(0, 4);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -328,6 +337,11 @@ function Form({
         if (accountId) localStorage.setItem("pf-last-account", accountId);
       } catch {}
       if (offerPayday && isPayday) await setPayday!(pickedDay);
+      // Already in the balance: lower (income) or raise (expense) the
+      // account's 1 January value, so today's balance doesn't move.
+      if (offerInBalance && inBalance && balanceAccount) {
+        await saveAccount({ id: balanceAccount.id, name: balanceAccount.name, type: balanceAccount.type, balance: num(balanceAccount.balance) + (type === "income" ? -parsed : parsed) });
+      }
       onDone();
     } catch (err) {
       setError((err as Error).message);
@@ -650,6 +664,13 @@ function Form({
             })}
           </div>
         </div>
+      )}
+
+      {offerInBalance && (
+        <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.9rem" }}>
+          <input type="checkbox" checked={inBalance} onChange={(e) => setInBalance(e.target.checked)} />
+          {t("Already in the balance")} <span style={{ color: "var(--pf-ink-3)" }}>{t("— {account} stays the same", { account: balanceAccount!.name })}</span>
+        </label>
       )}
 
       {type === "expense" && !spreading && !advancing && (

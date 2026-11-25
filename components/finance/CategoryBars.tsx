@@ -5,7 +5,7 @@ import { setCategoryAreas, useCategoryAreas, useShowAxes, useStackLargestFirst, 
 import { ChartArea, ChartColumnStacked, ListOrdered, ArrowDownWideNarrow } from "lucide-react";
 import CategoryAreas from "./CategoryAreas";
 import { useState } from "react";
-import { categoryYear, live, num, projectedNetIncome, yearForecast } from "@/lib/finance/calc";
+import { categoryYear, live, num, projectedNetIncome, salaryTest, yearForecast } from "@/lib/finance/calc";
 import { upcomingFixedCosts } from "@/lib/finance/recurring";
 import { money, monthYear, shortMonth, monthName } from "@/lib/finance/format";
 import type { FinanceData, Transaction } from "@/lib/finance/types";
@@ -450,13 +450,15 @@ function dayBuckets(data: FinanceData, now: Date, kind: Kind, groupOf: (t: Trans
   const fixed = new Map<string, number>();
   const smear = kind === "income" && spread;
   let received = 0, mainReceived = 0;
+  const salaryLike = salaryTest(data);
   for (const t of live(data.transactions)) {
     const d = new Date(t.date);
     if (t.type !== kind || d.getFullYear() !== year || d.getMonth() !== month) continue;
     received += num(t.amount);
     if (kind === "expense" && t.is_fixed_expense) add(fixed, groupOf(t), num(t.amount));
-    // Spread: the main income is smeared below; other income stays on its day.
-    else if (smear && groupOf(t) === mainIncome) mainReceived += num(t.amount);
+    // Spread: the main income — and the salary, in whatever category — is
+    // smeared below; other income stays on its day.
+    else if (smear && (groupOf(t) === mainIncome || salaryLike(t))) mainReceived += num(t.amount);
     else add(byDay[d.getDate()], groupOf(t), num(t.amount));
   }
   // Fixed costs still to come this month (recurring, not yet booked) are

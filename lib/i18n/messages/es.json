@@ -2297,5 +2297,13 @@
  "Starts at your home's growth per year: {pct}": "Empieza en el crecimiento anual de tu vivienda: {pct}",
  "A USUAL MONTH": "UN MES NORMAL",
  "A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity.": "Los gastos fijos de un mes normal (registrados más los que faltan), sin la parte de amortización de tu hipoteca — esa aparece aparte en Amortización. Lo que sale, sale: esto reduce tu patrimonio.",
- "{amount} received": "{amount} recibidos"
+ "{amount} received": "{amount} recibidos",
+ "Updates “{name}” ({amount}).": "Actualiza «{name}» ({amount}).",
+ "Updates “{name}” in {month} ({amount}).": "Actualiza «{name}» en {month} ({amount}).",
+ "Add as a separate income instead": "Añadir como ingreso aparte",
+ "Already in the balance": "Ya está en el saldo",
+ "— {account} stays the same": "— {account} no cambia",
+ "{amount} on day {n}": "{amount} el día {n}",
+ "Tick it off: books {amount} on day {n}": "Márcalo: registra {amount} el día {n}",
+ "Received?": "¿Recibido?"
 }
