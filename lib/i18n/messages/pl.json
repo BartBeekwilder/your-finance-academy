@@ -2311,5 +2311,7 @@
  "Kind of income": "Rodzaj dochodu",
  "Ready cash": "Dostępne od ręki",
  "Current accounts today · {pct}% of your liquidity": "Konta bieżące dziś · {pct}% twojej płynności",
- "No current account yet": "Brak konta bieżącego"
+ "No current account yet": "Brak konta bieżącego",
+ "All accounts today · {pct}% of your liquidity": "Wszystkie konta dziś · {pct}% twojej płynności",
+ "No account yet": "Brak konta"
 }

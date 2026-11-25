@@ -2311,5 +2311,7 @@
  "Kind of income": "수입 종류",
  "Ready cash": "바로 쓸 수 있는 돈",
  "Current accounts today · {pct}% of your liquidity": "오늘 입출금 계좌 · 유동성의 {pct}%",
- "No current account yet": "아직 입출금 계좌 없음"
+ "No current account yet": "아직 입출금 계좌 없음",
+ "All accounts today · {pct}% of your liquidity": "오늘 모든 계좌 · 유동성의 {pct}%",
+ "No account yet": "아직 계좌 없음"
 }

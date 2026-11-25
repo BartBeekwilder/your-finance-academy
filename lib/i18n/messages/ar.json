@@ -2311,5 +2311,7 @@
  "Kind of income": "نوع الدخل",
  "Ready cash": "متاح فورًا",
  "Current accounts today · {pct}% of your liquidity": "الحسابات الجارية اليوم · {pct}% من سيولتك",
- "No current account yet": "لا يوجد حساب جارٍ بعد"
+ "No current account yet": "لا يوجد حساب جارٍ بعد",
+ "All accounts today · {pct}% of your liquidity": "كل الحسابات اليوم · {pct}% من سيولتك",
+ "No account yet": "لا يوجد حساب بعد"
 }

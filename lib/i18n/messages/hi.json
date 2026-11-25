@@ -2311,5 +2311,7 @@
  "Kind of income": "आय का प्रकार",
  "Ready cash": "तुरंत उपलब्ध",
  "Current accounts today · {pct}% of your liquidity": "आज के चालू खाते · आपकी तरलता का {pct}%",
- "No current account yet": "अभी कोई चालू खाता नहीं"
+ "No current account yet": "अभी कोई चालू खाता नहीं",
+ "All accounts today · {pct}% of your liquidity": "आज सभी खाते · आपकी तरलता का {pct}%",
+ "No account yet": "अभी कोई खाता नहीं"
 }

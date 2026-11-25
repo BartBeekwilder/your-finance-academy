@@ -84,9 +84,9 @@ export default function NetWorthPage() {
   // year; what wasn't booked on an account stays under "Saved this year".
   const flows = accountFlows(data, new Date(tick));
   const tagged = [...flows.values()].reduce((a, b) => a + b, 0);
-  // Ready cash (Bart, 25 Nov): what's at hand today — the current accounts
-  // (and cash), not savings or investments.
-  const readyAccounts = live(data.accounts).filter((a) => a.type === "checking" || a.type === "cash");
+  // Ready cash (Bart, 25 Nov): what's at hand today — every account
+  // (current, savings, cash, card), not investments.
+  const readyAccounts = live(data.accounts).filter((a) => a.type !== "investment");
   const readyCash = readyAccounts.reduce((sum, a) => sum + num(a.balance) + (flows.get(a.id) ?? 0), 0);
   const pendingTotal = pendingIncome(data, new Date(tick), false).reduce((a, x) => a + num(x.amount), 0);
   const parts = [
@@ -151,7 +151,7 @@ export default function NetWorthPage() {
           label={t("Ready cash")}
           value={money(readyCash, currency)}
           color="#64d2ff"
-          hint={readyAccounts.length ? t("Current accounts today · {pct}% of your liquidity", { pct: nowValue > 0 ? Math.round((readyCash / nowValue) * 100) : 0 }) : t("No current account yet")}
+          hint={readyAccounts.length ? t("All accounts today · {pct}% of your liquidity", { pct: nowValue > 0 ? Math.round((readyCash / nowValue) * 100) : 0 }) : t("No account yet")}
         />
         {mode === "month" ? (
           <>

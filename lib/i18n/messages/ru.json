@@ -2311,5 +2311,7 @@
  "Kind of income": "Вид дохода",
  "Ready cash": "Доступно сразу",
  "Current accounts today · {pct}% of your liquidity": "Текущие счета сегодня · {pct}% вашей ликвидности",
- "No current account yet": "Пока нет текущего счёта"
+ "No current account yet": "Пока нет текущего счёта",
+ "All accounts today · {pct}% of your liquidity": "Все счета сегодня · {pct}% вашей ликвидности",
+ "No account yet": "Пока нет счёта"
 }

@@ -2311,5 +2311,7 @@
  "Kind of income": "収入の種類",
  "Ready cash": "すぐ使えるお金",
  "Current accounts today · {pct}% of your liquidity": "今日の普通口座 · 流動資産の{pct}%",
- "No current account yet": "普通口座はまだありません"
+ "No current account yet": "普通口座はまだありません",
+ "All accounts today · {pct}% of your liquidity": "今日の全口座 · 流動資産の{pct}%",
+ "No account yet": "口座はまだありません"
 }

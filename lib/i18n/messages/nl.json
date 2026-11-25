@@ -2317,5 +2317,7 @@
  "Kind of income": "Soort inkomen",
  "Ready cash": "Direct beschikbaar",
  "Current accounts today · {pct}% of your liquidity": "Lopende rekeningen vandaag · {pct}% van je liquiditeit",
- "No current account yet": "Nog geen lopende rekening"
+ "No current account yet": "Nog geen lopende rekening",
+ "All accounts today · {pct}% of your liquidity": "Alle rekeningen vandaag · {pct}% van je liquiditeit",
+ "No account yet": "Nog geen rekening"
 }

@@ -2311,5 +2311,7 @@
  "Kind of income": "Jenis pemasukan",
  "Ready cash": "Siap pakai",
  "Current accounts today · {pct}% of your liquidity": "Rekening giro hari ini · {pct}% likuiditas Anda",
- "No current account yet": "Belum ada rekening giro"
+ "No current account yet": "Belum ada rekening giro",
+ "All accounts today · {pct}% of your liquidity": "Semua rekening hari ini · {pct}% likuiditas Anda",
+ "No account yet": "Belum ada rekening"
 }

@@ -2311,5 +2311,7 @@
  "Kind of income": "Loại thu nhập",
  "Ready cash": "Có sẵn ngay",
  "Current accounts today · {pct}% of your liquidity": "Tài khoản thanh toán hôm nay · {pct}% thanh khoản",
- "No current account yet": "Chưa có tài khoản thanh toán"
+ "No current account yet": "Chưa có tài khoản thanh toán",
+ "All accounts today · {pct}% of your liquidity": "Tất cả tài khoản hôm nay · {pct}% thanh khoản",
+ "No account yet": "Chưa có tài khoản"
 }

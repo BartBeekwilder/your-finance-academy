@@ -2311,5 +2311,7 @@
  "Kind of income": "收入类型",
  "Ready cash": "随时可用",
  "Current accounts today · {pct}% of your liquidity": "今日活期账户 · 占流动资产 {pct}%",
- "No current account yet": "还没有活期账户"
+ "No current account yet": "还没有活期账户",
+ "All accounts today · {pct}% of your liquidity": "今日所有账户 · 占流动资产 {pct}%",
+ "No account yet": "还没有账户"
 }
