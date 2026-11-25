@@ -264,7 +264,14 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       // Not from inside the homepage's device frames (they share the tab's storage).
       if (window.self === window.top) sessionStorage.setItem(DEMO_KEY, "1");
     } catch {}
-    setPhase({ kind: "ready", data: buildDemoData(new Date()), source: "demo", email: null });
+    const demo = buildDemoData(new Date());
+    // The demo in another currency, for this tab only (promo videos in dollars):
+    // sessionStorage pf-demo-currency = "USD".
+    try {
+      const cur = sessionStorage.getItem("pf-demo-currency");
+      if (cur && /^[A-Z]{3}$/.test(cur)) demo.profile = { ...demo.profile, currency_code: cur };
+    } catch {}
+    setPhase({ kind: "ready", data: demo, source: "demo", email: null });
   }, []);
 
   // Dev only: is there a private data file on this computer? ("missing" =
