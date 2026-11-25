@@ -2308,5 +2308,8 @@
  "Received?": "受け取った？",
  "Adjust salary": "給料を修正",
  "Adjust": "修正",
- "Kind of income": "収入の種類"
+ "Kind of income": "収入の種類",
+ "Ready cash": "すぐ使えるお金",
+ "Current accounts today · {pct}% of your liquidity": "今日の普通口座 · 流動資産の{pct}%",
+ "No current account yet": "普通口座はまだありません"
 }

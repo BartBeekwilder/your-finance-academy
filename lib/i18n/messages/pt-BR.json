@@ -2308,5 +2308,8 @@
  "Received?": "Recebido?",
  "Adjust salary": "Ajustar salário",
  "Adjust": "Ajustar",
- "Kind of income": "Tipo de receita"
+ "Kind of income": "Tipo de receita",
+ "Ready cash": "Disponível agora",
+ "Current accounts today · {pct}% of your liquidity": "Contas correntes hoje · {pct}% da sua liquidez",
+ "No current account yet": "Ainda sem conta corrente"
 }

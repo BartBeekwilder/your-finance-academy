@@ -2308,5 +2308,8 @@
  "Received?": "تم الاستلام؟",
  "Adjust salary": "تعديل الراتب",
  "Adjust": "تعديل",
- "Kind of income": "نوع الدخل"
+ "Kind of income": "نوع الدخل",
+ "Ready cash": "متاح فورًا",
+ "Current accounts today · {pct}% of your liquidity": "الحسابات الجارية اليوم · {pct}% من سيولتك",
+ "No current account yet": "لا يوجد حساب جارٍ بعد"
 }

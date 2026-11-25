@@ -2308,5 +2308,8 @@
  "Received?": "मिल गया?",
  "Adjust salary": "सैलरी बदलें",
  "Adjust": "बदलें",
- "Kind of income": "आय का प्रकार"
+ "Kind of income": "आय का प्रकार",
+ "Ready cash": "तुरंत उपलब्ध",
+ "Current accounts today · {pct}% of your liquidity": "आज के चालू खाते · आपकी तरलता का {pct}%",
+ "No current account yet": "अभी कोई चालू खाता नहीं"
 }

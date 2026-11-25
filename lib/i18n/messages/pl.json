@@ -2308,5 +2308,8 @@
  "Received?": "Otrzymano?",
  "Adjust salary": "Popraw pensję",
  "Adjust": "Popraw",
- "Kind of income": "Rodzaj dochodu"
+ "Kind of income": "Rodzaj dochodu",
+ "Ready cash": "Dostępne od ręki",
+ "Current accounts today · {pct}% of your liquidity": "Konta bieżące dziś · {pct}% twojej płynności",
+ "No current account yet": "Brak konta bieżącego"
 }

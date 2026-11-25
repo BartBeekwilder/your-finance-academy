@@ -84,6 +84,10 @@ export default function NetWorthPage() {
   // year; what wasn't booked on an account stays under "Saved this year".
   const flows = accountFlows(data, new Date(tick));
   const tagged = [...flows.values()].reduce((a, b) => a + b, 0);
+  // Ready cash (Bart, 25 Nov): what's at hand today — the current accounts
+  // (and cash), not savings or investments.
+  const readyAccounts = live(data.accounts).filter((a) => a.type === "checking" || a.type === "cash");
+  const readyCash = readyAccounts.reduce((sum, a) => sum + num(a.balance) + (flows.get(a.id) ?? 0), 0);
   const pendingTotal = pendingIncome(data, new Date(tick), false).reduce((a, x) => a + num(x.amount), 0);
   const parts = [
     { id: "saved", name: t("Saved this year"), kind: t("Cash flow"), value: nowValue - nw.accountsTotal - nw.holdingsTotal - tagged - pendingTotal, color: "#30d158" },
@@ -143,6 +147,12 @@ export default function NetWorthPage() {
 
       <div key={mode} className="pf-readout" style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
         <Stat label={t("Liquidity now")} value={money(nowValue, currency)} color="#40c8e0" hint={t("Saved this year {v1}", { v1: money(savedThisYear, currency, { signed: true }) })} />
+        <Stat
+          label={t("Ready cash")}
+          value={money(readyCash, currency)}
+          color="#64d2ff"
+          hint={readyAccounts.length ? t("Current accounts today · {pct}% of your liquidity", { pct: nowValue > 0 ? Math.round((readyCash / nowValue) * 100) : 0 }) : t("No current account yet")}
+        />
         {mode === "month" ? (
           <>
             <Stat

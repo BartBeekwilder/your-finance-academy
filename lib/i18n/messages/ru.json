@@ -2308,5 +2308,8 @@
  "Received?": "Получено?",
  "Adjust salary": "Изменить зарплату",
  "Adjust": "Изменить",
- "Kind of income": "Вид дохода"
+ "Kind of income": "Вид дохода",
+ "Ready cash": "Доступно сразу",
+ "Current accounts today · {pct}% of your liquidity": "Текущие счета сегодня · {pct}% вашей ликвидности",
+ "No current account yet": "Пока нет текущего счёта"
 }

@@ -2308,5 +2308,8 @@
  "Received?": "Diterima?",
  "Adjust salary": "Ubah gaji",
  "Adjust": "Ubah",
- "Kind of income": "Jenis pemasukan"
+ "Kind of income": "Jenis pemasukan",
+ "Ready cash": "Siap pakai",
+ "Current accounts today · {pct}% of your liquidity": "Rekening giro hari ini · {pct}% likuiditas Anda",
+ "No current account yet": "Belum ada rekening giro"
 }

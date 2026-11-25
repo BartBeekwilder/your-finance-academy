@@ -2308,5 +2308,8 @@
  "Received?": "Alındı mı?",
  "Adjust salary": "Maaşı düzenle",
  "Adjust": "Düzenle",
- "Kind of income": "Gelir türü"
+ "Kind of income": "Gelir türü",
+ "Ready cash": "Hemen kullanılabilir",
+ "Current accounts today · {pct}% of your liquidity": "Bugün vadesiz hesaplar · likiditenin %{pct}’i",
+ "No current account yet": "Henüz vadesiz hesap yok"
 }

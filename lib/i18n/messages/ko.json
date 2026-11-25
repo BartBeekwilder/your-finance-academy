@@ -2308,5 +2308,8 @@
  "Received?": "받았나요?",
  "Adjust salary": "급여 수정",
  "Adjust": "수정",
- "Kind of income": "수입 종류"
+ "Kind of income": "수입 종류",
+ "Ready cash": "바로 쓸 수 있는 돈",
+ "Current accounts today · {pct}% of your liquidity": "오늘 입출금 계좌 · 유동성의 {pct}%",
+ "No current account yet": "아직 입출금 계좌 없음"
 }

@@ -2308,5 +2308,8 @@
  "Received?": "Đã nhận?",
  "Adjust salary": "Sửa lương",
  "Adjust": "Sửa",
- "Kind of income": "Loại thu nhập"
+ "Kind of income": "Loại thu nhập",
+ "Ready cash": "Có sẵn ngay",
+ "Current accounts today · {pct}% of your liquidity": "Tài khoản thanh toán hôm nay · {pct}% thanh khoản",
+ "No current account yet": "Chưa có tài khoản thanh toán"
 }
