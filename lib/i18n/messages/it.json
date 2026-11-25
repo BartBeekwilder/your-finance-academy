@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "Stipendio: lordo e netto al mese — {year}",
  "Gross pay in {monthName}": "Stipendio lordo a {monthName}",
  "Gross pay this month": "Stipendio lordo questo mese",
- "Gross pay this year": "Stipendio lordo quest'anno"
+ "Gross pay this year": "Stipendio lordo quest'anno",
+ "Add repayment": "Aggiungi rimborso",
+ "Extra off your mortgage or a loan": "Un extra sul mutuo o su un prestito",
+ "Not spending: lowers the debt, your equity stays the same": "Non è una spesa: riduce il debito, il patrimonio resta uguale",
+ "repaid": "rimborsato",
+ "Repayment of a debt": "Rimborso di un debito",
+ "Repayment: {debt}": "Rimborso: {debt}"
 }

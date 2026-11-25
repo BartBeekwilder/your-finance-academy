@@ -2332,5 +2332,11 @@
  "Pay: gross and net per month — {year}": "Loon: bruto en netto per maand — {year}",
  "Gross pay in {monthName}": "Brutoloon in {monthName}",
  "Gross pay this month": "Brutoloon deze maand",
- "Gross pay this year": "Brutoloon dit jaar"
+ "Gross pay this year": "Brutoloon dit jaar",
+ "Add repayment": "Aflossing toevoegen",
+ "Extra off your mortgage or a loan": "Extra van je hypotheek of een lening af",
+ "Not spending: lowers the debt, your equity stays the same": "Geen uitgave: verlaagt de schuld, je eigen vermogen blijft gelijk",
+ "repaid": "afgelost",
+ "Repayment of a debt": "Aflossing van een schuld",
+ "Repayment: {debt}": "Aflossing: {debt}"
 }

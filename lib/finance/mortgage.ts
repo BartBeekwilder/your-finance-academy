@@ -28,6 +28,8 @@ export type MortgagePart = {
   nhg?: boolean;
   /** Planned extra repayment every month. */
   extraMonthly?: number;
+  /** Extra repayments booked on this part (repayments.ts), in their month. */
+  lumps?: { month: Date; amount: number }[];
 };
 
 export type Row = {
@@ -73,7 +75,12 @@ export function schedule(p: MortgagePart, s: Scenario = {}): Row[] {
   const start = monthStart(p.start);
   const extraMonthly = s.extraMonthly ?? p.extraMonthly ?? 0;
   const extraStart = s.extraFrom ? monthsBetween(start, monthStart(s.extraFrom)) : 0;
-  const lumps = new Map((s.lumps ?? []).map((l) => [monthsBetween(start, monthStart(l.month)), l.amount]));
+  // One-off extras: the scenario's plus the ones booked on the part.
+  const lumps = new Map<number, number>();
+  for (const l of [...(p.lumps ?? []), ...(s.lumps ?? [])]) {
+    const k = monthsBetween(start, monthStart(l.month));
+    lumps.set(k, (lumps.get(k) ?? 0) + l.amount);
+  }
   const rateChangeAt = s.rateFrom ? monthsBetween(start, monthStart(s.rateFrom.month)) : Infinity;
   const rows: Row[] = [];
   let balance = p.principal;

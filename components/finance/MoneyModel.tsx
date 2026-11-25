@@ -63,8 +63,10 @@ export function moneyModelBase(data: FinanceData, now: Date): Base {
   const variable = usualVar > 0 ? usualVar : expected.reduce((t, e) => t + Math.max(e.expected - e.fixedMonth, 0), 0);
   // The mortgage's repayment this month: part of the payment, but it lowers
   // the debt instead of leaving (equity stays; it moves from money to home).
+  // A usual month: the scheduled repayment, not one-off extras booked this
+  // month (those lower the debt — the balances below — but aren't usual).
   const repay = homes(data).reduce((t, h) => t + h.parts.reduce((s, p) => {
-    const row = summarizePart(p, now).thisMonth;
+    const row = summarizePart({ ...p, lumps: [] }, now).thisMonth;
     return s + (row ? row.repayment + row.extra : 0);
   }, 0), 0);
   const repayIn = Math.min(repay, fixedAll);
@@ -93,7 +95,7 @@ function planetLayers(data: FinanceData, now: Date): NonNullable<Base["layers"]>
     income.set(k, (income.get(k) ?? 0) + Number(x.amount));
   }
   const spending = spendByCategoryYear(data, now).map((r) => ({ label: r.category.name, value: r.spent }));
-  const repayment = homes(data).flatMap((h) => h.parts.map((p) => ({ label: p.name || t("Mortgage"), value: (() => { const row = summarizePart(p, now).thisMonth; return row ? row.repayment + row.extra : 0; })() })));
+  const repayment = homes(data).flatMap((h) => h.parts.map((p) => ({ label: p.name || t("Mortgage"), value: (() => { const row = summarizePart({ ...p, lumps: [] }, now).thisMonth; return row ? row.repayment + row.extra : 0; })() })));
   const investments = live(data.holdings).map((h) => {
     const pts = data.market?.[h.id];
     return { label: h.name || h.symbol, value: pts?.length ? pts[pts.length - 1][1] : Number(h.cost_basis ?? 0) };
@@ -185,10 +187,17 @@ export function lookBackBase(data: FinanceData, now: Date, p: LookBack) {
     }
     n += 12;
   }
-  const repaid = Math.max(start.mortgage - end.mortgage, 0);
   // A home bought within the period: its price isn't the housing market.
   const fromT = new Date(p.from, 0, 1).getTime();
   const toT = p.to === y0 ? now.getTime() : new Date(p.to, 11, 31, 23, 59).getTime();
+  // Repayments booked in the period (mortgage or loan): not spending, they
+  // left the money and made a debt smaller. The rest of what the mortgage
+  // went down was the repayment part of its payments (in the fixed costs).
+  const booked = (data.repayments ?? []).filter((x) => Date.parse(x.date) >= fromT && Date.parse(x.date) <= toT);
+  const partIds = new Set(homes(data).flatMap((h) => h.parts.map((x) => x.id)));
+  const bookedAll = booked.reduce((tt, x) => tt + Number(x.amount), 0);
+  const bookedMortgage = booked.filter((x) => partIds.has(x.repays ?? "")).reduce((tt, x) => tt + Number(x.amount), 0);
+  const repaid = Math.max(start.mortgage - end.mortgage - bookedMortgage, 0);
   const bought = homes(data).reduce((t, h) => {
     const d = h.property.purchase_date ? Date.parse(h.property.purchase_date) : NaN;
     return t + (d >= fromT && d <= toT ? Number(h.property.purchase_price ?? h.property.value) || 0 : 0);
@@ -204,7 +213,7 @@ export function lookBackBase(data: FinanceData, now: Date, p: LookBack) {
       // The mortgage payments are in the fixed costs; their repayment part
       // made the debt smaller instead of leaving.
       fixed: Math.max(fixed - repaid, 0) / n,
-      repay: Math.min(repaid, fixed) / n,
+      repay: (Math.min(repaid, fixed) + bookedAll) / n,
       variable: variable / n,
       marketMove: end.invest - start.invest - putIn,
       homeMove: end.home - start.home - bought,

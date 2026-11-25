@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "Lương: gộp và ròng mỗi tháng — {year}",
  "Gross pay in {monthName}": "Lương gộp trong {monthName}",
  "Gross pay this month": "Lương gộp tháng này",
- "Gross pay this year": "Lương gộp năm nay"
+ "Gross pay this year": "Lương gộp năm nay",
+ "Add repayment": "Thêm khoản trả nợ",
+ "Extra off your mortgage or a loan": "Trả thêm khoản vay nhà hoặc khoản vay",
+ "Not spending: lowers the debt, your equity stays the same": "Không phải chi tiêu: giảm nợ, tài sản ròng giữ nguyên",
+ "repaid": "đã trả",
+ "Repayment of a debt": "Trả nợ",
+ "Repayment: {debt}": "Trả nợ: {debt}"
 }

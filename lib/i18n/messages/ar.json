@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "الأجر: الإجمالي والصافي شهريًا — {year}",
  "Gross pay in {monthName}": "الأجر الإجمالي في {monthName}",
  "Gross pay this month": "الأجر الإجمالي هذا الشهر",
- "Gross pay this year": "الأجر الإجمالي هذا العام"
+ "Gross pay this year": "الأجر الإجمالي هذا العام",
+ "Add repayment": "إضافة سداد",
+ "Extra off your mortgage or a loan": "سداد إضافي من رهنك أو قرض",
+ "Not spending: lowers the debt, your equity stays the same": "ليس إنفاقًا: يخفض الدين، وتبقى ثروتك كما هي",
+ "repaid": "مسدّد",
+ "Repayment of a debt": "سداد دين",
+ "Repayment: {debt}": "سداد: {debt}"
 }

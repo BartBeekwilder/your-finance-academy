@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "Зарплата: брутто и нетто по месяцам — {year}",
  "Gross pay in {monthName}": "Зарплата брутто за {monthName}",
  "Gross pay this month": "Зарплата брутто в этом месяце",
- "Gross pay this year": "Зарплата брутто в этом году"
+ "Gross pay this year": "Зарплата брутто в этом году",
+ "Add repayment": "Добавить погашение",
+ "Extra off your mortgage or a loan": "Досрочно по ипотеке или кредиту",
+ "Not spending: lowers the debt, your equity stays the same": "Не расход: уменьшает долг, капитал не меняется",
+ "repaid": "погашено",
+ "Repayment of a debt": "Погашение долга",
+ "Repayment: {debt}": "Погашение: {debt}"
 }

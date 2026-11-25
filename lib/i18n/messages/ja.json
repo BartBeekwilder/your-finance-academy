@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "給与：月ごとの額面と手取り — {year}",
  "Gross pay in {monthName}": "{monthName}の額面給与",
  "Gross pay this month": "今月の額面給与",
- "Gross pay this year": "今年の額面給与"
+ "Gross pay this year": "今年の額面給与",
+ "Add repayment": "返済を追加",
+ "Extra off your mortgage or a loan": "住宅ローンやローンの繰上げ返済",
+ "Not spending: lowers the debt, your equity stays the same": "支出ではありません：負債が減り、純資産は変わりません",
+ "repaid": "返済済み",
+ "Repayment of a debt": "借入の返済",
+ "Repayment: {debt}": "返済：{debt}"
 }

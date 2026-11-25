@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "Gaji: bruto dan neto per bulan — {year}",
  "Gross pay in {monthName}": "Gaji bruto di {monthName}",
  "Gross pay this month": "Gaji bruto bulan ini",
- "Gross pay this year": "Gaji bruto tahun ini"
+ "Gross pay this year": "Gaji bruto tahun ini",
+ "Add repayment": "Tambah pelunasan",
+ "Extra off your mortgage or a loan": "Ekstra dari KPR atau pinjaman",
+ "Not spending: lowers the debt, your equity stays the same": "Bukan pengeluaran: mengurangi utang, ekuitas Anda tetap",
+ "repaid": "dilunasi",
+ "Repayment of a debt": "Pelunasan utang",
+ "Repayment: {debt}": "Pelunasan: {debt}"
 }

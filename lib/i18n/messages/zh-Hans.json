@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "工资：每月税前和税后 — {year}",
  "Gross pay in {monthName}": "{monthName}税前工资",
  "Gross pay this month": "本月税前工资",
- "Gross pay this year": "今年税前工资"
+ "Gross pay this year": "今年税前工资",
+ "Add repayment": "添加还款",
+ "Extra off your mortgage or a loan": "提前偿还房贷或贷款",
+ "Not spending: lowers the debt, your equity stays the same": "不是支出：减少负债，净资产不变",
+ "repaid": "已还",
+ "Repayment of a debt": "偿还债务",
+ "Repayment: {debt}": "还款：{debt}"
 }

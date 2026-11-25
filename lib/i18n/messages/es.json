@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "Salario: bruto y neto por mes — {year}",
  "Gross pay in {monthName}": "Salario bruto en {monthName}",
  "Gross pay this month": "Salario bruto este mes",
- "Gross pay this year": "Salario bruto este año"
+ "Gross pay this year": "Salario bruto este año",
+ "Add repayment": "Añadir amortización",
+ "Extra off your mortgage or a loan": "Un extra de tu hipoteca o un préstamo",
+ "Not spending: lowers the debt, your equity stays the same": "No es gasto: baja la deuda, tu patrimonio sigue igual",
+ "repaid": "amortizado",
+ "Repayment of a debt": "Amortización de una deuda",
+ "Repayment: {debt}": "Amortización: {debt}"
 }

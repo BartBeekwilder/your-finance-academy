@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "급여: 월별 세전·세후 — {year}",
  "Gross pay in {monthName}": "{monthName} 세전 급여",
  "Gross pay this month": "이번 달 세전 급여",
- "Gross pay this year": "올해 세전 급여"
+ "Gross pay this year": "올해 세전 급여",
+ "Add repayment": "상환 추가",
+ "Extra off your mortgage or a loan": "주택담보대출이나 대출 추가 상환",
+ "Not spending: lowers the debt, your equity stays the same": "지출 아님: 빚이 줄고 순자산은 그대로",
+ "repaid": "상환됨",
+ "Repayment of a debt": "빚 상환",
+ "Repayment: {debt}": "상환: {debt}"
 }

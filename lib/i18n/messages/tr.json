@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "Maaş: aylık brüt ve net — {year}",
  "Gross pay in {monthName}": "{monthName} brüt maaş",
  "Gross pay this month": "Bu ay brüt maaş",
- "Gross pay this year": "Bu yıl brüt maaş"
+ "Gross pay this year": "Bu yıl brüt maaş",
+ "Add repayment": "Geri ödeme ekle",
+ "Extra off your mortgage or a loan": "Konut kredinden veya bir krediden ekstra",
+ "Not spending: lowers the debt, your equity stays the same": "Harcama değil: borcu düşürür, öz varlığın aynı kalır",
+ "repaid": "ödendi",
+ "Repayment of a debt": "Borç geri ödemesi",
+ "Repayment: {debt}": "Geri ödeme: {debt}"
 }

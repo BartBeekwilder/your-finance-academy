@@ -42,7 +42,7 @@ export default function TransactionsPage() {
     // The ledger shows what actually left the account: a spread purchase
     // once, at its full amount — not its monthly parts.
     const seen = new Set<string>();
-    const rows = live(data.transactions)
+    const rows = [...live(data.transactions), ...(data.repayments ?? [])]
       .map((t) => t.spread_of ?? t)
       .filter((t) => !seen.has(t.id) && !!seen.add(t.id))
       .filter((t) => filter === "all" || t.type === filter)
@@ -57,7 +57,7 @@ export default function TransactionsPage() {
       map.set(key, [...(map.get(key) ?? []), t]);
     }
     return [...map.entries()];
-  }, [data.transactions, categories, query, filter]);
+  }, [data.transactions, data.repayments, categories, query, filter]);
 
   return (
     <div style={{ display: "grid", gap: 20 }}>
@@ -99,6 +99,7 @@ export default function TransactionsPage() {
                     <div style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
                       {c?.name ?? tr("Uncategorized")}
                       {t.is_fixed_expense && ` · ${tr("Fixed")}`}
+                      {t.repays && ` · ${tr("Repayment")}`}
                     </div>
                   </div>
                   <span className="pf-rounded" style={{ fontWeight: 600, color: t.type === "income" ? "var(--pf-green)" : "var(--pf-ink)", textAlign: "end" }}>

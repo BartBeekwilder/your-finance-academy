@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "Pensja: brutto i netto na miesiąc — {year}",
  "Gross pay in {monthName}": "Pensja brutto w {monthName}",
  "Gross pay this month": "Pensja brutto w tym miesiącu",
- "Gross pay this year": "Pensja brutto w tym roku"
+ "Gross pay this year": "Pensja brutto w tym roku",
+ "Add repayment": "Dodaj spłatę",
+ "Extra off your mortgage or a loan": "Dodatkowo z kredytu hipotecznego lub pożyczki",
+ "Not spending: lowers the debt, your equity stays the same": "To nie wydatek: zmniejsza dług, kapitał własny bez zmian",
+ "repaid": "spłacono",
+ "Repayment of a debt": "Spłata długu",
+ "Repayment: {debt}": "Spłata: {debt}"
 }

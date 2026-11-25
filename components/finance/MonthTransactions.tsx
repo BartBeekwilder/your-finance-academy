@@ -14,7 +14,8 @@ import CategoryIcon from "./CategoryIcon";
 export default function MonthTransactions({ data, month, currency, kind }: { data: FinanceData; month: Date; currency: string; kind: "expense" | "income" }) {
   const categories = new Map(data.categories.map((c) => [c.id, c]));
   const people = new Map(householdOf(data.profile).map((m) => [m.id, m]));
-  const rows = live(data.transactions)
+  // Repayments of a debt show with the expenses (tagged), but aren't spending.
+  const rows = [...live(data.transactions), ...(kind === "expense" ? (data.repayments ?? []) : [])]
     .filter((t) => {
       const d = new Date(t.date);
       return t.type === kind && d.getFullYear() === month.getFullYear() && d.getMonth() === month.getMonth();
@@ -25,6 +26,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
     const key = new Date(t.date).toDateString();
     days.set(key, [...(days.get(key) ?? []), t]);
   }
+  const spending = rows.filter((t) => !t.repays);
   let n = 0;
 
   return (
@@ -32,7 +34,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
       <h2 className="pf-section-title">
         {tr("Transactions in {month}", { month: monthName(month) })}{" "}
         <span style={{ textTransform: "none", color: "var(--pf-ink-3)" }}>
-          · {kind === "expense" ? (rows.length === 1 ? tr("1 expense") : tr("{n} expenses", { n: rows.length })) : rows.length === 1 ? tr("1 payment") : tr("{n} payments", { n: rows.length })}
+          · {kind === "expense" ? (spending.length === 1 ? tr("1 expense") : tr("{n} expenses", { n: spending.length })) : rows.length === 1 ? tr("1 payment") : tr("{n} payments", { n: rows.length })}
         </span>
       </h2>
       <div className="pf-card">
@@ -40,7 +42,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
           <div key={key}>
             <div className="pf-day-head">
               <span>{dayLabel(list[0].date)}</span>
-              <span className="pf-rounded">{money(list.reduce((t, x) => t + num(x.amount), 0), currency)}</span>
+              <span className="pf-rounded">{money(list.reduce((t, x) => t + (x.repays ? 0 : num(x.amount)), 0), currency)}</span>
             </div>
             {list.map((t) => {
               const c = t.category_id ? categories.get(t.category_id) : undefined;
@@ -56,9 +58,10 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
                       {c?.name ?? tr("No category")}
                       {t.is_fixed_expense && <span className="pf-fixed-tag">{tr("Fixed")}</span>}
                       {t.is_auto_income && <span className="pf-auto-tag">{tr("Automatic")}</span>}
+                      {t.repays && <span className="pf-repay-tag">{tr("Repayment")}</span>}
                     </div>
                   </div>
-                  <span className="pf-rounded" style={{ fontWeight: 600, color: kind === "expense" ? "var(--pf-red)" : "var(--pf-green)" }}>
+                  <span className="pf-rounded" style={{ fontWeight: 600, color: t.repays ? "#bf5af2" : kind === "expense" ? "var(--pf-red)" : "var(--pf-green)" }}>
                     {money(num(t.amount), currency)}
                   </span>
                 </div>

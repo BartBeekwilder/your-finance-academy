@@ -1,4 +1,5 @@
 import { advancesByAccount, openAdvances } from "./advances";
+import { repaidIn, repaymentsByAccount } from "./repayments";
 import { spreadBookValue } from "./spread";
 import { budgetIn } from "./budgetPlan";
 export { budgetIn };
@@ -146,6 +147,8 @@ export function accountInOut(data: FinanceData, now: Date) {
     if (d.getFullYear() !== year || d > now) continue;
     put(account, (t.type === "income" ? 1 : -1) * num(t.amount));
   }
+  // A repayment of a debt left its account too (it lowered the debt instead).
+  for (const [id, v] of repaymentsByAccount(data, now, fallback)) put(id, -v);
   // A spread purchase left the account at once, in full.
   for (const t of live(data.transactions)) {
     const o = t.spread_of;
@@ -430,9 +433,11 @@ export function netWorthFigures(data: FinanceData, now: Date) {
   const year = now.getFullYear(), current = now.getMonth();
   // The last price before a month starts (the dashboard's day/month/year rule).
   const before = (m: number) => inv(new Date(year, m, 1).getTime() - 1);
+  // Liquidity: income − spending − debt repaid (repaying moves money to the
+  // debt: liquidity goes down, equity stays).
   const workDone = Array.from({ length: current }, (_, m) => {
     const s = summarize(data.transactions, new Date(year, m, 1));
-    return s.income - s.spent;
+    return s.income - s.spent - repaidIn(data, new Date(year, m, 1));
   });
   const finished = workDone.map((w, m) => w + before(m + 1) - before(m));
   const startOfYear = accountsTotal + before(0);
@@ -446,7 +451,7 @@ export function netWorthFigures(data: FinanceData, now: Date) {
   /** This month's change from income and spending at time `at` (ms) — the Balance tile. */
   const workChange = (at: number) => {
     const f = Math.min(Math.max((at - monthStart) / (days * 86_400_000), 0), 1);
-    return projected * f + otherIncome(data, new Date(monthStart), at) - (fixedNow * f + thisMonth.variable);
+    return projected * f + otherIncome(data, new Date(monthStart), at) - (fixedNow * f + thisMonth.variable) - repaidIn(data, new Date(monthStart), at);
   };
   /** What the holdings did on the market from the 1st to `at` (ms). */
   const marketChange = (at: number) => inv(at) - marketAtStart;
@@ -549,7 +554,7 @@ export function balanceSheet(data: FinanceData, now: Date, month: Date, context:
     const upToNow = { ...data, transactions: live(data.transactions).filter((x) => new Date(x.date) <= now) };
     const s = summarize(upToNow.transactions, new Date(year, current, 1));
     const f = Math.min(Math.max((now.getTime() - new Date(year, current, 1).getTime()) / (nw.days * 86_400_000), 0), 1);
-    cash = nw.base - nw.holdingsTotal + s.income - s.spent;
+    cash = nw.base - nw.holdingsTotal + s.income - s.spent - repaidIn(data, new Date(year, current, 1), now.getTime());
     const prepaid = s.fixed * (1 - f);
     // Receivable: the salary earned so far minus the salary entered (other
     // income isn't earned day by day — it's in Accounts or Amounts to receive).

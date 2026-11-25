@@ -10,6 +10,7 @@ import type { ReadResult } from "@/lib/ai/reader";
 import { intlLocale, t } from "@/lib/i18n";
 import { useFinance } from "./FinanceProvider";
 import { newSalary, salaryOf } from "./Payslips";
+import { debtsOf } from "./DebtChips";
 import Sheet from "./Sheet";
 
 // Read with AI (Premium): a bank screenshot on Expenses, a payslip on
@@ -253,7 +254,7 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
 }
 
 /** `booked`: the booking this row already is, as "note · day" (null = new). */
-type Draft = ReadRow & { on: boolean; categoryId: string | null; from: "history" | "ai" | null; booked: string | null; own: boolean };
+type Draft = ReadRow & { on: boolean; categoryId: string | null; from: "history" | "ai" | null; booked: string | null; own: boolean; repays: string | null };
 
 /** A bar that fills with the work. */
 function Progress({ value, label }: { value: number; label: string }) {
@@ -299,9 +300,12 @@ function RowStatus({ d }: { d: Draft }) {
 }
 
 function BankReview({ rows, statement, onDone }: { rows: ReadRow[]; statement?: "bank" | "credit_card"; onDone: (n: number) => void }) {
-  const { data, addTransactions } = useFinance();
+  const { data, now, addTransactions } = useFinance();
   const currency = data.profile.currency_code;
   const categories = live(data.categories);
+  // Debts a row can repay (Bart, 25 Nov): picked in the category list; a
+  // description repaid before is suggested the same debt again.
+  const debts = useMemo(() => debtsOf(data, now), [data, now]);
   // Which account the rows are booked on. A credit card statement goes on
   // the credit card (the first credit account), a bank one on the default
   // account (null = the default account, as Quick Add does).
@@ -311,6 +315,7 @@ function BankReview({ rows, statement, onDone }: { rows: ReadRow[]; statement?: 
   const showAccount = accounts.length > 1 || statement === "credit_card";
   const [drafts, setDrafts] = useState<Draft[]>(() => {
     const learned = learnCategories(data.transactions);
+    const repaidBefore = new Map((data.repayments ?? []).map((x) => [(x.note ?? "").trim().toLowerCase(), x.repays ?? null]));
     return rows.map((r) => {
       const match = bookedAs(r, data.transactions);
       // Already booked: show it with the category it was booked under.
@@ -318,7 +323,9 @@ function BankReview({ rows, statement, onDone }: { rows: ReadRow[]; statement?: 
       const own = !match && isTransfer(r);
       const when = match && new Date(match.date);
       const booked = match && when ? `${match.note || categories.find((c) => c.id === match.category_id)?.name || money(r.amount, currency)} · ${when.getDate()} ${shortMonth(when)}` : null;
-      return { ...r, on: !r.off && !match && !own && r.amount > 0, categoryId: s.id, from: s.from, booked, own };
+      const again = r.direction === "out" ? repaidBefore.get(r.description.trim().toLowerCase()) : null;
+      const repays = again && debts.some((x) => x.id === again) ? again : null;
+      return { ...r, on: !r.off && !match && !own && r.amount > 0, categoryId: repays ? null : s.id, from: repays ? "history" : s.from, booked, own, repays };
     });
   });
   const [busy, setBusy] = useState(false);
@@ -342,7 +349,8 @@ function BankReview({ rows, statement, onDone }: { rows: ReadRow[]; statement?: 
         const cat = categories.find((c) => c.id === d.categoryId);
         return {
           amount: d.amount.toFixed(2), type: d.direction === "in" ? "income" : "expense", date: atNoon(d.date ?? today), note: d.description.trim() || null,
-          is_auto_income: false, is_fixed_expense: !!cat?.is_fixed_expense, recurrence_id: null, category_id: d.categoryId, account_id: accountId,
+          is_auto_income: false, is_fixed_expense: !d.repays && !!cat?.is_fixed_expense, recurrence_id: null, category_id: d.repays ? null : d.categoryId, account_id: accountId,
+          ...(d.repays && d.direction === "out" ? { repays: d.repays } : {}),
         };
       }));
       setSaved(chosen.length);
@@ -397,11 +405,27 @@ function BankReview({ rows, statement, onDone }: { rows: ReadRow[]; statement?: 
               {d.direction === "in" ? "+" : "−"}{money(d.amount, currency)}
             </b>
             <RowStatus d={d} />
-            <select className="pf-input pf-ai-cat" value={d.categoryId ?? ""} onChange={(e) => set(i, { categoryId: e.target.value || null, from: null })} aria-label={t("Category")}>
+            <select
+              className="pf-input pf-ai-cat"
+              data-repay={d.repays ? true : undefined}
+              value={d.repays ? `repay:${d.repays}` : (d.categoryId ?? "")}
+              onChange={(e) => {
+                const v = e.target.value;
+                set(i, v.startsWith("repay:") ? { repays: v.slice(6), categoryId: null, from: null } : { repays: null, categoryId: v || null, from: null });
+              }}
+              aria-label={t("Category")}
+            >
               <option value="">{t("No category")}</option>
               {categories.filter((c) => c.is_income_category === (d.direction === "in")).map((c) => (
                 <option key={c.id} value={c.id}>{c.name}</option>
               ))}
+              {d.direction === "out" && debts.length > 0 && (
+                <optgroup label={t("Repayment of a debt")}>
+                  {debts.map((x) => (
+                    <option key={x.id} value={`repay:${x.id}`}>{t("Repayment: {debt}", { debt: x.name })}</option>
+                  ))}
+                </optgroup>
+              )}
             </select>
           </li>
         ))}
@@ -417,7 +441,8 @@ function BankReview({ rows, statement, onDone }: { rows: ReadRow[]; statement?: 
             {t("Add {n}", { n: chosen.length })}
           </button>
           <span style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>
-            {money(chosen.filter((d) => d.direction === "out").reduce((s, d) => s + d.amount, 0), currency)} {t("out")}
+            {money(chosen.filter((d) => d.direction === "out" && !d.repays).reduce((s, d) => s + d.amount, 0), currency)} {t("out")}
+            {chosen.some((d) => d.repays) && <> · {money(chosen.filter((d) => d.repays).reduce((s, d) => s + d.amount, 0), currency)} {t("repaid")}</>}
           </span>
         </div>
       )}

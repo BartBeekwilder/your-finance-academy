@@ -120,6 +120,10 @@ export type Transaction = Synced & {
   /** An advance: when it's expected back (the dashboard reminds from three
    *  days before; Bart, 20 Nov). Null = no date. */
   expected_back?: string | null;
+  /** Expense only (migration 0018): repayment of a debt — the id of a Loan
+   *  or a mortgage part (Bart, 25 Nov). Not spending: it leaves the account
+   *  and lowers that debt (equity stays). Null = not a repayment. */
+  repays?: string | null;
   /** Runtime only (never stored): a monthly part of a spread expense — the
    *  original purchase, and which part of how many this is. */
   spread_of?: Transaction;
@@ -269,6 +273,8 @@ export type FinanceData = {
   /** Runtime only (never stored): the advances, taken out of `transactions`
    *  so no screen counts them as spending (lib/finance/advances.ts). */
   advances?: Transaction[];
+  /** Runtime only: repayments of a debt, out of `transactions` (repayments.ts). */
+  repayments?: Transaction[];
   /** Year-end stands from before the app (imported history): assets and
    *  liabilities per year — the dashboard draws equity over the years from
    *  them. Local data only for now (no Supabase table yet). */

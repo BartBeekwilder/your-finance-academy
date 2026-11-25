@@ -2326,5 +2326,11 @@
  "Pay: gross and net per month — {year}": "वेतन: हर महीने सकल और शुद्ध — {year}",
  "Gross pay in {monthName}": "{monthName} में सकल वेतन",
  "Gross pay this month": "इस महीने सकल वेतन",
- "Gross pay this year": "इस साल सकल वेतन"
+ "Gross pay this year": "इस साल सकल वेतन",
+ "Add repayment": "चुकौती जोड़ें",
+ "Extra off your mortgage or a loan": "होम लोन या किसी कर्ज़ से अतिरिक्त",
+ "Not spending: lowers the debt, your equity stays the same": "खर्च नहीं: कर्ज़ घटता है, आपकी नेटवर्थ वही रहती है",
+ "repaid": "चुकाया",
+ "Repayment of a debt": "कर्ज़ की चुकौती",
+ "Repayment: {debt}": "चुकौती: {debt}"
 }

@@ -1,4 +1,5 @@
 import { live, num } from "./calc";
+import { extrasFor } from "./repayments";
 import type { MortgagePart } from "./mortgage";
 import type { FinanceData, MortgagePartRow, Property } from "./types";
 
@@ -21,13 +22,18 @@ export function toPart(r: MortgagePartRow): MortgagePart {
   };
 }
 
-/** Each live property with its live mortgage parts. */
+/** Each live property with its live mortgage parts, each with the extra
+ *  repayments booked on it (repayments.ts). */
 export function homes(data: FinanceData): { property: Property; parts: MortgagePart[] }[] {
   const parts = live(data.mortgageParts ?? []);
+  const extras = (id: string) => extrasFor(data, id).map((e) => ({ month: e.date, amount: e.amount }));
   return live(data.properties ?? [])
     .sort((a, b) => a.sort_order - b.sort_order)
     .map((property) => ({
       property,
-      parts: parts.filter((p) => p.property_id === property.id).sort((a, b) => a.sort_order - b.sort_order).map(toPart),
+      parts: parts
+        .filter((p) => p.property_id === property.id)
+        .sort((a, b) => a.sort_order - b.sort_order)
+        .map((r) => ({ ...toPart(r), lumps: extras(r.id) })),
     }));
 }

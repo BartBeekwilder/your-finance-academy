@@ -12,6 +12,7 @@ import { useMarket } from "@/lib/finance/useMarket";
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { withAdvances } from "@/lib/finance/advances";
+import { withRepayments } from "@/lib/finance/repayments";
 import { buildDemoData } from "@/lib/finance/demo";
 import { live, num, salaryTest } from "@/lib/finance/calc";
 import type { Holding, Loan, FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
@@ -388,10 +389,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   // gross_amount is only sent when set, so saving keeps working on a database
   // without migration 0007 as long as no gross is entered.
-  // …same for spread_months (0008), person_id (0010) and advances (0011).
+  // …same for spread_months (0008), person_id (0010), advances (0011) and
+  // repayments of a debt (0018).
   // Runtime-only spread fields never go out.
   const withoutEmptyGross = (t: NewTransaction) => {
-    const { gross_amount, spread_months, person_id, advance, repaid_at, estimated: _e, spread_of: _o, spread_index: _i, spread_total: _n, ...rest } = t;
+    const { gross_amount, spread_months, person_id, advance, repaid_at, repays, estimated: _e, spread_of: _o, spread_index: _i, spread_total: _n, ...rest } = t;
     void _e; void _o; void _i; void _n;
     return {
       ...rest,
@@ -400,6 +402,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       ...(person_id != null ? { person_id } : {}),
       ...(advance ? { advance } : {}),
       ...(repaid_at != null ? { repaid_at } : {}),
+      ...(repays ? { repays } : {}),
     };
   };
 
@@ -468,6 +471,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         if (had) out.gross_amount = t.gross_amount ?? null;
         if (before?.spread_months != null) out.spread_months = t.spread_months ?? null;
         if (before?.person_id != null) out.person_id = t.person_id ?? null;
+        if (before?.repays) out.repays = t.repays ?? null;
         if (before?.advance) {
           out.advance = !!t.advance;
           out.repaid_at = t.repaid_at ?? null;
@@ -755,7 +759,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   // apart from the spending (data.advances), and investments with their live
   // market value (for the balance sheet).
   const { market, settled: marketSettled } = useMarket(current);
-  const shown = useMemo(() => (current ? { ...withSpread(withAdvances(current)), market } : null), [current, market]);
+  const shown = useMemo(() => (current ? { ...withSpread(withRepayments(withAdvances(current))), market } : null), [current, market]);
 
   // The homepage's chips (your pay, investments, home) reshape the demo on
   // its iPad, so a visitor sees the whole app with their own numbers (Bart,

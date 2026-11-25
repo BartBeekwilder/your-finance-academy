@@ -16,6 +16,7 @@ import CategoryEditor from "./CategoryEditor";
 import CategoryIcon from "./CategoryIcon";
 import { useFinance } from "./FinanceProvider";
 import Segmented from "./Segmented";
+import DebtChips, { debtsOf, type Debt } from "./DebtChips";
 import Sheet from "./Sheet";
 import { startDate } from "@/lib/finance/viewedMonth";
 import { usePathname } from "next/navigation";
@@ -38,12 +39,14 @@ function localDate(iso: string) {
 }
 
 export default function QuickAdd() {
-  const { data, addTransaction, updateTransaction, deleteTransaction, addCategory, updateProfile } = useFinance();
+  const { data, now, addTransaction, updateTransaction, deleteTransaction, addCategory, updateProfile } = useFinance();
   // What an hour of work earns, for the hint under an expense (Bart, 20 Nov).
   const monthlyIncome = useMemo(() => {
     const d = new Date();
     return projectedNetIncome(data, new Date(d.getFullYear(), d.getMonth(), 1)) || Number(data.profile.expected_net_monthly) || 0;
   }, [data]);
+  // Debts a payment can repay (mortgage parts, loans).
+  const debts = useMemo(() => debtsOf(data, now), [data, now]);
   const salaryCategory = useMemo(() => mainIncomeCategory(data.transactions, Number(data.profile.expected_net_monthly) || 0), [data.transactions, data.profile.expected_net_monthly]);
   // Any transaction row can ask for the editor; it opens in this same sheet.
   const editing = useTransactionEditor();
@@ -80,13 +83,14 @@ export default function QuickAdd() {
         <Plus size={22} strokeWidth={3} />
       </button>
       <Sheet open={open} onClose={() => setOpen(false)} origin={from} focus="input[inputmode=decimal]" label={t("Quick Add")}>
-        <Form key={session} monthlyIncome={monthlyIncome} past={data.transactions} salaryCategory={salaryCategory} payday={data.profile.payday_day} setPayday={(d) => updateProfile({ payday_day: d })} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} household={householdOf(data.profile)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
+        <Form key={session} debts={debts} monthlyIncome={monthlyIncome} past={data.transactions} salaryCategory={salaryCategory} payday={data.profile.payday_day} setPayday={(d) => updateProfile({ payday_day: d })} currency={data.profile.currency_code} grossRatio={grossRatio(data.profile)} categories={live(data.categories)} accounts={live(data.accounts)} household={householdOf(data.profile)} onDone={() => setOpen(false)} add={addTransaction} addCategory={addCategory} />
       </Sheet>
       <Sheet open={!!editing?.open} onClose={closeTransactionEditor} origin={editing?.origin} label={t("Edit transaction")}>
         {editing && (
           <Form
             key={`edit${editing.n}`}
             initial={editing.transaction}
+            debts={debts}
             monthlyIncome={monthlyIncome}
             currency={data.profile.currency_code}
             grossRatio={grossRatio(data.profile)}
@@ -130,7 +134,10 @@ function Form({
   setPayday,
   salaryCategory = null,
   monthlyIncome = 0,
+  debts = [],
 }: {
+  /** Debts an expense can repay (DebtChips). */
+  debts?: Debt[];
   /** Net income per month: an expense shows what it costs in work hours. */
   monthlyIncome?: number;
   /** The income category the salary usually lands in (besides salary-like names). */
@@ -169,6 +176,9 @@ function Form({
   // Expense: advanced for someone else, to be paid back — not spending; the
   // balance sheet shows it under Amounts to receive until it's back.
   const [advance, setAdvance] = useState(initial?.advance ?? false);
+  // Expense: repays a debt (a mortgage part or loan) — not spending; it
+  // lowers that debt (Bart, 25 Nov). The id of the debt, null = not.
+  const [repays, setRepays] = useState<string | null>(initial?.repays ?? null);
   const [expectedBack, setExpectedBack] = useState(() => (initial?.expected_back ? localDate(initial.expected_back) : ""));
   // Which account it comes off (or goes to): the transaction's own, else the
   // one used last in this browser, else the default account.
@@ -308,6 +318,7 @@ function Form({
   const valid = parsed > 0 && Number.isFinite(parsed);
   const grossParsed = evalAmount(gross)?.value ?? 0;
   const advancing = type === "expense" && advance;
+  const repaying = type === "expense" && !advance && !!repays;
   // An advance is paid from the current account or a credit card (else any).
   const cardOrCurrent = payable.filter((a) => a.type === "checking" || a.type === "credit");
   const shownAccounts = advancing && cardOrCurrent.length ? cardOrCurrent : payable;
@@ -337,8 +348,9 @@ function Form({
         note: note.trim() || null,
         is_auto_income: initial?.is_auto_income ?? false,
         gross_amount: showGross && grossParsed > 0 ? grossParsed.toFixed(2) : null,
-        is_fixed_expense: type === "expense" && !advancing && fixed,
-        spread_months: spreading ? spread : null,
+        is_fixed_expense: type === "expense" && !advancing && !repaying && fixed,
+        spread_months: spreading && !repaying ? spread : null,
+        repays: repaying ? repays : null,
         advance: advancing,
         repaid_at: advancing ? (initial?.repaid_at ?? null) : null,
         // Only sent with a date (the old tables learn the column in migration 0017).
@@ -405,7 +417,7 @@ function Form({
         <span className="pf-amount-work">{t("≈ {time} of work", { time: workTime(workHoursFor(parsed, monthlyIncome)!) })}</span>
       )}
 
-      {type === "expense" && (
+      {type === "expense" && !repaying && (
         <button
           type="button"
           className="pf-advance-toggle"
@@ -413,6 +425,7 @@ function Form({
           onClick={() => {
             const on = !advance;
             setAdvance(on);
+            if (on) setRepays(null);
             // Paid from the current account unless a card is picked already.
             if (on && cardOrCurrent.length && !cardOrCurrent.some((a) => a.id === accountId)) {
               setAccountId((cardOrCurrent.find((a) => a.type === "checking") ?? cardOrCurrent[0]).id);
@@ -427,6 +440,21 @@ function Form({
           </span>
         </button>
       )}
+      {type === "expense" && !advance && debts.length > 0 && (
+        <button
+          type="button"
+          className="pf-advance-toggle"
+          aria-pressed={repaying}
+          onClick={() => setRepays(repays ? null : (debts.length === 1 ? debts[0].id : (debts.find((d) => d.id === initial?.repays)?.id ?? debts[0].id)))}
+        >
+          <span className="pf-acct-icon" style={{ background: "#bf5af2" }}><Landmark size={13} strokeWidth={2.4} /></span>
+          <span>
+            <b>{t("Repayment of a debt")}</b>
+            <small>{repaying ? t("Not spending: lowers the debt, your equity stays the same") : t("Extra off your mortgage or a loan")}</small>
+          </span>
+        </button>
+      )}
+      {repaying && debts.length > 1 && <DebtChips debts={debts} value={repays} onChange={setRepays} currency={currency} />}
       {advancing && (
         <label className="pf-advance-back">
           <span>{t("Expected back")}</span>
@@ -703,21 +731,21 @@ function Form({
         </label>
       )}
 
-      {type === "expense" && !spreading && !advancing && (
+      {type === "expense" && !spreading && !advancing && !repaying && (
         <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.9rem" }}>
           <input type="checkbox" checked={fixed} onChange={(e) => setFixed(e.target.checked)} />
           {t("Fixed expense")} <span style={{ color: "var(--pf-ink-3)" }}>{t("— same amount every month")}</span>
         </label>
       )}
 
-      {type === "expense" && !advancing && (
+      {type === "expense" && !advancing && !repaying && (
         <SpreadPicker months={spread} onChange={setSpread} amount={valid ? parsed : 0} date={date} currency={currency} />
       )}
 
       {error && <p style={{ margin: 0, color: "var(--pf-red)", fontSize: "0.85rem" }}>{error}</p>}
 
       <button className="pf-button" disabled={!valid || !labelled || saving}>
-        {saving ? t("Saving…") : initial ? t("Save changes") : advancing ? t("Add advance") : type === "expense" ? t("Add expense") : t("Add income")}
+        {saving ? t("Saving…") : initial ? t("Save changes") : advancing ? t("Add advance") : repaying ? t("Add repayment") : type === "expense" ? t("Add expense") : t("Add income")}
       </button>
 
       {onDelete && (
