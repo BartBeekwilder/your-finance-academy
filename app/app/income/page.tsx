@@ -77,7 +77,8 @@ export default function IncomePage() {
   const average = finished.length ? finished.reduce((t, m) => t + m.income, 0) / finished.length : 0;
   const daysToPayday = p.payday_day && !past ? p.payday_day - now.getDate() : null;
   // This month's salary, once it's in (the Payday tile ticks it off).
-  const paid = past ? undefined : salaryOf(data, thisMonth);
+  const monthSalary = salaryOf(data, month);
+  const paid = past ? undefined : monthSalary;
   // Gross vs net: the month looked at, and this year so far.
   const gn = grossNetByMonth(data, now.getFullYear(), now.getMonth());
   const gnMonth = past ? grossNetByMonth(data, month.getFullYear(), month.getMonth())[month.getMonth()] : gn[now.getMonth()];
@@ -132,7 +133,7 @@ export default function IncomePage() {
             <Stat
               label={past ? t("Expected net in {monthName}", { monthName }) : t("Expected net this month")}
               value={money(expectedMonth, currency)}
-              hint={p.expected_gross_monthly ? t("Gross {amount}", { amount: money(num(p.expected_gross_monthly), currency) }) : undefined}
+              hint={monthSalary?.gross_amount != null ? t("Gross {amount}", { amount: money(num(monthSalary.gross_amount), currency) }) : p.expected_gross_monthly ? t("Gross {amount}", { amount: money(num(p.expected_gross_monthly), currency) }) : undefined}
             />
             {gnMonth && gnMonth.gross > gnMonth.net && <Stat label={past ? t("Gross in {monthName}", { monthName }) : t("Gross this month")} value={money(gnMonth.gross, currency)} color="#bf5af2" hint={deductionHint(gnMonth.gross, gnMonth.net)} />}
             <Stat

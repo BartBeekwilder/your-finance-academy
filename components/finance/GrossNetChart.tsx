@@ -2,9 +2,9 @@
 
 import { t } from "@/lib/i18n";
 import { useState } from "react";
-import { live, num, projectedNetIncome } from "@/lib/finance/calc";
+import { live, num, projectedNetIncome, salaryTest } from "@/lib/finance/calc";
 import { money, monthName, shortMonth } from "@/lib/finance/format";
-import type { FinanceData } from "@/lib/finance/types";
+import type { FinanceData, Transaction } from "@/lib/finance/types";
 import { WithYAxis } from "./YAxis";
 
 // Gross vs net income per month this year: two lines, the band between
@@ -23,22 +23,29 @@ export type GrossNetMonth = { gross: number; net: number; estimated: boolean; fo
 
 /** Gross ÷ net per income category this year, from incomes with a gross. */
 function ratios(data: FinanceData, year: number) {
-  const by = new Map<string | null, { g: number; n: number }>();
+  // Per category and kind: salary's tax rate never lands on a one-off or a
+  // refund that shares its category (Bart, 25 Nov: a reimbursement in
+  // "Other income" was taxed like the payslip next to it).
+  const salaryLike = salaryTest(data);
+  const key = (x: Transaction) => `${salaryLike(x) ? "s" : "o"}:${x.category_id}`;
+  const by = new Map<string, { g: number; n: number }>();
   const all = { g: 0, n: 0 };
   for (const x of live(data.transactions)) {
     if (x.type !== "income" || x.gross_amount == null || new Date(x.date).getFullYear() !== year) continue;
-    const e = by.get(x.category_id) ?? { g: 0, n: 0 };
+    const e = by.get(key(x)) ?? { g: 0, n: 0 };
     e.g += num(x.gross_amount);
     e.n += num(x.amount);
-    by.set(x.category_id, e);
+    by.set(key(x), e);
+    // The overall rate (forecast months) is the salary's.
+    if (!salaryLike(x)) continue;
     all.g += num(x.gross_amount);
     all.n += num(x.amount);
   }
   const p = data.profile;
   const profile = p.expected_gross_monthly != null && p.expected_net_monthly != null && num(p.expected_net_monthly) > 0 ? num(p.expected_gross_monthly) / num(p.expected_net_monthly) : 1;
   return {
-    of: (category: string | null) => {
-      const e = by.get(category);
+    of: (x: Transaction) => {
+      const e = by.get(key(x));
       return e && e.n > 0 ? e.g / e.n : null;
     },
     overall: all.n > 0 ? all.g / all.n : profile,
@@ -60,7 +67,7 @@ export function grossNetByMonth(data: FinanceData, year: number, upTo: number, o
     m.net += net;
     if (x.gross_amount != null) m.gross += num(x.gross_amount);
     else {
-      const k = r.of(x.category_id);
+      const k = r.of(x);
       m.gross += net * (k ?? 1);
       if (k != null && k > 1.0001) m.estimated = true;
     }

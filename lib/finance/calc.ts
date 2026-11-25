@@ -174,14 +174,17 @@ export function pendingIncome(data: FinanceData, at: Date, laterThisMonth = true
 /** The month's net income for the live Income/Balance tiles — iOS
  *  IncomeManager.projectedAmounts: the salary booked that month once it's
  *  in (it replaces the expectation, never adds to it), else that month's
- *  income record, else the expected net income from settings, else (income
- *  never set up) whatever income was actually entered. */
+ *  income record, else the usual net (settings, else the latest record),
+ *  else (income never set up) whatever income was actually entered. */
 export function projectedNetIncome(data: FinanceData, month: Date) {
   const booked = bookedSalary(data, month);
   if (booked > 0) return booked;
   const record = live(data.incomeRecords).find((r) => r.month.slice(0, 7) === monthKey(month));
   if (record) return num(record.net_amount);
-  if (data.profile.expected_net_monthly !== null) return num(data.profile.expected_net_monthly);
+  // No record for this month (e.g. December, with only November's): the
+  // usual net — settings, else the latest record — not €0.
+  const usual = usualNet(data);
+  if (usual > 0) return usual;
   return summarize(data.transactions, month).income;
 }
 
