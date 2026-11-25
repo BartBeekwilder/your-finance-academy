@@ -2359,5 +2359,7 @@
  "Tax refund per month (voorlopige teruggaaf)": "Налоговый возврат в месяц (NL: voorlopige teruggaaf)",
  "Tax refund per month": "Налоговый возврат в месяц",
  "Optional — else an estimate": "Необязательно — иначе оценка",
- "Your tax refund {amount} per month": "Ваш возврат {amount} в месяц"
+ "Your tax refund {amount} per month": "Ваш возврат {amount} в месяц",
+ "On your balance sheet": "В вашем балансе",
+ "Tax to pay": "Налог к уплате"
 }

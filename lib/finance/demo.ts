@@ -198,6 +198,7 @@ export function buildDemoData(now = new Date()): FinanceData {
     achievements: [],
     activityDays: [],
     insurancePolicies: demoInsurance(now),
+    loans: demoLoans(now),
   };
   const built = { ...base, ...demoProgress(base, now) };
   // The names a visitor reads, in their language (built with English names,
@@ -211,7 +212,8 @@ export function buildDemoData(now = new Date()): FinanceData {
   return {
     ...built,
     transactions: built.transactions.map((x) => (x.note && local[x.note] ? { ...x, note: local[x.note] } : x)),
-    balanceItems: built.balanceItems.map((b) => (local[b.name] ? { ...b, name: local[b.name] } : b)),
+    balanceItems: built.balanceItems.map((b) => ({ ...b, name: local[b.name] ?? t(b.name) })),
+    loans: (built.loans ?? []).map((l) => ({ ...l, name: local[l.name] ?? t(l.name) })),
     insurancePolicies: built.insurancePolicies.map((x) => (local[x.insurer] ? { ...x, insurer: local[x.insurer] } : x)),
     categories: built.categories.map((c) => ({ ...c, name: t(c.name) })),
     accounts: built.accounts.map((a) => ({ ...a, name: a.name === "Default" ? t("Current account") : t(a.name) })),
@@ -271,14 +273,12 @@ function demoRealEstate(): Pick<FinanceData, "properties" | "mortgageParts"> {
   };
 }
 
-/** A car, a car loan, a student loan, a credit card and tax to pay (the
- *  home and mortgage come from the real-estate module), with a month-end stand
- *  for each month so far (the mortgage paid down, the home slowly rising). */
+/** A car, a credit card and tax to pay (the home and mortgage come from the
+ *  real-estate module, the car and student loan from Loans: demoLoans), with
+ *  a month-end stand for each month so far. */
 function demoBalance(now: Date): Pick<FinanceData, "balanceItems" | "balanceValues"> {
   const posts: [string, "asset" | "liability", number, number][] = [
     ["Car", "asset", 18500, -250],
-    ["Car loan", "liability", 9800, -300],
-    ["Student loan (DUO)", "liability", 21400, -145],
     ["Credit card", "liability", 0, 0],
     ["Tax to pay", "liability", 0, 0],
   ];
@@ -299,6 +299,16 @@ function demoBalance(now: Date): Pick<FinanceData, "balanceItems" | "balanceValu
     Array.from({ length: months }, (_, m) => ({ ...meta(i * 12 + m, "bv"), item_id: balanceItems[i].id, month: iso(m), value: valueAt(i, m).toFixed(2) })),
   );
   return { balanceItems, balanceValues };
+}
+
+/** Two loans as examples on Loans (the debt goes down by itself): a car loan
+ *  and a student loan, standing on 1 January and paid off monthly. */
+function demoLoans(now: Date): NonNullable<FinanceData["loans"]> {
+  const jan = `${now.getFullYear()}-01-01`;
+  return [
+    { ...meta(0, "ln"), name: "Car loan", kind: "car", balance: "9800.00", rate: "6.90", monthly: "356.00", start_date: jan, sort_order: 0 },
+    { ...meta(1, "ln"), name: "Student loan (DUO)", kind: "student", balance: "21400.00", rate: "2.57", monthly: "192.00", start_date: jan, sort_order: 1 },
+  ];
 }
 
 /** Local names per language for the demo's shops, transport and insurers

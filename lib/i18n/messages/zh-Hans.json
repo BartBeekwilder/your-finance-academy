@@ -2359,5 +2359,7 @@
  "Tax refund per month (voorlopige teruggaaf)": "每月退税（NL：voorlopige teruggaaf）",
  "Tax refund per month": "每月退税",
  "Optional — else an estimate": "可选 — 否则为估算",
- "Your tax refund {amount} per month": "你的退税 每月 {amount}"
+ "Your tax refund {amount} per month": "你的退税 每月 {amount}",
+ "On your balance sheet": "在资产负债表上",
+ "Tax to pay": "应缴税款"
 }

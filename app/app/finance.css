@@ -6852,3 +6852,8 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .pf-fixed-row[data-state="expected"] .pf-rounded { font-style: italic; }
 .pf-cattile-fixed { color: #ff9f9a; }
 .pf-cattile-fixed::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 5px; border-radius: 2px; background: var(--pf-red); vertical-align: 1px; }
+/* Loans › a debt kept on the balance sheet: a dashed card, one tap to a loan. */
+.pf-debt-post { cursor: default; border-style: dashed; background: var(--pf-card); }
+.pf-debt-post:hover { transform: none; }
+.pf-debt-convert { justify-self: start; display: inline-flex; align-items: center; gap: 6px; border-color: color-mix(in srgb, var(--c) 45%, transparent); color: var(--pf-ink); }
+.pf-debt-convert:hover { background: color-mix(in srgb, var(--c) 16%, transparent); }

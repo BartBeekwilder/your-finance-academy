@@ -22,7 +22,7 @@ const EXTRA = [
   "Rent or mortgage", "Energy & water", "Insurance", "Internet & phone", "Subscriptions", "Car or transit pass",
   "Groceries", "Dining out", "Transport", "Shopping", "Entertainment", "Health",
   "Crypto", "Stock", "Metal", "Fund", "Gold", "Silver", "Platinum", "Palladium",
-  "Student loan", "Car loan", "Personal loan", "Credit card", "Other loan",
+  "Student loan", "Car loan", "Personal loan", "Credit card", "Other loan", "Tax to pay",
   "Monthly", "Yearly", "2 years",
   "Your year", "For your tax return", "Yearly costs", "Opening balances", "Next year", "Summary",
   "Basics", "Money now", "Fixed costs and insurance", "Home and debts", "Your home", "Bank statement", "Budgets and goals", "History", "Security",

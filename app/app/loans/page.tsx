@@ -6,7 +6,7 @@ import { LOAN_KINDS, LOAN_STYLE } from "@/components/finance/loanKinds";
 import { useFinance } from "@/components/finance/FinanceProvider";
 import Sheet from "@/components/finance/Sheet";
 import { live, num } from "@/lib/finance/calc";
-import { money, monthYear } from "@/lib/finance/format";
+import { money, monthYear, shortMonthYear } from "@/lib/finance/format";
 import { liveLoans, loanAt, loanSchedule, payoff } from "@/lib/finance/loans";
 import type { Loan, LoanKind } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
@@ -62,19 +62,30 @@ export default function LoansPage() {
       {error && <div className="pf-close-note">{error}</div>}
 
       {balanceDebts.length > 0 && (
-        <section style={{ display: "grid", gap: 8 }}>
-          <h2 className="pf-section-title" style={{ margin: 0 }}>{t("Other debts on your balance sheet")}</h2>
-          <div className="pf-card">
-            {balanceDebts.map((b) => (
-              <div key={b.id} className="pf-row" style={{ gap: 12 }}>
-                <span style={{ flex: 1, minWidth: 0 }}>
-                  <b style={{ fontWeight: 600 }}>{b.name}</b>
-                  <small style={{ display: "block", fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("No rate or payment yet — the amount only changes when you update it")}</small>
-                </span>
-                <span className="pf-rounded" style={{ fontWeight: 600 }}>{money(b.value, currency)}</span>
-                <button type="button" className="pf-chip" onClick={() => setEditing({ from: b })}>{t("Make it a loan")}</button>
-              </div>
-            ))}
+        <section style={{ display: "grid", gap: 10 }}>
+          <div>
+            <h2 className="pf-section-title" style={{ margin: 0 }}>{t("Other debts on your balance sheet")}</h2>
+            <p style={{ margin: "4px 0 0", fontSize: "0.8rem", color: "var(--pf-ink-3)" }}>{t("No rate or payment yet — the amount only changes when you update it")}</p>
+          </div>
+          <div className="pf-loan-grid">
+            {balanceDebts.map((b, i) => {
+              const S = LOAN_STYLE[guessKind(b.name)];
+              return (
+                <div key={b.id} className="pf-card pf-loan-card pf-debt-post" style={{ ["--c" as string]: S.color, animationDelay: `${i * 0.05}s` }}>
+                  <span className="pf-loan-head">
+                    <span className="pf-loan-icon"><S.Icon size={18} /></span>
+                    <span style={{ minWidth: 0 }}>
+                      <b>{b.name}</b>
+                      <small>{t("On your balance sheet")}</small>
+                    </span>
+                  </span>
+                  <span className="pf-rounded pf-loan-left">{money(b.value, currency)}</span>
+                  <button type="button" className="pf-chip pf-debt-convert" onClick={() => setEditing({ from: b })}>
+                    <Plus size={14} /> {t("Make it a loan")}
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </section>
       )}
@@ -220,14 +231,14 @@ function DebtChart({ loans, now, currency }: { loans: Loan[]; now: Date; currenc
   const shown = hover ?? 0;
   // Year labels: every 1, 2, 5 or 10 years, so about five fit.
   const years = (series.months[n - 1].getFullYear() - series.months[0].getFullYear()) || 1;
-  const every = [1, 2, 5, 10, 20].find((k) => years / k <= 6) ?? 25;
-  const xTicks = [{ i: 0, label: monthYear(series.months[0]) }];
+  const every = [1, 2, 5, 10, 20].find((k) => years / k <= 4) ?? 25;
+  const xTicks = [{ i: 0, label: shortMonthYear(series.months[0]) }];
   series.months.forEach((m, i) => {
-    if (i > 0 && i < n - 1 && m.getMonth() === 0 && m.getFullYear() % every === 0 && x(i) / W > 0.16 && x(i) / W < 0.8) {
+    if (i > 0 && i < n - 1 && m.getMonth() === 0 && m.getFullYear() % every === 0 && x(i) / W > 0.26 && x(i) / W < 0.74) {
       if (!xTicks.some((tk) => tk.label === String(m.getFullYear()))) xTicks.push({ i, label: String(m.getFullYear()) });
     }
   });
-  if (n > 1) xTicks.push({ i: n - 1, label: monthYear(series.months[n - 1]) });
+  if (n > 1) xTicks.push({ i: n - 1, label: shortMonthYear(series.months[n - 1]) });
   return (
     <section className="pf-card" style={{ padding: 16, display: "grid", gap: 10 }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>

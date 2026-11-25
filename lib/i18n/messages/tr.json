@@ -2359,5 +2359,7 @@
  "Tax refund per month (voorlopige teruggaaf)": "Aylık vergi iadesi (NL: voorlopige teruggaaf)",
  "Tax refund per month": "Aylık vergi iadesi",
  "Optional — else an estimate": "İsteğe bağlı — yoksa tahmin",
- "Your tax refund {amount} per month": "Vergi iaden ayda {amount}"
+ "Your tax refund {amount} per month": "Vergi iaden ayda {amount}",
+ "On your balance sheet": "Bilançonda",
+ "Tax to pay": "Ödenecek vergi"
 }

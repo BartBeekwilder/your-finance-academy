@@ -2359,5 +2359,7 @@
  "Tax refund per month (voorlopige teruggaaf)": "毎月の税還付（NL: voorlopige teruggaaf）",
  "Tax refund per month": "毎月の税還付",
  "Optional — else an estimate": "任意 — 未入力なら推定",
- "Your tax refund {amount} per month": "あなたの還付 毎月{amount}"
+ "Your tax refund {amount} per month": "あなたの還付 毎月{amount}",
+ "On your balance sheet": "バランスシート上",
+ "Tax to pay": "未払いの税金"
 }

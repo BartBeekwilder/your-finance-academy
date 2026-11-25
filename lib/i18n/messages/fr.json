@@ -2359,5 +2359,7 @@
  "Tax refund per month (voorlopige teruggaaf)": "Remboursement par mois (NL : voorlopige teruggaaf)",
  "Tax refund per month": "Remboursement d’impôt par mois",
  "Optional — else an estimate": "Facultatif — sinon une estimation",
- "Your tax refund {amount} per month": "Votre remboursement {amount} par mois"
+ "Your tax refund {amount} per month": "Votre remboursement {amount} par mois",
+ "On your balance sheet": "À votre bilan",
+ "Tax to pay": "Impôts à payer"
 }
