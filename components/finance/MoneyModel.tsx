@@ -7,6 +7,7 @@ import { balanceSheet, balanceYears, expectedByCategory, live, liveFixed, netWor
 import { ALL, compareYears } from "@/lib/finance/compare";
 import { investmentsValue } from "@/lib/finance/quotes";
 import { homes } from "@/lib/finance/realEstate";
+import { liveLoans, loanSchedule } from "@/lib/finance/loans";
 import { summarize as summarizePart } from "@/lib/finance/mortgage";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
@@ -69,7 +70,12 @@ export function moneyModelBase(data: FinanceData, now: Date): Base {
     const row = summarizePart({ ...p, lumps: [] }, now).thisMonth;
     return s + (row ? row.repayment + row.extra : 0);
   }, 0), 0);
-  const repayIn = Math.min(repay, fixedAll);
+  // …and the other loans' scheduled repayment (their payment is a fixed cost too).
+  const loanRepay = liveLoans(data).reduce((t, l) => {
+    const row = loanSchedule({ ...l, extras: [] }).find((r) => r.date.getFullYear() === now.getFullYear() && r.date.getMonth() === now.getMonth());
+    return t + (row?.repaid ?? 0);
+  }, 0);
+  const repayIn = Math.min(repay + loanRepay, fixedAll);
   const st = stand(balanceSheet(data, now, month), nw.holdingsTotal);
   return {
     income: projectedNetIncome(data, month) || nw.projected,

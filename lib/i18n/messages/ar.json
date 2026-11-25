@@ -2338,5 +2338,12 @@
  "Booked this month": "المسجل هذا الشهر",
  "Matches your mortgage parts": "يطابق أجزاء رهنك",
  "Net after the tax refund": "الصافي بعد استرداد الضريبة",
- "Tax refund {amount} booked this month": "استرداد ضريبي {amount} مسجل هذا الشهر"
+ "Tax refund {amount} booked this month": "استرداد ضريبي {amount} مسجل هذا الشهر",
+ "Of which interest": "منها فائدة",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "الفائدة {interest} تكلفة؛ و{repayment} تُخصم من الدين",
+ "All of it comes off the debt": "كله يُخصم من الدين",
+ "Interest {name}": "فائدة {name}",
+ "Other debts on your balance sheet": "ديون أخرى في ميزانيتك",
+ "No rate or payment yet — the amount only changes when you update it": "لا معدل أو قسط بعد — يتغير المبلغ فقط عند تحديثه",
+ "Make it a loan": "حوّله إلى قرض"
 }

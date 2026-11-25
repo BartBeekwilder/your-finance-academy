@@ -2338,5 +2338,12 @@
  "Booked this month": "Enregistré ce mois-ci",
  "Matches your mortgage parts": "Correspond à vos tranches de prêt",
  "Net after the tax refund": "Net après le remboursement d’impôt",
- "Tax refund {amount} booked this month": "Remboursement d’impôt {amount} enregistré ce mois-ci"
+ "Tax refund {amount} booked this month": "Remboursement d’impôt {amount} enregistré ce mois-ci",
+ "Of which interest": "Dont intérêts",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Intérêts {interest} = une charge ; {repayment} réduit la dette",
+ "All of it comes off the debt": "Tout réduit la dette",
+ "Interest {name}": "Intérêts {name}",
+ "Other debts on your balance sheet": "Autres dettes à votre bilan",
+ "No rate or payment yet — the amount only changes when you update it": "Pas encore de taux ni de mensualité — le montant ne change que si vous le mettez à jour",
+ "Make it a loan": "En faire un prêt"
 }

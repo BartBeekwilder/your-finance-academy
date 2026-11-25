@@ -2338,5 +2338,12 @@
  "Booked this month": "Bu ay kaydedilen",
  "Matches your mortgage parts": "Kredi dilimlerinle uyuşuyor",
  "Net after the tax refund": "Vergi iadesinden sonra net",
- "Tax refund {amount} booked this month": "Bu ay {amount} vergi iadesi kaydedildi"
+ "Tax refund {amount} booked this month": "Bu ay {amount} vergi iadesi kaydedildi",
+ "Of which interest": "Bunun faizi",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Faiz {interest} giderdir; {repayment} borçtan düşer",
+ "All of it comes off the debt": "Tamamı borçtan düşer",
+ "Interest {name}": "Faiz {name}",
+ "Other debts on your balance sheet": "Bilançondaki diğer borçlar",
+ "No rate or payment yet — the amount only changes when you update it": "Henüz faiz veya taksit yok — tutar yalnızca güncellediğinde değişir",
+ "Make it a loan": "Krediye dönüştür"
 }

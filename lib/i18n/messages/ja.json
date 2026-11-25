@@ -2338,5 +2338,12 @@
  "Booked this month": "今月の記録",
  "Matches your mortgage parts": "ローンの内訳と一致",
  "Net after the tax refund": "還付後の実質",
- "Tax refund {amount} booked this month": "今月の還付 {amount}"
+ "Tax refund {amount} booked this month": "今月の還付 {amount}",
+ "Of which interest": "うち利息",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "利息{interest}は費用、{repayment}が残高から減ります",
+ "All of it comes off the debt": "全額が残高から減ります",
+ "Interest {name}": "利息 {name}",
+ "Other debts on your balance sheet": "バランスシート上のその他の負債",
+ "No rate or payment yet — the amount only changes when you update it": "金利・月額は未設定 — 更新したときだけ金額が変わります",
+ "Make it a loan": "ローンにする"
 }

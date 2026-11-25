@@ -2338,5 +2338,12 @@
  "Booked this month": "Записано в этом месяце",
  "Matches your mortgage parts": "Совпадает с частями ипотеки",
  "Net after the tax refund": "Нетто после налогового возврата",
- "Tax refund {amount} booked this month": "Налоговый возврат {amount} записан в этом месяце"
+ "Tax refund {amount} booked this month": "Налоговый возврат {amount} записан в этом месяце",
+ "Of which interest": "Из них проценты",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Проценты {interest} — расход; {repayment} уменьшает долг",
+ "All of it comes off the debt": "Всё уменьшает долг",
+ "Interest {name}": "Проценты {name}",
+ "Other debts on your balance sheet": "Другие долги в вашем балансе",
+ "No rate or payment yet — the amount only changes when you update it": "Пока без ставки и платежа — сумма меняется, только когда вы её обновите",
+ "Make it a loan": "Сделать кредитом"
 }

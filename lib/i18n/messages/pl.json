@@ -2338,5 +2338,12 @@
  "Booked this month": "Zaksięgowano w tym miesiącu",
  "Matches your mortgage parts": "Zgadza się z transzami kredytu",
  "Net after the tax refund": "Netto po zwrocie podatku",
- "Tax refund {amount} booked this month": "Zwrot podatku {amount} zaksięgowany w tym miesiącu"
+ "Tax refund {amount} booked this month": "Zwrot podatku {amount} zaksięgowany w tym miesiącu",
+ "Of which interest": "W tym odsetki",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Odsetki {interest} to koszt; {repayment} zmniejsza dług",
+ "All of it comes off the debt": "Całość zmniejsza dług",
+ "Interest {name}": "Odsetki {name}",
+ "Other debts on your balance sheet": "Inne długi w twoim bilansie",
+ "No rate or payment yet — the amount only changes when you update it": "Brak oprocentowania i raty — kwota zmienia się tylko po aktualizacji",
+ "Make it a loan": "Zrób z tego kredyt"
 }

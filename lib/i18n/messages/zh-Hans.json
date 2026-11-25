@@ -2338,5 +2338,12 @@
  "Booked this month": "本月已记",
  "Matches your mortgage parts": "与贷款分段一致",
  "Net after the tax refund": "退税后净额",
- "Tax refund {amount} booked this month": "本月已记退税 {amount}"
+ "Tax refund {amount} booked this month": "本月已记退税 {amount}",
+ "Of which interest": "其中利息",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "利息 {interest} 是费用；{repayment} 用于减少债务",
+ "All of it comes off the debt": "全部用于减少债务",
+ "Interest {name}": "利息 {name}",
+ "Other debts on your balance sheet": "资产负债表上的其他债务",
+ "No rate or payment yet — the amount only changes when you update it": "尚无利率或月供 — 只有更新时金额才会变化",
+ "Make it a loan": "转为贷款"
 }

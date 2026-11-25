@@ -12,13 +12,17 @@ import { t } from "@/lib/i18n";
 // estate) and every loan (Loans), with what's left on it — for Quick Add and
 // reading a bank statement with AI.
 
-export type Debt = { id: string; name: string; kind: "mortgage" | "loan"; left: number };
+/** `interest`: this month's interest on it (the part of a payment that's a cost). */
+export type Debt = { id: string; name: string; kind: "mortgage" | "loan"; left: number; interest: number };
 
 export function debtsOf(data: FinanceData, now: Date): Debt[] {
   const parts = homes(data).flatMap((h) =>
-    h.parts.map((p) => ({ id: p.id, name: h.parts.length > 1 ? `${p.name || t("Mortgage")} · ${h.property.name || t("Home")}` : p.name || t("Mortgage"), kind: "mortgage" as const, left: summarizePart(p, now).balance })),
+    h.parts.map((p) => ({ id: p.id, name: h.parts.length > 1 ? `${p.name || t("Mortgage")} · ${h.property.name || t("Home")}` : p.name || t("Mortgage"), kind: "mortgage" as const, left: summarizePart(p, now).balance, interest: summarizePart(p, now).thisMonth?.interest ?? 0 })),
   );
-  const loans = liveLoans(data).map((l) => ({ id: l.id, name: l.name || t("Loan"), kind: "loan" as const, left: loanAt(l, now).balance }));
+  const loans = liveLoans(data).map((l) => {
+    const left = loanAt(l, now).balance;
+    return { id: l.id, name: l.name || t("Loan"), kind: "loan" as const, left, interest: Math.round(left * (Number(l.rate) || 0) / 12) / 100 };
+  });
   return [...parts, ...loans].filter((d) => d.left > 0.005);
 }
 

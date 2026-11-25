@@ -21,10 +21,14 @@ import { intlLocale, t } from "@/lib/i18n";
 type Draft = Omit<Loan, "updated_at" | "deleted_at" | "id"> & { id?: string };
 
 export default function LoansPage() {
-  const { data, now, saveLoan, deleteLoan, addCategory, addTransaction, updateTransaction } = useFinance();
+  const { data, now, saveLoan, deleteLoan, addCategory, addTransaction, updateTransaction, deleteBalanceItem } = useFinance();
   const currency = data.profile.currency_code;
   const loans = liveLoans(data);
-  const [editing, setEditing] = useState<{ row?: Loan } | null>(null);
+  const [editing, setEditing] = useState<{ row?: Loan; from?: BalanceDebt } | null>(null);
+  // Debts kept as a post on the balance sheet (Bart, 25 Nov: his student
+  // loan): listed here, each can become a loan — rate and payment added, the
+  // post itself goes (so the debt never counts twice).
+  const balanceDebts = balanceDebtsOf(data, now);
   const [error, setError] = useState<string | null>(null);
 
   const rows = loans.map((l) => ({ l, at: loanAt(l, now), end: payoff(l, now) }));
@@ -55,6 +59,24 @@ export default function LoansPage() {
         </button>
       </header>
       {error && <div className="pf-close-note">{error}</div>}
+
+      {balanceDebts.length > 0 && (
+        <section style={{ display: "grid", gap: 8 }}>
+          <h2 className="pf-section-title" style={{ margin: 0 }}>{t("Other debts on your balance sheet")}</h2>
+          <div className="pf-card">
+            {balanceDebts.map((b) => (
+              <div key={b.id} className="pf-row" style={{ gap: 12 }}>
+                <span style={{ flex: 1, minWidth: 0 }}>
+                  <b style={{ fontWeight: 600 }}>{b.name}</b>
+                  <small style={{ display: "block", fontSize: "0.72rem", color: "var(--pf-ink-3)" }}>{t("No rate or payment yet — the amount only changes when you update it")}</small>
+                </span>
+                <span className="pf-rounded" style={{ fontWeight: 600 }}>{money(b.value, currency)}</span>
+                <button type="button" className="pf-chip" onClick={() => setEditing({ from: b })}>{t("Make it a loan")}</button>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {loans.length === 0 ? (
         <section className="pf-card pf-loan-empty">
@@ -120,11 +142,12 @@ export default function LoansPage() {
         </>
       )}
 
-      <Sheet open={editing !== null} onClose={() => setEditing(null)} label={editing?.row ? t("Edit loan") : t("Add loan")}>
+      <Sheet open={editing !== null} onClose={() => setEditing(null)} label={editing?.row ? t("Edit loan") : editing?.from ? t("Make it a loan") : t("Add loan")}>
         {editing && (
           <LoanForm
-            key={editing.row?.id ?? "new"}
+            key={editing.row?.id ?? editing.from?.id ?? "new"}
             row={editing.row}
+            from={editing.from}
             now={now}
             currency={currency}
             next={loans.length}
@@ -133,6 +156,8 @@ export default function LoansPage() {
               try {
                 const id = await saveLoan(d);
                 if (book && num(d.monthly) > 0) await bookPayment(id, d);
+                // Made from a balance-sheet post: the post goes, the loan takes over.
+                if (editing.from) await deleteBalanceItem(editing.from.id);
                 // A changed payment: this month's booking follows (the next
                 // months copy it).
                 const booked = live(data.transactions).find((x) => x.recurrence_id === id && !x.spread_of && new Date(x.date).getMonth() === now.getMonth() && new Date(x.date).getFullYear() === now.getFullYear());
@@ -227,8 +252,10 @@ function DebtChart({ loans, now, currency }: { loans: Loan[]; now: Date; currenc
   );
 }
 
-function LoanForm({ row, now, currency, next, onSave, onCancel, onDelete }: {
+function LoanForm({ row, from, now, currency, next, onSave, onCancel, onDelete }: {
   row?: Loan;
+  /** A balance-sheet post to turn into this loan (its name and amount). */
+  from?: BalanceDebt;
   now: Date;
   currency: string;
   next: number;
@@ -237,9 +264,9 @@ function LoanForm({ row, now, currency, next, onSave, onCancel, onDelete }: {
   onDelete?: () => void;
 }) {
   const left = row ? loanAt(row, now).balance : 0;
-  const [kind, setKind] = useState<LoanKind>(row?.kind ?? "student");
-  const [name, setName] = useState(row?.name ?? "");
-  const [balance, setBalance] = useState(row ? String(left) : "");
+  const [kind, setKind] = useState<LoanKind>(row?.kind ?? (from ? guessKind(from.name) : "student"));
+  const [name, setName] = useState(row?.name ?? from?.name ?? "");
+  const [balance, setBalance] = useState(row ? String(left) : from ? from.value.toFixed(2) : "");
   const [rate, setRate] = useState(row ? String(num(row.rate)) : "");
   const [monthly, setMonthly] = useState(row ? String(num(row.monthly)) : "");
   const [book, setBook] = useState(!row);
@@ -296,4 +323,29 @@ function LoanForm({ row, now, currency, next, onSave, onCancel, onDelete }: {
       </div>
     </form>
   );
+}
+
+type BalanceDebt = { id: string; name: string; value: number };
+
+const MORTGAGE = /hypothe|mortgage|hipotec|immobilier|mutuo/i;
+
+/** Liabilities kept as balance-sheet posts (not mortgages): today's amount —
+ *  the latest month's value, else the post's own. */
+function balanceDebtsOf(data: ReturnType<typeof useFinance>["data"], now: Date): BalanceDebt[] {
+  const key = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
+  return live(data.balanceItems ?? [])
+    .filter((b) => b.side === "liability" && !MORTGAGE.test(b.name))
+    .map((b) => {
+      const v = live(data.balanceValues ?? []).filter((x) => x.item_id === b.id && x.month <= key).sort((a, b2) => b2.month.localeCompare(a.month))[0];
+      return { id: b.id, name: b.name, value: v ? num(v.value) : num(b.current_value) };
+    })
+    .filter((b) => b.value > 0.005);
+}
+
+/** A sensible kind from the post's name. */
+function guessKind(name: string): LoanKind {
+  if (/studie|student|duo|bafög|bafoeg|étudiant|estudiant|studen/i.test(name)) return "student";
+  if (/auto|car\b|wagen|voiture|coche/i.test(name)) return "car";
+  if (/creditcard|credit card|kreditkarte/i.test(name)) return "credit";
+  return "personal";
 }

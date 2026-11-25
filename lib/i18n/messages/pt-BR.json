@@ -2338,5 +2338,12 @@
  "Booked this month": "Lançado este mês",
  "Matches your mortgage parts": "Bate com as parcelas do financiamento",
  "Net after the tax refund": "Líquido após a restituição",
- "Tax refund {amount} booked this month": "Restituição {amount} lançada este mês"
+ "Tax refund {amount} booked this month": "Restituição {amount} lançada este mês",
+ "Of which interest": "Dos quais juros",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Juros {interest} são custo; {repayment} abate a dívida",
+ "All of it comes off the debt": "Tudo abate a dívida",
+ "Interest {name}": "Juros {name}",
+ "Other debts on your balance sheet": "Outras dívidas no seu balanço",
+ "No rate or payment yet — the amount only changes when you update it": "Ainda sem taxa ou parcela — o valor só muda quando você atualiza",
+ "Make it a loan": "Transformar em empréstimo"
 }

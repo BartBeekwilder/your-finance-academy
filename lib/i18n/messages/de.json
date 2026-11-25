@@ -2338,5 +2338,12 @@
  "Booked this month": "Diesen Monat gebucht",
  "Matches your mortgage parts": "Passt zu deinen Darlehensteilen",
  "Net after the tax refund": "Netto nach der Steuererstattung",
- "Tax refund {amount} booked this month": "Steuererstattung {amount} diesen Monat gebucht"
+ "Tax refund {amount} booked this month": "Steuererstattung {amount} diesen Monat gebucht",
+ "Of which interest": "Davon Zinsen",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Zinsen {interest} sind Kosten; {repayment} geht von der Schuld ab",
+ "All of it comes off the debt": "Alles geht von der Schuld ab",
+ "Interest {name}": "Zinsen {name}",
+ "Other debts on your balance sheet": "Weitere Schulden in deiner Bilanz",
+ "No rate or payment yet — the amount only changes when you update it": "Noch kein Zins oder Monatsbetrag — der Betrag ändert sich nur, wenn du ihn aktualisierst",
+ "Make it a loan": "Daraus einen Kredit machen"
 }

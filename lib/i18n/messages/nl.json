@@ -2344,5 +2344,12 @@
  "Booked this month": "Geboekt deze maand",
  "Matches your mortgage parts": "Klopt met je leningdelen",
  "Net after the tax refund": "Netto na de teruggaaf",
- "Tax refund {amount} booked this month": "Teruggaaf {amount} geboekt deze maand"
+ "Tax refund {amount} booked this month": "Teruggaaf {amount} geboekt deze maand",
+ "Of which interest": "Waarvan rente",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Rente {interest} is kosten; {repayment} gaat van de schuld af",
+ "All of it comes off the debt": "Alles gaat van de schuld af",
+ "Interest {name}": "Rente {name}",
+ "Other debts on your balance sheet": "Andere schulden op je balans",
+ "No rate or payment yet — the amount only changes when you update it": "Nog geen rente of maandbedrag — het bedrag verandert alleen als je het bijwerkt",
+ "Make it a loan": "Maak er een lening van"
 }

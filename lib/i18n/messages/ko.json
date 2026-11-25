@@ -2338,5 +2338,12 @@
  "Booked this month": "이번 달 기록",
  "Matches your mortgage parts": "대출 구성과 일치",
  "Net after the tax refund": "환급 후 순액",
- "Tax refund {amount} booked this month": "이번 달 환급 {amount} 기록"
+ "Tax refund {amount} booked this month": "이번 달 환급 {amount} 기록",
+ "Of which interest": "그중 이자",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "이자 {interest}는 비용이고 {repayment}가 부채에서 줄어듭니다",
+ "All of it comes off the debt": "전액이 부채에서 줄어듭니다",
+ "Interest {name}": "이자 {name}",
+ "Other debts on your balance sheet": "재무상태표의 기타 부채",
+ "No rate or payment yet — the amount only changes when you update it": "아직 금리·월 납입액 없음 — 직접 업데이트할 때만 금액이 바뀝니다",
+ "Make it a loan": "대출로 만들기"
 }

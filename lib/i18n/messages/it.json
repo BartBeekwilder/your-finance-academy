@@ -2338,5 +2338,12 @@
  "Booked this month": "Registrato questo mese",
  "Matches your mortgage parts": "Corrisponde alle quote del mutuo",
  "Net after the tax refund": "Netto dopo il rimborso fiscale",
- "Tax refund {amount} booked this month": "Rimborso fiscale {amount} registrato questo mese"
+ "Tax refund {amount} booked this month": "Rimborso fiscale {amount} registrato questo mese",
+ "Of which interest": "Di cui interessi",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Interessi {interest} sono un costo; {repayment} riduce il debito",
+ "All of it comes off the debt": "Tutto riduce il debito",
+ "Interest {name}": "Interessi {name}",
+ "Other debts on your balance sheet": "Altri debiti nel tuo bilancio",
+ "No rate or payment yet — the amount only changes when you update it": "Ancora senza tasso o rata — l'importo cambia solo se lo aggiorni",
+ "Make it a loan": "Trasformalo in prestito"
 }

@@ -2338,5 +2338,12 @@
  "Booked this month": "इस महीने दर्ज",
  "Matches your mortgage parts": "आपके लोन हिस्सों से मेल खाता है",
  "Net after the tax refund": "टैक्स वापसी के बाद शुद्ध",
- "Tax refund {amount} booked this month": "इस महीने {amount} टैक्स वापसी दर्ज"
+ "Tax refund {amount} booked this month": "इस महीने {amount} टैक्स वापसी दर्ज",
+ "Of which interest": "इसमें से ब्याज",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "ब्याज {interest} खर्च है; {repayment} कर्ज़ से घटता है",
+ "All of it comes off the debt": "पूरा कर्ज़ से घटता है",
+ "Interest {name}": "ब्याज {name}",
+ "Other debts on your balance sheet": "आपकी बैलेंस शीट पर अन्य कर्ज़",
+ "No rate or payment yet — the amount only changes when you update it": "अभी कोई दर या किस्त नहीं — राशि तभी बदलती है जब आप उसे अपडेट करें",
+ "Make it a loan": "इसे लोन बनाएं"
 }

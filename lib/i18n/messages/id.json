@@ -2338,5 +2338,12 @@
  "Booked this month": "Dicatat bulan ini",
  "Matches your mortgage parts": "Cocok dengan bagian KPR Anda",
  "Net after the tax refund": "Neto setelah restitusi pajak",
- "Tax refund {amount} booked this month": "Restitusi pajak {amount} dicatat bulan ini"
+ "Tax refund {amount} booked this month": "Restitusi pajak {amount} dicatat bulan ini",
+ "Of which interest": "Termasuk bunga",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Bunga {interest} adalah biaya; {repayment} mengurangi utang",
+ "All of it comes off the debt": "Semuanya mengurangi utang",
+ "Interest {name}": "Bunga {name}",
+ "Other debts on your balance sheet": "Utang lain di neraca Anda",
+ "No rate or payment yet — the amount only changes when you update it": "Belum ada bunga atau cicilan — jumlah hanya berubah saat Anda memperbaruinya",
+ "Make it a loan": "Jadikan pinjaman"
 }

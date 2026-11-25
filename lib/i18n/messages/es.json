@@ -2338,5 +2338,12 @@
  "Booked this month": "Registrado este mes",
  "Matches your mortgage parts": "Coincide con tus tramos",
  "Net after the tax refund": "Neto tras la devolución",
- "Tax refund {amount} booked this month": "Devolución {amount} registrada este mes"
+ "Tax refund {amount} booked this month": "Devolución {amount} registrada este mes",
+ "Of which interest": "De ello, intereses",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Intereses {interest} son un gasto; {repayment} reduce la deuda",
+ "All of it comes off the debt": "Todo reduce la deuda",
+ "Interest {name}": "Intereses {name}",
+ "Other debts on your balance sheet": "Otras deudas en tu balance",
+ "No rate or payment yet — the amount only changes when you update it": "Aún sin interés ni cuota — el importe solo cambia si lo actualizas",
+ "Make it a loan": "Convertir en préstamo"
 }

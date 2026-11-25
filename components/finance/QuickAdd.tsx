@@ -181,6 +181,15 @@ function Form({
   // Expense: repays a debt (a mortgage part or loan) — not spending; it
   // lowers that debt (Bart, 25 Nov). The id of the debt, null = not.
   const [repays, setRepays] = useState<string | null>(initial?.repays ?? null);
+  // A payment to a debt is often interest + repayment (Bart, 25 Nov): the
+  // interest part is a cost, only the rest lowers the debt. Starts at this
+  // month's interest on the picked debt; a new entry books the two apart.
+  const [interestPart, setInterestPart] = useState("");
+  const pickDebt = (id: string | null) => {
+    setRepays(id);
+    const d = debts.find((x) => x.id === id);
+    setInterestPart(!initial && d && d.interest > 0 ? d.interest.toFixed(2).replace(".", ",") : "");
+  };
   const [expectedBack, setExpectedBack] = useState(() => (initial?.expected_back ? localDate(initial.expected_back) : ""));
   // Which account it comes off (or goes to): the transaction's own, else the
   // one used last in this browser, else the default account.
@@ -321,6 +330,8 @@ function Form({
   const grossParsed = evalAmount(gross)?.value ?? 0;
   const advancing = type === "expense" && advance;
   const repaying = type === "expense" && !advance && !!repays;
+  // The interest part of a new repayment (never more than the whole amount).
+  const splitInterest = repaying && !initial ? Math.min(Math.max(evalAmount(interestPart)?.value ?? 0, 0), Number.isFinite(parsed) ? parsed : 0) : 0;
   // An advance is paid from the current account or a credit card (else any).
   const cardOrCurrent = payable.filter((a) => a.type === "checking" || a.type === "credit");
   const shownAccounts = advancing && cardOrCurrent.length ? cardOrCurrent : payable;
@@ -344,10 +355,11 @@ function Form({
       // Noon local time, so the date never shifts a day across time zones.
       const [y, m, d] = date.split("-").map(Number);
       await add({
-        amount: parsed.toFixed(2),
+        amount: (parsed - splitInterest).toFixed(2),
         type,
         date: new Date(y, m - 1, d, 12).toISOString(),
-        note: note.trim() || null,
+        // A repayment without a description is named after its debt.
+        note: note.trim() || (repaying ? (debts.find((x) => x.id === repays)?.name ?? null) : null),
         is_auto_income: initial?.is_auto_income ?? false,
         gross_amount: showGross && grossParsed > 0 ? grossParsed.toFixed(2) : null,
         is_fixed_expense: type === "expense" && !advancing && !repaying && fixed,
@@ -362,6 +374,16 @@ function Form({
         account_id: accountId,
         person_id: household.length ? (type === "income" ? (personId ?? household[0].id) : personId) : (initial?.person_id ?? null),
       });
+      // The interest part: a cost of its own, same day and account.
+      if (splitInterest > 0.005) {
+        const debt = debts.find((d) => d.id === repays);
+        await add({
+          amount: splitInterest.toFixed(2), type: "expense", date: new Date(y, m - 1, d, 12).toISOString(),
+          note: t("Interest {name}", { name: debt?.name ?? "" }).trim(), is_auto_income: false, gross_amount: null, is_fixed_expense: false, spread_months: null, repays: null,
+          advance: false, repaid_at: null, recurrence_id: null, category_id: categoryId, account_id: accountId,
+          person_id: household.length ? personId : (initial?.person_id ?? null),
+        });
+      }
       try {
         if (household.length) localStorage.setItem(`pf-last-person-${type}`, (type === "income" ? (personId ?? household[0].id) : personId) ?? "");
       } catch {}
@@ -447,7 +469,7 @@ function Form({
           type="button"
           className="pf-advance-toggle"
           aria-pressed={repaying}
-          onClick={() => setRepays(repays ? null : (debts.length === 1 ? debts[0].id : (debts.find((d) => d.id === initial?.repays)?.id ?? debts[0].id)))}
+          onClick={() => pickDebt(repays ? null : (debts.length === 1 ? debts[0].id : (debts.find((d) => d.id === initial?.repays)?.id ?? debts[0].id)))}
         >
           <span className="pf-acct-icon" style={{ background: "#bf5af2" }}><Landmark size={13} strokeWidth={2.4} /></span>
           <span>
@@ -456,7 +478,18 @@ function Form({
           </span>
         </button>
       )}
-      {repaying && debts.length > 1 && <DebtChips debts={debts} value={repays} onChange={setRepays} currency={currency} />}
+      {repaying && debts.length > 1 && <DebtChips debts={debts} value={repays} onChange={pickDebt} currency={currency} />}
+      {repaying && !initial && (
+        <label className="pf-advance-back">
+          <span>{t("Of which interest")}</span>
+          <input className="pf-input" inputMode="decimal" aria-label={t("Of which interest")} placeholder={money(0, currency)} value={interestPart} onChange={(e) => setInterestPart(e.target.value)} />
+          <small>
+            {splitInterest > 0 && valid
+              ? t("Interest {interest} is a cost; {repayment} comes off the debt", { interest: money(splitInterest, currency), repayment: money(parsed - splitInterest, currency) })
+              : t("All of it comes off the debt")}
+          </small>
+        </label>
+      )}
       {advancing && (
         <label className="pf-advance-back">
           <span>{t("Expected back")}</span>

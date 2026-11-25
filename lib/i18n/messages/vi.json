@@ -2338,5 +2338,12 @@
  "Booked this month": "Đã ghi tháng này",
  "Matches your mortgage parts": "Khớp với các khoản vay",
  "Net after the tax refund": "Ròng sau hoàn thuế",
- "Tax refund {amount} booked this month": "Hoàn thuế {amount} đã ghi tháng này"
+ "Tax refund {amount} booked this month": "Hoàn thuế {amount} đã ghi tháng này",
+ "Of which interest": "Trong đó tiền lãi",
+ "Interest {interest} is a cost; {repayment} comes off the debt": "Lãi {interest} là chi phí; {repayment} trừ vào nợ",
+ "All of it comes off the debt": "Toàn bộ trừ vào nợ",
+ "Interest {name}": "Lãi {name}",
+ "Other debts on your balance sheet": "Các khoản nợ khác trong bảng cân đối",
+ "No rate or payment yet — the amount only changes when you update it": "Chưa có lãi suất hay khoản trả — số tiền chỉ đổi khi bạn cập nhật",
+ "Make it a loan": "Chuyển thành khoản vay"
 }
