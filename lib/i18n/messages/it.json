@@ -2305,5 +2305,7 @@
  "— {account} stays the same": "— {account} resta uguale",
  "{amount} on day {n}": "{amount} il giorno {n}",
  "Tick it off: books {amount} on day {n}": "Spunta: registra {amount} il giorno {n}",
- "Received?": "Ricevuto?"
+ "Received?": "Ricevuto?",
+ "Adjust salary": "Modifica stipendio",
+ "Adjust": "Modifica"
 }

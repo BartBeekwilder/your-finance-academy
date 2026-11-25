@@ -2305,5 +2305,7 @@
  "— {account} stays the same": "— {account} değişmez",
  "{amount} on day {n}": "{n}. gün {amount}",
  "Tick it off: books {amount} on day {n}": "İşaretle: {n}. güne {amount} kaydeder",
- "Received?": "Alındı mı?"
+ "Received?": "Alındı mı?",
+ "Adjust salary": "Maaşı düzenle",
+ "Adjust": "Düzenle"
 }

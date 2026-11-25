@@ -2305,5 +2305,7 @@
  "— {account} stays the same": "— {account} 그대로 유지",
  "{amount} on day {n}": "{n}일에 {amount}",
  "Tick it off: books {amount} on day {n}": "체크: {n}일에 {amount} 기록",
- "Received?": "받았나요?"
+ "Received?": "받았나요?",
+ "Adjust salary": "급여 수정",
+ "Adjust": "수정"
 }

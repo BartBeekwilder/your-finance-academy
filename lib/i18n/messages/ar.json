@@ -2305,5 +2305,7 @@
  "— {account} stays the same": "— يبقى {account} كما هو",
  "{amount} on day {n}": "{amount} في اليوم {n}",
  "Tick it off: books {amount} on day {n}": "ضع علامة: يسجّل {amount} في اليوم {n}",
- "Received?": "تم الاستلام؟"
+ "Received?": "تم الاستلام؟",
+ "Adjust salary": "تعديل الراتب",
+ "Adjust": "تعديل"
 }

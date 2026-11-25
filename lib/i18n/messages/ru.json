@@ -2305,5 +2305,7 @@
  "— {account} stays the same": "— {account} не меняется",
  "{amount} on day {n}": "{amount}, {n}-го числа",
  "Tick it off: books {amount} on day {n}": "Отметьте: запишет {amount} на {n}-е число",
- "Received?": "Получено?"
+ "Received?": "Получено?",
+ "Adjust salary": "Изменить зарплату",
+ "Adjust": "Изменить"
 }

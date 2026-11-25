@@ -4996,9 +4996,15 @@ span.pf-cmp-chip { cursor: default; }
   border-radius: 50%;
   border: 2px solid var(--pf-ink-3);
   color: #fff;
-  transition: background 0.3s, border-color 0.3s, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .pf-payday-check[data-done="true"] { color: var(--pf-green); }
+.pf-payday-check[data-done="true"]:hover .pf-payday-tick { transform: scale(1.08); box-shadow: 0 0 0 5px rgba(48, 209, 88, 0.18); }
+.pf-payday-label { display: grid; justify-items: center; gap: 2px; }
+/* "Adjust" fades in under Received on hover (always shown on touch). */
+.pf-payday-edit { display: inline-flex; align-items: center; gap: 3px; font-size: 0.62rem; color: var(--pf-ink-3); opacity: 0; transform: translateY(-2px); transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pf-payday-check:hover .pf-payday-edit, .pf-payday-check:focus-visible .pf-payday-edit { opacity: 1; transform: none; }
+@media (hover: none) { .pf-payday-edit { opacity: 1; transform: none; } }
 .pf-payday-check[data-done="true"] .pf-payday-tick { background: var(--pf-green); border-color: var(--pf-green); animation: pf-tick-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
 @keyframes pf-tick-pop { 0% { transform: scale(0.6); } 100% { transform: scale(1); } }
 

@@ -2311,5 +2311,7 @@
  "— {account} stays the same": "— {account} blijft gelijk",
  "{amount} on day {n}": "{amount} op dag {n}",
  "Tick it off: books {amount} on day {n}": "Vink af: boekt {amount} op dag {n}",
- "Received?": "Ontvangen?"
+ "Received?": "Ontvangen?",
+ "Adjust salary": "Salaris aanpassen",
+ "Adjust": "Aanpassen"
 }

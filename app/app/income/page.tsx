@@ -139,7 +139,7 @@ export default function IncomePage() {
             <Stat
               label={t("Payday")}
               value={p.payday_day ? t("Day {n}", { n: p.payday_day }) : "—"}
-              hint={daysToPayday === null ? undefined : paid ? t("{amount} received", { amount: money(num(paid.amount), currency) }) : daysToPayday > 0 ? (daysToPayday === 1 ? t("Tomorrow") : t("In {n} days", { n: daysToPayday })) : daysToPayday === 0 ? t("Today") : t("Passed this month")}
+              hint={daysToPayday === null ? undefined : paid ? t("{amount} received", { amount: money(num(paid.amount), currency) }) : daysToPayday > 0 ? (daysToPayday === 1 ? t("Tomorrow") : t("In {n} days", { n: daysToPayday })) : daysToPayday === 0 ? t("Today") : t("{amount} expected", { amount: money(projectedNetIncome(data, month), currency) })}
               side={past ? undefined : <PaydayCheck />}
             />
           </>

@@ -2305,5 +2305,7 @@
  "— {account} stays the same": "— {account} giữ nguyên",
  "{amount} on day {n}": "{amount} vào ngày {n}",
  "Tick it off: books {amount} on day {n}": "Đánh dấu: ghi {amount} vào ngày {n}",
- "Received?": "Đã nhận?"
+ "Received?": "Đã nhận?",
+ "Adjust salary": "Sửa lương",
+ "Adjust": "Sửa"
 }

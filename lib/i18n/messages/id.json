@@ -2305,5 +2305,7 @@
  "— {account} stays the same": "— {account} tetap sama",
  "{amount} on day {n}": "{amount} pada tanggal {n}",
  "Tick it off: books {amount} on day {n}": "Centang: mencatat {amount} pada tanggal {n}",
- "Received?": "Diterima?"
+ "Received?": "Diterima?",
+ "Adjust salary": "Ubah gaji",
+ "Adjust": "Ubah"
 }
