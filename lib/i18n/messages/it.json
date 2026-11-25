@@ -2365,5 +2365,6 @@
  "Net of tax refund": "Netto del rimborso",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Mutuo meno il rimborso {amount}; il rimborso non conta come entrata",
  "Tax refund {amount} counts as income": "Rimborso {amount} conta come entrata",
- "Spending per category, added up": "Spese per categoria, cumulate"
+ "Spending per category, added up": "Spese per categoria, cumulate",
+ "Repayment · not spending": "Rimborso · non è una spesa"
 }

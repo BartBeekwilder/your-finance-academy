@@ -2371,5 +2371,6 @@
  "Net of tax refund": "Netto na teruggaaf",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Hypotheek min de teruggaaf {amount}; de teruggaaf telt ook niet als inkomen",
  "Tax refund {amount} counts as income": "Teruggaaf {amount} telt als inkomen",
- "Spending per category, added up": "Uitgaven per categorie, opgeteld"
+ "Spending per category, added up": "Uitgaven per categorie, opgeteld",
+ "Repayment · not spending": "Aflossing · geen uitgave"
 }

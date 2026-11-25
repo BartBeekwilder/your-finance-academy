@@ -2365,5 +2365,6 @@
  "Net of tax refund": "扣除退税后",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "房贷减去退税 {amount}；退税也不计入收入",
  "Tax refund {amount} counts as income": "退税 {amount} 计为收入",
- "Spending per category, added up": "按类别支出（累计）"
+ "Spending per category, added up": "按类别支出（累计）",
+ "Repayment · not spending": "还款 · 不是支出"
 }

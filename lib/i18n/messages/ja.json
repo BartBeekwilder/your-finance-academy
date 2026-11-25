@@ -2365,5 +2365,6 @@
  "Net of tax refund": "還付後の実質",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "住宅ローンから還付 {amount} を差し引き、還付は収入にも含めません",
  "Tax refund {amount} counts as income": "還付 {amount} は収入として計上",
- "Spending per category, added up": "カテゴリー別支出（累計）"
+ "Spending per category, added up": "カテゴリー別支出（累計）",
+ "Repayment · not spending": "返済 · 支出ではありません"
 }

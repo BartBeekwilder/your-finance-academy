@@ -2365,5 +2365,6 @@
  "Net of tax refund": "Net du remboursement",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Prêt moins le remboursement {amount} ; le remboursement ne compte plus comme revenu",
  "Tax refund {amount} counts as income": "Remboursement {amount} compté comme revenu",
- "Spending per category, added up": "Dépenses par catégorie, cumulées"
+ "Spending per category, added up": "Dépenses par catégorie, cumulées",
+ "Repayment · not spending": "Remboursement · pas une dépense"
 }

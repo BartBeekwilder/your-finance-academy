@@ -61,7 +61,7 @@ export default function MonthTransactions({ data, month, currency, kind }: { dat
                       {c?.name ?? tr("No category")}
                       {t.is_fixed_expense && <span className="pf-fixed-tag">{tr("Fixed")}</span>}
                       {t.is_auto_income && <span className="pf-auto-tag">{tr("Automatic")}</span>}
-                      {t.repays && <span className="pf-repay-tag">{tr("Repayment")}</span>}
+                      {t.repays && <span className="pf-repay-tag">{tr("Repayment · not spending")}</span>}
                     </div>
                     {!t.repays && (isMortgage(t) ? <MortgageHint amount={num(t.amount)} date={t.date} editing={t} /> : t.recurrence_id ? <LoanHint tx={t} /> : null)}
                   </div>

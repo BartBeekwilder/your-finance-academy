@@ -2365,5 +2365,6 @@
  "Net of tax refund": "İade sonrası net",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Konut kredisi eksi iade {amount}; iade gelir olarak da sayılmaz",
  "Tax refund {amount} counts as income": "İade {amount} gelir olarak sayılır",
- "Spending per category, added up": "Kategoriye göre harcamalar, toplam"
+ "Spending per category, added up": "Kategoriye göre harcamalar, toplam",
+ "Repayment · not spending": "Geri ödeme · harcama değil"
 }

@@ -2365,5 +2365,6 @@
  "Net of tax refund": "Netto nach Erstattung",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Hypothek abzüglich Erstattung {amount}; die Erstattung zählt auch nicht als Einkommen",
  "Tax refund {amount} counts as income": "Erstattung {amount} zählt als Einkommen",
- "Spending per category, added up": "Ausgaben pro Kategorie, aufsummiert"
+ "Spending per category, added up": "Ausgaben pro Kategorie, aufsummiert",
+ "Repayment · not spending": "Tilgung · keine Ausgabe"
 }
