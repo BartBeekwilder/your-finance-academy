@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "Facoltativo — altrimenti una stima",
  "Your tax refund {amount} per month": "Il tuo rimborso {amount} al mese",
  "On your balance sheet": "Nel tuo bilancio",
- "Tax to pay": "Tasse da pagare"
+ "Tax to pay": "Tasse da pagare",
+ "Net of tax refund": "Netto del rimborso",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "Mutuo meno il rimborso {amount}; il rimborso non conta come entrata",
+ "Tax refund {amount} counts as income": "Rimborso {amount} conta come entrata"
 }

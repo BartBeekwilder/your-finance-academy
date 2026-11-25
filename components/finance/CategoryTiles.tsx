@@ -3,6 +3,9 @@
 import { t } from "@/lib/i18n";
 import { live, monthToDate, num, spendByCategory, spendByCategoryYear, summarize, yearForecast } from "@/lib/finance/calc";
 import { fixedCostsOf } from "./FixedCosts";
+import Segmented from "./Segmented";
+import { isMortgageName, mortgageMonth } from "@/lib/finance/mortgageCheck";
+import { useState } from "react";
 import { upcomingFixedCosts } from "@/lib/finance/recurring";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
@@ -27,7 +30,15 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
   past?: PastYear;
 }) {
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
-  const rows = past ? past.rows : (mode === "month" ? spendByCategory(data, month) : spendByCategoryYear(data, now)).map((r) => ({ category: r.category, spent: r.spent }));
+  const raw = past ? past.rows : (mode === "month" ? spendByCategory(data, month) : spendByCategoryYear(data, now)).map((r) => ({ category: r.category, spent: r.spent }));
+  // Net (Bart, 25 Nov): the mortgage tile less the tax refund booked in the
+  // period — they cancel out — and that refund out of the income too.
+  const refund = past ? 0 : Array.from({ length: mode === "month" ? 1 : now.getMonth() + 1 }, (_, m) => mortgageMonth(data, mode === "month" ? month : new Date(now.getFullYear(), m, 1))?.refundBooked ?? 0).reduce((a, b) => a + b, 0);
+  const mortgageTop = raw.find((r) => isMortgageName(r.category.name))?.category.id;
+  const [netView, setNetView] = useState(() => { try { return localStorage.getItem("pf-net-refund") === "1"; } catch { return false; } });
+  const net = netView && refund > 0 && !!mortgageTop;
+  const cut = (id: string, v: number) => (net && id === mortgageTop ? Math.max(v - refund, 0) : v);
+  const rows = raw.map((r) => ({ ...r, spent: cut(r.category.id, r.spent) }));
   const total = rows.reduce((s, r) => s + r.spent, 0);
   // What's fixed in each tile (Bart, 25 Nov): fixed costs booked in the
   // period, per top-level category (subcategories rolled in).
@@ -41,6 +52,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
       fixedBy.set(top, (fixedBy.get(top) ?? 0) + num(x.amount));
     }
   }
+  if (net && mortgageTop) fixedBy.set(mortgageTop, cut(mortgageTop, fixedBy.get(mortgageTop) ?? 0));
   const fixedTotal = [...fixedBy.values()].reduce((a, b) => a + b, 0);
   // The third ring (month view): the whole month's fixed costs — paid, booked
   // for later and still to come — per category, against the income.
@@ -70,10 +82,10 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
     const current = m.getFullYear() === today.getFullYear() && m.getMonth() === today.getMonth();
     return current ? Math.max(entered, yearForecast(data, today)[0]?.income ?? entered) : entered;
   };
-  const income = past ? past.income :
+  const income = (net ? -refund : 0) + (past ? past.income :
     mode === "month"
       ? isThisMonth ? monthIncome(month) : summarize(data.transactions, month).income
-      : Array.from({ length: now.getMonth() + 1 }, (_, m) => monthIncome(new Date(now.getFullYear(), m, 1))).reduce((a, b) => a + b, 0);
+      : Array.from({ length: now.getMonth() + 1 }, (_, m) => monthIncome(new Date(now.getFullYear(), m, 1))).reduce((a, b) => a + b, 0));
   // The second ring: earned so far against spent so far, both spread over
   // the month like the live tiles — salary and fixed costs (also those still
   // to come) as the month passes, side income and variable spending as
@@ -83,6 +95,19 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
   const ofIncome = (v: number) => (income > 0 ? t("{pct}% of income", { pct: Math.round((v / income) * 100) }) : null);
   const cats = live(data.categories);
   return (
+    <>
+    {refund > 0 && mortgageTop && (
+      <div className="pf-net-toggle">
+        <Segmented
+          size="sm"
+          label={t("Mortgage")}
+          value={net ? "net" : "gross"}
+          onChange={(v) => { setNetView(v === "net"); try { localStorage.setItem("pf-net-refund", v === "net" ? "1" : "0"); } catch {} }}
+          options={[{ value: "gross", label: t("Gross") }, { value: "net", label: t("Net of tax refund") }]}
+        />
+        <small>{net ? t("Mortgage less the tax refund {amount}; the refund is out of the income too", { amount: money(refund, currency) }) : t("Tax refund {amount} counts as income", { amount: money(refund, currency) })}</small>
+      </div>
+    )}
     <div className="pf-cattiles-row">
     <div className="pf-cattiles" role="tablist" aria-label={t("Categories")}>
       <button type="button" role="tab" aria-selected={selected === null} className="pf-cattile" data-on={selected === null} style={{ ["--c" as string]: "#ff453a" }} onClick={() => onSelect(null)}>
@@ -130,6 +155,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
     {fixedRows.length > 0 && income > 0 && <IncomeRing rows={fixedRows} income={income} currency={currency} label={t("of your income goes to fixed costs")} />}
     </div>
     </div>
+    </>
   );
 }
 

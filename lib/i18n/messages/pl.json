@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "Opcjonalnie — inaczej szacunek",
  "Your tax refund {amount} per month": "Twój zwrot {amount} miesięcznie",
  "On your balance sheet": "W twoim bilansie",
- "Tax to pay": "Podatek do zapłaty"
+ "Tax to pay": "Podatek do zapłaty",
+ "Net of tax refund": "Netto po zwrocie",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "Kredyt minus zwrot {amount}; zwrot nie liczy się też jako dochód",
+ "Tax refund {amount} counts as income": "Zwrot {amount} liczy się jako dochód"
 }

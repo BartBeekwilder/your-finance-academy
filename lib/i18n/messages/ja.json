@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "任意 — 未入力なら推定",
  "Your tax refund {amount} per month": "あなたの還付 毎月{amount}",
  "On your balance sheet": "バランスシート上",
- "Tax to pay": "未払いの税金"
+ "Tax to pay": "未払いの税金",
+ "Net of tax refund": "還付後の実質",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "住宅ローンから還付 {amount} を差し引き、還付は収入にも含めません",
+ "Tax refund {amount} counts as income": "還付 {amount} は収入として計上"
 }

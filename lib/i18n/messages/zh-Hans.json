@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "可选 — 否则为估算",
  "Your tax refund {amount} per month": "你的退税 每月 {amount}",
  "On your balance sheet": "在资产负债表上",
- "Tax to pay": "应缴税款"
+ "Tax to pay": "应缴税款",
+ "Net of tax refund": "扣除退税后",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "房贷减去退税 {amount}；退税也不计入收入",
+ "Tax refund {amount} counts as income": "退税 {amount} 计为收入"
 }

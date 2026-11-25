@@ -6857,3 +6857,6 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .pf-debt-post:hover { transform: none; }
 .pf-debt-convert { justify-self: start; display: inline-flex; align-items: center; gap: 6px; border-color: color-mix(in srgb, var(--c) 45%, transparent); color: var(--pf-ink); }
 .pf-debt-convert:hover { background: color-mix(in srgb, var(--c) 16%, transparent); }
+/* Expenses: mortgage gross or net of the tax refund. */
+.pf-net-toggle { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.pf-net-toggle small { font-size: 0.72rem; color: var(--pf-ink-3); }

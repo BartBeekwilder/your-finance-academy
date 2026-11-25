@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "اختياري — وإلا تقدير",
  "Your tax refund {amount} per month": "استردادك الضريبي {amount} شهريًا",
  "On your balance sheet": "في ميزانيتك",
- "Tax to pay": "ضريبة مستحقة"
+ "Tax to pay": "ضريبة مستحقة",
+ "Net of tax refund": "صافٍ بعد الاسترداد",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "الرهن ناقص الاسترداد {amount}؛ والاسترداد لا يُحسب دخلًا أيضًا",
+ "Tax refund {amount} counts as income": "الاسترداد {amount} يُحسب دخلًا"
 }

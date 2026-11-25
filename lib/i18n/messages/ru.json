@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "Необязательно — иначе оценка",
  "Your tax refund {amount} per month": "Ваш возврат {amount} в месяц",
  "On your balance sheet": "В вашем балансе",
- "Tax to pay": "Налог к уплате"
+ "Tax to pay": "Налог к уплате",
+ "Net of tax refund": "Нетто после возврата",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "Ипотека минус возврат {amount}; возврат не считается доходом",
+ "Tax refund {amount} counts as income": "Возврат {amount} считается доходом"
 }

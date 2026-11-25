@@ -2367,5 +2367,8 @@
  "Optional — else an estimate": "Optioneel — anders een schatting",
  "Your tax refund {amount} per month": "Je teruggaaf {amount} per maand",
  "On your balance sheet": "Op je balans",
- "Tax to pay": "Nog te betalen belasting"
+ "Tax to pay": "Nog te betalen belasting",
+ "Net of tax refund": "Netto na teruggaaf",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "Hypotheek min de teruggaaf {amount}; de teruggaaf telt ook niet als inkomen",
+ "Tax refund {amount} counts as income": "Teruggaaf {amount} telt als inkomen"
 }

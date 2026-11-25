@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "वैकल्पिक — नहीं तो अनुमान",
  "Your tax refund {amount} per month": "आपकी टैक्स वापसी {amount} प्रति माह",
  "On your balance sheet": "आपकी बैलेंस शीट पर",
- "Tax to pay": "देय कर"
+ "Tax to pay": "देय कर",
+ "Net of tax refund": "वापसी के बाद शुद्ध",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "होम लोन में से वापसी {amount} घटाई; वापसी आय में भी नहीं गिनी",
+ "Tax refund {amount} counts as income": "वापसी {amount} आय में गिनी जाती है"
 }

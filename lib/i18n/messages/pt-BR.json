@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "Opcional — senão uma estimativa",
  "Your tax refund {amount} per month": "Sua restituição {amount} por mês",
  "On your balance sheet": "No seu balanço",
- "Tax to pay": "Impostos a pagar"
+ "Tax to pay": "Impostos a pagar",
+ "Net of tax refund": "Líquido da restituição",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "Financiamento menos a restituição {amount}; a restituição sai da renda também",
+ "Tax refund {amount} counts as income": "Restituição {amount} conta como renda"
 }

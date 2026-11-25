@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "İsteğe bağlı — yoksa tahmin",
  "Your tax refund {amount} per month": "Vergi iaden ayda {amount}",
  "On your balance sheet": "Bilançonda",
- "Tax to pay": "Ödenecek vergi"
+ "Tax to pay": "Ödenecek vergi",
+ "Net of tax refund": "İade sonrası net",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "Konut kredisi eksi iade {amount}; iade gelir olarak da sayılmaz",
+ "Tax refund {amount} counts as income": "İade {amount} gelir olarak sayılır"
 }

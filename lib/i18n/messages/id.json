@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "Opsional — jika tidak, perkiraan",
  "Your tax refund {amount} per month": "Restitusi Anda {amount} per bulan",
  "On your balance sheet": "Di neraca Anda",
- "Tax to pay": "Pajak terutang"
+ "Tax to pay": "Pajak terutang",
+ "Net of tax refund": "Neto setelah restitusi",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "KPR dikurangi restitusi {amount}; restitusi juga tidak dihitung sebagai pendapatan",
+ "Tax refund {amount} counts as income": "Restitusi {amount} dihitung sebagai pendapatan"
 }

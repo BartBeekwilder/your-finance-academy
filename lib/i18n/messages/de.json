@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "Optional — sonst eine Schätzung",
  "Your tax refund {amount} per month": "Deine Steuererstattung {amount} pro Monat",
  "On your balance sheet": "In deiner Bilanz",
- "Tax to pay": "Zu zahlende Steuer"
+ "Tax to pay": "Zu zahlende Steuer",
+ "Net of tax refund": "Netto nach Erstattung",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "Hypothek abzüglich Erstattung {amount}; die Erstattung zählt auch nicht als Einkommen",
+ "Tax refund {amount} counts as income": "Erstattung {amount} zählt als Einkommen"
 }

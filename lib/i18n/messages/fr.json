@@ -2361,5 +2361,8 @@
  "Optional — else an estimate": "Facultatif — sinon une estimation",
  "Your tax refund {amount} per month": "Votre remboursement {amount} par mois",
  "On your balance sheet": "À votre bilan",
- "Tax to pay": "Impôts à payer"
+ "Tax to pay": "Impôts à payer",
+ "Net of tax refund": "Net du remboursement",
+ "Mortgage less the tax refund {amount}; the refund is out of the income too": "Prêt moins le remboursement {amount} ; le remboursement ne compte plus comme revenu",
+ "Tax refund {amount} counts as income": "Remboursement {amount} compté comme revenu"
 }
