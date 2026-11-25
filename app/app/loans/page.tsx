@@ -10,6 +10,7 @@ import { money, monthYear } from "@/lib/finance/format";
 import { liveLoans, loanAt, loanSchedule, payoff } from "@/lib/finance/loans";
 import type { Loan, LoanKind } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
+import { WithYAxis } from "@/components/finance/YAxis";
 
 // Loans — everything you pay off besides the mortgage (study, car, a
 // personal loan, a credit card): what's still owed, what goes out a month,
@@ -217,12 +218,23 @@ function DebtChart({ loans, now, currency }: { loans: Loan[]; now: Date; currenc
     return { b, d };
   });
   const shown = hover ?? 0;
+  // Year labels: every 1, 2, 5 or 10 years, so about five fit.
+  const years = (series.months[n - 1].getFullYear() - series.months[0].getFullYear()) || 1;
+  const every = [1, 2, 5, 10, 20].find((k) => years / k <= 6) ?? 25;
+  const xTicks = [{ i: 0, label: monthYear(series.months[0]) }];
+  series.months.forEach((m, i) => {
+    if (i > 0 && i < n - 1 && m.getMonth() === 0 && m.getFullYear() % every === 0 && x(i) / W > 0.16 && x(i) / W < 0.8) {
+      if (!xTicks.some((tk) => tk.label === String(m.getFullYear()))) xTicks.push({ i, label: String(m.getFullYear()) });
+    }
+  });
+  if (n > 1) xTicks.push({ i: n - 1, label: monthYear(series.months[n - 1]) });
   return (
     <section className="pf-card" style={{ padding: 16, display: "grid", gap: 10 }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
         <span>{t("Debt over time")}</span>
         <span key={shown} className="pf-readout"><b style={{ color: "var(--pf-ink)" }}>{monthYear(series.months[shown])}</b> · {money(totals[shown], currency)}</span>
       </div>
+      <WithYAxis height={H} currency={currency} ticks={[0, 0.5, 1].map((f) => ({ value: max * f, at: (f * (H - 8)) / H }))}>
       <div
         style={{ position: "relative", height: H, cursor: "crosshair", touchAction: "pan-y" }}
         onPointerMove={(e) => {
@@ -240,16 +252,21 @@ function DebtChart({ loans, now, currency }: { loans: Loan[]; now: Date; currenc
               </linearGradient>
             ))}
           </defs>
+          {/* Gridlines at the axis values. */}
+          {[0.5, 1].map((f) => <line key={f} x1={0} x2={W} y1={y(max * f)} y2={y(max * f)} stroke="rgba(255,255,255,0.08)" strokeDasharray="3 4" vectorEffect="non-scaling-stroke" />)}
           <g className="pf-tsl-draw">
             {areas.map(({ b, d }) => <path key={b.l.id} d={d} fill={`url(#pf-loan-${b.l.id})`} stroke={LOAN_STYLE[b.l.kind].color} strokeWidth={1.5} vectorEffect="non-scaling-stroke" />)}
           </g>
           {hover !== null && <line x1={x(hover)} x2={x(hover)} y1={0} y2={H} stroke="rgba(255,255,255,0.35)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />}
         </svg>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.68rem", color: "var(--pf-ink-3)" }}>
-        <span>{monthYear(series.months[0])}</span>
-        <span>{monthYear(series.months[n - 1])}</span>
+      <div style={{ position: "relative", height: 14, fontSize: "0.68rem", color: "var(--pf-ink-3)" }}>
+        {/* The first and last month, and a year in between every few years. */}
+        {xTicks.map(({ i, label }) => (
+          <span key={i} style={{ position: "absolute", left: `${(x(i) / W) * 100}%`, transform: i === 0 ? "none" : i === n - 1 ? "translateX(-100%)" : "translateX(-50%)", whiteSpace: "nowrap" }}>{label}</span>
+        ))}
       </div>
+      </WithYAxis>
     </section>
   );
 }
