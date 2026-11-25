@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "अपेक्षित {date} · पिछले महीने जैसा",
  "All fixed": "सब तय",
  "{amount} fixed": "{amount} तय",
- "of your income goes to fixed costs": "आपकी आय का तय खर्चों में जाता है"
+ "of your income goes to fixed costs": "आपकी आय का तय खर्चों में जाता है",
+ "Tax refund per month (voorlopige teruggaaf)": "हर महीने टैक्स वापसी (NL: voorlopige teruggaaf)",
+ "Tax refund per month": "हर महीने टैक्स वापसी",
+ "Optional — else an estimate": "वैकल्पिक — नहीं तो अनुमान",
+ "Your tax refund {amount} per month": "आपकी टैक्स वापसी {amount} प्रति माह"
 }

@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "Dự kiến {date} · như tháng trước",
  "All fixed": "Toàn bộ cố định",
  "{amount} fixed": "{amount} cố định",
- "of your income goes to fixed costs": "thu nhập của bạn dành cho chi phí cố định"
+ "of your income goes to fixed costs": "thu nhập của bạn dành cho chi phí cố định",
+ "Tax refund per month (voorlopige teruggaaf)": "Hoàn thuế mỗi tháng (NL: voorlopige teruggaaf)",
+ "Tax refund per month": "Hoàn thuế mỗi tháng",
+ "Optional — else an estimate": "Không bắt buộc — nếu không thì ước tính",
+ "Your tax refund {amount} per month": "Hoàn thuế của bạn {amount} mỗi tháng"
 }

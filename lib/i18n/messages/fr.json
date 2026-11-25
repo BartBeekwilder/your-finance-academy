@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "Attendu {date} · comme le mois dernier",
  "All fixed": "Entièrement fixe",
  "{amount} fixed": "{amount} fixe",
- "of your income goes to fixed costs": "de vos revenus partent en charges fixes"
+ "of your income goes to fixed costs": "de vos revenus partent en charges fixes",
+ "Tax refund per month (voorlopige teruggaaf)": "Remboursement par mois (NL : voorlopige teruggaaf)",
+ "Tax refund per month": "Remboursement d’impôt par mois",
+ "Optional — else an estimate": "Facultatif — sinon une estimation",
+ "Your tax refund {amount} per month": "Votre remboursement {amount} par mois"
 }

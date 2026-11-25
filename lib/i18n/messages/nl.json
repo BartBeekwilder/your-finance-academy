@@ -2361,5 +2361,9 @@
  "Expected {date} · like last month": "Verwacht {date} · zoals vorige maand",
  "All fixed": "Helemaal vast",
  "{amount} fixed": "{amount} vast",
- "of your income goes to fixed costs": "van je inkomen gaat naar vaste lasten"
+ "of your income goes to fixed costs": "van je inkomen gaat naar vaste lasten",
+ "Tax refund per month (voorlopige teruggaaf)": "Teruggaaf per maand (voorlopige teruggaaf)",
+ "Tax refund per month": "Teruggaaf per maand",
+ "Optional — else an estimate": "Optioneel — anders een schatting",
+ "Your tax refund {amount} per month": "Je teruggaaf {amount} per maand"
 }

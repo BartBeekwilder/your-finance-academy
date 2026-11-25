@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "متوقع {date} · مثل الشهر الماضي",
  "All fixed": "كلها ثابتة",
  "{amount} fixed": "{amount} ثابتة",
- "of your income goes to fixed costs": "من دخلك يذهب إلى التكاليف الثابتة"
+ "of your income goes to fixed costs": "من دخلك يذهب إلى التكاليف الثابتة",
+ "Tax refund per month (voorlopige teruggaaf)": "الاسترداد الضريبي شهريًا (NL: voorlopige teruggaaf)",
+ "Tax refund per month": "الاسترداد الضريبي شهريًا",
+ "Optional — else an estimate": "اختياري — وإلا تقدير",
+ "Your tax refund {amount} per month": "استردادك الضريبي {amount} شهريًا"
 }

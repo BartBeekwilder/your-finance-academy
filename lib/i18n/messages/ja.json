@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "予定 {date} · 先月と同じ",
  "All fixed": "すべて固定費",
  "{amount} fixed": "うち固定費 {amount}",
- "of your income goes to fixed costs": "の収入が固定費に"
+ "of your income goes to fixed costs": "の収入が固定費に",
+ "Tax refund per month (voorlopige teruggaaf)": "毎月の税還付（NL: voorlopige teruggaaf）",
+ "Tax refund per month": "毎月の税還付",
+ "Optional — else an estimate": "任意 — 未入力なら推定",
+ "Your tax refund {amount} per month": "あなたの還付 毎月{amount}"
 }

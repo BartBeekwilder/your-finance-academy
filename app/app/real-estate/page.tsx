@@ -152,6 +152,7 @@ function HomeView({
   // What's booked as mortgage this month against the parts (and the refund).
   const { data } = useFinance();
   const booked = mortgageMonth(data, now);
+  const ownRefund = num(property.tax_refund_monthly);
   const interestNow = thisMonth.reduce((t, r) => t + (r?.interest ?? 0), 0);
   const repayNow = thisMonth.reduce((t, r) => t + (r?.repayment ?? 0) + (r?.extra ?? 0), 0);
   const totals = parts.map((p) => summarize(p, now, scenario(p)));
@@ -251,10 +252,12 @@ function HomeView({
             hint={booked.off ? t("Your mortgage parts say {amount} this month — is a debit missing?", { amount: money(booked.expected, currency) }) : t("Matches your mortgage parts")}
           />
         )}
-        {booked && booked.refund > 0 && (
+        {booked && booked.refundBooked > 0 && booked.booked > 0 && (
           <Stat label={t("Net after the tax refund")} value={money(booked.net, currency)} color="var(--pf-green)" hint={t("Tax refund {amount} booked this month", { amount: money(booked.refund, currency) })} />
         )}
-        {nl && <Stat label={t("Net after tax (estimate)")} value={money(interestNow + repayNow - nl.effect, currency)} color="var(--pf-green)" hint={t("Mortgage interest deduction {amount} per month", { amount: money(nl.effect, currency) })} />}
+        {ownRefund > 0 ? (
+          <Stat label={t("Net after the tax refund")} value={money(interestNow + repayNow - ownRefund, currency)} color="var(--pf-green)" hint={t("Your tax refund {amount} per month", { amount: money(ownRefund, currency) })} />
+        ) : nl && <Stat label={t("Net after tax (estimate)")} value={money(interestNow + repayNow - nl.effect, currency)} color="var(--pf-green)" hint={t("Mortgage interest deduction {amount} per month", { amount: money(nl.effect, currency) })} />}
         <Stat label={t("Total interest over the term")} value={money(totalInterest, currency)} color={INTEREST} hint={t("{pct}% on top of the loan", { pct: Math.round((totalInterest / Math.max(principal, 1)) * 100) })} />
         <Stat label={t("Total you pay")} value={money(totalPaid, currency)} hint={t("Loan {amount} + interest", { amount: money(principal, currency) })} />
         <Stat label={t("Repaid so far")} value={money(repaidSoFar, currency)} color={REPAY} progress={{ share: repaidSoFar / Math.max(principal, 1), of: money(principal, currency) }} />
@@ -434,6 +437,7 @@ function PropertyForm({ row, onSave, onCancel, onDelete }: { row?: Property; onS
   const [value, setValue] = useState(row ? String(num(row.value)) : "");
   const [purchase, setPurchase] = useState(row?.purchase_price ? String(num(row.purchase_price)) : "");
   const [purchaseDate, setPurchaseDate] = useState(row?.purchase_date?.slice(0, 10) ?? "");
+  const [refund, setRefund] = useState(row?.tax_refund_monthly ? String(num(row.tax_refund_monthly)) : "");
   const { data } = useFinance();
   // A new home follows where you live (Settings, else this device).
   const [country, setCountry] = useState<Property["country"]>(row?.country ?? (countryOf(data.profile) === "NL" ? "NL" : "INTL"));
@@ -444,7 +448,7 @@ function PropertyForm({ row, onSave, onCancel, onDelete }: { row?: Property; onS
       style={{ display: "grid", gap: 14 }}
       onSubmit={(e) => {
         e.preventDefault();
-        onSave({ id: row?.id, name: name.trim() || t("Home"), value: n(value).toFixed(2), value_date: null, purchase_price: purchase ? n(purchase).toFixed(2) : null, purchase_date: purchaseDate || null, country, sort_order: row?.sort_order ?? 0 });
+        onSave({ id: row?.id, name: name.trim() || t("Home"), value: n(value).toFixed(2), value_date: null, purchase_price: purchase ? n(purchase).toFixed(2) : null, purchase_date: purchaseDate || null, country, tax_refund_monthly: refund.trim() ? n(refund).toFixed(2) : null, sort_order: row?.sort_order ?? 0 });
       }}
     >
       <FormHead title={row ? t("Edit property") : t("Add property")} onCancel={onCancel} />
@@ -456,6 +460,9 @@ function PropertyForm({ row, onSave, onCancel, onDelete }: { row?: Property; onS
       </div>
       <Field label={t("Rules")}>
         <Segmented wide label={t("Rules")} value={country} onChange={setCountry} options={[{ value: "INTL", label: t("International") }, { value: "NL", label: t("Netherlands") }]} />
+      </Field>
+      <Field label={country === "NL" ? t("Tax refund per month (voorlopige teruggaaf)") : t("Tax refund per month")}>
+        <input className="pf-input" inputMode="decimal" placeholder={t("Optional — else an estimate")} value={refund} onChange={(e) => setRefund(e.target.value)} />
       </Field>
       <button className="pf-button">{t("Save")}</button>
       {onDelete && (

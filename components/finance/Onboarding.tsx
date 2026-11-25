@@ -225,7 +225,7 @@ type Draft = {
   budgets: Line[] | null;
   goal: { name: string; amount: string; months: number };
   runwayGoal?: number;
-  home: { value: string; mortgage: string; details?: boolean; parts?: MortPart[] };
+  home: { value: string; mortgage: string; details?: boolean; parts?: MortPart[]; refund?: string };
   /** Rent or own (Your home); rent and the mortgage payment go to the fixed costs. */
   housing?: "rent" | "own" | null;
   /** Agreed to AI reading a document during the setup (ai_consent_at on finish). */
@@ -786,7 +786,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
         if (mortParts.length) {
           // With details: the home and its loan parts go to Real estate (the
           // balance sheet reads them from there, the debt going down by itself).
-          const property_id = await saveProperty({ name: t("Home"), value: num(home.value).toFixed(2), value_date: today, purchase_price: null, purchase_date: null, country: countryOf(data.profile) === "NL" ? "NL" : "INTL", sort_order: 0 });
+          const property_id = await saveProperty({ name: t("Home"), value: num(home.value).toFixed(2), value_date: today, purchase_price: null, purchase_date: null, country: countryOf(data.profile) === "NL" ? "NL" : "INTL", tax_refund_monthly: num(home.refund ?? "") > 0 ? num(home.refund ?? "").toFixed(2) : null, sort_order: 0 });
           for (const [i, p] of mortParts.entries()) {
             const kind = MORT_KINDS.find((k) => k.kind === p.kind)!;
             await saveMortgagePart({ property_id, name: mortParts.length > 1 ? `${t(kind.label)} ${i + 1}` : t("Mortgage"), kind: p.kind, principal: num(p.amount).toFixed(2), rate: num(p.rate).toFixed(3), fixed_until: null, start_date: today.slice(0, 8) + "01", term_months: Math.round(num(p.years) * 12), nhg: false, extra_monthly: num(p.extra).toFixed(2), sort_order: i });
@@ -1037,6 +1037,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                   <Labeled label={countryOf(data.profile) === "NL" ? t("Home value (WOZ or estimate)") : t("Home value (estimate)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
                   {!home.details && mortLine && <Labeled label={t("Mortgage payment per month")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={mortLine.amount} onChange={(e) => setLineAmount("mortgage", e.target.value)} /></Labeled>}
                   <Labeled label={t("Mortgage remaining")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} disabled={!!home.details} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
+                  {num(home.mortgage) > 0 && countryOf(data.profile) === "NL" && <Labeled label={t("Tax refund per month (voorlopige teruggaaf)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={t("Optional")} value={home.refund ?? ""} onChange={(e) => setHome({ ...home, refund: e.target.value })} /></Labeled>}
                   <button type="button" className="pf-ob-more" aria-expanded={!!home.details} onClick={() => setHome({ ...home, details: !home.details, parts: home.parts?.length ? home.parts : [newMortPart(home.mortgage)] })}>
                     <Layers size={15} />
                     <span>{t("Mortgage details")}<small>{t("Optional — rate, years to go, annuity or linear")}</small></span>

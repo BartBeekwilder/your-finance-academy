@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "Beklenen {date} · geçen ayki gibi",
  "All fixed": "Tamamı sabit",
  "{amount} fixed": "{amount} sabit",
- "of your income goes to fixed costs": "gelirinin sabit giderlere gidiyor"
+ "of your income goes to fixed costs": "gelirinin sabit giderlere gidiyor",
+ "Tax refund per month (voorlopige teruggaaf)": "Aylık vergi iadesi (NL: voorlopige teruggaaf)",
+ "Tax refund per month": "Aylık vergi iadesi",
+ "Optional — else an estimate": "İsteğe bağlı — yoksa tahmin",
+ "Your tax refund {amount} per month": "Vergi iaden ayda {amount}"
 }

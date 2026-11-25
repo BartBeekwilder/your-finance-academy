@@ -38,8 +38,10 @@ export type MortgageMonth = {
   /** Mortgage payments booked this month. */
   booked: number;
   payments: Transaction[];
-  /** Tax refunds booked this month (the Dutch monthly voorlopige teruggaaf). */
+  /** The tax refund this month: booked, else the homes' own monthly amount. */
   refund: number;
+  /** Of which booked this month (the Dutch monthly voorlopige teruggaaf). */
+  refundBooked: number;
   /** What it costs after the refund: the payment (booked, else expected) − refund. */
   net: number;
   /** Booked and clearly not what the parts say (over €25 and 5% apart). */
@@ -66,9 +68,11 @@ export function mortgageMonth(data: FinanceData, month: Date): MortgageMonth | n
   const payments = live(data.transactions).filter((t) => inMonth(t) && isPayment(t));
   const booked = payments.reduce((s, t) => s + num(t.amount), 0);
   const names = namesOf(data);
-  const refund = live(data.transactions)
+  const refundBooked = live(data.transactions)
     .filter((t) => t.type === "income" && inMonth(t) && names(t).some((n) => !!n && REFUND.test(n)))
     .reduce((s, t) => s + num(t.amount), 0);
+  // Not booked (yet): the refund set on the homes counts (Real estate).
+  const refund = refundBooked > 0 ? refundBooked : live(data.properties ?? []).reduce((s2, p) => s2 + num(p.tax_refund_monthly), 0);
   const gap = Math.abs(expected - booked);
   return {
     expected,
@@ -77,6 +81,7 @@ export function mortgageMonth(data: FinanceData, month: Date): MortgageMonth | n
     booked,
     payments,
     refund,
+    refundBooked,
     net: (booked > 0 ? booked : expected) - refund,
     off: booked > 0 && gap > 25 && gap > expected * 0.05,
   };

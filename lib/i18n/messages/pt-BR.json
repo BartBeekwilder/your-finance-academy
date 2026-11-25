@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "Esperado {date} · como no mês passado",
  "All fixed": "Tudo fixo",
  "{amount} fixed": "{amount} fixo",
- "of your income goes to fixed costs": "da sua renda vai para custos fixos"
+ "of your income goes to fixed costs": "da sua renda vai para custos fixos",
+ "Tax refund per month (voorlopige teruggaaf)": "Restituição por mês (NL: voorlopige teruggaaf)",
+ "Tax refund per month": "Restituição de imposto por mês",
+ "Optional — else an estimate": "Opcional — senão uma estimativa",
+ "Your tax refund {amount} per month": "Sua restituição {amount} por mês"
 }

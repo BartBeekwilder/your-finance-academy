@@ -189,6 +189,9 @@ export type Property = Synced & {
   purchase_date: string | null;
   /** Which country's rules apply ('INTL' = none). */
   country: "INTL" | "NL";
+  /** The tax refund on the mortgage interest per month, your own amount
+   *  (NL: voorlopige teruggaaf); null = use the estimate. */
+  tax_refund_monthly?: Money | null;
   /** What renting a similar home would cost per month (Rent or buy). */
   comparable_rent?: Money | null;
   sort_order: number;

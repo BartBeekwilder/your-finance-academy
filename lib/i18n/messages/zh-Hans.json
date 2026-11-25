@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "预计 {date} · 同上月",
  "All fixed": "全部固定",
  "{amount} fixed": "固定 {amount}",
- "of your income goes to fixed costs": "的收入用于固定支出"
+ "of your income goes to fixed costs": "的收入用于固定支出",
+ "Tax refund per month (voorlopige teruggaaf)": "每月退税（NL：voorlopige teruggaaf）",
+ "Tax refund per month": "每月退税",
+ "Optional — else an estimate": "可选 — 否则为估算",
+ "Your tax refund {amount} per month": "你的退税 每月 {amount}"
 }

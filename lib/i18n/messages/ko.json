@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "예상 {date} · 지난달과 같음",
  "All fixed": "전부 고정비",
  "{amount} fixed": "고정비 {amount}",
- "of your income goes to fixed costs": "의 수입이 고정비로"
+ "of your income goes to fixed costs": "의 수입이 고정비로",
+ "Tax refund per month (voorlopige teruggaaf)": "월 세금 환급 (NL: voorlopige teruggaaf)",
+ "Tax refund per month": "월 세금 환급",
+ "Optional — else an estimate": "선택 — 없으면 추정치",
+ "Your tax refund {amount} per month": "내 세금 환급 월 {amount}"
 }

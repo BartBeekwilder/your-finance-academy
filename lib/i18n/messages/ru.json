@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "Ожидается {date} · как в прошлом месяце",
  "All fixed": "Всё постоянное",
  "{amount} fixed": "{amount} постоянные",
- "of your income goes to fixed costs": "вашего дохода уходит на постоянные расходы"
+ "of your income goes to fixed costs": "вашего дохода уходит на постоянные расходы",
+ "Tax refund per month (voorlopige teruggaaf)": "Налоговый возврат в месяц (NL: voorlopige teruggaaf)",
+ "Tax refund per month": "Налоговый возврат в месяц",
+ "Optional — else an estimate": "Необязательно — иначе оценка",
+ "Your tax refund {amount} per month": "Ваш возврат {amount} в месяц"
 }

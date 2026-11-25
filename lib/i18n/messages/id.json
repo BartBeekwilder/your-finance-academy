@@ -2355,5 +2355,9 @@
  "Expected {date} · like last month": "Diperkirakan {date} · seperti bulan lalu",
  "All fixed": "Semua tetap",
  "{amount} fixed": "{amount} tetap",
- "of your income goes to fixed costs": "dari pendapatan Anda untuk biaya tetap"
+ "of your income goes to fixed costs": "dari pendapatan Anda untuk biaya tetap",
+ "Tax refund per month (voorlopige teruggaaf)": "Restitusi pajak per bulan (NL: voorlopige teruggaaf)",
+ "Tax refund per month": "Restitusi pajak per bulan",
+ "Optional — else an estimate": "Opsional — jika tidak, perkiraan",
+ "Your tax refund {amount} per month": "Restitusi Anda {amount} per bulan"
 }
