@@ -2364,5 +2364,6 @@
  "Tax to pay": "Thuế phải nộp",
  "Net of tax refund": "Ròng sau hoàn thuế",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Khoản vay nhà trừ hoàn thuế {amount}; hoàn thuế cũng không tính là thu nhập",
- "Tax refund {amount} counts as income": "Hoàn thuế {amount} tính là thu nhập"
+ "Tax refund {amount} counts as income": "Hoàn thuế {amount} tính là thu nhập",
+ "Spending per category, added up": "Chi tiêu theo danh mục, cộng dồn"
 }

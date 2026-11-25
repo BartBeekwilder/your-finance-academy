@@ -2364,5 +2364,6 @@
  "Tax to pay": "देय कर",
  "Net of tax refund": "वापसी के बाद शुद्ध",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "होम लोन में से वापसी {amount} घटाई; वापसी आय में भी नहीं गिनी",
- "Tax refund {amount} counts as income": "वापसी {amount} आय में गिनी जाती है"
+ "Tax refund {amount} counts as income": "वापसी {amount} आय में गिनी जाती है",
+ "Spending per category, added up": "श्रेणी अनुसार खर्च, जोड़कर"
 }

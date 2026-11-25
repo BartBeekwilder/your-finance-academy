@@ -2364,5 +2364,6 @@
  "Tax to pay": "Налог к уплате",
  "Net of tax refund": "Нетто после возврата",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Ипотека минус возврат {amount}; возврат не считается доходом",
- "Tax refund {amount} counts as income": "Возврат {amount} считается доходом"
+ "Tax refund {amount} counts as income": "Возврат {amount} считается доходом",
+ "Spending per category, added up": "Расходы по категориям, нарастающим итогом"
 }

@@ -2364,5 +2364,6 @@
  "Tax to pay": "납부할 세금",
  "Net of tax refund": "환급 후 순액",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "주택담보대출에서 환급 {amount} 차감, 환급은 수입에서도 제외",
- "Tax refund {amount} counts as income": "환급 {amount}는 수입으로 계산"
+ "Tax refund {amount} counts as income": "환급 {amount}는 수입으로 계산",
+ "Spending per category, added up": "카테고리별 지출, 누적"
 }

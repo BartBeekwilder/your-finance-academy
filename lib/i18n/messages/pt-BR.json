@@ -2364,5 +2364,6 @@
  "Tax to pay": "Impostos a pagar",
  "Net of tax refund": "Líquido da restituição",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Financiamento menos a restituição {amount}; a restituição sai da renda também",
- "Tax refund {amount} counts as income": "Restituição {amount} conta como renda"
+ "Tax refund {amount} counts as income": "Restituição {amount} conta como renda",
+ "Spending per category, added up": "Gastos por categoria, acumulados"
 }

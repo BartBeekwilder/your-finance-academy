@@ -2364,5 +2364,6 @@
  "Tax to pay": "Impuestos a pagar",
  "Net of tax refund": "Neto tras devolución",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Hipoteca menos la devolución {amount}; la devolución tampoco cuenta como ingreso",
- "Tax refund {amount} counts as income": "Devolución {amount} cuenta como ingreso"
+ "Tax refund {amount} counts as income": "Devolución {amount} cuenta como ingreso",
+ "Spending per category, added up": "Gastos por categoría, acumulados"
 }

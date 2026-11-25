@@ -2364,5 +2364,6 @@
  "Tax to pay": "Podatek do zapłaty",
  "Net of tax refund": "Netto po zwrocie",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Kredyt minus zwrot {amount}; zwrot nie liczy się też jako dochód",
- "Tax refund {amount} counts as income": "Zwrot {amount} liczy się jako dochód"
+ "Tax refund {amount} counts as income": "Zwrot {amount} liczy się jako dochód",
+ "Spending per category, added up": "Wydatki według kategorii, narastająco"
 }

@@ -28,6 +28,7 @@ import { budgetTotals } from "@/lib/finance/progressModel";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 import ReadWithAI from "@/components/finance/ReadWithAI";
 import FixedCosts, { fixedCostsOf } from "@/components/finance/FixedCosts";
+import SpendingMix from "@/components/finance/SpendingMix";
 import type { FinanceData } from "@/lib/finance/types";
 
 // The Income page's counterpart for spending: the dashboard's live Spent
@@ -221,6 +222,9 @@ export default function ExpensesPage() {
       ) : (
         !(scopeCat && !hasSubs) && <CategoryBars key={month.getTime()} data={data} now={at} currency={currency} mode={mode} scopeName={scopeName} past={past} />
       )}
+
+      {/* The categories added up over the period, as on Investments. */}
+      {!(scopeCat && !hasSubs) && <SpendingMix key={`mix${mode}${month.getTime()}`} data={data} now={at} mode={mode} currency={currency} />}
 
       <section style={{ display: "grid", gap: 12 }}>
         <h2 className="pf-section-title">{t("Compare")}</h2>

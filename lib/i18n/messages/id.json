@@ -2364,5 +2364,6 @@
  "Tax to pay": "Pajak terutang",
  "Net of tax refund": "Neto setelah restitusi",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "KPR dikurangi restitusi {amount}; restitusi juga tidak dihitung sebagai pendapatan",
- "Tax refund {amount} counts as income": "Restitusi {amount} dihitung sebagai pendapatan"
+ "Tax refund {amount} counts as income": "Restitusi {amount} dihitung sebagai pendapatan",
+ "Spending per category, added up": "Pengeluaran per kategori, dijumlahkan"
 }

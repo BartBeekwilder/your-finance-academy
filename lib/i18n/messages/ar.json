@@ -2364,5 +2364,6 @@
  "Tax to pay": "ضريبة مستحقة",
  "Net of tax refund": "صافٍ بعد الاسترداد",
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "الرهن ناقص الاسترداد {amount}؛ والاسترداد لا يُحسب دخلًا أيضًا",
- "Tax refund {amount} counts as income": "الاسترداد {amount} يُحسب دخلًا"
+ "Tax refund {amount} counts as income": "الاسترداد {amount} يُحسب دخلًا",
+ "Spending per category, added up": "المصروفات حسب الفئة، تراكميًا"
 }
