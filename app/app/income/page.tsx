@@ -135,7 +135,7 @@ export default function IncomePage() {
               value={money(expectedMonth, currency)}
               hint={monthSalary?.gross_amount != null ? t("Gross {amount}", { amount: money(num(monthSalary.gross_amount), currency) }) : p.expected_gross_monthly ? t("Gross {amount}", { amount: money(num(p.expected_gross_monthly), currency) }) : undefined}
             />
-            {gnMonth && gnMonth.gross > gnMonth.net && <Stat label={past ? t("Gross in {monthName}", { monthName }) : t("Gross this month")} value={money(gnMonth.gross, currency)} color="#bf5af2" hint={deductionHint(gnMonth.gross, gnMonth.net)} />}
+            {gnMonth && gnMonth.gross > gnMonth.net && <Stat label={past ? t("Gross pay in {monthName}", { monthName }) : t("Gross pay this month")} value={money(gnMonth.gross, currency)} color="#bf5af2" hint={deductionHint(gnMonth.gross, gnMonth.net)} />}
             <Stat
               label={t("Payday")}
               value={p.payday_day ? t("Day {n}", { n: p.payday_day }) : "—"}
@@ -153,7 +153,7 @@ export default function IncomePage() {
             />
             <Stat label={t("Expected this year")} value={money(expectedYear, currency)} hint={t("Forecast to December")} />
             {gnYear.gross > gnYear.net ? (
-              <Stat label={t("Gross this year")} value={money(gnYear.gross, currency)} color="#bf5af2" hint={deductionHint(gnYear.gross, gnYear.net)} />
+              <Stat label={t("Gross pay this year")} value={money(gnYear.gross, currency)} color="#bf5af2" hint={deductionHint(gnYear.gross, gnYear.net)} />
             ) : (
               <Stat label={t("Expected gross / year")} value={money(num(p.expected_gross_monthly) * 12, currency)} />
             )}

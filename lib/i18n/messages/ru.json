@@ -2322,5 +2322,9 @@
  "Price moves": "Изменения курсов",
  "Spending with a later date": "Расходы с более поздней датой",
  "Booked for later this month, counts now": "Записано на конец месяца, учитывается уже сейчас",
- "Already in Salary today, spread over the month": "Уже в «Зарплата сегодня», распределено по месяцу"
+ "Already in Salary today, spread over the month": "Уже в «Зарплата сегодня», распределено по месяцу",
+ "Pay: gross and net per month — {year}": "Зарплата: брутто и нетто по месяцам — {year}",
+ "Gross pay in {monthName}": "Зарплата брутто за {monthName}",
+ "Gross pay this month": "Зарплата брутто в этом месяце",
+ "Gross pay this year": "Зарплата брутто в этом году"
 }

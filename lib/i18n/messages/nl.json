@@ -2328,5 +2328,9 @@
  "Price moves": "Koersbewegingen",
  "Spending with a later date": "Uitgaven met een latere datum",
  "Booked for later this month, counts now": "Geboekt voor later deze maand, telt nu al mee",
- "Already in Salary today, spread over the month": "Zit al in Salaris vandaag, verdeeld over de maand"
+ "Already in Salary today, spread over the month": "Zit al in Salaris vandaag, verdeeld over de maand",
+ "Pay: gross and net per month — {year}": "Loon: bruto en netto per maand — {year}",
+ "Gross pay in {monthName}": "Brutoloon in {monthName}",
+ "Gross pay this month": "Brutoloon deze maand",
+ "Gross pay this year": "Brutoloon dit jaar"
 }

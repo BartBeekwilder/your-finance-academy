@@ -2322,5 +2322,9 @@
  "Price moves": "Fiyat hareketleri",
  "Spending with a later date": "Daha sonraki tarihli harcamalar",
  "Booked for later this month, counts now": "Bu ayın ilerisi için kaydedildi, şimdiden sayılır",
- "Already in Salary today, spread over the month": "Zaten Bugünkü maaş içinde, aya yayılmış"
+ "Already in Salary today, spread over the month": "Zaten Bugünkü maaş içinde, aya yayılmış",
+ "Pay: gross and net per month — {year}": "Maaş: aylık brüt ve net — {year}",
+ "Gross pay in {monthName}": "{monthName} brüt maaş",
+ "Gross pay this month": "Bu ay brüt maaş",
+ "Gross pay this year": "Bu yıl brüt maaş"
 }

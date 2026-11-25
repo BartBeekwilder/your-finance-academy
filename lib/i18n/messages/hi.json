@@ -2322,5 +2322,9 @@
  "Price moves": "भाव में बदलाव",
  "Spending with a later date": "बाद की तारीख वाले खर्च",
  "Booked for later this month, counts now": "इस महीने बाद के लिए दर्ज, अभी से गिना जाता है",
- "Already in Salary today, spread over the month": "पहले से आज की सैलरी में, महीने भर में बाँटी गई"
+ "Already in Salary today, spread over the month": "पहले से आज की सैलरी में, महीने भर में बाँटी गई",
+ "Pay: gross and net per month — {year}": "वेतन: हर महीने सकल और शुद्ध — {year}",
+ "Gross pay in {monthName}": "{monthName} में सकल वेतन",
+ "Gross pay this month": "इस महीने सकल वेतन",
+ "Gross pay this year": "इस साल सकल वेतन"
 }

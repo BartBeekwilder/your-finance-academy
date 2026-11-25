@@ -2322,5 +2322,9 @@
  "Price moves": "تحركات الأسعار",
  "Spending with a later date": "مصروفات بتاريخ لاحق",
  "Booked for later this month, counts now": "مسجلة لوقت لاحق هذا الشهر، تُحسب الآن",
- "Already in Salary today, spread over the month": "موجود بالفعل في الراتب اليوم، موزع على الشهر"
+ "Already in Salary today, spread over the month": "موجود بالفعل في الراتب اليوم، موزع على الشهر",
+ "Pay: gross and net per month — {year}": "الأجر: الإجمالي والصافي شهريًا — {year}",
+ "Gross pay in {monthName}": "الأجر الإجمالي في {monthName}",
+ "Gross pay this month": "الأجر الإجمالي هذا الشهر",
+ "Gross pay this year": "الأجر الإجمالي هذا العام"
 }

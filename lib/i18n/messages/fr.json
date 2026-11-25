@@ -2322,5 +2322,9 @@
  "Price moves": "Variations de cours",
  "Spending with a later date": "Dépenses à date ultérieure",
  "Booked for later this month, counts now": "Enregistré pour plus tard ce mois-ci, compte déjà",
- "Already in Salary today, spread over the month": "Déjà dans Salaire aujourd’hui, réparti sur le mois"
+ "Already in Salary today, spread over the month": "Déjà dans Salaire aujourd’hui, réparti sur le mois",
+ "Pay: gross and net per month — {year}": "Salaire : brut et net par mois — {year}",
+ "Gross pay in {monthName}": "Salaire brut en {monthName}",
+ "Gross pay this month": "Salaire brut ce mois-ci",
+ "Gross pay this year": "Salaire brut cette année"
 }

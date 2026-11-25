@@ -2322,5 +2322,9 @@
  "Price moves": "价格变动",
  "Spending with a later date": "日期较晚的支出",
  "Booked for later this month, counts now": "记在本月稍后，现已计入",
- "Already in Salary today, spread over the month": "已含在今日工资中，按月分摊"
+ "Already in Salary today, spread over the month": "已含在今日工资中，按月分摊",
+ "Pay: gross and net per month — {year}": "工资：每月税前和税后 — {year}",
+ "Gross pay in {monthName}": "{monthName}税前工资",
+ "Gross pay this month": "本月税前工资",
+ "Gross pay this year": "今年税前工资"
 }

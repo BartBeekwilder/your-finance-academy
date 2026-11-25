@@ -2322,5 +2322,9 @@
  "Price moves": "値動き",
  "Spending with a later date": "後日付の支出",
  "Booked for later this month, counts now": "今月後半の日付で記録、すでに反映",
- "Already in Salary today, spread over the month": "「今日の給料」に含まれています（月全体に配分）"
+ "Already in Salary today, spread over the month": "「今日の給料」に含まれています（月全体に配分）",
+ "Pay: gross and net per month — {year}": "給与：月ごとの額面と手取り — {year}",
+ "Gross pay in {monthName}": "{monthName}の額面給与",
+ "Gross pay this month": "今月の額面給与",
+ "Gross pay this year": "今年の額面給与"
 }

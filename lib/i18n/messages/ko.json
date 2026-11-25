@@ -2322,5 +2322,9 @@
  "Price moves": "가격 변동",
  "Spending with a later date": "나중 날짜의 지출",
  "Booked for later this month, counts now": "이달 말로 기록됨, 지금 반영",
- "Already in Salary today, spread over the month": "이미 '오늘 급여'에 포함, 한 달에 걸쳐 배분"
+ "Already in Salary today, spread over the month": "이미 '오늘 급여'에 포함, 한 달에 걸쳐 배분",
+ "Pay: gross and net per month — {year}": "급여: 월별 세전·세후 — {year}",
+ "Gross pay in {monthName}": "{monthName} 세전 급여",
+ "Gross pay this month": "이번 달 세전 급여",
+ "Gross pay this year": "올해 세전 급여"
 }

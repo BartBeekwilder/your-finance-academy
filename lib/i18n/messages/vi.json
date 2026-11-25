@@ -2322,5 +2322,9 @@
  "Price moves": "Biến động giá",
  "Spending with a later date": "Chi tiêu có ngày sau",
  "Booked for later this month, counts now": "Ghi cho cuối tháng này, đã tính ngay",
- "Already in Salary today, spread over the month": "Đã nằm trong Lương hôm nay, chia đều trong tháng"
+ "Already in Salary today, spread over the month": "Đã nằm trong Lương hôm nay, chia đều trong tháng",
+ "Pay: gross and net per month — {year}": "Lương: gộp và ròng mỗi tháng — {year}",
+ "Gross pay in {monthName}": "Lương gộp trong {monthName}",
+ "Gross pay this month": "Lương gộp tháng này",
+ "Gross pay this year": "Lương gộp năm nay"
 }

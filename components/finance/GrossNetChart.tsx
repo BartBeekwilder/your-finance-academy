@@ -52,14 +52,18 @@ function ratios(data: FinanceData, year: number) {
   };
 }
 
-/** Gross and net income per month, Jan … `upTo` (0-based), plus — when
+/** Gross and net pay per month (salary, and income entered with a gross),
+ *  Jan … `upTo` (0-based), plus — when
  *  `through` is later — the forecast months after `current`. */
 export function grossNetByMonth(data: FinanceData, year: number, upTo: number, opts: { current?: number; through?: number; expectCurrent?: boolean } = {}): GrossNetMonth[] {
   const last = Math.max(upTo, opts.through ?? upTo);
   const months: GrossNetMonth[] = Array.from({ length: last + 1 }, () => ({ gross: 0, net: 0, estimated: false, forecast: false }));
   const r = ratios(data, year);
+  // Only pay has a gross (Bart, 25 Nov): income with a gross, or salary.
+  // A benefit, refund or allowance (net, no gross) stays out of this chart.
+  const salaryLike = salaryTest(data);
   for (const x of live(data.transactions)) {
-    if (x.type !== "income") continue;
+    if (x.type !== "income" || (x.gross_amount == null && !salaryLike(x))) continue;
     const d = new Date(x.date);
     if (d.getFullYear() !== year || d.getMonth() > upTo) continue;
     const net = num(x.amount);
@@ -137,7 +141,7 @@ export default function GrossNetChart({ data, now, currency, mode = "month" }: {
   return (
     <section className="pf-card" style={{ padding: 16, display: "grid", gap: 10 }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "baseline" }}>
-        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{t("Gross and net per month — {year}", { year })}</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>{t("Pay: gross and net per month — {year}", { year })}</span>
         <span key={shown} className="pf-readout" style={{ fontSize: "0.75rem", color: "var(--pf-ink-2)" }}>
           <b style={{ color: "var(--pf-ink)" }}>{monthName(new Date(year, shown, 1))}</b>
           {m.forecast ? ` · ${t("forecast")}` : ""} · <span style={{ color: GROSS }}>{t("gross")} {m.estimated && !m.forecast ? "≈ " : ""}{money(m.gross, currency)}</span> ·{" "}

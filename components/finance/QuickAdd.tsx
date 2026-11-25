@@ -243,6 +243,7 @@ function Form({
     const d = nearestPayday(payday, startDate());
     setDate(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
   }, [salaryPicked, dateTouched, payday]);
+  const showGross = type === "income" && (salaryPicked || (!picked && !!initial?.gross_amount));
   const pickedDay = Number(date.slice(8, 10));
   // Only a real salary can move the payday: not a second income in a month
   // that already has one, and not a small one-off (under half the pay).
@@ -335,7 +336,7 @@ function Form({
         date: new Date(y, m - 1, d, 12).toISOString(),
         note: note.trim() || null,
         is_auto_income: initial?.is_auto_income ?? false,
-        gross_amount: type === "income" && grossParsed > 0 ? grossParsed.toFixed(2) : null,
+        gross_amount: showGross && grossParsed > 0 ? grossParsed.toFixed(2) : null,
         is_fixed_expense: type === "expense" && !advancing && fixed,
         spread_months: spreading ? spread : null,
         advance: advancing,
@@ -434,7 +435,9 @@ function Form({
         </label>
       )}
 
-      {type === "income" && (
+      {/* Gross is the salary's only (Bart, 25 Nov): a benefit, refund or
+          allowance is net = gross, so Other income has no gross field. */}
+      {showGross && (
         <div className="pf-gross">
           <label className="pf-gross-field">
             <span>{t("Net received")}</span>

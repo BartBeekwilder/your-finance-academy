@@ -2322,5 +2322,9 @@
  "Price moves": "Pergerakan harga",
  "Spending with a later date": "Pengeluaran bertanggal nanti",
  "Booked for later this month, counts now": "Dicatat untuk akhir bulan ini, sudah dihitung sekarang",
- "Already in Salary today, spread over the month": "Sudah termasuk Gaji hari ini, dibagi sepanjang bulan"
+ "Already in Salary today, spread over the month": "Sudah termasuk Gaji hari ini, dibagi sepanjang bulan",
+ "Pay: gross and net per month — {year}": "Gaji: bruto dan neto per bulan — {year}",
+ "Gross pay in {monthName}": "Gaji bruto di {monthName}",
+ "Gross pay this month": "Gaji bruto bulan ini",
+ "Gross pay this year": "Gaji bruto tahun ini"
 }
