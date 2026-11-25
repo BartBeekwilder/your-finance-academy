@@ -2345,5 +2345,15 @@
  "Interest {name}": "ब्याज {name}",
  "Other debts on your balance sheet": "आपकी बैलेंस शीट पर अन्य कर्ज़",
  "No rate or payment yet — the amount only changes when you update it": "अभी कोई दर या किस्त नहीं — राशि तभी बदलती है जब आप उसे अपडेट करें",
- "Make it a loan": "इसे लोन बनाएं"
+ "Make it a loan": "इसे लोन बनाएं",
+ "Fixed costs per month": "हर महीने तय खर्च",
+ "{paid} paid · {left} still to come": "{paid} चुकाया · {left} बाकी",
+ "All paid this month": "इस महीने सब चुका दिया",
+ "of your net income": "आपकी शुद्ध आय का",
+ "Paid {date}": "चुकाया {date}",
+ "Booked for {date}": "{date} के लिए दर्ज",
+ "Expected {date} · like last month": "अपेक्षित {date} · पिछले महीने जैसा",
+ "All fixed": "सब तय",
+ "{amount} fixed": "{amount} तय",
+ "of your income goes to fixed costs": "आपकी आय का तय खर्चों में जाता है"
 }

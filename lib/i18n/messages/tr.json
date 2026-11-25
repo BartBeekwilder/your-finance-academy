@@ -2345,5 +2345,15 @@
  "Interest {name}": "Faiz {name}",
  "Other debts on your balance sheet": "Bilançondaki diğer borçlar",
  "No rate or payment yet — the amount only changes when you update it": "Henüz faiz veya taksit yok — tutar yalnızca güncellediğinde değişir",
- "Make it a loan": "Krediye dönüştür"
+ "Make it a loan": "Krediye dönüştür",
+ "Fixed costs per month": "Aylık sabit giderler",
+ "{paid} paid · {left} still to come": "{paid} ödendi · {left} daha gelecek",
+ "All paid this month": "Bu ay hepsi ödendi",
+ "of your net income": "net gelirinin",
+ "Paid {date}": "Ödendi {date}",
+ "Booked for {date}": "{date} için kaydedildi",
+ "Expected {date} · like last month": "Beklenen {date} · geçen ayki gibi",
+ "All fixed": "Tamamı sabit",
+ "{amount} fixed": "{amount} sabit",
+ "of your income goes to fixed costs": "gelirinin sabit giderlere gidiyor"
 }

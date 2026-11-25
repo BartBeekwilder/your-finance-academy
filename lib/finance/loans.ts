@@ -12,8 +12,8 @@ import type { FinanceData, Loan } from "./types";
 
 const num = (v: string | number | null | undefined) => (v == null ? 0 : Number(v));
 const cents = (v: number) => Math.round(v * 100) / 100;
-/** Longest schedule worked out: 50 years. */
-const MAX_MONTHS = 600;
+/** Longest schedule worked out: 100 years (a low DUO payment can run past 50). */
+const MAX_MONTHS = 1200;
 
 /** The month payments start from: the 1st after the stand's date. */
 function firstPayment(loan: Pick<Loan, "start_date">) {

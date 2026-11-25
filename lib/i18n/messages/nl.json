@@ -2351,5 +2351,15 @@
  "Interest {name}": "Rente {name}",
  "Other debts on your balance sheet": "Andere schulden op je balans",
  "No rate or payment yet — the amount only changes when you update it": "Nog geen rente of maandbedrag — het bedrag verandert alleen als je het bijwerkt",
- "Make it a loan": "Maak er een lening van"
+ "Make it a loan": "Maak er een lening van",
+ "Fixed costs per month": "Vaste lasten per maand",
+ "{paid} paid · {left} still to come": "{paid} betaald · {left} nog te gaan",
+ "All paid this month": "Alles betaald deze maand",
+ "of your net income": "van je netto inkomen",
+ "Paid {date}": "Betaald {date}",
+ "Booked for {date}": "Geboekt voor {date}",
+ "Expected {date} · like last month": "Verwacht {date} · zoals vorige maand",
+ "All fixed": "Helemaal vast",
+ "{amount} fixed": "{amount} vast",
+ "of your income goes to fixed costs": "van je inkomen gaat naar vaste lasten"
 }

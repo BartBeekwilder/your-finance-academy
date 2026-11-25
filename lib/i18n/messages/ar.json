@@ -2345,5 +2345,15 @@
  "Interest {name}": "فائدة {name}",
  "Other debts on your balance sheet": "ديون أخرى في ميزانيتك",
  "No rate or payment yet — the amount only changes when you update it": "لا معدل أو قسط بعد — يتغير المبلغ فقط عند تحديثه",
- "Make it a loan": "حوّله إلى قرض"
+ "Make it a loan": "حوّله إلى قرض",
+ "Fixed costs per month": "التكاليف الثابتة شهريًا",
+ "{paid} paid · {left} still to come": "{paid} مدفوع · {left} متبقٍ",
+ "All paid this month": "تم دفع كل شيء هذا الشهر",
+ "of your net income": "من دخلك الصافي",
+ "Paid {date}": "دُفع {date}",
+ "Booked for {date}": "مسجل لـ {date}",
+ "Expected {date} · like last month": "متوقع {date} · مثل الشهر الماضي",
+ "All fixed": "كلها ثابتة",
+ "{amount} fixed": "{amount} ثابتة",
+ "of your income goes to fixed costs": "من دخلك يذهب إلى التكاليف الثابتة"
 }

@@ -2345,5 +2345,15 @@
  "Interest {name}": "Odsetki {name}",
  "Other debts on your balance sheet": "Inne długi w twoim bilansie",
  "No rate or payment yet — the amount only changes when you update it": "Brak oprocentowania i raty — kwota zmienia się tylko po aktualizacji",
- "Make it a loan": "Zrób z tego kredyt"
+ "Make it a loan": "Zrób z tego kredyt",
+ "Fixed costs per month": "Koszty stałe miesięcznie",
+ "{paid} paid · {left} still to come": "{paid} zapłacono · {left} jeszcze do zapłaty",
+ "All paid this month": "Wszystko zapłacone w tym miesiącu",
+ "of your net income": "twojego dochodu netto",
+ "Paid {date}": "Zapłacono {date}",
+ "Booked for {date}": "Zaksięgowano na {date}",
+ "Expected {date} · like last month": "Oczekiwane {date} · jak w zeszłym miesiącu",
+ "All fixed": "Wszystko stałe",
+ "{amount} fixed": "{amount} stałe",
+ "of your income goes to fixed costs": "twojego dochodu idzie na koszty stałe"
 }

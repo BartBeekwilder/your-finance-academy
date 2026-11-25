@@ -2345,5 +2345,15 @@
  "Interest {name}": "Проценты {name}",
  "Other debts on your balance sheet": "Другие долги в вашем балансе",
  "No rate or payment yet — the amount only changes when you update it": "Пока без ставки и платежа — сумма меняется, только когда вы её обновите",
- "Make it a loan": "Сделать кредитом"
+ "Make it a loan": "Сделать кредитом",
+ "Fixed costs per month": "Постоянные расходы в месяц",
+ "{paid} paid · {left} still to come": "{paid} оплачено · {left} ещё впереди",
+ "All paid this month": "В этом месяце всё оплачено",
+ "of your net income": "вашего чистого дохода",
+ "Paid {date}": "Оплачено {date}",
+ "Booked for {date}": "Запланировано на {date}",
+ "Expected {date} · like last month": "Ожидается {date} · как в прошлом месяце",
+ "All fixed": "Всё постоянное",
+ "{amount} fixed": "{amount} постоянные",
+ "of your income goes to fixed costs": "вашего дохода уходит на постоянные расходы"
 }

@@ -1,7 +1,8 @@
 "use client";
 
 import { t } from "@/lib/i18n";
-import { live, monthToDate, spendByCategory, spendByCategoryYear, summarize, yearForecast } from "@/lib/finance/calc";
+import { live, monthToDate, num, spendByCategory, spendByCategoryYear, summarize, yearForecast } from "@/lib/finance/calc";
+import { fixedCostsOf } from "./FixedCosts";
 import { upcomingFixedCosts } from "@/lib/finance/recurring";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
@@ -28,6 +29,37 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   const rows = past ? past.rows : (mode === "month" ? spendByCategory(data, month) : spendByCategoryYear(data, now)).map((r) => ({ category: r.category, spent: r.spent }));
   const total = rows.reduce((s, r) => s + r.spent, 0);
+  // What's fixed in each tile (Bart, 25 Nov): fixed costs booked in the
+  // period, per top-level category (subcategories rolled in).
+  const fixedBy = new Map<string, number>();
+  if (!past) {
+    const parentOf = new Map(data.categories.map((c) => [c.id, c.parent_id ?? c.id]));
+    for (const x of live(data.transactions)) {
+      const d = new Date(x.date);
+      if (x.type !== "expense" || !x.is_fixed_expense || x.spread_of || d.getFullYear() !== now.getFullYear() || (mode === "month" && d.getMonth() !== now.getMonth()) || !x.category_id) continue;
+      const top = parentOf.get(x.category_id) ?? x.category_id;
+      fixedBy.set(top, (fixedBy.get(top) ?? 0) + num(x.amount));
+    }
+  }
+  const fixedTotal = [...fixedBy.values()].reduce((a, b) => a + b, 0);
+  // The third ring (month view): the whole month's fixed costs — paid, booked
+  // for later and still to come — per category, against the income.
+  const fixedRows: Row[] = [];
+  if (mode === "month" && !past) {
+    const parentOf = new Map(data.categories.map((c) => [c.id, c.parent_id ?? c.id]));
+    const by = new Map<string, number>();
+    for (const { tx } of fixedCostsOf(data, month, now).rows) {
+      const top = tx.category_id ? (parentOf.get(tx.category_id) ?? tx.category_id) : "";
+      by.set(top, (by.get(top) ?? 0) + num(tx.amount));
+    }
+    for (const [id, v] of by) {
+      const c = data.categories.find((x) => x.id === id);
+      fixedRows.push({ category: c ?? { id: "", color_hex: "8E8E93", name: t("No category") }, spent: v });
+    }
+    fixedRows.sort((a, b) => b.spent - a.spent);
+  }
+  const fixedLine = (fixed: number, spent: number) =>
+    fixed > 0.005 ? <span className="pf-cattile-meta pf-cattile-fixed">{spent - fixed < 0.5 ? t("All fixed") : t("{amount} fixed", { amount: money(fixed, currency) })}</span> : null;
   // "% of income": against the month's income — this month the expected
   // income (salary + side income), since the salary may not be in yet; a
   // finished month what came in. The year: finished months + this month.
@@ -61,6 +93,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
         <b className="pf-rounded">{money(total, currency)}</b>
         <span className="pf-cattile-bar"><span style={{ width: "100%" }} /></span>
         {ofIncome(total) && <span className="pf-cattile-meta pf-cattile-income" data-over={total > income}>{ofIncome(total)}</span>}
+        {fixedLine(fixedTotal, total)}
       </button>
       {rows.map(({ category: c, spent }, i) => {
         const subs = cats.filter((s) => s.parent_id === c.id).length;
@@ -86,6 +119,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
               {t("{pct}% of spending", { pct: Math.round(total ? (spent / total) * 100 : 0) })}{subs > 0 ? ` · ${subs === 1 ? t("1 subcategory") : t("{n} subcategories", { n: subs })}` : ""}
             </span>
             {ofIncome(spent) && <span className="pf-cattile-meta pf-cattile-income">{ofIncome(spent)}</span>}
+            {fixedLine(fixedBy.get(c.id) ?? 0, spent)}
           </button>
         );
       })}
@@ -93,6 +127,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
     <div className="pf-incomerings">
     {income > 0 && <IncomeRing rows={rows} income={income} currency={currency} label={mode === "year" && !past ? t("of this year's income spent") : t("of your income spent")} />}
     {soFar && soFar.income > 0 && <IncomeRing rows={soFar.rows} income={soFar.income} currency={currency} label={t("of the income earned so far spent")} />}
+    {fixedRows.length > 0 && income > 0 && <IncomeRing rows={fixedRows} income={income} currency={currency} label={t("of your income goes to fixed costs")} />}
     </div>
     </div>
   );

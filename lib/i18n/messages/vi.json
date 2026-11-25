@@ -2345,5 +2345,15 @@
  "Interest {name}": "Lãi {name}",
  "Other debts on your balance sheet": "Các khoản nợ khác trong bảng cân đối",
  "No rate or payment yet — the amount only changes when you update it": "Chưa có lãi suất hay khoản trả — số tiền chỉ đổi khi bạn cập nhật",
- "Make it a loan": "Chuyển thành khoản vay"
+ "Make it a loan": "Chuyển thành khoản vay",
+ "Fixed costs per month": "Chi phí cố định mỗi tháng",
+ "{paid} paid · {left} still to come": "{paid} đã trả · {left} sắp tới",
+ "All paid this month": "Đã trả hết tháng này",
+ "of your net income": "thu nhập ròng của bạn",
+ "Paid {date}": "Đã trả {date}",
+ "Booked for {date}": "Ghi cho {date}",
+ "Expected {date} · like last month": "Dự kiến {date} · như tháng trước",
+ "All fixed": "Toàn bộ cố định",
+ "{amount} fixed": "{amount} cố định",
+ "of your income goes to fixed costs": "thu nhập của bạn dành cho chi phí cố định"
 }

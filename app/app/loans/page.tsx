@@ -190,15 +190,17 @@ function Figure({ label, value, big }: { label: string; value: string; big?: boo
 }
 
 /** The debt going down: one stacked band per loan, from now until the last
- *  one is paid off (at most 30 years). Point at it to read a month. */
+ *  one is paid off (at most 100 years). Point at it to read a month. */
 function DebtChart({ loans, now, currency }: { loans: Loan[]; now: Date; currency: string }) {
   const [hover, setHover] = useState<number | null>(null);
   const series = useMemo(() => {
     const horizon = Math.min(
       Math.max(...loans.map((l) => { const s = loanSchedule(l); return s.length ? s.length : 1; }), 12),
-      360,
+      1200,
     );
-    const months = Array.from({ length: horizon + 1 }, (_, i) => new Date(now.getFullYear(), now.getMonth() + i, 1, 12));
+    // Long loans (a low DUO payment runs for decades): at most ~360 points.
+    const step = Math.ceil(horizon / 360);
+    const months = Array.from({ length: Math.floor(horizon / step) + 1 }, (_, i) => new Date(now.getFullYear(), now.getMonth() + i * step, 1, 12));
     return { months, bands: loans.map((l) => ({ l, values: months.map((m, i) => (i === 0 ? loanAt(l, now).balance : loanAt(l, m).balance)) })) };
   }, [loans, now]);
   const W = 1000, H = 200;

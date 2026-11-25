@@ -2345,5 +2345,15 @@
  "Interest {name}": "利息 {name}",
  "Other debts on your balance sheet": "资产负债表上的其他债务",
  "No rate or payment yet — the amount only changes when you update it": "尚无利率或月供 — 只有更新时金额才会变化",
- "Make it a loan": "转为贷款"
+ "Make it a loan": "转为贷款",
+ "Fixed costs per month": "每月固定支出",
+ "{paid} paid · {left} still to come": "已付 {paid} · 还有 {left}",
+ "All paid this month": "本月已全部支付",
+ "of your net income": "占净收入",
+ "Paid {date}": "已付 {date}",
+ "Booked for {date}": "记于 {date}",
+ "Expected {date} · like last month": "预计 {date} · 同上月",
+ "All fixed": "全部固定",
+ "{amount} fixed": "固定 {amount}",
+ "of your income goes to fixed costs": "的收入用于固定支出"
 }

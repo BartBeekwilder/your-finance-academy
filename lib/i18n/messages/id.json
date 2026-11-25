@@ -2345,5 +2345,15 @@
  "Interest {name}": "Bunga {name}",
  "Other debts on your balance sheet": "Utang lain di neraca Anda",
  "No rate or payment yet — the amount only changes when you update it": "Belum ada bunga atau cicilan — jumlah hanya berubah saat Anda memperbaruinya",
- "Make it a loan": "Jadikan pinjaman"
+ "Make it a loan": "Jadikan pinjaman",
+ "Fixed costs per month": "Biaya tetap per bulan",
+ "{paid} paid · {left} still to come": "{paid} dibayar · {left} masih akan datang",
+ "All paid this month": "Semua dibayar bulan ini",
+ "of your net income": "dari pendapatan bersih Anda",
+ "Paid {date}": "Dibayar {date}",
+ "Booked for {date}": "Dicatat untuk {date}",
+ "Expected {date} · like last month": "Diperkirakan {date} · seperti bulan lalu",
+ "All fixed": "Semua tetap",
+ "{amount} fixed": "{amount} tetap",
+ "of your income goes to fixed costs": "dari pendapatan Anda untuk biaya tetap"
 }

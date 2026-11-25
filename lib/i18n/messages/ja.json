@@ -2345,5 +2345,15 @@
  "Interest {name}": "利息 {name}",
  "Other debts on your balance sheet": "バランスシート上のその他の負債",
  "No rate or payment yet — the amount only changes when you update it": "金利・月額は未設定 — 更新したときだけ金額が変わります",
- "Make it a loan": "ローンにする"
+ "Make it a loan": "ローンにする",
+ "Fixed costs per month": "毎月の固定費",
+ "{paid} paid · {left} still to come": "{paid} 支払済み · あと{left}",
+ "All paid this month": "今月はすべて支払済み",
+ "of your net income": "手取り収入のうち",
+ "Paid {date}": "支払済み {date}",
+ "Booked for {date}": "{date} に記録",
+ "Expected {date} · like last month": "予定 {date} · 先月と同じ",
+ "All fixed": "すべて固定費",
+ "{amount} fixed": "うち固定費 {amount}",
+ "of your income goes to fixed costs": "の収入が固定費に"
 }

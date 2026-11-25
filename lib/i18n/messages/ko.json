@@ -2345,5 +2345,15 @@
  "Interest {name}": "이자 {name}",
  "Other debts on your balance sheet": "재무상태표의 기타 부채",
  "No rate or payment yet — the amount only changes when you update it": "아직 금리·월 납입액 없음 — 직접 업데이트할 때만 금액이 바뀝니다",
- "Make it a loan": "대출로 만들기"
+ "Make it a loan": "대출로 만들기",
+ "Fixed costs per month": "월 고정비",
+ "{paid} paid · {left} still to come": "{paid} 납부 · {left} 남음",
+ "All paid this month": "이번 달 모두 납부",
+ "of your net income": "순수입 대비",
+ "Paid {date}": "납부 {date}",
+ "Booked for {date}": "{date} 예정 기록",
+ "Expected {date} · like last month": "예상 {date} · 지난달과 같음",
+ "All fixed": "전부 고정비",
+ "{amount} fixed": "고정비 {amount}",
+ "of your income goes to fixed costs": "의 수입이 고정비로"
 }

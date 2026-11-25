@@ -27,6 +27,7 @@ import { liveFixed, projectedNetIncome, summarize, yearForecast } from "@/lib/fi
 import { budgetTotals } from "@/lib/finance/progressModel";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 import ReadWithAI from "@/components/finance/ReadWithAI";
+import FixedCosts, { fixedCostsOf } from "@/components/finance/FixedCosts";
 import type { FinanceData } from "@/lib/finance/types";
 
 // The Income page's counterpart for spending: the dashboard's live Spent
@@ -73,6 +74,8 @@ export default function ExpensesPage() {
   const at = past ? new Date(picked.getFullYear(), picked.getMonth() + 1, 0, 23, 59, 59) : now;
   const month = past ? picked : thisMonth;
   const s = summarize(data.transactions, month);
+  // The month's fixed costs: paid, booked for later and still to come.
+  const fixedMonth = fixedCostsOf(data, month, at);
   // Pickable: from the first month with spending up to this one.
   const firstSpend = all.transactions.reduce((m, x) => (x.type === "expense" && x.date < m ? x.date : m), thisMonth.toISOString());
   // …and always back to January, so earlier months can be filled in.
@@ -182,7 +185,11 @@ export default function ExpensesPage() {
                 progress={forecast[0].spent ? { share: s.spent / forecast[0].spent, of: t("{amount} expected", { amount: money(forecast[0].spent, currency) }) } : undefined}
               />
             )}
-            <Stat label={t("Fixed costs / month")} value={money(s.fixed, currency)} />
+            <Stat
+              label={t("Fixed costs / month")}
+              value={money(fixedMonth.total, currency)}
+              hint={fixedMonth.toCome > 0.005 ? t("{paid} paid · {left} still to come", { paid: money(fixedMonth.paid, currency), left: money(fixedMonth.toCome, currency) }) : undefined}
+            />
           </>
         ) : (
           <>
@@ -204,6 +211,8 @@ export default function ExpensesPage() {
         )}
         <Stat label={finished.length ? t("Average / month ({n} mo)", { n: finished.length }) : t("Average / month")} value={average ? money(average, currency) : "—"} />
       </div>
+
+      {mode === "month" && <FixedCosts data={data} month={month} now={at} currency={currency} />}
 
       {/* Narrowed to a category without subcategories, the per-day chart
           only repeats the tile above — leave it out. */}

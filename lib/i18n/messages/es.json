@@ -2345,5 +2345,15 @@
  "Interest {name}": "Intereses {name}",
  "Other debts on your balance sheet": "Otras deudas en tu balance",
  "No rate or payment yet — the amount only changes when you update it": "Aún sin interés ni cuota — el importe solo cambia si lo actualizas",
- "Make it a loan": "Convertir en préstamo"
+ "Make it a loan": "Convertir en préstamo",
+ "Fixed costs per month": "Gastos fijos al mes",
+ "{paid} paid · {left} still to come": "{paid} pagado · {left} por venir",
+ "All paid this month": "Todo pagado este mes",
+ "of your net income": "de tus ingresos netos",
+ "Paid {date}": "Pagado {date}",
+ "Booked for {date}": "Registrado para {date}",
+ "Expected {date} · like last month": "Esperado {date} · como el mes pasado",
+ "All fixed": "Todo fijo",
+ "{amount} fixed": "{amount} fijo",
+ "of your income goes to fixed costs": "de tus ingresos va a gastos fijos"
 }
