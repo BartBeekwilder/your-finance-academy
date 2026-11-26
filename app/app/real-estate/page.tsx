@@ -12,6 +12,7 @@ import { num } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 import { combined, extraEffect, ltv, NL, nlMonthlyTaxEffect, ownership, perYear, summarize, type MortgagePart } from "@/lib/finance/mortgage";
 import { homes } from "@/lib/finance/realEstate";
+import { partFromBank } from "@/lib/finance/mortgageInput";
 import { mortgageMonth } from "@/lib/finance/mortgageCheck";
 import type { MortgagePartRow, Property } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
@@ -269,8 +270,9 @@ function HomeView({
       {/* Loan parts. */}
       <section style={{ display: "grid", gap: 10 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 className="pf-section-title" style={{ margin: 0 }}>{t("Mortgage parts")}</h2>
-          <button className="pf-chip" onClick={onAddPart}><Plus size={14} /> {t("Add part")}</button>
+          {/* One mortgage is the usual case; parts only once there are two (Bart, 26 Nov). */}
+          <h2 className="pf-section-title" style={{ margin: 0 }}>{rows.length > 1 ? t("Mortgage parts") : t("Mortgage")}</h2>
+          <button className="pf-chip" onClick={onAddPart} style={rows.length ? { opacity: 0.75 } : undefined}><Plus size={14} /> {rows.length ? t("Add a loan part") : t("Add your mortgage")}</button>
         </div>
         <div style={{ display: "grid", gap: 10, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
           {rows.map((row) => {
@@ -292,7 +294,7 @@ function HomeView({
               </button>
             );
           })}
-          {rows.length === 0 && <p style={{ color: "var(--pf-ink-2)" }}>{t("No mortgage parts yet — add one to see the schedule.")}</p>}
+          {rows.length === 0 && <p style={{ color: "var(--pf-ink-2)" }}>{t("No mortgage yet — add it as your bank shows it to see the schedule.")}</p>}
         </div>
       </section>
 
@@ -480,7 +482,9 @@ function PartForm({ row, propertyId, currency, onSave, onCancel, onDelete }: { r
   const dutch = data.properties?.find((x) => x.id === propertyId)?.country === "NL";
   const today = new Date();
   const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
-  const [name, setName] = useState(row?.name ?? t("Loan part"));
+  // The first part is just "Mortgage"; more make it parts.
+  const first = !row && !data.mortgageParts.some((m) => m.property_id === propertyId && !m.deleted_at);
+  const [name, setName] = useState(row?.name ?? (first ? t("Mortgage") : t("Loan part")));
   const [kind, setKind] = useState<MortgagePartRow["kind"]>(row?.kind ?? "annuity");
   const [principal, setPrincipal] = useState(row ? String(num(row.principal)) : "");
   const [rate, setRate] = useState(row ? String(num(row.rate)) : "");
@@ -491,30 +495,65 @@ function PartForm({ row, propertyId, currency, onSave, onCancel, onDelete }: { r
   const [extra, setExtra] = useState(row ? String(num(row.extra_monthly)) : "0");
   const [confirm, setConfirm] = useState(false);
   const n = (s: string) => Number(s.replace(/\s/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", ".")) || 0;
+  // Two ways in (Bart, 26 Nov): as the bank shows it — the debt now, the
+  // payment and/or the end date, the original loan if known — or the
+  // original loan, start and term. A new part starts the bank's way.
+  const [way, setWay] = useState<"bank" | "manual">(row ? "manual" : "bank");
+  const [owed, setOwed] = useState("");
+  const [monthly, setMonthly] = useState("");
+  const [end, setEnd] = useState("");
+  const [original, setOriginal] = useState("");
+  const fromBank = way === "bank" && n(owed) > 0 && n(rate) >= 0
+    ? partFromBank({ kind, outstanding: n(owed), rate: n(rate), monthly: n(monthly) || null, endDate: end || null, original: n(original) || null }, new Date())
+    : null;
   return (
     <form
       style={{ display: "grid", gap: 14 }}
       onSubmit={(e) => {
         e.preventDefault();
+        if (way === "bank" && !fromBank) return;
+        const b = way === "bank" ? fromBank! : null;
         onSave({
-          id: row?.id, property_id: propertyId, name: name.trim() || t("Loan part"), kind, principal: n(principal).toFixed(2), rate: n(rate).toFixed(4),
-          fixed_until: fixed || null, start_date: start, term_months: Math.min(Math.max(Math.round(n(years) * 12), 1), 600), nhg, extra_monthly: n(extra).toFixed(2), sort_order: row?.sort_order ?? 0,
+          id: row?.id, property_id: propertyId, name: name.trim() || t("Loan part"), kind, principal: (b ? b.principal : n(principal)).toFixed(2), rate: n(rate).toFixed(4),
+          fixed_until: fixed || null, start_date: b ? b.start_date : start, term_months: b ? Math.min(b.term_months, 600) : Math.min(Math.max(Math.round(n(years) * 12), 1), 600), nhg, extra_monthly: n(extra).toFixed(2), sort_order: row?.sort_order ?? 0,
         });
       }}
     >
-      <FormHead title={row ? t("Edit loan part") : t("Add loan part")} onCancel={onCancel} />
+      <FormHead title={row ? t("Edit loan part") : first ? t("Add your mortgage") : t("Add loan part")} onCancel={onCancel} />
       <Field label={t("Name")}><input className="pf-input" value={name} onChange={(e) => setName(e.target.value)} /></Field>
       <Field label={t("Type")}>
         <Segmented wide label={t("Type")} value={kind} onChange={setKind} options={[{ value: "annuity", label: t("Annuity") }, { value: "linear", label: t("Linear") }, { value: "interest_only", label: t("Interest-only") }]} />
       </Field>
+      <Segmented wide size="sm" label={t("Enter")} value={way} onChange={setWay} options={[{ value: "bank", label: t("As your bank shows it") }, { value: "manual", label: t("Original loan and start") }]} />
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        <Field label={t("Original loan ({currency})", { currency })}><input className="pf-input" inputMode="decimal" value={principal} onChange={(e) => setPrincipal(e.target.value)} required /></Field>
-        <Field label={t("Interest rate (%)")}><input className="pf-input" inputMode="decimal" value={rate} onChange={(e) => setRate(e.target.value)} required /></Field>
-        <Field label={t("Start")}><input className="pf-input" type="date" value={start} onChange={(e) => setStart(e.target.value)} required /></Field>
-        <Field label={t("Term (years)")}><input className="pf-input" inputMode="numeric" value={years} onChange={(e) => setYears(e.target.value)} required /></Field>
+        {way === "bank" ? (
+          <>
+            <Field label={t("Owed now ({currency})", { currency })}><input className="pf-input" inputMode="decimal" value={owed} onChange={(e) => setOwed(e.target.value)} required /></Field>
+            <Field label={t("Interest rate (%)")}><input className="pf-input" inputMode="decimal" value={rate} onChange={(e) => setRate(e.target.value)} required /></Field>
+            <Field label={t("Monthly payment")}><input className="pf-input" inputMode="decimal" value={monthly} onChange={(e) => setMonthly(e.target.value)} placeholder={t("Optional")} /></Field>
+            <Field label={t("End date")}><input className="pf-input" type="date" value={end} onChange={(e) => setEnd(e.target.value)} /></Field>
+            <Field label={t("Original loan ({currency})", { currency })}><input className="pf-input" inputMode="decimal" value={original} onChange={(e) => setOriginal(e.target.value)} placeholder={t("Optional")} /></Field>
+          </>
+        ) : (
+          <>
+            <Field label={t("Original loan ({currency})", { currency })}><input className="pf-input" inputMode="decimal" value={principal} onChange={(e) => setPrincipal(e.target.value)} required /></Field>
+            <Field label={t("Interest rate (%)")}><input className="pf-input" inputMode="decimal" value={rate} onChange={(e) => setRate(e.target.value)} required /></Field>
+            <Field label={t("Start")}><input className="pf-input" type="date" value={start} onChange={(e) => setStart(e.target.value)} required /></Field>
+            <Field label={t("Term (years)")}><input className="pf-input" inputMode="numeric" value={years} onChange={(e) => setYears(e.target.value)} required /></Field>
+          </>
+        )}
         <Field label={t("Rate fixed until")}><input className="pf-input" type="date" value={fixed} onChange={(e) => setFixed(e.target.value)} /></Field>
         <Field label={t("Extra repayment per month")}><input className="pf-input" inputMode="decimal" value={extra} onChange={(e) => setExtra(e.target.value)} /></Field>
       </div>
+      {way === "bank" && (
+        <p className="pf-part-preview" data-warn={fromBank?.mismatch || (n(owed) > 0 && !fromBank) || undefined}>
+          {!(n(owed) > 0)
+            ? t("Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.")
+            : !fromBank
+              ? t("Add the monthly payment or the end date.")
+              : `${t("{amount} a month · {n} payments to go", { amount: money(fromBank.payment, currency), n: fromBank.term_months - Math.max(0, (new Date().getFullYear() - Number(fromBank.start_date.slice(0, 4))) * 12 + new Date().getMonth() - (Number(fromBank.start_date.slice(5, 7)) - 1)) - 1 })}${fromBank.mismatch ? ` · ${t("doesn't match the payment you entered — check the rate or end date")}` : ""}`}
+        </p>
+      )}
       {dutch && (
         <label style={{ display: "flex", gap: 10, alignItems: "center", fontSize: "0.9rem" }}>
           <input type="checkbox" checked={nhg} onChange={(e) => setNhg(e.target.checked)} /> {t("NHG (Dutch mortgage guarantee)")}

@@ -40,12 +40,15 @@ const MORTGAGE = z.object({
     z.object({
       name: z.string().describe("The loan part's name or number as in the document"),
       kind: z.enum(["annuity", "linear", "interest_only"]),
-      principal: z.number().describe("The amount borrowed for this part (or the current debt if only that is shown)"),
+      principal: z.number().describe("The amount originally borrowed for this part (oorspronkelijke hoofdsom); the current debt if only that is shown"),
       rate: z.number().describe("Annual interest rate in percent, e.g. 3.85"),
       start_date: z.string().nullable().describe("YYYY-MM-DD"),
       term_months: z.number().nullable().describe("Total term in months, usually 360"),
       fixed_until: z.string().nullable().describe("YYYY-MM-DD the fixed-rate period ends"),
       nhg: z.boolean().describe("Nationale Hypotheek Garantie"),
+      outstanding: z.number().nullable().describe("What is owed on this part now (openstaand bedrag), if shown"),
+      monthly: z.number().nullable().describe("This part's monthly payment, interest + repayment (maandbedrag), if shown"),
+      end_date: z.string().nullable().describe("YYYY-MM-DD the part ends (einddatum), if shown"),
     }),
   ),
 });
@@ -65,7 +68,7 @@ function prompt(kind: ReadKind, today: string, categories: string[]) {
     case "payslip":
       return `This is a payslip. Read this period's figures, not the year-to-date column. Use null for anything not on it.`;
     case "mortgage":
-      return `This is a mortgage document (offer, contract or annual statement). List each loan part (leningdeel) with its own figures. Use null for anything not in it.`;
+      return `This is a mortgage document (offer, contract or annual statement) or screenshots of the mortgage page in a bank's app or website (one or more; they may overlap). List each loan part (leningdeel) once, with its own figures — its number as the name. Use null for anything not in it.`;
   }
 }
 

@@ -6860,3 +6860,6 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 /* Expenses: mortgage gross or net of the tax refund. */
 .pf-net-toggle { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
 .pf-net-toggle small { font-size: 0.72rem; color: var(--pf-ink-3); }
+/* Real estate › loan part entered the bank's way: what it works out to. */
+.pf-part-preview { margin: -4px 0 0; font-size: 0.8rem; color: var(--pf-green); }
+.pf-part-preview[data-warn] { color: #ff9f0a; }

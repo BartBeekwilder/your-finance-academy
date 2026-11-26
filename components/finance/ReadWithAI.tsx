@@ -10,6 +10,7 @@ import type { ReadResult } from "@/lib/ai/reader";
 import { intlLocale, t } from "@/lib/i18n";
 import { useFinance } from "./FinanceProvider";
 import { newSalary, salaryOf } from "./Payslips";
+import { partFromBank } from "@/lib/finance/mortgageInput";
 import { debtsOf } from "./DebtChips";
 import Sheet from "./Sheet";
 
@@ -59,7 +60,7 @@ async function prepare(file: File): Promise<{ mime: string; data: string }> {
 
 /** Send files to /api/ai/read and return what was read (throws a message). */
 export async function readFiles<K extends Kind>(kind: K, list: FileList | File[], categories: string[], signedIn: boolean): Promise<ReadResult[K]> {
-  const files = [...list].slice(0, kind === "bank" ? 8 : 1);
+  const files = [...list].slice(0, kind === "bank" ? 8 : kind === "mortgage" ? 4 : 1);
   const prepared = await Promise.all(files.map(prepare));
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (signedIn) {
@@ -227,7 +228,7 @@ export default function ReadWithAI({ kind, propertyId }: { kind: Kind; propertyI
                   <span>{kind === "bank" ? t("Up to 8 screenshots of your bank or credit card app, or a PDF statement.") : t("A PDF or a photo.")}</span>
                 </>
               )}
-              <input type="file" accept={ACCEPT} multiple={kind === "bank"} hidden disabled={step === "reading" || quota?.left === 0} onChange={(e) => { const f = e.target.files; if (f) void read(f); e.target.value = ""; }} />
+              <input type="file" accept={ACCEPT} multiple={kind === "bank" || kind === "mortgage"} hidden disabled={step === "reading" || quota?.left === 0} onChange={(e) => { const f = e.target.files; if (f) void read(f); e.target.value = ""; }} />
             </label>
           )}
           {step === "pick" && <QuotaNote q={quota} />}
@@ -512,9 +513,11 @@ type PartDraft = ReadResult["mortgage"]["parts"][number] & { on: boolean };
 const KIND_LABEL = { annuity: "Annuity", linear: "Linear", interest_only: "Interest-only" } as const;
 
 function MortgageReview({ read, propertyId, onDone }: { read: ReadResult["mortgage"]; propertyId: string; onDone: (n: number) => void }) {
-  const { data, saveMortgagePart } = useFinance();
+  const { data, saveMortgagePart, deleteMortgagePart } = useFinance();
   const currency = data.profile.currency_code;
   const existing = useMemo(() => data.mortgageParts.filter((m) => m.property_id === propertyId && !m.deleted_at).length, [data.mortgageParts, propertyId]);
+  // Read again later (a new stand): replace the parts there are.
+  const [replace, setReplace] = useState(true);
   const [parts, setParts] = useState<PartDraft[]>(() => read.parts.map((p) => ({ ...p, on: p.principal > 0 })));
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -527,11 +530,15 @@ function MortgageReview({ read, propertyId, onDone }: { read: ReadResult["mortga
     setBusy(true);
     setErr(null);
     try {
-      let order = existing;
+      if (replace && existing) for (const m of data.mortgageParts.filter((x) => x.property_id === propertyId && !x.deleted_at)) await deleteMortgagePart(m.id);
+      let order = replace ? 0 : existing;
       for (const p of chosen) {
+        // A bank page shows the debt now, the payment and the end: the part
+        // follows from those (mortgageInput), with the original loan if read.
+        const b = p.outstanding ? partFromBank({ kind: p.kind, outstanding: p.outstanding, rate: p.rate, monthly: p.monthly, endDate: p.end_date, original: p.principal > p.outstanding ? p.principal : null }, new Date()) : null;
         await saveMortgagePart({
-          property_id: propertyId, name: p.name, kind: p.kind, principal: p.principal.toFixed(2), rate: p.rate.toFixed(3), fixed_until: p.fixed_until,
-          start_date: p.start_date ?? isoDay(new Date()), term_months: p.term_months ?? 360, nhg: p.nhg, extra_monthly: "0", sort_order: order++,
+          property_id: propertyId, name: p.name, kind: p.kind, principal: (b?.principal ?? p.principal).toFixed(2), rate: p.rate.toFixed(3), fixed_until: p.fixed_until,
+          start_date: b?.start_date ?? p.start_date ?? isoDay(new Date()), term_months: b?.term_months ?? p.term_months ?? 360, nhg: p.nhg, extra_monthly: "0", sort_order: order++,
         });
       }
       onDone(chosen.length);
@@ -544,19 +551,24 @@ function MortgageReview({ read, propertyId, onDone }: { read: ReadResult["mortga
   return (
     <div style={{ display: "grid", gap: 12 }}>
       {read.lender && <p style={{ color: "var(--pf-ink-2)", fontSize: "0.85rem" }}>{read.lender}</p>}
-      {existing > 0 && <p className="pf-close-note">{t("This home already has {n} loan parts. These are added next to them.", { n: existing })}</p>}
+      {existing > 0 && (
+        <label className="pf-payday-offer">
+          <input type="checkbox" checked={replace} onChange={(e) => setReplace(e.target.checked)} />
+          {t("Replace the {n} loan parts this home has", { n: existing })}
+        </label>
+      )}
       <ul className="pf-ai-rows pf-ai-parts">
         {parts.map((p, i) => (
           <li key={i} data-off={!p.on || undefined}>
             <input type="checkbox" checked={p.on} onChange={(e) => set(i, { on: e.target.checked })} aria-label={t("Add")} />
             <input className="pf-input pf-ai-desc" value={p.name} onChange={(e) => set(i, { name: e.target.value })} aria-label={t("Name")} />
-            <b className="pf-rounded pf-ai-amt">{money(p.principal, currency)}</b>
+            <b className="pf-rounded pf-ai-amt">{money(p.outstanding ?? p.principal, currency)}</b>
             <span className="pf-ai-cat">
               <select className="pf-input" value={p.kind} onChange={(e) => set(i, { kind: e.target.value as PartDraft["kind"] })} aria-label={t("Type")}>
                 {(Object.keys(KIND_LABEL) as (keyof typeof KIND_LABEL)[]).map((k) => <option key={k} value={k}>{t(KIND_LABEL[k])}</option>)}
               </select>
               <small>
-                {p.rate.toLocaleString(undefined, { maximumFractionDigits: 3 })}% · {Math.round((p.term_months ?? 360) / 12)} {t("years")}
+                {p.rate.toLocaleString(undefined, { maximumFractionDigits: 3 })}%{p.monthly ? ` · ${t("{amount} a month", { amount: money(p.monthly, currency) })}` : ""} · {p.end_date ? t("until {month}", { month: monthYear(new Date(`${p.end_date.slice(0, 10)}T12:00:00`)) }) : `${Math.round((p.term_months ?? 360) / 12)} ${t("years")}`}
                 {p.fixed_until ? ` · ${t("fixed until {date}", { date: monthYear(new Date(`${p.fixed_until.slice(0, 10)}T12:00:00`)) })}` : ""}{p.nhg ? " · NHG" : ""}
               </small>
             </span>
