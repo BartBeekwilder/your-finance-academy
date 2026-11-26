@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "لا يوجد رهن بعد — أضفه كما يعرضه بنكك لترى الجدول.",
  "Original loan and start": "المبلغ الأصلي والبداية",
  "Owed now ({currency})": "المستحق الآن ({currency})",
- "Replace the {n} loan parts this home has": "استبدل أجزاء القرض الـ {n} لهذا المنزل"
+ "Replace the {n} loan parts this home has": "استبدل أجزاء القرض الـ {n} لهذا المنزل",
+ "{rate}% assumed": "افتراض {rate}%",
+ "Easy": "سهل",
+ "Fill in what you owe now and what you pay a month.": "أدخل ما تدين به الآن وما تدفعه شهريًا.",
+ "Mode": "الوضع",
+ "Net (after tax refund)": "صافٍ (بعد الاسترداد)",
+ "This payment doesn't cover the interest.": "هذا القسط لا يغطي الفائدة.",
+ "Your mortgage, simply": "رهنك، ببساطة",
+ "Detailed": "مفصّل",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "الحفظ يدمج أجزاء القرض الـ {n} في رهن واحد. للاحتفاظ بها استخدم المتقدم."
 }

@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "Chưa có khoản vay — thêm như ngân hàng hiển thị để xem lịch trả.",
  "Original loan and start": "Khoản vay ban đầu và ngày bắt đầu",
  "Owed now ({currency})": "Còn nợ ({currency})",
- "Replace the {n} loan parts this home has": "Thay {n} phần vay của căn nhà này"
+ "Replace the {n} loan parts this home has": "Thay {n} phần vay của căn nhà này",
+ "{rate}% assumed": "Giả định {rate}%",
+ "Easy": "Đơn giản",
+ "Fill in what you owe now and what you pay a month.": "Nhập số còn nợ và số trả mỗi tháng.",
+ "Mode": "Chế độ",
+ "Net (after tax refund)": "Ròng (sau hoàn thuế)",
+ "This payment doesn't cover the interest.": "Khoản trả này không đủ tiền lãi.",
+ "Your mortgage, simply": "Khoản vay của bạn, đơn giản",
+ "Detailed": "Chi tiết",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Lưu sẽ gộp {n} phần vay thành một khoản. Muốn giữ các phần, dùng Nâng cao."
 }

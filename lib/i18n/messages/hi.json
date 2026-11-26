@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "अभी कोई होम लोन नहीं — शेड्यूल देखने के लिए बैंक जैसा जोड़ें।",
  "Original loan and start": "मूल राशि और शुरुआत",
  "Owed now ({currency})": "अभी बकाया ({currency})",
- "Replace the {n} loan parts this home has": "इस घर के {n} लोन हिस्से बदलें"
+ "Replace the {n} loan parts this home has": "इस घर के {n} लोन हिस्से बदलें",
+ "{rate}% assumed": "{rate}% माना गया",
+ "Easy": "आसान",
+ "Fill in what you owe now and what you pay a month.": "अभी का बकाया और मासिक भुगतान भरें।",
+ "Mode": "मोड",
+ "Net (after tax refund)": "शुद्ध (वापसी के बाद)",
+ "This payment doesn't cover the interest.": "यह किस्त ब्याज भी नहीं भरती।",
+ "Your mortgage, simply": "आपका होम लोन, आसान",
+ "Detailed": "विस्तृत",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "सेव करने पर आपके {n} लोन हिस्से एक हो जाएंगे। हिस्से रखने के लिए उन्नत चुनें।"
 }

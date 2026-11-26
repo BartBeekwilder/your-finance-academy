@@ -83,6 +83,7 @@ export function mortgageMonth(data: FinanceData, month: Date): MortgageMonth | n
     refund,
     refundBooked,
     net: (booked > 0 ? booked : expected) - refund,
-    off: booked > 0 && gap > 25 && gap > expected * 0.05,
+    // Booked net of a refund that isn't booked separately is fine too.
+    off: booked > 0 && gap > 25 && gap > expected * 0.05 && !(refundBooked === 0 && refund > 0 && Math.abs(expected - refund - booked) <= Math.max(25, expected * 0.05)),
   };
 }

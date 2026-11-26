@@ -12,7 +12,7 @@ import { num } from "@/lib/finance/calc";
 import { money, monthYear } from "@/lib/finance/format";
 import { combined, extraEffect, ltv, NL, nlMonthlyTaxEffect, ownership, perYear, summarize, type MortgagePart } from "@/lib/finance/mortgage";
 import { homes } from "@/lib/finance/realEstate";
-import { partFromBank } from "@/lib/finance/mortgageInput";
+import { easyMortgage, partFromBank } from "@/lib/finance/mortgageInput";
 import { mortgageMonth } from "@/lib/finance/mortgageCheck";
 import type { MortgagePartRow, Property } from "@/lib/finance/types";
 import { intlLocale, t } from "@/lib/i18n";
@@ -44,6 +44,14 @@ export default function RealEstatePage() {
   const [editing, setEditing] = useState<{ kind: "property"; row?: Property } | { kind: "part"; row?: MortgagePartRow; propertyId: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const run = (p: Promise<unknown>) => p.then(() => setError(null)).catch((e: Error) => setError(e.message));
+  // Easy (value, debt now, monthly gross or net) or advanced (loan parts,
+  // the bank's figures, reading with AI…) — Bart, 26 Nov. Easy unless a home
+  // has more than one part; the choice is remembered in this browser.
+  const [mode, setModeState] = useState<"easy" | "advanced">(() => {
+    try { const m = localStorage.getItem("pf-re-mode"); if (m === "easy" || m === "advanced") return m; } catch {}
+    return list.some((h) => h.parts.length > 1) ? "advanced" : "easy";
+  });
+  const setMode = (m: "easy" | "advanced") => { setModeState(m); try { localStorage.setItem("pf-re-mode", m); } catch {} };
 
   return (
     <div style={{ display: "grid", gap: 24 }}>
@@ -53,7 +61,8 @@ export default function RealEstatePage() {
           {list.length > 1 && (
             <Segmented label={t("Property")} value={String(sel)} onChange={(v) => setSel(Number(v))} options={list.map((h, i) => ({ value: String(i), label: h.property.name || t("Home") }))} />
           )}
-          {home && <ReadWithAI kind="mortgage" propertyId={home.property.id} />}
+          <Segmented size="sm" label={t("Mode")} value={mode} onChange={setMode} options={[{ value: "easy", label: t("Easy") }, { value: "advanced", label: t("Detailed") }]} />
+          {home && mode === "advanced" && <ReadWithAI kind="mortgage" propertyId={home.property.id} />}
           <button className="pf-chip" onClick={() => setEditing({ kind: "property" })}>
             <Plus size={14} /> {t("Add property")}
           </button>
@@ -78,6 +87,7 @@ export default function RealEstatePage() {
           onEditProperty={() => setEditing({ kind: "property", row: home.property })}
           onEditPart={(row) => setEditing({ kind: "part", row, propertyId: home.property.id })}
           onAddPart={() => setEditing({ kind: "part", propertyId: home.property.id })}
+          easy={mode === "easy"}
         />
       )}
       {error && <p style={{ color: "var(--pf-red)" }}>{error}</p>}
@@ -119,7 +129,9 @@ function HomeView({
   onEditProperty,
   onEditPart,
   onAddPart,
+  easy = false,
 }: {
+  easy?: boolean;
   property: Property;
   parts: MortgagePart[];
   rows: MortgagePartRow[];
@@ -268,6 +280,8 @@ function HomeView({
       <YearChart years={years} base={base} now={now} currency={currency} principal={principal} />
 
       {/* Loan parts. */}
+      {easy && <EasyMortgage property={property} parts={parts} rows={rows} now={now} currency={currency} />}
+      {!easy && <>
       <section style={{ display: "grid", gap: 10 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           {/* One mortgage is the usual case; parts only once there are two (Bart, 26 Nov). */}
@@ -298,6 +312,7 @@ function HomeView({
         </div>
       </section>
 
+      </>}
       {/* Extra repayments, fixed-rate period, Dutch rules. */}
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
         <section className="pf-card" style={{ padding: 16, display: "grid", gap: 12 }}>
@@ -584,5 +599,53 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       {label}
       {children}
     </label>
+  );
+}
+
+/** Easy mode: the home's value, what's owed now and the monthly payment,
+ *  gross or net — one mortgage, the rest worked out (rate ~3.8% assumed). */
+function EasyMortgage({ property, parts, rows, now, currency }: { property: Property; parts: MortgagePart[]; rows: MortgagePartRow[]; now: Date; currency: string }) {
+  const { saveProperty, saveMortgagePart, deleteMortgagePart } = useFinance();
+  const owedNow = parts.reduce((s2, p) => s2 + summarize(p, now).balance, 0);
+  const payNow = parts.reduce((s2, p) => s2 + (summarize(p, now).thisMonth?.payment ?? 0), 0);
+  const [value, setValue] = useState(String(num(property.value) || ""));
+  const [owed, setOwed] = useState(owedNow ? owedNow.toFixed(2) : "");
+  const [monthly, setMonthly] = useState(payNow ? payNow.toFixed(2) : "");
+  const [net, setNet] = useState<"gross" | "net">("gross");
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
+  const n = (s: string) => Number(s.replace(/\s/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", ".")) || 0;
+  const dutch = property.country === "NL";
+  const rate = parts.length ? parts.reduce((s2, p) => s2 + p.rate * summarize(p, now).balance, 0) / Math.max(owedNow, 1) : undefined;
+  const res = n(owed) > 0 && n(monthly) > 0 ? easyMortgage({ owed: n(owed), monthly: n(monthly), net: net === "net", dutch, woz: n(value), rate }, now) : null;
+  async function save() {
+    if (!res) return;
+    setBusy(true);
+    try {
+      await saveProperty({ ...property, value: n(value).toFixed(2), tax_refund_monthly: res.refund > 0 ? res.refund.toFixed(2) : property.tax_refund_monthly ?? null });
+      for (const r of rows) await deleteMortgagePart(r.id);
+      await saveMortgagePart({ property_id: property.id, name: t("Mortgage"), kind: "annuity", principal: res.part.principal.toFixed(2), rate: res.rate.toFixed(3), fixed_until: null, start_date: res.part.start_date, term_months: Math.min(res.part.term_months, 600), nhg: false, extra_monthly: "0", sort_order: 0 });
+      setDone(true);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <section className="pf-card" style={{ padding: 16, display: "grid", gap: 12 }}>
+      <h2 className="pf-section-title" style={{ margin: 0 }}>{t("Your mortgage, simply")}</h2>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 }}>
+        <Field label={dutch ? t("Current value (WOZ or estimate)") : t("Current value (estimate)")}><input className="pf-input" inputMode="decimal" value={value} onChange={(e) => { setValue(e.target.value); setDone(false); }} /></Field>
+        <Field label={t("Owed now ({currency})", { currency })}><input className="pf-input" inputMode="decimal" value={owed} onChange={(e) => { setOwed(e.target.value); setDone(false); }} /></Field>
+        <Field label={t("Monthly payment")}><input className="pf-input" inputMode="decimal" value={monthly} onChange={(e) => { setMonthly(e.target.value); setDone(false); }} /></Field>
+      </div>
+      <Segmented wide size="sm" label={t("Monthly payment")} value={net} onChange={(v) => { setNet(v); setDone(false); }} options={[{ value: "gross", label: t("Gross") }, { value: "net", label: t("Net (after tax refund)") }]} />
+      <p className="pf-part-preview" data-warn={(n(owed) > 0 && n(monthly) > 0 && !res) || undefined}>
+        {res
+          ? `${t("≈ {interest} interest · ≈ {repayment} repayment", { interest: money(n(owed) * res.rate / 1200, currency), repayment: money(Math.max(res.gross - n(owed) * res.rate / 1200, 0), currency) })} · ${t("{rate}% assumed", { rate: res.rate.toLocaleString(intlLocale(), { maximumFractionDigits: 2 }) })}${res.refund > 0 ? ` · ${t("Your tax refund {amount} per month", { amount: money(res.refund, currency) })}` : ""}`
+          : n(owed) > 0 && n(monthly) > 0 ? t("This payment doesn't cover the interest.") : t("Fill in what you owe now and what you pay a month.")}
+      </p>
+      <button type="button" className="pf-button" style={{ justifySelf: "start" }} disabled={!res || busy} onClick={save}>{done ? t("Saved") : busy ? t("One moment…") : t("Save")}</button>
+      {rows.length > 1 && <small style={{ color: "var(--pf-ink-3)" }}>{t("Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.", { n: rows.length })}</small>}
+    </section>
   );
 }

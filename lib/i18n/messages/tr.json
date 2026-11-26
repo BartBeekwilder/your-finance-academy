@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "Henüz kredi yok — planı görmek için bankanın gösterdiği gibi ekle.",
  "Original loan and start": "İlk tutar ve başlangıç",
  "Owed now ({currency})": "Şu anki borç ({currency})",
- "Replace the {n} loan parts this home has": "Bu evin {n} kredi dilimini değiştir"
+ "Replace the {n} loan parts this home has": "Bu evin {n} kredi dilimini değiştir",
+ "{rate}% assumed": "%{rate} varsayıldı",
+ "Easy": "Kolay",
+ "Fill in what you owe now and what you pay a month.": "Şu anki borcunu ve aylık ödemeni gir.",
+ "Mode": "Mod",
+ "Net (after tax refund)": "Net (iade sonrası)",
+ "This payment doesn't cover the interest.": "Bu ödeme faizi karşılamıyor.",
+ "Your mortgage, simply": "Kredin, basitçe",
+ "Detailed": "Ayrıntılı",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Kaydetmek {n} kredi dilimini tek krediye çevirir. Dilimleri korumak için Gelişmiş’i kullan."
 }

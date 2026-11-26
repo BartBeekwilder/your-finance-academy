@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "Nessun mutuo — aggiungilo come lo mostra la banca per vedere il piano.",
  "Original loan and start": "Importo iniziale e inizio",
  "Owed now ({currency})": "Dovuto ora ({currency})",
- "Replace the {n} loan parts this home has": "Sostituisci le {n} quote di questa casa"
+ "Replace the {n} loan parts this home has": "Sostituisci le {n} quote di questa casa",
+ "{rate}% assumed": "{rate}% ipotizzato",
+ "Easy": "Semplice",
+ "Fill in what you owe now and what you pay a month.": "Inserisci quanto devi ora e quanto paghi al mese.",
+ "Mode": "Modalità",
+ "Net (after tax refund)": "Netto (dopo il rimborso)",
+ "This payment doesn't cover the interest.": "Questa rata non copre gli interessi.",
+ "Your mortgage, simply": "Il tuo mutuo, semplice",
+ "Detailed": "Dettagliato",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Salvando le tue {n} quote diventano un mutuo. Per tenerle usa Avanzato."
 }

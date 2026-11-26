@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "住宅ローンはまだありません — 銀行の表示どおりに追加すると返済計画が見られます。",
  "Original loan and start": "借入額と開始日",
  "Owed now ({currency})": "現在の残高（{currency}）",
- "Replace the {n} loan parts this home has": "この住宅の{n}件の借入部分を置き換える"
+ "Replace the {n} loan parts this home has": "この住宅の{n}件の借入部分を置き換える",
+ "{rate}% assumed": "金利{rate}%と仮定",
+ "Easy": "かんたん",
+ "Fill in what you owe now and what you pay a month.": "現在の残高と毎月の返済額を入力してください。",
+ "Mode": "モード",
+ "Net (after tax refund)": "手取り（還付後）",
+ "This payment doesn't cover the interest.": "この返済額では利息をまかなえません。",
+ "Your mortgage, simply": "住宅ローン（かんたん）",
+ "Detailed": "詳細",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "保存すると{n}件の借入部分が1つにまとまります。分けたままにするには詳細を使ってください。"
 }

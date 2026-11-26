@@ -1,5 +1,6 @@
 "use client";
 
+import { easyMortgage } from "@/lib/finance/mortgageInput";
 import { newHousehold } from "@/lib/finance/household";
 import { t, intlLocale } from "@/lib/i18n";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -225,7 +226,7 @@ type Draft = {
   budgets: Line[] | null;
   goal: { name: string; amount: string; months: number };
   runwayGoal?: number;
-  home: { value: string; mortgage: string; details?: boolean; parts?: MortPart[]; refund?: string };
+  home: { value: string; mortgage: string; details?: boolean; parts?: MortPart[]; refund?: string; net?: boolean };
   /** Rent or own (Your home); rent and the mortgage payment go to the fixed costs. */
   housing?: "rent" | "own" | null;
   /** Agreed to AI reading a document during the setup (ai_consent_at on finish). */
@@ -792,8 +793,20 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
             await saveMortgagePart({ property_id, name: mortParts.length > 1 ? `${t(kind.label)} ${i + 1}` : t("Mortgage"), kind: p.kind, principal: num(p.amount).toFixed(2), rate: num(p.rate).toFixed(3), fixed_until: null, start_date: today.slice(0, 8) + "01", term_months: Math.round(num(p.years) * 12), nhg: false, extra_monthly: num(p.extra).toFixed(2), sort_order: i });
           }
         } else {
-          if (num(home.value)) await addBalanceItem({ name: t("Home"), side: "asset", value: num(home.value) });
-          if (num(home.mortgage)) await addBalanceItem({ name: t("Mortgage"), side: "liability", value: num(home.mortgage) });
+          // The easy way (debt now + monthly payment, gross or net): one
+          // mortgage in Real estate, the rest worked out (mortgageInput).
+          const nl = countryOf(data.profile) === "NL";
+          const easy = num(home.mortgage) > 0 && num(mortLine?.amount ?? "") > 0
+            ? easyMortgage({ owed: num(home.mortgage), monthly: num(mortLine!.amount), net: !!home.net, dutch: nl, woz: num(home.value) }, new Date())
+            : null;
+          if (easy) {
+            const refund = easy.refund > 0 ? easy.refund : num(home.refund ?? "");
+            const property_id = await saveProperty({ name: t("Home"), value: num(home.value).toFixed(2), value_date: today, purchase_price: null, purchase_date: null, country: nl ? "NL" : "INTL", tax_refund_monthly: refund > 0 ? refund.toFixed(2) : null, sort_order: 0 });
+            await saveMortgagePart({ property_id, name: t("Mortgage"), kind: "annuity", principal: easy.part.principal.toFixed(2), rate: easy.rate.toFixed(3), fixed_until: null, start_date: easy.part.start_date, term_months: Math.min(easy.part.term_months, 600), nhg: false, extra_monthly: "0", sort_order: 0 });
+          } else {
+            if (num(home.value)) await addBalanceItem({ name: t("Home"), side: "asset", value: num(home.value) });
+            if (num(home.mortgage)) await addBalanceItem({ name: t("Mortgage"), side: "liability", value: num(home.mortgage) });
+          }
         }
       }
       if (has("balance")) {
@@ -1036,6 +1049,12 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                     <div className="pf-ob-list">
                   <Labeled label={countryOf(data.profile) === "NL" ? t("Home value (WOZ or estimate)") : t("Home value (estimate)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.value} onChange={(e) => setHome({ ...home, value: e.target.value })} /></Labeled>
                   {!home.details && mortLine && <Labeled label={t("Mortgage payment per month")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={mortLine.amount} onChange={(e) => setLineAmount("mortgage", e.target.value)} /></Labeled>}
+                  {!home.details && mortLine && (
+                    <div className="pf-ob-chips" role="group" aria-label={t("Monthly payment")}>
+                      <button type="button" aria-pressed={!home.net} style={{ ["--c" as string]: "#0a84ff" }} onClick={() => setHome({ ...home, net: false })}>{t("Gross")}</button>
+                      <button type="button" aria-pressed={!!home.net} style={{ ["--c" as string]: "#0a84ff" }} onClick={() => setHome({ ...home, net: true })}>{t("Net (after tax refund)")}</button>
+                    </div>
+                  )}
                   <Labeled label={t("Mortgage remaining")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={money(0, currency)} value={home.mortgage} disabled={!!home.details} onChange={(e) => setHome({ ...home, mortgage: e.target.value })} /></Labeled>
                   {num(home.mortgage) > 0 && countryOf(data.profile) === "NL" && <Labeled label={t("Tax refund per month (voorlopige teruggaaf)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={t("Optional")} value={home.refund ?? ""} onChange={(e) => setHome({ ...home, refund: e.target.value })} /></Labeled>}
                   <button type="button" className="pf-ob-more" aria-expanded={!!home.details} onClick={() => setHome({ ...home, details: !home.details, parts: home.parts?.length ? home.parts : [newMortPart(home.mortgage)] })}>

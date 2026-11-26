@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "아직 대출 없음 — 은행에 표시된 대로 추가하면 일정이 보입니다.",
  "Original loan and start": "원금과 시작일",
  "Owed now ({currency})": "현재 잔액 ({currency})",
- "Replace the {n} loan parts this home has": "이 주택의 대출 {n}건 교체"
+ "Replace the {n} loan parts this home has": "이 주택의 대출 {n}건 교체",
+ "{rate}% assumed": "{rate}% 가정",
+ "Easy": "간단",
+ "Fill in what you owe now and what you pay a month.": "현재 잔액과 월 상환액을 입력하세요.",
+ "Mode": "모드",
+ "Net (after tax refund)": "순액 (환급 후)",
+ "This payment doesn't cover the interest.": "이 상환액으로는 이자를 감당할 수 없습니다.",
+ "Your mortgage, simply": "내 주택담보대출, 간단히",
+ "Detailed": "상세",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "저장하면 {n}개 대출이 하나로 합쳐집니다. 나눠 두려면 고급을 쓰세요."
 }

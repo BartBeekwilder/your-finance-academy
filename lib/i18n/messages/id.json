@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "Belum ada KPR — tambahkan seperti di bank untuk melihat jadwalnya.",
  "Original loan and start": "Pinjaman awal dan mulai",
  "Owed now ({currency})": "Utang sekarang ({currency})",
- "Replace the {n} loan parts this home has": "Ganti {n} bagian pinjaman rumah ini"
+ "Replace the {n} loan parts this home has": "Ganti {n} bagian pinjaman rumah ini",
+ "{rate}% assumed": "Diasumsikan {rate}%",
+ "Easy": "Mudah",
+ "Fill in what you owe now and what you pay a month.": "Isi utang saat ini dan cicilan per bulan.",
+ "Mode": "Mode",
+ "Net (after tax refund)": "Neto (setelah restitusi)",
+ "This payment doesn't cover the interest.": "Cicilan ini tidak menutup bunga.",
+ "Your mortgage, simply": "KPR Anda, sederhana",
+ "Detailed": "Terperinci",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Menyimpan menggabungkan {n} bagian menjadi satu KPR. Untuk mempertahankannya, pakai Lanjutan."
 }

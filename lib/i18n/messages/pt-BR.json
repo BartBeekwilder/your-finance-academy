@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "Ainda sem financiamento — adicione como seu banco mostra para ver o plano.",
  "Original loan and start": "Valor original e início",
  "Owed now ({currency})": "Devido agora ({currency})",
- "Replace the {n} loan parts this home has": "Substituir as {n} partes deste imóvel"
+ "Replace the {n} loan parts this home has": "Substituir as {n} partes deste imóvel",
+ "{rate}% assumed": "{rate}% suposto",
+ "Easy": "Simples",
+ "Fill in what you owe now and what you pay a month.": "Informe quanto deve agora e quanto paga por mês.",
+ "Mode": "Modo",
+ "Net (after tax refund)": "Líquido (após restituição)",
+ "This payment doesn't cover the interest.": "Esta parcela não cobre os juros.",
+ "Your mortgage, simply": "Seu financiamento, simples",
+ "Detailed": "Detalhado",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Salvar junta suas {n} partes em um financiamento. Para mantê-las, use Avançado."
 }

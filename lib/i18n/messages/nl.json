@@ -2385,5 +2385,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "Nog geen hypotheek — voeg hem toe zoals je bank hem toont om het schema te zien.",
  "Original loan and start": "Hoofdsom en startdatum",
  "Owed now ({currency})": "Nu schuldig ({currency})",
- "Replace the {n} loan parts this home has": "Vervang de {n} leningdelen van deze woning"
+ "Replace the {n} loan parts this home has": "Vervang de {n} leningdelen van deze woning",
+ "{rate}% assumed": "{rate}% aangenomen",
+ "Easy": "Eenvoudig",
+ "Fill in what you owe now and what you pay a month.": "Vul in wat je nu schuldig bent en wat je per maand betaalt.",
+ "Mode": "Modus",
+ "Net (after tax refund)": "Netto (na teruggaaf)",
+ "This payment doesn't cover the interest.": "Dit maandbedrag dekt de rente niet.",
+ "Your mortgage, simply": "Je hypotheek, eenvoudig",
+ "Detailed": "Uitgebreid",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Bewaren maakt van je {n} leningdelen één hypotheek. Wil je de delen houden, gebruik dan Uitgebreid."
 }

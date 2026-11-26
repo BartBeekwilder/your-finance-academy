@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "Ипотеки пока нет — добавьте её как в банке, чтобы увидеть график.",
  "Original loan and start": "Сумма кредита и начало",
  "Owed now ({currency})": "Долг сейчас ({currency})",
- "Replace the {n} loan parts this home has": "Заменить {n} частей ипотеки этого дома"
+ "Replace the {n} loan parts this home has": "Заменить {n} частей ипотеки этого дома",
+ "{rate}% assumed": "Принято {rate}%",
+ "Easy": "Просто",
+ "Fill in what you owe now and what you pay a month.": "Укажите текущий долг и ежемесячный платёж.",
+ "Mode": "Режим",
+ "Net (after tax refund)": "Нетто (после возврата)",
+ "This payment doesn't cover the interest.": "Этот платёж не покрывает проценты.",
+ "Your mortgage, simply": "Ваша ипотека, просто",
+ "Detailed": "Подробно",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Сохранение объединит {n} частей в одну ипотеку. Чтобы оставить части, выберите «Расширенный»."
 }

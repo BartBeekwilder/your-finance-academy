@@ -89,3 +89,16 @@ export function partFromBank(f: BankFigures, now: Date): PartFromBank | null {
   }
   return { principal, start_date: iso(now), term_months: term, payment, mismatch: !!f.monthly && Math.abs(payment - f.monthly) > 1 };
 }
+
+/** The easy way (Bart, 26 Nov): the debt now and the monthly payment, gross
+ *  or net. Net (Dutch home): the refund on the interest is estimated
+ *  (maximum deduction rate, minus the forfait) and added back to get the
+ *  gross payment. The rate is assumed (`rate`, ~3.8%) when not given. */
+export function easyMortgage(f: { owed: number; monthly: number; net: boolean; dutch: boolean; woz: number; rate?: number }, now: Date) {
+  const rate = f.rate ?? 3.8;
+  const interest = f.owed * r12(rate);
+  const refund = f.net && f.dutch ? Math.max(interest * 0.3748 - (f.woz * 0.0035) / 12, 0) : 0;
+  const gross = f.monthly + refund;
+  const part = partFromBank({ kind: "annuity", outstanding: f.owed, rate, monthly: gross }, now);
+  return part ? { part, rate, refund, gross } : null;
+}

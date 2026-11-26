@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "还没有房贷 — 按银行显示的方式添加即可看到还款计划。",
  "Original loan and start": "原始贷款和开始日期",
  "Owed now ({currency})": "当前欠款（{currency}）",
- "Replace the {n} loan parts this home has": "替换这套房的 {n} 个贷款部分"
+ "Replace the {n} loan parts this home has": "替换这套房的 {n} 个贷款部分",
+ "{rate}% assumed": "假设 {rate}%",
+ "Easy": "简单",
+ "Fill in what you owe now and what you pay a month.": "填写当前欠款和每月还款。",
+ "Mode": "模式",
+ "Net (after tax refund)": "税后净额（退税后）",
+ "This payment doesn't cover the interest.": "这个月供连利息都不够。",
+ "Your mortgage, simply": "你的房贷，简单版",
+ "Detailed": "详细",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "保存会把 {n} 个贷款部分合并为一笔房贷。要保留请用高级。"
 }

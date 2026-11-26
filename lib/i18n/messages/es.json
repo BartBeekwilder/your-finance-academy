@@ -2379,5 +2379,14 @@
  "No mortgage yet — add it as your bank shows it to see the schedule.": "Aún no hay hipoteca — añádela como la muestra tu banco para ver el plan.",
  "Original loan and start": "Préstamo original e inicio",
  "Owed now ({currency})": "Debes ahora ({currency})",
- "Replace the {n} loan parts this home has": "Reemplazar los {n} tramos de esta vivienda"
+ "Replace the {n} loan parts this home has": "Reemplazar los {n} tramos de esta vivienda",
+ "{rate}% assumed": "{rate} % supuesto",
+ "Easy": "Sencillo",
+ "Fill in what you owe now and what you pay a month.": "Indica lo que debes ahora y lo que pagas al mes.",
+ "Mode": "Modo",
+ "Net (after tax refund)": "Neto (tras devolución)",
+ "This payment doesn't cover the interest.": "Esta cuota no cubre los intereses.",
+ "Your mortgage, simply": "Tu hipoteca, sencilla",
+ "Detailed": "Detallado",
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Guardar convierte tus {n} tramos en una hipoteca. Para conservarlos, usa Avanzado."
 }
