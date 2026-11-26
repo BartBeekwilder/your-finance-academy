@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "Spese per categoria, cumulate",
  "Repayment · not spending": "Rimborso · non è una spesa",
  "Extra repayment this month": "Rimborso extra questo mese",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Registrato come rimborso questo mese: esce dal tuo denaro e riduce il debito. Non è una spesa — il patrimonio resta uguale."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Registrato come rimborso questo mese: esce dal tuo denaro e riduce il debito. Non è una spesa — il patrimonio resta uguale.",
+ "{amount} a month · {n} payments to go": "{amount} al mese · ancora {n} rate",
+ "Add the monthly payment or the end date.": "Aggiungi la rata mensile o la data finale.",
+ "Add your mortgage": "Aggiungi il mutuo",
+ "As your bank shows it": "Come lo mostra la tua banca",
+ "doesn't match the payment you entered — check the rate or end date": "non corrisponde alla rata inserita — controlla tasso o data finale",
+ "End date": "Data finale",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Inserisci quanto devi ora, il tasso e la rata o la data finale — il resto si calcola.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Nessun mutuo — aggiungilo come lo mostra la banca per vedere il piano.",
+ "Original loan and start": "Importo iniziale e inizio",
+ "Owed now ({currency})": "Dovuto ora ({currency})",
+ "Replace the {n} loan parts this home has": "Sostituisci le {n} quote di questa casa"
 }

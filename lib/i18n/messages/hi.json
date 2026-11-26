@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "श्रेणी अनुसार खर्च, जोड़कर",
  "Repayment · not spending": "चुकौती · खर्च नहीं",
  "Extra repayment this month": "इस महीने अतिरिक्त चुकौती",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "इस महीने चुकौती के रूप में दर्ज: यह आपके पैसे से जाता है और कर्ज़ घटाता है। खर्च नहीं — आपकी नेटवर्थ वही रहती है।"
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "इस महीने चुकौती के रूप में दर्ज: यह आपके पैसे से जाता है और कर्ज़ घटाता है। खर्च नहीं — आपकी नेटवर्थ वही रहती है।",
+ "{amount} a month · {n} payments to go": "{amount} प्रति माह · {n} किस्तें बाकी",
+ "Add the monthly payment or the end date.": "मासिक किस्त या अंतिम तारीख जोड़ें।",
+ "Add your mortgage": "होम लोन जोड़ें",
+ "As your bank shows it": "जैसा आपका बैंक दिखाता है",
+ "doesn't match the payment you entered — check the rate or end date": "डाली गई किस्त से मेल नहीं — ब्याज या अंतिम तारीख जांचें",
+ "End date": "अंतिम तारीख",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "अभी का बकाया, ब्याज और किस्त या अंतिम तारीख भरें — बाकी गणना हो जाएगी।",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "अभी कोई होम लोन नहीं — शेड्यूल देखने के लिए बैंक जैसा जोड़ें।",
+ "Original loan and start": "मूल राशि और शुरुआत",
+ "Owed now ({currency})": "अभी बकाया ({currency})",
+ "Replace the {n} loan parts this home has": "इस घर के {n} लोन हिस्से बदलें"
 }

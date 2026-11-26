@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "Pengeluaran per kategori, dijumlahkan",
  "Repayment · not spending": "Pelunasan · bukan pengeluaran",
  "Extra repayment this month": "Pelunasan ekstra bulan ini",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Dicatat sebagai pelunasan bulan ini: keluar dari uang Anda dan mengurangi utang. Bukan pengeluaran — ekuitas Anda tetap."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Dicatat sebagai pelunasan bulan ini: keluar dari uang Anda dan mengurangi utang. Bukan pengeluaran — ekuitas Anda tetap.",
+ "{amount} a month · {n} payments to go": "{amount} per bulan · tersisa {n} pembayaran",
+ "Add the monthly payment or the end date.": "Tambahkan cicilan bulanan atau tanggal akhir.",
+ "Add your mortgage": "Tambah KPR",
+ "As your bank shows it": "Seperti yang ditampilkan bank",
+ "doesn't match the payment you entered — check the rate or end date": "tidak cocok dengan cicilan yang diisi — cek bunga atau tanggal akhir",
+ "End date": "Tanggal akhir",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Isi utang saat ini, bunga, dan cicilan atau tanggal akhir — sisanya dihitung.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Belum ada KPR — tambahkan seperti di bank untuk melihat jadwalnya.",
+ "Original loan and start": "Pinjaman awal dan mulai",
+ "Owed now ({currency})": "Utang sekarang ({currency})",
+ "Replace the {n} loan parts this home has": "Ganti {n} bagian pinjaman rumah ini"
 }

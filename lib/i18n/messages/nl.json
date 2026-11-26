@@ -2374,5 +2374,16 @@
  "Spending per category, added up": "Uitgaven per categorie, opgeteld",
  "Repayment · not spending": "Aflossing · geen uitgave",
  "Extra repayment this month": "Extra aflossing deze maand",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Deze maand geboekt als aflossing: het gaat van je geld af en maakt de schuld kleiner. Geen uitgave — je eigen vermogen blijft gelijk."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Deze maand geboekt als aflossing: het gaat van je geld af en maakt de schuld kleiner. Geen uitgave — je eigen vermogen blijft gelijk.",
+ "{amount} a month · {n} payments to go": "{amount} per maand · nog {n} betalingen",
+ "Add the monthly payment or the end date.": "Vul het maandbedrag of de einddatum in.",
+ "Add your mortgage": "Hypotheek toevoegen",
+ "As your bank shows it": "Zoals je bank het toont",
+ "doesn't match the payment you entered — check the rate or end date": "klopt niet met het maandbedrag dat je invulde — check de rente of einddatum",
+ "End date": "Einddatum",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Vul in wat je nu schuldig bent, de rente en het maandbedrag of de einddatum — de rest rekent de app uit.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Nog geen hypotheek — voeg hem toe zoals je bank hem toont om het schema te zien.",
+ "Original loan and start": "Hoofdsom en startdatum",
+ "Owed now ({currency})": "Nu schuldig ({currency})",
+ "Replace the {n} loan parts this home has": "Vervang de {n} leningdelen van deze woning"
 }

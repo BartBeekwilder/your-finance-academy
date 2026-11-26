@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "カテゴリー別支出（累計）",
  "Repayment · not spending": "返済 · 支出ではありません",
  "Extra repayment this month": "今月の繰上返済",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "今月返済として記録：お金から出て負債を減らします。支出ではなく、純資産は変わりません。"
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "今月返済として記録：お金から出て負債を減らします。支出ではなく、純資産は変わりません。",
+ "{amount} a month · {n} payments to go": "月{amount} · 残り{n}回",
+ "Add the monthly payment or the end date.": "月々の返済額か終了日を入力してください。",
+ "Add your mortgage": "住宅ローンを追加",
+ "As your bank shows it": "銀行の表示どおり",
+ "doesn't match the payment you entered — check the rate or end date": "入力した返済額と一致しません — 金利か終了日を確認してください",
+ "End date": "終了日",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "現在の残高、金利、返済額または終了日を入力すると残りは計算されます。",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "住宅ローンはまだありません — 銀行の表示どおりに追加すると返済計画が見られます。",
+ "Original loan and start": "借入額と開始日",
+ "Owed now ({currency})": "現在の残高（{currency}）",
+ "Replace the {n} loan parts this home has": "この住宅の{n}件の借入部分を置き換える"
 }

@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "Расходы по категориям, нарастающим итогом",
  "Repayment · not spending": "Погашение · не расход",
  "Extra repayment this month": "Досрочное погашение в этом месяце",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Записано как погашение в этом месяце: уходит с ваших денег и уменьшает долг. Не расход — ваш капитал не меняется."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Записано как погашение в этом месяце: уходит с ваших денег и уменьшает долг. Не расход — ваш капитал не меняется.",
+ "{amount} a month · {n} payments to go": "{amount} в месяц · осталось {n} платежей",
+ "Add the monthly payment or the end date.": "Добавьте ежемесячный платёж или дату окончания.",
+ "Add your mortgage": "Добавить ипотеку",
+ "As your bank shows it": "Как показывает банк",
+ "doesn't match the payment you entered — check the rate or end date": "не совпадает с указанным платежом — проверьте ставку или дату окончания",
+ "End date": "Дата окончания",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Укажите долг сейчас, ставку и платёж или дату окончания — остальное посчитается.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Ипотеки пока нет — добавьте её как в банке, чтобы увидеть график.",
+ "Original loan and start": "Сумма кредита и начало",
+ "Owed now ({currency})": "Долг сейчас ({currency})",
+ "Replace the {n} loan parts this home has": "Заменить {n} частей ипотеки этого дома"
 }

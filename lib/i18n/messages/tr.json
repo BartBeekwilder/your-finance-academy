@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "Kategoriye göre harcamalar, toplam",
  "Repayment · not spending": "Geri ödeme · harcama değil",
  "Extra repayment this month": "Bu ay ek geri ödeme",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Bu ay geri ödeme olarak kaydedildi: paran azalır ve borç küçülür. Harcama değil — özkaynağın aynı kalır."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Bu ay geri ödeme olarak kaydedildi: paran azalır ve borç küçülür. Harcama değil — özkaynağın aynı kalır.",
+ "{amount} a month · {n} payments to go": "Ayda {amount} · {n} ödeme kaldı",
+ "Add the monthly payment or the end date.": "Aylık ödemeyi veya bitiş tarihini ekle.",
+ "Add your mortgage": "Konut kredisi ekle",
+ "As your bank shows it": "Bankanın gösterdiği gibi",
+ "doesn't match the payment you entered — check the rate or end date": "girdiğin ödemeyle uyuşmuyor — faizi veya bitiş tarihini kontrol et",
+ "End date": "Bitiş tarihi",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Şu anki borcunu, faizi ve ödemeyi veya bitiş tarihini gir — gerisi hesaplanır.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Henüz kredi yok — planı görmek için bankanın gösterdiği gibi ekle.",
+ "Original loan and start": "İlk tutar ve başlangıç",
+ "Owed now ({currency})": "Şu anki borç ({currency})",
+ "Replace the {n} loan parts this home has": "Bu evin {n} kredi dilimini değiştir"
 }

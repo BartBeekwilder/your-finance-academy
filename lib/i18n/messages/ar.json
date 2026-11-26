@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "المصروفات حسب الفئة، تراكميًا",
  "Repayment · not spending": "سداد · ليس مصروفًا",
  "Extra repayment this month": "سداد إضافي هذا الشهر",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "مسجل كسداد هذا الشهر: يخرج من أموالك ويقلل الدين. ليس مصروفًا — تبقى حقوق ملكيتك كما هي."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "مسجل كسداد هذا الشهر: يخرج من أموالك ويقلل الدين. ليس مصروفًا — تبقى حقوق ملكيتك كما هي.",
+ "{amount} a month · {n} payments to go": "{amount} شهريًا · متبقٍ {n} دفعات",
+ "Add the monthly payment or the end date.": "أضف القسط الشهري أو تاريخ الانتهاء.",
+ "Add your mortgage": "أضف الرهن",
+ "As your bank shows it": "كما يعرضه بنكك",
+ "doesn't match the payment you entered — check the rate or end date": "لا يطابق القسط الذي أدخلته — تحقق من الفائدة أو تاريخ الانتهاء",
+ "End date": "تاريخ الانتهاء",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "أدخل ما تدين به الآن والفائدة والقسط أو تاريخ الانتهاء — والباقي يُحسب.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "لا يوجد رهن بعد — أضفه كما يعرضه بنكك لترى الجدول.",
+ "Original loan and start": "المبلغ الأصلي والبداية",
+ "Owed now ({currency})": "المستحق الآن ({currency})",
+ "Replace the {n} loan parts this home has": "استبدل أجزاء القرض الـ {n} لهذا المنزل"
 }

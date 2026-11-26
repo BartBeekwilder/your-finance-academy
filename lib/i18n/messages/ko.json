@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "카테고리별 지출, 누적",
  "Repayment · not spending": "상환 · 지출 아님",
  "Extra repayment this month": "이번 달 추가 상환",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "이번 달 상환으로 기록됨: 돈에서 나가 부채를 줄입니다. 지출이 아니며 순자산은 그대로입니다."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "이번 달 상환으로 기록됨: 돈에서 나가 부채를 줄입니다. 지출이 아니며 순자산은 그대로입니다.",
+ "{amount} a month · {n} payments to go": "월 {amount} · {n}회 남음",
+ "Add the monthly payment or the end date.": "월 상환액이나 종료일을 입력하세요.",
+ "Add your mortgage": "주택담보대출 추가",
+ "As your bank shows it": "은행에 표시된 대로",
+ "doesn't match the payment you entered — check the rate or end date": "입력한 상환액과 맞지 않음 — 금리나 종료일을 확인하세요",
+ "End date": "종료일",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "현재 잔액, 금리, 상환액 또는 종료일을 입력하면 나머지는 계산됩니다.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "아직 대출 없음 — 은행에 표시된 대로 추가하면 일정이 보입니다.",
+ "Original loan and start": "원금과 시작일",
+ "Owed now ({currency})": "현재 잔액 ({currency})",
+ "Replace the {n} loan parts this home has": "이 주택의 대출 {n}건 교체"
 }

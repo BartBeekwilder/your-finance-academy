@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "Wydatki według kategorii, narastająco",
  "Repayment · not spending": "Spłata · nie wydatek",
  "Extra repayment this month": "Dodatkowa spłata w tym miesiącu",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Zaksięgowane jako spłata w tym miesiącu: schodzi z twoich pieniędzy i zmniejsza dług. To nie wydatek — kapitał własny się nie zmienia."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Zaksięgowane jako spłata w tym miesiącu: schodzi z twoich pieniędzy i zmniejsza dług. To nie wydatek — kapitał własny się nie zmienia.",
+ "{amount} a month · {n} payments to go": "{amount} miesięcznie · jeszcze {n} rat",
+ "Add the monthly payment or the end date.": "Dodaj ratę miesięczną lub datę końcową.",
+ "Add your mortgage": "Dodaj kredyt hipoteczny",
+ "As your bank shows it": "Tak, jak pokazuje bank",
+ "doesn't match the payment you entered — check the rate or end date": "nie pasuje do wpisanej raty — sprawdź oprocentowanie lub datę końcową",
+ "End date": "Data końcowa",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Wpisz, ile jesteś winien teraz, oprocentowanie i ratę lub datę końcową — resztę policzymy.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Brak kredytu — dodaj go tak, jak pokazuje bank, aby zobaczyć harmonogram.",
+ "Original loan and start": "Kwota początkowa i start",
+ "Owed now ({currency})": "Do spłaty teraz ({currency})",
+ "Replace the {n} loan parts this home has": "Zastąp {n} transz tej nieruchomości"
 }

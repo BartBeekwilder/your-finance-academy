@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "Chi tiêu theo danh mục, cộng dồn",
  "Repayment · not spending": "Trả nợ · không phải chi tiêu",
  "Extra repayment this month": "Trả nợ thêm tháng này",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Ghi là trả nợ tháng này: rời khỏi tiền của bạn và giảm nợ. Không phải chi tiêu — vốn chủ sở hữu giữ nguyên."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Ghi là trả nợ tháng này: rời khỏi tiền của bạn và giảm nợ. Không phải chi tiêu — vốn chủ sở hữu giữ nguyên.",
+ "{amount} a month · {n} payments to go": "{amount} mỗi tháng · còn {n} kỳ",
+ "Add the monthly payment or the end date.": "Thêm khoản trả hàng tháng hoặc ngày kết thúc.",
+ "Add your mortgage": "Thêm khoản vay mua nhà",
+ "As your bank shows it": "Như ngân hàng hiển thị",
+ "doesn't match the payment you entered — check the rate or end date": "không khớp với khoản trả đã nhập — kiểm tra lãi suất hoặc ngày kết thúc",
+ "End date": "Ngày kết thúc",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Nhập số còn nợ, lãi suất và khoản trả hoặc ngày kết thúc — phần còn lại sẽ được tính.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Chưa có khoản vay — thêm như ngân hàng hiển thị để xem lịch trả.",
+ "Original loan and start": "Khoản vay ban đầu và ngày bắt đầu",
+ "Owed now ({currency})": "Còn nợ ({currency})",
+ "Replace the {n} loan parts this home has": "Thay {n} phần vay của căn nhà này"
 }

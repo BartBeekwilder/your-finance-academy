@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "Dépenses par catégorie, cumulées",
  "Repayment · not spending": "Remboursement · pas une dépense",
  "Extra repayment this month": "Remboursement anticipé ce mois-ci",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Enregistré ce mois-ci comme remboursement : il sort de votre argent et réduit la dette. Pas une dépense — vos fonds propres ne changent pas."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Enregistré ce mois-ci comme remboursement : il sort de votre argent et réduit la dette. Pas une dépense — vos fonds propres ne changent pas.",
+ "{amount} a month · {n} payments to go": "{amount} par mois · encore {n} échéances",
+ "Add the monthly payment or the end date.": "Ajoutez la mensualité ou la date de fin.",
+ "Add your mortgage": "Ajouter votre prêt immobilier",
+ "As your bank shows it": "Comme votre banque l’affiche",
+ "doesn't match the payment you entered — check the rate or end date": "ne correspond pas à la mensualité saisie — vérifiez le taux ou la date de fin",
+ "End date": "Date de fin",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Indiquez ce que vous devez, le taux et la mensualité ou la date de fin — le reste est calculé.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Pas encore de prêt — ajoutez-le comme votre banque l’affiche pour voir l’échéancier.",
+ "Original loan and start": "Montant initial et début",
+ "Owed now ({currency})": "Dû maintenant ({currency})",
+ "Replace the {n} loan parts this home has": "Remplacer les {n} tranches de ce logement"
 }

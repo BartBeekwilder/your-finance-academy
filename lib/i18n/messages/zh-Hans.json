@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "按类别支出（累计）",
  "Repayment · not spending": "还款 · 不是支出",
  "Extra repayment this month": "本月额外还款",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "本月记为还款：从你的资金中支出并减少债务。不是支出——你的净资产不变。"
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "本月记为还款：从你的资金中支出并减少债务。不是支出——你的净资产不变。",
+ "{amount} a month · {n} payments to go": "每月 {amount} · 还剩 {n} 期",
+ "Add the monthly payment or the end date.": "请填写月供或结束日期。",
+ "Add your mortgage": "添加房贷",
+ "As your bank shows it": "按银行显示的方式",
+ "doesn't match the payment you entered — check the rate or end date": "与填写的月供不符 — 请检查利率或结束日期",
+ "End date": "结束日期",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "填写当前欠款、利率以及月供或结束日期 — 其余自动计算。",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "还没有房贷 — 按银行显示的方式添加即可看到还款计划。",
+ "Original loan and start": "原始贷款和开始日期",
+ "Owed now ({currency})": "当前欠款（{currency}）",
+ "Replace the {n} loan parts this home has": "替换这套房的 {n} 个贷款部分"
 }

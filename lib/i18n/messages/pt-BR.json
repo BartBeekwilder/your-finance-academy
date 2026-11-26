@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "Gastos por categoria, acumulados",
  "Repayment · not spending": "Amortização · não é gasto",
  "Extra repayment this month": "Amortização extra este mês",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Lançado como amortização este mês: sai do seu dinheiro e reduz a dívida. Não é gasto — seu patrimônio não muda."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Lançado como amortização este mês: sai do seu dinheiro e reduz a dívida. Não é gasto — seu patrimônio não muda.",
+ "{amount} a month · {n} payments to go": "{amount} por mês · faltam {n} parcelas",
+ "Add the monthly payment or the end date.": "Informe a parcela mensal ou a data final.",
+ "Add your mortgage": "Adicionar financiamento",
+ "As your bank shows it": "Como seu banco mostra",
+ "doesn't match the payment you entered — check the rate or end date": "não bate com a parcela informada — confira a taxa ou a data final",
+ "End date": "Data final",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Informe quanto deve agora, a taxa e a parcela ou a data final — o resto é calculado.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Ainda sem financiamento — adicione como seu banco mostra para ver o plano.",
+ "Original loan and start": "Valor original e início",
+ "Owed now ({currency})": "Devido agora ({currency})",
+ "Replace the {n} loan parts this home has": "Substituir as {n} partes deste imóvel"
 }

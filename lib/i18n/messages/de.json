@@ -2368,5 +2368,16 @@
  "Spending per category, added up": "Ausgaben pro Kategorie, aufsummiert",
  "Repayment · not spending": "Tilgung · keine Ausgabe",
  "Extra repayment this month": "Sondertilgung diesen Monat",
- "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Diesen Monat als Tilgung gebucht: Es geht von deinem Geld ab und macht die Schuld kleiner. Keine Ausgabe — dein Eigenkapital bleibt gleich."
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Diesen Monat als Tilgung gebucht: Es geht von deinem Geld ab und macht die Schuld kleiner. Keine Ausgabe — dein Eigenkapital bleibt gleich.",
+ "{amount} a month · {n} payments to go": "{amount} pro Monat · noch {n} Zahlungen",
+ "Add the monthly payment or the end date.": "Gib die Monatsrate oder das Enddatum ein.",
+ "Add your mortgage": "Hypothek hinzufügen",
+ "As your bank shows it": "Wie deine Bank es zeigt",
+ "doesn't match the payment you entered — check the rate or end date": "passt nicht zur eingegebenen Rate — prüfe Zins oder Enddatum",
+ "End date": "Enddatum",
+ "Fill in what you owe now, the rate and the payment or the end date — the rest is worked out.": "Gib an, was du jetzt schuldest, den Zins und die Rate oder das Enddatum — der Rest wird berechnet.",
+ "No mortgage yet — add it as your bank shows it to see the schedule.": "Noch keine Hypothek — füge sie hinzu, wie deine Bank sie zeigt, um den Plan zu sehen.",
+ "Original loan and start": "Darlehensbetrag und Beginn",
+ "Owed now ({currency})": "Jetzt geschuldet ({currency})",
+ "Replace the {n} loan parts this home has": "Die {n} Darlehensteile dieser Immobilie ersetzen"
 }
