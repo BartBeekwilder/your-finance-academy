@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Mutuo meno il rimborso {amount}; il rimborso non conta come entrata",
  "Tax refund {amount} counts as income": "Rimborso {amount} conta come entrata",
  "Spending per category, added up": "Spese per categoria, cumulate",
- "Repayment · not spending": "Rimborso · non è una spesa"
+ "Repayment · not spending": "Rimborso · non è una spesa",
+ "Extra repayment this month": "Rimborso extra questo mese",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Registrato come rimborso questo mese: esce dal tuo denaro e riduce il debito. Non è una spesa — il patrimonio resta uguale."
 }

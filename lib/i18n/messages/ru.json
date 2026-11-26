@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Ипотека минус возврат {amount}; возврат не считается доходом",
  "Tax refund {amount} counts as income": "Возврат {amount} считается доходом",
  "Spending per category, added up": "Расходы по категориям, нарастающим итогом",
- "Repayment · not spending": "Погашение · не расход"
+ "Repayment · not spending": "Погашение · не расход",
+ "Extra repayment this month": "Досрочное погашение в этом месяце",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Записано как погашение в этом месяце: уходит с ваших денег и уменьшает долг. Не расход — ваш капитал не меняется."
 }

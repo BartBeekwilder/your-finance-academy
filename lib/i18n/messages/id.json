@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "KPR dikurangi restitusi {amount}; restitusi juga tidak dihitung sebagai pendapatan",
  "Tax refund {amount} counts as income": "Restitusi {amount} dihitung sebagai pendapatan",
  "Spending per category, added up": "Pengeluaran per kategori, dijumlahkan",
- "Repayment · not spending": "Pelunasan · bukan pengeluaran"
+ "Repayment · not spending": "Pelunasan · bukan pengeluaran",
+ "Extra repayment this month": "Pelunasan ekstra bulan ini",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Dicatat sebagai pelunasan bulan ini: keluar dari uang Anda dan mengurangi utang. Bukan pengeluaran — ekuitas Anda tetap."
 }

@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "होम लोन में से वापसी {amount} घटाई; वापसी आय में भी नहीं गिनी",
  "Tax refund {amount} counts as income": "वापसी {amount} आय में गिनी जाती है",
  "Spending per category, added up": "श्रेणी अनुसार खर्च, जोड़कर",
- "Repayment · not spending": "चुकौती · खर्च नहीं"
+ "Repayment · not spending": "चुकौती · खर्च नहीं",
+ "Extra repayment this month": "इस महीने अतिरिक्त चुकौती",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "इस महीने चुकौती के रूप में दर्ज: यह आपके पैसे से जाता है और कर्ज़ घटाता है। खर्च नहीं — आपकी नेटवर्थ वही रहती है।"
 }

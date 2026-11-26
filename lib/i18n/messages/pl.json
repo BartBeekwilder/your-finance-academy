@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Kredyt minus zwrot {amount}; zwrot nie liczy się też jako dochód",
  "Tax refund {amount} counts as income": "Zwrot {amount} liczy się jako dochód",
  "Spending per category, added up": "Wydatki według kategorii, narastająco",
- "Repayment · not spending": "Spłata · nie wydatek"
+ "Repayment · not spending": "Spłata · nie wydatek",
+ "Extra repayment this month": "Dodatkowa spłata w tym miesiącu",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Zaksięgowane jako spłata w tym miesiącu: schodzi z twoich pieniędzy i zmniejsza dług. To nie wydatek — kapitał własny się nie zmienia."
 }

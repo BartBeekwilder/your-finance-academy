@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Hypothek abzüglich Erstattung {amount}; die Erstattung zählt auch nicht als Einkommen",
  "Tax refund {amount} counts as income": "Erstattung {amount} zählt als Einkommen",
  "Spending per category, added up": "Ausgaben pro Kategorie, aufsummiert",
- "Repayment · not spending": "Tilgung · keine Ausgabe"
+ "Repayment · not spending": "Tilgung · keine Ausgabe",
+ "Extra repayment this month": "Sondertilgung diesen Monat",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Diesen Monat als Tilgung gebucht: Es geht von deinem Geld ab und macht die Schuld kleiner. Keine Ausgabe — dein Eigenkapital bleibt gleich."
 }

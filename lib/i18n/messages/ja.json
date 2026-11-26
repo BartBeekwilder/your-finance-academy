@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "住宅ローンから還付 {amount} を差し引き、還付は収入にも含めません",
  "Tax refund {amount} counts as income": "還付 {amount} は収入として計上",
  "Spending per category, added up": "カテゴリー別支出（累計）",
- "Repayment · not spending": "返済 · 支出ではありません"
+ "Repayment · not spending": "返済 · 支出ではありません",
+ "Extra repayment this month": "今月の繰上返済",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "今月返済として記録：お金から出て負債を減らします。支出ではなく、純資産は変わりません。"
 }

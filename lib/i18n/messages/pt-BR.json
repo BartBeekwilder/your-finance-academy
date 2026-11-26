@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Financiamento menos a restituição {amount}; a restituição sai da renda também",
  "Tax refund {amount} counts as income": "Restituição {amount} conta como renda",
  "Spending per category, added up": "Gastos por categoria, acumulados",
- "Repayment · not spending": "Amortização · não é gasto"
+ "Repayment · not spending": "Amortização · não é gasto",
+ "Extra repayment this month": "Amortização extra este mês",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Lançado como amortização este mês: sai do seu dinheiro e reduz a dívida. Não é gasto — seu patrimônio não muda."
 }

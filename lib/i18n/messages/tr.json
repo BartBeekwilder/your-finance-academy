@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Konut kredisi eksi iade {amount}; iade gelir olarak da sayılmaz",
  "Tax refund {amount} counts as income": "İade {amount} gelir olarak sayılır",
  "Spending per category, added up": "Kategoriye göre harcamalar, toplam",
- "Repayment · not spending": "Geri ödeme · harcama değil"
+ "Repayment · not spending": "Geri ödeme · harcama değil",
+ "Extra repayment this month": "Bu ay ek geri ödeme",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Bu ay geri ödeme olarak kaydedildi: paran azalır ve borç küçülür. Harcama değil — özkaynağın aynı kalır."
 }

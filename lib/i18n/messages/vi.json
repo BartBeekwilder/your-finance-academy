@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Khoản vay nhà trừ hoàn thuế {amount}; hoàn thuế cũng không tính là thu nhập",
  "Tax refund {amount} counts as income": "Hoàn thuế {amount} tính là thu nhập",
  "Spending per category, added up": "Chi tiêu theo danh mục, cộng dồn",
- "Repayment · not spending": "Trả nợ · không phải chi tiêu"
+ "Repayment · not spending": "Trả nợ · không phải chi tiêu",
+ "Extra repayment this month": "Trả nợ thêm tháng này",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Ghi là trả nợ tháng này: rời khỏi tiền của bạn và giảm nợ. Không phải chi tiêu — vốn chủ sở hữu giữ nguyên."
 }

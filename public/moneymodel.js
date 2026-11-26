@@ -51,6 +51,7 @@
     // a new loan, income still to receive…), so the parts add up to the change.
     if (B.end) parts.push({ key: "other", v: assets - debts - eqNow - parts.reduce((t, p) => t + p.v, 0), c: "#a3a9bb" });
     return {
+      extra: B.extraRepay > 0.5 ? B.extraRepay : 0, extraTo: B.extraTo || null,
       inT, fixT, varT, repay, saved, n, marketMove, homeMove, st, assets, debts,
       equity: assets - debts, eqNow, back: !!B.end,
       parts,
@@ -196,6 +197,14 @@
       // reach the debt bar, and the bar says by how much it shrinks.
       const rep = band(repN, debtN && debtN.id === "schuld-hyp" ? debtN : null, repN.h, Math.max(m.repay * m.n * kS, 2), "#40c8e0", T.repayment + " × " + m.n, "−" + money(m.repay * m.n), T.tipRepay);
       rep.still = m.repay < 1; rep.reduces = true;
+      // A repayment booked this month on top of the plan (B.extraRepay): a
+      // thin purple stream from your money into the debt it pays off.
+      if (m.extra > 0 && debtNodes.length) {
+        const to = debtNodes.find((d) => (m.extraTo === "mortgage" ? d.id === "schuld-hyp" : d.label === m.extraTo)) || debtNodes[0];
+        const w = Math.max(m.extra * kS, 2);
+        const ex = band(cashN, to, w, w, "#bf5af2", T.extraRepay || "Extra repayment", "−" + money(m.extra), T.tipExtraRepay || "");
+        ex.reduces = true; ex.mid = true; // its "−" halfway the stream: the plan's sits at the debt
+      }
       // What you own and owe are standing balances, not flows: no dots there.
       [cashN, invN, homeS].forEach((n) => { band(n, assetsN, n.h, n.h, n.color, n.label + " → " + T.assets, n.value, n.info).stock = true; });
       band(assetsN, eqN, Math.max(m.equity, 0) * kS, eqN.h, "#30d158", T.assets + " → " + T.equity, money(m.equity), T.tipEquity).stock = true;
@@ -250,9 +259,9 @@
       // Where repayment meets the debt: a "−" with what it takes off.
       for (const b of bands) {
         if (!b.reduces || b.still || !b.b) continue;
-        const end = bez(b, 1);
-        fx.textAlign = "right"; fx.font = "600 10.5px ui-monospace, Menlo, monospace"; fx.fillStyle = b.color;
-        fx.fillText(b.value, end.x - 8, end.y - end.w / 2 - 5);
+        const end = bez(b, b.mid ? 0.55 : 1);
+        fx.textAlign = b.mid ? "center" : "right"; fx.font = "600 10.5px ui-monospace, Menlo, monospace"; fx.fillStyle = b.color;
+        fx.fillText(b.value, b.mid ? end.x : end.x - 8, end.y - end.w / 2 - 5);
       }
       for (const n of nodes) {
         fx.fillStyle = n.color; fx.beginPath(); if (fx.roundRect) { fx.roundRect(n.x, n.y, n.w, n.h, 3); } else { fx.rect(n.x, n.y, n.w, n.h); } fx.fill();

@@ -8,6 +8,7 @@ import { ALL, compareYears } from "@/lib/finance/compare";
 import { investmentsValue } from "@/lib/finance/quotes";
 import { homes } from "@/lib/finance/realEstate";
 import { liveLoans, loanSchedule } from "@/lib/finance/loans";
+import { repaidIn } from "@/lib/finance/repayments";
 import { summarize as summarizePart } from "@/lib/finance/mortgage";
 import { money } from "@/lib/finance/format";
 import type { FinanceData } from "@/lib/finance/types";
@@ -24,6 +25,8 @@ type Debt = { label: string; value: number };
 type Layer = { label: string; value: number };
 type Base = {
   income: number; fixed: number; repay: number; variable: number; cash: number; invest: number; home: number; mortgage: number; otherDebt: number; otherDebts?: Debt[];
+  /** Repaid this month on top of the plan, and to which debt ("mortgage" or a loan name). */
+  extraRepay?: number; extraTo?: string | null;
   // Looking back: the markets' real moves, today's real stand, the captions.
   // The solar system: what each planet is made of (Bart, 20 Nov). Flows are
   // weights (scaled to the period), investments their values.
@@ -84,6 +87,9 @@ export function moneyModelBase(data: FinanceData, now: Date): Base {
     variable,
     ...st,
     layers: planetLayers(data, now),
+    // Repayments booked this month (repayments.ts): their own purple stream.
+    extraRepay: repaidIn(data, month),
+    extraTo: extraTarget(data),
   };
 }
 
@@ -112,6 +118,15 @@ function planetLayers(data: FinanceData, now: Date): NonNullable<Base["layers"]>
 /** A balance sheet as the model's stand: home, investments, everything else
  *  you own (accounts, a car, prepaid — what makes the sheet add up), the
  *  mortgage, and every other debt on its own line. */
+/** The debt this month's latest repayment went to: "mortgage" for a
+ *  mortgage part, else the loan's name (the other-debt bar's label). */
+function extraTarget(data: FinanceData) {
+  const last = [...(data.repayments ?? [])].sort((a, b) => b.date.localeCompare(a.date))[0];
+  if (!last?.repays) return null;
+  if (live(data.mortgageParts ?? []).some((p) => p.id === last.repays)) return "mortgage";
+  return liveLoans(data).find((l) => l.id === last.repays)?.name ?? null;
+}
+
 function stand(bs: ReturnType<typeof balanceSheet>, invest: number) {
   const home = bs.assets.filter((a) => a.id.startsWith("property-")).reduce((t, a) => t + a.value, 0);
   const mortgage = bs.liabilities.filter((l) => l.id.startsWith("mortgage-")).reduce((t, l) => t + l.value, 0);
@@ -313,7 +328,7 @@ function loadEngine() {
   if (window.PFMoneyModel) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
     const s = document.createElement("script");
-    s.src = "/moneymodel.js?v=13";
+    s.src = "/moneymodel.js?v=16";
     s.onload = () => resolve();
     s.onerror = () => reject(new Error("moneymodel.js did not load"));
     document.head.appendChild(s);
@@ -333,6 +348,8 @@ export function moneyModelTexts() {
     tipMonth: t("All that comes in this month, and where it goes."),
     tipFixed: t("A usual month's fixed costs (booked plus still to come), without the repayment part of your mortgage — that one shows as Repayment. Gone is gone: this lowers your equity."),
     tipVariable: t("Groceries, going out, the car: the 'Variable spending' lever works here."),
+    extraRepay: t("Extra repayment this month"),
+    tipExtraRepay: t("Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same."),
     tipRepay: t("Leaves your account but makes your mortgage smaller. Your equity stays the same: it moves from money to home minus debt."),
     tipLeftOver: t("Income minus all spending and the repayment. It flows to your accounts every month."),
     tipMarket: t("The market moves your investments without you doing anything. Up: more equity. Down: less."),

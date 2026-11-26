@@ -2372,5 +2372,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Hypotheek min de teruggaaf {amount}; de teruggaaf telt ook niet als inkomen",
  "Tax refund {amount} counts as income": "Teruggaaf {amount} telt als inkomen",
  "Spending per category, added up": "Uitgaven per categorie, opgeteld",
- "Repayment · not spending": "Aflossing · geen uitgave"
+ "Repayment · not spending": "Aflossing · geen uitgave",
+ "Extra repayment this month": "Extra aflossing deze maand",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Deze maand geboekt als aflossing: het gaat van je geld af en maakt de schuld kleiner. Geen uitgave — je eigen vermogen blijft gelijk."
 }

@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "الرهن ناقص الاسترداد {amount}؛ والاسترداد لا يُحسب دخلًا أيضًا",
  "Tax refund {amount} counts as income": "الاسترداد {amount} يُحسب دخلًا",
  "Spending per category, added up": "المصروفات حسب الفئة، تراكميًا",
- "Repayment · not spending": "سداد · ليس مصروفًا"
+ "Repayment · not spending": "سداد · ليس مصروفًا",
+ "Extra repayment this month": "سداد إضافي هذا الشهر",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "مسجل كسداد هذا الشهر: يخرج من أموالك ويقلل الدين. ليس مصروفًا — تبقى حقوق ملكيتك كما هي."
 }

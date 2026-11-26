@@ -2366,5 +2366,7 @@
  "Mortgage less the tax refund {amount}; the refund is out of the income too": "Prêt moins le remboursement {amount} ; le remboursement ne compte plus comme revenu",
  "Tax refund {amount} counts as income": "Remboursement {amount} compté comme revenu",
  "Spending per category, added up": "Dépenses par catégorie, cumulées",
- "Repayment · not spending": "Remboursement · pas une dépense"
+ "Repayment · not spending": "Remboursement · pas une dépense",
+ "Extra repayment this month": "Remboursement anticipé ce mois-ci",
+ "Booked as a repayment this month: it leaves your money and makes the debt smaller. Not spending — your equity stays the same.": "Enregistré ce mois-ci comme remboursement : il sort de votre argent et réduit la dette. Pas une dépense — vos fonds propres ne changent pas."
 }
