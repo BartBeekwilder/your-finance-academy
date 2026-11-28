@@ -4,11 +4,33 @@ Read this first on any computer. It says where the project stands, how to
 run it, and what's next. Keep it up to date at the end of every session
 (Claude: update this file and commit it before finishing).
 
-Last updated: 2026-11-20 (night, Windows → Mac).
+Last updated: 2026-11-28 (Mac).
 
 ## >>> START HERE (Bart: "zeg waar we gebleven waren") <<<
 When Bart says he wants to start, first tell him in a few lines where we
 left off (this block), then begin with the first open step.
+
+28 Nov — fixes after testing at Bart's mother's (web branch `fixes-nov28`,
+iOS branch `fixes-nov28`; NOT pushed, NOT live — Bart decides):
+- Balance tile: below zero says "124% of income spent — more than came in"
+  (was "−24% retained"); category tiles red over 100% of income (web + iOS).
+- Starter categories (signup seed, English) renamed once into the app's
+  language (web FinanceProvider; iOS StarterNames on seed + vault apply).
+- Mortgage easy mode: a small debt one payment clears is no longer "doesn't
+  cover the interest" (months ≥ 1, test added); the warning shows the numbers.
+- Onboarding (web): more homes, each with its own mortgage (owed + payment,
+  gross/net) → property + part + fixed cost; Skip keeps what was typed
+  (loans, home, accounts, investments) — web + iOS.
+- Fixed costs booked today count as paid in the morning too (web).
+- Income per day: finished months include other income; hint says salary +
+  other (web + iOS hint).
+- Money model: labels no longer overlap (moneymodel.js, both copies equal).
+- Expenses: "Cash flow | Net of tax refund" instead of Gross/Net.
+- Dashboard: "Earned with your work today" tile, live (web + iOS).
+- Translations: 16 languages, web + iOS catalog.
+- Still open: the exact screen of the "24%" (Bart to confirm it was the
+  balance tile); iOS onboarding has no "more homes" yet (iOS still lacks
+  the 26 Nov easy/gross-net mortgage — port both together).
 
 Where it stands (20 Nov, night):
 - Website `main` = live, all of 19 Nov is on it: liquidity tile (month
