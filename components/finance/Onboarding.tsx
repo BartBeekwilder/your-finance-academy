@@ -693,7 +693,16 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
     }
     setSaving(true);
     setError("");
-    const has = (s: Step) => answered.includes(s);
+    // A step counts when it was answered — or when something was filled in
+    // on it and then skipped: "Skip" shouldn't throw away what was typed
+    // (28 Nov: a loan from her parents, entered, never reached Loans).
+    const filled = (s: Step) =>
+      s === "balance" ? loans.some((l) => num(l.amount) > 0)
+      : s === "housing" ? !!housing && (num(home.value) > 0 || num(home.mortgage) > 0 || homes.some((h) => num(h.value) > 0 || num(h.mortgage) > 0))
+      : s === "accounts" ? accounts.some((a) => num(a.amount) > 0)
+      : s === "investments" ? investments.some((x) => invValue(x) > 0)
+      : false;
+    const has = (s: Step) => answered.includes(s) || (steps.includes(s) && filled(s));
     try {
       const month = new Date(now.getFullYear(), now.getMonth(), 1);
       await updateProfile({

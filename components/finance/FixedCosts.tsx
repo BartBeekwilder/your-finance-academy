@@ -20,8 +20,12 @@ type Row = { tx: Transaction; state: "paid" | "planned" | "expected" };
 export function fixedCostsOf(data: FinanceData, month: Date, now: Date) {
   const isThis = month.getFullYear() === now.getFullYear() && month.getMonth() === now.getMonth();
   const inMonth = (x: Transaction) => { const d = new Date(x.date); return d.getFullYear() === month.getFullYear() && d.getMonth() === month.getMonth(); };
+  // Paid = booked on a day up to today, whatever the hour: a cost booked
+  // today (stored at 12:00) read as "still to come" in the morning (28 Nov:
+  // the mortgage debited today, "€242 paid").
+  const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
   const rows: Row[] = [
-    ...live(data.transactions).filter((x) => x.type === "expense" && x.is_fixed_expense && !x.spread_of && inMonth(x)).map((tx) => ({ tx, state: new Date(tx.date) <= now ? ("paid" as const) : ("planned" as const) })),
+    ...live(data.transactions).filter((x) => x.type === "expense" && x.is_fixed_expense && !x.spread_of && inMonth(x)).map((tx) => ({ tx, state: new Date(tx.date) < endOfToday ? ("paid" as const) : ("planned" as const) })),
     ...(isThis ? upcomingFixedCosts(data, now).map((tx) => ({ tx, state: "expected" as const })) : []),
   ].sort((a, b) => new Date(a.tx.date).getDate() - new Date(b.tx.date).getDate() || num(b.tx.amount) - num(a.tx.amount));
   const total = rows.reduce((s, r) => s + num(r.tx.amount), 0);
