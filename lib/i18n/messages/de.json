@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Diese Rate deckt die Zinsen nicht.",
  "Your mortgage, simply": "Deine Hypothek, einfach",
  "Detailed": "Ausführlich",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Speichern macht aus deinen {n} Darlehensteilen eine Hypothek. Behalte die Teile unter Erweitert."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Speichern macht aus deinen {n} Darlehensteilen eine Hypothek. Behalte die Teile unter Erweitert.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} im Monat decken die Zinsen nicht: {interest} im Monat auf {owed} zu {rate} %.",
+ "{pct}% of income spent — more than came in": "{pct} % des Einkommens ausgegeben — mehr als hereinkam",
+ "a day": "pro Tag",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Ein Zweitwohnsitz, ein Ferienhaus oder eine vermietete Wohnung — jeweils mit eigener Hypothek.",
+ "Add a home you own": "Eine eigene Immobilie hinzufügen",
+ "Add another home": "Weitere Immobilie hinzufügen",
+ "an hour of work": "pro Arbeitsstunde",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "So wie es über dein Konto läuft: die Hypothek voll, die Steuererstattung {amount} als Einkommen",
+ "Earned with your work today": "Heute mit deiner Arbeit verdient",
+ "Home {n}": "Immobilie {n}",
+ "Mortgage {home}": "Hypothek {home}",
+ "Name of the home": "Name der Immobilie",
+ "Net salary {amount} a month, spread over every second": "Nettogehalt {amount} im Monat, auf jede Sekunde verteilt",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Netto, alle Einkünfte auf {v1} Tage verteilt: Gehalt {salary} + Sonstiges {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Optional — Zins, Restlaufzeit, Annuität oder linear; mehr als eine Hypothek oder ein Darlehensteil auf dieser Immobilie? Hier hinzufügen",
+ "Second home": "Zweitwohnung",
+ "Value": "Wert"
 }

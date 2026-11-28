@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Esta cuota no cubre los intereses.",
  "Your mortgage, simply": "Tu hipoteca, sencilla",
  "Detailed": "Detallado",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Guardar convierte tus {n} tramos en una hipoteca. Para conservarlos, usa Avanzado."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Guardar convierte tus {n} tramos en una hipoteca. Para conservarlos, usa Avanzado.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} al mes no cubre los intereses: {interest} al mes sobre {owed} al {rate} %.",
+ "{pct}% of income spent — more than came in": "{pct} % de los ingresos gastado — más de lo que entró",
+ "a day": "al día",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Una segunda vivienda, una casa de vacaciones o una vivienda que alquilas — cada una con su propia hipoteca.",
+ "Add a home you own": "Añadir una vivienda de tu propiedad",
+ "Add another home": "Añadir otra vivienda",
+ "an hour of work": "por hora de trabajo",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Tal como pasa por tu cuenta: la hipoteca completa, la devolución de impuestos {amount} como ingreso",
+ "Earned with your work today": "Ganado hoy con tu trabajo",
+ "Home {n}": "Vivienda {n}",
+ "Mortgage {home}": "Hipoteca {home}",
+ "Name of the home": "Nombre de la vivienda",
+ "Net salary {amount} a month, spread over every second": "Salario neto {amount} al mes, repartido en cada segundo",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Neto, todos los ingresos repartidos en {v1} días: salario {salary} + otros {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Opcional — tipo, años restantes, francés o lineal; ¿más de una hipoteca o tramo en esta vivienda? Añádelos aquí",
+ "Second home": "Segunda vivienda",
+ "Value": "Valor"
 }

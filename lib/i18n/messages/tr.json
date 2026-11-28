@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Bu ödeme faizi karşılamıyor.",
  "Your mortgage, simply": "Kredin, basitçe",
  "Detailed": "Ayrıntılı",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Kaydetmek {n} kredi dilimini tek krediye çevirir. Dilimleri korumak için Gelişmiş’i kullan."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Kaydetmek {n} kredi dilimini tek krediye çevirir. Dilimleri korumak için Gelişmiş’i kullan.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "Ayda {payment} faizi karşılamıyor: {owed} üzerinden %{rate} ile ayda {interest}.",
+ "{pct}% of income spent — more than came in": "Gelirin %{pct} kadarı harcandı — gelenden fazla",
+ "a day": "günde",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "İkinci bir ev, bir tatil evi ya da kiraya verdiğin bir ev — her birinin kendi kredisiyle.",
+ "Add a home you own": "Sahip olduğun bir ev ekle",
+ "Add another home": "Başka bir ev ekle",
+ "an hour of work": "çalışma saati başına",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Hesabından geçtiği gibi: kredinin tamamı, vergi iadesi {amount} gelir olarak",
+ "Earned with your work today": "Bugün işinle kazandığın",
+ "Home {n}": "Ev {n}",
+ "Mortgage {home}": "Konut kredisi {home}",
+ "Name of the home": "Evin adı",
+ "Net salary {amount} a month, spread over every second": "Aylık {amount} net maaş, her saniyeye yayılmış",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Net, tüm gelir {v1} güne yayılmış: maaş {salary} + diğer {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "İsteğe bağlı — faiz, kalan yıl, anüite veya doğrusal; bu evde birden fazla kredi veya kredi dilimi mi var? Buraya ekle",
+ "Second home": "İkinci ev",
+ "Value": "Değer"
 }

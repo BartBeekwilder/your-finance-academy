@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "この返済額では利息をまかなえません。",
  "Your mortgage, simply": "住宅ローン（かんたん）",
  "Detailed": "詳細",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "保存すると{n}件の借入部分が1つにまとまります。分けたままにするには詳細を使ってください。"
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "保存すると{n}件の借入部分が1つにまとまります。分けたままにするには詳細を使ってください。",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "月{payment}では利息をまかなえません：{owed}に{rate}%で月{interest}。",
+ "{pct}% of income spent — more than came in": "収入の{pct}%を支出 — 入ってきた額を超えています",
+ "a day": "1日あたり",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "セカンドハウス、別荘、賃貸に出している家 — それぞれに住宅ローン。",
+ "Add a home you own": "所有する住まいを追加",
+ "Add another home": "別の住まいを追加",
+ "an hour of work": "労働1時間あたり",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "口座を通る通りに：ローンは全額、税還付{amount}は収入として",
+ "Earned with your work today": "今日、仕事で稼いだ額",
+ "Home {n}": "住まい{n}",
+ "Mortgage {home}": "住宅ローン {home}",
+ "Name of the home": "住まいの名前",
+ "Net salary {amount} a month, spread over every second": "手取り月給{amount}を毎秒に配分",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "手取り、全収入を{v1}日に配分：給与{salary}＋その他{other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "任意 — 金利、残り年数、元利均等または元金均等。この住まいに複数のローンや借入部分がある場合はここで追加",
+ "Second home": "セカンドハウス",
+ "Value": "価値"
 }

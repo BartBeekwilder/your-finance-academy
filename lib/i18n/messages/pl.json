@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Ta rata nie pokrywa odsetek.",
  "Your mortgage, simply": "Twój kredyt, prosto",
  "Detailed": "Szczegółowy",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Zapis połączy {n} transz w jeden kredyt. Aby je zachować, użyj trybu Zaawansowany."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Zapis połączy {n} transz w jeden kredyt. Aby je zachować, użyj trybu Zaawansowany.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} miesięcznie nie pokrywa odsetek: {interest} miesięcznie od {owed} przy {rate}%.",
+ "{pct}% of income spent — more than came in": "{pct}% dochodu wydane — więcej, niż wpłynęło",
+ "a day": "dziennie",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Drugi dom, dom wakacyjny lub mieszkanie na wynajem — każde z własnym kredytem.",
+ "Add a home you own": "Dodaj nieruchomość, którą posiadasz",
+ "Add another home": "Dodaj kolejną nieruchomość",
+ "an hour of work": "za godzinę pracy",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Tak, jak przechodzi przez konto: cała rata kredytu, zwrot podatku {amount} jako dochód",
+ "Earned with your work today": "Zarobione dziś pracą",
+ "Home {n}": "Nieruchomość {n}",
+ "Mortgage {home}": "Kredyt hipoteczny {home}",
+ "Name of the home": "Nazwa nieruchomości",
+ "Net salary {amount} a month, spread over every second": "Pensja netto {amount} miesięcznie, rozłożona na każdą sekundę",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Netto, cały dochód rozłożony na {v1} dni: pensja {salary} + inne {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Opcjonalnie — oprocentowanie, pozostałe lata, raty równe lub malejące; więcej niż jeden kredyt lub transza na tej nieruchomości? Dodaj je tutaj",
+ "Second home": "Drugi dom",
+ "Value": "Wartość"
 }

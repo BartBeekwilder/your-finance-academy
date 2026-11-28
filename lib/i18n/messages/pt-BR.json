@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Esta parcela não cobre os juros.",
  "Your mortgage, simply": "Seu financiamento, simples",
  "Detailed": "Detalhado",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Salvar junta suas {n} partes em um financiamento. Para mantê-las, use Avançado."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Salvar junta suas {n} partes em um financiamento. Para mantê-las, use Avançado.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} por mês não cobre os juros: {interest} por mês sobre {owed} a {rate}%.",
+ "{pct}% of income spent — more than came in": "{pct}% da renda gasto — mais do que entrou",
+ "a day": "por dia",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Uma segunda casa, uma casa de férias ou um imóvel que você aluga — cada um com seu próprio financiamento.",
+ "Add a home you own": "Adicionar um imóvel seu",
+ "Add another home": "Adicionar outro imóvel",
+ "an hour of work": "por hora de trabalho",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Como passa pela sua conta: o financiamento inteiro, a restituição de imposto {amount} como renda",
+ "Earned with your work today": "Ganho hoje com o seu trabalho",
+ "Home {n}": "Imóvel {n}",
+ "Mortgage {home}": "Financiamento {home}",
+ "Name of the home": "Nome do imóvel",
+ "Net salary {amount} a month, spread over every second": "Salário líquido {amount} por mês, distribuído por cada segundo",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Líquido, toda a renda distribuída em {v1} dias: salário {salary} + outros {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Opcional — juros, anos restantes, Price ou SAC; mais de um financiamento ou parcela neste imóvel? Adicione aqui",
+ "Second home": "Segunda casa",
+ "Value": "Valor"
 }

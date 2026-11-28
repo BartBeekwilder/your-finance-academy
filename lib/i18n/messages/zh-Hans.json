@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "这个月供连利息都不够。",
  "Your mortgage, simply": "你的房贷，简单版",
  "Detailed": "详细",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "保存会把 {n} 个贷款部分合并为一笔房贷。要保留请用高级。"
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "保存会把 {n} 个贷款部分合并为一笔房贷。要保留请用高级。",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "每月 {payment} 不足以支付利息：{owed} 按 {rate}% 计每月 {interest}。",
+ "{pct}% of income spent — more than came in": "已花掉收入的 {pct}% — 超过了收入",
+ "a day": "每天",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "第二套房、度假屋或出租的房子 — 各有各的房贷。",
+ "Add a home you own": "添加你拥有的房产",
+ "Add another home": "再添加一处房产",
+ "an hour of work": "每工作一小时",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "按账户实际进出：房贷全额，退税 {amount} 计为收入",
+ "Earned with your work today": "今天工作赚到的",
+ "Home {n}": "房产 {n}",
+ "Mortgage {home}": "房贷 {home}",
+ "Name of the home": "房产名称",
+ "Net salary {amount} a month, spread over every second": "每月税后工资 {amount}，分摊到每一秒",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "税后，全部收入分摊到 {v1} 天：工资 {salary} + 其他 {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "可选 — 利率、剩余年限、等额本息或等额本金；这处房产有多笔房贷或贷款部分？在这里添加",
+ "Second home": "第二套房",
+ "Value": "价值"
 }

@@ -2394,5 +2394,22 @@
  "This payment doesn't cover the interest.": "Dit maandbedrag dekt de rente niet.",
  "Your mortgage, simply": "Je hypotheek, eenvoudig",
  "Detailed": "Uitgebreid",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Bewaren maakt van je {n} leningdelen één hypotheek. Wil je de delen houden, gebruik dan Uitgebreid."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Bewaren maakt van je {n} leningdelen één hypotheek. Wil je de delen houden, gebruik dan Uitgebreid.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} per maand dekt de rente niet: {interest} per maand over {owed} tegen {rate}%.",
+ "{pct}% of income spent — more than came in": "{pct}% van het inkomen uitgegeven — meer dan er binnenkwam",
+ "a day": "per dag",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Een tweede huis, een vakantiehuis of een huis dat je verhuurt — elk met een eigen hypotheek.",
+ "Add a home you own": "Voeg een woning toe die je bezit",
+ "Add another home": "Nog een woning toevoegen",
+ "an hour of work": "per uur werk",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Zoals het over je rekening gaat: de hypotheek volledig, de teruggaaf {amount} als inkomen",
+ "Earned with your work today": "Vandaag verdiend met je werk",
+ "Home {n}": "Woning {n}",
+ "Mortgage {home}": "Hypotheek {home}",
+ "Name of the home": "Naam van de woning",
+ "Net salary {amount} a month, spread over every second": "Nettosalaris {amount} per maand, verdeeld over elke seconde",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Netto, al het inkomen verdeeld over {v1} dagen: salaris {salary} + overig {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Optioneel — rente, resterende jaren, annuïteit of lineair; meer dan één hypotheek of leningdeel op deze woning? Voeg ze hier toe",
+ "Second home": "Tweede woning",
+ "Value": "Waarde"
 }

@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Cicilan ini tidak menutup bunga.",
  "Your mortgage, simply": "KPR Anda, sederhana",
  "Detailed": "Terperinci",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Menyimpan menggabungkan {n} bagian menjadi satu KPR. Untuk mempertahankannya, pakai Lanjutan."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Menyimpan menggabungkan {n} bagian menjadi satu KPR. Untuk mempertahankannya, pakai Lanjutan.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} per bulan tidak menutup bunga: {interest} per bulan atas {owed} pada {rate}%.",
+ "{pct}% of income spent — more than came in": "{pct}% pendapatan terpakai — lebih dari yang masuk",
+ "a day": "per hari",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Rumah kedua, rumah liburan, atau rumah yang kamu sewakan — masing-masing dengan KPR sendiri.",
+ "Add a home you own": "Tambahkan rumah milikmu",
+ "Add another home": "Tambahkan rumah lain",
+ "an hour of work": "per jam kerja",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Seperti yang lewat rekeningmu: KPR penuh, pengembalian pajak {amount} sebagai pendapatan",
+ "Earned with your work today": "Diperoleh dari kerjamu hari ini",
+ "Home {n}": "Rumah {n}",
+ "Mortgage {home}": "KPR {home}",
+ "Name of the home": "Nama rumah",
+ "Net salary {amount} a month, spread over every second": "Gaji bersih {amount} per bulan, dibagi ke setiap detik",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Bersih, semua pendapatan dibagi {v1} hari: gaji {salary} + lainnya {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Opsional — bunga, sisa tahun, anuitas atau linear; lebih dari satu KPR atau bagian pinjaman pada rumah ini? Tambahkan di sini",
+ "Second home": "Rumah kedua",
+ "Value": "Nilai"
 }

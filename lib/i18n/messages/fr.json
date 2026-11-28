@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Cette mensualité ne couvre pas les intérêts.",
  "Your mortgage, simply": "Votre prêt, simplement",
  "Detailed": "Détaillé",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Enregistrer fusionne vos {n} tranches en un prêt. Pour les garder, utilisez Avancé."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Enregistrer fusionne vos {n} tranches en un prêt. Pour les garder, utilisez Avancé.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} par mois ne couvre pas les intérêts : {interest} par mois sur {owed} à {rate} %.",
+ "{pct}% of income spent — more than came in": "{pct} % du revenu dépensé — plus que ce qui est entré",
+ "a day": "par jour",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Une résidence secondaire, une maison de vacances ou un logement que vous louez — chacun avec son propre prêt.",
+ "Add a home you own": "Ajouter un logement dont vous êtes propriétaire",
+ "Add another home": "Ajouter un autre logement",
+ "an hour of work": "par heure de travail",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Tel que cela passe sur votre compte : le prêt en entier, le remboursement d'impôt {amount} comme revenu",
+ "Earned with your work today": "Gagné avec votre travail aujourd'hui",
+ "Home {n}": "Logement {n}",
+ "Mortgage {home}": "Prêt immobilier {home}",
+ "Name of the home": "Nom du logement",
+ "Net salary {amount} a month, spread over every second": "Salaire net {amount} par mois, réparti sur chaque seconde",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Net, tous les revenus répartis sur {v1} jours : salaire {salary} + autres {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Facultatif — taux, années restantes, amortissable ou linéaire ; plusieurs prêts ou tranches sur ce logement ? Ajoutez-les ici",
+ "Second home": "Résidence secondaire",
+ "Value": "Valeur"
 }

@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "이 상환액으로는 이자를 감당할 수 없습니다.",
  "Your mortgage, simply": "내 주택담보대출, 간단히",
  "Detailed": "상세",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "저장하면 {n}개 대출이 하나로 합쳐집니다. 나눠 두려면 고급을 쓰세요."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "저장하면 {n}개 대출이 하나로 합쳐집니다. 나눠 두려면 고급을 쓰세요.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "월 {payment}(으)로는 이자를 감당할 수 없습니다: {owed}에 {rate}%로 월 {interest}.",
+ "{pct}% of income spent — more than came in": "수입의 {pct}% 지출 — 들어온 것보다 많음",
+ "a day": "하루",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "세컨드 하우스, 별장 또는 임대 중인 집 — 각각 자체 주택담보대출과 함께.",
+ "Add a home you own": "소유한 집 추가",
+ "Add another home": "다른 집 추가",
+ "an hour of work": "근무 1시간당",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "계좌를 거치는 그대로: 대출 전액, 세금 환급 {amount}은(는) 수입으로",
+ "Earned with your work today": "오늘 일로 번 돈",
+ "Home {n}": "집 {n}",
+ "Mortgage {home}": "주택담보대출 {home}",
+ "Name of the home": "집 이름",
+ "Net salary {amount} a month, spread over every second": "월 실수령 급여 {amount}, 매초에 나눠서",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "실수령, 모든 수입을 {v1}일에 나눔: 급여 {salary} + 기타 {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "선택 — 금리, 남은 기간, 원리금균등 또는 원금균등; 이 집에 대출이나 대출 구간이 둘 이상인가요? 여기에 추가하세요",
+ "Second home": "세컨드 하우스",
+ "Value": "가치"
 }

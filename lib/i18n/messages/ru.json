@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Этот платёж не покрывает проценты.",
  "Your mortgage, simply": "Ваша ипотека, просто",
  "Detailed": "Подробно",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Сохранение объединит {n} частей в одну ипотеку. Чтобы оставить части, выберите «Расширенный»."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Сохранение объединит {n} частей в одну ипотеку. Чтобы оставить части, выберите «Расширенный».",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} в месяц не покрывает проценты: {interest} в месяц на {owed} под {rate}%.",
+ "{pct}% of income spent — more than came in": "Потрачено {pct}% дохода — больше, чем поступило",
+ "a day": "в день",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Второе жильё, дача или сдаваемая квартира — у каждого своя ипотека.",
+ "Add a home you own": "Добавить жильё в собственности",
+ "Add another home": "Добавить ещё жильё",
+ "an hour of work": "за час работы",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Как проходит по счёту: ипотека целиком, налоговый возврат {amount} как доход",
+ "Earned with your work today": "Заработано сегодня работой",
+ "Home {n}": "Жильё {n}",
+ "Mortgage {home}": "Ипотека {home}",
+ "Name of the home": "Название жилья",
+ "Net salary {amount} a month, spread over every second": "Чистая зарплата {amount} в месяц, распределённая по каждой секунде",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Чистыми, весь доход на {v1} дней: зарплата {salary} + прочее {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Необязательно — ставка, оставшиеся годы, аннуитет или дифференцированный; несколько ипотек или частей кредита на это жильё? Добавьте их здесь",
+ "Second home": "Второе жильё",
+ "Value": "Стоимость"
 }

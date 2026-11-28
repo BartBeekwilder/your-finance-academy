@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "यह किस्त ब्याज भी नहीं भरती।",
  "Your mortgage, simply": "आपका होम लोन, आसान",
  "Detailed": "विस्तृत",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "सेव करने पर आपके {n} लोन हिस्से एक हो जाएंगे। हिस्से रखने के लिए उन्नत चुनें।"
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "सेव करने पर आपके {n} लोन हिस्से एक हो जाएंगे। हिस्से रखने के लिए उन्नत चुनें।",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} प्रति माह ब्याज नहीं चुकाता: {owed} पर {rate}% से {interest} प्रति माह।",
+ "{pct}% of income spent — more than came in": "आय का {pct}% खर्च — जितना आया उससे ज़्यादा",
+ "a day": "प्रति दिन",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "दूसरा घर, छुट्टियों का घर या किराए पर दिया घर — हर एक का अपना होम लोन।",
+ "Add a home you own": "अपना एक घर जोड़ें",
+ "Add another home": "एक और घर जोड़ें",
+ "an hour of work": "प्रति घंटे के काम पर",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "जैसे आपके खाते से गुज़रता है: पूरा होम लोन, टैक्स रिफ़ंड {amount} आय के रूप में",
+ "Earned with your work today": "आज अपने काम से कमाया",
+ "Home {n}": "घर {n}",
+ "Mortgage {home}": "होम लोन {home}",
+ "Name of the home": "घर का नाम",
+ "Net salary {amount} a month, spread over every second": "नेट वेतन {amount} प्रति माह, हर सेकंड में बँटा हुआ",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "नेट, सारी आय {v1} दिनों में बँटी: वेतन {salary} + अन्य {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "वैकल्पिक — ब्याज दर, बाकी साल, ईएमआई या लीनियर; इस घर पर एक से ज़्यादा लोन या लोन हिस्सा? यहाँ जोड़ें",
+ "Second home": "दूसरा घर",
+ "Value": "मूल्य"
 }

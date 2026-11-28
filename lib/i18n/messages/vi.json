@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Khoản trả này không đủ tiền lãi.",
  "Your mortgage, simply": "Khoản vay của bạn, đơn giản",
  "Detailed": "Chi tiết",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Lưu sẽ gộp {n} phần vay thành một khoản. Muốn giữ các phần, dùng Nâng cao."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Lưu sẽ gộp {n} phần vay thành một khoản. Muốn giữ các phần, dùng Nâng cao.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} mỗi tháng không đủ trả lãi: {interest} mỗi tháng trên {owed} với lãi suất {rate}%.",
+ "{pct}% of income spent — more than came in": "Đã tiêu {pct}% thu nhập — nhiều hơn số tiền vào",
+ "a day": "mỗi ngày",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Nhà thứ hai, nhà nghỉ dưỡng hoặc nhà cho thuê — mỗi căn có khoản vay riêng.",
+ "Add a home you own": "Thêm một căn nhà bạn sở hữu",
+ "Add another home": "Thêm một căn nhà khác",
+ "an hour of work": "mỗi giờ làm việc",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Như đi qua tài khoản của bạn: khoản vay đầy đủ, tiền hoàn thuế {amount} tính là thu nhập",
+ "Earned with your work today": "Kiếm được bằng công việc hôm nay",
+ "Home {n}": "Nhà {n}",
+ "Mortgage {home}": "Khoản vay mua nhà {home}",
+ "Name of the home": "Tên căn nhà",
+ "Net salary {amount} a month, spread over every second": "Lương ròng {amount} mỗi tháng, chia đều cho từng giây",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Ròng, toàn bộ thu nhập chia cho {v1} ngày: lương {salary} + khác {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Tùy chọn — lãi suất, số năm còn lại, trả đều hoặc giảm dần; có nhiều khoản vay hoặc phần vay trên căn nhà này? Thêm ở đây",
+ "Second home": "Nhà thứ hai",
+ "Value": "Giá trị"
 }

@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "هذا القسط لا يغطي الفائدة.",
  "Your mortgage, simply": "رهنك، ببساطة",
  "Detailed": "مفصّل",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "الحفظ يدمج أجزاء القرض الـ {n} في رهن واحد. للاحتفاظ بها استخدم المتقدم."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "الحفظ يدمج أجزاء القرض الـ {n} في رهن واحد. للاحتفاظ بها استخدم المتقدم.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} شهريًا لا يغطي الفائدة: {interest} شهريًا على {owed} بنسبة {rate}%.",
+ "{pct}% of income spent — more than came in": "أُنفق {pct}% من الدخل — أكثر مما دخل",
+ "a day": "في اليوم",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "منزل ثانٍ أو منزل لقضاء العطلات أو منزل تؤجّره — لكلٍّ رهنه العقاري الخاص.",
+ "Add a home you own": "أضف منزلًا تملكه",
+ "Add another home": "أضف منزلًا آخر",
+ "an hour of work": "لكل ساعة عمل",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "كما يمرّ عبر حسابك: الرهن كاملًا، واسترداد الضريبة {amount} كدخل",
+ "Earned with your work today": "ما كسبته من عملك اليوم",
+ "Home {n}": "المنزل {n}",
+ "Mortgage {home}": "رهن {home}",
+ "Name of the home": "اسم المنزل",
+ "Net salary {amount} a month, spread over every second": "صافي الراتب {amount} شهريًا، موزّع على كل ثانية",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "صافيًا، كل الدخل موزّع على {v1} يومًا: الراتب {salary} + أخرى {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "اختياري — الفائدة، السنوات المتبقية، أقساط ثابتة أو متناقصة؛ أكثر من رهن أو شريحة قرض على هذا المنزل؟ أضفها هنا",
+ "Second home": "منزل ثانٍ",
+ "Value": "القيمة"
 }

@@ -2388,5 +2388,22 @@
  "This payment doesn't cover the interest.": "Questa rata non copre gli interessi.",
  "Your mortgage, simply": "Il tuo mutuo, semplice",
  "Detailed": "Dettagliato",
- "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Salvando le tue {n} quote diventano un mutuo. Per tenerle usa Avanzato."
+ "Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.": "Salvando le tue {n} quote diventano un mutuo. Per tenerle usa Avanzato.",
+ "{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.": "{payment} al mese non copre gli interessi: {interest} al mese su {owed} al {rate}%.",
+ "{pct}% of income spent — more than came in": "{pct}% del reddito speso — più di quanto è entrato",
+ "a day": "al giorno",
+ "A second home, a holiday home or a home you rent out — each with its own mortgage.": "Una seconda casa, una casa vacanze o una casa che affitti — ciascuna con il suo mutuo.",
+ "Add a home you own": "Aggiungi una casa di tua proprietà",
+ "Add another home": "Aggiungi un'altra casa",
+ "an hour of work": "per ora di lavoro",
+ "As it goes through your account: the mortgage in full, the tax refund {amount} as income": "Come passa sul tuo conto: il mutuo per intero, il rimborso fiscale {amount} come reddito",
+ "Earned with your work today": "Guadagnato oggi con il tuo lavoro",
+ "Home {n}": "Casa {n}",
+ "Mortgage {home}": "Mutuo {home}",
+ "Name of the home": "Nome della casa",
+ "Net salary {amount} a month, spread over every second": "Stipendio netto {amount} al mese, distribuito su ogni secondo",
+ "Net, all income spread over {v1} days: salary {salary} + other {other}": "Netto, tutto il reddito distribuito su {v1} giorni: stipendio {salary} + altro {other}",
+ "Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here": "Facoltativo — tasso, anni rimanenti, alla francese o lineare; più di un mutuo o di una quota su questa casa? Aggiungili qui",
+ "Second home": "Seconda casa",
+ "Value": "Valore"
 }
