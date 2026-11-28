@@ -1,5 +1,6 @@
 "use client";
 
+import SpendCube from "@/components/finance/SpendCube";
 import { FileText } from "lucide-react";
 import Link from "next/link";
 import { FillMonth, monthFromUrl } from "@/components/finance/EarlierMonths";
@@ -225,6 +226,9 @@ export default function ExpensesPage() {
 
       {/* The categories added up over the period, as on Investments. */}
       {!(scopeCat && !hasSubs) && <SpendingMix key={`mix${mode}${month.getTime()}`} data={data} now={at} mode={mode} currency={currency} />}
+
+      {/* The period's spending as one cube (Bart, 28 Nov). */}
+      {!scope && <SpendCube data={all} now={at} mode={mode} currency={currency} />}
 
       <section style={{ display: "grid", gap: 12 }}>
         <h2 className="pf-section-title">{t("Compare")}</h2>

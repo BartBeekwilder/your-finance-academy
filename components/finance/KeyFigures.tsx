@@ -8,6 +8,7 @@ import { money, monthYear } from "@/lib/finance/format";
 import type { Metric } from "@/lib/finance/metrics";
 import { yearPercents, type YearTile } from "@/lib/finance/yearPercents";
 import { MoneyClockCard } from "./MoneyClock";
+import { YearClockCard } from "./YearClock";
 import { useFinance } from "./FinanceProvider";
 import LiveAmount from "./LiveAmount";
 import { useKeyFigures } from "./useKeyFigures";
@@ -77,6 +78,8 @@ export function KeyFiguresPage() {
 
       {/* The money clock first (Bart, 19 Nov): more telling day to day than the freedom number. */}
       <MoneyClockCard data={data} now={new Date(now)} currency={currency} />
+      {/* The year clock (Bart, 28 Nov): from which day you work for yourself. */}
+      <YearClockCard data={data} now={new Date(Math.floor(now / 3_600_000) * 3_600_000)} currency={currency} />
 
       <div className="pf-kf-hero">
         <section className="pf-card pf-kf-fi">

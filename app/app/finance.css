@@ -6876,3 +6876,54 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 .pf-today-work-side b { color: var(--pf-ink); font-size: 1.05rem; }
 .pf-today-work-side small { color: var(--pf-ink-3); font-size: 0.72rem; }
 @media (prefers-reduced-motion: reduce) { .pf-today-work-kicker i { animation: none; } }
+
+/* The year clock (YearClock): the year's income as the year, costs first. */
+.pf-yc-year { font-size: 0.75rem; color: var(--pf-ink-3); padding: 6px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.05); }
+.pf-yc-body { display: grid; grid-template-columns: minmax(240px, 340px) minmax(0, 1fr); gap: 22px; align-items: center; }
+@media (max-width: 760px) { .pf-yc-body { grid-template-columns: minmax(0, 1fr); } .pf-yc-dial { max-width: 340px; justify-self: center; } }
+.pf-yc-dial { width: 100%; height: auto; overflow: visible; }
+.pf-yc-arc { cursor: pointer; transition: opacity 0.3s ease; animation-name: pf-yc-draw; animation-timing-function: cubic-bezier(0.3, 0.7, 0.3, 1); animation-fill-mode: both; }
+@keyframes pf-yc-draw { from { stroke-dasharray: 0 var(--c); } to { stroke-dasharray: var(--len) var(--c); } }
+.pf-yc-month { fill: var(--pf-ink-3); font-size: 9.5px; font-weight: 600; }
+.pf-yc-today line { filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7)); }
+.pf-yc-preview { filter: drop-shadow(0 0 6px currentColor); animation: pf-yc-pop 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+@keyframes pf-yc-pop { from { opacity: 0; transform: scale(0.96); transform-origin: center; } }
+.pf-yc-mid { height: 100%; display: grid; place-content: center; text-align: center; gap: 2px; }
+.pf-yc-mid span { font-size: 0.72rem; color: var(--pf-ink-2); }
+.pf-yc-mid b { font-size: 1.7rem; line-height: 1.1; }
+.pf-yc-mid small { font-size: 0.7rem; color: var(--pf-ink-3); }
+.pf-yc-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.pf-yc-rows li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto 3.4em; gap: 10px; align-items: center; padding: 6px 8px; border-radius: 8px; font-size: 0.85rem; transition: background 0.2s; }
+.pf-yc-rows li[data-on] { background: rgba(255, 255, 255, 0.06); }
+.pf-yc-rows i { width: 10px; height: 10px; border-radius: 3px; }
+.pf-yc-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-yc-dates { color: var(--pf-ink-3); font-size: 0.75rem; font-variant-numeric: tabular-nums; }
+.pf-yc-rows b { text-align: right; font-variant-numeric: tabular-nums; }
+.pf-yc-kept { color: #4ade80; }
+.pf-yc-tips { display: grid; gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.07); padding-top: 14px; }
+.pf-yc-tips-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pf-yc-tips-head > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 0.9rem; }
+.pf-yc-tiplist { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.pf-yc-tip { text-align: left; display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--c) 35%, transparent); background: color-mix(in srgb, var(--c) 8%, transparent); color: var(--pf-ink); cursor: pointer; transition: transform 0.25s cubic-bezier(0.2, 1.2, 0.4, 1), background 0.2s, box-shadow 0.2s; }
+.pf-yc-tip b { font-size: 0.88rem; color: var(--c); }
+.pf-yc-tip span { font-size: 0.78rem; color: var(--pf-ink-2); }
+.pf-yc-tip[data-on] { transform: translateY(-2px); background: color-mix(in srgb, var(--c) 16%, transparent); box-shadow: 0 6px 22px -10px var(--c); }
+@media (prefers-reduced-motion: reduce) { .pf-yc-arc { animation: none; } }
+
+/* The spend cube (SpendCube): spending as one cube of category blocks. */
+.pf-cube-body { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(220px, 1fr); gap: 20px; align-items: center; }
+@media (max-width: 760px) { .pf-cube-body { grid-template-columns: minmax(0, 1fr); } }
+.pf-cube-stage { height: 360px; min-width: 0; cursor: grab; touch-action: none; border-radius: 14px; background: radial-gradient(circle at 50% 45%, rgba(100, 210, 255, 0.08), transparent 65%); }
+.pf-cube-stage:active { cursor: grabbing; }
+.pf-cube-stage canvas { display: block; }
+.pf-cube-side { display: grid; gap: 12px; }
+.pf-cube-readout { display: grid; gap: 2px; padding: 12px 14px; border-radius: 12px; background: color-mix(in srgb, var(--c) 10%, transparent); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); transition: background 0.25s, border-color 0.25s; }
+.pf-cube-readout span { font-size: 0.78rem; color: var(--c); font-weight: 600; }
+.pf-cube-readout b { font-size: 1.6rem; }
+.pf-cube-readout small { font-size: 0.75rem; color: var(--pf-ink-3); }
+.pf-cube-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; max-height: 210px; overflow: auto; }
+.pf-cube-list li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 5px 8px; border-radius: 8px; font-size: 0.85rem; cursor: default; transition: background 0.2s; }
+.pf-cube-list li[data-on] { background: rgba(255, 255, 255, 0.07); }
+.pf-cube-list i { width: 10px; height: 10px; border-radius: 3px; }
+.pf-cube-list span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-cube-key { color: var(--pf-ink-3); font-size: 0.72rem; }
