@@ -103,9 +103,12 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
           label={t("Mortgage")}
           value={net ? "net" : "gross"}
           onChange={(v) => { setNetView(v === "net"); try { localStorage.setItem("pf-net-refund", v === "net" ? "1" : "0"); } catch {} }}
-          options={[{ value: "gross", label: t("Gross") }, { value: "net", label: t("Net of tax refund") }]}
+          // "Cash flow | Net" (Bart, 28 Nov: clearer than gross/net): cash
+          // flow = as it goes through your account, the mortgage in full and
+          // the refund as income; net = the mortgage less the refund.
+          options={[{ value: "gross", label: t("Cash flow") }, { value: "net", label: t("Net of tax refund") }]}
         />
-        <small>{net ? t("Mortgage less the tax refund {amount}; the refund is out of the income too", { amount: money(refund, currency) }) : t("Tax refund {amount} counts as income", { amount: money(refund, currency) })}</small>
+        <small>{net ? t("Mortgage less the tax refund {amount}; the refund is out of the income too", { amount: money(refund, currency) }) : t("As it goes through your account: the mortgage in full, the tax refund {amount} as income", { amount: money(refund, currency) })}</small>
       </div>
     )}
     <div className="pf-cattiles-row">

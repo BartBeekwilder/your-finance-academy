@@ -1,5 +1,6 @@
 "use client";
 
+import TodayWorkTile from "@/components/finance/TodayWorkTile";
 import { intlLocale, t } from "@/lib/i18n";
 import { useEffect, useMemo, useRef, useState } from "react";
 import BudgetBar from "@/components/finance/BudgetBar";
@@ -140,6 +141,8 @@ export default function DashboardPage() {
         <NetWorthCard base={nw.base} liveChange={nw.liveChange} workChange={nw.workChange} monthForecast={nw.forecast[0]?.change ?? 0} year={view === "year" ? { start: nw.startOfYear, finished: nw.finished, rest: nw.forecast.slice(1).reduce((t, f) => t + f.change, 0) } : undefined} workBefore={nw.workDone.reduce((t, v) => t + v, 0)} savings={savings} investments={nw.holdingsTotal} invest={invest} currency={currency} />
         <ProgressStrip />
       </section>
+      {/* Today's income from work, live — a size up from the tiles below. */}
+      {view !== "years" && <TodayWorkTile data={data} currency={currency} />}
       {/* Tiles left; year lines + donut stacked right, stretched to equal height. */}
       <section style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "stretch" }}>
         {view === "years" ? (

@@ -6863,3 +6863,16 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 /* Real estate › loan part entered the bank's way: what it works out to. */
 .pf-part-preview { margin: -4px 0 0; font-size: 0.8rem; color: var(--pf-green); }
 .pf-part-preview[data-warn] { color: #ff9f0a; }
+
+/* Dashboard: earned with your work today (TodayWorkTile), live. */
+.pf-today-work { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 28px; padding: 20px 22px; background: linear-gradient(120deg, rgba(48, 209, 88, 0.12), rgba(48, 209, 88, 0.02) 60%), var(--pf-card, #1c1c1e); box-shadow: 0 0 0 1px rgba(48, 209, 88, 0.22) inset; }
+.pf-today-work-main { display: grid; gap: 8px; min-width: 0; flex: 1 1 260px; }
+.pf-today-work-kicker { display: inline-flex; align-items: center; gap: 8px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--pf-ink-2); }
+.pf-today-work-kicker i { width: 8px; height: 8px; border-radius: 50%; background: #30d158; box-shadow: 0 0 10px #30d158; animation: pf-today-pulse 2s ease-in-out infinite; }
+@keyframes pf-today-pulse { 50% { opacity: 0.45; } }
+.pf-today-work-bar { display: block; height: 4px; border-radius: 4px; background: rgba(48, 209, 88, 0.15); overflow: hidden; max-width: 420px; }
+.pf-today-work-bar span { display: block; height: 100%; background: #30d158; border-radius: 4px; transition: width 0.5s linear; }
+.pf-today-work-side { display: grid; gap: 4px; font-size: 0.85rem; color: var(--pf-ink-2); }
+.pf-today-work-side b { color: var(--pf-ink); font-size: 1.05rem; }
+.pf-today-work-side small { color: var(--pf-ink-3); font-size: 0.72rem; }
+@media (prefers-reduced-motion: reduce) { .pf-today-work-kicker i { animation: none; } }
