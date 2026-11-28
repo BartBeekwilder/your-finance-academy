@@ -247,7 +247,9 @@
     /*income category sheet, live 24 Nov*/ "Inkomen: klik je op een inkomstenbron, dan zie je nu wat er binnenkwam in plaats van € 0 'uitgegeven'.",
     /*loans: convert balance debts + interest split, live 25 Nov*/ "Leningen: een schuld die op je balans staat, zoals je studieschuld, maak je met één klik een lening met rente en maandbedrag. Bij een aflossing splits je rente (kosten) en aflossing (gaat van de schuld af).",
     /*today-from-work tile + more homes in setup, live 28 Nov*/ "Dashboard: een nieuwe tegel laat live zien wat je vandaag met je werk verdient, met je bedrag per dag en per uur.",
-    "Instellen: voeg meer woningen toe, zoals een tweede huis of een huis dat je verhuurt, elk met een eigen hypotheek."
+    "Instellen: voeg meer woningen toe, zoals een tweede huis of een huis dat je verhuurt, elk met een eigen hypotheek.",
+    /*year clock + spend cube, live 28 Nov*/ "Kerncijfers: de jaarklok. Je inkomen van dit jaar als het hele jaar: tot welke dag je voor elke kostenpost werkt, en vanaf welke dag voor jezelf. Met tips: geef je minder uit aan bijvoorbeeld uit eten, dan zie je hoeveel dagen eerder dat is.",
+    "Uitgaven: de uitgavenkubus. Al je uitgaven als één 3D-kubus, elke categorie een blok zo groot als haar aandeel. Draai hem rond en wijs een blok aan."
   ];
 
   var L = {
@@ -483,7 +485,9 @@
       "Income: clicking an income source now shows what came in, instead of €0 'spent'.",
       "Loans: a debt on your balance sheet, like your student loan, becomes a loan with rate and monthly payment in one click. When you repay a debt, split it into interest (a cost) and repayment (off the debt).",
       "Dashboard: a new tile shows, live, what your work has earned today, with your amount per day and per hour.",
-      "Setup: add more homes, like a second home or one you rent out, each with its own mortgage."
+      "Setup: add more homes, like a second home or one you rent out, each with its own mortgage.",
+      "Key figures: the year clock. This year's income as the whole year: until which day you work for each cost, and from which day for yourself. With tips: spend less on, say, dining out and see how many days sooner that is.",
+      "Expenses: the spend cube. All your spending as one 3D cube, each category a block as big as its share. Turn it around and point at a block."
     ],
     de: [
       /*0*/ "Funktionen", "Anmelden", "Live-Demo ansehen", "Dein ganzes Finanzleben, live.",
@@ -717,7 +721,9 @@
       "Einkommen: Ein Klick auf eine Einkommensquelle zeigt jetzt, was eingegangen ist, statt 0 € „ausgegeben“.",
       "Kredite: Eine Schuld in deiner Bilanz, etwa dein Studienkredit, wird mit einem Klick ein Kredit mit Zins und Monatsrate. Bei einer Tilgung trennst du Zinsen (Kosten) und Tilgung (geht von der Schuld ab).",
       "Dashboard: Eine neue Kachel zeigt live, was deine Arbeit heute verdient hat, mit deinem Betrag pro Tag und pro Stunde.",
-      "Einrichtung: Füge weitere Immobilien hinzu, etwa einen Zweitwohnsitz oder eine vermietete Wohnung, jeweils mit eigener Hypothek."
+      "Einrichtung: Füge weitere Immobilien hinzu, etwa einen Zweitwohnsitz oder eine vermietete Wohnung, jeweils mit eigener Hypothek.",
+      "Kennzahlen: die Jahresuhr. Dein Einkommen dieses Jahres als das ganze Jahr: bis zu welchem Tag du für jede Kostenart arbeitest und ab welchem Tag für dich. Mit Tipps: Gib z. B. weniger fürs Auswärtsessen aus und sieh, wie viele Tage früher das ist.",
+      "Ausgaben: der Ausgabenwürfel. Alle deine Ausgaben als ein 3D-Würfel, jede Kategorie ein Block so groß wie ihr Anteil. Dreh ihn und zeig auf einen Block."
     ],
     fr: [
       /*0*/ "Fonctionnalités", "Se connecter", "Voir la démo en direct", "Toute votre vie financière, en direct.",
@@ -951,7 +957,9 @@
       "Revenus : en cliquant sur une source de revenus, vous voyez maintenant ce qui est entré, au lieu de 0 € « dépensés ».",
       "Prêts : une dette à votre bilan, comme votre prêt étudiant, devient en un clic un prêt avec taux et mensualité. Lors d’un remboursement, séparez les intérêts (une charge) et le remboursement (déduit de la dette).",
       "Tableau de bord : une nouvelle tuile montre en direct ce que votre travail vous a rapporté aujourd'hui, avec votre montant par jour et par heure.",
-      "Configuration : ajoutez d'autres logements, comme une résidence secondaire ou un logement que vous louez, chacun avec son propre prêt."
+      "Configuration : ajoutez d'autres logements, comme une résidence secondaire ou un logement que vous louez, chacun avec son propre prêt.",
+      "Indicateurs : l'horloge de l'année. Vos revenus de l'année comme l'année entière : jusqu'à quel jour vous travaillez pour chaque dépense, et à partir de quel jour pour vous. Avec des conseils : dépensez moins au restaurant, par exemple, et voyez combien de jours plus tôt.",
+      "Dépenses : le cube des dépenses. Toutes vos dépenses en un cube 3D, chaque catégorie un bloc aussi grand que sa part. Faites-le tourner et pointez un bloc."
     ],
     es: [
       /*0*/ "Funciones", "Iniciar sesión", "Ver la demo en vivo", "Toda tu vida financiera, en vivo.",
@@ -1185,7 +1193,9 @@
       "Ingresos: al hacer clic en una fuente de ingresos ahora ves lo que entró, en lugar de 0 € «gastados».",
       "Préstamos: una deuda de tu balance, como tu préstamo estudiantil, se convierte en un clic en un préstamo con interés y cuota. Al amortizar, separas intereses (gasto) y amortización (reduce la deuda).",
       "Panel: un nuevo recuadro muestra en directo lo que tu trabajo ha ganado hoy, con tu importe por día y por hora.",
-      "Configuración: añade más viviendas, como una segunda vivienda o una que alquilas, cada una con su propia hipoteca."
+      "Configuración: añade más viviendas, como una segunda vivienda o una que alquilas, cada una con su propia hipoteca.",
+      "Cifras clave: el reloj del año. Tus ingresos del año como el año entero: hasta qué día trabajas para cada gasto y desde qué día para ti. Con consejos: gasta menos en, por ejemplo, comer fuera y mira cuántos días antes sería.",
+      "Gastos: el cubo de gastos. Todo tu gasto como un cubo 3D, cada categoría un bloque tan grande como su parte. Gíralo y señala un bloque."
     ],
     it: [
       /*0*/ "Funzioni", "Accedi", "Guarda la demo dal vivo", "Tutta la tua vita finanziaria, dal vivo.",
@@ -1419,7 +1429,9 @@
       "Entrate: cliccando su una fonte di entrate ora vedi cosa è arrivato, invece di 0 € «spesi».",
       "Prestiti: un debito nel tuo bilancio, come il prestito studentesco, diventa con un clic un prestito con tasso e rata. Quando rimborsi, separi interessi (costo) e rimborso (riduce il debito).",
       "Dashboard: un nuovo riquadro mostra in diretta quanto ha guadagnato oggi il tuo lavoro, con il tuo importo al giorno e all'ora.",
-      "Configurazione: aggiungi altre case, come una seconda casa o una che affitti, ciascuna con il suo mutuo."
+      "Configurazione: aggiungi altre case, come una seconda casa o una che affitti, ciascuna con il suo mutuo.",
+      "Cifre chiave: l'orologio dell'anno. Il tuo reddito dell'anno come l'anno intero: fino a che giorno lavori per ogni costo e da che giorno per te. Con consigli: spendi meno, ad esempio, per mangiare fuori e vedi quanti giorni prima sarebbe.",
+      "Spese: il cubo delle spese. Tutte le tue spese in un cubo 3D, ogni categoria un blocco grande quanto la sua quota. Ruotalo e indica un blocco."
     ],
     "pt-BR": [
       /*0*/ "Recursos", "Entrar", "Ver a demo ao vivo", "Toda a sua vida financeira, ao vivo.",
@@ -1653,7 +1665,9 @@
       "Receitas: ao clicar em uma fonte de receita, agora você vê o que entrou, em vez de R$ 0 «gastos».",
       "Empréstimos: uma dívida no seu balanço, como o crédito estudantil, vira com um clique um empréstimo com juros e parcela. Ao amortizar, você separa juros (custo) e amortização (abate a dívida).",
       "Painel: um novo bloco mostra ao vivo quanto o seu trabalho rendeu hoje, com seu valor por dia e por hora.",
-      "Configuração: adicione mais imóveis, como uma segunda casa ou um que você aluga, cada um com seu próprio financiamento."
+      "Configuração: adicione mais imóveis, como uma segunda casa ou um que você aluga, cada um com seu próprio financiamento.",
+      "Números-chave: o relógio do ano. Sua renda do ano como o ano inteiro: até que dia você trabalha para cada custo e a partir de que dia para você. Com dicas: gaste menos com, por exemplo, comer fora e veja quantos dias antes seria.",
+      "Despesas: o cubo de gastos. Todos os seus gastos como um cubo 3D, cada categoria um bloco do tamanho da sua parte. Gire-o e aponte um bloco."
     ],
     pl: [
       /*0*/ "Funkcje", "Zaloguj się", "Zobacz demo na żywo", "Całe twoje życie finansowe, na żywo.",
@@ -1887,7 +1901,9 @@
       "Dochody: po kliknięciu źródła dochodu widzisz teraz, co wpłynęło, zamiast 0 zł „wydano”.",
       "Kredyty: dług z twojego bilansu, np. kredyt studencki, jednym kliknięciem staje się kredytem z oprocentowaniem i ratą. Przy spłacie rozdzielasz odsetki (koszt) i spłatę (zmniejsza dług).",
       "Pulpit: nowy kafelek pokazuje na żywo, ile dziś zarobiła twoja praca, z kwotą na dzień i na godzinę.",
-      "Konfiguracja: dodaj więcej nieruchomości, np. drugi dom lub mieszkanie na wynajem, każde z własnym kredytem."
+      "Konfiguracja: dodaj więcej nieruchomości, np. drugi dom lub mieszkanie na wynajem, każde z własnym kredytem.",
+      "Kluczowe liczby: zegar roku. Twój dochód z tego roku jako cały rok: do którego dnia pracujesz na każdy koszt i od którego dnia dla siebie. Z poradami: wydawaj mniej np. na jedzenie na mieście i zobacz, o ile dni wcześniej.",
+      "Wydatki: kostka wydatków. Wszystkie wydatki jako jedna kostka 3D, każda kategoria to blok tak duży jak jej udział. Obróć ją i wskaż blok."
     ],
     tr: [
       /*0*/ "Özellikler", "Giriş yap", "Canlı demoyu gör", "Tüm finansal hayatın, canlı.",
@@ -2121,7 +2137,9 @@
       "Gelir: bir gelir kaynağına tıkladığınızda artık 0 ₺ 'harcandı' yerine gelen tutarı görürsünüz.",
       "Krediler: bilançondaki bir borç, örneğin öğrenim kredin, tek tıkla faiz ve taksitli bir krediye dönüşür. Ödemede faizi (gider) ve anaparayı (borçtan düşer) ayırırsın.",
       "Pano: yeni bir kutucuk, işinin bugün ne kazandırdığını canlı gösterir; günlük ve saatlik tutarınla birlikte.",
-      "Kurulum: ikinci bir ev ya da kiraya verdiğin bir ev gibi daha fazla ev ekle, her birinin kendi kredisiyle."
+      "Kurulum: ikinci bir ev ya da kiraya verdiğin bir ev gibi daha fazla ev ekle, her birinin kendi kredisiyle.",
+      "Temel rakamlar: yıl saati. Bu yılın gelirini tüm yıl olarak gör: her gider için hangi güne kadar çalıştığını ve hangi günden itibaren kendin için. İpuçlarıyla: örneğin dışarıda yemeğe daha az harca ve kaç gün daha erken olduğunu gör.",
+      "Giderler: harcama küpü. Tüm harcamaların tek bir 3B küp, her kategori payı kadar büyük bir blok. Döndür ve bir bloğu işaret et."
     ],
     ru: [
       /*0*/ "Возможности", "Войти", "Смотреть живое демо", "Вся ваша финансовая жизнь — вживую.",
@@ -2355,7 +2373,9 @@
       "Доходы: при нажатии на источник дохода теперь видно, что поступило, а не 0 € «потрачено».",
       "Кредиты: долг из вашего баланса, например учебный кредит, одним щелчком становится кредитом со ставкой и платежом. При погашении вы разделяете проценты (расход) и погашение (уменьшает долг).",
       "Панель: новая плитка в реальном времени показывает, сколько ваша работа принесла сегодня, с суммой в день и в час.",
-      "Настройка: добавьте ещё жильё, например второй дом или сдаваемую квартиру, у каждого своя ипотека."
+      "Настройка: добавьте ещё жильё, например второй дом или сдаваемую квартиру, у каждого своя ипотека.",
+      "Ключевые показатели: годовые часы. Доход года как весь год: до какого дня вы работаете на каждую статью расходов и с какого дня на себя. С советами: тратьте меньше, например, на рестораны — и увидите, на сколько дней раньше.",
+      "Расходы: куб расходов. Все ваши расходы одним 3D-кубом, каждая категория — блок размером с её долю. Поверните его и наведите на блок."
     ],
     ar: [
       /*0*/ "الميزات", "تسجيل الدخول", "شاهد العرض المباشر", "حياتك المالية كلها، مباشرة.",
@@ -2589,7 +2609,9 @@
       "الدخل: عند النقر على مصدر دخل ترى الآن ما وصل، بدلًا من 0 «مُنفق».",
       "القروض: دين في ميزانيتك، مثل قرض الدراسة، يصبح بنقرة واحدة قرضًا بفائدة وقسط شهري. عند السداد تفصل الفائدة (تكلفة) عن السداد (يُخصم من الدين).",
       "لوحة التحكم: بطاقة جديدة تعرض مباشرةً ما كسبه عملك اليوم، مع مبلغك في اليوم وفي الساعة.",
-      "الإعداد: أضف منازل أخرى، مثل منزل ثانٍ أو منزل تؤجّره، لكلٍّ منها رهنه العقاري الخاص."
+      "الإعداد: أضف منازل أخرى، مثل منزل ثانٍ أو منزل تؤجّره، لكلٍّ منها رهنه العقاري الخاص.",
+      "الأرقام الرئيسية: ساعة السنة. دخل هذا العام كالسنة كلها: حتى أي يوم تعمل لكل تكلفة، ومن أي يوم تعمل لنفسك. مع نصائح: أنفق أقل على الأكل خارج المنزل مثلًا وشاهد كم يومًا يبكّر ذلك.",
+      "المصروفات: مكعّب الإنفاق. كل إنفاقك كمكعّب ثلاثي الأبعاد، كل فئة كتلة بحجم حصتها. أدِره وأشر إلى كتلة."
     ],
     hi: [
       /*0*/ "फ़ीचर", "लॉग इन", "लाइव डेमो देखें", "आपकी पूरी वित्तीय ज़िंदगी, लाइव।",
@@ -2823,7 +2845,9 @@
       "आय: किसी आय स्रोत पर क्लिक करने पर अब 0 'खर्च' की जगह दिखता है कि कितना आया।",
       "लोन: आपकी बैलेंस शीट का कोई कर्ज़, जैसे स्टूडेंट लोन, एक क्लिक में ब्याज और मासिक किस्त वाला लोन बन जाता है। भुगतान पर ब्याज (खर्च) और मूलधन (कर्ज़ से घटता है) अलग करें।",
       "डैशबोर्ड: एक नई टाइल लाइव दिखाती है कि आज आपके काम ने कितना कमाया, प्रति दिन और प्रति घंटे की राशि के साथ।",
-      "सेटअप: और घर जोड़ें, जैसे दूसरा घर या किराए पर दिया घर, हर एक का अपना होम लोन।"
+      "सेटअप: और घर जोड़ें, जैसे दूसरा घर या किराए पर दिया घर, हर एक का अपना होम लोन।",
+      "मुख्य आंकड़े: साल की घड़ी। इस साल की आय पूरे साल के रूप में: हर खर्च के लिए आप किस दिन तक काम करते हैं, और किस दिन से अपने लिए। सुझावों के साथ: जैसे बाहर खाने पर कम खर्च करें और देखें कि यह कितने दिन पहले होगा।",
+      "खर्च: खर्च का घन। आपका सारा खर्च एक 3D घन के रूप में, हर श्रेणी अपने हिस्से जितना बड़ा ब्लॉक। उसे घुमाएँ और किसी ब्लॉक पर पॉइंट करें।"
     ],
     id: [
       /*0*/ "Fitur", "Masuk", "Lihat demo langsung", "Seluruh kehidupan finansialmu, secara langsung.",
@@ -3057,7 +3081,9 @@
       "Pemasukan: mengeklik sumber pemasukan kini menampilkan apa yang masuk, bukan 0 'dibelanjakan'.",
       "Pinjaman: utang di neraca Anda, seperti pinjaman pendidikan, jadi pinjaman dengan bunga dan cicilan dalam satu klik. Saat membayar, pisahkan bunga (biaya) dan pokok (mengurangi utang).",
       "Dasbor: ubin baru menampilkan secara langsung berapa yang dihasilkan kerjamu hari ini, dengan jumlah per hari dan per jam.",
-      "Penyiapan: tambahkan rumah lain, seperti rumah kedua atau rumah yang kamu sewakan, masing-masing dengan KPR sendiri."
+      "Penyiapan: tambahkan rumah lain, seperti rumah kedua atau rumah yang kamu sewakan, masing-masing dengan KPR sendiri.",
+      "Angka kunci: jam tahun. Pendapatan tahun ini sebagai satu tahun penuh: sampai hari apa kamu bekerja untuk setiap biaya, dan mulai hari apa untuk dirimu. Dengan tips: belanja lebih sedikit untuk, misalnya, makan di luar dan lihat berapa hari lebih awal.",
+      "Pengeluaran: kubus pengeluaran. Semua pengeluaranmu sebagai satu kubus 3D, setiap kategori balok sebesar porsinya. Putar dan arahkan ke sebuah balok."
     ],
     ja: [
       /*0*/ "機能", "ログイン", "ライブデモを見る", "あなたのお金のすべてを、ライブで。",
@@ -3291,7 +3317,9 @@
       "収入：収入源をクリックすると、「支出 0」ではなく実際に入った金額が表示されるようになりました。",
       "ローン：奨学金などバランスシート上の負債を、ワンクリックで金利と月額付きのローンにできます。返済時は利息（費用）と元本（残高から減る）に分けられます。",
       "ダッシュボード：今日の仕事でいくら稼いだかをライブで表示する新しいタイル。1日あたり・1時間あたりの金額も表示します。",
-      "初期設定：セカンドハウスや賃貸に出している家など、住まいを追加できます。それぞれに住宅ローンを設定できます。"
+      "初期設定：セカンドハウスや賃貸に出している家など、住まいを追加できます。それぞれに住宅ローンを設定できます。",
+      "主要指標：年時計。今年の収入を1年に見立てて、各支出のために何日まで働くか、何日から自分のためかを表示。ヒント付き：たとえば外食を減らすと何日早くなるかがわかります。",
+      "支出：支出キューブ。支出全体を1つの3Dキューブに。各カテゴリーは割合に応じた大きさのブロック。回転させてブロックを指してみてください。"
     ],
     ko: [
       /*0*/ "기능", "로그인", "라이브 데모 보기", "당신의 모든 재정 생활, 실시간으로.",
@@ -3525,7 +3553,9 @@
       "수입: 수입원을 클릭하면 이제 '지출 0' 대신 들어온 금액이 보여요.",
       "대출: 학자금 대출처럼 재무상태표에 있는 부채를 클릭 한 번으로 금리와 월 납입액이 있는 대출로 만들 수 있습니다. 상환 시 이자(비용)와 원금(부채에서 차감)을 나눕니다.",
       "대시보드: 오늘 일로 번 금액을 실시간으로 보여 주는 새 타일. 하루·시간당 금액도 함께 표시됩니다.",
-      "설정: 세컨드 하우스나 임대 중인 집 등 집을 더 추가하세요. 각각 자체 주택담보대출과 함께."
+      "설정: 세컨드 하우스나 임대 중인 집 등 집을 더 추가하세요. 각각 자체 주택담보대출과 함께.",
+      "핵심 지표: 연간 시계. 올해 수입을 한 해 전체로 보고, 각 비용을 위해 며칠까지 일하는지, 며칠부터 나를 위해 일하는지 보여 줍니다. 팁 포함: 예를 들어 외식을 줄이면 며칠 더 빨라지는지 확인하세요.",
+      "지출: 지출 큐브. 모든 지출을 하나의 3D 큐브로, 각 카테고리는 비중만큼 큰 블록. 돌려 보고 블록을 가리켜 보세요."
     ],
     vi: [
       /*0*/ "Tính năng", "Đăng nhập", "Xem bản demo trực tiếp", "Toàn bộ đời sống tài chính của bạn, trực tiếp.",
@@ -3759,7 +3789,9 @@
       "Thu nhập: bấm vào một nguồn thu nhập giờ hiện số tiền đã nhận, thay vì 0 'đã chi'.",
       "Khoản vay: một khoản nợ trong bảng cân đối, như vay học phí, thành khoản vay có lãi suất và khoản trả hàng tháng chỉ với một cú nhấp. Khi trả nợ, tách lãi (chi phí) và gốc (trừ vào nợ).",
       "Bảng điều khiển: một ô mới hiển thị trực tiếp số tiền công việc của bạn kiếm được hôm nay, kèm số tiền mỗi ngày và mỗi giờ.",
-      "Thiết lập: thêm nhiều căn nhà, như nhà thứ hai hoặc nhà cho thuê, mỗi căn có khoản vay riêng."
+      "Thiết lập: thêm nhiều căn nhà, như nhà thứ hai hoặc nhà cho thuê, mỗi căn có khoản vay riêng.",
+      "Chỉ số chính: đồng hồ năm. Thu nhập năm nay như cả một năm: bạn làm việc đến ngày nào cho từng khoản chi, và từ ngày nào cho bản thân. Kèm mẹo: chi ít hơn cho, chẳng hạn, ăn ngoài và xem sớm hơn bao nhiêu ngày.",
+      "Chi tiêu: khối chi tiêu. Toàn bộ chi tiêu như một khối 3D, mỗi danh mục là một khối lớn bằng tỷ trọng của nó. Xoay nó và trỏ vào một khối."
     ],
     "zh-Hans": [
       /*0*/ "功能", "登录", "查看实时演示", "你的全部财务生活，实时呈现。",
@@ -3993,7 +4025,9 @@
       "收入：点击某个收入来源，现在显示实际到账金额，而不是“已支出 0”。",
       "贷款：资产负债表上的债务（如助学贷款）一键转为带利率和月供的贷款。还款时可拆分利息（费用）和本金（减少债务）。",
       "仪表盘：新卡片实时显示你今天工作赚了多少，并附每天和每小时的金额。",
-      "设置：可添加更多房产，例如第二套房或出租的房子，各有各的房贷。"
+      "设置：可添加更多房产，例如第二套房或出租的房子，各有各的房贷。",
+      "关键数据：年度时钟。把今年的收入看作整整一年：你为每项支出工作到哪一天，以及从哪一天起为自己工作。附带建议：比如少花点钱在外出就餐上，看看能提前多少天。",
+      "支出：支出立方体。把所有支出变成一个 3D 立方体，每个类别是按占比大小的方块。旋转它并指向方块。"
     ]
   };
 
