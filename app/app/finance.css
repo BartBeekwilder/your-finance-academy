@@ -6911,11 +6911,13 @@ button.pf-fill-way:disabled { opacity: 0.5; cursor: default; }
 @media (prefers-reduced-motion: reduce) { .pf-yc-arc { animation: none; } }
 
 /* The spend cube (SpendCube): spending as one cube of category blocks. */
+.pf-cube { container-type: inline-size; }
 .pf-cube-body { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(220px, 1fr); gap: 20px; align-items: center; }
-@media (max-width: 760px) { .pf-cube-body { grid-template-columns: minmax(0, 1fr); } }
-.pf-cube-stage { height: 360px; min-width: 0; cursor: grab; touch-action: none; border-radius: 14px; background: radial-gradient(circle at 50% 45%, rgba(100, 210, 255, 0.08), transparent 65%); }
+/* Narrow card (not the window): the cube above its list. */
+@container (max-width: 640px) { .pf-cube-body { grid-template-columns: minmax(0, 1fr); } }
+.pf-cube-stage { position: relative; height: 360px; min-width: 0; overflow: hidden; cursor: grab; touch-action: none; border-radius: 14px; background: radial-gradient(circle at 50% 50%, rgba(100, 210, 255, 0.08), transparent 65%); }
 .pf-cube-stage:active { cursor: grabbing; }
-.pf-cube-stage canvas { display: block; }
+.pf-cube-stage canvas { position: absolute; inset: 0; display: block; width: 100% !important; height: 100% !important; }
 .pf-cube-side { display: grid; gap: 12px; }
 .pf-cube-readout { display: grid; gap: 2px; padding: 12px 14px; border-radius: 12px; background: color-mix(in srgb, var(--c) 10%, transparent); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); transition: background 0.25s, border-color 0.25s; }
 .pf-cube-readout span { font-size: 0.78rem; color: var(--c); font-weight: 600; }

@@ -69,10 +69,11 @@ export default function SpendCube({ data, now, mode, currency }: { data: Finance
   useEffect(() => {
     const el = mount.current;
     if (!el || !items.length) return;
-    const width = el.clientWidth, height = el.clientHeight;
+    // The canvas fills its box by CSS; only the drawing size follows it.
+    const width = Math.max(el.clientWidth, 1), height = Math.max(el.clientHeight, 1);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(width, height);
+    renderer.setSize(width, height, false);
     el.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 100);
@@ -163,8 +164,8 @@ export default function SpendCube({ data, now, mode, currency }: { data: Finance
     };
     frame();
     const onResize = () => {
-      const w = el.clientWidth, h = el.clientHeight;
-      renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+      const w = Math.max(el.clientWidth, 1), h = Math.max(el.clientHeight, 1);
+      renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
     };
     const ro = new ResizeObserver(onResize); ro.observe(el);
     return () => {
@@ -181,7 +182,7 @@ export default function SpendCube({ data, now, mode, currency }: { data: Finance
   const shown = items.find((x) => x.key === hover);
   if (!items.length) return null;
   return (
-    <section className="pf-card pf-cube" aria-label={t("Spend cube")}>
+    <section className="pf-card pf-clk-card pf-cube" aria-label={t("Spend cube")}>
       <div className="pf-clk-head">
         <div>
           <h2 className="pf-section-title" style={{ margin: 0 }}>{t("Spend cube")}</h2>
