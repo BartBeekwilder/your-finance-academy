@@ -849,11 +849,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (localized.current || !current || (source !== "vault" && source !== "supabase") || lang() === "en") return;
     localized.current = true;
-    for (const c of current.categories) {
-      if (c.deleted_at || !c.is_default || !STARTER_NAMES.includes(c.name)) continue;
-      const name = t(c.name);
-      if (name && name !== c.name) updateCategory(c.id, { name }).catch(() => {});
-    }
+    const renames = current.categories
+      .filter((c) => !c.deleted_at && c.is_default && STARTER_NAMES.includes(c.name) && t(c.name) && t(c.name) !== c.name)
+      .map((c) => ({ id: c.id, name: t(c.name) }));
+    // After this render, not inside it (each rename updates the data).
+    if (renames.length) void Promise.resolve().then(async () => { for (const r of renames) await updateCategory(r.id, { name: r.name }).catch(() => {}); });
   }, [current, source, updateCategory]);
 
   const deleteCategory = useCallback(
