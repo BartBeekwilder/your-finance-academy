@@ -17,7 +17,7 @@ import LiveTiles, { type Mode } from "@/components/finance/LiveTiles";
 import MonthTransactions from "@/components/finance/MonthTransactions";
 import MonthPicker from "@/components/finance/MonthPicker";
 import Stat from "@/components/finance/Stat";
-import { last12Months, liveFixed, num, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
+import { last12Months, liveFixed, num, otherIncome, projectedNetIncome, summarize, yearForecast } from "@/lib/finance/calc";
 import { money, monthYear, monthName as monthLabel } from "@/lib/finance/format";
 import ReadWithAI from "@/components/finance/ReadWithAI";
 import PaydayCheck from "@/components/finance/PaydayCheck";
@@ -71,7 +71,9 @@ export default function IncomePage() {
   const receivedYear = thisYear.reduce((t, m) => t + m.income, 0);
   const forecast = yearForecast(data, at);
   // The month's expected net (a finished month: its own projection).
-  const expectedMonth = past ? projectedNetIncome(data, month) : forecast[0].income;
+  // A finished month: the salary plus the other income that came in (it
+  // was the salary only — "income per day" left the rest out, 28 Nov).
+  const expectedMonth = past ? projectedNetIncome(data, month) + otherIncome(data, month) : forecast[0].income;
   const expectedYear = thisYear.slice(0, -1).reduce((t, m) => t + m.income, 0) + forecast.reduce((t, f) => t + f.income, 0);
   const finished = months.slice(1).filter((m) => m.income > 0);
   const average = finished.length ? finished.reduce((t, m) => t + m.income, 0) / finished.length : 0;
@@ -164,7 +166,14 @@ export default function IncomePage() {
             label={t("Income per day")}
             value={money(expectedMonth / daysInMonth, currency)}
             color="var(--pf-green)"
-            hint={t("Net, salary spread over {v1} days", { v1: daysInMonth })}
+            // What's in it: the salary and, when there is any, the other
+            // income too — "salary spread" read as salary only (28 Nov).
+            hint={(() => {
+              const other = past ? otherIncome(data, month) : Math.max(expectedMonth - projectedNetIncome(data, month), 0);
+              return other > 0.005
+                ? t("Net, all income spread over {v1} days: salary {salary} + other {other}", { v1: daysInMonth, salary: money(expectedMonth - other, currency), other: money(other, currency) })
+                : t("Net, salary spread over {v1} days", { v1: daysInMonth });
+            })()}
           />
         ) : (
           <Stat
