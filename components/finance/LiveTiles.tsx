@@ -107,7 +107,9 @@ export default function LiveTiles({
           mode === "month" ? (
             <>
               <Sub label={(at ? t("Entered in {monthName}", { monthName: month }) : t("Entered so far"))} value={enteredIncome} color={GREEN} currency={currency} />
-              <Sub label="≈" value={monthlyIncome / days} suffix={t("/ day net")} color={GREEN} currency={currency} />
+              {/* All of the month's net income per day — salary and other income that
+                  came in (it was the salary only: €7,000 in showed less than €233/day, 28 Nov). */}
+              <Sub label="≈" value={(monthlyIncome + otherIncome(data, monthStart)) / days} suffix={t("/ day net")} color={GREEN} currency={currency} />
               <Bar label={t("{v1}% of month elapsed", { v1: Math.round(fraction * 100) })} parts={elapsed(fraction, GREEN, "rgba(48,209,88,.25)")} />
             </>
           ) : (
