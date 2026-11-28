@@ -111,6 +111,8 @@ const MORT_KINDS: { kind: MortgageKind; label: string }[] = [
   { kind: "interest_only", label: "Interest-only" },
 ];
 const newMortPart = (amount = ""): MortPart => ({ key: crypto.randomUUID(), kind: "annuity", amount, rate: "", years: "", extra: "" });
+type OtherHome = { key: string; name: string; value: string; mortgage: string; monthly: string; net?: boolean };
+const otherHomeName = (h: OtherHome, i: number) => h.name.trim() || (i === 0 ? t("Second home") : t("Home {n}", { n: i + 2 }));
 
 /** The complete route asks these two on their own screens (Subscriptions,
  *  Insurance), so the fixed-costs screen leaves them out there; the quick
@@ -227,6 +229,9 @@ type Draft = {
   goal: { name: string; amount: string; months: number };
   runwayGoal?: number;
   home: { value: string; mortgage: string; details?: boolean; parts?: MortPart[]; refund?: string; net?: boolean };
+  /** More homes (a second home, a holiday home, a rental) — each with its own
+   *  mortgage, the easy way: owed now + the monthly payment (28 Nov). */
+  homes?: OtherHome[];
   /** Rent or own (Your home); rent and the mortgage payment go to the fixed costs. */
   housing?: "rent" | "own" | null;
   /** Agreed to AI reading a document during the setup (ai_consent_at on finish). */
@@ -343,6 +348,8 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   const [goal, setGoal] = useState(d0.goal ?? { name: "", amount: "", months: 12 });
   const [runwayGoal, setRunwayGoal] = useState(d0.runwayGoal ?? data.profile.runway_goal ?? 6);
   const [home, setHome] = useState<Draft["home"]>(d0.home ?? { value: "", mortgage: "" });
+  const [homes, setHomes] = useState<OtherHome[]>(d0.homes ?? []);
+  const setOtherHome = (i: number, patch: Partial<OtherHome>) => setHomes(homes.map((h, j) => (j === i ? { ...h, ...patch } : h)));
   // Other loans, each with its kind and a name; the complete route also asks
   // the rate and the monthly payment (then the debt goes down by itself).
   const [loans, setLoans] = useState<Draft["loans"]>(d0.loans ?? []);
@@ -399,8 +406,11 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
   const subLines = subs.filter((x) => x.on && num(x.amount) > 0 && (!x.own || x.name.trim()));
   const policyLines = policies.filter((p) => p.on && num(p.premium) > 0);
   const policyName = (p: Draft["policies"][number]) => p.name?.trim() || t((POLICIES.find((x) => x.kind === p.kind) ?? OWN_POLICY).label);
+  // The other homes' mortgage payments are fixed costs too.
+  const homeLines: Line[] = homes.filter((h) => num(h.monthly) > 0).map((h, i) => ({ key: `home-${h.key}`, name: otherHomeName(h, i), icon: "house.fill", color: "2F6690", amount: h.monthly, on: true, own: true }));
   const costLines: Line[] = [
     ...fixedShown,
+    ...homeLines,
     ...(separate ? subLines.map((x) => ({ ...x, key: `sub-${x.key}`, name: subName(x), own: true })) : []),
     ...(separate ? policyLines.map((p, i) => ({ key: `ins-${p.key ?? p.kind}-${i}`, name: policyName(p), icon: "cross.case.fill", color: "E63946", amount: p.premium, on: true, own: true })) : []),
   ];
@@ -508,18 +518,19 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
     const budgetTotal = budgetLines.filter((b) => b.on).reduce((s, b) => s + num(b.amount), 0);
     const cash = accounts.reduce((s, a) => s + num(a.amount), 0);
     const invested = investments.reduce((s, x) => s + invValue(x), 0);
-    const equity = cash + invested + num(home.value) - num(home.mortgage) - loans.reduce((s, l) => s + num(l.amount), 0);
+    const others = homes.reduce((s, h) => s + num(h.value) - num(h.mortgage), 0);
+    const equity = cash + invested + num(home.value) - num(home.mortgage) + others - loans.reduce((s, l) => s + num(l.amount), 0);
     return { fixedTotal, budgetTotal, left: netIncome - fixedTotal - budgetTotal, cash, equity };
-  }, [costLines, budgetLines, accounts, investments, home, loans, netIncome, invQuotes]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [costLines, budgetLines, accounts, investments, home, homes, loans, netIncome, invQuotes]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Remember where the setup stands on this device.
   useEffect(() => {
     if (touring || resume) return;
-    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, extraCats };
+    const draft: Draft = { route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, homes, loans, history, checkin, checkinDays, housing, aiConsent, extraCats };
     try {
       localStorage.setItem(DRAFT_KEY(preview), JSON.stringify(draft));
     } catch {}
-  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, loans, history, checkin, checkinDays, housing, aiConsent, extraCats, touring, resume, preview]);
+  }, [route, step, answered, currency, net, gross, payday, together, names, accounts, investments, fixed, subs, policies, budgets, goal, runwayGoal, home, homes, loans, history, checkin, checkinDays, housing, aiConsent, extraCats, touring, resume, preview]);
 
   // Rent or own: the fixed costs follow (rent on, or the mortgage on).
   const setHousing = (h: "rent" | "own") => {
@@ -809,6 +820,34 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
           }
         }
       }
+      // The other homes: each its own property in Real estate with its own
+      // mortgage (owed now + the monthly payment); the payments book as fixed
+      // costs under Mortgage. Without a payment the debt goes on the balance.
+      if (has("housing")) {
+        const nl = countryOf(data.profile) === "NL";
+        const pay: { note: string; amount: number }[] = [];
+        for (const [i, h] of homes.entries()) {
+          if (!(num(h.value) > 0) && !(num(h.mortgage) > 0)) continue;
+          const name = otherHomeName(h, i);
+          const easy = num(h.mortgage) > 0 && num(h.monthly) > 0
+            ? easyMortgage({ owed: num(h.mortgage), monthly: num(h.monthly), net: !!h.net, dutch: nl, woz: num(h.value) }, new Date())
+            : null;
+          const property_id = await saveProperty({ name, value: num(h.value).toFixed(2), value_date: today, purchase_price: null, purchase_date: null, country: nl ? "NL" : "INTL", tax_refund_monthly: easy && easy.refund > 0 ? easy.refund.toFixed(2) : null, sort_order: i + 1 });
+          if (easy) await saveMortgagePart({ property_id, name: t("Mortgage"), kind: "annuity", principal: easy.part.principal.toFixed(2), rate: easy.rate.toFixed(3), fixed_until: null, start_date: easy.part.start_date, term_months: Math.min(easy.part.term_months, 600), nhg: false, extra_monthly: "0", sort_order: 0 });
+          else if (num(h.mortgage) > 0) await addBalanceItem({ name: t("Mortgage {home}", { home: name }), side: "liability", value: num(h.mortgage) });
+          if (num(h.monthly) > 0) pay.push({ note: t("Mortgage {home}", { home: name }), amount: num(h.monthly) });
+        }
+        if (pay.length) {
+          const main = has("fixed") && mortLine?.on ? num(fixedShown.find((f) => f.key === "mortgage")?.amount ?? "") : 0;
+          const c = await categoryFor(t("Mortgage"), "house.fill", "2F6690", true);
+          await setBudget(c.id, month, main + pay.reduce((s2, x) => s2 + x.amount, 0));
+          for (const x of pay)
+            await addTransaction({
+              amount: x.amount.toFixed(2), type: "expense", date: bookDate(1),
+              note: x.note, is_auto_income: false, is_fixed_expense: true, recurrence_id: crypto.randomUUID(), category_id: c.id, account_id: null,
+            });
+        }
+      }
       if (has("balance")) {
         for (const [i, l] of loans.filter((l) => num(l.amount) > 0).entries()) {
           await saveLoan({ kind: l.kind, name: l.name.trim() || t(LOAN_STYLE[l.kind].label), balance: num(l.amount).toFixed(2), rate: num(l.rate).toFixed(2), monthly: num(l.monthly).toFixed(2), start_date: today, sort_order: i });
@@ -889,9 +928,11 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                   ...accounts.map((a) => ({ name: a.name, amount: num(a.amount) })),
                   { name: t("Investments"), amount: investments.reduce((s2, x) => s2 + invValue(x), 0) },
                   { name: t("Home"), amount: num(home.value) },
+                  ...homes.map((h, i) => ({ name: otherHomeName(h, i), amount: num(h.value) })),
                 ],
                 debts: [
                   { name: t("Mortgage"), amount: num(home.mortgage) },
+                  ...homes.map((h, i) => ({ name: t("Mortgage {home}", { home: otherHomeName(h, i) }), amount: num(h.mortgage) })),
                   ...loans.map((l) => ({ name: l.name.trim() || t(LOAN_STYLE[l.kind].label), amount: num(l.amount) })),
                 ],
                 fixedLines: costLines.filter((x) => x.on && num(x.amount) > 0).map((x) => ({ name: x.own ? x.name : t(x.name), amount: num(x.amount), day: x.split ? Math.min(...x.split.map((p) => p.day ?? 1)) : (x.day ?? 1) })),
@@ -1059,7 +1100,7 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                   {num(home.mortgage) > 0 && countryOf(data.profile) === "NL" && <Labeled label={t("Tax refund per month (voorlopige teruggaaf)")}><input className="pf-input pf-ob-amount" inputMode="decimal" placeholder={t("Optional")} value={home.refund ?? ""} onChange={(e) => setHome({ ...home, refund: e.target.value })} /></Labeled>}
                   <button type="button" className="pf-ob-more" aria-expanded={!!home.details} onClick={() => setHome({ ...home, details: !home.details, parts: home.parts?.length ? home.parts : [newMortPart(home.mortgage)] })}>
                     <Layers size={15} />
-                    <span>{t("Mortgage details")}<small>{t("Optional — rate, years to go, annuity or linear")}</small></span>
+                    <span>{t("Mortgage details")}<small>{t("Optional — rate, years to go, annuity or linear; more than one mortgage or loan part on this home? Add them here")}</small></span>
                     <ArrowRight size={14} className="pf-ob-more-arrow" />
                   </button>
                   {home.details && (
@@ -1115,6 +1156,33 @@ export default function Onboarding({ preview, resume, onClose }: { preview: bool
                     </label>
                     {readError?.kind === "mortgage" && <p style={{ color: "var(--pf-red)", fontSize: "0.85rem" }}>{readError.text}</p>}
                   </>
+                )}
+                {housing && (
+                  <div className="pf-ob-mort pf-ob-homes">
+                    {homes.map((h, i) => (
+                      <div key={h.key} className="pf-ob-mortpart">
+                        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                          <input className="pf-ob-name" style={{ flex: 1 }} value={h.name} placeholder={otherHomeName({ ...h, name: "" }, i)} aria-label={t("Name of the home")} onChange={(e) => setOtherHome(i, { name: e.target.value })} />
+                          <button type="button" className="pf-icon-button" aria-label={t("Remove")} onClick={() => setHomes(homes.filter((_, j) => j !== i))}><X size={13} /></button>
+                        </div>
+                        <div className="pf-ob-loanterms pf-ob-mortterms">
+                          <label>{t("Value")}<input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={h.value} onChange={(e) => setOtherHome(i, { value: e.target.value })} /></label>
+                          <label>{t("Mortgage remaining")}<input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={h.mortgage} onChange={(e) => setOtherHome(i, { mortgage: e.target.value })} /></label>
+                          <label>{t("Mortgage payment per month")}<input className="pf-input" inputMode="decimal" placeholder={money(0, currency)} value={h.monthly} onChange={(e) => setOtherHome(i, { monthly: e.target.value })} /></label>
+                        </div>
+                        {num(h.monthly) > 0 && (
+                          <div className="pf-ob-chips" role="group" aria-label={t("Monthly payment")}>
+                            <button type="button" aria-pressed={!h.net} style={{ ["--c" as string]: "#0a84ff" }} onClick={() => setOtherHome(i, { net: false })}>{t("Gross")}</button>
+                            <button type="button" aria-pressed={!!h.net} style={{ ["--c" as string]: "#0a84ff" }} onClick={() => setOtherHome(i, { net: true })}>{t("Net (after tax refund)")}</button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    <button type="button" className="pf-bal-add" onClick={() => setHomes([...homes, { key: crypto.randomUUID(), name: "", value: "", mortgage: "", monthly: "" }])}>
+                      <Plus size={13} /> {housing === "rent" ? t("Add a home you own") : t("Add another home")}
+                    </button>
+                    {homes.length === 0 && <small style={{ color: "var(--pf-ink-3)" }}>{t("A second home, a holiday home or a home you rent out — each with its own mortgage.")}</small>}
+                  </div>
                 )}
                 <span className="pf-unlock-hint">{t("Not at hand? Skip it — no problem. You can fill it in later under Real estate.")}</span>
               </Screen>
