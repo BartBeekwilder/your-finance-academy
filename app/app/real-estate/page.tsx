@@ -642,7 +642,10 @@ function EasyMortgage({ property, parts, rows, now, currency }: { property: Prop
       <p className="pf-part-preview" data-warn={(n(owed) > 0 && n(monthly) > 0 && !res) || undefined}>
         {res
           ? `${t("≈ {interest} interest · ≈ {repayment} repayment", { interest: money(n(owed) * res.rate / 1200, currency), repayment: money(Math.max(res.gross - n(owed) * res.rate / 1200, 0), currency) })} · ${t("{rate}% assumed", { rate: res.rate.toLocaleString(intlLocale(), { maximumFractionDigits: 2 }) })}${res.refund > 0 ? ` · ${t("Your tax refund {amount} per month", { amount: money(res.refund, currency) })}` : ""}`
-          : n(owed) > 0 && n(monthly) > 0 ? t("This payment doesn't cover the interest.") : t("Fill in what you owe now and what you pay a month.")}
+          : n(owed) > 0 && n(monthly) > 0
+            // Say the numbers, so a typo (rate, a missing zero) shows (28 Nov).
+            ? t("{payment} a month doesn't cover the interest: {interest} a month on {owed} at {rate}%.", { payment: money(n(monthly), currency), interest: money(n(owed) * (rate ?? 3.8) / 1200, currency), owed: money(n(owed), currency), rate: (rate ?? 3.8).toLocaleString(intlLocale(), { maximumFractionDigits: 2 }) })
+            : t("Fill in what you owe now and what you pay a month.")}
       </p>
       <button type="button" className="pf-button" style={{ justifySelf: "start" }} disabled={!res || busy} onClick={save}>{done ? t("Saved") : busy ? t("One moment…") : t("Save")}</button>
       {rows.length > 1 && <small style={{ color: "var(--pf-ink-3)" }}>{t("Saving makes your {n} loan parts one mortgage. Keep the parts in Detailed.", { n: rows.length })}</small>}

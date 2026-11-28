@@ -36,9 +36,12 @@ const annuity = (debt: number, r: number, n: number) => (n <= 0 ? debt : r === 0
 /** Months for an annuity of `pay` to clear `debt`; null when it never does. */
 function monthsFor(debt: number, r: number, pay: number) {
   if (!(pay > 0)) return null;
-  if (r === 0) return Math.round(debt / pay);
+  // At least one month: a small debt that one payment clears rounded to 0
+  // months and read as "doesn't cover the interest" (28 Nov, Bart's mother
+  // entering a home with very little mortgage left).
+  if (r === 0) return Math.max(1, Math.round(debt / pay));
   const x = 1 - (r * debt) / pay;
-  return x > 0 ? Math.round(-Math.log(x) / Math.log(1 + r)) : null;
+  return x > 0 ? Math.max(1, Math.round(-Math.log(x) / Math.log(1 + r))) : null;
 }
 /** Payments left after today: next month up to and including the end month. */
 function monthsTo(end: string, now: Date) {
