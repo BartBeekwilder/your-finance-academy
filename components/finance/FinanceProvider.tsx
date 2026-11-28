@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { OPEN_SIGNUP } from "./SignIn";
-import { t } from "@/lib/i18n";
+import { lang, t } from "@/lib/i18n";
 import { withSpread } from "@/lib/finance/spread";
 import { dueFixedCosts } from "@/lib/finance/recurring";
 import { foldIds, liveOnly, safeMerge, trackChanges } from "@/lib/finance/vaultMerge";
@@ -13,7 +13,7 @@ import { createContext, useCallback, useContext, useEffect, useLayoutEffect, use
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { withAdvances } from "@/lib/finance/advances";
 import { withRepayments } from "@/lib/finance/repayments";
-import { buildDemoData } from "@/lib/finance/demo";
+import { buildDemoData, STARTER_NAMES } from "@/lib/finance/demo";
 import { live, num, salaryTest } from "@/lib/finance/calc";
 import type { Holding, Loan, FinanceDocument, Account, Achievement, ActivityDay, BalanceItem, BalanceValue, Budget, Category, FinanceData, Goal, InsurancePolicy, MonthClose, MortgagePartRow, Profile, Property, Transaction } from "@/lib/finance/types";
 import { getSupabase } from "@/lib/supabase";
@@ -840,6 +840,21 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     },
     [source, supabase, update],
   );
+
+  // Starter categories arrive in English (signup seed); a user in another
+  // language would see "Groceries", "Rent"… and, on her setup, Bart's mother
+  // deleted the wrong ones (28 Nov). Rename the untouched starters into the
+  // app's language, once per load. A starter the user renamed is left alone.
+  const localized = useRef(false);
+  useEffect(() => {
+    if (localized.current || !current || (source !== "vault" && source !== "supabase") || lang() === "en") return;
+    localized.current = true;
+    for (const c of current.categories) {
+      if (c.deleted_at || !c.is_default || !STARTER_NAMES.includes(c.name)) continue;
+      const name = t(c.name);
+      if (name && name !== c.name) updateCategory(c.id, { name }).catch(() => {});
+    }
+  }, [current, source, updateCategory]);
 
   const deleteCategory = useCallback(
     async (id: string) => {

@@ -18,6 +18,11 @@ const STARTERS: [name: string, icon: string, color: string][] = [
   ["Income", "dollarsign.circle.fill", "1C7C54"],
 ];
 
+/** The starter names as every new account gets them (English, from the
+ *  signup seed 0002 / iOS SeedData) — renamed once into the user's language
+ *  (FinanceProvider, 28 Nov: Bart's mother saw them in English). */
+export const STARTER_NAMES = STARTERS.map(([name]) => name);
+
 const FIXED = new Set(["Rent", "Utilities"]);
 
 // Deterministic so server and client render the same numbers.

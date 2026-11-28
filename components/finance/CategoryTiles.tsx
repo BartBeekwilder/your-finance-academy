@@ -143,7 +143,7 @@ export default function CategoryTiles({ data, now, mode, currency, selected, onS
             <span className="pf-cattile-meta">
               {t("{pct}% of spending", { pct: Math.round(total ? (spent / total) * 100 : 0) })}{subs > 0 ? ` · ${subs === 1 ? t("1 subcategory") : t("{n} subcategories", { n: subs })}` : ""}
             </span>
-            {ofIncome(spent) && <span className="pf-cattile-meta pf-cattile-income">{ofIncome(spent)}</span>}
+            {ofIncome(spent) && <span className="pf-cattile-meta pf-cattile-income" data-over={spent > income}>{ofIncome(spent)}</span>}
             {fixedLine(fixedBy.get(c.id) ?? 0, spent)}
           </button>
         );

@@ -186,13 +186,17 @@ export default function LiveTiles({
             );
           if (inc <= 0) return lines;
           const retained = Math.round((bal / inc) * 100);
-          const share = Math.min(Math.max(retained, 0), 100) / 100;
+          // Spending more than comes in (28 Nov, Bart's mother): "−24% of
+          // income retained" read as 24%. Say what happened instead: spent
+          // 124% of the income, the bar full red.
+          const spentPct = Math.round(((inc - bal) / inc) * 100);
+          const share = bal < 0 ? 1 : Math.min(Math.max(retained, 0), 100) / 100;
           const c = bal >= 0 ? BLUE : RED;
           return (
             <>
             {lines}
             <Bar
-              label={t("{retained}% of income retained", { retained })}
+              label={bal < 0 ? t("{pct}% of income spent — more than came in", { pct: spentPct }) : t("{retained}% of income retained", { retained })}
               labelColor={c}
               parts={[
                 { share, color: c },
