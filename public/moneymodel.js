@@ -256,21 +256,74 @@
         }
         fx.globalAlpha = 1;
       }
+      // Text boxes already on the canvas: labels keep clear of them (28 Nov:
+      // "Geld & overig" ran into "Eigen vermogen", the small debts at the
+      // bottom into each other).
+      const placed = [];
+      const hits = (r) => placed.some((q) => r.x0 < q.x1 && r.x1 > q.x0 && r.y0 < q.y1 && r.y1 > q.y0);
       // Where repayment meets the debt: a "−" with what it takes off.
       for (const b of bands) {
         if (!b.reduces || b.still || !b.b) continue;
         const end = bez(b, b.mid ? 0.55 : 1);
         fx.textAlign = b.mid ? "center" : "right"; fx.font = "600 10.5px ui-monospace, Menlo, monospace"; fx.fillStyle = b.color;
-        fx.fillText(b.value, b.mid ? end.x : end.x - 8, end.y - end.w / 2 - 5);
+        const tx = b.mid ? end.x : end.x - 8, ty = end.y - end.w / 2 - 5, tw = fx.measureText(b.value).width;
+        fx.fillText(b.value, tx, ty);
+        placed.push({ x0: b.mid ? tx - tw / 2 : tx - tw, x1: b.mid ? tx + tw / 2 : tx, y0: ty - 10, y1: ty + 2 });
       }
+      const items = [];
       for (const n of nodes) {
         fx.fillStyle = n.color; fx.beginPath(); if (fx.roundRect) { fx.roundRect(n.x, n.y, n.w, n.h, 3); } else { fx.rect(n.x, n.y, n.w, n.h); } fx.fill();
         if (narrow && (n.id === "maand" || n.id === "bezit")) continue;
         const right = n.id === "ev" || n.id.startsWith("schuld");
+        items.push({ n, right, x: right ? n.x - 6 : n.x + n.w + 6, y: n.y + Math.min(n.h / 2, 14) + 4 });
+      }
+      // One column of labels at a time: top to bottom, each at least a label's
+      // height below the one above; what runs off the bottom moves back up.
+      const lh = narrow ? 11 : 25, bottom = FH - 4 - (narrow ? 0 : 13);
+      const cols = new Map();
+      for (const it of items) { const k = (it.right ? "r" : "l") + Math.round(it.x); if (!cols.has(k)) cols.set(k, []); cols.get(k).push(it); }
+      for (const col of cols.values()) {
+        col.sort((a, b) => a.y - b.y);
+        for (let i = 1; i < col.length; i++) col[i].y = Math.max(col[i].y, col[i - 1].y + lh);
+        if (col.length && col[col.length - 1].y > bottom) {
+          col[col.length - 1].y = bottom;
+          for (let i = col.length - 2; i >= 0; i--) col[i].y = Math.min(col[i].y, col[i + 1].y - lh);
+        }
+      }
+      // The results column (equity, debts) first; a label from the column
+      // before it that would run into one is shortened with "…", or left out.
+      items.sort((a, b) => (a.right === b.right ? 0 : a.right ? -1 : 1));
+      const fit = (text, max) => {
+        if (fx.measureText(text).width <= max) return text;
+        let t = text;
+        while (t.length > 1 && fx.measureText(t + "…").width > max) t = t.slice(0, -1);
+        return t.length > 2 ? t + "…" : null;
+      };
+      for (const it of items) {
+        const { n, right, x, y } = it;
+        const lf = `600 ${narrow ? 9.5 : 11}px system-ui, sans-serif`, vf = "10.5px ui-monospace, Menlo, monospace";
+        fx.font = lf; const lw = fx.measureText(n.label).width;
+        fx.font = vf; const vw = narrow ? 0 : fx.measureText(n.value).width;
+        const w = Math.max(lw, vw), y0 = y - 10, y1 = y + (narrow ? 2 : 15);
+        let label = n.label, value = narrow ? null : n.value;
+        if (!right) {
+          // Room to the right until the first box it would touch.
+          const limit = placed.filter((q) => q.x1 > x && y0 < q.y1 && y1 > q.y0).reduce((m, q) => Math.min(m, q.x0 - 4), Infinity);
+          if (limit < x + w) {
+            fx.font = lf; label = fit(n.label, limit - x);
+            fx.font = vf; value = value && fit(n.value, limit - x);
+            if (!label) continue;
+          }
+        } else if (hits({ x0: x - w, x1: x, y0, y1 })) {
+          // Still touching after the column was spread (an amount over it): shift down a line.
+          it.y += lh / 2;
+        }
+        const ly = it.y;
         fx.textAlign = right ? "right" : "left";
-        const lx = right ? n.x - 6 : n.x + n.w + 6, ly = n.y + Math.min(n.h / 2, 14) + 4;
-        fx.font = `600 ${narrow ? 9.5 : 11}px system-ui, sans-serif`; fx.fillStyle = "#eef0f6"; fx.fillText(n.label, lx, ly);
-        if (!narrow) { fx.font = "10.5px ui-monospace, Menlo, monospace"; fx.fillStyle = "#a3a9bb"; fx.fillText(n.value, lx, ly + 13); }
+        fx.font = lf; fx.fillStyle = "#eef0f6"; fx.fillText(label, x, ly);
+        if (value) { fx.font = vf; fx.fillStyle = "#a3a9bb"; fx.fillText(value, x, ly + 13); }
+        const ww = Math.max(fx.measureText(label).width, value ? vw : 0);
+        placed.push({ x0: right ? x - ww : x, x1: right ? x : x + ww, y0: ly - 10, y1: ly + (value ? 15 : 2) });
       }
     }
     function flowHit(mx, my) {
